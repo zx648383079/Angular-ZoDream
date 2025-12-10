@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ThemeService } from '../../../theme/services';
 import { ExamService } from '../exam.service';
@@ -12,17 +12,15 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./course.component.scss']
 })
 export class CourseComponent implements OnInit, OnDestroy {
+    private service = inject(ExamService);
+    private route = inject(ActivatedRoute);
+    private themeService = inject(ThemeService);
+    private router = inject(Router);
+
 
     public data: ICourse;
     public items: ICourse[] = [];
     private subItems = new Subscription();
-
-    constructor(
-        private service: ExamService,
-        private route: ActivatedRoute,
-        private themeService: ThemeService,
-        private router: Router,
-    ) { }
 
     ngOnInit() {
         this.subItems.add(

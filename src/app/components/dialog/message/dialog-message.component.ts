@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnDestroy, inject } from '@angular/core';
 import { DialogPackage } from '../dialog.injector';
 import { DialogService } from '../dialog.service';
 import { DialogMessageOption } from '../model';
@@ -19,6 +19,9 @@ interface IThemeGroup {
     styleUrls: ['./dialog-message.component.scss'],
 })
 export class DialogMessageComponent implements OnDestroy {
+    private data = inject<DialogPackage<DialogMessageOption>>(DialogPackage);
+    private service = inject(DialogService);
+
 
     public icon = '';
     public theme = '';
@@ -35,10 +38,9 @@ export class DialogMessageComponent implements OnDestroy {
         };
     }
 
-    constructor(
-        private data: DialogPackage<DialogMessageOption>,
-        private service: DialogService,
-    ) {
+    constructor() {
+        const data = this.data;
+
         const option = data.data;
         this.title = option.title || '';
         this.content = option.content || '';

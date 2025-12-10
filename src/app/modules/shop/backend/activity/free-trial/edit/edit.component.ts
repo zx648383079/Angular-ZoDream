@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
@@ -12,6 +12,11 @@ import { ActivityService } from '../../activity.service';
   styleUrls: ['./edit.component.scss']
 })
 export class EditFreeTrialComponent implements OnInit {
+    private service = inject(ActivityService);
+    private fb = inject(FormBuilder);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -27,13 +32,6 @@ export class EditFreeTrialComponent implements OnInit {
     });
 
     public data: IActivity<IFreeTrialConfigure>;
-
-    constructor(
-        private service: ActivityService,
-        private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

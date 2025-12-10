@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, input, output, viewChild } from '@angular/core';
 import { IDocTreeItem } from '../../model';
 import { ContextMenuComponent } from '../../../../components/context-menu';
 import { treeRemoveId } from '../util';
@@ -11,21 +11,20 @@ import { treeRemoveId } from '../util';
 })
 export class TreePanelComponent {
 
-    @ViewChild(ContextMenuComponent)
-    private contextMenu: ContextMenuComponent;
+    private readonly contextMenu = viewChild(ContextMenuComponent);
 
-    @Input() public items: IDocTreeItem[] = [];
-    @Input() public value?: IDocTreeItem;
+    public readonly items = input<IDocTreeItem[]>([]);
+    public readonly value = input<IDocTreeItem>(undefined);
 
-    @Output() public valueChange = new EventEmitter<any>();
-    @Output() public deleted = new EventEmitter<any>();
-    @Output() public created = new EventEmitter<any>();
+    public readonly valueChange = output<any>();
+    public readonly deleted = output<any>();
+    public readonly created = output<any>();
 
     constructor() { }
 
     public tapContextMenu(e: MouseEvent, parent?: IDocTreeItem) {
         e.stopPropagation();
-        this.contextMenu.show(e, [
+        this.contextMenu().show(e, [
             {
                 name: '新建文件夹',
                 icon: 'icon-folder-o',
@@ -56,7 +55,8 @@ export class TreePanelComponent {
 
     public tapEdit(item: IDocTreeItem) {
         item.expanded = !item.expanded;
-        if (this.value && this.value.id === item.id) {
+        const value = this.value();
+        if (value && value.id === item.id) {
             return;
         }
         this.value = item;
@@ -64,6 +64,6 @@ export class TreePanelComponent {
     }
 
     public removeId(itemId: number) {
-        this.items = treeRemoveId(this.items, itemId);
+        this.items = treeRemoveId(this.items(), itemId);
     }
 }

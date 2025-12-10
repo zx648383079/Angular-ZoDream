@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IPageQueries } from '../../../theme/models/page';
 import { TrendService } from '../trend.service';
 import { DialogService } from '../../../components/dialog';
@@ -19,6 +19,11 @@ interface ILogGroup {
     styleUrls: ['./trend.component.scss']
 })
 export class TrendComponent implements OnInit {
+    private service = inject(TrendService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: ILogGroup[] = [];
     public hasMore = true;
@@ -35,13 +40,6 @@ export class TrendComponent implements OnInit {
     public tabIndex = -1;
     public moreOpen = false;
     public markItems: IAnalysisMark[] = [];
-
-    constructor(
-        private service: TrendService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

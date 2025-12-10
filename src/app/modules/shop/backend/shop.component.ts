@@ -1,7 +1,4 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
     Observable
 } from 'rxjs';
@@ -21,14 +18,14 @@ import {
     styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent implements OnInit {
+    private service = inject(ShopService);
+
 
     public items: ISubtotal[];
 
     public options: Observable < EChartsCoreOption > ;
 
-    constructor(
-        private service: ShopService
-    ) {
+    constructor() {
         this.service.statistics().subscribe(res => {
             this.items = res;
         });

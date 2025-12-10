@@ -1,11 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 @Injectable()
-export class TrackerMemberService {
+export class TrackerMemberService {    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
 }

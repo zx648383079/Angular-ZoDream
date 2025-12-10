@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { ShopService } from '../../shop.service';
 import { IIssue } from '../../model';
@@ -13,9 +13,12 @@ import { DialogService } from '../../../../components/dialog';
   styleUrls: ['./issue-page.component.scss']
 })
 export class IssuePageComponent implements OnChanges {
+    private service = inject(ShopService);
+    private toastrService = inject(DialogService);
 
-    @Input() public itemId = 0;
-    @Input() public init = false;
+
+    public readonly itemId = input(0);
+    public readonly init = input(false);
     public items: IIssue[] = [];
     public hasMore = true;
     public isLoading = false;
@@ -30,20 +33,15 @@ export class IssuePageComponent implements OnChanges {
     };
     private booted = 0;
 
-    constructor(
-        private service: ShopService,
-        private toastrService: DialogService,
-    ) { }
-
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.itemId > 0 && this.booted !== this.itemId) {
+        if (changes.init && changes.init.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
             this.boot();
         }
     }
 
     private boot() {
-        this.booted = this.itemId;
-        if (this.itemId < 1) {
+        this.booted = this.itemId();
+        if (this.itemId() < 1) {
             return;
         }
         this.tapRefresh();
@@ -55,7 +53,7 @@ export class IssuePageComponent implements OnChanges {
             return;
         }
         e.enter();
-        this.service.issueAsk({...this.editData, item_id: this.itemId}).subscribe({
+        this.service.issueAsk({...this.editData, item_id: this.itemId()}).subscribe({
             next: () => {
                 this.editData.content = '';
                 e.reset();
@@ -89,7 +87,7 @@ export class IssuePageComponent implements OnChanges {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.issueList({...queries, item_id: this.itemId}).subscribe({
+        this.service.issueList({...queries, item_id: this.itemId()}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;

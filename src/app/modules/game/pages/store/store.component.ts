@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IPage, IPageQueries } from '../../../../theme/models/page';
 import { GameCommand, GameRouterInjectorToken, IGameItem, IGameRouter, IGameScene, ItemTypeItems } from '../../model';
 
@@ -9,6 +9,8 @@ import { GameCommand, GameRouterInjectorToken, IGameItem, IGameRouter, IGameScen
     styleUrls: ['./store.component.scss']
 })
 export class StoreComponent implements IGameScene, OnInit {
+    private router = inject<IGameRouter>(GameRouterInjectorToken);
+
 
     public items: IGameItem[] = [];
     public hasMore = true;
@@ -22,10 +24,6 @@ export class StoreComponent implements IGameScene, OnInit {
     };
     public modalVisible = false;
     public typeItems = ItemTypeItems;
-
-    constructor(
-        @Inject(GameRouterInjectorToken) private router: IGameRouter,
-    ) { }
 
     ngOnInit(): void {
         this.tapType(0);

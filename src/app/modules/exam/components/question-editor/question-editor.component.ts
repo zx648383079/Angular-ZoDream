@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, inject, input, output as output_1 } from '@angular/core';
 import { DialogEvent } from '../../../../components/dialog';
 import { FileUploadService } from '../../../../theme/services';
 import { cloneObject } from '../../../../theme/utils';
@@ -15,9 +15,11 @@ import { formatFillOption, questionNeedOption, questionOptionIsEmpty } from '../
   styleUrls: ['./question-editor.component.scss']
 })
 export class QuestionEditorComponent implements OnChanges {
+    private uploadService = inject(FileUploadService);
 
-    @Input() public editable = true;
-    @Input() public value: IQuestion;
+
+    public readonly editable = input(true);
+    public readonly value = input<IQuestion>(undefined);
 
     public optionItems: any[] = cloneObject(QuestionDefaultOption);
     public materialType = 0;
@@ -39,13 +41,9 @@ export class QuestionEditorComponent implements OnChanges {
     public typeOpen = false;
     public extendOpen = false;
 
-    @Output() public valueChange = new EventEmitter<IQuestion>();
+    public readonly valueChange = output<IQuestion>();
 
     private asyncHandle = 0;
-
-    constructor(
-        private uploadService: FileUploadService,
-    ) { }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.value) {
@@ -54,7 +52,8 @@ export class QuestionEditorComponent implements OnChanges {
     }
 
     public get canEdit() {
-        return !this.value.id || this.value.id < 1 || this.value.editable;
+        const value = this.value();
+        return !value.id || value.id < 1 || value.editable;
     }
 
     public tapType(i: number) {
@@ -62,7 +61,7 @@ export class QuestionEditorComponent implements OnChanges {
         if (!this.canEdit) {
             return;
         }
-        this.value.type = i;
+        this.value().type = i;
         if (i === 2 && questionOptionIsEmpty(this.optionItems)) {
             this.optionItems = cloneObject(QuestionCheckOption);
         }
@@ -79,10 +78,11 @@ export class QuestionEditorComponent implements OnChanges {
     }
 
     private onTypeChange() {
-        if (this.value.type != 4) {
+        const value = this.value();
+        if (value.type != 4) {
             return;
         }
-        this.optionItems = formatFillOption(this.value.content, this.optionItems);
+        this.optionItems = formatFillOption(value.content, this.optionItems);
     }
 
     public tapEditAnalysis(modal: DialogEvent) {
@@ -109,7 +109,7 @@ export class QuestionEditorComponent implements OnChanges {
         const applyMaterial = (type: number, url: string) => {
             this.materialType = type;
             this.materialFile = url;
-            this.value.material_id = 0;
+            this.value().material_id = 0;
             this.onValueChange();
         };
         if (file.type.charAt(0) === 'i') {
@@ -134,8 +134,8 @@ export class QuestionEditorComponent implements OnChanges {
 
     public tapRemoveMaterial() {
         this.materialFile = '';
-        this.value.material_id = 0;
-        this.value.image = '';
+        value.material_id = 0;
+        value.image = '';
         this.onValueChange();
     }
 
@@ -155,14 +155,14 @@ export class QuestionEditorComponent implements OnChanges {
 
     private output() {
         const value: IQuestion = {
-            ...this.value,
+            ...this.value(),
             material: undefined,
-            type: this.value.type || 0,
+            type: this.value().type || 0,
         } as any;
         if (this.materialFile) {
             if (this.materialType > 0) {
                 value.material = {
-                    id: this.value.material_id,
+                    id: this.value().material_id,
                     type: this.materialType,
                     content: this.materialFile
                 } as any;

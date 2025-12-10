@@ -3,5 +3,6 @@
         <span class="letter-item" [ngClass]="{active: isEnabled && i == value.length}">{{ item }}</span>
     }
     
-    <input type="text" class="letter-input" [disabled]="disabled" [(ngModel)]="value" (focus)="onFocus()" (blur)="onBlur()" (ngModelChange)="onValueChanged()">
+    <input type="text" class="letter-input" [disabled]="disabled()" [value]="value()" 
+    (focus)="onFocus()" (blur)="onBlur()" (input)="onValueChanged($event.target.value)">
 </div>

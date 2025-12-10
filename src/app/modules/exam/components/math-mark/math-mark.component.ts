@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, input, output } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MathMarkParser } from './parser';
 
@@ -19,21 +19,19 @@ interface IMarkItem {
   styleUrls: ['./math-mark.component.scss']
 })
 export class MathMarkComponent implements OnChanges {
+    private sanitizer = inject(DomSanitizer);
 
-    @Input() public content = '';
-    @Input() public value: string[] = [];
-    @Input() public rightValue: string[] = [];
-    @Input() public allowInput = false;
-    @Input() public allowMath = true;
-    @Input() public editable = true;
+
+    public readonly content = input('');
+    public readonly value = input<string[]>([]);
+    public readonly rightValue = input<string[]>([]);
+    public readonly allowInput = input(false);
+    public readonly allowMath = input(true);
+    public readonly editable = input(true);
     public items: IMarkItem[] = [];
-    @Output() public valueChange = new EventEmitter<string[]>();
+    public readonly valueChange = output<string[]>();
 
     private parser: MathMarkParser = new MathMarkParser(this.sanitizer);
-
-    constructor(
-        private sanitizer: DomSanitizer,
-    ) { }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.content) {
@@ -50,15 +48,15 @@ export class MathMarkComponent implements OnChanges {
 
     private formatContent() {
         this.parser.option = {
-            input: this.allowInput,
-            math: this.allowMath,
+            input: this.allowInput(),
+            math: this.allowMath(),
         };
-        this.items = this.parser.render(this.content);
+        this.items = this.parser.render(this.content());
     }
 
     private applayValue() {
-        const valueItems = this.formatValue(this.value);
-        const rightItems = this.formatValue(this.rightValue);
+        const valueItems = this.formatValue(this.value());
+        const rightItems = this.formatValue(this.rightValue());
         let i = 0;
         for (const item of this.items) {
             if (item.type !== 'input') {

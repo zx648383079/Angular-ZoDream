@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { ICateringAddress, ICateringCategory, ICateringOrder, ICateringPatron, ICateringPatronGroup, ICateringProduct, ICateringPurchaseOrder, ICateringRecipe, ICateringStaff, ICateringStaffRole, ICateringStock, ICateringStore } from './model';
 
@@ -7,10 +7,8 @@ import { ICateringAddress, ICateringCategory, ICateringOrder, ICateringPatron, I
   providedIn: 'root'
 })
 export class CateringService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public categoryList() {
         return this.http.get<IData<ICateringCategory>>('catering/category');

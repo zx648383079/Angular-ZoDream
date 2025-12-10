@@ -1,34 +1,31 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnChanges, SimpleChanges, inject, input } from '@angular/core';
 import { EditorService } from '../editor.service';
 import { Widget } from '../model';
 import { boundFromScale, elementBound } from '../util';
 
 @Component({
     standalone: false,
-  selector: 'app-editor-widget',
-  templateUrl: './editor-widget.component.html',
-  styleUrls: ['./editor-widget.component.scss']
+    selector: 'app-editor-widget',
+    templateUrl: './editor-widget.component.html',
+    styleUrls: ['./editor-widget.component.scss']
 })
 export class EditorWidgetComponent implements OnChanges, AfterViewInit {
+    private service = inject(EditorService);
+    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
-    @Input() public value: Widget;
+
+    public readonly value = input<Widget>(undefined);
     private isBooted = false;
-
-    constructor(
-        private service: EditorService,
-        private elementRef: ElementRef<HTMLDivElement>
-    ) {
-    }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.value.currentValue) {
-            this.value.propertyChange$.subscribe(() => {
+            this.value().propertyChange$.subscribe(() => {
                 if (!this.isBooted) {
                     return;
                 }
                 const eleBound = this.service.workspace.getPosition(elementBound(this.elementRef));
                 const bound = boundFromScale(eleBound, this.service.shellSize$.value.scale, 100);
-                this.value.actualBound = bound;
+                this.value().actualBound = bound;
             });
         }
     }
@@ -37,8 +34,9 @@ export class EditorWidgetComponent implements OnChanges, AfterViewInit {
     ngAfterViewInit(): void {
         const eleBound = this.service.workspace.getPosition(elementBound(this.elementRef));
         const bound = boundFromScale(eleBound, this.service.shellSize$.value.scale, 100);
-        this.value.actualBound = bound;
-        this.value.size = bound;
+        const value = this.value();
+        value.actualBound = bound;
+        value.size = bound;
         this.isBooted = true;
     }
 
@@ -52,7 +50,7 @@ export class EditorWidgetComponent implements OnChanges, AfterViewInit {
         }
         event.stopPropagation();
         const items = event.ctrlKey ? this.service.selectionChanged$.value : [];
-        items.push(this.value);
+        items.push(this.value());
         this.service.selectionChanged$.next(items);
     }
 

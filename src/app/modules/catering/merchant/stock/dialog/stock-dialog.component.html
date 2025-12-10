@@ -1,4 +1,4 @@
-@if (visible) {
+@if (visible()) {
     <div class="dialog-mask" (click)="close()"></div>
     <div class="dialog-box"  animate.enter="dialog-opened" animate.leave="dialog-closed">
     <app-flip-container>
@@ -23,14 +23,14 @@
                     </div>
                     <label>{{ item.name }}</label>
                     <span class="price-bar" [hidden]="multipleEditable"><em>￥</em>{{ item.price }}<em class="unit">/{{ item.unit }}</em></span>
-                    <app-number-input [only]="false" [(ngModel)]="item.amount"></app-number-input>
+                    <app-number-input [only]="false" [(ngModel)]="item.amount" />
                 </div>
                 }
             </div>
             <div class="input-label">指定采购员</div>
-            <ng-select></ng-select>
+            <ng-select />
             <div class="input-label">预计采购时间</div>
-            <app-date-input></app-date-input>
+            <app-date-input />
         </app-flip-item>
         <app-flip-item header="新增物品">
             <div class="input-label">物品名</div>
@@ -43,7 +43,7 @@
             </div>
             <div class="input-flex">
                 <label for="">单价</label>
-                <app-number-input [only]="false" [(ngModel)]="nextData.price"></app-number-input>
+                <app-number-input [only]="false" [(ngModel)]="nextData.price" />
             </div>
         </app-flip-item>
     </app-flip-container>

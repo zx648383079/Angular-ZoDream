@@ -1,10 +1,12 @@
-import { ComponentRef, Injectable, Injector, ViewContainerRef } from '@angular/core';
+import { ComponentRef, Injectable, Injector, ViewContainerRef, inject } from '@angular/core';
 import { DivElement, EDITOR_EVENT_CUSTOM, EDITOR_EVENT_EDITOR_AUTO_SAVE, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITOR_DESTORY, EDITOR_EVENT_EDITOR_READY, EDITOR_EVENT_INPUT_BLUR, EDITOR_EVENT_INPUT_KEYDOWN, EDITOR_EVENT_UNDO_CHANGE, EDITOR_FULL_SCREEN_TOOL, EDITOR_PREVIEW_TOOL, EditorOptionManager, IEditorContainer, IEditorElement, IEditorListeners, IEditorTool, TextareaElement } from './base';
 import { EditorBlockType, IEditorBlock, IEditorModal, IEditorRange, IEditorSharedModal } from './model';
 import { IPoint } from '../../theme/utils/canvas';
 
 @Injectable()
 export class EditorService implements IEditorContainer {
+    private injector = inject(Injector);
+
     private selection: IEditorRange;
     private element: IEditorElement;
     private undoStack: string[] = [];
@@ -17,21 +19,6 @@ export class EditorService implements IEditorContainer {
     private modalContainerRef: ViewContainerRef;
     private used = false;
     public option: EditorOptionManager = new EditorOptionManager();
-    // private mouseMoveListeners = {
-    //     move: undefined,
-    //     finish: undefined,
-    // };
-
-    constructor(
-        private injector: Injector,
-    ) {
-        // document.addEventListener('mousemove', e => {
-        //     this.emit(EVENT_MOUSE_MOVE, {x: e.clientX, y: e.clientX});
-        // });
-        // document.addEventListener('mouseup', e => {
-        //     this.emit(EVENT_MOUSE_UP, {x: e.clientX, y: e.clientX});
-        // });
-    }
 
     /**
      * 一个页面存在多个编辑器时能分开控制

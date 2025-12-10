@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑剧' : '新增剧'" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑剧' : '新增剧'" (submited)="tapSubmit($event)" [disabled]="form.invalid" />
 
 
 <div class="container-fluid">
@@ -9,7 +9,7 @@
                 <input type="text" id="title" class="form-control" formControlName="title">
             </div>
             
-            <app-markdown-editor formControlName="content" (imageUpload)="editorImageUpload($event)" [height]="400" placeholder="剧描述"></app-markdown-editor>
+            <app-markdown-editor formControlName="content" (imageUpload)="editorImageUpload($event)" [height]="400" placeholder="剧描述" />
         </div>
 
         <div class="row">
@@ -39,20 +39,20 @@
                     <div class="input-group-control">
                         <label for="thumb">封面</label>
                         <div>
-                            <app-file-input formControlName="cover"></app-file-input>
+                            <app-file-input formControlName="cover" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="description">说明</label>
                         <div>
-                            <app-text-editor formControlName="description" height="100"></app-text-editor>
+                            <app-text-editor formControlName="description" height="100" />
                         </div>
                     </div>
                     
                     <div class="input-group-control">
                         <label>标签</label>
                         <div>
-                            <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [(ngModel)]="tags" [ngModelOptions]="{standalone: true}" [addTag]="addTagFn" placeholder="选择标签"></ng-select>
+                            <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [(ngModel)]="tags" [ngModelOptions]="{standalone: true}" [addTag]="addTagFn" placeholder="选择标签" />
                         </div>
                     </div>
                 </app-panel>
@@ -74,13 +74,13 @@
                     <div class="input-group-control">
                         <label>导演</label>
                         <div>
-                            <app-words-input formControlName="director"></app-words-input>
+                            <app-words-input formControlName="director" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label>主演</label>
                         <div>
-                            <app-words-input formControlName="leader"></app-words-input>
+                            <app-words-input formControlName="leader" />
                         </div>
                     </div>
                     <div class="input-group-control">
@@ -98,13 +98,13 @@
                     <div class="input-group-control">
                         <label>上映日期</label>
                         <div>
-                            <app-date-input formControlName="release_date"></app-date-input>
+                            <app-date-input formControlName="release_date" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label>集数</label>
                         <div>
-                            <app-number-input formControlName="series_count"></app-number-input>
+                            <app-number-input formControlName="series_count" />
                         </div>
                     </div>
                     <div class="input-group-control">

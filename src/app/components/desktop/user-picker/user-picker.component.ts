@@ -1,29 +1,25 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild, forwardRef } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { Component, ElementRef, HostListener, inject, input, model, viewChild } from '@angular/core';
 import { IUser } from '../../../theme/models/user';
 import { IPageQueries, IPage } from '../../../theme/models/page';
 import { hasElementByClass } from '../../../theme/utils/doc';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
     selector: 'app-user-picker',
     templateUrl: './user-picker.component.html',
     styleUrls: ['./user-picker.component.scss'],
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => UserPickerComponent),
-        multi: true
-    }]
 })
-export class UserPickerComponent implements ControlValueAccessor {
+export class UserPickerComponent implements FormValueControl<IUser> {
+    private http = inject(HttpClient);
 
-    @ViewChild('inputor')
-    private inputor: ElementRef<HTMLInputElement>;
-    @Input() public placeholder = $localize `Please input...`;
+
+    private readonly inputor = viewChild<ElementRef<HTMLInputElement>>('inputor');
+    public readonly placeholder = input($localize `Please input...`);
     
-    public value: IUser;
-    public disabled = false;
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<IUser>();
     public isFocus = false;
 
     public queries: IPageQueries = {
@@ -36,29 +32,20 @@ export class UserPickerComponent implements ControlValueAccessor {
     public isLoading = false;
     public total = 0;
     
-    @Output() public valueChange = new EventEmitter<IUser|undefined>()
-    onChange: any = () => {};
-    onTouch: any = () => {};
-
-
-    constructor(
-        private http: HttpClient
-    ) { }
 
     @HostListener('document:click', ['$event']) 
     public hideCalendar(event: any) {
         if (!event.target.closest('.user-picker') && !hasElementByClass(event.path, 'user-picker')) {
             this.isFocus = false;
-            this.onTouch();
         }
     }
 
     public tapOpen() {
-        if (this.disabled) {
+        if (this.disabled()) {
             return;
         }
         this.isFocus = true;
-        this.inputor.nativeElement.focus();
+        this.inputor().nativeElement.focus();
     }
 
     public tapItem(item: IUser) {
@@ -98,22 +85,7 @@ export class UserPickerComponent implements ControlValueAccessor {
     }
 
     private output(v?: IUser) {
-        this.value = v;
-        this.onChange(this.value);
-        this.valueChange.emit(this.value);
-    }
-
-    writeValue(obj: any): void {
-        this.value = obj;
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
+        this.value.set(v);
     }
 
 }

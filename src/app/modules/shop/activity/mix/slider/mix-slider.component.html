@@ -4,7 +4,7 @@
     </div>
     <div class="slider-box" [ngStyle]="boxStyle">
         <ul [ngStyle]="scrollStyle">
-            @for (item of items; track $index; let i = $index) {
+            @for (item of items(); track $index; let i = $index) {
                 @if (i > 0) {
                     <li class="min-link">
                         <i class="iconfont icon-plus"></i>

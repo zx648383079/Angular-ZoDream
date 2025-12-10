@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IErrorResponse } from '../../../../theme/models/page';
@@ -13,18 +13,15 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+    private service = inject(ShopService);
+    private toastrService = inject(DialogService);
+    route = inject(ActivatedRoute);
+
 
     public user: IUser;
     public orderItems: IOrder[] = [];
     public orderSutotal: IOrderCount = {};
     public accountSubtotal: IAccountSubtotal = {} as any;
-
-    constructor(
-        private service: ShopService,
-        private toastrService: DialogService,
-        public route: ActivatedRoute,
-    ) {
-    }
 
     ngOnInit() {
         this.service.profile().subscribe({

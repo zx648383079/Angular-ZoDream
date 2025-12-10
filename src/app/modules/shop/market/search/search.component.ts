@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IFilter, IPageQueries } from '../../../../theme/models/page';
 import { ISortItem } from '../../../../theme/models/seo';
@@ -13,6 +13,11 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private service = inject(ShopService);
+    private searchService = inject(SearchService);
+
 
     public items: IGoods[] = [];
     public hasMore = true;
@@ -33,13 +38,6 @@ export class SearchComponent implements OnInit {
     ];
     public sortKey = '';
     public orderAsc = true;
-
-    constructor(
-        private route: ActivatedRoute,
-        private router: Router,
-        private service: ShopService,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

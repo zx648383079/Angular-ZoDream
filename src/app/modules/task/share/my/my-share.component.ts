@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -14,6 +14,12 @@ import { TaskService } from '../../task.service';
     styleUrls: ['./my-share.component.scss']
 })
 export class MyShareComponent implements OnInit {
+    private service = inject(TaskService);
+    private toastrService = inject(DialogService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IShare[] = [];
     public hasMore = true;
@@ -35,15 +41,6 @@ export class MyShareComponent implements OnInit {
             value: 2
         },
     ];
-
-    constructor(
-        private service: TaskService,
-        private toastrService: DialogService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

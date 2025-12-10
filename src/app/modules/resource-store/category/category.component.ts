@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
@@ -13,6 +13,10 @@ import { ResourceService } from '../resource.service';
     styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
+    private service = inject(ResourceService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public queries: IPageQueries = {
         keywords: '',
@@ -27,12 +31,6 @@ export class CategoryComponent implements OnInit {
     public total = 0;
     public data: ICategory;
     public categories: ICategory[] = [];
-
-    constructor(
-        private service: ResourceService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

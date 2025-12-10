@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, input, output } from '@angular/core';
 
 interface ILatticeItem {
     index: number;
@@ -9,19 +9,19 @@ interface ILatticeItem {
 
 @Component({
     standalone: false,
-  selector: 'app-lattice',
-  templateUrl: './lattice.component.html',
-  styleUrls: ['./lattice.component.scss']
+    selector: 'app-lattice',
+    templateUrl: './lattice.component.html',
+    styleUrls: ['./lattice.component.scss']
 })
 export class LatticeComponent implements OnChanges {
 
-    @Input() public items: any[] = [];
-    @Input() public buttonText = '抽奖';
-    @Input() public margin = 0;
-    @Input() public space = 10;
-    @Input() public size = 0;
-    @Output() public loading = new EventEmitter();
-    @Output() public finished = new EventEmitter();
+    public readonly items = input<any[]>([]);
+    public readonly buttonText = input('抽奖');
+    public readonly margin = input(0);
+    public readonly space = input(10);
+    public readonly size = input(0);
+    public readonly loading = output<LatticeComponent>();
+    public readonly finished = output();
     public formatItems: ILatticeItem[] = [];
     public currentIndex = 0;
     public boxStyle: any = {};
@@ -106,8 +106,8 @@ export class LatticeComponent implements OnChanges {
      */
     private getIndexInFormat(item: any): number {
         let index = -1;
-        for (let i = 0; i < this.items.length; i++) {
-            if (this.items[i].id === item.id) {
+        for (let i = 0; i < this.items().length; i++) {
+            if (this.items()[i].id === item.id) {
                 index = i;
                 break;
             }
@@ -125,29 +125,30 @@ export class LatticeComponent implements OnChanges {
     }
 
     private formatOption() {
-        const lineCount = Math.max(3, Math.ceil((this.items.length / 4 + 1)));
-        const size = this.size > 0 ? this.size : window.innerWidth * .8 / lineCount;
+        const lineCount = Math.max(3, Math.ceil((this.items().length / 4 + 1)));
+        const size = this.size() > 0 ? this.size() : window.innerWidth * .8 / lineCount;
         const notWinning = this.getNotWinning();
         const items: ILatticeItem[] = [];
         for (let i = lineCount * 4 - 5; i >= 0; i--) {
-            const index = this.items.length > i ? i : notWinning;
+            const index = this.items().length > i ? i : notWinning;
+            const itemsValue = this.items();
             items.push({
                 index,
-                text: index >= 0 ? this.items[index].name : (i + '未中奖'),
-                image: index >= 0 && this.items[index].goods ? this.items[index].goods.thumb : null,
+                text: index >= 0 ? this.items()[index].name : (i + '未中奖'),
+                image: index >= 0 && itemsValue[index].goods ? itemsValue[index].goods.thumb : null,
             });
         }
         this.randArr(items);
         this.formatItems = items.map((item, i) => {
             item.style = {
-                top: (this.margin + this.getTop(i, lineCount, size)) + 'px',
-                left: (this.margin + this.getLeft(i, lineCount, size)) + 'px',
+                top: (this.margin() + this.getTop(i, lineCount, size)) + 'px',
+                left: (this.margin() + this.getLeft(i, lineCount, size)) + 'px',
                 width: size + 'px',
                 height: size + 'px',
             };
             return item;
         });
-        const width = this.margin * 2 + size * lineCount + (lineCount - 1) * this.space;
+        const width = this.margin() * 2 + size * lineCount + (lineCount - 1) * this.space();
         this.boxStyle = {
             width: width + 'px',
             height: width + 'px',
@@ -176,31 +177,31 @@ export class LatticeComponent implements OnChanges {
             return 0;
         }
         if (i < 2 * lineCount - 1) {
-            return (i - lineCount + 1) * (size + this.space);
+            return (i - lineCount + 1) * (size + this.space());
         }
         if (i < 3 * lineCount - 2) {
-            return (lineCount - 1) * (size + this.space);
+            return (lineCount - 1) * (size + this.space());
         }
-        return (4 * lineCount - i - 4) * (size + this.space);
+        return (4 * lineCount - i - 4) * (size + this.space());
     }
 
     private getLeft(i: number, lineCount: number, size: number): number {
         if (i < lineCount - 1) {
-            return i * (size + this.space);
+            return i * (size + this.space());
         }
         if (i < 2 * lineCount - 1) {
-            return (lineCount - 1) * (size + this.space);
+            return (lineCount - 1) * (size + this.space());
         }
         if (i < 3 * lineCount - 3) {
-            return (3 * lineCount - i - 3) * (size + this.space);
+            return (3 * lineCount - i - 3) * (size + this.space());
         }
         return 0;
     }
 
 
     private getNotWinning(): number {
-        for (let i = 0; i < this.items.length; i++) {
-            if (!this.items[i].goods) {
+        for (let i = 0; i < this.items().length; i++) {
+            if (!this.items()[i].goods) {
                 return i;
             }
         }

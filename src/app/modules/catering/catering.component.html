@@ -4,14 +4,14 @@
             <a [ngClass]="{active: tabIndex < 1}" (click)="tapTab(0)" routerLink="./">推荐</a>
             <a [ngClass]="{active: tabIndex == 1}" (click)="tapTab(1)" routerLink="store">商品</a>
             <a>
-                <app-catering-search-input></app-catering-search-input>
+                <app-catering-search-input />
             </a>
         </div>
         <div class="tab-bar pull-right">
             <a (click)="tapScan()">
                 <i class="iconfont icon-scan"></i>
             </a>
-            <a (click)="cartModal.open()">
+            <a (click)="cartModal().open()">
                 <i class="iconfont icon-shopping-cart"></i>
             </a>
             <div class="user-icon">
@@ -19,7 +19,7 @@
                     <img [src]="user.avatar | asset">
                 </div>
                 <div class="menu-flyout" [hidden]="!authOpen">
-                    <app-menu-body [items]="menuItems" [flowLeft]="true" (tapped)="onMenuTap($event)"></app-menu-body>
+                    <app-menu-body [items]="menuItems" [flowLeft]="true" (tapped)="onMenuTap($event)" />
                 </div>
             </div>
         </div>
@@ -28,16 +28,16 @@
 </div>
 
 <div class="inner-body">
-    <router-outlet></router-outlet>
+    <router-outlet />
 </div>
 
 
-<app-login-dialog></app-login-dialog>
-<app-catering-cart-dialog></app-catering-cart-dialog>
-<app-authorize-dialog></app-authorize-dialog>
+<app-login-dialog />
+<app-catering-cart-dialog />
+<app-authorize-dialog />
 @if (scanOpen) {
 <div class="dialog-mask" (click)="scanOpen = false"></div>
 <div class="scanner-dialog">
-    <app-scanner (completed)="onScanCompleted($event)"></app-scanner>
+    <app-scanner (completed)="onScanCompleted($event)" />
 </div>
 }

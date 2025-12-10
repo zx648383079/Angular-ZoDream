@@ -1,4 +1,4 @@
-import { Directive, AfterViewInit, OnDestroy, Output, EventEmitter, Input, HostListener } from '@angular/core';
+import { Directive, AfterViewInit, OnDestroy, HostListener, input, output } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil, debounceTime, map, filter } from 'rxjs/operators';
 import * as events from './events';
@@ -27,20 +27,20 @@ export class InfiniteScrollDirective  implements AfterViewInit, OnDestroy {
     * Event that will be triggered when user has scrolled to
     * bottom of the element
     */
-    @Output() public scrollEnd = new EventEmitter<void>();
+    public readonly scrollEnd = output<void>();
     /**
     * An offset from the bottom of the element to trigger
     * `scrollEnd` event
     */
-    @Input() public offset = 0;
+    public readonly offset = input(0);
     /**
     * Specify debounce duration in ms
     */
-    @Input() public debounce = 100;
+    public readonly debounce = input(100);
     /**
     * If true then `scrollEnd` event should NOT be emitted
     */
-    @Input() public disabled = false;
+    public readonly disabled = input(false);
     /**
     * Emits a new value on element scroll event
     */
@@ -59,12 +59,12 @@ export class InfiniteScrollDirective  implements AfterViewInit, OnDestroy {
         this.scroll$
         .pipe(
             takeUntil(this.ngUnsubscribe$),
-            debounceTime(this.debounce),
+            debounceTime(this.debounce()),
             map(scroll => {
-                const y = scroll.y + this.offset;
+                const y = scroll.y + this.offset();
                 return { y, height: scroll.height };
             }),
-            filter(() => !this.disabled),
+            filter(() => !this.disabled()),
             filter(scroll => scroll.y >= scroll.height),
         )
         .subscribe(() => this.scrollEnd.emit());

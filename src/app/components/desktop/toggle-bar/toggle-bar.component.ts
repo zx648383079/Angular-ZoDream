@@ -1,27 +1,24 @@
-import { Component, Input, forwardRef } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { Component, effect, input, model } from '@angular/core';
 import { IItem } from '../../../theme/models/seo';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
     selector: 'app-toggle-bar',
     templateUrl: './toggle-bar.component.html',
     styleUrls: ['./toggle-bar.component.scss'],
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => ToggleBarComponent),
-        multi: true
-    }]
 })
-export class ToggleBarComponent implements ControlValueAccessor {
+export class ToggleBarComponent implements FormValueControl<any> {
 
-    @Input() public items: (IItem|string)[] = [];
+    public readonly items = input<(IItem | string)[]>([]);
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<any>();
     public selectedIndex = 0;
-    public disabled = false;
     public iconStyle: any = {};
 
-    onChange: any = () => {};
-    onTouch: any = () => {};
+    constructor() {
+        effect(() => this.writeValue(this.value()));
+    }
 
     public format(item: IItem|string) {
         return typeof item === 'object' ? item.name : item;
@@ -40,7 +37,7 @@ export class ToggleBarComponent implements ControlValueAccessor {
     }
 
     private output() {
-        this.onChange(this.itemValue(this.items[this.selectedIndex], this.selectedIndex));
+        this.value.set(this.itemValue(this.items()[this.selectedIndex], this.selectedIndex));
     }
 
     private updateIndex(i: number) {
@@ -50,22 +47,12 @@ export class ToggleBarComponent implements ControlValueAccessor {
         };
     }
 
-    writeValue(obj: any): void {
-        for (let i = 0; i < this.items.length; i++) {
-            if (this.itemValue(this.items[i], i) == obj) {
+    private writeValue(obj: any): void {
+        for (let i = 0; i < this.items().length; i++) {
+            if (this.itemValue(this.items()[i], i) == obj) {
                 this.updateIndex(i);
                 break;
             }
         }
-    }
-
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState ?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
     }
 }

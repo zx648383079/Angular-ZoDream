@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
@@ -18,6 +18,12 @@ import { ReviewStatusItems } from '../../../../../theme/models/auth';
     styleUrls: ['./edit-resource.component.scss']
 })
 export class EditResourceComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(ResourceService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private uploadService = inject(FileUploadService);
+
 
     public form = this.fb.group({
         title: ['', Validators.required],
@@ -44,14 +50,6 @@ export class EditResourceComponent implements OnInit {
     public previewTypeItems = MediaTypeItems;
     public reviewItems = ReviewStatusItems;
     public fileTypeItems = FileTypeItems;
-
-    constructor(
-        private fb: FormBuilder,
-        private service: ResourceService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private uploadService: FileUploadService,
-    ) { }
 
     ngOnInit() {
         this.service.categoryTree().subscribe(res => {

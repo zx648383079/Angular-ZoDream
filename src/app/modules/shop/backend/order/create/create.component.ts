@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
 import { IUser } from '../../../../../theme/models/user';
@@ -14,9 +14,11 @@ import { SearchDialogComponent } from '../../../components';
     styleUrls: ['./create.component.scss'],
 })
 export class CreateComponent implements OnInit {
+    private service = inject(OrderService);
+    private toastrService = inject(DialogService);
 
-    @ViewChild(SearchDialogComponent)
-    private modal: SearchDialogComponent;
+
+    private readonly modal = viewChild(SearchDialogComponent);
     public stepIndex = 0;
     public user: IUser;
     public address: IAddress;
@@ -27,11 +29,6 @@ export class CreateComponent implements OnInit {
     public shippingItems: IShipping[] = [];
     public shipping: IShipping;
     public order: IOrder;
-
-    constructor(
-        private service: OrderService,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
     }
@@ -75,7 +72,7 @@ export class CreateComponent implements OnInit {
     }
 
     public tapAddGoods() {
-        this.modal.open(items => {
+        this.modal().open(items => {
             for (const item of items as IGoodsResult[]) {
                 if (this.indexOfGoods(item.id, item.product_id) >= 0) {
                     continue;

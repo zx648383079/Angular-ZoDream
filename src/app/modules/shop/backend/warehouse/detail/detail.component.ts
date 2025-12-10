@@ -1,7 +1,4 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -15,6 +12,11 @@ import { WarehouseService } from '../warehouse.service';
     styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
+    private service = inject(WarehouseService);
+    private fb = inject(FormBuilder);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -26,14 +28,6 @@ export class DetailComponent implements OnInit {
     });
 
     public data: IWarehouse;
-
-    constructor(
-        private service: WarehouseService,
-        private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

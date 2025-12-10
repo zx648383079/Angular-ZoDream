@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IConnect } from '../../../../../theme/models/auth';
 import { ShopService } from '../../../shop.service';
 
@@ -9,12 +9,10 @@ import { ShopService } from '../../../shop.service';
   styleUrls: ['./account-center.component.scss']
 })
 export class AccountCenterComponent implements OnInit {
+    private service = inject(ShopService);
+
     public title = '安全中心';
     public items: IConnect[] = [];
-
-    constructor(
-        private service: ShopService,
-    ) { }
 
     ngOnInit() {
         this.service.connect().subscribe(res => {

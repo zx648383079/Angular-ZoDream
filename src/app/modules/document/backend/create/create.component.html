@@ -1,4 +1,4 @@
-<app-edit-header title="新建文档" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header title="新建文档" (submited)="tapSubmit($event)" [disabled]="form.invalid" />
 
 <div class="container-fluid">
     <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
@@ -27,7 +27,7 @@
                     </div>
                     <div class="form-group">
                         <label for="cover">封面</label>
-                        <app-file-input formControlName="cover"></app-file-input>
+                        <app-file-input formControlName="cover" />
                     </div>
                     <div class="form-group">
                         <label for="description">简介</label>

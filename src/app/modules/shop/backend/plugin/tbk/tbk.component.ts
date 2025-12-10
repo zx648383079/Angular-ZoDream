@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TbkService } from './tbk.service';
 
@@ -9,16 +9,14 @@ import { TbkService } from './tbk.service';
   styleUrls: ['./tbk.component.scss']
 })
 export class TbkComponent implements OnInit {
+    private service = inject(TbkService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+
 
     public isInstalled = false;
     public isLoading = true;
     public data: any = {};
-
-    constructor(
-        private service: TbkService,
-        private router: Router,
-        private route: ActivatedRoute
-    ) { }
 
     ngOnInit() {
         this.service.statistics().subscribe(res => {

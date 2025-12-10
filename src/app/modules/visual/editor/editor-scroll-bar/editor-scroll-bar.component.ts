@@ -1,19 +1,21 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, inject, input, model } from '@angular/core';
 import { EditorService } from '../editor.service';
 import { IPoint } from '../../../../theme/utils/canvas';
 
 @Component({
     standalone: false,
-  selector: 'app-editor-scroll-bar',
-  templateUrl: './editor-scroll-bar.component.html',
-  styleUrls: ['./editor-scroll-bar.component.scss']
+    selector: 'app-editor-scroll-bar',
+    templateUrl: './editor-scroll-bar.component.html',
+    styleUrls: ['./editor-scroll-bar.component.scss']
 })
 export class EditorScrollBarComponent {
+    private service = inject(EditorService);
 
-    @Input() public orientation = true;
-    @Input() public min = 0;
-    @Input() public max = 100;
-    @Input() public value = 0;
+
+    public readonly orientation = input(true);
+    public readonly min = input(0);
+    public readonly max = model(100);
+    public readonly value = model(0);
 
     public innerStyle: any = {};
 
@@ -21,17 +23,14 @@ export class EditorScrollBarComponent {
     private baseSize = 6.4;
     private offset = 0;
     private maxOffset = 100;
-    @Output() public valueChange = new EventEmitter<number>();
 
-    constructor(
-        private service: EditorService,
-    ) {
+    constructor() {
         this.service.shellSize$.subscribe(res => {
             if (!res) {
                 return;
             }
             const zoom = this.service.workspaceInnerSize$.value;
-            if (this.orientation) {
+            if (this.orientation()) {
                 this.onRender(res.size.x, zoom.width, res.size.width, zoom.width);
             } else {
                 this.onRender(res.size.y, zoom.height, res.size.height, zoom.height);
@@ -43,14 +42,14 @@ export class EditorScrollBarComponent {
     public onMouseDown(event: MouseEvent) {
         let last: IPoint = {x: event.clientX, y: event.clientY};
         this.service.mouseMove(p => {
-            const offset = this.orientation ? (p.x - last.x) : (p.y - last.y);
+            const offset = this.orientation() ? (p.x - last.x) : (p.y - last.y);
             this.scroll(this.offset + offset);
             last = p;
         });
     }
 
     private output() {
-        this.valueChange.emit(this.value = this.converter(this.offset));
+        this.value.set(this.converter(this.offset));
     }
 
     /**
@@ -68,7 +67,7 @@ export class EditorScrollBarComponent {
     public scroll(offset: number) {
         this.offset = Math.max(0, Math.min(offset, this.maxOffset));
         this.innerStyle = {
-            [this.orientation ? 'left' : 'top']: this.offset + 'px'
+            [this.orientation() ? 'left' : 'top']: this.offset + 'px'
         };
         this.output();
     }
@@ -86,7 +85,7 @@ export class EditorScrollBarComponent {
      * @param offset 
      */
     private converter(offset: number): number {
-        return offset * this.pxScale + this.min;
+        return offset * this.pxScale + this.min();
     }
 
     /**
@@ -96,7 +95,7 @@ export class EditorScrollBarComponent {
      * @param barSize 滚动条的长度
      */
     private onRender(offsetPx: number, viewSize: number, pageSize: number, barSize: number) {
-        this.max = pageSize;
+        this.max.set(pageSize);
         if (pageSize <= viewSize) {
             this.maxOffset = 0;
             this.applySize(0, barSize);
@@ -115,8 +114,8 @@ export class EditorScrollBarComponent {
     private applySize(offset: number, size: number) {
         this.offset = Math.max(0, Math.min(offset, this.maxOffset));
         this.innerStyle = {
-            [this.orientation ? 'left' : 'top']: offset + 'px',
-            [this.orientation ? 'width' : 'height']: size + 'px',
+            [this.orientation() ? 'left' : 'top']: offset + 'px',
+            [this.orientation() ? 'width' : 'height']: size + 'px',
         };
     }
 }

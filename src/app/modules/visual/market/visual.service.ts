@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { ICategory, ISite, IThemeComponent } from '../model';
 
@@ -7,10 +7,8 @@ import { ICategory, ISite, IThemeComponent } from '../model';
     providedIn: 'root'
 })
 export class VisualService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient,
-    ) { }
 
     public getNav() {
         return this.http.get<IData<ICategory>>('tpl/category');

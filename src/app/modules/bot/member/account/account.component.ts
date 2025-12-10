@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuService } from '../../../../backend/menu.service';
 import { DialogService } from '../../../../components/dialog';
@@ -16,6 +16,13 @@ import { BotService } from '../bot.service';
   styleUrls: ['./account.component.scss']
 })
 export class AccountComponent implements OnInit {
+    private service = inject(BotService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private menuService = inject(MenuService);
+    private searchService = inject(SearchService);
+
 
     public items: IBotAccount[] = [];
 
@@ -30,15 +37,6 @@ export class AccountComponent implements OnInit {
     };
     public redirectUri = '';
     public data: any = {};
-
-    constructor(
-        private service: BotService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private router: Router,
-        private menuService: MenuService,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.service.statistics().subscribe({

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TrackerService } from '../tracker.service';
 import { IChannel, IProduct } from '../model';
@@ -16,6 +16,10 @@ import { IItem } from '../../../theme/models/seo';
     styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
+    private service = inject(TrackerService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public data: IProduct;
     public children: IProduct[] = [];
@@ -33,12 +37,6 @@ export class ProductComponent implements OnInit {
         end_at: '',
         type: 0
     };
-
-    constructor(
-        private service: TrackerService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(res => {

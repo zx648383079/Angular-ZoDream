@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IThread } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
 import { ForumService } from './forum.service';
@@ -13,6 +13,11 @@ import { SearchService } from '../../../theme/services';
   styleUrls: ['./forum-member.component.scss']
 })
 export class ForumMemberComponent implements OnInit {
+    private service = inject(ForumService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IThread[] = [];
     public queries: IPageQueries = {
@@ -23,14 +28,6 @@ export class ForumMemberComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-
-    constructor(
-        private service: ForumService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(res => {

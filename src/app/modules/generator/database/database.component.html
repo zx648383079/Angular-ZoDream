@@ -12,14 +12,14 @@
                     <input type="text" class="form-control" placeholder="数据库名" [(ngModel)]="editData.name">
                 </div>
                 <div class="col-md-4">
-                    <ng-select [(ngModel)]="editData.collation" [items]="collationItems" bindValue="value" bindLabel="name" placeholder="排序规则"></ng-select>
+                    <ng-select [(ngModel)]="editData.collation" [items]="collationItems" bindValue="value" bindLabel="name" placeholder="排序规则" />
                 </div>
                 <div class="col-md-4">
                     <div class="btn btn-primary" (click)="tapSubmit()">新建</div>
                 </div>
             </div>
         </div>
-        <app-editable-table [columnItems]="headerItems" [items]="items" [action]="actionTpl" [searchable]="false" [loading]="isLoading"></app-editable-table>
+        <app-editable-table [columnItems]="headerItems" [items]="items" [action]="actionTpl" [searchable]="false" [loading]="isLoading" />
     </div>
 </div>
 <ng-template #actionTpl let-name="name">

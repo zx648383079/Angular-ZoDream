@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ThemeService } from '../../../theme/services';
 
 @Component({
@@ -8,10 +8,10 @@ import { ThemeService } from '../../../theme/services';
   styleUrls: ['./activity.component.scss']
 })
 export class ActivityComponent implements OnInit {
+    private themeService = inject(ThemeService);
 
-    constructor(
-        private themeService: ThemeService,
-    ) {
+
+    constructor() {
         this.themeService.titleChanged.next('活动中心');
     }
 

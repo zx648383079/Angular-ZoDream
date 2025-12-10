@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { ITrendAnalysis, TimeTabItems } from '../../model';
 import { TrendService } from '../../trend.service';
@@ -15,6 +15,11 @@ import { EChartsCoreOption } from 'echarts/core';
     styleUrls: ['./broswer.component.scss']
 })
 export class BroswerComponent implements OnInit {
+    private service = inject(TrendService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: any[] = [];
     public queries: IPageQueries = {
@@ -39,13 +44,6 @@ export class BroswerComponent implements OnInit {
     ];
     public options?: EChartsCoreOption;
     public data?: ITrendAnalysis;
-
-    constructor(
-        private service: TrendService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

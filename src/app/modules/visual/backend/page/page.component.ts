@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ISitePage } from '../../model';
 import { IPageQueries } from '../../../../theme/models/page';
 import { VisualService } from '../visual.service';
@@ -13,6 +13,11 @@ import { SearchService } from '../../../../theme/services';
   styleUrls: ['./page.component.scss']
 })
 export class PageComponent implements OnInit {
+    private service = inject(VisualService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: ISitePage[] = [];
     public hasMore = true;
@@ -24,14 +29,6 @@ export class PageComponent implements OnInit {
         page: 1,
         per_page: 20
     };
-
-    constructor(
-        private service: VisualService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

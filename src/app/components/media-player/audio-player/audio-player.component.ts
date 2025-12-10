@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnDestroy, SimpleChanges, input, output } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -8,10 +8,10 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleCha
 })
 export class AudioPlayerComponent implements OnDestroy, OnChanges {
     
-    @Input() public src: string;
-    @Input() public mini = false;
-    @Input() public cover: string;
-    @Output() public ended = new EventEmitter<void>();
+    public readonly src = input<string>(undefined);
+    public readonly mini = input(false);
+    public readonly cover = input<string>(undefined);
+    public readonly ended = output<void>();
     public progress = 0;
     public duration = 0;
     public loaded = 0;
@@ -69,10 +69,10 @@ export class AudioPlayerComponent implements OnDestroy, OnChanges {
             return;
         }
         if (!this.booted) {
-            this.audio.src = this.src;
+            this.audio.src = this.src();
             this.booted = true;
         }
-        if (!this.src) {
+        if (!this.src()) {
             return;
         }
         this.audio.play();
@@ -110,6 +110,7 @@ export class AudioPlayerComponent implements OnDestroy, OnChanges {
         });
         audio.addEventListener('ended', () => {
             this.paused = true;
+            // TODO: The 'emit' function requires a mandatory void argument
             this.ended.emit();
         });
         audio.addEventListener('error', e => {

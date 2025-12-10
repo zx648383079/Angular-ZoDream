@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { INavLink } from '../../theme/models/seo';
 import { AppState } from '../../theme/interfaces';
@@ -12,6 +12,9 @@ import { ThemeService } from '../../theme/services';
     styleUrls: ['./finance.component.scss']
 })
 export class FinanceComponent {
+    private store = inject<Store<AppState>>(Store);
+    private themeService = inject(ThemeService);
+
 
     public navItems: INavLink[] = [
         {
@@ -76,10 +79,7 @@ export class FinanceComponent {
         }
     ];
 
-    constructor(
-        private store: Store<AppState>,
-        private themeService: ThemeService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next('个人财务');
         this.store.select(selectAuthUser).subscribe(user => {
             this.bottomNavs[0].name = user.name;

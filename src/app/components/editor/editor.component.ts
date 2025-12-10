@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, ComponentRef, ElementRef, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef, ViewEncapsulation, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AfterViewInit, Component, ComponentRef, ElementRef, OnDestroy, OnInit, OutputRefSubscription, ViewContainerRef, ViewEncapsulation, effect, inject, input, model, viewChild } from '@angular/core';
 import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_CODE_TOOL, EDITOR_ENTER_TOOL, EDITOR_FULL_SCREEN_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EDITOR_EVENT_CLOSE_TOOL, EDITOR_EVENT_SHOW_ADD_TOOL, EDITOR_EVENT_SHOW_COLUMN_TOOL, EDITOR_EVENT_SHOW_IMAGE_TOOL, EDITOR_EVENT_SHOW_LINE_BREAK_TOOL, EDITOR_EVENT_SHOW_LINK_TOOL, EDITOR_EVENT_SHOW_TABLE_TOOL, EDITOR_EVENT_UNDO_CHANGE, IEditorTool, EDITOR_EVENT_CUSTOM, IEditorContainer } from './base';
 import { IEditor, IEditorBlock, IEditorModal } from './model';
 import { EditorResizerComponent } from './modal/resizer/editor-resizer.component';
 import { CodeEditorComponent } from './code-editor/code-editor.component';
 import { EditorService } from './container';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -12,25 +12,14 @@ import { EditorService } from './container';
     selector: 'app-zre-editor',
     templateUrl: './editor.component.html',
     styleUrls: ['./editor.component.scss'],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => EditorComponent),
-            multi: true
-        }
-    ]
 })
-export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor, IEditor {
+export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, FormValueControl<string>, IEditor {
 
-    @ViewChild('modalVC', {read: ViewContainerRef})
-    private modalViewContainer: ViewContainerRef;
-    @ViewChild('EditorView', {static: true})
-    private editorViewRef: ElementRef<HTMLDivElement>;
-    @ViewChild(EditorResizerComponent)
-    private resizer: EditorResizerComponent;
-    @ViewChild(CodeEditorComponent)
-    private codeEditor: CodeEditorComponent;
-    @Input() public height: number|string = 'auto';
+    private readonly modalViewContainer = viewChild('modalVC', { read: ViewContainerRef });
+    private readonly editorViewRef = viewChild<ElementRef<HTMLDivElement>>('EditorView');
+    private readonly resizer = viewChild(EditorResizerComponent);
+    private readonly codeEditor = viewChild(CodeEditorComponent);
+    public readonly height = input<number | string>('auto');
     public topLeftItems: IEditorTool[] = [];
     public topRightItems: IEditorTool[] = [];
     public subItems: IEditorTool[] = [];
@@ -38,21 +27,22 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, Contro
     public flowStyle: any = {};
     public subIsRight = false;
     public subParent = '';
-    public disabled = false;
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<string>('');
     public isCodeMode = false;
     public isFullScreen = false;
     private flowOldItems :IEditorTool[] = [];
     private modalRef: ComponentRef<IEditorModal>;
     private container: EditorService;
-    onChange: any = () => { };
-    onTouch: any = () => { };
 
-    constructor(
-        container: EditorService
-    ) {
+
+    constructor() {
+        const container = inject(EditorService);
+
         this.container = container.clone();
         this.topLeftItems = this.container.option.leftToolbar;
         this.topRightItems = this.container.option.rightToolbar;
+        effect(() => this.container.value = this.value());
     }
 
     ngOnInit() {
@@ -101,25 +91,27 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, Contro
                 top: p.y + p.height + 20 + 'px',
                 left: p.x + 'px',
             };
-            this.resizer.openResize(p, cb);
+            this.resizer().openResize(p, cb);
         });
         this.container.on(EDITOR_EVENT_SHOW_COLUMN_TOOL, (p, cb) => {
-            this.resizer.openHorizontalResize(p, cb);
+            this.resizer().openHorizontalResize(p, cb);
         });
+        let lastSync: OutputRefSubscription;
         this.container.on(EDITOR_EVENT_CLOSE_TOOL, () => {
             this.flowItems = [];
             if (this.modalRef) {
                 this.modalRef.destroy();
                 this.modalRef = undefined;
             }
-            this.resizer.close();
+            this.resizer().close();
         }).on(EDITOR_EVENT_CUSTOM, e => {
             if (e.name === EDITOR_CODE_TOOL) {
                 this.isCodeMode = !this.isCodeMode;
+                lastSync.unsubscribe();
                 if (this.isCodeMode) {
-                    this.codeEditor.writeValue(this.container.value);
-                    this.codeEditor.registerOnChange(res => {
-                        this.writeValue(res);
+                    this.codeEditor().value.set(this.container.value);
+                    lastSync = this.codeEditor().value.subscribe(res => {
+                        this.value.set(res);
                     });
                 }
                 return;
@@ -131,7 +123,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, Contro
     }
 
     ngAfterViewInit(): void {
-        this.container.ready(this.editorViewRef.nativeElement, this.modalViewContainer);
+        this.container.ready(this.editorViewRef().nativeElement, this.modalViewContainer());
     }
 
     ngOnDestroy(): void {
@@ -139,18 +131,19 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, Contro
     }
 
     public get areaStyle() {
-        if (!this.height || this.height == 'auto') {
+        const height = this.height();
+        if (!height || height == 'auto') {
             return {};
         }
-        if (typeof this.height === 'string' && /(rem|em|px|vw|vh|%)$/.test(this.height)) {
+        if (typeof height === 'string' && /(rem|em|px|vw|vh|%)$/.test(height)) {
             return {
-                height: this.height,
+                height: height,
                 'min-height': 0,
                 'overflow-y': 'auto',
             };
         }
         return {
-            height: this.height as number - (this.subItems.length > 0 ? 40 : 0) + 'px',
+            height: height as number - (this.subItems.length > 0 ? 40 : 0) + 'px',
             'min-height': 0,
             'overflow-y': 'auto',
         };
@@ -192,18 +185,4 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, Contro
     public insert(block: IEditorBlock|string): void {
         this.container.insert(block);
     }
-
-    writeValue(obj: any): void {
-        this.container.value = obj;
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
-    }
-
 }

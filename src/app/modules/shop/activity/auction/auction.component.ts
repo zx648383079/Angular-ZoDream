@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, viewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CountdownComponent } from '../../../../components/desktop';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -14,9 +14,13 @@ import { ActivityService } from '../activity.service';
   styleUrls: ['./auction.component.scss']
 })
 export class AuctionComponent implements OnInit, OnDestroy {
+    private themeService = inject(ThemeService);
+    private route = inject(ActivatedRoute);
+    private service = inject(ActivityService);
+    private searchService = inject(SearchService);
 
-    @ViewChildren(CountdownComponent)
-    public countItems: QueryList<CountdownComponent>;
+
+    public readonly countItems = viewChildren(CountdownComponent);
     public items: IActivity<IAuctionConfigure>[] = [];
     public hasMore = true;
     public isLoading = false;
@@ -28,12 +32,7 @@ export class AuctionComponent implements OnInit, OnDestroy {
     };
     private timerHandle: any;
     
-    constructor(
-        private themeService: ThemeService,
-        private route: ActivatedRoute,
-        private service: ActivityService,
-        private searchService: SearchService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next('拍卖中心');
     }
 
@@ -86,10 +85,10 @@ export class AuctionComponent implements OnInit, OnDestroy {
     private startTimer() {
         this.stopTimer();
         this.timerHandle = window.setInterval(() => {
-            if (this.countItems.length < 1) {
+            if (this.countItems().length < 1) {
                 return;
             }
-            this.countItems.forEach(item => {
+            this.countItems().forEach(item => {
                 item.refresh();
             });
         }, 300);

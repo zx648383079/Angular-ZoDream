@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
@@ -14,9 +14,12 @@ import { IPreviewFile } from '../model';
   styleUrls: ['./module.component.scss']
 })
 export class ModuleComponent implements OnInit {
+    private service = inject(GenerateService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
 
-    @ViewChild(DialogBoxComponent)
-    public modal: DialogBoxComponent;
+
+    public readonly modal = viewChild(DialogBoxComponent);
     public tabIndex = 0;
     public moduleItems: IItem[] = [];
     public tableItems: IItem[] = [];
@@ -34,12 +37,6 @@ export class ModuleComponent implements OnInit {
     };
     public previewItems: IPreviewFile[] = [];
     public routeItems: IItem[] = [];
-
-    constructor(
-        private service: GenerateService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -98,7 +95,7 @@ export class ModuleComponent implements OnInit {
         }).subscribe({
             next: res => {
                 this.previewItems = res.data;
-                this.modal.open();
+                this.modal().open();
             },
             error: err => {
                 this.toastrService.error(err);

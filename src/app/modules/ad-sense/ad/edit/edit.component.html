@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑广告' : '新增广告'" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑广告' : '新增广告'" (submited)="tapSubmit($event)" [disabled]="form.invalid" />
 <div class="container-fluid">
     <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group-control">
@@ -41,7 +41,7 @@
                     <div class="input-group-control">
                         <label for="content_url">图片</label>
                         <div>
-                            <app-file-input id="content_url" formControlName="content"></app-file-input>
+                            <app-file-input id="content_url" formControlName="content" />
                         </div>
                     </div>
                 }
@@ -49,7 +49,7 @@
                     <div class="input-group-control">
                         <label for="file_url">视频</label>
                         <div>
-                            <app-file-input id="file_url" formControlName="content" accept="video/*"></app-file-input>
+                            <app-file-input id="file_url" formControlName="content" accept="video/*" />
                         </div>
                     </div>
                 }
@@ -77,19 +77,19 @@
         <div class="input-group-control">
             <label for="start_at">开始时间</label>
             <div class="calendar-input">
-                <app-date-input formControlName="start_at"></app-date-input>
+                <app-date-input formControlName="start_at" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="end_at">结束时间</label>
             <div class="calendar-input">
-                <app-date-input formControlName="end_at"></app-date-input>
+                <app-date-input formControlName="end_at" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="status">状态</label>
             <div>
-                <app-switch id="status" formControlName="status" onLabel="启用" offLabel="关闭"></app-switch>
+                <app-switch id="status" formControlName="status" onLabel="启用" offLabel="关闭" />
             </div>
         </div>
         <div class="btn-group">

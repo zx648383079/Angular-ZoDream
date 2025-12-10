@@ -1,4 +1,4 @@
-import { Component, OnDestroy} from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { INavLink } from '../../../theme/models/seo';
 import { AppState } from '../../../theme/interfaces';
@@ -13,6 +13,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./merchant.component.scss']
 })
 export class MerchantComponent implements OnDestroy {
+    private store = inject<Store<AppState>>(Store);
+    private themeService = inject(ThemeService);
+
 
     public navItems: INavLink[] = [{
             name: '首页',
@@ -125,10 +128,7 @@ export class MerchantComponent implements OnDestroy {
     private subItems = new Subscription();
     
 
-    constructor(
-        private store: Store<AppState>,
-        private themeService: ThemeService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next('商家中心');
         this.subItems.add(
             this.store.select(selectAuthUser).subscribe(user => {

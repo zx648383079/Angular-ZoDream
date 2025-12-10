@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, input, output } from '@angular/core';
 import { IExtraRule } from '../../../components/link-rule';
 import { ISite, IWebPage } from '../model';
 import { formatDomain } from '../util';
@@ -11,21 +11,22 @@ import { formatDomain } from '../util';
 })
 export class PageContainerComponent implements OnChanges {
 
-    @Input() public value: IWebPage;
+    public readonly value = input<IWebPage>(undefined);
     public rules: IExtraRule[] = [];
     public menuItems = [$localize `Collect`, $localize `Share`, $localize `Report`];
     public menuOpen = false;
 
-    @Output() public onAction = new EventEmitter<{
-        type: number,
-        data: IWebPage,
-    }>();
+    public readonly onAction = output<{
+    type: number;
+    data: IWebPage;
+}>();
 
     constructor() { }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.value) {
-            this.rules = this.value.keywords ? this.value.keywords.map(i => {
+            const value = this.value();
+            this.rules = value.keywords ? value.keywords.map(i => {
                 return {
                     s: i.word,
                     type: 9
@@ -45,7 +46,7 @@ export class PageContainerComponent implements OnChanges {
     public tapMenu(i: number) {
         this.onAction.emit({
             type: i,
-            data: this.value,
+            data: this.value(),
         });
     }
 

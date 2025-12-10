@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from '../../../../components/dialog';
 import { LegworkService } from '../../legwork.service';
@@ -11,6 +11,10 @@ import { IWaiter } from '../../model';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+    private service = inject(LegworkService);
+    private fb = inject(FormBuilder);
+    private toastrService = inject(DialogService);
+
 
     public data: IWaiter;
     public form = this.fb.group({
@@ -18,12 +22,6 @@ export class ProfileComponent implements OnInit {
         tel: ['', Validators.required],
         address: ['', Validators.required],
     });
-
-    constructor(
-        private service: LegworkService,
-        private fb: FormBuilder,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.service.waiterProfile().subscribe(res => {

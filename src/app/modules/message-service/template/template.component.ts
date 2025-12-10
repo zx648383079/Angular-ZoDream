@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -14,6 +14,11 @@ import { mapFormat } from '../../../theme/utils';
   styleUrls: ['./template.component.scss']
 })
 export class TemplateComponent implements OnInit {
+    private service = inject(MessageServiceService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: ITemplate[] = [];
     public hasMore = true;
@@ -27,12 +32,7 @@ export class TemplateComponent implements OnInit {
     };
     public typeItems = [];
 
-    constructor(
-        private service: MessageServiceService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
+    constructor() {
         this.service.typeItems().subscribe(res => {
             this.typeItems = res;
         });

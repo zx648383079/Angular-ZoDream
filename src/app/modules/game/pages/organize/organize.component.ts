@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameRouter, IGameScene, IGmeRoute } from '../../model';
 
 @Component({
@@ -8,6 +8,8 @@ import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameRouter, IGame
     styleUrls: ['./organize.component.scss']
 })
 export class OrganizeComponent implements IGameScene, OnInit {
+    private router = inject<IGameRouter>(GameRouterInjectorToken);
+
 
     public tabIndex = 0;
     public modalVisible = false;
@@ -16,10 +18,6 @@ export class OrganizeComponent implements IGameScene, OnInit {
         {name: '副本', path: GameScenePath.MapLevel},
         {name: '地图', path: GameScenePath.MapGlobe},
     ];
-
-    constructor(
-        @Inject(GameRouterInjectorToken) private router: IGameRouter,
-    ) { }
 
     ngOnInit(): void {
         this.router.request(GameCommand.OrganizeOwn).subscribe(res => {

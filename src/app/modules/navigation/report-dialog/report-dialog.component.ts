@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, inject, input } from '@angular/core';
 import { DialogConfirmFn, DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { IItem } from '../../../theme/models/seo';
@@ -13,13 +13,16 @@ import { NavigationService } from '../navigation.service';
     styleUrls: ['./report-dialog.component.scss'],
 })
 export class ReportDialogComponent {
+    private service = inject(NavigationService);
+    private toastrService = inject(DialogService);
+
 
     /**
      * 是否显示
      */
-    @Input() public visible = false;
-    @Input() public data: IWebPage;
-    @Input() public confirmFn: DialogConfirmFn;
+    public readonly visible = input(false);
+    public readonly data = input<IWebPage>(undefined);
+    public readonly confirmFn = input<DialogConfirmFn>(undefined);
 
 
     public typeItems: {
@@ -45,11 +48,6 @@ export class ReportDialogComponent {
     public content = '';
     public email = '';
 
-    constructor(
-        private service: NavigationService,
-        private toastrService: DialogService,
-    ) { }
-
     public get typeOptionItems() {
         return this.typeItems[this.typeIndex].items;
     }
@@ -72,10 +70,10 @@ export class ReportDialogComponent {
     public tapSubmit(e: ButtonEvent) {
         const data = {
             item_type: 31,
-            item_id: this.data.id,
+            item_id: this.data().id,
             type: 99,
             title: '',
-            content: `[${this.data.title}](${this.data.link}):${this.content}`,
+            content: `[${this.data().title}](${this.data().link}):${this.content}`,
             email: this.email
         };
         if (emptyValidate(data.content)) {
@@ -100,7 +98,7 @@ export class ReportDialogComponent {
                 e?.reset();
                 this.toastrService.success($localize `Report successful, waiting for manual review`);
                 this.visible = false;
-                this.confirmFn && this.confirmFn();
+                confirmFn && confirmFn();
             },
             error: err => {
                 e?.reset();

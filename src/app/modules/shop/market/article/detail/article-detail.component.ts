@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { IArticle, IArticleCategory } from '../../../model';
@@ -11,15 +11,13 @@ import { ShopService } from '../../../shop.service';
   styleUrls: ['./article-detail.component.scss']
 })
 export class ArticleDetailComponent implements OnInit {
+    private service = inject(ShopService);
+    private route = inject(ActivatedRoute);
+    private sanitizer = inject(DomSanitizer);
+
 
     public data: IArticle;
     public content: SafeHtml;
-
-    constructor(
-        private service: ShopService,
-        private route: ActivatedRoute,
-        private sanitizer: DomSanitizer,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

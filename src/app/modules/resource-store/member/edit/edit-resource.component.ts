@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { EditorBlockType, IEditorFileBlock, IImageUploadEvent } from '../../../../components/editor';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FileTypeItems, ICategory, IResource, IResourceFile, ITag, MediaTypeItems } from '../../model';
@@ -18,6 +18,13 @@ import { NavigationDisplayMode } from '../../../../theme/models/event';
     styleUrls: ['./edit-resource.component.scss']
 })
 export class EditResourceComponent implements OnInit, OnDestroy {
+    private fb = inject(FormBuilder);
+    private service = inject(ResourceService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private uploadService = inject(FileUploadService);
+    private themeService = inject(ThemeService);
+
 
     public form = this.fb.group({
         title: ['', Validators.required],
@@ -42,15 +49,6 @@ export class EditResourceComponent implements OnInit, OnDestroy {
     public tagLoading = false;
     public previewTypeItems = MediaTypeItems;
     public fileTypeItems = FileTypeItems;
-
-    constructor(
-        private fb: FormBuilder,
-        private service: ResourceService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private uploadService: FileUploadService,
-        private themeService: ThemeService,
-    ) { }
 
     ngOnInit() {
         this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Compact);

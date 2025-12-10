@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogService } from '../../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../../components/form';
 import { AffiliateService } from '../affiliate.service';
@@ -10,6 +10,9 @@ import { AffiliateService } from '../affiliate.service';
   styleUrls: ['./setting.component.scss']
 })
 export class SettingComponent implements OnInit {
+    private service = inject(AffiliateService);
+    private toastrService = inject(DialogService);
+
 
     public data = {
         by_user: 0,
@@ -18,12 +21,6 @@ export class SettingComponent implements OnInit {
         by_order: 0,
         by_order_scale: 0
     };
-
-    constructor(
-        private service: AffiliateService,
-        private toastrService: DialogService,
-    ) {
-    }
 
     ngOnInit() {
         this.service.option().subscribe(res => {

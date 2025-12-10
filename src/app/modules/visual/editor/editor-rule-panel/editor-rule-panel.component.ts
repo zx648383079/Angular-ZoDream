@@ -1,4 +1,4 @@
-import { Component, Input, NgZone, ViewChild } from '@angular/core';
+import { Component, NgZone, inject, input, viewChild } from '@angular/core';
 import { ContextMenuComponent } from '../../../../components/context-menu';
 import { EditorService } from '../editor.service';
 import { IRuleLine } from '../model';
@@ -10,25 +10,20 @@ import { IRuleLine } from '../model';
   styleUrls: ['./editor-rule-panel.component.scss']
 })
 export class EditorRulePanelComponent {
-    @ViewChild(ContextMenuComponent)
-    public contextMenu: ContextMenuComponent;
-    @Input() public offsetX = 0;
-    @Input() public offsetY = 0;
-    @Input() public scale = 1;
+    private readonly zone = inject(NgZone);
+    private readonly service = inject(EditorService);
+
+    public readonly contextMenu = viewChild(ContextMenuComponent);
+    public readonly offsetX = input(0);
+    public readonly offsetY = input(0);
+    public readonly scale = input(1);
     public tempLine: IRuleLine;
     public hLines: IRuleLine[] = [];
     public vLines: IRuleLine[] = [];
     public lineVisible = true;
 
-
-    constructor(
-        private readonly zone: NgZone,
-        private readonly service: EditorService,
-    ) {
-    }
-
     public tapIcon(event: MouseEvent) {
-        this.contextMenu.show(event, [
+        this.contextMenu().show(event, [
             {
                 name: this.lineVisible ? '隐藏辅助线' : '显示辅助线',
                 icon: this.lineVisible ? 'icon-eye-slash' : 'icon-eye',

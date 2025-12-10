@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { VideoService } from './video.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { VideoService } from './video.service';
   styleUrls: ['./video.component.scss']
 })
 export class VideoComponent implements OnInit {
+    private service = inject(VideoService);
+
 
     public isLoading = false;
     public data: any = {};
-
-    constructor(
-        private service: VideoService
-    ) { }
 
     ngOnInit() {
         this.service.statistics().subscribe({

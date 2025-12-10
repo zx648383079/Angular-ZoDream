@@ -1,4 +1,4 @@
-import { Inject, Injectable, PLATFORM_ID, TransferState, makeStateKey } from '@angular/core';
+import { Injectable, PLATFORM_ID, TransferState, makeStateKey, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 /**
@@ -9,11 +9,9 @@ const transferStateCache: String[] = [];
 
 @Injectable()
 export class TransferStateService {
-    constructor(private transferState: TransferState,
-        @Inject(PLATFORM_ID) private platformId: Object,
-        // @Inject(APP_ID) private _appId: string
-    ) {
-    }
+    private transferState = inject(TransferState);
+    private platformId = inject<Object>(PLATFORM_ID);
+
 
     /**
     * Set cache only when it's running on server

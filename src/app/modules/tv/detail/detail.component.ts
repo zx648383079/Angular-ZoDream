@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IMovie, IMovieSeries } from '../model';
@@ -11,17 +11,15 @@ import { TvService } from '../tv.service';
   styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
+    private service = inject(TvService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+
 
     public data: IMovie;
     public seriesItems: IMovieSeries[] = [];
     public items: IMovie[] = [];
     public isLoading = false;
-
-    constructor(
-        private service: TvService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(param => {

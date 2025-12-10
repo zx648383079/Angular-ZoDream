@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { UserService } from '../user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IBlockItem } from '../../../components/link-rule';
@@ -30,6 +30,13 @@ interface IMessageGroup {
     styleUrls: ['./message.component.scss']
 })
 export class MessageComponent implements OnInit, OnDestroy {
+    private store = inject<Store<AppState>>(Store);
+    private service = inject(UserService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private themeService = inject(ThemeService);
+
 
     public navItems: IMessageGroup[] = [];
     public navIndex = -1;
@@ -43,14 +50,7 @@ export class MessageComponent implements OnInit, OnDestroy {
     public authUser: IUser;
     public dropdownVisible = false;
 
-    constructor(
-        private store: Store<AppState>,
-        private service: UserService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private themeService: ThemeService,
-    ) {
+    constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
             this.authUser = user as any;
         });

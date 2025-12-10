@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { IEmojiCategory } from '../../../../theme/models/seo';
 import { emptyValidate } from '../../../../theme/validators';
@@ -11,16 +11,16 @@ import { SystemService } from '../../system.service';
   styleUrls: ['./emoji-category.component.scss']
 })
 export class EmojiCategoryComponent implements OnInit {
+    private service = inject(SystemService);
+    private toastrService = inject(DialogService);
+
 
     public items: IEmojiCategory[] = [];
     public isLoading = false;
     public keywords = '';
     public editData: IEmojiCategory = {} as any;
 
-    constructor(
-        private service: SystemService,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.tapRefresh();
     }
 

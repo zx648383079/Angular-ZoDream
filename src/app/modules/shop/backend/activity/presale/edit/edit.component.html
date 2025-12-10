@@ -1,12 +1,11 @@
 <app-edit-header [title]="data && data.id > 0 ? '编辑预售' : '新增预售'" (submited)="tapSubmit()"
-    [disabled]="form.invalid">
-</app-edit-header>
+    [disabled]="form.invalid" />
 <div class="container-fluid">
     <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group-control">
             <label for="goods_id">商品</label>
             <div>
-                <app-select-input url="shop/admin/goods/search" formControlName="scope"></app-select-input>
+                <app-select-input url="shop/admin/goods/search" formControlName="scope" />
             </div>
         </div>
         <div class="input-group-control">
@@ -18,7 +17,7 @@
         <div class="input-group-control">
             <label for="thumb">图片</label>
             <div>
-                <app-file-input formControlName="thumb"></app-file-input>
+                <app-file-input formControlName="thumb" />
             </div>
         </div>
         <div class="input-group-control">
@@ -30,25 +29,25 @@
         <div class="input-group-control">
             <label for="start_at">定金时间</label>
             <div>
-                <app-date-input formControlName="start_at" placeholder="请输入开始时间"></app-date-input>
+                <app-date-input formControlName="start_at" placeholder="请输入开始时间" />
                 ~
-                <app-date-input formControlName="end_at" placeholder="请输入结束时间"></app-date-input>
+                <app-date-input formControlName="end_at" placeholder="请输入结束时间" />
             </div>
         </div>
         <div formGroupName="configure">
             <div class="input-group-control">
                 <label for="configure_start_at">尾款时间</label>
                 <div>
-                    <app-date-input formControlName="final_start_at" placeholder="请输入开始时间"></app-date-input>
+                    <app-date-input formControlName="final_start_at" placeholder="请输入开始时间" />
                     ~
-                    <app-date-input formControlName="final_end_at" placeholder="请输入结束时间"></app-date-input>
+                    <app-date-input formControlName="final_end_at" placeholder="请输入结束时间" />
                 </div>
             </div>
     
             <div class="input-group-control">
                 <label for="configure_ship_at">发货时间</label>
                 <div>
-                    <app-date-input formControlName="ship_at" placeholder="请输入发货时间"></app-date-input>
+                    <app-date-input formControlName="ship_at" placeholder="请输入发货时间" />
                 </div>
             </div>
             <div class="input-group-control">

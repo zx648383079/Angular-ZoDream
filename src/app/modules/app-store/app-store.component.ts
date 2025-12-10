@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { INavLink } from '../../theme/models/seo';
@@ -15,6 +15,11 @@ import { ICategory } from './model';
   styleUrls: ['./app-store.component.scss']
 })
 export class AppStoreComponent implements OnInit {
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private store = inject<Store<AppState>>(Store);
+    private service = inject(AppStoreService);
+
 
     public navItems: ICategory[] = [
         {name: '推荐'} as any,
@@ -23,13 +28,6 @@ export class AppStoreComponent implements OnInit {
     public user: IUser;
     public searchVisible = false;
     public navOpen = false;
-
-    constructor(
-        private router: Router,
-        private route: ActivatedRoute,
-        private store: Store<AppState>,
-        private service: AppStoreService,
-    ) { }
 
     public get subNavItems(): ICategory[] {
         return this.navItems[this.navIndex].children;

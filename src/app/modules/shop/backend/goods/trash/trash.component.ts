@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -13,6 +13,11 @@ import { GoodsService } from '../goods.service';
   styleUrls: ['./trash.component.scss']
 })
 export class TrashComponent implements OnInit {
+    private service = inject(GoodsService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
     public items: IGoods[] = [];
     public hasMore = true;
     public isLoading = false;
@@ -27,12 +32,7 @@ export class TrashComponent implements OnInit {
     public categories: ICategory[] = [];
     public brandItems: IBrand[] = [];
 
-    constructor(
-        private service: GoodsService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
+    constructor() {
         this.service.categoryAll().subscribe(res => {
             this.categories = res.data;
         });

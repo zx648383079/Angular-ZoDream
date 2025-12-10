@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ICategory, IThemeComponent } from '../../model';
 import { IPageQueries } from '../../../../theme/models/page';
 import { VisualService } from '../visual.service';
@@ -13,6 +13,12 @@ import { SearchService } from '../../../../theme/services';
   styleUrls: ['./weight.component.scss']
 })
 export class WeightComponent implements OnInit {
+    private service = inject(VisualService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private searchService = inject(SearchService);
+
 
     public items: IThemeComponent[] = [];
     public hasMore = true;
@@ -28,15 +34,6 @@ export class WeightComponent implements OnInit {
     public categories: ICategory[] = [];
     public isMultiple = false;
     public isChecked = false;
-
-    constructor(
-        private service: VisualService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private router: Router,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.service.categoryTree().subscribe(res => {

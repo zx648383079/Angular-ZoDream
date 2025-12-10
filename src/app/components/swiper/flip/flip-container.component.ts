@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, ContentChildren, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, ElementRef, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation, inject, input, output, contentChildren } from '@angular/core';
 import { FlipItemComponent } from './flip-item.component';
 import { SwiperEvent } from '../model';
 
@@ -9,25 +9,22 @@ import { SwiperEvent } from '../model';
     // changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <div class="flip-container" [ngStyle]="flipStyle">
-        <ng-content></ng-content>
+        <ng-content />
     </div>
     `,
     styleUrls: ['./flip-container.component.scss'],
 })
 export class FlipContainerComponent implements OnInit, OnChanges, AfterContentInit, AfterViewInit, OnDestroy, SwiperEvent {
+    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
-    @ContentChildren(FlipItemComponent) 
-    public items: QueryList<FlipItemComponent>;
-    @Input() public index = 0;
+
+    public readonly items = contentChildren(FlipItemComponent);
+    public readonly index = input(0);
     public itemCount = 0;
     private resize$: ResizeObserver;
     public itemWidth = 0;
     private historyItems: number[] = [0];
-    @Output() public indexChange = new EventEmitter<number>();
-
-    constructor(
-        private elementRef: ElementRef<HTMLDivElement>,
-    ) { }
+    public readonly indexChange = output<number>();
     
 
     public get flipStyle() {
@@ -35,7 +32,7 @@ export class FlipContainerComponent implements OnInit, OnChanges, AfterContentIn
             return {};
         }
         return {
-            transform: 'translateX(-' + this.index * this.itemWidth + 'px)', 
+            transform: 'translateX(-' + this.index() * this.itemWidth + 'px)', 
             width: this.itemWidth * this.itemCount + 'px'
         };
     };
@@ -64,9 +61,9 @@ export class FlipContainerComponent implements OnInit, OnChanges, AfterContentIn
     }
 
     ngAfterContentInit(): void {
-        this.itemCount = this.items.length;
-        this.items.changes.subscribe(() => {
-            this.itemCount = this.items.length;
+        this.itemCount = this.items().length;
+        this.items().changes.subscribe(() => {
+            this.itemCount = this.items().length;
         });
     }
 
@@ -107,7 +104,7 @@ export class FlipContainerComponent implements OnInit, OnChanges, AfterContentIn
         if (!this.nextable) {
             return;
         }
-        this.navigate(this.index + 1);
+        this.navigate(this.index() + 1);
     }
 
     public back() {
@@ -120,7 +117,7 @@ export class FlipContainerComponent implements OnInit, OnChanges, AfterContentIn
 
     private animateFlip(from: number, to: number, isBack = false) {
         this.indexChange.emit(this.index = to);
-        const item = this.items.get(to);
+        const item = this.items().at(to);
         if (item) {
             item.backable = this.historyItems.length > 1;
             item.parent = this;
@@ -131,7 +128,7 @@ export class FlipContainerComponent implements OnInit, OnChanges, AfterContentIn
         if (this.itemCount < 1 || this.itemWidth <= 0) {
             return;
         }
-        this.items.forEach(item => {
+        this.items().forEach(item => {
             item.boxStyle = {
                 width: this.itemWidth + 'px'
             };

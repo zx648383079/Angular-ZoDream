@@ -1,15 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
 import { ICmsCategory, ICmsComment, ICmsContent, ICmsFormInput, ICmsGroup, ICmsLinkage, ICmsLinkageData, ICmsModel, ICmsModelField, ICmsSite, ICMSTheme } from '../model';
 
 @Injectable()
 export class CmsService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient,
-    ) { }
 
     public siteList(params: any) {
         return this.http.get<IPage<ICmsSite>>('cms/admin/site', {params});

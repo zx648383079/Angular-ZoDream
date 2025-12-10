@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ICategory, IBlog, ISearchForm, IComment } from './model';
@@ -7,8 +7,8 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class BlogService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) { }
 
     /**
      * getCategories

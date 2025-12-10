@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, input, viewChild } from '@angular/core';
 import { FlipContainerComponent } from '../../../../../components/swiper';
 import { ICateringRecipeMaterial } from '../../../model';
 import { emptyValidate } from '../../../../../theme/validators';
@@ -11,13 +11,12 @@ import { emptyValidate } from '../../../../../theme/validators';
 })
 export class GoodsDialogComponent {
 
-    @ViewChild(FlipContainerComponent)
-    public flipModal: FlipContainerComponent;
+    public readonly flipModal = viewChild(FlipContainerComponent);
 
     /**
      * 是否显示
      */
-    @Input() public visible = false;
+    public readonly visible = input(false);
     public tabIndex = 0;
     public items: ICateringRecipeMaterial[] = [];
     public multipleEditable = false;
@@ -31,11 +30,11 @@ export class GoodsDialogComponent {
     }
 
     public close(yes = false) {
-        if (this.flipModal.index > 1 && yes && !this.addLine()) {
+        if (this.flipModal().index() > 1 && yes && !this.addLine()) {
             return;
         }
-        if (this.flipModal.index > 0) {
-            this.flipModal.back();
+        if (this.flipModal().index() > 0) {
+            this.flipModal().back();
             return;
         }
         this.visible = false;
@@ -44,7 +43,7 @@ export class GoodsDialogComponent {
     public tapEditLine(item?: ICateringRecipeMaterial) {
         this.nextData = item ? item : {name: '', unit: this.nextData.unit};
         this.multipleEditable = false;
-        this.flipModal.navigate(2);
+        this.flipModal().navigate(2);
     }
 
     public tapRemoveLine(item: ICateringRecipeMaterial) {

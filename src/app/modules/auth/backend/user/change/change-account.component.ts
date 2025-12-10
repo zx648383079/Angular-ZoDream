@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -13,6 +13,11 @@ import { ButtonEvent } from '../../../../../components/form';
     styleUrls: ['./change-account.component.scss']
 })
 export class ChangeAccountComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(AuthService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         type: [0, Validators.required],
@@ -21,12 +26,6 @@ export class ChangeAccountComponent implements OnInit {
     });
 
     public data: IUser;
-
-    constructor(private fb: FormBuilder,
-        private service: AuthService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService) {
-    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

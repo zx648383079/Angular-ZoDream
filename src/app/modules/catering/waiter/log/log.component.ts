@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,6 +13,11 @@ import { ICateringOrder } from '../../model';
     styleUrls: ['./log.component.scss']
 })
 export class LogComponent implements OnInit {
+    private service = inject(CateringService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: ICateringOrder[] = [];
     public hasMore = true;
@@ -23,13 +28,6 @@ export class LogComponent implements OnInit {
         page: 1,
         per_page: 20
     };
-
-    constructor(
-        private service: CateringService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

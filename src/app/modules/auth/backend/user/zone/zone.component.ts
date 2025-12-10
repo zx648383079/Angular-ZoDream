@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IUserZone } from '../../../../../theme/models/user';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { AuthService } from '../../auth.service';
@@ -14,6 +14,11 @@ import { emptyValidate } from '../../../../../theme/validators';
     styleUrls: ['./zone.component.scss']
 })
 export class ZoneComponent implements OnInit {
+    private service = inject(AuthService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
 
     public items: IUserZone[] = [];
     public hasMore = true;
@@ -25,13 +30,6 @@ export class ZoneComponent implements OnInit {
         per_page: 20,
     };
     public editData: IUserZone = {} as any;
-
-    constructor(
-        private service: AuthService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IAccountLog } from '../../../../../theme/models/auth';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -14,6 +14,10 @@ import { DialogEvent } from '../../../../../components/dialog';
   styleUrls: ['./account-log.component.scss']
 })
 export class AccountLogComponent implements OnInit {
+    private service = inject(AuthService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IAccountLog[] = [];
     public hasMore = true;
@@ -27,13 +31,6 @@ export class AccountLogComponent implements OnInit {
     };
     public user: IUser;
     public editData: IAccountLog = {} as any;
-
-    constructor(
-        private service: AuthService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

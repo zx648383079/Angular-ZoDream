@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewContainerRef, inject, viewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { IBlog, ICategory, ITag } from '../../model';
 import { BlogService } from '../blog.service';
@@ -18,11 +18,17 @@ import { NavigationDisplayMode } from '../../../../theme/models/event';
     styleUrls: ['./edit-blog.component.scss']
 })
 export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
+    private fb = inject(FormBuilder);
+    private service = inject(BlogService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private uploadService = inject(FileUploadService);
+    private themeService = inject(ThemeService);
+    private editor = inject(EditorService);
 
-    @ViewChild('editorArea')
-    private areaElement: ElementRef<HTMLTextAreaElement>;
-    @ViewChild('modalVC', {read: ViewContainerRef})
-    private modalViewContainer: ViewContainerRef;
+
+    private readonly areaElement = viewChild<ElementRef<HTMLTextAreaElement>>('editorArea');
+    private readonly modalViewContainer = viewChild('modalVC', { read: ViewContainerRef });
     public form = this.fb.group({
         title: ['', Validators.required],
         keywords: [''],
@@ -72,15 +78,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
         display: 'none'
     };
 
-    constructor(
-        private fb: FormBuilder,
-        private service: BlogService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private uploadService: FileUploadService,
-        private themeService: ThemeService,
-        private editor: EditorService,
-    ) {
+    constructor() {
         this.service.editOption().subscribe(res => {
             this.tagItems = res.tags;
             this.categories = res.categories;
@@ -131,7 +129,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit(): void {
-        this.editor.ready(this.areaElement.nativeElement, this.modalViewContainer);
+        this.editor.ready(this.areaElement().nativeElement, this.modalViewContainer());
     }
 
     ngOnDestroy(): void {

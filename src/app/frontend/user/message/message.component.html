@@ -55,7 +55,7 @@
                 </div>
             </div>
         </div>
-        <app-message-container [currentId]="authUser?.id" [items]="items" [hasMore]="hasMore" (loadMore)="tapMore($event)" (tapped)="onMessageTap($event)"></app-message-container>
+        <app-message-container [currentId]="authUser?.id" [items]="items" [hasMore]="hasMore" (loadMore)="tapMore($event)" (tapped)="onMessageTap($event)" />
         <div class="message-tools" [hidden]="!currentUser || currentUser.id <= 1">
             <i class="iconfont icon-smile-o"></i>
             <i class="iconfont icon-image"></i>

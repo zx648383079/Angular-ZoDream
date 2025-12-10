@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, input } from '@angular/core';
 import { INavLink } from '../../../../theme/models/seo';
 
 @Component({
@@ -21,7 +21,7 @@ export class MerchantMenuComponent implements OnChanges, OnInit {
         {name: '店铺设置', url: 'setting'},
     ];
 
-    @Input() public currentUrl: string = '';
+    public readonly currentUrl = input<string>('');
     private basePath = '../';
 
     constructor() { }

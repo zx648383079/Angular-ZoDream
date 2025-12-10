@@ -41,7 +41,7 @@
             </div>
         </div>
         }
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="queries.page" (pageChange)="tapPage()" [perPage]="queries.per_page"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" (pageChange)="tapPage()" [perPage]="queries.per_page" />
     </div>
 </div>

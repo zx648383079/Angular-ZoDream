@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, Inject, Input, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, NgZone, OnDestroy, OnInit, effect, inject, input } from '@angular/core';
 import { CHART_TOKEN, ChartConfigs } from './model';
 import { ECharts, EChartsCoreOption, EChartsInitOpts } from 'echarts/core';
 import { asyncScheduler, Subject, throttleTime } from 'rxjs';
@@ -7,23 +7,24 @@ import { asyncScheduler, Subject, throttleTime } from 'rxjs';
     standalone: true,
     selector: '[appChart]'
 })
-export class ChartDirective implements OnInit, OnChanges, AfterViewInit, OnDestroy {
+export class ChartDirective implements OnInit, AfterViewInit, OnDestroy {
+    private zone = inject(NgZone);
+    private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+    private configs = inject<ChartConfigs>(CHART_TOKEN);
 
 
-    @Input() public options?: EChartsCoreOption;
-    @Input() public initOpts?: EChartsInitOpts;
+
+    public readonly options = input<EChartsCoreOption>(undefined);
+    public readonly initOpts = input<EChartsInitOpts>(undefined);
 
     private instance: ECharts;
     private resizeOb: ResizeObserver;
     private resize$ = new Subject<void>();
 
-    constructor(
-        private zone: NgZone,
-        private elementRef: ElementRef<HTMLElement>,
-        @Inject(CHART_TOKEN) private configs: ChartConfigs
-    ) {
-
+    constructor() {
+        effect(() => this.onOptionsChange(this.options()));
     }
+
     ngOnInit(): void {
         const element = this.elementRef.nativeElement;
         this.resize$.pipe(throttleTime(100, asyncScheduler, { leading: false, trailing: true }))
@@ -41,11 +42,6 @@ export class ChartDirective implements OnInit, OnChanges, AfterViewInit, OnDestr
         );
         this.resizeOb.observe(element);
 
-    }
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.options) {
-            this.onOptionsChange(changes.options.currentValue);
-        }
     }
     ngAfterViewInit(): void {
         window.setTimeout(() => this.initChart())
@@ -77,12 +73,12 @@ export class ChartDirective implements OnInit, OnChanges, AfterViewInit, OnDestr
         }
         return this.zone.runOutsideAngular(() => {
             const load: () => Promise<any> = typeof this.configs.echarts === 'function' ? this.configs.echarts : () => Promise.resolve(this.configs.echarts);
-            return load().then(({ init }) => init(dom, this.configs.theme, this.initOpts));
+            return load().then(({ init }) => init(dom, this.configs.theme, this.initOpts()));
         });
     }
 
     private async initChart() {
-        await this.onOptionsChange(this.options);
+        await this.onOptionsChange(this.options());
     }
 
     private async onOptionsChange(opt: any) {
@@ -91,10 +87,10 @@ export class ChartDirective implements OnInit, OnChanges, AfterViewInit, OnDestr
         }
 
         if (this.instance) {
-            this.setOption(this.options, true);
+            this.setOption(this.options(), true);
         } else {
             this.instance = await this.createChart();
-            this.setOption(this.options, true);
+            this.setOption(this.options(), true);
         }
     }
     private setOption(option: any, opts?: any) {

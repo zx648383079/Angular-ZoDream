@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
 import { IGoodsGallery } from '../../model';
 import { mediaIsFrame } from '../../../../components/media-player/util';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -10,15 +10,13 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./gallery-slider.component.scss']
 })
 export class GallerySliderComponent implements OnChanges {
+    private sanitizer = inject(DomSanitizer);
 
-    @Input() public items: IGoodsGallery[] = [];
+
+    public readonly items = input<IGoodsGallery[]>([]);
     public mediaType = 0;
     public mediaSrc: any = '';
     public index = 0;
-
-    constructor(
-        private sanitizer: DomSanitizer,
-    ) { }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.items && changes.items.currentValue.length > this.index) {
@@ -27,13 +25,13 @@ export class GallerySliderComponent implements OnChanges {
     }
 
     public tapItem(i: number) {
-        if (i >= this.items.length) {
+        if (i >= this.items().length) {
             this.mediaType = 0;
             this.mediaSrc = undefined;
             return;
         }
         this.index = i;
-        const data = this.items[this.index];
+        const data = this.items()[this.index];
         if (data.type !== 1) {
             this.mediaType = 1;
         } else {

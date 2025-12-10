@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, inject, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { assetUri, parseNumber, uriEncode } from '../../../theme/utils';
@@ -12,9 +12,12 @@ import { IDataOne } from '../../../theme/models/page';
     styleUrls: ['./visual-studio.component.scss']
 })
 export class VisualStudioComponent implements OnInit, AfterViewInit {
+    private http = inject(HttpClient);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
 
-    @ViewChild('browser', {static: true})
-    private frame: ElementRef<HTMLIFrameElement>;
+
+    private readonly frame = viewChild<ElementRef<HTMLIFrameElement>>('browser');
 
     public isLoading = true;
     private isReady = false;
@@ -23,12 +26,6 @@ export class VisualStudioComponent implements OnInit, AfterViewInit {
         site: 0,
         id: 0
     };
-
-    constructor(
-        private http: HttpClient,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -51,7 +48,7 @@ export class VisualStudioComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        const frame = this.frame.nativeElement;
+        const frame = this.frame().nativeElement;
         if (!frame) {
             return;
         }
@@ -67,7 +64,7 @@ export class VisualStudioComponent implements OnInit, AfterViewInit {
         if (!this.isReady) {
             return;
         }
-        this.readyFn && this.readyFn(this.frame.nativeElement);
+        this.readyFn && this.readyFn(this.frame().nativeElement);
     }
 
 }

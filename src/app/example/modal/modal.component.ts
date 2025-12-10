@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogService } from '../../components/dialog';
 
 @Component({
@@ -8,16 +8,14 @@ import { DialogService } from '../../components/dialog';
     styleUrls: ['./modal.component.scss'],
 })
 export class ExampleModalComponent {
+    private toastrService = inject(DialogService);
+
 
     public customModal = {
         visible: false,
         page: 0,
         multipleEditable: false
     };
-
-    constructor(
-        private toastrService: DialogService,
-    ) { }
 
     public tapTip(kind = 0) {
         switch (kind) {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ICmsModelField } from '../../../model';
@@ -11,16 +11,14 @@ import { CmsService } from '../../cms.service';
   styleUrls: ['./model-field.component.scss']
 })
 export class ModelFieldComponent implements OnInit {
+    private service = inject(CmsService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public items: ICmsModelField[] = [];
     public isLoading = false;
     public model = 0;
-
-    constructor(
-        private service: CmsService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {

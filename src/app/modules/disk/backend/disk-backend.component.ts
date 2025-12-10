@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DiskService } from './disk.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { DiskService } from './disk.service';
     styleUrls: ['./disk-backend.component.scss']
 })
 export class DiskBackendComponent implements OnInit {
+    private service = inject(DiskService);
+
 
     public isLoading = true;
     public data: any = {};
-
-    constructor(
-        private service: DiskService,
-    ) { }
 
     ngOnInit() {
         this.service.statistics().subscribe({

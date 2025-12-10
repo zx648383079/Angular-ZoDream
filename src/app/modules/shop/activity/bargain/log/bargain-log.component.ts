@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit, SimpleChanges, inject, input } from '@angular/core';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { ActivityService } from '../../activity.service';
 
@@ -9,10 +9,12 @@ import { ActivityService } from '../../activity.service';
   styleUrls: ['./bargain-log.component.scss']
 })
 export class BargainLogComponent {
+    service = inject(ActivityService);
 
-    @Input() public activity = 0;
-    @Input() public log = 0;
-    @Input() public init = false;
+
+    public readonly activity = input(0);
+    public readonly log = input(0);
+    public readonly init = input(false);
     public items: any[] = [];
     public subtotal: any;
     public hasMore = true;
@@ -25,19 +27,15 @@ export class BargainLogComponent {
     };
     private booted = 0;
 
-    constructor(
-        public service: ActivityService,
-    ) { }
-
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.log > 0 && this.booted !== this.log) {
+        if (changes.init && changes.init.currentValue && this.log() > 0 && this.booted !== this.log()) {
             this.boot();
         }
     }
 
     private boot() {
-        this.booted = this.log;
-        if (this.log < 1) {
+        this.booted = this.log();
+        if (this.log() < 1) {
             return;
         }
         this.tapRefresh();
@@ -64,7 +62,7 @@ export class BargainLogComponent {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.bargainLogList({...queries, activity: this.activity, log: this.log}).subscribe({
+        this.service.bargainLogList({...queries, activity: this.activity(), log: this.log()}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;

@@ -1,17 +1,15 @@
-import { Directive, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
+import { Directive, ElementRef, HostListener, inject, output } from '@angular/core';
 
 @Directive({
     standalone: false,
     selector: '[appFileDrop]'
 })
 export class FileDropDirective {
+    protected element = inject(ElementRef);
 
-    @Output() public fileOver = new EventEmitter<boolean>();
-    @Output() public fileDrop = new EventEmitter<File[]>();
 
-    constructor(
-        protected element: ElementRef,
-    ) { }
+    public readonly fileOver = output<boolean>();
+    public readonly fileDrop = output<File[]>();
 
     @HostListener('dragover', ['$event'])
     public onDragOver(event: MouseEvent) {

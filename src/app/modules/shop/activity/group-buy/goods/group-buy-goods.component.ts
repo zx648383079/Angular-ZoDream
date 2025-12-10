@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -13,6 +13,12 @@ import { ActivityService } from '../../activity.service';
   styleUrls: ['./group-buy-goods.component.scss']
 })
 export class GroupBuyGoodsComponent implements OnInit {
+    private service = inject(ActivityService);
+    private route = inject(ActivatedRoute);
+    private sanitizer = inject(DomSanitizer);
+    private toastrService = inject(DialogService);
+    private themeService = inject(ThemeService);
+
 
     public data: IGoods;
     public activity: IActivity<IGroupBuyConfigure>;
@@ -20,14 +26,6 @@ export class GroupBuyGoodsComponent implements OnInit {
     public content: SafeHtml;
     public tabIndex = 0;
     public amount = 1;
-
-    constructor(
-        private service: ActivityService,
-        private route: ActivatedRoute,
-        private sanitizer: DomSanitizer,
-        private toastrService: DialogService,
-        private themeService: ThemeService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { UploadButtonEvent } from '../../../../components/form';
@@ -16,6 +16,12 @@ import { TVService } from '../tv.service';
   styleUrls: ['./live.component.scss']
 })
 export class LiveComponent implements OnInit {
+    private service = inject(TVService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private downloadService = inject(DownloadService);
+    private searchService = inject(SearchService);
+
 
     public items: ILive[] = [];
     public hasMore = true;
@@ -27,15 +33,6 @@ export class LiveComponent implements OnInit {
         per_page: 20
     };
     public editData: ILive = {} as any;
-
-    constructor(
-        private service: TVService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private downloadService: DownloadService,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

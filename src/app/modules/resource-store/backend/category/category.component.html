@@ -26,7 +26,7 @@
                     <td>{{ item.level | treeLevel }}{{ item.name }}</td>
                     <td></td>
                     <td>
-                        <app-switch [(ngModel)]="item.is_hot" (ngModelChange)="onHotChange(item)"></app-switch>
+                        <app-switch [(ngModel)]="item.is_hot" (ngModelChange)="onHotChange(item)" />
                     </td>
                     <td>
                         <div class="btn-group">
@@ -41,7 +41,7 @@
     
             </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
     </div>
 </div>
 
@@ -55,7 +55,7 @@
     <div class="form-group">
         <label>图标</label>
         <div class="input-group-control">
-            <app-file-input [(ngModel)]="editData.icon"></app-file-input>
+            <app-file-input [(ngModel)]="editData.icon" />
         </div>
     </div>
     <div class="form-group">
@@ -70,7 +70,7 @@
     <div class="form-group">
         <label>是否推荐</label>
         <div class="input-group-control">
-            <app-switch [(ngModel)]="editData.is_hot"></app-switch>
+            <app-switch [(ngModel)]="editData.is_hot" />
         </div>
     </div>
 </app-dialog-box>

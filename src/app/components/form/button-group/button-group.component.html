@@ -1,5 +1,5 @@
 <div class="action-btn" [ngClass]="{loading: isLoading}">
-    @if (items.length > 0) {
+    @if (items().length > 0) {
     <div class="btn-group action-body">
         @for (item of inlineItems; track $index) {
             <a class="btn" [ngClass]="item.color" (click)="tapItem(item)">

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AuthService } from './auth.service';
 
 @Component({
@@ -8,14 +8,11 @@ import { AuthService } from './auth.service';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
+    private service = inject(AuthService);
+
 
     public isLoading = true;
     public data: any = {};
-
-    constructor(
-        private service: AuthService,
-    ) {
-    }
 
     ngOnInit() {
         this.service.statistics().subscribe({

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MicroService } from './micro.service';
 import { DialogEvent, DialogService } from '../../components/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,6 +22,14 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./micro.component.scss']
 })
 export class MicroComponent implements OnInit, OnDestroy {
+    private service = inject(MicroService);
+    private toastrService = inject(DialogService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private store = inject<Store<AppState>>(Store);
+    private searchService = inject(SearchService);
+    private themeService = inject(ThemeService);
+
 
     public items: IMicro[] = [];
     public hasMore = true;
@@ -60,15 +68,7 @@ export class MicroComponent implements OnInit, OnDestroy {
     ];
     private subItems = new Subscription();
 
-    constructor(
-        private service: MicroService,
-        private toastrService: DialogService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private store: Store<AppState>,
-        private searchService: SearchService,
-        private themeService: ThemeService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Micro Blog`);
         this.store.select(selectAuthUser).subscribe(user => {
             this.authUser = user;

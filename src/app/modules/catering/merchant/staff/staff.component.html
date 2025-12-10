@@ -1,6 +1,6 @@
 <div class="flex-2">
     <div class="flex-menu">
-        <app-merchant-menu currentUrl="staff"></app-merchant-menu>
+        <app-merchant-menu currentUrl="staff" />
     </div>
     <div class="flex-body">
         <div class="panel-container">
@@ -29,7 +29,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
-                    <app-catering-nav-bar header="分组" [items]="categoryItems" [(selected)]="queries.group" (selectedChange)="tapRefresh()" (add)="tapEditCategory()" (edit)="tapEditCategory($event)" (remove)="tapRemoveCategory($event)"></app-catering-nav-bar>
+                    <app-catering-nav-bar header="分组" [items]="categoryItems" [(selected)]="queries.group" (selectedChange)="tapRefresh()" (add)="tapEditCategory()" (edit)="tapEditCategory($event)" (remove)="tapRemoveCategory($event)" />
                 </div>
                 <div class="col-md-9">
                     @for (item of items; track $index) {
@@ -51,13 +51,13 @@
                     </div>
                     }
 
-                    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-                    <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+                    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+                    <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<app-catering-role-dialog></app-catering-role-dialog>
-<app-catering-invite-dialog></app-catering-invite-dialog>
+<app-catering-role-dialog />
+<app-catering-invite-dialog />

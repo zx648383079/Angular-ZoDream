@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑作者' : '新增作者'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑作者' : '新增作者'" (submited)="tapSubmit()" [disabled]="form.invalid" />
 
 <div class="container-fluid">
     <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
@@ -11,7 +11,7 @@
         <div class="input-group-control">
             <label for="cover">头像</label>
             <div>
-                <app-file-input formControlName="avatar"></app-file-input>
+                <app-file-input formControlName="avatar" />
             </div>
         </div>
         <div class="input-group-control">

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, input, output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -15,12 +15,17 @@ import { BlogService } from '../../blog.service';
     styleUrls: ['./comment-item.component.scss']
 })
 export class CommentItemComponent implements OnChanges {
+    private service = inject(BlogService);
+    private toastrService = inject(DialogService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
 
-    @Input() public value: IComment;
-    @Input() public user: IUser;
-    @Input() public status = 0;
-    @Input() public guestUser: any = {};
-    @Output() public commenting = new EventEmitter<any>();
+
+    public readonly value = input<IComment>(undefined);
+    public readonly user = input<IUser>(undefined);
+    public readonly status = input(0);
+    public readonly guestUser = input<any>({});
+    public readonly commenting = output<any>();
 
     public hasMore = true;
     public isLoading = false;
@@ -40,27 +45,22 @@ export class CommentItemComponent implements OnChanges {
         blog_id: 0,
     };
 
-    constructor(
-        private service: BlogService,
-        private toastrService: DialogService,
-        private router: Router,
-        private route: ActivatedRoute) { }
-
     public get moreCount() {
         if (!this.hasMore) {
             return 0;
         }
-        return this.value.reply_count - this.value.replies.length;
+        return this.value().reply_count - this.value().replies.length;
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.value) {
-            if (!this.value.replies) {
-                this.value.replies = [];
+            const value = this.value();
+            if (!value.replies) {
+                value.replies = [];
             }
-            this.hasMore = this.value.reply_count > this.value.replies?.length;
-            this.queries.blog_id = this.value.blog_id;
-            this.queries.parent_id = this.value.id;
+            this.hasMore = value.reply_count > value.replies?.length;
+            this.queries.blog_id = value.blog_id;
+            this.queries.parent_id = value.id;
             this.queries.page = 1;
         }
         
@@ -87,7 +87,7 @@ export class CommentItemComponent implements OnChanges {
         e?.enter();
         this.commenting.emit({
             ...this.editData,
-            ...this.guestUser,
+            ...this.guestUser(),
             next: () => {
                 e?.reset();
                 this.editData.content = '';
@@ -153,7 +153,7 @@ export class CommentItemComponent implements OnChanges {
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
-                this.value.replies = [].concat(this.value.replies, res.data);
+                this.value().replies = [].concat(this.value().replies, res.data);
                 this.queries = queries;
             }, 
             error: () => {

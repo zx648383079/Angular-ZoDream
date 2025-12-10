@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IEquityCard, IUserCard } from '../../../../../theme/models/auth';
@@ -14,6 +14,11 @@ import { SearchService } from '../../../../../theme/services';
   styleUrls: ['./user-card.component.scss']
 })
 export class UserCardComponent implements OnInit {
+    private service = inject(AuthService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
     public items: IUserCard[] = [];
     public hasMore = true;
     public isLoading = false;
@@ -28,14 +33,6 @@ export class UserCardComponent implements OnInit {
         expired_at: ''
     };
     public cardItems: IEquityCard[] = [];
-
-    constructor(
-        private service: AuthService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService
-    ) {
-    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

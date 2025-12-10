@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AppState } from '../../../theme/interfaces';
 import { Store } from '@ngrx/store';
@@ -13,11 +13,18 @@ import { Subscription } from 'rxjs';
 
 @Component({
     standalone: false,
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+    selector: 'app-profile',
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+    private fb = inject(FormBuilder);
+    private service = inject(UserService);
+    private store = inject<Store<AppState>>(Store);
+    private toastrService = inject(DialogService);
+    private authService = inject(AuthService);
+    private router = inject(Router);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -40,14 +47,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     public maxDate: Date;
     private subItems = new Subscription();
 
-    constructor(
-        private fb: FormBuilder,
-        private service: UserService,
-        private store: Store<AppState>,
-        private toastrService: DialogService,
-        private authService: AuthService,
-        private router: Router,
-    ) {
+    constructor() {
         this.maxDate = new Date();
         this.minDate = new Date(this.maxDate.getFullYear() - 130, this.maxDate.getMonth(), this.maxDate.getDate());
         this.subItems.add(this.store.select(selectAuthUser).subscribe(user => {

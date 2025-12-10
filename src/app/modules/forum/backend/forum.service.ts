@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IForum, IThread } from '../model';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { IUser } from '../../../theme/models/user';
 
 @Injectable()
 export class ForumService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) { }
 
     public userList(params: any) {
         return this.http.get<IPage<IUser>>('auth/admin/user/search', {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -14,6 +14,11 @@ import { NavigationDisplayMode } from '../../../../../theme/models/event';
     styleUrls: ['./edit-news.component.scss']
 })
 export class EditNewsComponent implements OnInit, OnDestroy {
+    private route = inject(ActivatedRoute);
+    private service = inject(BotService);
+    private toastrService = inject(DialogService);
+    private themeService = inject(ThemeService);
+
 
     public data: any = {
         title: '',
@@ -26,13 +31,6 @@ export class EditNewsComponent implements OnInit, OnDestroy {
     };
     public onlyItems = ['所有人', '粉丝'];
     public requestUrl = 'wx/admin/media/search?type=news';
-
-    constructor(
-        private route: ActivatedRoute,
-        private service: BotService,
-        private toastrService: DialogService,
-        private themeService: ThemeService,
-    ) { }
 
     ngOnInit() {
         this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Compact);

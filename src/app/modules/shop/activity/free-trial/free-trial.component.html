@@ -14,7 +14,7 @@
                             <img [src]="item.goods.thumb" alt="">
                         </a>
                         <div class="time">
-                            <app-countdown label="距离结束" [end]="item.end_at"></app-countdown>
+                            <app-countdown label="距离结束" [end]="item.end_at" />
                         </div>
                     </div>
                     <div class="flex-line">
@@ -32,6 +32,6 @@
             }
         </div>
 
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>

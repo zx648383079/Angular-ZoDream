@@ -1,6 +1,6 @@
-@if (label) {
+@if (label()) {
     <div class="control-body">
-        <label for="">{{ label }}</label>
+        <label for="">{{ label() }}</label>
         <input type="number">
         <span class="extra-control" (click)="visible = !visible">{{ unit }}</span>
     </div>

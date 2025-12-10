@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ComponentTypeItems, ICategory, IThemeComponent } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
 import { VisualService } from './visual.service';
 import { DialogService } from '../../../components/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../theme/services';
 import { UploadButtonEvent } from '../../../components/form';
 
@@ -14,6 +14,11 @@ import { UploadButtonEvent } from '../../../components/form';
     styleUrls: ['./member.component.scss']
 })
 export class MemberComponent implements OnInit {
+    private service = inject(VisualService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IThemeComponent[] = [];
     public hasMore = true;
@@ -28,14 +33,6 @@ export class MemberComponent implements OnInit {
     };
     public categories: ICategory[] = [];
     public typeItems = ComponentTypeItems;
-
-    constructor(
-        private service: VisualService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.service.categoryTree().subscribe(res => {

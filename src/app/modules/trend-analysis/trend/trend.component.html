@@ -13,9 +13,9 @@
                 </div>
                 <div class="input-group-control">
                     <label for="keywords">时间</label>
-                    <app-date-input [(ngModel)]="queries.start_at" name="start_at" id="keywords" placeholder="开始时间"></app-date-input>
+                    <app-date-input [(ngModel)]="queries.start_at" name="start_at" id="keywords" placeholder="开始时间" />
                     -
-                    <app-date-input [ngModel]="queries.end_at" name="end_at" id="end_at" placeholder="结束时间"></app-date-input>
+                    <app-date-input [ngModel]="queries.end_at" name="end_at" id="end_at" placeholder="结束时间" />
                 </div>
                 <div class="btn-group">
                     <button type="submit" class="btn btn-primary">搜索</button>
@@ -187,7 +187,7 @@
                 }
             </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>

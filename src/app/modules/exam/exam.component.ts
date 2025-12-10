@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ThemeService } from '../../theme/services';
 import { ExamService } from './exam.service';
@@ -12,16 +12,16 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./exam.component.scss']
 })
 export class ExamComponent implements OnInit, OnDestroy {
+    private service = inject(ExamService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private themeService = inject(ThemeService);
+
 
     public items: ICourse[] = [];
     private subItems = new Subscription();
 
-    constructor(
-        private service: ExamService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private themeService: ThemeService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Exam`);
     }
   

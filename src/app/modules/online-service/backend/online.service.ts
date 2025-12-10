@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { ICategory, ICategoryUser, IMessage, ISession, IWord } from '../model';
 
 @Injectable()
 export class OnlineBackendService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient,
-    ) { }
 
     public categoryList(params: any) {
         return this.http.get<IPage<ICategory>>('os/admin/category', {params});

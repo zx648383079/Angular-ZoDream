@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, inject, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IDataOne } from '../../../theme/models/page';
 import { DialogService } from '../../../components/dialog';
@@ -12,9 +12,12 @@ import { assetUri, parseNumber, uriEncode } from '../../../theme/utils';
     styleUrls: ['./preview.component.scss']
 })
 export class PreviewComponent implements OnInit, AfterViewInit {
+    private http = inject(HttpClient);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
 
-    @ViewChild('browser', {static: true})
-    private frame: ElementRef<HTMLIFrameElement>;
+
+    private readonly frame = viewChild<ElementRef<HTMLIFrameElement>>('browser');
 
     public isLoading = true;
     public navToggle = 1;
@@ -24,12 +27,6 @@ export class PreviewComponent implements OnInit, AfterViewInit {
         site: 0,
         id: 0
     };
-
-    constructor(
-        private http: HttpClient,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -52,7 +49,7 @@ export class PreviewComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        const frame = this.frame.nativeElement;
+        const frame = this.frame().nativeElement;
         if (!frame) {
             return;
         }
@@ -72,7 +69,7 @@ export class PreviewComponent implements OnInit, AfterViewInit {
         if (!this.isReady) {
             return;
         }
-        this.readyFn && this.readyFn(this.frame.nativeElement);
+        this.readyFn && this.readyFn(this.frame().nativeElement);
     }
 
 }

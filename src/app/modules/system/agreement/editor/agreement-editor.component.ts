@@ -1,7 +1,7 @@
-import { Component, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, effect, input, model } from '@angular/core';
 import { IAgreementGroup } from '../../../../theme/models/seo';
 import { eachObject } from '../../../../theme/utils';
+import { FormValueControl } from '@angular/forms/signals';
 
 
 
@@ -10,32 +10,28 @@ import { eachObject } from '../../../../theme/utils';
     selector: 'app-agreement-editor',
     templateUrl: './agreement-editor.component.html',
     styleUrls: ['./agreement-editor.component.scss'],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => AgreementEditorComponent),
-            multi: true
-        }
-    ]
 })
-export class AgreementEditorComponent implements ControlValueAccessor {
+export class AgreementEditorComponent implements FormValueControl<IAgreementGroup[]|string> {
 
-    public disable = false;
-    public value: IAgreementGroup[] = [];
+
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<IAgreementGroup[]|string>([]);
     public data: IAgreementGroup;
+    public items: IAgreementGroup[] = [];
 
-    onChange: any = () => { };
-    onTouch: any = () => { };
+    constructor() {
+        effect(() => {
+            this.writeValue(this.value());
+        });
+    }
 
-    constructor(
-    ) { }
 
     public tapEditItem(item: IAgreementGroup) {
         this.data = item;
     }
 
     public tapAddGroup() {
-        this.value.push({
+        this.items.push({
             name: '',
             title: '',
             children: [
@@ -44,7 +40,7 @@ export class AgreementEditorComponent implements ControlValueAccessor {
                 }
             ],
         });
-        this.onChange(this.value);
+        this.value.set(this.items);
     }
 
     public tapRemoveGroup() {
@@ -53,8 +49,8 @@ export class AgreementEditorComponent implements ControlValueAccessor {
         }
         for (let i = 0; i < this.value.length; i++) {
             if (this.value[i] === this.data) {
-                this.value.splice(i, 1);
-                this.onChange(this.value);
+                this.items.splice(i, 1);
+                this.value.set(this.items);
                 this.data = null;
                 return;
             }
@@ -81,24 +77,24 @@ export class AgreementEditorComponent implements ControlValueAccessor {
         if (i < 1) {
             return;
         }
-        const items = this.value;
-        items[i] = items.splice(i - 1, 1, items[i])[0];
+        this.items[i] = this.items.splice(i - 1, 1, this.items[i])[0];
+        this.value.set(this.items);
     }
 
     public tapMoveDown(i: number) {
-        const items = this.value;
-        if (i >= items.length - 1) {
+        if (i >= this.items.length - 1) {
             return;
         }
-        items[i] = items.splice(i + 1, 1, items[i])[0];
+        this.items[i] = this.items.splice(i + 1, 1, this.items[i])[0];
+        this.value.set(this.items);
     }
 
-    writeValue(obj: any): void {
+    private writeValue(obj: any): void {
         const value = typeof obj !== 'object' ? JSON.parse(obj) : obj;
         if (!value) {
             return;
         }
-        this.value = [];
+        const items = [];
         eachObject(value, item => {
             if (typeof item !== 'object') {
                 return;
@@ -106,17 +102,10 @@ export class AgreementEditorComponent implements ControlValueAccessor {
             if (!item.children) {
                 item.children = [];
             }
-            this.value.push(item);
+            items.push(item);
         });
+        this.items = items;
     }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disable = isDisabled;
-    }
+    
 
 }

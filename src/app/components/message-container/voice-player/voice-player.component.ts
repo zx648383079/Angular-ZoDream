@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnDestroy, SimpleChanges, input } from '@angular/core';
 import { twoPad } from '../../../theme/utils';
 
 @Component({
@@ -9,7 +9,7 @@ import { twoPad } from '../../../theme/utils';
 })
 export class VoicePlayerComponent implements OnChanges, OnDestroy {
 
-    @Input() public src: string;
+    public readonly src = input<string>(undefined);
     public progress = 0;
     public duration = 0;
     public paused = true;
@@ -54,10 +54,10 @@ export class VoicePlayerComponent implements OnChanges, OnDestroy {
             return;
         }
         if (!this.booted) {
-            this.audio.src = this.src;
+            this.audio.src = this.src();
             this.booted = true;
         }
-        if (!this.src) {
+        if (!this.src()) {
             return;
         }
         this.audio.play();

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, inject, input } from '@angular/core';
 import { cloneObject } from '../../../theme/utils';
 import { ISiteCategory } from '../model';
 import { NavigationService } from '../navigation.service';
@@ -10,15 +10,13 @@ import { NavigationService } from '../navigation.service';
   styleUrls: ['./site.component.scss']
 })
 export class SiteComponent implements OnChanges {
+    private service = inject(NavigationService);
 
-    @Input() public visible = false;
+
+    public readonly visible = input(false);
     public categories: ISiteCategory[] = [];
     public selectedItems: ISiteCategory[] = [];
     private booted = false;
-
-    constructor(
-        private service: NavigationService,
-    ) { }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.visible && changes.visible.currentValue) {

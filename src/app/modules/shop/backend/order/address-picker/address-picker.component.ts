@@ -1,25 +1,22 @@
-import { Component, forwardRef, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, effect, inject, input, model } from '@angular/core';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { IAddress } from '../../../model';
 import { OrderService } from '../order.service';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
     selector: 'app-address-picker',
     templateUrl: './address-picker.component.html',
     styleUrls: ['./address-picker.component.scss'],
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => AddressPickerComponent),
-        multi: true
-    }]
 })
-export class AddressPickerComponent implements ControlValueAccessor, OnChanges {
+export class AddressPickerComponent implements FormValueControl<IAddress> {
+    private service = inject(OrderService);
 
-    @Input() public user = 0;
-    public value: IAddress;
-    public disabled = false;
+
+    public readonly user = input(0);
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<IAddress>();
     public isFocus = false;
     public editable = false;
 
@@ -32,19 +29,13 @@ export class AddressPickerComponent implements ControlValueAccessor, OnChanges {
     public hasMore = false;
     public isLoading = false;
     public total = 0;
-    
-    onChange: any = () => {};
-    onTouch: any = () => {};
 
-
-    constructor(
-        private service: OrderService
-    ) { }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.user && changes.user.currentValue > 0) {
-            this.tapRefresh();
-        }
+    constructor() {
+        effect(() => {
+            if (this.user() > 0) {
+                this.tapRefresh();
+            }
+        })
     }
 
     public toggleEdit() {
@@ -52,8 +43,8 @@ export class AddressPickerComponent implements ControlValueAccessor, OnChanges {
         if (!this.editable) {
             return;
         }
-        if (this.value) {
-            this.output({...this.value, id: 0});
+        if (this.value()) {
+            this.output({...this.value(), id: 0});
             return;
         }
         this.output({
@@ -85,7 +76,7 @@ export class AddressPickerComponent implements ControlValueAccessor, OnChanges {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page, user: this.user};
+        const queries = {...this.queries, page, user: this.user()};
         this.service.addressSearch(queries).subscribe({
             next: res => {
                 this.isLoading = false;
@@ -104,21 +95,7 @@ export class AddressPickerComponent implements ControlValueAccessor, OnChanges {
     }
 
     private output(v?: IAddress) {
-        this.value = v;
-        this.onChange(this.value);
-    }
-
-    writeValue(obj: any): void {
-        this.value = obj;
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
+        this.value.set(v);
     }
 
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { DialogEvent } from '../../../../../components/dialog';
 import { IQuestionOption } from '../../../model';
 import { intToABC } from '../../../util';
@@ -10,10 +10,10 @@ import { intToABC } from '../../../util';
   styleUrls: ['./option-input.component.scss']
 })
 export class OptionInputComponent {
-    @Input() public value: IQuestionOption[] = [];
-    @Input() public editable = true;
-    @Input() public multiple = false;
-    @Output() public valueChange = new EventEmitter<IQuestionOption[]>();
+    public readonly value = input<IQuestionOption[]>([]);
+    public readonly editable = input(true);
+    public readonly multiple = input(false);
+    public readonly valueChange = output<IQuestionOption[]>();
     public optionData: IQuestionOption = {
         type: 0,
         content: '',
@@ -25,13 +25,13 @@ export class OptionInputComponent {
 
     public tapSelected(event: MouseEvent, i: number) {
         event.stopPropagation();
-        if (!this.editable) {
+        if (!this.editable()) {
             return;
         }
-        const item = this.value[i];
+        const item = this.value()[i];
         item.is_right = !item.is_right;
-        if (item.is_right && !this.multiple) {
-            this.value.forEach((v, j) => {
+        if (item.is_right && !this.multiple()) {
+            this.value().forEach((v, j) => {
                 if (i === j) {
                     return;
                 }
@@ -42,10 +42,10 @@ export class OptionInputComponent {
     }
 
     public tapEditOption(modal: DialogEvent, i = -1) {
-        if (!this.editable) {
+        if (!this.editable()) {
             return;
         }
-        this.optionData = i >= 0 ? {...this.value[i], type: this.value[i].type || 0} : {
+        this.optionData = i >= 0 ? {...this.value()[i], type: this.value()[i].type || 0} : {
             type: 0,
             content: '',
             is_right: false,
@@ -57,14 +57,15 @@ export class OptionInputComponent {
             if (!action) {
                 return;
             }
+            const value = this.value();
             if (i >= 0) {
-                this.value[i] = {...this.optionData};
+                value[i] = {...this.optionData};
             } else {
-                this.value.push({...this.optionData});
+                value.push({...this.optionData});
             }
-            if (this.optionData.is_right && !this.multiple) {
-                this.value.forEach((v, j) => {
-                    if (i < 0 && j === this.value.length - 1) {
+            if (this.optionData.is_right && !this.multiple()) {
+                value.forEach((v, j) => {
+                    if (i < 0 && j === this.value().length - 1) {
                         return;
                     }
                     if (i === j) {
@@ -75,19 +76,20 @@ export class OptionInputComponent {
             }
             this.onValueChange();
             if (action === 'next') {
-                this.tapEditOption(modal, i >= this.value.length - 1 || i < 0 ? -1 : i + 1 );
+                this.tapEditOption(modal, i >= value.length - 1 || i < 0 ? -1 : i + 1 );
                 return false;
             }
-        }, '编辑' + intToABC(i >= 0 ? i : this.value.length) + '选项');
+        }, '编辑' + intToABC(i >= 0 ? i : this.value().length) + '选项');
     }
 
     private getNewOptionLabel(): string {
         let label = '选项';
-        switch (this.value.length) {
+        const value = this.value();
+        switch (value.length) {
             case 0:
                 return '对';
             case 1:
-                return this.value[0].content === '对' ? '错' : '对';
+                return value[0].content === '对' ? '错' : '对';
             default:
                 break;
         }
@@ -95,10 +97,10 @@ export class OptionInputComponent {
     }
 
     public tapAddOption() {
-        if (!this.editable) {
+        if (!this.editable()) {
             return;
         }
-        this.value.push({
+        this.value().push({
             content: this.getNewOptionLabel(),
             is_right: false,
         });
@@ -107,14 +109,14 @@ export class OptionInputComponent {
 
     public tapRemoveOption(event: MouseEvent, i: number) {
         event.stopPropagation();
-        if (!this.editable) {
+        if (!this.editable()) {
             return;
         }
-        this.value.splice(i, 1);
+        this.value().splice(i, 1);
         this.onValueChange();
     }
 
     private onValueChange() {
-        this.valueChange.emit(this.value);
+        this.valueChange.emit(this.value());
     }
 }

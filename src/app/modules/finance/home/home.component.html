@@ -7,9 +7,9 @@
     
     <div class="page-search-bar">
         <div class="form-horizontal-control">
-            <app-date-input [(ngModel)]="queries.start_at" (ngModelChange)="onQueriesChange()"></app-date-input>
+            <app-date-input [(ngModel)]="queries.start_at" (ngModelChange)="onQueriesChange()" />
             ~
-            <app-date-input [(ngModel)]="queries.end_at" (ngModelChange)="onQueriesChange()"></app-date-input>
+            <app-date-input [(ngModel)]="queries.end_at" (ngModelChange)="onQueriesChange()" />
 
             <div class="tab-bar">
                 @for (item of typeItems; track $index;let i = $index) {

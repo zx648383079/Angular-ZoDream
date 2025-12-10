@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -13,6 +13,11 @@ import { ActivityService } from '../activity.service';
   styleUrls: ['./discount.component.scss']
 })
 export class DiscountComponent implements OnInit {
+    private service = inject(ActivityService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IActivity<any>[] = [];
     public hasMore = true;
@@ -23,13 +28,6 @@ export class DiscountComponent implements OnInit {
         per_page: 20,
         keywords: '',
     };
-
-    constructor(
-        private service: ActivityService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.tapRefresh();

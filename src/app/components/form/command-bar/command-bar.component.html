@@ -1,7 +1,7 @@
 @if (dropVisible) {
 <div class="tablet-mask tablet-visible" (click)="dropVisible = false"></div>
 }
-<div class="command-bar" [ngClass]="{'--with-open': dropVisible, 'command-flow-left': flowLeft}">
+<div class="command-bar" [ngClass]="{'--with-open': dropVisible, 'command-flow-left': flowLeft()}">
     <ul class="command-primary-bar">
         @for (item of inlineItems; track $index) {
         <li [ngClass]="item.color" (click)="tapItem(item)" [title]="item.name">

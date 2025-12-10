@@ -113,8 +113,8 @@
                 }
             </tbody>
           </table>
-          <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-          <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+          <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+          <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>
 @if (panelOpen) {
@@ -148,19 +148,19 @@
         <div class="form-group">
             <div class="input-group-control">
                 <label for="is_best">精品</label>
-                <app-switch name="is_best" id="is_best" [ngModel]="queries.is_best"></app-switch>
+                <app-switch name="is_best" id="is_best" [ngModel]="queries.is_best" />
             </div>
         </div>
         <div class="form-group">
             <div class="input-group-control">
                 <label for="is_new">新品</label>
-                <app-switch name="is_new" id="is_new" [ngModel]="queries.is_new"></app-switch>
+                <app-switch name="is_new" id="is_new" [ngModel]="queries.is_new" />
             </div>
         </div>
         <div class="form-group">
             <div class="input-group-control">
                 <label for="is_hot">热门</label>
-                <app-switch name="is_hot" id="is_hot" [ngModel]="queries.is_hot"></app-switch>
+                <app-switch name="is_hot" id="is_hot" [ngModel]="queries.is_hot" />
             </div>
         </div>
         <div class="form-group">

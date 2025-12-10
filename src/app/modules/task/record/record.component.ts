@@ -1,7 +1,4 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { twoPad } from '../../../theme/utils';
 import { TaskService } from '../task.service';
@@ -13,6 +10,9 @@ import { TaskService } from '../task.service';
     styleUrls: ['./record.component.scss']
 })
 export class RecordComponent implements OnInit {
+    private service = inject(TaskService);
+    private route = inject(ActivatedRoute);
+
 
     public date = '';
     public type = 0;
@@ -20,11 +20,6 @@ export class RecordComponent implements OnInit {
     public items: any[] = [];
 
     public typeItems = ['按天', '按周', '按月'];
-
-    constructor(
-        private service: TaskService,
-        private route: ActivatedRoute,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

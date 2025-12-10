@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
@@ -14,6 +14,11 @@ import { AttributeService } from '../../attribute.service';
   styleUrls: ['./edit-attribute.component.scss']
 })
 export class EditAttributeComponent implements OnInit {
+    private service = inject(AttributeService);
+    private fb = inject(FormBuilder);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -30,12 +35,7 @@ export class EditAttributeComponent implements OnInit {
     public groupItems: IAttributeGroup[] = [];
     public propertyGroups: string[] = [];
 
-    constructor(
-        private service: AttributeService,
-        private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.service.groupAll().subscribe(res => {
             this.groupItems = res.data;
             this.onGroupChange();

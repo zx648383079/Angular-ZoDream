@@ -1,6 +1,6 @@
 <ul class="tree-box">
-    @for (item of items; track $index) {
-        <ng-container *ngTemplateOutlet="fileItemTpl;context: {$implicit: item}"></ng-container>
+    @for (item of items(); track $index) {
+        <ng-container *ngTemplateOutlet="fileItemTpl;context: {$implicit: item}" />
     }
 </ul>
 <ng-template #fileItemTpl let-file>
@@ -10,7 +10,7 @@
                 @if (file.children) {
                 <ul>
                     @for (it of file.children; track $index) {
-                        <ng-container *ngTemplateOutlet="fileItemTpl;context: {$implicit: it}"></ng-container>
+                        <ng-container *ngTemplateOutlet="fileItemTpl;context: {$implicit: it}" />
                     }
                 </ul>
                 }

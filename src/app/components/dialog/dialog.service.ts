@@ -1,4 +1,4 @@
-import { ComponentRef, Injectable, Injector, Type, ViewContainerRef } from '@angular/core';
+import { ComponentRef, inject, Injectable, Injector, Type, ViewContainerRef } from '@angular/core';
 import { IErrorResponse, IErrorResult } from '../../theme/models/page';
 import { DialogConfirmComponent } from './confirm/dialog-confirm.component';
 import { DialogInjector, DialogPackage } from './dialog.injector';
@@ -26,12 +26,7 @@ export class DialogService {
     
     private dialogItems: IDialogRef[] = [];
     public containerRef: ViewContainerRef;
-
-    constructor(
-        private injector: Injector,
-    ) {
-        
-    }
+    private injector = inject(Injector);
 
     private formatError(error: string|IErrorResult|IErrorResponse): string {
         if (typeof error != 'object') {

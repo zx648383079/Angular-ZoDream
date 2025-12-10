@@ -19,7 +19,7 @@
                         @if (group.required) {
                             <ng-container i18n>Always active</ng-container>
                         } @else {
-                            <app-switch [(ngModel)]="group.active" onLabel="Active" offLabel="Disable"></app-switch>
+                            <app-switch [(ngModel)]="group.active" onLabel="Active" offLabel="Disable" />
                         }
                     </div>
                 </div>

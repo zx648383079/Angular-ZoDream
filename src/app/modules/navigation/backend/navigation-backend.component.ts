@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { NavigationService } from './navigation.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { NavigationService } from './navigation.service';
   styleUrls: ['./navigation-backend.component.scss']
 })
 export class NavigationBackendComponent implements OnInit {
+    private service = inject(NavigationService);
+
 
     public isLoading = true;
     public data: any = {};
-
-    constructor(
-        private service: NavigationService,
-    ) { }
 
     ngOnInit() {
         this.service.statistics().subscribe(res => {

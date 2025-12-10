@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, input, output } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { IBlockItem, IExtraRule, formatLinkRule } from '../../../../components/link-rule';
 
@@ -9,16 +9,14 @@ import { IBlockItem, IExtraRule, formatLinkRule } from '../../../../components/l
     styleUrls: ['./post-block.component.scss']
 })
 export class PostBlockComponent implements OnChanges {
+    private toastrService = inject(DialogService);
 
-    @Input() public value: any;
-    @Input() public readable = true;
-    @Output() public tapped = new EventEmitter<IBlockItem>();
+
+    public readonly value = input<any>(undefined);
+    public readonly readable = input(true);
+    public readonly tapped = output<IBlockItem>();
 
     public blcokItems: IBlockItem[];
-
-    constructor(
-        private toastrService: DialogService,
-    ) { }
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes.value) {
@@ -64,7 +62,7 @@ export class PostBlockComponent implements OnChanges {
     }
 
     private formatContent(conent: any) {
-        if (!this.readable) {
+        if (!this.readable()) {
             return [];
         }
         if (typeof conent !== 'object') {

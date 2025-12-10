@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -15,6 +15,11 @@ import { SwiperEvent } from '../../../../components/swiper';
     styleUrls: ['./post.component.scss']
 })
 export class PostComponent implements OnInit {
+    private service = inject(MicroService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
 
     public items: IMicro[] = [];
     public hasMore = true;
@@ -28,13 +33,6 @@ export class PostComponent implements OnInit {
         topic: 0,
     };
     public isReview = false;
-
-    constructor(
-        private service: MicroService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

@@ -1,5 +1,5 @@
 <div class="container">
-    <app-publish-form (published)="onPublish($event)"></app-publish-form>
+    <app-publish-form (published)="onPublish($event)" />
 
     <div class="row">
         <div class="col-md-4">
@@ -87,9 +87,9 @@
                                     }
                                 </p>
                                 <div class="content">
-                                    <app-rule-block [value]="item.content" [rules]="item.extra_rule" (tapped)="tapBlock($event)"></app-rule-block>
+                                    <app-rule-block [value]="item.content" [rules]="item.extra_rule" (tapped)="tapBlock($event)" />
                                 </div>
-                                <app-attachment-viewer [items]="item.attachment"></app-attachment-viewer>
+                                <app-attachment-viewer [items]="item.attachment" />
                             </div>
                         </div>
             
@@ -120,7 +120,7 @@
                             </a>
                         </div>
                         <div class="comment-box">
-                            <app-comment-viewer [micro]="item.id" [open]="item.comment_open" [user]="authUser" (loadMore)="tapViewDetail(item)"></app-comment-viewer>
+                            <app-comment-viewer [micro]="item.id" [open]="item.comment_open" [user]="authUser" (loadMore)="tapViewDetail(item)" />
                         </div>
                     </div>
                 }
@@ -141,7 +141,7 @@
             <textarea class="form-control" [(ngModel)]="editData.content" i18n-placeholder placeholder="Please enter the reason for forwarding"></textarea>
         </div>
         <div class="actions">
-            <app-switch [(ngModel)]="editData.is_comment"></app-switch>
+            <app-switch [(ngModel)]="editData.is_comment" />
             <ng-container i18n>
                 Also comment to {{ forwardItem ? forwardItem.user.name : '' }}
             </ng-container>

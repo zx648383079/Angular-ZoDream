@@ -1,7 +1,4 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
     IBook,
     IChapter
@@ -21,15 +18,13 @@ import {
     styleUrls: ['./chapter.component.scss']
 })
 export class ChapterComponent implements OnInit {
+    private service = inject(BookService);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+
 
     public data: IBook;
     public chapterItems: IChapter[] = [];
-
-    constructor(
-        private service: BookService,
-        private route: ActivatedRoute,
-        private router: Router,
-    ) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {

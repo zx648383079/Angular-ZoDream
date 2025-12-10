@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, forwardRef } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { Component, input, model } from '@angular/core';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -9,39 +9,18 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
     host: {
         class: 'control-inline-group',
     },
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => EditorSwitchInputComponent),
-        multi: true
-    }]
 })
-export class EditorSwitchInputComponent implements ControlValueAccessor {
+export class EditorSwitchInputComponent implements FormValueControl<boolean> {
 
-    @Input() public header: string = '';
-    public value = false;
-    public disabled = false;
-    private onChange: any = () => {};
-    private onTouch: any = () => {};
+    public readonly header = input<string>('');
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<boolean>(false);
 
     public get isEmpty() {
         return !this.value;
     }
 
     public tapEmpty() {
-        this.value = false;
+        this.value.set(false);
     }
-    
-    writeValue(obj: any): void {
-        this.value = !!obj;
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
-    }
-
 }

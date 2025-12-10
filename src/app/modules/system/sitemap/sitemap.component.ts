@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, inject, viewChild } from '@angular/core';
 import { SystemService } from '../system.service';
 import { ButtonEvent } from '../../../components/form';
 
@@ -9,14 +9,12 @@ import { ButtonEvent } from '../../../components/form';
     styleUrls: ['./sitemap.component.scss']
 })
 export class SitemapComponent implements OnInit {
+    private service = inject(SystemService);
 
-    @ViewChild('cmd', {static: false}) 
-    private box: ElementRef<HTMLDivElement>;
+
+    private readonly box = viewChild<ElementRef<HTMLDivElement>>('cmd');
 
     public items: any[] = [];
-
-    constructor(
-        private service: SystemService,) { }
 
     ngOnInit() {
     }
@@ -49,7 +47,7 @@ export class SitemapComponent implements OnInit {
                 } else {
                     this.items.push(lines[i ++]);
                 }
-                this.box.nativeElement.scrollTop = this.box.nativeElement.scrollHeight;
+                this.box().nativeElement.scrollTop = this.box().nativeElement.scrollHeight;
         }, Math.max(16, Math.floor(Math.min(lines.length * 100, 10000) / lines.length)));
     }
 

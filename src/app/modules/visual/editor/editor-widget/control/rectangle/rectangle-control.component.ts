@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { Widget } from '../../../model';
 
 @Component({
@@ -9,7 +9,7 @@ import { Widget } from '../../../model';
 })
 export class RectangleControlComponent  {
 
-    @Input() public value: Widget;
+    public readonly value = input<Widget>(undefined);
 
     constructor() { }
 

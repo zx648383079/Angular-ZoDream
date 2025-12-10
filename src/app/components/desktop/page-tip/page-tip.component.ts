@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
 })
 export class PageTipComponent {
 
-    @Input() public title = $localize `Tip`;
+    public readonly title = input($localize `Tip`);
 
     public isMin = false;
 

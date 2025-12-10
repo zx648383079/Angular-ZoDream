@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IAuthor } from '../../../model';
@@ -13,6 +13,12 @@ import { DialogService } from '../../../../../components/dialog';
   styleUrls: ['./author-detail.component.scss']
 })
 export class AuthorDetailComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(BookService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private uploadService = inject(FileUploadService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -21,14 +27,6 @@ export class AuthorDetailComponent implements OnInit {
     });
 
     public data: IAuthor;
-
-    constructor(
-        private fb: FormBuilder,
-        private service: BookService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private uploadService: FileUploadService,
-    ) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {

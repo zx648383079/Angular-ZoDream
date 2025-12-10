@@ -1,9 +1,4 @@
-import {
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewChild
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
 import {
     DiskService
 } from '../disk.service';
@@ -37,17 +32,19 @@ interface ICrumb {
     styleUrls: ['./catalog.component.scss']
 })
 export class CatalogComponent implements OnInit, OnDestroy {
+    private service = inject(DiskService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private uploadService = inject(FileUploadService);
+    private searchService = inject(SearchService);
+    private themeService = inject(ThemeService);
 
-    @ViewChild(PullToRefreshComponent)
-    public pullBox: PullToRefreshComponent;
-    @ViewChild(UploaderComponent)
-    private uploader: UploaderComponent;
-    @ViewChild(MoviePlayerComponent)
-    private moviePlayer: PlayerEvent;
-    @ViewChild(MusicPlayerComponent)
-    private musicPlayer: PlayerEvent;
-    @ViewChild(ImagePlayerComponent)
-    private imagePlayer: PlayerEvent;
+
+    public readonly pullBox = viewChild(PullToRefreshComponent);
+    private readonly uploader = viewChild(UploaderComponent);
+    private readonly moviePlayer = viewChild(MoviePlayerComponent);
+    private readonly musicPlayer = viewChild(MusicPlayerComponent);
+    private readonly imagePlayer = viewChild(ImagePlayerComponent);
 
     public playerMode = 0; // 1 视频 2 音频 3 图片
     public viewMode = false;
@@ -74,15 +71,6 @@ export class CatalogComponent implements OnInit, OnDestroy {
     public editData: any = {};
     public playerStyle: any = {};
     private subItems = new Subscription();
-
-    constructor(
-        private service: DiskService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private uploadService: FileUploadService,
-        private searchService: SearchService,
-        private themeService: ThemeService,
-    ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -213,13 +201,13 @@ export class CatalogComponent implements OnInit, OnDestroy {
             let player: PlayerEvent;
             if (item.type === 'image') {
                 this.playerMode = 3;
-                player = this.imagePlayer;
+                player = this.imagePlayer();
             } else if (item.type === 'music') {
                 this.playerMode = 2;
-                player = this.musicPlayer;
+                player = this.musicPlayer();
             } else if (item.type === 'movie') {
                 this.playerMode = 1;
-                player = this.moviePlayer;
+                player = this.moviePlayer();
             } else {
                 return;
             }
@@ -299,7 +287,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
     }
 
     public tapUpload(e: any) {
-        this.uploader.visible = true;
+        this.uploader().visible = true;
         this.onUploading(e.target.files as FileList);
     }
 
@@ -319,7 +307,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
             created_at: new Date(),
             file: undefined,
         };
-        this.uploader.append(item);
+        this.uploader().append(item);
         hasher.hash(file).then((md5: string) => {
             item.md5 = md5;
             item.status = 4;
@@ -332,7 +320,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
                 parent_id: this.lastFolder,
             }, md5);
             item.file.$progress.subscribe(p => {
-                this.uploader.formatProgress(item, p);
+                this.uploader().formatProgress(item, p);
             })
             item.file.$finish.subscribe(res => {
                 this.items.push(this.formatItem(res));
@@ -431,7 +419,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
             return;
         }
         this.isLoading = true;
-        this.pullBox?.startLoad();
+        this.pullBox()?.startLoad();
         const query = emptyValidate(this.queries.keywords) && emptyValidate(this.queries.type) ? this.service.getCatalog({
             id: this.lastFolder,
             path: this.path,
@@ -450,11 +438,11 @@ export class CatalogComponent implements OnInit, OnDestroy {
                     return this.formatItem(i);
                 });
                 this.items = page < 2 ? items : [].concat(this.items, items);
-                this.pullBox?.endLoad();
+                this.pullBox()?.endLoad();
             }, 
             error: () => {
                 this.isLoading = false;
-                this.pullBox?.endLoad();
+                this.pullBox()?.endLoad();
             }
         });
     }

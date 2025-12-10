@@ -7,7 +7,7 @@
     </div>
     
     <div class="comment-form">
-        <app-text-editor [(ngModel)]="commentData.content" [disabled]="!user" height="200" placeholder="Leave a Comment"></app-text-editor>
+        <app-text-editor [(ngModel)]="commentData.content" [disabled]="!user" height="200" placeholder="Leave a Comment" />
         <div class="form-group">
             <app-action-button class="btn btn-primary" [disabled]="!user" (tapped)="tapComment($event)" i18n>Post Comment</app-action-button>
         </div>
@@ -36,7 +36,7 @@
                     </div>
                 </div>
                 <div class="comment-content">
-                    <app-rule-block [value]="item.content" [rules]="item.extra_rule" ></app-rule-block>
+                    <app-rule-block [value]="item.content" [rules]="item.extra_rule"  />
                 </div>
                 <div class="comment-footer">
                     <i class="iconfont icon-reply"></i>
@@ -56,7 +56,7 @@
                             </div>
                         </div>
                         <div class="comment-content">
-                            <app-rule-block [value]="it.content" [rules]="it.extra_rule" ></app-rule-block>
+                            <app-rule-block [value]="it.content" [rules]="it.extra_rule"  />
                         </div>
                         <div class="comment-footer">
                             <i class="iconfont icon-reply"></i>
@@ -73,7 +73,7 @@
        }
 
 
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>

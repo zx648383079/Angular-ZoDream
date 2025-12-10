@@ -1,69 +1,44 @@
-import { Component, forwardRef, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, effect, input, model } from '@angular/core';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
     selector: 'app-letter-input',
     templateUrl: './letter-input.component.html',
     styleUrls: ['./letter-input.component.scss'],
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => LetterInputComponent),
-        multi: true
-    }]
 })
-export class LetterInputComponent implements ControlValueAccessor, OnChanges {
+export class LetterInputComponent implements FormValueControl<string> {
 
-    @Input() public length = 4;
+    public readonly length = input(4);
     public items: string[] = ['', '', '', ''];
-    public value = '';
-    public disabled = false;
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<string>('');
     public isEnabled = false;
 
-    onChange: any = () => {};
-    onTouch: any = () => {};
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.length) {
-            this.items = Array.from({length: changes.length.currentValue}, _ => '');
-        }
+    constructor() {
+        effect(() => this.items = Array.from({length: this.length()}, _ => ''));
+        effect(() => this.refresh(this.value()));
     }
 
-    public onValueChanged() {
-        this.refresh();
-        if (this.value.length == this.length) 
+    public onValueChanged(value: string) {
+        this.refresh(value);
+        if (value.length == this.length()) 
         {
-            this.onChange(this.value);
+            this.value.set(value);
         }
     }
 
     public onFocus() {
         this.isEnabled = true;
-        this.onTouch();
     }
 
     public onBlur() {
         this.isEnabled = false;
-        this.onTouch();
     }
 
-    private refresh() {
+    private refresh(value: string) {
         for (let i = 0; i < this.items.length; i++) {
-            this.items[i] = i >= this.value.length ? '' : this.value.charAt(i);
+            this.items[i] = i >= value.length ? '' : value.charAt(i);
         }
-    }
-
-    writeValue(obj: any): void {
-        this.value = !obj ? '' : obj;
-        this.refresh();
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
     }
 }

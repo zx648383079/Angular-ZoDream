@@ -10,7 +10,7 @@
         <div class="align-center">
             <div class="rate">{{ subtotal.favorable_rate }}%</div>
             <div class="score">
-                <app-star [ngModel]="subtotal.avg"></app-star>
+                <app-star [ngModel]="subtotal.avg" />
             </div>
         </div>
         <div class="tag-box">
@@ -36,7 +36,7 @@
                 </div>
                 <div>
                     <div class="score">
-                        <app-star [ngModel]="item.rank"></app-star>
+                        <app-star [ngModel]="item.rank" />
                     </div>
                     <div class="attr">
                     规格: 雾白
@@ -58,6 +58,6 @@
         
     </div>
 
-    <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
 </div>
 }

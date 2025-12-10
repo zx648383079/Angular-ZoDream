@@ -1,6 +1,6 @@
 <i class="control-updated-tag" [hidden]="isEmpty" (click)="tapEmpty()"></i>
-@if (header) {
-<label >{{ header }}</label>
+@if (header()) {
+<label >{{ header() }}</label>
 }
 <div class="control-popup-target">
     <div class="color-icon" (click)="visible = !visible">

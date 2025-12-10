@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { ActivityService } from '../../activity.service';
 
@@ -9,9 +9,11 @@ import { ActivityService } from '../../activity.service';
   styleUrls: ['./auction-log.component.scss']
 })
 export class AuctionLogComponent implements OnChanges {
+    service = inject(ActivityService);
 
-    @Input() public activity = 0;
-    @Input() public init = false;
+
+    public readonly activity = input(0);
+    public readonly init = input(false);
     public items: any[] = [];
     public subtotal: any;
     public hasMore = true;
@@ -24,19 +26,15 @@ export class AuctionLogComponent implements OnChanges {
     };
     private booted = 0;
 
-    constructor(
-        public service: ActivityService,
-    ) { }
-
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.activity > 0 && this.booted !== this.activity) {
+        if (changes.init && changes.init.currentValue && this.activity() > 0 && this.booted !== this.activity()) {
             this.boot();
         }
     }
 
     private boot() {
-        this.booted = this.activity;
-        if (this.activity < 1) {
+        this.booted = this.activity();
+        if (this.activity() < 1) {
             return;
         }
         this.tapRefresh();
@@ -63,7 +61,7 @@ export class AuctionLogComponent implements OnChanges {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.auctionLogList({...queries, activity: this.activity}).subscribe({
+        this.service.auctionLogList({...queries, activity: this.activity()}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;

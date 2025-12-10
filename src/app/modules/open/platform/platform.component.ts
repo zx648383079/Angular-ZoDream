@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IPlatform } from '../../../theme/models/open';
@@ -14,6 +14,11 @@ import { SearchService } from '../../../theme/services';
   styleUrls: ['./platform.component.scss']
 })
 export class PlatformComponent implements OnInit {
+    private service = inject(OpenService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
 
     public items: IPlatform[] = [];
     public hasMore = true;
@@ -25,14 +30,6 @@ export class PlatformComponent implements OnInit {
         keywords: ''
     };
     public reviewable = false;
-
-    constructor(
-        private service: OpenService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

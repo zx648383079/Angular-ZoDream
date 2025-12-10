@@ -1,15 +1,17 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { IGoods, IProduct } from '../../../model';
 import { HttpClient } from '@angular/common/http';
 import { IPage } from '../../../../../theme/models/page';
 
 @Component({
     standalone: false,
-  selector: 'app-search-panel',
-  templateUrl: './search-panel.component.html',
-  styleUrls: ['./search-panel.component.scss']
+    selector: 'app-search-panel',
+    templateUrl: './search-panel.component.html',
+    styleUrls: ['./search-panel.component.scss']
 })
 export class SearchPanelComponent {
+    private http = inject(HttpClient);
+
 
     public keywords = '';
     public items: IGoods[] = [];
@@ -17,16 +19,10 @@ export class SearchPanelComponent {
     public selected: IGoods;
     public selectedChild: IProduct;
     public childVisible = false;
-    @Output() public valueChange = new EventEmitter<{
+    public readonly valueChange = output<{
         item: IGoods;
         child: IProduct;
     }>();
-
-    constructor(
-        private http: HttpClient,
-    ) {
-
-    }
 
     public onKeyDown(event: KeyboardEvent) {
         if (event.key !== 'Enter') {

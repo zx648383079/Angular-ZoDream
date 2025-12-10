@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -20,6 +20,13 @@ import { mobileValidator, passwordValidator } from '../../../../components/deskt
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private router = inject(Router);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private authService = inject(AuthService);
+    private store = inject<Store<ShopAppState>>(Store);
+
 
     public tabIndex = 0;
     private redirectUri: string;
@@ -46,14 +53,7 @@ export class AuthComponent implements OnInit {
         };
     }
 
-    constructor(
-        private fb: FormBuilder,
-        private router: Router,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private authService: AuthService,
-        private store: Store<ShopAppState>,
-    ) {
+    constructor() {
         this.store.select(selectAuthStatus).subscribe(
             data => {
                 if (!data.guest) {

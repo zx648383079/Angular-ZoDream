@@ -17,7 +17,7 @@
     <a class="btn btn-success pull-right tablet-collapse" routerLink="create" i18n>Create Document</a>
 </div>
 
-<app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+<app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
 
 <div class="tablet-collapse">
     @for (item of items; track $index) {
@@ -74,4 +74,4 @@
 
 
 
-<app-pagination [total]="total" [(page)]="queries.page" (pageChange)="tapPage()" [perPage]="queries.per_page"></app-pagination>
+<app-pagination [total]="total" [(page)]="queries.page" (pageChange)="tapPage()" [perPage]="queries.per_page" />

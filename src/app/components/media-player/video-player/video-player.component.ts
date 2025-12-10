@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnChanges, OnDestroy, Renderer2, SimpleChanges, inject, input, output, viewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ScreenFull, mediaIsFrame } from '../util';
 
@@ -9,12 +9,14 @@ import { ScreenFull, mediaIsFrame } from '../util';
     styleUrls: ['./video-player.component.scss']
 })
 export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy {
+    private sanitizer = inject(DomSanitizer);
+    private render = inject(Renderer2);
 
-    @ViewChild('playerVideo')
-    private videoElement: ElementRef<HTMLVideoElement>;
-    @Input() public src: string;
-    @Input() public cover: string;
-    @Output() public ended = new EventEmitter<void>();
+
+    private readonly videoElement = viewChild<ElementRef<HTMLVideoElement>>('playerVideo');
+    public readonly src = input<string>(undefined);
+    public readonly cover = input<string>(undefined);
+    public readonly ended = output<void>();
     public paused = true;
     public booted = false;
     public isFrame = false;
@@ -27,13 +29,9 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy
     private volumeLast = 100;
     private bootedEvent = false;
 
-    constructor(
-        private sanitizer: DomSanitizer,
-        private render: Renderer2,
-    ) { }
-
     public get videoPlayer() {
-        return this.videoElement && this.videoElement.nativeElement ? this.videoElement.nativeElement : undefined;
+        const videoElement = this.videoElement();
+        return videoElement && videoElement.nativeElement ? videoElement.nativeElement : undefined;
     }
 
     ngOnDestroy() {
@@ -174,6 +172,7 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy
         });
         video.addEventListener('ended', () => {
             this.paused = true;
+            // TODO: The 'emit' function requires a mandatory void argument
             this.ended.emit();
         });
         video.addEventListener('pause', () => {

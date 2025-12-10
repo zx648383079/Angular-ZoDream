@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnDestroy, SimpleChanges, input, output } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -8,10 +8,10 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleCha
 })
 export class CountdownComponent implements OnChanges, OnDestroy {
 
-    @Input() public label = '';
-    @Input() public end: any;
-    @Input() public auto = false;
-    @Output() public finished = new EventEmitter();
+    public readonly label = input('');
+    public readonly end = input<any>(undefined);
+    public readonly auto = input(false);
+    public readonly finished = output();
 
     public hour = 0;
     public minute = 0;
@@ -24,7 +24,7 @@ export class CountdownComponent implements OnChanges, OnDestroy {
     ngOnChanges(changes: SimpleChanges) {
         if (changes.end) {
             this.formatEnd = this.parseTime(changes.end.currentValue);
-            if (this.auto) {
+            if (this.auto()) {
                 this.startTimer();
             }
         }
@@ -34,7 +34,7 @@ export class CountdownComponent implements OnChanges, OnDestroy {
     }
 
     ngOnDestroy() {
-        if (this.auto) {
+        if (this.auto()) {
             this.stopTimer();
         }
     }

@@ -11,19 +11,19 @@
         </div>
         <label [for]="'editor-file' + uploadKey" class="tool-item" i18n-title title="Insert file">
             <i class="iconfont icon-download"></i>
-            <input type="file" name="file" [id]="'editor-file' + uploadKey" (change)="uploadFile($event)" [disabled]="disable" multiple/>
+            <input type="file" name="file" [id]="'editor-file' + uploadKey" (change)="uploadFile($event)" [disabled]="disabled()" multiple/>
         </label>
         <label [for]="'editor-img' + uploadKey" class="tool-item" i18n-title title="Insert image">
             <i class="iconfont icon-image"></i>
-            <input type="file" name="file" [id]="'editor-img' + uploadKey" (change)="uploadImage($event)" accept="image/*" [disabled]="disable" multiple/>
+            <input type="file" name="file" [id]="'editor-img' + uploadKey" (change)="uploadImage($event)" accept="image/*" [disabled]="disabled()" multiple/>
         </label>
         <label [for]="'editor-video' + uploadKey" class="tool-item" i18n-title title="Insert video">
             <i class="iconfont icon-film"></i>
-            <input type="file" name="file" [id]="'editor-video' + uploadKey" (change)="uploadVideo($event)" accept="video/*" [disabled]="disable" multiple/>
+            <input type="file" name="file" [id]="'editor-video' + uploadKey" (change)="uploadVideo($event)" accept="video/*" [disabled]="disabled()" multiple/>
         </label>
         <label [for]="'editor-audio' + uploadKey" class="tool-item" i18n-title title="Insert audio">
             <i class="iconfont icon-music"></i>
-            <input type="file" name="file" [id]="'editor-audio' + uploadKey" (change)="uploadAudio($event)" accept="audio/*" [disabled]="disable" multiple/>
+            <input type="file" name="file" [id]="'editor-audio' + uploadKey" (change)="uploadAudio($event)" accept="audio/*" [disabled]="disabled()" multiple/>
         </label>
         <div class="tool-item" i18n-title title="Insert Vote" (click)="tapTool('vote')">
             <i class="iconfont icon-bar-chart"></i>
@@ -39,7 +39,8 @@
         </div>
     </div>
     <div class="editor-area">
-        <textarea #editorArea [ngStyle]="areaStyle" [(ngModel)]="value" (ngModelChange)="onValueChange()" [disabled]="disable"  spellcheck="false" [placeholder]="placeholder"></textarea>
+        <textarea #editorArea [ngStyle]="areaStyle" [value]="value()" (input)="value.set($event.target.value)"
+        [disabled]="disabled()"  spellcheck="false" [placeholder]="placeholder()"></textarea>
         <div class="editor-footer" i18n>{{ size }} words</div>
     </div>
 </div>
@@ -81,7 +82,7 @@
           </div>
           <div class="form-group">
             <label for="content" i18n>Switch to card</label>
-            <app-switch [(ngModel)]="dialogData.card"></app-switch>
+            <app-switch [(ngModel)]="dialogData.card" />
           </div>
         }
         @case (4) {

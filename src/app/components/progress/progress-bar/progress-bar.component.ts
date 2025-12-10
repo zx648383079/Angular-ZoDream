@@ -1,12 +1,11 @@
 import {
-    Component,
-    Input,
-    Output,
-    EventEmitter,
-    ViewChild,
-    ElementRef,
-    AfterViewInit,
-    HostListener
+  Component,
+  ElementRef,
+  AfterViewInit,
+  HostListener,
+  input,
+  viewChild,
+  model
 } from '@angular/core';
 
 @Component({
@@ -17,31 +16,29 @@ import {
 })
 export class ProgressBarComponent implements AfterViewInit {
 
-    @ViewChild('progressBox')
-    private box: ElementRef;
+    private readonly box = viewChild<ElementRef>('progressBox');
 
     /**
      * 当前值
      */
-    @Input() public value = 0;
+    public readonly value = model(0);
     /**
      * 最大值
      */
-    @Input() public max = 100;
+    public readonly max = input(100);
     /**
      * 最小移动值
      */
-    @Input() public min = 0;
-    @Input() public label = true;
-    @Input() public theme = 'progress'; // .progress-primary
-    @Output() public valueChange = new EventEmitter();
+    public readonly min = input(0);
+    public readonly label = input(true);
+    public readonly theme = input('progress'); // .progress-primary
     private isMouseMove = false;
 
     constructor() {}
 
     public get progressStyle() {
         return {
-            width: this.max < 1 ? 0 : (this.value * 100 / this.max)  + '%'
+            width: this.max() < 1 ? 0 : (this.value() * 100 / this.max())  + '%'
         };
     }
 
@@ -50,7 +47,7 @@ export class ProgressBarComponent implements AfterViewInit {
         if (!this.isMouseMove) {
             return;
         }
-        const div = this.box.nativeElement as HTMLDivElement;
+        const div = this.box().nativeElement as HTMLDivElement;
         const bound = div.getBoundingClientRect();
         const offset = event.clientX - bound.left;
         this.tapProgress(offset * 100 / bound.width);
@@ -62,7 +59,7 @@ export class ProgressBarComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        const div = this.box.nativeElement as HTMLDivElement;
+        const div = this.box().nativeElement as HTMLDivElement;
         div.addEventListener('click', (event) => {
             const bound = div.getBoundingClientRect();
             this.tapProgress((event.clientX - bound.left) * 100 / bound.width);
@@ -84,6 +81,7 @@ export class ProgressBarComponent implements AfterViewInit {
         } else if (i > 100) {
             i = 100;
         }
-        this.valueChange.emit(this.value = this.max === 100 ? i : (i * this.max / 100));
+        const max = this.max();
+        this.value.set(max === 100 ? i : (i * max / 100));
     }
 }

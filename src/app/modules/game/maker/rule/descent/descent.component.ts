@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { IGameDescent } from '../../../model';
 import { ActivatedRoute } from '@angular/router';
@@ -14,6 +14,11 @@ import { GameMakerService } from '../../game-maker.service';
     styleUrls: ['./descent.component.scss']
 })
 export class DescentComponent implements OnInit {
+    private service = inject(GameMakerService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IGameDescent[] = [];
     public hasMore = true;
@@ -26,14 +31,6 @@ export class DescentComponent implements OnInit {
         project: 0
     };
     public editData: IGameDescent = {} as any;
-
-    constructor(
-        private service: GameMakerService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.parent.params.subscribe(params => {

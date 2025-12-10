@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
@@ -7,10 +7,8 @@ import { IBook, ICategory, IAuthor, IChapter, IBookList, IBookListItem, IBookRec
 
 @Injectable()
 export class BookService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public getHot(): Observable<string[]> {
         return this.http.get<IData<string>>('book/home/hot').pipe(map(item => {

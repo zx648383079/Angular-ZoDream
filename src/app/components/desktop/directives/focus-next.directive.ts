@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { Directive, ElementRef, HostListener, OnDestroy, OnInit, inject, input } from '@angular/core';
 
 
 @Directive({
@@ -6,21 +6,19 @@ import { Directive, ElementRef, HostListener, Input, OnDestroy, OnInit } from '@
     selector: '[appFocusNext]'
 })
 export class FocusNextDirective implements OnInit, OnDestroy {
+    private elementRef = inject(ElementRef);
+
 
     static InputItems: FocusNextDirective[] = [];
 
     /**
      * 分组
      */
-    @Input() public appFocusNext: any = 0;
+    public readonly appFocusNext = input<any>(0);
     /**
      * 排序，越大越往后
      */
-    @Input() public order = 0;
-
-    constructor(
-        private elementRef: ElementRef,
-    ) { }
+    public readonly order = input(0);
 
     @HostListener('keydown', ['$event'])
     public onKeydown(e: KeyboardEvent) {
@@ -104,17 +102,18 @@ export class FocusNextDirective implements OnInit, OnDestroy {
         let found = false;
         let next: FocusNextDirective = undefined;
         for (const item of this.InputItems) {
-            if (item.appFocusNext !== source.appFocusNext) {
+            if (item.appFocusNext() !== source.appFocusNext()) {
                 continue;
             }
             if (item === source) {
                 found = true;
                 continue;
             }
-            if (item.order < source.order || (!found && item.order === source.order)) {
+            const order = item.order();
+            if (item.order() < source.order() || (!found && order === order)) {
                 continue;
             }
-            if (item.order === source.order && found) {
+            if (order === order && found) {
                 next = item;
                 break;
             }
@@ -122,7 +121,7 @@ export class FocusNextDirective implements OnInit, OnDestroy {
                 next = item;
                 continue;
             }
-            if (next.order > item.order) {
+            if (order > order) {
                 next = item;
                 continue;
             }

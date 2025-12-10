@@ -1,5 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑角色' : '新增角色'" (submited)="tapSubmit()" [disabled]="form.invalid">
-</app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑角色' : '新增角色'" (submited)="tapSubmit()" [disabled]="form.invalid" />
 
 <div class="container-fluid">
     <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
@@ -36,7 +35,7 @@
             <label>权限</label>
             <div>
                 <ng-select [multiple]="true" [items]="permissionItems" bindValue="id" bindLabel="display_name"
-                    formControlName="permissions" placeholder="选择权限"></ng-select>
+                    formControlName="permissions" placeholder="选择权限" />
             </div>
         </div>
         <div class="btn-group">

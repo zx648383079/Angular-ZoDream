@@ -1,32 +1,32 @@
-<div class="comment-item" [id]="'comment-' + value.id">
+<div class="comment-item" [id]="'comment-' + value().id">
     <div class="item-header">
-        <span class="user">{{ value.name }}</span>
-        <span class="time">{{ value.created_at | ago }}</span>
-        <span class="floor" i18n>{{ value.position }} floor</span>
+        <span class="user">{{ value().name }}</span>
+        <span class="time">{{ value().created_at | ago }}</span>
+        <span class="floor" i18n>{{ value().position }} floor</span>
     </div>
     <div class="item-body">
         <div class="content">
-            <app-rule-block [value]="value.content" [rules]="value.extra_rule" (tapped)="tapBlock($event)"></app-rule-block>
+            <app-rule-block [value]="value().content" [rules]="value().extra_rule" (tapped)="tapBlock($event)" />
         </div>
-        @if (value.reply_count && value.reply_count > 0) {
+        @if (value().reply_count && value().reply_count > 0) {
             @if (expanded) {
                 <span class="expand-icon" (click)="toggleExpand()" i18n>Fold</span>
             } @else {
-                <span class="expand-icon" (click)="toggleExpand()" i18n>Expand({{ value.reply_count }})</span>
+                <span class="expand-icon" (click)="toggleExpand()" i18n>Expand({{ value().reply_count }})</span>
             }
         }
         
         <span>&nbsp;</span>
-        <span class="comment-icon" (click)="tapCommenting(value)"><i class="iconfont icon-commenting"></i></span>
-        <span class="report-icon" (click)="tapReport(value)" i18n>Report</span>
+        <span class="comment-icon" (click)="tapCommenting(value())"><i class="iconfont icon-commenting"></i></span>
+        <span class="report-icon" (click)="tapReport(value())" i18n>Report</span>
         <div class="item-action-bar">
-            <span class="agree-icon" (click)="tapAgree(value)"><i class="iconfont icon-thumbs-up"></i><b>{{ value.agree_count }}</b></span>
-            <span class="disagree-icon" (click)="tapDisagree(value)"><i class="iconfont icon-thumbs-down"></i><b>{{ value.disagree_count }}</b></span>
+            <span class="agree-icon" (click)="tapAgree(value())"><i class="iconfont icon-thumbs-up"></i><b>{{ value().agree_count }}</b></span>
+            <span class="disagree-icon" (click)="tapDisagree(value())"><i class="iconfont icon-thumbs-down"></i><b>{{ value().disagree_count }}</b></span>
         </div>
     </div>
     @if (expanded || editData.parent_id > 0) {
     <div class="item-children">
-        @for (it of value.replies; track $index) {
+        @for (it of value().replies; track $index) {
         <div class="comment-item" [id]="'comment-' + it.id">
             <div class="item-header">
                 <span class="user">{{ it.name }}</span>
@@ -35,7 +35,7 @@
             </div>
             <div class="item-body">
                 <div class="content">
-                    <app-rule-block [value]="it.content" [rules]="it.extra_rule"(tapped)="tapBlock($event)"></app-rule-block>
+                    <app-rule-block [value]="it.content" [rules]="it.extra_rule"(tapped)="tapBlock($event)" />
                 </div>
                 <span>&nbsp;</span>
                 <span class="comment-icon" (click)="tapCommenting(it)"><i class="iconfont icon-commenting"></i></span>
@@ -56,23 +56,23 @@
         @if (editData.parent_id > 0) {
         <div class="book-comment-form">
             <div class="title" i18n>Reply</div>
-            @if (status != 2 && !user) {
+            @if (status() != 2 && !user()) {
             <div class="form-table-control">
                 <div class="form-group">
                     <label i18n>Nickname</label>
-                    <input type="text" class="form-control" [(ngModel)]="guestUser.name" i18n-placeholder placeholder="Please input your nickname">
+                    <input type="text" class="form-control" [(ngModel)]="guestUser().name" i18n-placeholder placeholder="Please input your nickname">
                 </div>
                 <div class="form-group">
                     <label i18n>Email</label>
-                    <input type="email" class="form-control" [(ngModel)]="guestUser.email" i18n-placeholder placeholder="Please input your email">
+                    <input type="email" class="form-control" [(ngModel)]="guestUser().email" i18n-placeholder placeholder="Please input your email">
                 </div>
                 <div class="form-group">
                     <label i18n>Link</label>
-                    <input type="url" class="form-control" [(ngModel)]="guestUser.url" i18n-placeholder placeholder="Please input your link">
+                    <input type="url" class="form-control" [(ngModel)]="guestUser().url" i18n-placeholder placeholder="Please input your link">
                 </div>
             </div>
             }
-            @if (status == 2 && !user) {
+            @if (status() == 2 && !user()) {
                 <div class="comment-mask" i18n>
                     Please 
                     <a (click)="tapComment()">login in</a>

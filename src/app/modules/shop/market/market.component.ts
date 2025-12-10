@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../components/dialog';
@@ -16,6 +16,12 @@ import { ICategory } from '../model';
   styleUrls: ['./market.component.scss']
 })
 export class MarketComponent implements OnInit {
+    private service = inject(ShopService);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private toastrService = inject(DialogService);
+    private store = inject<Store<ShopAppState>>(Store);
+
 
     public categories: ICategory[] = [];
     public tipItems: string[] =  [];
@@ -23,13 +29,7 @@ export class MarketComponent implements OnInit {
     public keywords = '';
     public site: ISite = {} as any;
 
-    constructor(
-        private service: ShopService,
-        private route: ActivatedRoute,
-        private router: Router,
-        private toastrService: DialogService,
-        private store: Store<ShopAppState>,
-    ) {
+    constructor() {
         this.store.select(selectSite).subscribe(site => {
             this.site = site || {} as any;
         });

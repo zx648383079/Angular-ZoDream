@@ -1,7 +1,4 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
     FormBuilder,
     Validators
@@ -27,6 +24,11 @@ import { ButtonEvent } from '../../../components/form';
     styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(TaskService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -41,13 +43,6 @@ export class EditComponent implements OnInit {
     public items: ITask[] = [];
     public editData: ITask = {} as any;
     public shareData: IShare = {} as any;
-
-    constructor(
-        private fb: FormBuilder,
-        private service: TaskService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {

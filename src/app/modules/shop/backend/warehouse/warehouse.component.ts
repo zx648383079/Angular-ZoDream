@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,6 +13,11 @@ import { WarehouseService } from './warehouse.service';
   styleUrls: ['./warehouse.component.scss']
 })
 export class WarehouseComponent implements OnInit {
+    private service = inject(WarehouseService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IWarehouse[] = [];
     public hasMore = true;
@@ -23,13 +28,6 @@ export class WarehouseComponent implements OnInit {
         per_page: 20,
         keywords: '',
     };
-
-    constructor(
-        private service: WarehouseService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
 import { IUploadFile } from '../../../theme/models/open';
 import { IPageQueries } from '../../../theme/models/page';
 import { FileUploadService, SearchService } from '../../../theme/services';
@@ -12,13 +12,16 @@ import { IItem } from '../../../theme/models/seo';
     styleUrls: ['./file-online.component.scss']
 })
 export class FileOnlineComponent implements OnChanges, SearchDialogEvent {
-    @Input() public accept = 'image/*';
-    @Input() public multiple = false;
-    @Input() public placeholder = $localize `Select online file`;
+    private uploadService = inject(FileUploadService);
+    private searchService = inject(SearchService);
+
+    public readonly accept = input('image/*');
+    public readonly multiple = input(false);
+    public readonly placeholder = input($localize `Select online file`);
     /**
      * 是否显示
      */
-    @Input() public visible = false;
+    public readonly visible = input(false);
 
     public items: IUploadFile[] = [];
     public hasMore = true;
@@ -36,18 +39,14 @@ export class FileOnlineComponent implements OnChanges, SearchDialogEvent {
     private confirmFn: (items: IUploadFile|IUploadFile[]) => void;
     private checkFn: (items: IUploadFile[]) => boolean;
 
-    constructor(
-        private uploadService: FileUploadService,
-        private searchService: SearchService,
-    ) { }
-
     ngOnChanges(changes: SimpleChanges) {
         if (changes.accept) {
             this.items = [];
             this.selectedItems = [];
             this.queries.page = 0;
-            this.queries.accept = this.accept;
-            this.typeItems = this.accept === '*/*' || !this.accept ? [
+            this.queries.accept = this.accept();
+            const accept = this.accept();
+            this.typeItems = accept === '*/*' || !accept ? [
                 {name: $localize `All files`, value: '*/*'},
                 {name: $localize `Image`, value: 'image/*'},
                 {name: $localize `Video`, value: 'video/*'},
@@ -88,7 +87,7 @@ export class FileOnlineComponent implements OnChanges, SearchDialogEvent {
     }
 
     public tapSelected(item: IUploadFile) {
-        if (!this.multiple) {
+        if (!this.multiple()) {
             this.selectedItems = [item];
             return;
         }
@@ -105,7 +104,7 @@ export class FileOnlineComponent implements OnChanges, SearchDialogEvent {
         if (this.checkFn && this.checkFn(this.selectedItems) === false) {
             return;
         }
-        if (this.multiple) {
+        if (this.multiple()) {
             this.output(this.selectedItems);
             return;
         }
@@ -156,7 +155,7 @@ export class FileOnlineComponent implements OnChanges, SearchDialogEvent {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        const cb = this.accept.indexOf('image') >= 0 ? this.uploadService.images : this.uploadService.files;
+        const cb = this.accept().indexOf('image') >= 0 ? this.uploadService.images : this.uploadService.files;
         cb.call(this.uploadService, queries).subscribe({
             next: res => {
                 this.isLoading = false;

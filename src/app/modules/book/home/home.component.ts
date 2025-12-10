@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBook, IBookRecord } from '../model';
 import { BookService } from '../book.service';
@@ -12,9 +12,13 @@ import { DialogService } from '../../../components/dialog';
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+    private service = inject(BookService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
 
-    @ViewChild(ContextMenuComponent)
-    public contextMenu: ContextMenuComponent;
+
+    public readonly contextMenu = viewChild(ContextMenuComponent);
     public items: IBookRecord[] = [];
     public page = 1;
     public hasMore = true;
@@ -22,19 +26,12 @@ export class HomeComponent implements OnInit {
     public total = 0;
     public perPage = 20;
 
-    constructor(
-        private service: BookService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) { }
-
     ngOnInit() {
         this.tapRefresh();
     }
 
     public tapContextMenu(e: MouseEvent, item: IBookRecord) {
-        return this.contextMenu.show(e, [
+        return this.contextMenu().show(e, [
             {
                 icon: 'icon-trash',
                 name: '删除',

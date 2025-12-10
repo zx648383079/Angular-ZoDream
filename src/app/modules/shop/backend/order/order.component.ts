@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -14,6 +14,11 @@ import { OrderService } from './order.service';
     styleUrls: ['./order.component.scss'],
 })
 export class OrderComponent implements OnInit {
+    private service = inject(OrderService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
 
     public items: IOrder[] = [];
     public hasMore = true;
@@ -49,12 +54,7 @@ export class OrderComponent implements OnInit {
         fee: 0, 
     }
 
-    constructor(
-        private service: OrderService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {
+    constructor() {
         this.tapRefresh();
     }
 

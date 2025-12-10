@@ -2,7 +2,7 @@
     @if (commentData.parent_id < 1) {
     <div class="book-comment-form">
         <div class="title" i18n>Post a comment</div>
-        @if (status != 2 && !user) {
+        @if (status() != 2 && !user) {
         <div class="form-table-control">
             <div class="form-group">
                 <label i18n>Nickname</label>
@@ -19,7 +19,7 @@
         </div>
         }
         
-        @if (status == 2 && !user) {
+        @if (status() == 2 && !user) {
             <div class="comment-mask" i18n>
                 Please 
                 <a (click)="tapLogin()">login in</a>
@@ -40,7 +40,7 @@
         </div>
         <div id="comment-box">
             @for (item of hotItems; track $index) {
-                <app-comment-item [value]="item" [user]="user"></app-comment-item>
+                <app-comment-item [value]="item" [user]="user" />
             }
         </div>
     </div>
@@ -58,7 +58,7 @@
         <div id="comment-box">
             <app-pull-to-refresh [more]="hasMore" [loading]="isLoading" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
                 @for (item of items; track $index) {
-                    <app-comment-item [value]="item" [user]="user" [status]="status" [guestUser]="guestUser" (commenting)="onReply($event)"></app-comment-item>
+                    <app-comment-item [value]="item" [user]="user" [status]="status()" [guestUser]="guestUser" (commenting)="onReply($event)" />
                 }
             </app-pull-to-refresh>
         </div>

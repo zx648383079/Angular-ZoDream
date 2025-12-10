@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, Renderer2} from '@angular/core';
+import { AfterViewInit, Component, OnInit, Renderer2, inject } from '@angular/core';
 import { EditorService } from './editor.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { EditorService } from './editor.service';
   styleUrls: ['./visual-editor.component.scss']
 })
 export class VisualEditorComponent implements OnInit, AfterViewInit {
+    private service = inject(EditorService);
+    private readonly renderer = inject(Renderer2);
+
 
     public editable = true;
-
-    constructor(
-        private service: EditorService,
-        private readonly renderer: Renderer2,
-    ) {}
 
     ngOnInit() {
         this.renderer.listen(window, 'resize', () => {

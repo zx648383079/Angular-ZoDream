@@ -1,8 +1,7 @@
 import {
-    Component,
-    EventEmitter,
-    Input,
-    Output
+  Component,
+  input,
+  output
 } from '@angular/core';
 import { IChapter } from '../../model';
 import { formatTime } from '../../../../theme/utils';
@@ -17,18 +16,18 @@ export class ChapterCatalogComponent {
 
     public orderAsc = true;
 
-    @Input() public items: IChapter[] = [];
+    public readonly items = input<IChapter[]>([]);
     public current: any;
-    @Output() public selected = new EventEmitter<IChapter>();
+    public readonly selected = output<IChapter>();
 
     constructor() {}
 
     get filterItems() {
         if (this.orderAsc) {
-            return this.items;
+            return this.items();
         }
         const items = [];
-        for (const item of this.items) {
+        for (const item of this.items()) {
             if (item.type < 9) {
                 items.push(item);
                 continue;

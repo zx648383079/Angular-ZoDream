@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
@@ -16,6 +16,12 @@ import { ThemeService } from '../../theme/services';
     styleUrls: ['./resource-store.component.scss']
 })
 export class ResourceStoreComponent implements OnInit, OnDestroy {
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private store = inject<Store<AppState>>(Store);
+    private service = inject(ResourceService);
+    private themeService = inject(ThemeService);
+
 
     public navItems: ICategory[] = [
         {name: '推荐'} as any,
@@ -26,13 +32,7 @@ export class ResourceStoreComponent implements OnInit, OnDestroy {
     public navOpen = false;
     private subItems = new Subscription();
 
-    constructor(
-        private router: Router,
-        private route: ActivatedRoute,
-        private store: Store<AppState>,
-        private service: ResourceService,
-        private themeService: ThemeService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Resource Store`);
         this.subItems.add(
             this.store.select(selectAuthUser).subscribe(user => {

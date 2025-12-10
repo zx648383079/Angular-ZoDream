@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -16,6 +16,11 @@ import { ShortLinkService } from '../short-link.service';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
+    private service = inject(ShortLinkService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IShortLink[] = [];
     public hasMore = true;
@@ -35,13 +40,6 @@ export class ListComponent implements OnInit {
         {name: '过期', value: 7},
         {name: '禁止', value: 9},
     ]
-
-    constructor(
-        private service: ShortLinkService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

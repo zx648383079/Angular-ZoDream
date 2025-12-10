@@ -1,72 +1,57 @@
-import { AfterViewInit, Component, ElementRef, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, OnInit, inject, input, viewChild, model, effect } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { EditorBlockType, EditorService, IEditor, IEditorBlock, IEditorInclueBlock, IEditorLinkBlock, IEditorTextBlock } from '../../../../components/editor';
 import { FileUploadService } from '../../../../theme/services';
 import { wordLength } from '../../../../theme/utils';
 import { MarkRangeMap } from '../math-mark/parser';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
     selector: 'app-exam-editor',
     templateUrl: './exam-editor.component.html',
     styleUrls: ['./exam-editor.component.scss'],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => ExamEditorComponent),
-            multi: true
-        }
-    ]
 })
-export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor, IEditor, OnInit {
+export class ExamEditorComponent implements AfterViewInit, FormValueControl<string>, IEditor, OnInit {
+    private uploadService = inject(FileUploadService);
+    private toastrService = inject(DialogService);
+    private container = inject(EditorService);
 
-    @ViewChild('editorArea')
-    private areaElement: ElementRef<HTMLTextAreaElement>;
-    @Input() public height = 200;
-    @Input() public placeholder = '';
-    @Input() public label = '';
 
-    public disable = false;
-    public value = '';
+    private readonly areaElement = viewChild<ElementRef<HTMLTextAreaElement>>('editorArea');
+    public readonly height = input(200);
+    public readonly placeholder = input('');
+    public readonly label = input('');
+
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<string>('');
     public isPreview = false;
     public previewValue = '';
     public fileName = this.uploadService.uniqueGuid();
 
-    onChange: any = () => { };
-    onTouch: any = () => { };
-
-    constructor(
-        private uploadService: FileUploadService,
-        private toastrService: DialogService,
-        private container: EditorService,
-    ) {
-
+    constructor() {
+        effect(() => this.container.value = this.value());
     }
 
     get size() {
-        return wordLength(this.value);
+        return wordLength(this.value());
     }
 
     get areaStyle() {
         return {
-            height: this.height + 'px',
+            height: this.height() + 'px',
         };
     }
     ngOnInit() {
         this.container.on('change', () => {
-            this.value = this.container.value;
-            this.onValueChange();
+            this.value.set(this.container.value);
         });
     }
 
     ngAfterViewInit() {
-        this.container.ready(this.areaElement.nativeElement);
+        this.container.ready(this.areaElement().nativeElement);
     }
 
-    public onValueChange() {
-        this.onChange(this.value);
-    }
 
     public tapTool(name: string) {
         if (name === 'preview') {
@@ -135,26 +120,12 @@ export class ExamEditorComponent implements AfterViewInit, ControlValueAccessor,
         this.container.insert('[' + text + '](' + href + ')');
     }
 
-    writeValue(obj: any): void {
-        this.value = typeof obj === 'undefined' ? '' : obj;
-        this.container.value = this.value;
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disable = isDisabled;
-    }
-
     private enterPreview() {
         if (this.isPreview) {
             this.isPreview = false;
             return;
         }
-        this.previewValue = this.value;
+        this.previewValue = this.value();
         this.isPreview = true;
     }
 

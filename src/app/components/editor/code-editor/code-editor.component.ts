@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, ViewEncapsulation, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewEncapsulation, effect, inject, input, model } from '@angular/core';
 import { IEditor, IEditorBlock } from '../model';
 import { CodeElement } from '../base/code';
 import { EDITOR_EVENT_EDITOR_CHANGE } from '../base';
 import { EditorService } from '../container';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -14,28 +14,22 @@ import { EditorService } from '../container';
     host: {
         'class': 'code-editor-container'
     },
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => CodeEditorComponent),
-            multi: true
-        }
-    ]
 })
-export class CodeEditorComponent implements AfterViewInit, OnDestroy, ControlValueAccessor, IEditor {
+export class CodeEditorComponent implements AfterViewInit, OnDestroy, FormValueControl<string>, IEditor {
+    private elementRef = inject(ElementRef);
 
-    public disabled = false;
+
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<string>('');
     private container: EditorService;
-    onChange: any = () => { };
-    onTouch: any = () => { };
-    constructor(
-        private elementRef: ElementRef,
-        container: EditorService
-    ) {
+    constructor() {
+        const container = inject(EditorService);
+
         this.container = container.clone();
         this.container.on(EDITOR_EVENT_EDITOR_CHANGE, () => {
-            this.onChange(this.container.value);
+            this.value.set(this.container.value);
         });
+        effect(() => this.container.value = this.value());
     }
 
 
@@ -49,18 +43,5 @@ export class CodeEditorComponent implements AfterViewInit, OnDestroy, ControlVal
 
     public insert(block: IEditorBlock|string): void {
         this.container.insert(block);
-    }
-
-    writeValue(obj: any): void {
-        this.container.value = obj;
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
     }
 }

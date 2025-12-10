@@ -1,6 +1,6 @@
 <div class="flex-2">
     <div class="flex-menu">
-        <app-merchant-menu currentUrl="stock"></app-merchant-menu>
+        <app-merchant-menu currentUrl="stock" />
     </div>
     <div class="flex-body">
         <div class="panel-container">
@@ -44,7 +44,7 @@
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <app-catering-nav-bar [items]="categoryItems" [(selected)]="queries.group" (selectedChange)="tapRefresh()" (add)="tapEditCategory()" (edit)="tapEditCategory($event)" (remove)="tapRemoveCategory($event)"></app-catering-nav-bar>
+                    <app-catering-nav-bar [items]="categoryItems" [(selected)]="queries.group" (selectedChange)="tapRefresh()" (add)="tapEditCategory()" (edit)="tapEditCategory($event)" (remove)="tapRemoveCategory($event)" />
                 </div>
                 <div class="col-md-9">
                     <div class="body-row">
@@ -89,4 +89,4 @@
     </div>
 </div>
 
-<app-custom-dialog></app-custom-dialog>
+<app-custom-dialog />

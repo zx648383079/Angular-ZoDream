@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ICategory, IResource } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
 import { ResourceService } from './resource.service';
@@ -13,6 +13,11 @@ import { SearchService } from '../../../theme/services';
     styleUrls: ['./resource-member.component.scss']
 })
 export class ResourceMemberComponent implements OnInit {
+private service = inject(ResourceService);
+private toastrService = inject(DialogService);
+private route = inject(ActivatedRoute);
+private searchService = inject(SearchService);
+
 
 public items: IResource[] = [];
     public hasMore = true;
@@ -26,14 +31,6 @@ public items: IResource[] = [];
         per_page: 20
     };
     public categories: ICategory[] = [];
-
-    constructor(
-        private service: ResourceService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.service.categoryAll().subscribe(res => {

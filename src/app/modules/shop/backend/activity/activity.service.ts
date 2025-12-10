@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../../theme/models/page';
 import {
     IActivity, IActivityTime, IAuctionConfigure, IBargainConfigure, ICashBackConfigure,
@@ -12,10 +12,8 @@ import {
 
 @Injectable()
 export class ActivityService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public auctionList(params: any) {
         return this.http.get<IPage<IActivity<IAuctionConfigure>>>('shop/admin/activity/auction', {

@@ -1,7 +1,4 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../theme/interfaces';
@@ -16,6 +13,11 @@ import { BookService } from '../book.service';
     styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
+    private service = inject(BookService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private store = inject<Store<AppState>>(Store);
+
 
     public items: IBookList[] = [];
     public page = 1;
@@ -25,11 +27,7 @@ export class ListComponent implements OnInit {
     public perPage = 20;
     public isLogin = true;
 
-    constructor(
-        private service: BookService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private store: Store<AppState>) {
+    constructor() {
         this.store.select(selectAuthStatus).subscribe(res => {
             this.isLogin = !res.guest;
         });

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { emptyValidate } from '../../../../theme/validators';
 import { FinanceService } from '../../finance.service';
@@ -11,6 +11,9 @@ import { IConsumptionChannel } from '../../model';
     styleUrls: ['./channel.component.scss']
 })
 export class ChannelComponent implements OnInit {
+    private service = inject(FinanceService);
+    private toastrService = inject(DialogService);
+
 
     public items: IConsumptionChannel[] = [];
     public isLoading = false;
@@ -19,11 +22,6 @@ export class ChannelComponent implements OnInit {
         id: undefined,
         name: '',
     } as any;
-
-    constructor(
-        private service: FinanceService,
-        private toastrService: DialogService,
-    ) {}
 
     ngOnInit() {
         this.tapRefresh();

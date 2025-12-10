@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../../components/dialog';
 import { IActivityTime } from '../../../../model';
@@ -12,17 +12,15 @@ import { ActivityService } from '../../activity.service';
     styleUrls: ['./time.component.scss']
 })
 export class TimeComponent implements OnInit {
+    private service = inject(ActivityService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+
 
     public items: IActivityTime[] = [];
     public isLoading = false;
     public activity = 0;
     public editData: IActivityTime = {} as any;
-
-    constructor(
-        private service: ActivityService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

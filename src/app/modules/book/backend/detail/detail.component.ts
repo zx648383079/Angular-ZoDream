@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
@@ -13,6 +13,11 @@ import { BookService } from '../book.service';
   styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(BookService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -36,13 +41,6 @@ export class DetailComponent implements OnInit {
         {name: '已审核', value: 1},
         {name: '已拒绝', value: 9},
     ];
-
-    constructor(
-        private fb: FormBuilder,
-        private service: BookService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {}
 
     ngOnInit() {
         this.service.categoryList().subscribe(res => {

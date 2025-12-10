@@ -1,48 +1,46 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, model, signal } from '@angular/core';
 import { IGoods, IGoodsAttr, IGoodsResult, IProduct } from '../../../model';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
-  selector: 'app-product-dialog',
-  templateUrl: './product-dialog.component.html',
-  styleUrls: ['./product-dialog.component.scss']
+    selector: 'app-product-dialog',
+    templateUrl: './product-dialog.component.html',
+    styleUrls: ['./product-dialog.component.scss']
 })
 export class ProductDialogComponent {
+    private http = inject(HttpClient);
 
-    @Input() public value: IGoods;
-    @Input() public visible = false;
+
+    public readonly value = model<IGoods>(undefined);
+    public readonly visible = signal(false);
     public amount = 1;
     public stock = 0;
     public amountVisible = false;
     private confirmFn: (data: IGoodsResult) => void;
 
-    constructor(
-        private http: HttpClient,
-    ) { }
-
     public open(data: IGoodsResult);
     public open(data: IGoodsResult, confirm: (data: IGoodsResult) => void);
     public open(data: IGoodsResult, confirm?: (data: IGoodsResult) => void) {
-        this.value = data as IGoods;
-        this.visible = true;
+        this.value.set(data as IGoods);
+        this.visible.set(true);
         this.confirmFn = confirm;
         this.http.get<IGoods>('shop/admin/goods/preview', {
             params: {
                 id: data.id
             },
         }).subscribe(res => {
-            this.value = res;
+            this.value.set(res);
         });
     }
 
     public close() {
-        this.visible = false;
+        this.visible.set(false);
     }
 
     public tapYes() {
         const product = this.selectedProduct;
-        const data: IGoodsResult = {...this.value,
+        const data: IGoodsResult = {...this.value(),
             product_id: product?.id, attribute_id: this.selectedProperties.join(','),
             attribute_value: this.selectedPropertiesLabel
         };
@@ -53,7 +51,7 @@ export class ProductDialogComponent {
     }
 
     public toggleSelected(i: number, j: number) {
-        const group = this.value.properties[i];
+        const group = this.value().properties[i];
         if (group.type == 2) {
             group.attr_items[j].checked = !group.attr_items[j].checked;
             return;
@@ -66,7 +64,7 @@ export class ProductDialogComponent {
     }
 
     private eachSelectedProperty(cb: (item: IGoodsAttr, type: number) => void) {
-        for (const item of this.value.properties) {
+        for (const item of this.value().properties) {
             for (const attr of item.attr_items) {
                 if (attr.checked) {
                     cb(attr, item.type);
@@ -77,7 +75,7 @@ export class ProductDialogComponent {
 
     private get selectedPropertiesLabel(): string {
         const items = [];
-        for (const item of this.value.properties) {
+        for (const item of this.value().properties) {
             const labels = [];
             for (const attr of item.attr_items) {
                 if (attr.checked) {
@@ -101,7 +99,7 @@ export class ProductDialogComponent {
 
     private get selectedProduct(): IProduct|undefined {
         const items = [];
-        for (const item of this.value.properties) {
+        for (const item of this.value().properties) {
             if (item.type === 2) {
                 continue;
             }
@@ -119,7 +117,7 @@ export class ProductDialogComponent {
             return;
         }
         const label = attrs.sort().join(',');
-        for (const item of this.value.products) {
+        for (const item of this.value().products) {
             if (item.attributes === label) {
                 return item;
             }

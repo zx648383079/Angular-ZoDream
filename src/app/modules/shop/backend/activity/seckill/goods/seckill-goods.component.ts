@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../../components/dialog';
 import { IPageQueries } from '../../../../../../theme/models/page';
@@ -13,6 +13,11 @@ import { ActivityService } from '../../activity.service';
     styleUrls: ['./seckill-goods.component.scss']
 })
 export class SeckillGoodsComponent implements OnInit {
+    private service = inject(ActivityService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: ISeckillGoods[] = [];
     public hasMore = true;
@@ -26,13 +31,6 @@ export class SeckillGoodsComponent implements OnInit {
         act_id: 0,
         time_id: 0
     };
-
-    constructor(
-        private service: ActivityService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

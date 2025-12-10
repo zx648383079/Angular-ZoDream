@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IDataOne, IPage } from '../../../theme/models/page';
 import { INote } from '../model';
 
@@ -7,8 +7,8 @@ import { INote } from '../model';
   providedIn: 'root'
 })
 export class NoteService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) { }
 
     public noteList(params: any) {
         return this.http.get<IPage<INote>>('note/admin', {params});

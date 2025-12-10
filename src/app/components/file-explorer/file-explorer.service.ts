@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IFileItem, IFileProvider, IFileQueries } from './model';
 import { HttpClient } from '@angular/common/http';
 import { Observable, from } from 'rxjs';
@@ -6,10 +6,8 @@ import { IData, IPage } from '../../theme/models/page';
 
 @Injectable()
 export class FileExplorerService implements IFileProvider {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient,
-    ) { }
 
     public driveList(): Observable<IFileItem[]> {
         return from([

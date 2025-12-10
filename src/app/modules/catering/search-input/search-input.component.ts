@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ThemeService } from '../../../theme/services';
 import { SuggestChangeEvent } from '../../../components/form';
 
@@ -9,16 +9,14 @@ import { SuggestChangeEvent } from '../../../components/form';
     styleUrls: ['./search-input.component.scss']
 })
 export class SearchInputComponent implements SuggestChangeEvent {
+    private themeService = inject(ThemeService);
+
 
     public panelVisible = false;
     public suggestItems: any[] = [];
     public suggestText = '';
     public suggestIndex = -1;
     private asyncHandle = 0;
-
-    constructor(
-        private themeService: ThemeService,
-    ) { }
 
     public get text() {
         return this.suggestText;

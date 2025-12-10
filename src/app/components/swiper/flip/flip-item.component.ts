@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
+import { Component, HostBinding, ViewEncapsulation, input } from '@angular/core';
 import { FlipContainerComponent } from './flip-container.component';
 
 @Component({
@@ -6,16 +6,16 @@ import { FlipContainerComponent } from './flip-container.component';
     selector: 'app-flip-item',
     encapsulation: ViewEncapsulation.None,
     template: `
-    @if (header) {
+    @if (header()) {
         <div class="flip-router-bar">
             @if (backable) {
                 <i class="iconfont icon-arrow-left" (click)="tapBack()"></i>
             }
-            <span>{{ header }}</span>
+            <span>{{ header() }}</span>
         </div>
     }
     
-<ng-content></ng-content>`,
+<ng-content />`,
     styles: [''],
     host: {
         class: 'flip-item',
@@ -23,7 +23,7 @@ import { FlipContainerComponent } from './flip-container.component';
 })
 export class FlipItemComponent {
 
-    @Input() public header = '';
+    public readonly header = input('');
     public backable = false;
     @HostBinding('style')
     public boxStyle: any = {};

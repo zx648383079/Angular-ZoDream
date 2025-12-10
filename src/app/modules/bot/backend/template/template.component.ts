@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -17,6 +17,12 @@ import { BotService } from '../bot.service';
   styleUrls: ['./template.component.scss']
 })
 export class TemplateComponent implements OnInit {
+    private service = inject(BotService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private sanitizer = inject(DomSanitizer);
+    private searchService = inject(SearchService);
+
 
     public items: IBotTemplate[] = [];
 
@@ -37,14 +43,6 @@ export class TemplateComponent implements OnInit {
     };
     public typeItems: IItem[] = [];
     public categoryItems: IBotTemplateCategory[] = [];
-
-    constructor(
-        private service: BotService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private sanitizer: DomSanitizer,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

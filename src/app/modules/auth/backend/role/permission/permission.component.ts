@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogService } from '../../../../../components/dialog';
 import { IPermission } from '../../../../../theme/models/auth';
 import { RoleService } from '../role.service';
@@ -10,6 +10,9 @@ import { RoleService } from '../role.service';
   styleUrls: ['./permission.component.scss']
 })
 export class PermissionComponent implements OnInit {
+    private service = inject(RoleService);
+    private toastrService = inject(DialogService);
+
 
     public items: IPermission[] = [];
 
@@ -25,10 +28,7 @@ export class PermissionComponent implements OnInit {
 
     public keywords = '';
 
-    constructor(
-        private service: RoleService,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.tapRefresh();
     }
 

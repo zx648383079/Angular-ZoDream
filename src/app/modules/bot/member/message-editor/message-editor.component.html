@@ -5,8 +5,8 @@
             @for (item of typeItems; track $index) {
             <option [value]="item.value">{{ item.name }}</option>
             }
-            @if (other) {
-            <option [value]="99">{{ other }}</option>
+            @if (other()) {
+            <option [value]="99">{{ other() }}</option>
             }
         </select>
     </div>
@@ -14,7 +14,7 @@
 @if (data.type < 1) {
     <textarea class="form-control" [(ngModel)]="data.text" (ngModelChange)="onContentChange()"></textarea>
 } @else if (data.type >= 1 && data.type <= 2) {
-    <app-select-input id="parent_id" rangeKey="id" rangeLabel="title" [formatFn]="formatFn" [url]="requestUrl" [(ngModel)]="data.media" (ngModelChange)="onContentChange()"></app-select-input>
+    <app-select-input id="parent_id" rangeKey="id" rangeLabel="title" [formatFn]="formatFn" [url]="requestUrl" [(ngModel)]="data.media" (ngModelChange)="onContentChange()" />
 } @else if (data.type == 3) {
     <div class="input-group-control">
         <label for="template_id">模板ID</label>

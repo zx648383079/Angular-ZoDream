@@ -1,11 +1,11 @@
 <div class="control-slider-group">
     <i class="control-updated-tag" [hidden]="isEmpty" (click)="tapEmpty()"></i>
     <div class="control-body">
-        <label for="">{{ header }}</label>
+        <label for="">{{ header() }}</label>
         <input type="range">
     </div>
-    @if (hasUnit) {
-        <app-editor-number-input></app-editor-number-input>
+    @if (hasUnit()) {
+        <app-editor-number-input />
     } @else {
         <input type="number" class="form-control" size="4">
     }

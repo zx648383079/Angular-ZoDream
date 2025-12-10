@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
 import { emptyValidate } from '../../theme/validators';
@@ -12,14 +12,12 @@ import { ShortLinkService } from './short-link.service';
   styleUrls: ['./short-link.component.scss']
 })
 export class ShortLinkComponent {
+    private toastrService = inject(DialogService);
+    private service = inject(ShortLinkService);
+
 
     public source = '';
     public result: IShortLink;
-
-    constructor(
-        private toastrService: DialogService,
-        private service: ShortLinkService
-    ) { }
 
     public tapGenerate(e: ButtonEvent) {
         if (emptyValidate(this.source)) {

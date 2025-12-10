@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CateringBackendService } from '../catering.service';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
@@ -13,6 +13,11 @@ import { ICateringStore } from '../../model';
     styleUrls: ['./store.component.scss']
 })
 export class StoreComponent implements OnInit {
+    private service = inject(CateringBackendService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: ICateringStore[] = [];
     public hasMore = true;
@@ -24,14 +29,6 @@ export class StoreComponent implements OnInit {
         page: 1,
         per_page: 20
     };
-
-    constructor(
-        private service: CateringBackendService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

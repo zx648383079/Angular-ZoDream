@@ -31,19 +31,19 @@
         <div class="form-group">
             <label>Logo</label>
             <div>
-                <app-file-input [(ngModel)]="editData.logo"></app-file-input>
+                <app-file-input [(ngModel)]="editData.logo" />
             </div>
         </div>
         <div class="form-group">
             <label for="keywords-input" i18n>Site Keywords</label>
             <div>
-                <app-words-input [(ngModel)]="editData.keywords"  i18n-placeholder placeholder="Please input the keywords of site"></app-words-input>
+                <app-words-input [(ngModel)]="editData.keywords"  i18n-placeholder placeholder="Please input the keywords of site" />
             </div>
         </div>
         <div class="form-group">
             <label for="description-input" i18n>Site Description</label>
             <div>
-                <app-text-editor [(ngModel)]="editData.description" height="100"></app-text-editor>
+                <app-text-editor [(ngModel)]="editData.description" height="100" />
             </div>
         </div>
     </div>

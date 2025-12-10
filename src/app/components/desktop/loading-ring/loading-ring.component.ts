@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
 })
 export class LoadingRingComponent {
 
-    @Input() public ringName = 'loading-ring1';
+    public readonly ringName = input('loading-ring1');
 
     constructor() { }
 

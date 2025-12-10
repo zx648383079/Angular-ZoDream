@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { ThemeService } from '../../../theme/services';
 import { INavLink } from '../../../theme/models/seo';
 import { Store } from '@ngrx/store';
@@ -13,6 +13,9 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./game-maker.component.scss']
 })
 export class GameMakerComponent implements OnDestroy {
+    private store = inject<Store<AppState>>(Store);
+    private themeService = inject(ThemeService);
+
 
     public navItems: INavLink[] = [
         {
@@ -112,8 +115,7 @@ export class GameMakerComponent implements OnDestroy {
     ];
     private subItems = new Subscription();
 
-    constructor(private store: Store<AppState>,
-        private themeService: ThemeService,) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Game Maker`);
         this.subItems.add(this.store.select(selectAuthUser).subscribe(user => {
             if (!user) {

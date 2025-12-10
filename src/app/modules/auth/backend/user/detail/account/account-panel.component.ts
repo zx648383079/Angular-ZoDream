@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
 import { IAccountLog } from '../../../../../../theme/models/auth';
 import { IPageQueries } from '../../../../../../theme/models/page';
 import { AuthService } from '../../../auth.service';
@@ -12,9 +12,12 @@ import { SearchService } from '../../../../../../theme/services';
     styleUrls: ['./account-panel.component.scss']
 })
 export class AccountPanelComponent implements OnChanges {
+    private service = inject(AuthService);
+    private searchService = inject(SearchService);
 
-    @Input() public itemId = 0;
-    @Input() public init = false;
+
+    public readonly itemId = input(0);
+    public readonly init = input(false);
     public items: IAccountLog[] = [];
     public hasMore = true;
     public isLoading = false;
@@ -27,13 +30,8 @@ export class AccountPanelComponent implements OnChanges {
     private booted = 0;
     public editData: IAccountLog = {} as any;
 
-    constructor(
-        private service: AuthService,
-        private searchService: SearchService,
-    ) { }
-
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.itemId > 0 && this.booted !== this.itemId) {
+        if (changes.init && changes.init.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
             this.boot();
         }
     }
@@ -44,8 +42,8 @@ export class AccountPanelComponent implements OnChanges {
     }
 
     private boot() {
-        this.booted = this.itemId;
-        if (this.itemId < 1) {
+        this.booted = this.itemId();
+        if (this.itemId() < 1) {
             return;
         }
         this.tapRefresh();
@@ -77,7 +75,7 @@ export class AccountPanelComponent implements OnChanges {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.accountLogList({...queries, user: this.itemId}).subscribe({
+        this.service.accountLogList({...queries, user: this.itemId()}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;

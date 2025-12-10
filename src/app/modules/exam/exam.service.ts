@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IItem } from '../../theme/models/seo';
@@ -7,10 +7,8 @@ import { ICourse, IExamPage, IExamPager, IExamSheet, IQuestion, IQuestionCard, I
 
 @Injectable()
 export class ExamService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public courseChildren(id: any = 0) {
         return this.http.get<IData<ICourse>>('exam/course/children', {params: {id}});

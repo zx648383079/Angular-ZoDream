@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -13,6 +13,12 @@ import { ActivityService } from '../../activity.service';
   styleUrls: ['./auction-goods.component.scss']
 })
 export class AuctionGoodsComponent implements OnInit, OnDestroy {
+    private service = inject(ActivityService);
+    private route = inject(ActivatedRoute);
+    private sanitizer = inject(DomSanitizer);
+    private toastrService = inject(DialogService);
+    private themeService = inject(ThemeService);
+
 
     public data: IGoods;
     public activity: IActivity<IAuctionConfigure>;
@@ -23,14 +29,6 @@ export class AuctionGoodsComponent implements OnInit, OnDestroy {
     private spaceTime = 10;
     private isLoading = false;
     private timer = 0;
-
-    constructor(
-        private service: ActivityService,
-        private route: ActivatedRoute,
-        private sanitizer: DomSanitizer,
-        private toastrService: DialogService,
-        private themeService: ThemeService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

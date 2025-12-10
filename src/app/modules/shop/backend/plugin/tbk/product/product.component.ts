@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../../../../theme/models/page';
 import { SearchService } from '../../../../../../theme/services';
@@ -11,6 +11,10 @@ import { TbkService } from '../tbk.service';
     styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
+    private service = inject(TbkService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: any[] = [];
     public hasMore = true;
@@ -21,13 +25,6 @@ export class ProductComponent implements OnInit {
         per_page: 20,
         keywords: '',
     };
-
-    constructor(
-        private service: TbkService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

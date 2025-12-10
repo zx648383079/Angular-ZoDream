@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ChatService } from '../chat.service';
 import { IApplyLog } from '../model';
 
@@ -9,15 +9,12 @@ import { IApplyLog } from '../model';
     styleUrls: ['./apply-dialog.component.scss']
 })
 export class ApplyDialogComponent {
+    private service = inject(ChatService);
+
 
     public items: IApplyLog[] = [];
     public visible = false;
     private confirmFn: Function;
-
-    constructor(
-        private service: ChatService
-    ) {
-    }
 
     public open(cb: () => void) {
         this.visible = true;

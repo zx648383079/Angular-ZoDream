@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ICmsCategory } from '../../model';
@@ -12,17 +12,13 @@ import { toggleTreeItem } from '../../../../theme/utils';
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
+    private service = inject(CmsService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public items: ICmsCategory[] = [];
     public site = 0;
-
-    constructor(
-        private service: CmsService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {
-        
-    }
   
     ngOnInit() {
         this.route.params.subscribe(params => {

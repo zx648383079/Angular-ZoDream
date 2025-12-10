@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
@@ -14,6 +14,11 @@ import { GoodsService } from '../../goods.service';
     styleUrls: ['./edit-category.component.scss']
 })
 export class EditCategoryComponent implements OnInit {
+    private service = inject(GoodsService);
+    private fb = inject(FormBuilder);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -29,12 +34,7 @@ export class EditCategoryComponent implements OnInit {
     public data: ICategory;
     public categories: ICategory[] = [];
 
-    constructor(
-        private service: GoodsService,
-        private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.service.categoryAll().subscribe(res => {
             this.categories = res.data;
         });

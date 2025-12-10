@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IComment } from '../../model';
@@ -13,6 +13,11 @@ import { BlogService } from '../blog.service';
   styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent implements OnInit {
+    private service = inject(BlogService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
 
     public items: IComment[] = [];
     public hasMore = true;
@@ -25,13 +30,6 @@ export class CommentComponent implements OnInit {
         user: 0,
         blog: 0,
     };
-
-    constructor(
-        private service: BlogService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

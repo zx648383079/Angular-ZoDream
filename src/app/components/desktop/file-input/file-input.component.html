@@ -1,14 +1,18 @@
 <div class="file-input" [ngClass]="{'file-input-failure': uploadFailure}">
-    <input type="text" class="form-control" [(ngModel)]="value" [disabled]="disabled" (ngModelChange)="onValueChange()" [placeholder]="placeholder">
+    <input type="text" class="form-control" 
+    [value]="value()"
+    (input)="value.set($event.target.value)" 
+    [disabled]="disabled()" [placeholder]="placeholder()">
     <label [for]="fileName" class="btn btn-primary" i18n>{isLoading, plural, =true {Uploading...} =false {Upload}}</label>
     @if (canPreview) {
         <label class="btn btn-info" (click)="tapPreview()" i18n>Preview</label>
     }
-    @if (online) {
+    @if (online()) {
         <label class="btn btn-success" (click)="openOnline(modal)" i18n>Online</label>
     }
     
-    <input type="file" name="file" [id]="fileName" (change)="uploadFile($event)" [accept]="accept"  [disabled]="disabled"/>
+    <input type="file" name="file" [id]="fileName" (change)="uploadFile($event)" [accept]="accept()"  
+    [disabled]="disabled()"/>
 </div>
 
-<app-file-online #modal [accept]="accept"></app-file-online>
+<app-file-online #modal [accept]="accept()" />

@@ -1,14 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IDataOne, IPage } from '../../theme/models/page';
 import { IFriendLink, IFeedback, ISubscribe, IReport } from '../../theme/models/seo';
 
 @Injectable()
 export class ContactService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public friendLinkList(params: any) {
         return this.http.get<IPage<IFriendLink>>('contact/admin/friend_link', {

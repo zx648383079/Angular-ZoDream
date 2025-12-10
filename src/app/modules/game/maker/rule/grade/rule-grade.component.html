@@ -45,8 +45,8 @@
                 }
             </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination  [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>
 
@@ -66,7 +66,7 @@
     <div class="form-group">
         <label>上级升级所需经验</label>
         <div class="input-group-control">
-            <app-number-input [(ngModel)]="editData.exp"></app-number-input>
+            <app-number-input [(ngModel)]="editData.exp" />
         </div>
     </div>
 </app-dialog-box>
@@ -75,26 +75,26 @@
     <div class="form-group">
         <label>等级范围</label>
         <div class="input-group-control range-input">
-            <app-number-input [(ngModel)]="generateData.begin"></app-number-input>-
-            <app-number-input [(ngModel)]="generateData.end"></app-number-input>
+            <app-number-input [(ngModel)]="generateData.begin" />-
+            <app-number-input [(ngModel)]="generateData.end" />
         </div>
     </div>
     <div class="form-group">
         <label>初始升级所需经验</label>
         <div class="input-group-control">
-            <app-number-input [(ngModel)]="generateData.begin_exp"></app-number-input>
+            <app-number-input [(ngModel)]="generateData.begin_exp" />
         </div>
     </div>
     <div class="form-group">
         <label>每级增加经验类型</label>
         <div class="input-group-control">
-            <app-switch [(ngModel)]="generateData.step_type" onLabel="百分比" offLabel="固定值"></app-switch>
+            <app-switch [(ngModel)]="generateData.step_type" onLabel="百分比" offLabel="固定值" />
         </div>
     </div>
     <div class="form-group">
         <label>每级增加经验({{ generateData.step_type > 0 ? '%' : '固定' }})</label>
         <div class="input-group-control">
-            <app-number-input [(ngModel)]="generateData.step_exp"></app-number-input>
+            <app-number-input [(ngModel)]="generateData.step_exp" />
         </div>
     </div>
     <div class="preview-bar">

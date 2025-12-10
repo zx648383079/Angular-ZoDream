@@ -1,6 +1,6 @@
-import { Component, Input, OnInit, forwardRef } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { Component, inject, input, model } from '@angular/core';
 import { FileUploadService } from '../../../../../theme/services';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -10,27 +10,18 @@ import { FileUploadService } from '../../../../../theme/services';
     host: {
         class: 'control-line-group',
     },
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => EditorImageInputComponent),
-        multi: true
-    }]
 })
-export class EditorImageInputComponent implements ControlValueAccessor {
+export class EditorImageInputComponent implements FormValueControl<string> {
+    private uploadService = inject(FileUploadService);
 
-    @Input() public header: string = '';
-    @Input() public multiple = false;
+
+    public readonly header = input<string>('');
+    public readonly multiple = input(false);
 
     public fileName = this.uploadService.uniqueGuid();
     public isEmpty = true;
-    public disabled = false;
-    private onChange: any = () => {};
-    private onTouch: any = () => {};
-
-    constructor(
-        private uploadService: FileUploadService,
-    ) {
-    }
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<string>('');
 
     public tapEmpty() {
 
@@ -40,16 +31,4 @@ export class EditorImageInputComponent implements ControlValueAccessor {
         
     }
     
-    writeValue(obj: any): void {
-        
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
-    }
 }

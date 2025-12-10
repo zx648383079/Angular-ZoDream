@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -13,6 +13,11 @@ import { SearchService } from '../../../theme/services';
     styleUrls: ['./subscribe.component.scss']
 })
 export class SubscribeComponent implements OnInit {
+    private service = inject(ContactService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
 
     public items: ISubscribe[] = [];
     public hasMore = true;
@@ -25,14 +30,6 @@ export class SubscribeComponent implements OnInit {
     };
     public isMultiple = false;
     public isChecked = false;
-
-    constructor(
-        private service: ContactService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

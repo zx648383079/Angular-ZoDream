@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IDataOne, IPage } from '../../../theme/models/page';
 import { IComment, IMicro, ITopic } from '../model';
 
 @Injectable()
 export class MicroService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public postList(params: any) {
         return this.http.get<IPage<IMicro>>('micro/admin/micro', {params});

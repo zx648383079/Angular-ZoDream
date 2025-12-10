@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { filterTree } from '../../../../theme/utils';
 import { emptyValidate } from '../../../../theme/validators';
@@ -12,16 +12,16 @@ import { ExamService } from '../exam.service';
   styleUrls: ['./course.component.scss']
 })
 export class CourseComponent implements OnInit {
+    private service = inject(ExamService);
+    private toastrService = inject(DialogService);
+
 
     public items: ICourse[] = [];
     public isLoading = false;
     public editData: ICourse = {} as any;
     public optionItems: ICourse[] = [];
 
-    constructor(
-        private service: ExamService,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.tapRefresh();
     }
   

@@ -1,6 +1,6 @@
 <div class="flex-2">
     <div class="flex-menu">
-        <app-merchant-menu currentUrl="order"></app-merchant-menu>
+        <app-merchant-menu currentUrl="order" />
     </div>
     <div class="flex-body">
         <div class="panel-container">
@@ -93,8 +93,8 @@
             </div>
             }
 
-            <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-            <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+            <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+            <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
         </div>
     </div>
 </div>

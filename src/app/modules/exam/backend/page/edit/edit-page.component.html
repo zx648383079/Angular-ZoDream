@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑试卷' : '新增试卷'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑试卷' : '新增试卷'" (submited)="tapSubmit()" [disabled]="form.invalid" />
 
 <div class="container-fluid">
     <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
@@ -42,13 +42,13 @@
         <div class="input-group-control">
             <label for="start_at">开始时间</label>
             <div>
-                <app-date-input id="start_at" formControlName="start_at"></app-date-input>
+                <app-date-input id="start_at" formControlName="start_at" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="end_at">结束时间</label>
             <div>
-                <app-date-input id="end_at" formControlName="end_at"></app-date-input>
+                <app-date-input id="end_at" formControlName="end_at" />
             </div>
         </div>
         <div class="rule-box">
@@ -185,6 +185,6 @@
             </tbody>
         </table>
     
-        <app-pagination [total]="dialogData.total" [(page)]="dialogData.page" [perPage]="dialogData.perPage" (pageChange)="tapDialogPage()"></app-pagination>
+        <app-pagination [total]="dialogData.total" [(page)]="dialogData.page" [perPage]="dialogData.perPage" (pageChange)="tapDialogPage()" />
     </div>
 </app-dialog-box>

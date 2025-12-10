@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IFilter, IPageQueries } from '../../../../theme/models/page';
 import { ISortItem } from '../../../../theme/models/seo';
@@ -13,6 +13,10 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
+    private route = inject(ActivatedRoute);
+    private service = inject(ShopService);
+    private searchService = inject(SearchService);
+
 
     public category: ICategory;
     public items: IGoods[] = [];
@@ -37,12 +41,6 @@ export class CategoryComponent implements OnInit {
         min: '',
         max: ''
     };
-
-    constructor(
-        private route: ActivatedRoute,
-        private service: ShopService,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

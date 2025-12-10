@@ -2,18 +2,18 @@
     <div class="work-outer-panel" [ngStyle]="shellStyle">
         <!-- 模拟样式 -->
         <div class="shell-box">
-            <app-editor-shell (resizing)="onResizing($event)"></app-editor-shell>
+            <app-editor-shell (resizing)="onResizing($event)" />
         </div>
         <div class="work-body" (contextmenu)="onContext($event)">
             @for (item of widgetItems$ | async; track $index) {
                 <div class="widget-shell" [ngStyle]="item.outerStyle"  (contextmenu)="onContext($event, item)">
-                    <app-editor-widget [value]="item"></app-editor-widget>
+                    <app-editor-widget [value]="item" />
                 </div>
             }
         </div>
         <!-- 编辑widget的样式 -->
         <div class="widget-reflection" (contextmenu)="onContext($event, true)">
-            <app-editor-reflection></app-editor-reflection>
+            <app-editor-reflection />
         </div>
     </div>
      <!-- 选中区域rect -->
@@ -21,12 +21,12 @@
 </div>
 <!-- 标尺 -->
 <div class="rule-box">
-    <app-editor-rule-panel></app-editor-rule-panel>
+    <app-editor-rule-panel />
 </div>
 
-<app-editor-scale-bar (valueChange)="scale($event)"></app-editor-scale-bar>
+<app-editor-scale-bar (valueChange)="scale($event)" />
 <!-- 滚动条 -->
-<app-editor-scroll-bar class="x-track"></app-editor-scroll-bar>
-<app-editor-scroll-bar class="y-track" [orientation]="false"></app-editor-scroll-bar>
+<app-editor-scroll-bar class="x-track" />
+<app-editor-scroll-bar class="y-track" [orientation]="false" />
 
-<app-context-menu></app-context-menu>
+<app-context-menu />

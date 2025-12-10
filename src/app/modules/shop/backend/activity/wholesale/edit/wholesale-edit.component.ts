@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IActivity, IWholesaleConfigure } from '../../../../model';
 import { ActivatedRoute } from '@angular/router';
@@ -13,6 +13,11 @@ import { ButtonEvent } from '../../../../../../components/form';
     styleUrls: ['./wholesale-edit.component.scss']
 })
 export class WholesaleEditComponent implements OnInit {
+    private service = inject(ActivityService);
+    private fb = inject(FormBuilder);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -26,13 +31,6 @@ export class WholesaleEditComponent implements OnInit {
     });
 
     public data: IActivity<IWholesaleConfigure>;
-
-    constructor(
-        private service: ActivityService,
-        private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) { }
 
     get stepItems() {
         return this.form.get('step') as FormArray<FormGroup>;

@@ -1,5 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑应用' : '新增应用'" (submited)="tapSubmit($event)" [disabled]="form.invalid">
-</app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑应用' : '新增应用'" (submited)="tapSubmit($event)" [disabled]="form.invalid" />
 
 <div class="container-fluid">
     <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
@@ -117,7 +116,7 @@
         <div class="input-group-control">
             <label for="allow_self">允许手动生成</label>
             <div>
-                <app-switch id="allow_self" formControlName="allow_self"></app-switch>
+                <app-switch id="allow_self" formControlName="allow_self" />
             </div>
         </div>
         <div class="btn-group">

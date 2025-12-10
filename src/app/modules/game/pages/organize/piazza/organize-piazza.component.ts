@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameOrganize, IGameRouter, IGameScene } from '../../../model';
 import { IPage, IPageQueries } from '../../../../../theme/models/page';
 import { emptyValidate } from '../../../../../theme/validators';
@@ -10,6 +10,8 @@ import { emptyValidate } from '../../../../../theme/validators';
     styleUrls: ['./organize-piazza.component.scss']
 })
 export class OrganizePiazzaComponent implements IGameScene, OnInit {
+    private router = inject<IGameRouter>(GameRouterInjectorToken);
+
 
     public items: IGameOrganize[] = [];
     public hasMore = true;
@@ -25,10 +27,6 @@ export class OrganizePiazzaComponent implements IGameScene, OnInit {
         name: '',
 
     };
-
-    constructor(
-        @Inject(GameRouterInjectorToken) private router: IGameRouter,
-    ) { }
 
     ngOnInit() {
         this.tapRefresh();

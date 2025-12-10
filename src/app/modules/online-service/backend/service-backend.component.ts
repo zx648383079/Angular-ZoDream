@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../components/dialog';
 import { DialogBoxComponent } from '../../../components/dialog';
@@ -19,6 +19,10 @@ const LOOP_SESSION_TIME = 120;
   styleUrls: ['./service-backend.component.scss']
 })
 export class ServiceBackendComponent implements OnInit, OnDestroy {
+    private store = inject<Store<AppState>>(Store);
+    private service = inject(OnlineBackendService);
+    private toastrService = inject(DialogService);
+
 
     public tabIndex = 0;
     public expandIndex = 0;
@@ -41,11 +45,7 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
     private isLoading = false;
     private timer = 0;
 
-    constructor(
-        private store: Store<AppState>,
-        private service: OnlineBackendService,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
             if (!user) {
                 return;

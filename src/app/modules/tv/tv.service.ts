@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IPage } from '../../theme/models/page';
 import { ICategory, ILive, IMovie, IMovieArea, IMusic } from './model';
 
@@ -7,10 +7,8 @@ import { ICategory, ILive, IMovie, IMovieArea, IMusic } from './model';
   providedIn: 'root'
 })
 export class TvService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     
     public categoryList(params: any) {

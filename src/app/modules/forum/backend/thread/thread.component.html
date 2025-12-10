@@ -80,7 +80,7 @@
                     </h3>
                     <div class="review-body">
                         @if (item.content) {
-                            <app-post-block [value]="item.content"></app-post-block>
+                            <app-post-block [value]="item.content" />
                         }
 
                         <div class="review-stamp" [ngClass]="{'btn-success': item.status == 1, 'btn-danger': item.status == 9}">
@@ -117,7 +117,7 @@
                 </app-stack-item>
             }
         </app-stack-container>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>

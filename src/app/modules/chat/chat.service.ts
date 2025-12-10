@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { COMMAND_FRIENDS, COMMAND_GROUPS, COMMAND_HISTORY, COMMAND_PROFILE, HttpRequest, IRequest } from './http';
 import { WsRequest } from './ws';
@@ -11,11 +11,8 @@ import { IApplyLog, IChatHistory, IChatWith, IFriend, IFriendGroup, IGroup, IMes
 
 @Injectable()
 export class ChatService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient,
-    ) {
-    }
 
     public profile() {
         return this.http.get<IFriend>(COMMAND_PROFILE);

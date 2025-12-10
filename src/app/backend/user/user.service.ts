@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { IAccountLog, IBulletinUser, IConnect, ILoginLog } from '../../theme/models/auth';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
@@ -7,8 +7,8 @@ import { IUser } from '../../theme/models/user';
 
 @Injectable()
 export class UserService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) { }
 
     public accountLog(params: any) {
         return this.http.get<IPage<IAccountLog>>('auth/account/log', {

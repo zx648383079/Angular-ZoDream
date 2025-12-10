@@ -1,15 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { IAuthorize, IPlatform } from '../../theme/models/open';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 
 @Injectable()
 export class OpenService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public authorizeList(params: any) {
         return this.http.get<IPage<IAuthorize>>('open/authorize', {

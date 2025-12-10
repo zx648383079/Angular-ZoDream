@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IDataOne, IPage } from '../../theme/models/page';
 import { IComment, IMicro, ITopic } from './model';
 import { HttpClient } from '@angular/common/http';
@@ -6,10 +6,8 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class MicroService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public getList(params: any) {
         return this.http.get<IPage<IMicro>>('micro', {

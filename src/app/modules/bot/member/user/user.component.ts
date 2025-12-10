@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -14,6 +14,12 @@ import { BotService } from '../bot.service';
     styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
+    private service = inject(BotService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+    private themeService = inject(ThemeService);
+
 
     public items: IBotUser[] = [];
 
@@ -28,13 +34,7 @@ export class UserComponent implements OnInit {
     };
     public editData: any = {};
 
-    constructor(
-        private service: BotService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-        private themeService: ThemeService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Account Center`);
     }
 

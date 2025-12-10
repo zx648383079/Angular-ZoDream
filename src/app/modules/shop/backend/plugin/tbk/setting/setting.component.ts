@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from '../../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../../components/form';
@@ -11,18 +11,15 @@ import { TbkService } from '../tbk.service';
   styleUrls: ['./setting.component.scss']
 })
 export class SettingComponent implements OnInit {
+    private service = inject(TbkService);
+    private fb = inject(FormBuilder);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         app_key: ['', Validators.required],
         secret: ['', Validators.required],
     });
-
-    constructor(
-        private service: TbkService,
-        private fb: FormBuilder,
-        private toastrService: DialogService,
-    ) {
-    }
 
     ngOnInit() {
         this.service.option().subscribe(res => {

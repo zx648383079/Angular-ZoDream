@@ -1,6 +1,6 @@
 <i class="control-updated-tag" [hidden]="isEmpty" (click)="tapEmpty()"></i>
-@if (header) {
-<label>{{ header }}</label>
+@if (header()) {
+<label>{{ header() }}</label>
 }
 <div class="control-row">
     <div class="radio-control-item">

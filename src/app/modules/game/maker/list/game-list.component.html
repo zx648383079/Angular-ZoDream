@@ -8,7 +8,7 @@
                 </div>
                 <div class="item-body">
                     <div class="item-action">
-                        <app-switch [(ngModel)]="item.status" (ngModelChange)="onStatusChange(item)"></app-switch>
+                        <app-switch [(ngModel)]="item.status" (ngModelChange)="onStatusChange(item)" />
                     </div>
                     <div class="item-name">{{ item.name }}</div>
                     <div class="item-meta">{{ item.description }}</div>
@@ -47,7 +47,7 @@
     <div class="form-group">
         <label>图标</label>
         <div class="input-group-control">
-            <app-file-input [(ngModel)]="editData.logo" [online]="true"></app-file-input>
+            <app-file-input [(ngModel)]="editData.logo" [online]="true" />
         </div>
     </div>
     <div class="form-group">

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { BlogService } from '../blog.service';
 import { ITag } from '../../model';
 import { ThemeService } from '../../../../theme/services';
@@ -11,14 +11,14 @@ import { ThemeService } from '../../../../theme/services';
     styleUrls: ['./tag.component.scss']
 })
 export class TagComponent {
+    private service = inject(BlogService);
+    private themeService = inject(ThemeService);
+
 
     public tagItems: ITag[] = [];
     public isLoading = false;
 
-    constructor(
-        private service: BlogService,
-        private themeService: ThemeService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Tags`);
         this.isLoading = true;
         this.service.getTags().subscribe({

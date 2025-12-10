@@ -6,7 +6,7 @@
             <div class="align-center">
                 <div class="rate">{{ subtotal.favorable_rate }}%</div>
                 <div class="score">
-                    <app-star [ngModel]="subtotal.avg"></app-star>
+                    <app-star [ngModel]="subtotal.avg" />
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
     <div class="row score-input">
         <div class="col-md-3 text-right" i18n>Your reviews:</div>
         <div class="col-md-9">
-            <app-star [(ngModel)]="scoreData.score" (ngModelChange)="onScoreChange()" [disabled]="false" [labelVisible]="true"></app-star>
+            <app-star [(ngModel)]="scoreData.score" (ngModelChange)="onScoreChange()" [disabled]="false" [labelVisible]="true" />
         </div>
     </div>
     

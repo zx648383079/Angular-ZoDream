@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IErrorResult, IPageQueries } from '../../../../theme/models/page';
@@ -14,6 +14,12 @@ import { ActivityService } from '../activity.service';
   styleUrls: ['./coupon.component.scss']
 })
 export class CouponComponent implements OnInit {
+    private service = inject(ActivityService);
+    private toastrService = inject(DialogService);
+    private themeService = inject(ThemeService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: ICoupon[] = [];
     public hasMore = true;
@@ -25,13 +31,7 @@ export class CouponComponent implements OnInit {
         keywords: '',
     };
 
-    constructor(
-        private service: ActivityService,
-        private toastrService: DialogService,
-        private themeService: ThemeService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next('领券中心');
     }
 

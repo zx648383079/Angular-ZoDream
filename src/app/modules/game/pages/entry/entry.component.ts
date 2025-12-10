@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, IGameCharacter, IGameCharacterIdentity, IGameDescent, IGameProject, IGameRouter, IGameScene } from '../../model';
 import { IItem } from '../../../../theme/models/seo';
 import { ButtonEvent } from '../../../../components/form';
@@ -11,6 +11,8 @@ import { emailValidate } from '../../../../theme/validators';
     styleUrls: ['./entry.component.scss']
 })
 export class EntryComponent implements IGameScene {
+    private router = inject<IGameRouter>(GameRouterInjectorToken);
+
 
     public step = 0;
     public data = {
@@ -28,9 +30,7 @@ export class EntryComponent implements IGameScene {
     public characterItems: IGameCharacter[] = [];
     public project: IGameProject;
 
-    constructor(
-        @Inject(GameRouterInjectorToken) private router: IGameRouter,
-    ) {
+    constructor() {
         this.project = this.router.project;
         this.router.request({
             [GameCommand.CharacterQuery]: {},

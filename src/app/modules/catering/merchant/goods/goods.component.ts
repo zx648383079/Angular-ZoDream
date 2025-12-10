@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { CustomDialogComponent } from './custom-dialog/custom-dialog.component';
 import { GoodsDialogComponent } from './dialog/goods-dialog.component';
@@ -15,11 +15,14 @@ import { CateringService } from '../../catering.service';
   styleUrls: ['./goods.component.scss']
 })
 export class GoodsComponent implements OnInit {
+    private service = inject(CateringService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
 
-    @ViewChild(GoodsDialogComponent)
-    private modal: GoodsDialogComponent;
-    @ViewChild(CustomDialogComponent)
-    private customModal: CustomDialogComponent;
+
+    private readonly modal = viewChild(GoodsDialogComponent);
+    private readonly customModal = viewChild(CustomDialogComponent);
 
     public items: ICateringProduct[] = [];
     public hasMore = true;
@@ -32,13 +35,6 @@ export class GoodsComponent implements OnInit {
     };
     public categoryItems: ICateringCategory[] = [];
 
-    constructor(
-        private service: CateringService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
-
     ngOnInit() {
         this.service.merchantProductCategory().subscribe(res => {
             this.categoryItems = res.data;
@@ -50,12 +46,12 @@ export class GoodsComponent implements OnInit {
     }
 
     public tapEdit() {
-        this.modal.open();
+        this.modal().open();
     }
 
     public tapEditCategory(item?: ICateringCategory) {
-        this.customModal.value = item ? item.name : '';
-        this.customModal.open(value => {
+        customModal.value = item ? item.name : '';
+        customModal.open(value => {
             this.service.merchantProductCategorySave({id: item?.id, name: value}).subscribe(res => {
                 if (item) {
                     this.categoryItems = this.categoryItems.map(i => {

@@ -1,4 +1,4 @@
-@if (visible) {
+@if (visible()) {
     <div class="dialog-mask" (click)="close()"></div>
     <div class="dialog-box"  animate.enter="dialog-opened" animate.leave="dialog-closed">
     <app-flip-container>
@@ -8,21 +8,21 @@
                 <input type="text" class="form-control">
             </div>
             <div class="input-label">预览图</div>
-            <app-file-input></app-file-input>
+            <app-file-input />
             <div class="input-label">图片</div>
-            <app-file-input></app-file-input>
+            <app-file-input />
             <div class="input-flex">
                 <label>库存数量</label>
-                <app-number-input></app-number-input>
+                <app-number-input />
             </div>
             <div class="input-flex">
                 <label>售价</label>
-                <app-number-input></app-number-input>
+                <app-number-input />
             </div>
             <div class="input-label">描述</div>
             <textarea class="form-control"></textarea>
 
-            <div class="line-menu-bar" (click)="flipModal.navigate(1)">
+            <div class="line-menu-bar" (click)="flipModal().navigate(1)">
                 <div class="menu-name">配料</div>
                 <div class="menu-arrow">
                     <i class="iconfont icon-chevron-right"></i>
@@ -35,7 +35,7 @@
                 <div class="item" [ngClass]="{active: tabIndex > 0}" (click)="tabIndex = 1">食材</div>
             </div>
             <div [hidden]="tabIndex > 0">
-                <ng-select></ng-select>
+                <ng-select />
             </div>
             <div class="multiple-panel"  [hidden]="tabIndex < 1">
                 @for (item of items; track $index) {
@@ -45,7 +45,7 @@
                         <i class="iconfont icon-edit" (click)="tapEditLine(item)"></i>
                     </div>
                     <label>{{ item.name }}<em class="unit">/{{ item.unit }}</em></label>
-                    <app-number-input [only]="false" [(ngModel)]="item.amount"></app-number-input>
+                    <app-number-input [only]="false" [(ngModel)]="item.amount" />
                 </div>
                 }
                 <div class="btn btn-info" (click)="tapEditLine()">

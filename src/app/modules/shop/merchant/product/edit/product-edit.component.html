@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑商品' : '新增商品'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑商品' : '新增商品'" (submited)="tapSubmit()" [disabled]="form.invalid" />
 <div class="container-fluid">
     <form class="form-table-control"  [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="row">
@@ -57,13 +57,13 @@
                     <div class="input-group-control">
                         <label for="thumb">缩略图</label>
                         <div>
-                            <app-file-input id="thumb" formControlName="thumb"></app-file-input>
+                            <app-file-input id="thumb" formControlName="thumb" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="picture">主图</label>
                         <div>
-                            <app-file-input id="picture" formControlName="picture"></app-file-input>
+                            <app-file-input id="picture" formControlName="picture" />
                         </div>
                     </div>
                     <div class="input-group-control">
@@ -97,7 +97,7 @@
                     <div class="input-group-control">
                         <label for="keywords">关键字</label>
                         <div>
-                            <app-words-input id="keywords" formControlName="keywords" placeholder="请输入 关键字"></app-words-input>
+                            <app-words-input id="keywords" formControlName="keywords" placeholder="请输入 关键字" />
                         </div>
                     </div>
                     <div class="input-group-control">
@@ -111,19 +111,19 @@
                     <div class="input-group-control">
                         <label for="is_best">精品</label>
                         <div>
-                            <app-switch id="is_best" formControlName="is_best"></app-switch>
+                            <app-switch id="is_best" formControlName="is_best" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="is_hot">热门</label>
                         <div>
-                            <app-switch id="is_hot" formControlName="is_hot"></app-switch>
+                            <app-switch id="is_hot" formControlName="is_hot" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="is_new">最新</label>
                         <div>
-                            <app-switch id="is_new" formControlName="is_new"></app-switch>
+                            <app-switch id="is_new" formControlName="is_new" />
                         </div>
                     </div>
                     <div class="input-group-control">
@@ -143,15 +143,15 @@
         </div>
 
         <app-panel [title]="'预览图'">
-            <app-gallery-panel [(ngModel)]="gallaryItems" [ngModelOptions]="{standalone: true}"></app-gallery-panel>
+            <app-gallery-panel [(ngModel)]="gallaryItems" [ngModelOptions]="{standalone: true}" />
         </app-panel>
 
         <div class="panel-container">
-            <app-zre-editor formControlName="content"></app-zre-editor>
+            <app-zre-editor formControlName="content" />
         </div>
 
         <app-panel title="规格">
-            <app-sku-form [attrItems]="attrItems" [productItems]="productItems"></app-sku-form>
+            <app-sku-form [attrItems]="attrItems" [productItems]="productItems" />
         </app-panel>
 
         <app-panel title="SEO优化" [min]="true">

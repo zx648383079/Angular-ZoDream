@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ISite } from '../../../../theme/models/seo';
 import { ShopAppState } from '../../shop.reducer';
@@ -11,12 +11,12 @@ import { selectSite } from '../../shop.selectors';
   styleUrls: ['./bottom-bar.component.scss']
 })
 export class BottomBarComponent implements OnInit {
+    private store = inject<Store<ShopAppState>>(Store);
+
 
     public site: ISite = {} as any;
 
-    constructor(
-        private store: Store<ShopAppState>,
-    ) {
+    constructor() {
         this.store.select(selectSite).subscribe(site => {
             this.site = site || {} as any;
         });

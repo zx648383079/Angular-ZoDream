@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑流水' : '新增流水'"(submited)="tapSubmit()"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑流水' : '新增流水'"(submited)="tapSubmit()" />
 <div class="container-fluid">
     <div class="form-table-control panel-container">
         @if (mode < 1) {
@@ -79,7 +79,7 @@
             <div class="input-group-control">
                 <label for="happened_at">发生时间</label>
                 <div>
-                    <app-date-input id="happened_at" [(ngModel)]="data.happened_at" format="yyyy-mm-dd hh:ii:ss"></app-date-input>
+                    <app-date-input id="happened_at" [(ngModel)]="data.happened_at" format="yyyy-mm-dd hh:ii:ss" />
                 </div>
             </div>
             <div class="input-group-control">
@@ -93,7 +93,7 @@
             <div class="input-group-control">
                 <label for="day">日期</label>
                 <div>
-                    <app-date-input id="day" [(ngModel)]="dayData.day"></app-date-input>
+                    <app-date-input id="day" [(ngModel)]="dayData.day" />
                 </div>
             </div>
             <div class="input-group-control">
@@ -134,7 +134,7 @@
             <div class="input-group-control">
                 <label for="breakfast_time">时间</label>
                 <div>
-                    <app-time-input id="breakfast_time" [(ngModel)]="dayData.breakfast.time"></app-time-input>
+                    <app-time-input id="breakfast_time" [(ngModel)]="dayData.breakfast.time" />
                 </div>
             </div>
             <div class="input-group-control">
@@ -155,7 +155,7 @@
             <div class="input-group-control">
                 <label for="lunch_time">时间</label>
                 <div>
-                    <app-time-input id="lunch_time" [(ngModel)]="dayData.lunch.time"></app-time-input>
+                    <app-time-input id="lunch_time" [(ngModel)]="dayData.lunch.time" />
 
                 </div>
             </div>
@@ -177,7 +177,7 @@
             <div class="input-group-control">
                 <label for="dinner_time">时间</label>
                 <div>
-                    <app-time-input id="dinner_time" [(ngModel)]="dayData.dinner.time"></app-time-input>
+                    <app-time-input id="dinner_time" [(ngModel)]="dayData.dinner.time" />
 
                 </div>
             </div>

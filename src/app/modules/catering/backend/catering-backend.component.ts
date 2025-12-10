@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CateringBackendService } from './catering.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { CateringBackendService } from './catering.service';
   styleUrls: ['./catering-backend.component.scss']
 })
 export class CateringBackendComponent implements OnInit {
+    private service = inject(CateringBackendService);
+
 
     public isLoading = true;
     public data: any = {};
-
-    constructor(
-        private service: CateringBackendService
-    ) { }
 
     ngOnInit(): void {
         this.service.statistics().subscribe({

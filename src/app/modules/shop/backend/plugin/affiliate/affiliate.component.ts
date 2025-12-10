@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AffiliateService } from './affiliate.service';
 
@@ -9,16 +9,14 @@ import { AffiliateService } from './affiliate.service';
     styleUrls: ['./affiliate.component.scss']
 })
 export class AffiliateComponent implements OnInit {
+    private service = inject(AffiliateService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+
 
     public isInstalled = false;
     public isLoading = true;
     public data: any = {};
-
-    constructor(
-        private service: AffiliateService,
-        private router: Router,
-        private route: ActivatedRoute
-    ) { }
 
     ngOnInit() {
         this.service.statistics().subscribe(res => {

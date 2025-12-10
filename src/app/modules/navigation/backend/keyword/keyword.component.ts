@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -15,6 +15,11 @@ import { NavigationService } from '../navigation.service';
   styleUrls: ['./keyword.component.scss']
 })
 export class KeywordComponent implements OnInit {
+    private service = inject(NavigationService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IWebPageKeywords[] = [];
     public hasMore = true;
@@ -27,13 +32,6 @@ export class KeywordComponent implements OnInit {
     };
     public typeItems = ['词语', '长尾词'];
     public editData: IWebPageKeywords = {} as any;
-
-    constructor(
-        private service: NavigationService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

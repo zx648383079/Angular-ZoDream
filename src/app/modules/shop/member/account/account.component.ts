@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShopService } from '../../shop.service';
 import { IAccountLog } from '../../../../theme/models/auth';
@@ -17,6 +17,11 @@ import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
   styleUrls: ['./account.component.scss']
 })
 export class AccountComponent implements OnInit, OnDestroy {
+    private service = inject(ShopService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+    private store = inject<Store<ShopAppState>>(Store);
+
 
     public title = '我的账户';
     public items: IAccountLog[] = [];
@@ -32,12 +37,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     public user: IUser;
     private subItems = new Subscription();
 
-    constructor(
-        private service: ShopService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-        private store: Store<ShopAppState>,
-    ) {
+    constructor() {
         this.subItems.add(
             this.store.select(selectAuthUser).subscribe(res => {
                 this.user = res;  

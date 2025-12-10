@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IBrand, ICategory, IGoods, IComment } from '../../model';
 import { ThemeService } from '../../../../theme/services';
 import { ShopService } from '../../shop.service';
@@ -11,6 +11,9 @@ import { IAd } from '../../../ad-sense/model';
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+    private service = inject(ShopService);
+    private themeService = inject(ThemeService);
+
 
     public bannerItems: IAd[] = [];
     public brandItems: IBrand[] = [];
@@ -18,11 +21,6 @@ export class HomeComponent implements OnInit {
     public bestItems: IGoods[] = [];
     public floorItems: ICategory[] = [];
     public commentItems: IComment[] = [];
-
-    constructor(
-        private service: ShopService,
-        private themeService: ThemeService,
-    ) { }
 
     ngOnInit() {
         this.themeService.titleChanged.next('商城');

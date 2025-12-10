@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppStoreService } from '../app-store.service';
 import { ICategory, ISoftware } from '../model';
@@ -10,18 +10,16 @@ import { ICategory, ISoftware } from '../model';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private service = inject(AppStoreService);
+
 
     public categories: ICategory[] = [];
     public featureItems: ISoftware[] = [];
     public featureLoading = true;
     public newItems: ISoftware[] = [];
     public newLoading = true;
-
-    constructor(
-        private router: Router,
-        private route: ActivatedRoute,
-        private service: AppStoreService,
-    ) { }
 
     ngOnInit() {
         this.service.batch({

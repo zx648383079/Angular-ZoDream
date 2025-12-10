@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { GenerateService } from '../../generate.service';
@@ -10,6 +10,10 @@ import { GenerateService } from '../../generate.service';
   styleUrls: ['./query.component.scss']
 })
 export class QueryComponent implements OnInit {
+    private service = inject(GenerateService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public items: any[] = [];
     public schema = '';
@@ -19,12 +23,6 @@ export class QueryComponent implements OnInit {
     public perPage = 20;
     public total = -1;
     public sql = '';
-
-    constructor(
-        private service: GenerateService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

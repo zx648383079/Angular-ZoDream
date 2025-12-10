@@ -75,8 +75,8 @@
                 </tr>
             </tfoot>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>
 
@@ -101,7 +101,7 @@
         <div class="input-group-control">
             <label for="logo" i18n>Site Logo:</label>
             <div>
-                <app-file-input [(ngModel)]="editData.logo"></app-file-input>
+                <app-file-input [(ngModel)]="editData.logo" />
             </div>
         </div>
         <div class="input-group-control">
@@ -119,5 +119,4 @@
     </div>
 </app-dialog-box>
 
-<app-manage-dialog #toggleModal>
-</app-manage-dialog>
+<app-manage-dialog #toggleModal />

@@ -1,19 +1,19 @@
-@if (visible) {
+@if (visible()) {
 <div class="dialog-mask" (click)="close()"></div>
-<div class="dialog-box" [ngClass]="{'dialog-not-header': !title && !customHeader}" animate.enter="dialog-opened" animate.leave="dialog-closed" [ngStyle]="boxStyle">
-    @if (title || customHeader) {
+<div class="dialog-box" [ngClass]="{'dialog-not-header': !title() && !customHeader()}" animate.enter="dialog-opened" animate.leave="dialog-closed" [ngStyle]="boxStyle">
+    @if (title() || customHeader()) {
     <div class="dialog-header">
-        <div class="dialog-title">{{ title }}</div>
+        <div class="dialog-title">{{ title() }}</div>
         <i class="iconfont icon-close dialog-close" (click)="close(false)"></i>
-        @if (buttonVisible) {
-            <div class="btn btn-primary tablet-visible" (click)="close(true)">{{ confirmText }}</div>
+        @if (buttonVisible()) {
+            <div class="btn btn-primary tablet-visible" (click)="close(true)">{{ confirmText() }}</div>
         }
-        <ng-content select="[name=header]"></ng-content>
+        <ng-content select="[name=header]" />
     </div>
     }
     
-    <div class="dialog-body" [ngClass]="{scrollable: scrollable}">
-        <ng-content></ng-content>
+    <div class="dialog-body" [ngClass]="{scrollable: scrollable()}">
+        <ng-content />
         @if (invalidTip) {
         <div class="dialog-invail-tip">
             {{ invalidTip }}
@@ -21,14 +21,14 @@
         }
         
     </div>
-    @if (footerVisible) {
+    @if (footerVisible()) {
     <div class="dialog-footer tablet-collapse">
         <div class="btn-group">
-            @if (buttonVisible) {
-                <div class="btn btn-primary" (click)="close(true)">{{ confirmText }}</div>
-                <div class="btn btn-danger" (click)="close(false)">{{ cancelText }}</div>
+            @if (buttonVisible()) {
+                <div class="btn btn-primary" (click)="close(true)">{{ confirmText() }}</div>
+                <div class="btn btn-danger" (click)="close(false)">{{ cancelText() }}</div>
             }
-            <ng-content select="[name=footer]"></ng-content>
+            <ng-content select="[name=footer]" />
         </div>
     </div>
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -14,6 +14,11 @@ import { TVService } from '../../tv.service';
   styleUrls: ['./series.component.scss']
 })
 export class SeriesComponent implements OnInit {
+    private service = inject(TVService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IMovieSeries[] = [];
     public hasMore = true;
@@ -25,14 +30,6 @@ export class SeriesComponent implements OnInit {
         per_page: 20
     };
     public editData: IMovieSeries = {} as any;
-
-    constructor(
-        private service: TVService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

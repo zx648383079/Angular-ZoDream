@@ -44,8 +44,8 @@
                 }
             </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination  [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>
 
@@ -59,7 +59,7 @@
     <div class="form-group">
         <label>预览图</label>
         <div class="input-group-control">
-            <app-file-input [(ngModel)]="editData.image" [online]="true"></app-file-input>
+            <app-file-input [(ngModel)]="editData.image" [online]="true" />
         </div>
     </div>
     <div class="form-group">
@@ -71,7 +71,7 @@
     <div class="form-group">
         <label>是否限种族</label>
         <div class="input-group-control">
-            <app-switch></app-switch>
+            <app-switch />
         </div>
     </div>
     <div class="form-group">
@@ -85,19 +85,19 @@
         <div class="group-body">
             <div class="property-item">
                 <label for="">生命值</label>
-                <app-number-input [(ngModel)]="editData.hp"></app-number-input>
+                <app-number-input [(ngModel)]="editData.hp" />
             </div>
             <div class="property-item">
                 <label for="">魔法值</label>
-                <app-number-input [(ngModel)]="editData.mp"></app-number-input>
+                <app-number-input [(ngModel)]="editData.mp" />
             </div>
             <div class="property-item">
                 <label for="">攻击</label>
-                <app-number-input [(ngModel)]="editData.att"></app-number-input>
+                <app-number-input [(ngModel)]="editData.att" />
             </div>
             <div class="property-item">
                 <label for="">防御</label>
-                <app-number-input [(ngModel)]="editData.def"></app-number-input>
+                <app-number-input [(ngModel)]="editData.def" />
             </div>
         </div>
     </div>

@@ -1,10 +1,10 @@
-<div class="music-player" #playerBar [ngClass]="{'fixed-player': isFixed, hidden: hidden}">
+<div class="music-player" #playerBar [ngClass]="{'fixed-player': isFixed(), hidden: hidden()}">
     <div class="player-body">
-        <app-spectrum-panel [width]="lyricsWidth" [height]="lyricsHeight" [hidden]="!spectrumVisible" [value]="channelData"></app-spectrum-panel>
-        <app-lyrics-viewer  [width]="lyricsWidth" [height]="lyricsHeight" [src]="lyricsSrc" [hidden]="!lyricsVisible" [duration]="duration" [currentTime]="progress"></app-lyrics-viewer>
+        <app-spectrum-panel [width]="lyricsWidth" [height]="lyricsHeight" [hidden]="!spectrumVisible" [value]="channelData" />
+        <app-lyrics-viewer [width]="lyricsWidth" [height]="lyricsHeight" [src]="lyricsSrc" [hidden]="!lyricsVisible" [duration]="duration" [currentTime]="progress" />
     </div>
     <div class="player-catalog" [hidden]="!catalogVisible">
-        <app-play-list [min]="true" [items]="items" (playing)="play($event)"></app-play-list>
+        <app-play-list [min]="true" [items]="items" (playing)="play($event)" />
     </div>
     @if (morePanelVisible) {
     <div class="more-dialog">
@@ -13,7 +13,7 @@
                 <i class="iconfont icon-bar-chart"></i>
             </span>
             <div class="item-body">
-                <app-switch [(ngModel)]="spectrumVisible" onLabel="显示" offLabel="关闭"></app-switch>
+                <app-switch [(ngModel)]="spectrumVisible" onLabel="显示" offLabel="关闭" />
             </div>
         </div>
         <div class="group-item" title="歌词显示">
@@ -21,7 +21,7 @@
                 <i class="iconfont icon-file-text-o"></i>
             </span>
             <div class="item-body">
-                <app-switch [(ngModel)]="lyricsVisible"  onLabel="显示" offLabel="关闭"></app-switch>
+                <app-switch [(ngModel)]="lyricsVisible"  onLabel="显示" offLabel="关闭" />
             </div>
         </div>
         <div class="group-item" title="播放列表">
@@ -29,7 +29,7 @@
                 <i class="iconfont icon-th-list"></i>
             </span>
             <div class="item-body">
-                <app-switch [(ngModel)]="catalogVisible" onLabel="显示" offLabel="关闭"></app-switch>
+                <app-switch [(ngModel)]="catalogVisible" onLabel="显示" offLabel="关闭" />
             </div>
         </div>
         <div class="group-item" title="音量调节">
@@ -37,7 +37,7 @@
                 <i class="iconfont" [ngClass]="{'icon-volume-off': volume <= 0, 'icon-volume-down': volume > 0 && volume <= 60, 'icon-volume-up': volume > 60}" (click)="tapVolume()"></i>
             </span>
             <div class="item-body">
-                <app-player-progress-bar [formatValue]="false" [value]="volume" (valueChange)="onVolumeChange($event)"></app-player-progress-bar>
+                <app-player-progress-bar [formatValue]="false" [value]="volume" (valueChange)="onVolumeChange($event)" />
             </div>
         </div>
     </div>
@@ -68,7 +68,7 @@
                     </div>
                 </div>
                 <div class="bar-progress">
-                    <app-player-progress-bar [value]="progress" [loaded]="loaded" [max]="duration" (valueChange)="onProgressChange($event)"></app-player-progress-bar>
+                    <app-player-progress-bar [value]="progress" [loaded]="loaded" [max]="duration" (valueChange)="onProgressChange($event)" />
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, input, output } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IEmoji, IEmojiCategory } from '../../../theme/models/seo';
@@ -13,11 +13,14 @@ import { IData } from '../../../theme/models/page';
     styleUrls: ['./emoji-picker.component.scss']
 })
 export class EmojiPickerComponent {
+    private http = inject(HttpClient);
+    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
+
 
     static cacheMaps: {[url: string]: IEmojiCategory[]} = {};
 
-    @Input() public url = 'seo/emoji';
-    @Output() public tapped = new EventEmitter<IEmoji>();
+    public readonly url = input('seo/emoji');
+    public readonly tapped = output<IEmoji>();
     public items: IEmojiCategory[] = [];
     public navIndex = 0;
     public panelVisible = false;
@@ -29,11 +32,6 @@ export class EmojiPickerComponent {
             this.panelVisible = false;
         }
     }
-
-    constructor(
-        private http: HttpClient,
-        private elementRef: ElementRef<HTMLDivElement>
-    ) { }
 
     get panelStyle() {
         const bound = this.elementRef.nativeElement.getBoundingClientRect();
@@ -72,7 +70,7 @@ export class EmojiPickerComponent {
             return;
         }
         this.booted = true;
-        this.getOrSet(this.url).subscribe(res => {
+        this.getOrSet(this.url()).subscribe(res => {
             this.items = res;
         });
     }

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IUploadResult } from '../../../theme/models/open';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { ICategory, IComment, IResource, ITag } from '../model';
@@ -8,10 +8,8 @@ import { ICategory, IComment, IResource, ITag } from '../model';
     providedIn: 'root'
 })
 export class ResourceService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public categoryTree() {
         return this.http.get<IData<ICategory>>('res/admin/category/all');

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../components/dialog';
@@ -20,6 +20,12 @@ import { IBlockItem } from '../../../components/link-rule';
     styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
+    private service = inject(MicroService);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private toastrService = inject(DialogService);
+    private store = inject<Store<AppState>>(Store);
+
 
     public data: IMicro;
     public authUser: IUser;
@@ -29,13 +35,7 @@ export class DetailComponent implements OnInit {
         id: 0,
     };
 
-    constructor(
-        private service: MicroService,
-        private route: ActivatedRoute,
-        private router: Router,
-        private toastrService: DialogService,
-        private store: Store<AppState>,
-    ) {
+    constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
             this.authUser = user;
         });

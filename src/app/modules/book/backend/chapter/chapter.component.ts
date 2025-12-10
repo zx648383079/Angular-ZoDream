@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ChapterTypeItems, IBook, IChapter } from '../../model';
@@ -12,6 +12,10 @@ import { mapFormat } from '../../../../theme/utils';
   styleUrls: ['./chapter.component.scss']
 })
 export class ChapterComponent implements OnInit {
+    private service = inject(BookService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+
 
     public items: IChapter[] = [];
     public page = 1;
@@ -21,12 +25,6 @@ export class ChapterComponent implements OnInit {
     public perPage = 20;
     public keywords = '';
     public data: IBook;
-
-    constructor(
-        private service: BookService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-    ) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {

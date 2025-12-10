@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
@@ -12,6 +12,11 @@ import { MicroService } from '../micro.service';
   styleUrls: ['./share.component.scss']
 })
 export class ShareComponent implements OnInit {
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private service = inject(MicroService);
+    private toastrService = inject(DialogService);
+
 
     public data = {
         shareappid: '',
@@ -29,13 +34,6 @@ export class ShareComponent implements OnInit {
         $localize `Tucao`, 
         $localize `Private`
     ];
-
-    constructor(
-        private route: ActivatedRoute,
-        private router: Router,
-        private service: MicroService,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

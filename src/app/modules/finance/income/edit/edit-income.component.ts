@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { emptyValidate } from '../../../../theme/validators';
@@ -12,6 +12,10 @@ import { IAccount, IBudget, IConsumptionChannel, IFinancialProject, ILog } from 
     styleUrls: ['./edit-income.component.scss']
 })
 export class EditIncomeComponent implements OnInit {
+    private service = inject(FinanceService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public data: ILog = {
         id: 0,
@@ -54,11 +58,7 @@ export class EditIncomeComponent implements OnInit {
         },
     };
 
-    constructor(
-        private service: FinanceService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.service.batch({
             account: {},
             channel: {},

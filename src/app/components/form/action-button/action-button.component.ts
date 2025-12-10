@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnChanges, SimpleChanges, inject, input, output } from '@angular/core';
 import { ButtonEvent } from '../event';
 
 @Component({
@@ -11,15 +11,13 @@ import { ButtonEvent } from '../event';
     },
 })
 export class ActionButtonComponent implements OnChanges, AfterViewInit, ButtonEvent {
+    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
-    @Input() public disabled = false;
-    @Input() public loading = false;
-    @Output() public tapped = new EventEmitter<ButtonEvent>();
+
+    public readonly disabled = input(false);
+    public readonly loading = input(false);
+    public readonly tapped = output<ButtonEvent>();
     private height = 0;
-
-    constructor(
-        private elementRef: ElementRef<HTMLDivElement>
-    ) { }
 
     get loadingStyle() {
         const width = this.height - 10;
@@ -61,11 +59,11 @@ export class ActionButtonComponent implements OnChanges, AfterViewInit, ButtonEv
      */
     public reset() {
         this.loading = false;
-        this.toggleClass('disabled', this.disabled);
+        this.toggleClass('disabled', this.disabled());
     }
 
     public tapBody() {
-        if (this.disabled || this.loading) {
+        if (this.disabled() || this.loading()) {
             return;
         }
         this.tapped.emit(this);

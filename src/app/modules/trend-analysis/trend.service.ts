@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { of } from 'rxjs';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IJumpLog, IPageAccessLog, ITrendLog, ITrendStatistics } from './model';
@@ -8,10 +8,8 @@ import { IJumpLog, IPageAccessLog, ITrendLog, ITrendStatistics } from './model';
     providedIn: 'root'
 })
 export class TrendService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public trendRealTime(params: any) {
         return this.http.get<IPage<any>>('counter/trend', {

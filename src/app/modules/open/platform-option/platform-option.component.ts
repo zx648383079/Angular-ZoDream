@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, inject, input } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { IPlatform } from '../../../theme/models/open';
@@ -12,20 +12,18 @@ import { IData, IDataOne } from '../../../theme/models/page';
   styleUrls: ['./platform-option.component.scss']
 })
 export class PlatformOptionComponent implements OnInit {
+    private http = inject(HttpClient);
+    private toastrService = inject(DialogService);
 
-    @Input() public url: string;
+
+    public readonly url = input<string>(undefined);
 
     public platformId = 0;
     public platformItems: IPlatform[] = [];
     public items: any[] = [];
 
-    constructor(
-        private http: HttpClient,
-        private toastrService: DialogService,
-    ) { }
-
     ngOnInit() {
-        this.http.get<IData<IPlatform>>(this.url + '/platform').subscribe(res => {
+        this.http.get<IData<IPlatform>>(this.url() + '/platform').subscribe(res => {
             this.platformItems = res.data;
             if (res.data.length > 0) {
                 this.platformId = res.data[0].id;
@@ -35,7 +33,7 @@ export class PlatformOptionComponent implements OnInit {
     }
 
     public tapPlatformChange() {
-        this.http.get<IData<any>>(this.url + '/option', {
+        this.http.get<IData<any>>(this.url() + '/option', {
             params: {
                 platform: this.platformId.toString(),
             }
@@ -73,7 +71,7 @@ export class PlatformOptionComponent implements OnInit {
             option[group.name] = data;
         }
         e?.enter();
-        this.http.post<IDataOne<boolean>>(this.url + '/save_option', {
+        this.http.post<IDataOne<boolean>>(this.url() + '/save_option', {
             platform: this.platformId,
             option,
         }).subscribe({

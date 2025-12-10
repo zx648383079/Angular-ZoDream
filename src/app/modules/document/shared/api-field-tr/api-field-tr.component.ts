@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { IApiField } from '../../model';
 
 @Component({
@@ -9,9 +9,9 @@ import { IApiField } from '../../model';
 })
 export class ApiFieldTrComponent {
 
-    @Input() public items: IApiField[] = [];
-    @Input() public kind = 1;
-    @Output() public itemsChange = new EventEmitter();
+    public readonly items = input<IApiField[]>([]);
+    public readonly kind = input(1);
+    public readonly itemsChange = output();
 
     public typeItems = [
         {
@@ -47,7 +47,7 @@ export class ApiFieldTrComponent {
     constructor() { }
     
     public onValueChange() {
-        this.itemsChange.emit(this.items);
+        this.itemsChange.emit(this.items());
     }
 
     public onTypeChange(item: IApiField) {
@@ -59,13 +59,13 @@ export class ApiFieldTrComponent {
     }
 
     public tapRemoveItem(i: number) {
-        this.items.splice(i, 1);
-        this.itemsChange.emit(this.items);
+        this.items().splice(i, 1);
+        this.itemsChange.emit(this.items());
     }
 
     public tapAddItem(parent?: IApiField) {
         let item: any;
-        if (this.kind === 1) {
+        if (this.kind() === 1) {
             item = {
                 name: '',
                 title: '',
@@ -92,8 +92,8 @@ export class ApiFieldTrComponent {
                 parent.children.push(item);
             }
         } else {
-            this.items.push(item);
+            this.items().push(item);
         }
-        this.itemsChange.emit(this.items);
+        this.itemsChange.emit(this.items());
     }
 }

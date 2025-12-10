@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { ICategory, IResource, ITag } from '../model';
 import { map } from 'rxjs';
@@ -9,10 +9,8 @@ import { IUploadResult } from '../../../theme/models/open';
     providedIn: 'root'
 })
 export class ResourceService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient,
-    ) { }
 
 
     public categoryAll() {

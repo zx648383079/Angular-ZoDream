@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
 import { CountdownEvent } from '../../../../components/form';
@@ -15,6 +15,10 @@ import { MemberService } from '../member.service';
     styleUrls: ['./password.component.scss']
 })
 export class PasswordComponent {
+    private store = inject<Store<AppState>>(Store);
+    private service = inject(MemberService);
+    private toastrService = inject(DialogService);
+
 
     public tabIndex = 0;
     public user: IUser;
@@ -27,11 +31,7 @@ export class PasswordComponent {
         verify: '',
     };
 
-    constructor(
-        private store: Store<AppState>,
-        private service: MemberService,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;
         });

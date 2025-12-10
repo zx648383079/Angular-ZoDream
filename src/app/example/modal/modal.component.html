@@ -89,7 +89,7 @@
             </div>
             <div class="input-line-group input-mt">
                 <label for="">名称</label>
-                <app-number-input></app-number-input>
+                <app-number-input />
             </div>
             <div class="line-menu-bar" (click)="customModal.page = 4">
                 <div class="menu-name">配料</div>
@@ -125,7 +125,7 @@
                 <div class="swipe-body">
                     <div class="input-line-group">
                         <label for="">名称</label>
-                        <app-number-input></app-number-input>
+                        <app-number-input />
                     </div>
                 </div>
             </div>
@@ -138,7 +138,7 @@
                 后退
             }
         </div>
-        <app-flip-dot [value]="customModal.page" [max]="4"></app-flip-dot>
+        <app-flip-dot [value]="customModal.page" [max]="4" />
         <div class="btn-group">
             <div class="btn btn-secondary" (click)="customModal.visible = false">取消</div>
             <div class="btn btn-primary" (click)="customModal.visible = false">保存</div>

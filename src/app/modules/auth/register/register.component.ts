@@ -1,7 +1,4 @@
-import {
-    Component,
-    OnDestroy,
-} from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import {
     FormBuilder,
     Validators
@@ -31,6 +28,13 @@ import { confirmValidator, passwordValidator } from '../../../components/desktop
     styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnDestroy {
+    private fb = inject(FormBuilder);
+    private toastrService = inject(DialogService);
+    private authService = inject(AuthService);
+    private themeService = inject(ThemeService);
+    private encryptor = inject(EncryptorService);
+    private store = inject<Store<AppState>>(Store);
+
 
     public isObserve = false;
     public openStatus = 0;
@@ -46,14 +50,7 @@ export class RegisterComponent implements OnDestroy {
     });
     private subItems = new Subscription();
 
-    constructor(
-        private fb: FormBuilder,
-        private toastrService: DialogService,
-        private authService: AuthService,
-        private themeService: ThemeService,
-        private encryptor: EncryptorService,
-        private store: Store<AppState>,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Sign up`);
         this.subItems.add(
             this.store.select(selectSystemConfig).subscribe(res => {

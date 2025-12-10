@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ICateringStore } from '../model';
 import { IDataOne, IPage } from '../../../theme/models/page';
 
@@ -7,10 +7,8 @@ import { IDataOne, IPage } from '../../../theme/models/page';
   providedIn: 'root'
 })
 export class CateringBackendService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public storeList(params: any) {
         return this.http.get<IPage<ICateringStore>>('catering/admin/store', {params});

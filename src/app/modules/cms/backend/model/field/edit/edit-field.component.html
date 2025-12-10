@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑字段' : '新增字段'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑字段' : '新增字段'" (submited)="tapSubmit()" [disabled]="form.invalid" />
 
 <div class="container-fluid">
     <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
@@ -20,7 +20,7 @@
         <div class="input-group-control">
             <label for="is_main">主表</label>
             <div>
-                <app-switch id="is_main" formControlName="is_main"></app-switch>
+                <app-switch id="is_main" formControlName="is_main" />
             </div>
         </div>
         @if (!data || data.is_system < 1) {
@@ -61,17 +61,17 @@
                             }
                             @case ('radio') {
                                 <div>
-                                    <app-check-input [items]="item.items" [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}"></app-check-input>
+                                    <app-check-input [items]="item.items" [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}" />
                                 </div>
                             }
                             @case ('checkbox') {
                                 <div>
-                                    <app-check-input [items]="item.items" [(ngModel)]="item.value" [multiple]="true" [ngModelOptions]="{standalone: true}"></app-check-input>
+                                    <app-check-input [items]="item.items" [(ngModel)]="item.value" [multiple]="true" [ngModelOptions]="{standalone: true}" />
                                 </div>
                             }
                             @case ('switch') {
                                 <div>
-                                    <app-switch [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}"></app-switch>
+                                    <app-switch [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}" />
                                 </div>
                             }
                         }
@@ -81,13 +81,13 @@
             <div class="input-group-control">
                 <label for="is_required">是否必填</label>
                 <div>
-                    <app-switch id="is_required" formControlName="is_required"></app-switch>
+                    <app-switch id="is_required" formControlName="is_required" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="is_search">是否搜索</label>
                 <div>
-                    <app-switch id="is_search" formControlName="is_search"></app-switch>
+                    <app-switch id="is_search" formControlName="is_search" />
                 </div>
             </div>
             <div class="input-group-control">
@@ -121,7 +121,7 @@
             <div class="input-group-control">
                 <label>编辑组</label>
                 <div class="tab-group">
-                    <app-check-input [items]="tabItems" [rangeKey]="false" formControlName="tab_name"></app-check-input>
+                    <app-check-input [items]="tabItems" [rangeKey]="false" formControlName="tab_name" />
                     <div class="flat-input">
                         <input type="text" class="form-control">
                         <button type="button" class="btn btn-info">添加</button>

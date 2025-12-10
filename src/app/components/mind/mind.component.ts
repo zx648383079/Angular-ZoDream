@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnChanges, OnInit, Renderer2, SimpleChanges, inject, input, output, viewChild } from '@angular/core';
 import { ContextMenuComponent } from '../context-menu';
 import { randomInt } from '../../theme/utils';
 import { MindConfirmEvent, MindLinkSource, MindPointSource, MindUpdateEvent } from './model';
@@ -26,22 +26,23 @@ interface IPointLink {
     styleUrls: ['./mind.component.scss']
 })
 export class MindComponent implements OnChanges, AfterViewInit, OnInit {
+    private renderer = inject(Renderer2);
+    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
-    @ViewChild('lineBox', {static: true})
-    public lineBoxRef: ElementRef<HTMLCanvasElement>;
 
-    @ViewChild(ContextMenuComponent)
-    public contextMenu: ContextMenuComponent;
+    public readonly lineBoxRef = viewChild<ElementRef<HTMLCanvasElement>>('lineBox');
 
-    @Input() public readonly = true;
-    @Input() public items: any[] = [];
-    @Input() public linkItems: any[] = [];
+    public readonly contextMenu = viewChild(ContextMenuComponent);
+
+    public readonly readonly = input(true);
+    public readonly items = input<any[]>([]);
+    public readonly linkItems = input<any[]>([]);
     /**
      * 转化函数，必须的
      */
-    @Input() public format: (data: any) => MindPointSource|MindLinkSource;
-    @Output() public confirm = new EventEmitter<MindConfirmEvent>();
-    @Output() public update = new EventEmitter<MindUpdateEvent>();
+    public readonly format = input<(data: any) => MindPointSource | MindLinkSource>(undefined);
+    public readonly confirm = output<MindConfirmEvent>();
+    public readonly update = output<MindUpdateEvent>();
 
     public pointItems: IPointItem[] = [];
     public pointLink: IPointLink[] = [];
@@ -55,13 +56,8 @@ export class MindComponent implements OnChanges, AfterViewInit, OnInit {
     private lineWidth = 4;
     private centerY = 18;
 
-    constructor(
-        private renderer: Renderer2,
-        private elementRef: ElementRef<HTMLDivElement>,
-    ) { }
-
     get lineBox(): HTMLCanvasElement {
-        return this.lineBoxRef.nativeElement as HTMLCanvasElement;
+        return this.lineBoxRef().nativeElement as HTMLCanvasElement;
     }
 
     ngOnInit() {
@@ -135,8 +131,8 @@ export class MindComponent implements OnChanges, AfterViewInit, OnInit {
                 },
                 from: this.pointItems[from].source,
                 next: (data, link) => {
-                    const formatData = this.format(data) as MindPointSource;
-                    const formatLink = link ? this.format(link) as MindLinkSource : undefined;
+                    const formatData = this.format()(data) as MindPointSource;
+                    const formatLink = link ? this.format()(link) as MindLinkSource : undefined;
                     this.pointItems.push(this.newPoint(formatData.text, x, y, data, formatData.id));
                     const to = this.pointItems.length - 1;
                     this.pointLink.push({
@@ -169,14 +165,14 @@ export class MindComponent implements OnChanges, AfterViewInit, OnInit {
                 y,
             },
             next: data => {
-                const formatData = this.format(data) as MindPointSource;
+                const formatData = this.format()(data) as MindPointSource;
                 this.pointItems.push(this.newPoint(formatData.text, x, y, data, formatData.id));
             }
         });
     }
 
     public onContext(event: MouseEvent, i: number) {
-        return this.contextMenu.show(event, [
+        return this.contextMenu().show(event, [
             {
                 name: $localize `Delete`,
                 icon: 'icon-trash',
@@ -222,7 +218,7 @@ export class MindComponent implements OnChanges, AfterViewInit, OnInit {
             from: this.pointItems[from].source,
             to: this.pointItems[to].source,
             next: link => {
-                const formatLink = this.format(link) as MindLinkSource;
+                const formatLink = this.format()(link) as MindLinkSource;
                 this.pointLink.push({
                     from,
                     to,
@@ -257,14 +253,15 @@ export class MindComponent implements OnChanges, AfterViewInit, OnInit {
     }
 
     private refreshPoint() {
-        if (!this.format) {
+        const format = this.format();
+        if (!format) {
             throw new Error('format is required!');
         }
         const maps: any = {};
         const items: IPointItem[] = [];
         let i = -1;
-        for (const item of this.items) {
-            const formatItem = this.format(item) as MindPointSource;
+        for (const item of this.items()) {
+            const formatItem = format(item) as MindPointSource;
             if (!formatItem) {
                 continue;
             }
@@ -282,8 +279,8 @@ export class MindComponent implements OnChanges, AfterViewInit, OnInit {
             });
         }
         const linkItems: IPointLink[] = [];
-        for (const item of this.linkItems) {
-            const formatItem = this.format(item) as MindLinkSource;
+        for (const item of this.linkItems()) {
+            const formatItem = format(item) as MindLinkSource;
             if (!formatItem) {
                 continue;
             }

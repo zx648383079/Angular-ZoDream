@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { SearchService } from '../../../theme/services';
@@ -13,11 +13,15 @@ interface IGroupHeader {
 
 @Component({
     standalone: false,
-  selector: 'app-user-setting',
-  templateUrl: './user-setting.component.html',
-  styleUrls: ['./user-setting.component.scss']
+    selector: 'app-user-setting',
+    templateUrl: './user-setting.component.html',
+    styleUrls: ['./user-setting.component.scss']
 })
 export class UserSettingComponent implements OnInit {
+    private service = inject(UserService);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
 
     public data: any = {
         accept_new_bulletin: true,
@@ -43,12 +47,6 @@ export class UserSettingComponent implements OnInit {
 
     public crumbs: IGroupHeader[] = [
     ];
-
-    constructor(
-        private service: UserService,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.service.settings().subscribe(res => {

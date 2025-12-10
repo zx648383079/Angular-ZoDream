@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ComponentRef, Injector, OnInit, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, ComponentRef, Injector, OnInit, Type, ViewContainerRef, inject, viewChild } from '@angular/core';
 import { GameService } from './game.service';
 import { ThemeService } from '../../theme/services';
 import { GameCommand, GameScenePath, IGameCharacter, IGamePeople, IGameProject, IGameRouter, IGameScene } from './model';
@@ -18,11 +18,15 @@ import { DialogueComponent } from './pages/dialogue/dialogue.component';
     styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit, AfterViewInit, IGameRouter {
+    private service = inject(GameService);
+    private router = inject(Router);
+    private themeService = inject(ThemeService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
 
-    @ViewChild('modalVC', {read: ViewContainerRef})
-    private modalViewContainer: ViewContainerRef;
-    @ViewChild(DialogueComponent)
-    private dialogue: DialogueComponent;
+
+    private readonly modalViewContainer = viewChild('modalVC', { read: ViewContainerRef });
+    private readonly dialogue = viewChild(DialogueComponent);
     private modalRef: ComponentRef<IGameScene>;
     public project: IGameProject;
     public character: IGameCharacter;
@@ -31,14 +35,9 @@ export class GameComponent implements OnInit, AfterViewInit, IGameRouter {
     private readyFn: Function;
     private historyItems: string[] = [];
 
-    constructor(
-        private service: GameService,
-        private router: Router,
-        private themeService: ThemeService,
-        private toastrService: DialogService,
-        injector: Injector,
-        private route: ActivatedRoute,
-    ) {
+    constructor() {
+        const injector = inject(Injector);
+
         this.themeService.titleChanged.next('Game');
         this.injector = new GameInjector(this, injector);
     }
@@ -123,16 +122,17 @@ export class GameComponent implements OnInit, AfterViewInit, IGameRouter {
     }
 
     private createModal(componentType: Type<IGameScene>) {
-        if (!this.modalViewContainer) {
+        const modalViewContainer = this.modalViewContainer();
+        if (!modalViewContainer) {
             this.readyFn = () => {
-                if (!this.modalViewContainer) {
+                if (!this.modalViewContainer()) {
                     return;
                 }
                 this.createModal(componentType);
             };
             return;
         }
-        this.modalRef = this.modalViewContainer.createComponent<IGameScene>(componentType, {
+        this.modalRef = modalViewContainer.createComponent<IGameScene>(componentType, {
             injector: this.injector
         });
     }
@@ -171,10 +171,10 @@ export class GameComponent implements OnInit, AfterViewInit, IGameRouter {
     }
 
     public select(items: string[]): Observable<number> {
-        return this.dialogue.select(items);
+        return this.dialogue().select(items);
     }
     public say(content: string[]|string, user?: IGamePeople): Observable<void> {
-        return this.dialogue.say(content, user);
+        return this.dialogue().say(content, user);
     }
 
     public exit() {

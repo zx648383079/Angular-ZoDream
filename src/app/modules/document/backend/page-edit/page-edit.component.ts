@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
@@ -16,6 +16,11 @@ import { treeRemoveId } from '../../shared';
   styleUrls: ['./page-edit.component.scss']
 })
 export class PageEditComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(DocumentService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -28,14 +33,6 @@ export class PageEditComponent implements OnInit {
     public catalog: IDocPage[] = [];
     public versionItems: IProjectVersion[] = [];
     public editData: any = {};
-
-
-    constructor(
-        private fb: FormBuilder,
-        private service: DocumentService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

@@ -1,8 +1,4 @@
-import {
-    Component,
-    OnInit,
-    ViewChild
-} from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import {
     IThread, IThreadPost, IThreadUser
 } from '../model';
@@ -41,9 +37,18 @@ import { ButtonEvent } from '../../../components/form';
     styleUrls: ['./thread.component.scss']
 })
 export class ThreadComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private toastrService = inject(DialogService);
+    private store = inject<Store<AppState>>(Store);
+    private service = inject(ForumService);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private downloadService = inject(DownloadService);
+    private searchService = inject(SearchService);
+    private themeService = inject(ThemeService);
 
-    @ViewChild(ForumEditorComponent)
-    public editor: ForumEditorComponent;
+
+    public readonly editor = viewChild(ForumEditorComponent);
 
     public thread: IThread;
     public items: IThreadPost[] = [];
@@ -72,17 +77,7 @@ export class ThreadComponent implements OnInit {
         selected: 0,
     };
 
-    constructor(
-        private fb: FormBuilder,
-        private toastrService: DialogService,
-        private store: Store<AppState>,
-        private service: ForumService,
-        private route: ActivatedRoute,
-        private router: Router,
-        private downloadService: DownloadService,
-        private searchService: SearchService,
-        private themeService: ThemeService
-    ) {
+    constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;
         });
@@ -270,14 +265,15 @@ export class ThreadComponent implements OnInit {
     }
 
     public tapReply(item: IThreadPost) {
-        if (!this.editor) {
+        const editor = this.editor();
+        if (!editor) {
             return;
         }
         const element = document.querySelector('#post-editor');
         if (element) {
             element.scrollIntoView();
         }
-        this.editor.insertAt(item.id, item.user.name);
+        editor.insertAt(item.id, item.user.name);
     }
 
     public toggleLike() {

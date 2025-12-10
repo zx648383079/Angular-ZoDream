@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent } from '../../../../../components/dialog';
 import { IApplyLog } from '../../../../../theme/models/auth';
@@ -13,6 +13,10 @@ import { SearchService } from '../../../../../theme/services';
   styleUrls: ['./apply-log.component.scss']
 })
 export class ApplyLogComponent implements OnInit {
+    private service = inject(AuthService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IApplyLog[] = [];
     public hasMore = true;
@@ -24,13 +28,6 @@ export class ApplyLogComponent implements OnInit {
         per_page: 20,
     };
     public editData: IApplyLog = {} as any;
-
-    constructor(
-        private service: AuthService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

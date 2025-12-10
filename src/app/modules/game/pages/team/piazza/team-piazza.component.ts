@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameRouter, IGameScene, IGameTeam } from '../../../model';
 import { IPage, IPageQueries } from '../../../../../theme/models/page';
 import { emptyValidate } from '../../../../../theme/validators';
@@ -10,6 +10,8 @@ import { emptyValidate } from '../../../../../theme/validators';
     styleUrls: ['./team-piazza.component.scss']
 })
 export class TeamPiazzaComponent implements IGameScene, OnInit {
+    private router = inject<IGameRouter>(GameRouterInjectorToken);
+
 
     public items: IGameTeam[] = [];
     public hasMore = true;
@@ -24,10 +26,6 @@ export class TeamPiazzaComponent implements IGameScene, OnInit {
     public input = {
         name: ''
     };
-
-    constructor(
-        @Inject(GameRouterInjectorToken) private router: IGameRouter,
-    ) { }
 
     ngOnInit() {
         this.tapRefresh();

@@ -51,7 +51,7 @@
             @for (item of items; track $index) {
                 <app-stack-item>
                     <div class="review-body">
-                        <app-rule-block [value]="item.content" [rules]="item.extra_rule"></app-rule-block>
+                        <app-rule-block [value]="item.content" [rules]="item.extra_rule" />
 
                         @if (item.attachment?.length > 0) {
                             <div class="multi-image-box">
@@ -101,8 +101,8 @@
             }
         </app-stack-container>
 
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
     
 </div>

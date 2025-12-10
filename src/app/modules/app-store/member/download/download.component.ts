@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
@@ -12,6 +12,10 @@ import { ISoftwareDownload } from '../../model';
   styleUrls: ['./download.component.scss']
 })
 export class DownloadComponent implements OnInit {
+    private service = inject(AppStoreService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public queries: IPageQueries = {
         keywords: '',
@@ -22,12 +26,6 @@ export class DownloadComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-
-    constructor(
-        private service: AppStoreService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

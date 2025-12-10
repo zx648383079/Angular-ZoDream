@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ICart, ICartItem } from '../../model';
@@ -15,15 +15,15 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./cart-dialog.component.scss']
 })
 export class CartDialogComponent {
+    private store = inject<Store<ShopAppState>>(Store);
+    private service = inject(ShopService);
+    private router = inject(Router);
+
 
     public cart: ICart;
     public cartOpen = false;
 
-    constructor(
-        private store: Store<ShopAppState>,
-        private service: ShopService,
-        private router: Router,
-    ) {
+    constructor() {
         this.store.select(selectShopCart).subscribe(cart => {
             this.cart = cart;
         });

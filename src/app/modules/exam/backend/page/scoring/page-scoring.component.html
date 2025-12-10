@@ -13,9 +13,9 @@
         @if (current.material) {
         <div class="material-panel">
             <h3>
-                <app-math-mark [content]="current.material.title" [allowInput]="false" [editable]="false"></app-math-mark>
+                <app-math-mark [content]="current.material.title" [allowInput]="false" [editable]="false" />
             </h3>
-            <app-math-mark [content]="current.material.content" [allowInput]="false" [editable]="false"></app-math-mark>
+            <app-math-mark [content]="current.material.content" [allowInput]="false" [editable]="false" />
             @if (current.material.image) {
                 <img [src]="current.material.image">
             }
@@ -23,7 +23,7 @@
         }
         <div class="question-panel">
             @for (item of current.items; track $index; let i = $index) {
-                <app-question-scoring [value]="item" (valueChange)="onScoring(i, $event)"></app-question-scoring>
+                <app-question-scoring [value]="item" (valueChange)="onScoring(i, $event)" />
             }
         </div>
         <div class="tool-bar">
@@ -74,5 +74,5 @@
 </div>
 }
 <app-dialog-box #modal title="总体点评">
-    <app-exam-editor [(ngModel)]="editData.remark"></app-exam-editor>
+    <app-exam-editor [(ngModel)]="editData.remark" />
 </app-dialog-box>

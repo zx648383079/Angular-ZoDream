@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,6 +13,11 @@ import { GameMakerService } from '../game-maker.service';
   styleUrls: ['./mine.component.scss']
 })
 export class MineComponent implements OnInit {
+    private service = inject(GameMakerService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IGameMine[] = [];
     public hasMore = true;
@@ -23,14 +28,6 @@ export class MineComponent implements OnInit {
         per_page: 20,
         keywords: '',
     };
-
-    constructor(
-        private service: GameMakerService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

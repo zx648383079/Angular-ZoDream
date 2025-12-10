@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ISite } from '../../../theme/models/seo';
@@ -15,16 +15,16 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./member.component.scss']
 })
 export class MemberComponent implements OnDestroy {
+    private service = inject(ShopService);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private store = inject<Store<ShopAppState>>(Store);
+
     public site: ISite = {} as any;
     public title = '个人中心';
     private subItems = new Subscription();
 
-    constructor(
-        private service: ShopService,
-        private route: ActivatedRoute,
-        private router: Router,
-        private store: Store<ShopAppState>,
-    ) {
+    constructor() {
         this.subItems.add(this.store.select(selectAuth).subscribe(res => {
             if (!res.isLoading && res.guest) {
                 this.router.navigate(['../market/auth'], {relativeTo: this.route});

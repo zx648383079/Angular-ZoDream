@@ -1,5 +1,5 @@
 <div class="message-container">
-    @if (hasMore) {
+    @if (hasMore()) {
         <p class="message-more" (click)="tapMore()" i18n>Load more</p>
     }
     @for (item of formatItems; track $index) {
@@ -17,7 +17,7 @@
                             <video [src]="getMediaSource(item)"></video>
                         }
                         @case (3) {
-                            <app-voice-player [src]="getMediaSource(item)"></app-voice-player>
+                            <app-voice-player [src]="getMediaSource(item)" />
                         }
                         @case (4) {
                             <div class="file-block">
@@ -45,7 +45,7 @@
                             </div>
                         }
                         @default {
-                            <app-rule-block [value]="item.content" [rules]="item.extra_rule" (tapped)="onRuleTap($event)"></app-rule-block>
+                            <app-rule-block [value]="item.content" [rules]="item.extra_rule" (tapped)="onRuleTap($event)" />
                         }
                     }
                 </div>

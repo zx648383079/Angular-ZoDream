@@ -49,8 +49,8 @@
             </tbody>
         
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>    
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />    
     </div>
 </div>
 
@@ -65,7 +65,7 @@
         <div class="input-group-control">
             <label for="">图标</label>
             <div>
-                <app-file-input [(ngModel)]="editData.icon"></app-file-input>
+                <app-file-input [(ngModel)]="editData.icon" />
             </div>
         </div>
     </div>

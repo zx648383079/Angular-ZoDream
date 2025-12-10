@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
@@ -7,10 +7,8 @@ import { IPayment, IShipping } from '../model';
 
 @Injectable()
 export class PaymentService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
 
     public shippingList(params: any) {

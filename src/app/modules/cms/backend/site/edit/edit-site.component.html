@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑站点' : '新增站点'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑站点' : '新增站点'" (submited)="tapSubmit()" [disabled]="form.invalid" />
 
 <div class="container-fluid">
     <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
@@ -43,7 +43,7 @@
         <div class="input-group-control">
             <label for="logo">Logo</label>
             <div>
-                <app-file-input id="logo" [online]="true" formControlName="logo"></app-file-input>
+                <app-file-input id="logo" [online]="true" formControlName="logo" />
             </div>
         </div>
         <div class="input-group-control">

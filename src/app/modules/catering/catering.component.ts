@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, ViewChild } from '@angular/core';
+import { Component, HostListener, OnDestroy, inject, viewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { LoginDialogComponent } from '../auth/login/dialog/login-dialog.component';
@@ -18,11 +18,16 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./catering.component.scss'],
 })
 export class CateringComponent implements OnDestroy {
+    private service = inject(CateringService);
+    private store = inject<Store<AppState>>(Store);
+    private authService = inject(AuthService);
+    private themeService = inject(ThemeService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
 
-    @ViewChild(LoginDialogComponent)
-    public loginModal: LoginDialogComponent;
-    @ViewChild(CartDialogComponent)
-    public cartModal: CartDialogComponent;
+
+    public readonly loginModal = viewChild(LoginDialogComponent);
+    public readonly cartModal = viewChild(CartDialogComponent);
 
     public tabIndex = 0;
     public user: IUser;
@@ -32,13 +37,7 @@ export class CateringComponent implements OnDestroy {
     public menuItems: IMenuItem[] = [];
     private subItems = new Subscription();
 
-    constructor(
-        private service: CateringService,
-        private store: Store<AppState>,
-        private authService: AuthService,
-        private themeService: ThemeService,
-        private router: Router,
-        private route: ActivatedRoute) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Catering`);
         this.subItems.add(
             this.store.select(selectAuthUser).subscribe(user => {
@@ -76,7 +75,7 @@ export class CateringComponent implements OnDestroy {
 
     public tapScan() {
         if (!this.user.id) {
-            this.loginModal.open();
+            this.loginModal().open();
             return;
         }
         this.scanOpen = true;
@@ -100,7 +99,7 @@ export class CateringComponent implements OnDestroy {
             this.authOpen = !this.authOpen;
             return;
         }
-        this.loginModal.open();
+        this.loginModal().open();
     }
 
     public onMenuTap(e: IMenuButton) {

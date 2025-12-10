@@ -1,37 +1,34 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, forwardRef, HostListener, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, HostListener, SimpleChanges, effect, inject, input, model } from '@angular/core';
 import { IData } from '../../../theme/models/page';
 import { cloneObject } from '../../../theme/utils';
 import { hasElementByClass } from '../../../theme/utils/doc';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
     selector: 'app-select-input',
     templateUrl: './select-input.component.html',
     styleUrls: ['./select-input.component.scss'],
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => SelectInputComponent),
-        multi: true
-    }]
 })
-export class SelectInputComponent<T = any> implements ControlValueAccessor, OnChanges {
+export class SelectInputComponent<T = any> implements FormValueControl< T | T[] | number | string> {
+    private http = inject(HttpClient);
 
-    @Input() public url: string;
-    @Input() public placeholder = $localize `Please select...`;
-    @Input() public rangeKey = 'id';
-    @Input() public rangeLabel = 'name';
-    @Input() public searchKey = 'keywords';
-    @Input() public items: T[] = [];
-    @Input() public multiple = false;
+
+    public readonly url = input<string>(undefined);
+    public readonly placeholder = input($localize `Please select...`);
+    public readonly rangeKey = input('id');
+    public readonly rangeLabel = input('name');
+    public readonly searchKey = input('keywords');
+    public readonly items = input<T[]>([]);
+    public readonly multiple = input(false);
     /**
      * 只有通过url请求的才会触发，参数为http响应内容
      */
-    @Input() public formatFn: (data: any) => T[];
+    public readonly formatFn = input<(data: any) => T[]>(undefined);
 
-    public value: T | T[] | number | string;
-    public disabled = false;
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<T | T[] | number | string>();
     public optionItems: T[] = [];
     public selectedItems: T[] = [];
     public keywords = '';
@@ -39,8 +36,18 @@ export class SelectInputComponent<T = any> implements ControlValueAccessor, OnCh
     private valueTypeT = false;
     private booted = false;
 
-    onChange: any = () => {};
-    onTouch: any = () => {};
+    /**
+     *
+     */
+    constructor() {
+        effect(() => {
+            const obj = this.value();
+            this.readerType(obj);
+            this.formatSelected(obj);
+        });
+        effect(() => this.optionItems = this.items());
+    }
+
 
     @HostListener('document:click', ['$event']) 
     public hideCalendar(event: any) {
@@ -49,17 +56,9 @@ export class SelectInputComponent<T = any> implements ControlValueAccessor, OnCh
         }
     }
 
-    constructor(private http: HttpClient) { }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.items) {
-            this.optionItems = changes.items.currentValue;
-        }
-    }
-
     public isSelected(item: T) {
         for (const i of this.selectedItems) {
-            if (item[this.rangeKey] === i[this.rangeKey]) {
+            if (item[this.rangeKey()] === i[this.rangeKey()]) {
                 return true;
             }
         }
@@ -67,7 +66,7 @@ export class SelectInputComponent<T = any> implements ControlValueAccessor, OnCh
     }
 
     public tapSelected(item: T) {
-        if (!this.multiple) {
+        if (!this.multiple()) {
             this.selectedItems = [item];
             this.keywords = '';
             this.panelVisible = false;
@@ -75,7 +74,7 @@ export class SelectInputComponent<T = any> implements ControlValueAccessor, OnCh
             return;
         }
         for (let i = 0; i < this.selectedItems.length; i++) {
-            if (item[this.rangeKey] === this.selectedItems[i][this.rangeKey]) {
+            if (item[this.rangeKey()] === this.selectedItems[i][this.rangeKey()]) {
                 this.selectedItems.splice(i, 1);
                 this.output();
                 return;
@@ -87,7 +86,7 @@ export class SelectInputComponent<T = any> implements ControlValueAccessor, OnCh
 
     public tapUnselect(item: T) {
         this.selectedItems = this.selectedItems.filter(i => {
-            return item[this.rangeKey] !== i[this.rangeKey];
+            return item[this.rangeKey()] !== i[this.rangeKey()];
         });
         this.output();
     }
@@ -97,12 +96,14 @@ export class SelectInputComponent<T = any> implements ControlValueAccessor, OnCh
             this.optionItems = [];
             return;
         }
-        if (!this.url) {
-            this.optionItems = this.items.filter(i => i[this.rangeLabel].indexOf(this.keywords) >= 0);
+        const url = this.url();
+        if (!url) {
+            this.optionItems = this.items().filter(i => i[this.rangeLabel()].indexOf(this.keywords) >= 0);
             return;
         }
-        this.http.get<IData<T>>(this.url, {params: {[this.searchKey]: this.keywords}}).subscribe(res => {
-            const items = this.formatFn ?  this.formatFn(res) : res.data;
+        this.http.get<IData<T>>(url, {params: {[this.searchKey()]: this.keywords}}).subscribe(res => {
+            const formatFn = this.formatFn();
+            const items = formatFn ?  formatFn(res) : res.data;
             if (items instanceof Array) {
                 this.optionItems = items;
             }
@@ -119,10 +120,9 @@ export class SelectInputComponent<T = any> implements ControlValueAccessor, OnCh
 
     private output() {
         const items = this.selectedItems.map(i => {
-            return this.valueTypeT ? i[this.rangeKey] : {...i};
+            return this.valueTypeT ? i[this.rangeKey()] : {...i};
         });
-        this.value = this.multiple ? items : (items.length > 0 ? items[0] : 0);
-        this.onChange(this.value);
+        this.value.set( this.multiple() ? items : (items.length > 0 ? items[0] : 0));
     }
 
     private readerType(obj: any) {
@@ -144,7 +144,8 @@ export class SelectInputComponent<T = any> implements ControlValueAccessor, OnCh
         if (!this.valueTypeT) {
             this.selectedItems = obj instanceof Array ? cloneObject(obj) : [cloneObject(obj)];
         }
-        if (!this.url || !this.valueTypeT) {
+        const url = this.url();
+        if (!url || !this.valueTypeT) {
             // 增加延迟，防止在 formbuilder 中url和值通知变动时无法正确获取
             if (loop < 1) {
                 setTimeout(() => {
@@ -153,24 +154,9 @@ export class SelectInputComponent<T = any> implements ControlValueAccessor, OnCh
             }
             return;
         }
-        this.http.get<IData<T>>(this.url, {params: {[this.rangeKey]: obj}}).subscribe(res => {
+        this.http.get<IData<T>>(url, {params: {[this.rangeKey()]: obj}}).subscribe(res => {
             this.selectedItems = res.data;
         });
-    }
-
-    writeValue(obj: any): void {
-        this.value = obj;
-        this.readerType(obj);
-        this.formatSelected(obj);
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
     }
 
 }

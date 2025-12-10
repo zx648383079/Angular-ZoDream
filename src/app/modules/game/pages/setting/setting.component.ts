@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
 
 @Component({
@@ -8,10 +8,8 @@ import { GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
   styleUrls: ['./setting.component.scss']
 })
 export class SettingComponent implements IGameScene {
+    private router = inject<IGameRouter>(GameRouterInjectorToken);
 
-    constructor(
-        @Inject(GameRouterInjectorToken) private router: IGameRouter,
-    ) { }
 
     public tapBack() {
         this.router.navigateBack();

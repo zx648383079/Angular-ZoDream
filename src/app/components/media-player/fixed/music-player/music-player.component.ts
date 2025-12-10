@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnChanges, OnDestroy, Renderer2, SimpleChanges, inject, input, viewChild } from '@angular/core';
 import { IMediaFile, PlayerEvent, PlayerEvents, PlayerListeners, PlayerLoopMode } from '../model';
 import { assetUri, randomInt } from '../../../../theme/utils';
 
@@ -9,11 +9,12 @@ import { assetUri, randomInt } from '../../../../theme/utils';
     styleUrls: ['./music-player.component.scss']
 })
 export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewInit, OnChanges {
+    private render = inject(Renderer2);
 
-    @ViewChild('playerBar')
-    private boxBody: ElementRef<HTMLDivElement>;
-    @Input() public isFixed = true;
-    @Input() public hidden = false;
+
+    private readonly boxBody = viewChild<ElementRef<HTMLDivElement>>('playerBar');
+    public readonly isFixed = input(true);
+    public readonly hidden = input(false);
     public lyricsWidth = 0;
     public lyricsHeight = 200;
     public catalogVisible = false;
@@ -39,10 +40,6 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
     private listeners: {
         [key: string]: Function[];
     } = {};
-
-    constructor(
-        private render: Renderer2,
-    ) { }
 
     public get canPrevious() {
         return this.items.length > 1 && this.index > 0;
@@ -94,7 +91,7 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
     }
 
     private resize() {
-        const width = this.boxBody?.nativeElement?.offsetWidth
+        const width = this.boxBody()?.nativeElement?.offsetWidth
         if (!width || width <= 0) {
             return;
         }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
@@ -15,6 +15,11 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+    private service = inject(ShopService);
+    private toastrService = inject(DialogService);
+    route = inject(ActivatedRoute);
+    private fb = inject(FormBuilder);
+
 
     public sexItems: IItem[] = [
         {
@@ -41,13 +46,6 @@ export class ProfileComponent implements OnInit {
     public stepData = {
         name: '',
     };
-
-    constructor(
-        private service: ShopService,
-        private toastrService: DialogService,
-        public route: ActivatedRoute,
-        private fb: FormBuilder,
-    ) { }
 
     ngOnInit() {
         this.service.profile().subscribe({

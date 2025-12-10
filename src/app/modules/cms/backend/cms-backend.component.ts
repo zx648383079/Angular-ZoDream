@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CmsService } from './cms.service';
 
 @Component({
@@ -8,14 +8,12 @@ import { CmsService } from './cms.service';
   styleUrls: ['./cms-backend.component.scss']
 })
 export class CmsBackendComponent implements OnInit {
+    private service = inject(CmsService);
+
 
 
     public isLoading = false;
     public data: any = {};
-
-    constructor(
-        private service: CmsService
-    ) { }
 
     ngOnInit() {
         this.service.statistics().subscribe({

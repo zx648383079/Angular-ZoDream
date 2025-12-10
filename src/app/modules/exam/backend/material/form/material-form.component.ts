@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { ICourse, IQuestionMaterial } from '../../../model';
 
 @Component({
@@ -9,15 +9,15 @@ import { ICourse, IQuestionMaterial } from '../../../model';
 })
 export class MaterialFormComponent {
 
-    @Input() public courseItems: ICourse[] = [];
-    @Input() public value: IQuestionMaterial = {} as any;
-    @Output() public valueChange = new EventEmitter<IQuestionMaterial>();
+    public readonly courseItems = input<ICourse[]>([]);
+    public readonly value = input<IQuestionMaterial>({} as any);
+    public readonly valueChange = output<IQuestionMaterial>();
 
     public typeItems = ['文本', '音频', '视频'];
 
     constructor() { }
 
     public onValueChange() {
-        this.valueChange.emit(this.value);
+        this.valueChange.emit(this.value());
     }
 }

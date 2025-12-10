@@ -1,4 +1,4 @@
-@for (item of items; track $index) {
+@for (item of items(); track $index) {
     @if (item.icon || item.name) {
         <div class="menu-flyout-item" [ngClass]="{disabled: item.disable}">
             <a class="menu-item-body" (click)="tapMenuItem(item)">
@@ -9,7 +9,7 @@
                 }
             </a>
             @if (item.children && item.children.length > 0) {
-                <app-menu-body [items]="item.children" [flowLeft]="flowLeft" (tapped)="tapMenuItem($event)"></app-menu-body>
+                <app-menu-body [items]="item.children" [flowLeft]="flowLeft()" (tapped)="tapMenuItem($event)" />
             }
         </div>
     } @else {

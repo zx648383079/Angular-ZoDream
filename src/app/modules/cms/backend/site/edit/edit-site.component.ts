@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -13,6 +13,11 @@ import { IItem } from '../../../../../theme/models/seo';
   styleUrls: ['./edit-site.component.scss']
 })
 export class EditSiteComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(CmsService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         title: ['', Validators.required],
@@ -32,13 +37,6 @@ export class EditSiteComponent implements OnInit {
         {name: '下线', value: 0},
         {name: '上线', value: 5},
     ];
-
-    constructor(
-        private fb: FormBuilder,
-        private service: CmsService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {}
 
     ngOnInit() {
         this.service.batch({

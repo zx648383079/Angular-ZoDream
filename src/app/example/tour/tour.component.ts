@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogService } from '../../components/dialog';
 
 @Component({
@@ -8,10 +8,8 @@ import { DialogService } from '../../components/dialog';
     styleUrls: ['./tour.component.scss']
 })
 export class ExampleTourComponent  {
+    private toastrService = inject(DialogService);
 
-    constructor(
-        private toastrService: DialogService,
-    ) { }
 
     public tapPlay() {
         this.toastrService.tour({

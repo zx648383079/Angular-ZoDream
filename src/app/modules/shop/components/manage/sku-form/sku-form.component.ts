@@ -1,9 +1,4 @@
-import {
-    Component,
-    Input,
-    OnChanges,
-    SimpleChanges
-} from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
 import { DialogService } from '../../../../../components/dialog';
 import { IAttribute, IGoodsAttr, IProduct } from '../../../model';
 
@@ -26,12 +21,17 @@ interface ISkuSpec {
     styleUrls: ['./sku-form.component.scss']
 })
 export class SkuFormComponent implements OnChanges {
+    private toastrService = inject(DialogService);
 
-    @Input() public attrItems: IAttribute[] = [];
-    @Input() public productItems: IProduct[] = [];
-    @Input() public linkLine = ',';
+
+    public readonly attrItems = input<IAttribute[]>([]);
+    public readonly productItems = input<IProduct[]>([]);
+    public readonly linkLine = input(',');
+
+    public formattedAttrItems: IAttribute[] = [];
     public radioItems: IAttribute[] = [];
     public specItems: ISkuSpec[] = [];
+
 
     public batchData = {
         series_number: '',
@@ -40,10 +40,6 @@ export class SkuFormComponent implements OnChanges {
         stock: 0,
         weight: 0,
     };
-
-    constructor(private toastrService: DialogService) {
-
-    }
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes.attrItems) {
@@ -56,7 +52,7 @@ export class SkuFormComponent implements OnChanges {
 
     public attrFormData(): IGoodsAttr[] {
         const items = [];
-        for (const item of this.attrItems) {
+        for (const item of this.formattedAttrItems) {
             for (const attr of item.attr_items) {
                 items.push({
                     id: attr.id || 0,
@@ -169,7 +165,7 @@ export class SkuFormComponent implements OnChanges {
 
     private getRadioAttr() {
         const items: IAttribute[] = [];
-        for (const item of this.attrItems) {
+        for (const item of this.formattedAttrItems) {
             if (item.type !== 1) {
                 continue;
             }
@@ -208,7 +204,7 @@ export class SkuFormComponent implements OnChanges {
                 specSkuIdAttr.push(skuValues[parseInt(point.toString(), 10)].value);
             }
             specList.push({
-                sku: specSkuIdAttr.sort().join(this.linkLine),
+                sku: specSkuIdAttr.sort().join(this.linkLine()),
                 rows: rowData,
                 form: {price: 0, market_price: 0, stock: 0, series_number: '', weight: 0}
             });
@@ -229,7 +225,7 @@ export class SkuFormComponent implements OnChanges {
     }
 
     private formatAttr() {
-        this.attrItems = this.attrItems.map(item => {
+        this.formattedAttrItems = this.attrItems().map(item => {
             if (typeof item.input_type === 'string') {
                 item.input_type = parseInt(item.input_type, 10);
             }
@@ -255,17 +251,17 @@ export class SkuFormComponent implements OnChanges {
     }
 
     private formatProduct() {
-        if (this.productItems.length < 1) {
+        if (this.productItems().length < 1) {
             return;
         }
         const data: {
             [key: string]: IProduct
         } = {};
-        for (const item of this.productItems) {
+        for (const item of this.productItems()) {
             if (!item.attributes) {
                 continue;
             }
-            const sku = this.converterSku(item.attributes.split(this.linkLine));
+            const sku = this.converterSku(item.attributes.split(this.linkLine()));
             if (sku) {
                 data[sku] = item;
             }
@@ -283,7 +279,7 @@ export class SkuFormComponent implements OnChanges {
 
     private converterSku(attrs: string[]): string {
         const args: string[] = [];
-        for (const item of this.attrItems) {
+        for (const item of this.formattedAttrItems) {
             if (item.type !== 1) {
                 continue;
             }
@@ -294,6 +290,6 @@ export class SkuFormComponent implements OnChanges {
                 }
             }
         }
-        return args.join(this.linkLine);
+        return args.join(this.linkLine());
     }
 }

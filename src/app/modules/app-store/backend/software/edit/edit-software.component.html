@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑应用' : '新增应用'" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑应用' : '新增应用'" (submited)="tapSubmit($event)" [disabled]="form.invalid" />
 
 
 <div class="container-fluid">
@@ -9,7 +9,7 @@
                 <input type="text" id="title" class="form-control" formControlName="name">
             </div>
             
-            <app-markdown-editor formControlName="content" (imageUpload)="editorImageUpload($event)" [height]="400" placeholder="应用描述"></app-markdown-editor>
+            <app-markdown-editor formControlName="content" (imageUpload)="editorImageUpload($event)" [height]="400" placeholder="应用描述" />
         </div>
 
         <div class="row">
@@ -30,7 +30,7 @@
                     <div class="input-group-control">
                         <label for="thumb">图标</label>
                         <div>
-                            <app-file-input formControlName="icon"></app-file-input>
+                            <app-file-input formControlName="icon" />
                         </div>
                     </div>
                     
@@ -38,20 +38,20 @@
                     <div class="input-group-control">
                         <label for="keywords">关键字</label>
                         <div>
-                            <app-words-input id="keywords" formControlName="keywords"></app-words-input>
+                            <app-words-input id="keywords" formControlName="keywords" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="description">说明</label>
                         <div>
-                            <app-text-editor formControlName="description" height="100"></app-text-editor>
+                            <app-text-editor formControlName="description" height="100" />
                         </div>
                     </div>
                     
                     <div class="input-group-control">
                         <label>标签</label>
                         <div>
-                            <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [(ngModel)]="tags" [ngModelOptions]="{standalone: true}" [addTag]="addTagFn" placeholder="选择标签"></ng-select>
+                            <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [(ngModel)]="tags" [ngModelOptions]="{standalone: true}" [addTag]="addTagFn" placeholder="选择标签" />
                         </div>
                     </div>
                 </app-panel>
@@ -61,13 +61,13 @@
                     <div class="input-group-control">
                         <label for="is_free">免费应用</label>
                         <div>
-                            <app-switch formControlName="is_free"></app-switch>
+                            <app-switch formControlName="is_free" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="is_open_source">是否开源</label>
                         <div>
-                            <app-switch formControlName="is_open_source"></app-switch>
+                            <app-switch formControlName="is_open_source" />
                         </div>
                     </div>
                     @if (isOpenSource) {

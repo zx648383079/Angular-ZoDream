@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
@@ -13,6 +13,11 @@ import { ButtonEvent } from '../../../../components/form';
     styleUrls: ['./edit.component.scss']
 })
 export class EditTemplateComponent implements OnInit {
+    private service = inject(MessageServiceService);
+    private fb = inject(FormBuilder);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -26,12 +31,7 @@ export class EditTemplateComponent implements OnInit {
     public typeItems = [];
     public keyItems: string[] = [];
 
-    constructor(
-        private service: MessageServiceService,
-        private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.service.typeItems().subscribe(res => {
             this.typeItems = res;
         });

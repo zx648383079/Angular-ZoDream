@@ -1,9 +1,7 @@
 import {
     HttpClient
 } from '@angular/common/http';
-import {
-    Injectable
-} from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { of } from 'rxjs';
 import {
     IData,
@@ -18,8 +16,8 @@ import { IFormInput } from '../../components/form';
 
 @Injectable()
 export class MessageServiceService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) {}
 
     public logList(params: any) {
         return this.http.get < IPage < ILog >> ('ms/admin/log', {

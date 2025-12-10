@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ContentChildren, HostBinding, HostListener, Input, OnChanges, QueryList, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, HostBinding, HostListener, OnChanges, SimpleChanges, input, contentChildren } from '@angular/core';
 import { IButton } from '../event';
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { CommandButtonComponent } from './command-button';
@@ -11,12 +11,10 @@ import { CommandButtonComponent } from './command-button';
 })
 export class CommandBarComponent implements OnChanges, AfterViewInit {
 
-    @ContentChildren(CommandButtonComponent) 
-    public items: QueryList<IButton>;
-    @Input() public max = 3;
-    @Input() public min = 1;
-    @Input()
-    public flowLeft = false;
+    public readonly items = contentChildren(CommandButtonComponent);
+    public readonly max = input(3);
+    public readonly min = input(1);
+    public readonly flowLeft = input(false);
     public dropVisible = false;
     public inlineItems: IButton[] = [];
     public dropItems: IButton[] = [];
@@ -43,21 +41,21 @@ export class CommandBarComponent implements OnChanges, AfterViewInit {
         setTimeout(() => {
             this.splitButton();
         }, 100);
-        this.items.changes.subscribe(() => {
+        this.items().changes.subscribe(() => {
             this.splitButton();
         });
     }
 
     private splitButton() {
-        const items = this.items.filter(i => !i.disable);
+        const items = this.items().filter(i => !i.disable);
         if (items.length < 1) {
             this.inlineItems = [];
             this.dropItems = [];
             return;
         }
-        let i = this.min;
+        let i = this.min();
         if (window.innerWidth > 700) {
-            i = this.max;
+            i = this.max();
         }
         if (i > 0) {
             this.inlineItems = items.slice(0, i);

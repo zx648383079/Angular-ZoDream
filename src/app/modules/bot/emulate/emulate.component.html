@@ -15,7 +15,7 @@
         </div>
         }
     </div>
-    <app-message-container class="scroll-body" [items]="messageItems" [hasMore]="false" [currentId]="user.id" (tapped)="onBlockTap($event)"></app-message-container>
+    <app-message-container class="scroll-body" [items]="messageItems" [hasMore]="false" [currentId]="user.id" (tapped)="onBlockTap($event)" />
     <div class="box-footer toggle-input" [ngClass]="{'toggle-input': footerIndex > 0, 'toggle-more': footerIndex == 2}">
         <div class="input-box">
             @if (menuItems.length > 0) {

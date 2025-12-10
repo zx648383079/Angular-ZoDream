@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, input, output } from '@angular/core';
 import { ButtonEvent, IButton } from '../event';
 
 @Component({
@@ -9,21 +9,19 @@ import { ButtonEvent, IButton } from '../event';
 })
 export class CommandButtonComponent implements IButton {
 
-    @Input()
-    public icon = '';
+    public readonly icon = input('');
 
-    @Input()
-    public label = '';
+    public readonly label = input('');
 
-    @Output() 
-    public tapped = new EventEmitter<void>();
+    public readonly tapped = output<void>();
 
 
     public get name() {
-        return this.label;
+        return this.label();
     }
 
     public onTapped(event: ButtonEvent) {
+        // TODO: The 'emit' function requires a mandatory void argument
         this.tapped.emit();
     }
 }

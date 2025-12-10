@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -13,6 +13,11 @@ import { GoodsService } from '../goods.service';
     styleUrls: ['./brand.component.scss']
 })
 export class BrandComponent implements OnInit {
+    private service = inject(GoodsService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IBrand[] = [];
     public hasMore = true;
@@ -23,14 +28,6 @@ export class BrandComponent implements OnInit {
         page: 1,
         per_page: 20,
     };
-
-    constructor(
-        private service: GoodsService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

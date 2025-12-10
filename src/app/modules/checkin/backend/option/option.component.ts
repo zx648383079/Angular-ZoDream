@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { eachObject } from '../../../../theme/utils';
 import { CheckinService } from '../checkin.service';
@@ -15,6 +15,9 @@ interface IPlusItem {
   styleUrls: ['./option.component.scss']
 })
 export class OptionComponent implements OnInit {
+    private service = inject(CheckinService);
+    private toastrService = inject(DialogService);
+
 
     public data: any = {
         basic: 0,
@@ -22,11 +25,6 @@ export class OptionComponent implements OnInit {
     };
 
     public plusItems: IPlusItem[] = [];
-
-    constructor(private service: CheckinService,
-                private toastrService: DialogService,) {
-
-    }
 
     ngOnInit() {
         this.service.option().subscribe(res => {

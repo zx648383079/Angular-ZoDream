@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
 import { ThemeService } from '../../theme/services';
@@ -12,6 +12,10 @@ import { FrontendService } from '../frontend.service';
     styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit {
+    private service = inject(FrontendService);
+    private toastrService = inject(DialogService);
+    private themeService = inject(ThemeService);
+
 
     public data = {
         name: '',
@@ -39,12 +43,6 @@ export class AboutComponent implements OnInit {
             }[];
         }[];
     } = {} as any;
-
-    constructor(
-        private service: FrontendService,
-        private toastrService: DialogService,
-        private themeService: ThemeService,
-    ) { }
 
     ngOnInit() {
         this.themeService.titleChanged.next($localize `Abount`);

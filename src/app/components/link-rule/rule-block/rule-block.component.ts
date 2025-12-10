@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, input, output } from '@angular/core';
 import { formatLinkRule } from '../util';
 import { IBlockItem, IExtraRule } from './model';
 
@@ -10,13 +10,13 @@ import { IBlockItem, IExtraRule } from './model';
 })
 export class RuleBlockComponent implements OnChanges {
 
-    @Input() public value: string;
-    @Input() public rules: IExtraRule[];
+    public readonly value = input<string>(undefined);
+    public readonly rules = input<IExtraRule[]>(undefined);
     /**
      * 是否允许换行
      */
-    @Input() public newLine = true;
-    @Output() public tapped = new EventEmitter<IBlockItem>();
+    public readonly newLine = input(true);
+    public readonly tapped = output<IBlockItem>();
 
     public blcokItems: IBlockItem[];
 
@@ -24,7 +24,7 @@ export class RuleBlockComponent implements OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes.value || changes.rules) {
-            this.blcokItems = this.renderRule(this.value, this.rules);
+            this.blcokItems = this.renderRule(this.value(), this.rules());
         }
     }
 
@@ -63,6 +63,6 @@ export class RuleBlockComponent implements OnChanges {
                 };
             }
             return {content: rule.s, type: rule.type};
-        }, content, rules, this.newLine);
+        }, content, rules, this.newLine());
     }
 }

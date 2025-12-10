@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { BlogService } from './blog.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { BlogService } from './blog.service';
   styleUrls: ['./blog.component.scss']
 })
 export class BlogComponent implements OnInit {
+    private service = inject(BlogService);
+
 
     public isLoading = true;
     public data: any = {};
-
-    constructor(
-        private service: BlogService
-    ) { }
 
     ngOnInit(): void {
         this.service.statistics().subscribe({

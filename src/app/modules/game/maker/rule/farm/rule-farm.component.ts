@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { GameMakerService } from '../../game-maker.service';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
@@ -12,18 +12,16 @@ import { parseNumber } from '../../../../../theme/utils';
     styleUrls: ['./rule-farm.component.scss']
 })
 export class RuleFarmComponent implements OnInit {
+    private service = inject(GameMakerService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+
 
     public items: IGameFarmPlot[] = [];
     private queries = {
         project: 0
     };
     public editData: IGameFarmPlot = {} as any;
-
-    constructor(
-        private service: GameMakerService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-    ) { }
 
     ngOnInit() {
         this.route.parent.params.subscribe(params => {

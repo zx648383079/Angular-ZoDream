@@ -1,7 +1,4 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
     IShare
 } from '../model';
@@ -16,16 +13,14 @@ import {
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+    private service = inject(DiskService);
+
 
     public items: IShare[] = [];
 
     public page = 1;
     public hasMore = true;
     public isLoading = false;
-
-    constructor(
-        private service: DiskService
-    ) {}
 
     ngOnInit() {
         this.tapRefresh();

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IDataOne, IPage } from '../../../theme/models/page';
 import { IShortLink } from '../model';
 
@@ -7,10 +7,8 @@ import { IShortLink } from '../model';
     providedIn: 'root'
 })
 export class ShortLinkService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
 
     public linkList(params: any) {

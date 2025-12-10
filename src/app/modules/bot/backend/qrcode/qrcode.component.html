@@ -59,8 +59,8 @@
                 
             </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>
 
@@ -75,7 +75,7 @@
         <div class="input-group-control">
             <label for="">二维码类型</label>
             <div>
-                <app-switch [(ngModel)]="editData.type" offLabel="临时" onLabel="永久"></app-switch>
+                <app-switch [(ngModel)]="editData.type" offLabel="临时" onLabel="永久" />
                 <div class="input-tip">
                     注意永久二维码上限10万个
                 </div>
@@ -84,7 +84,7 @@
         <div class="input-group-control">
             <label for="">场景值类型</label>
             <div>
-                <app-check-input [items]="['字符串', '数字']" [rangeKey]="1" [(ngModel)]="editData.scene_type"></app-check-input>
+                <app-check-input [items]="['字符串', '数字']" [rangeKey]="1" [(ngModel)]="editData.scene_type" />
             </div>
         </div>
         @if (editData.scene_type < 1) {

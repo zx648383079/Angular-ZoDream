@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { mapFormat } from '../../../../theme/utils';
 import { AppStoreService } from '../../app-store.service';
@@ -11,9 +11,11 @@ import { FileTypeItems, ISoftwareVersion } from '../../model';
   styleUrls: ['./version.component.scss']
 })
 export class VersionComponent implements OnChanges {
+    service = inject(AppStoreService);
 
-    @Input() public itemId = 0;
-    @Input() public init = false;
+
+    public readonly itemId = input(0);
+    public readonly init = input(false);
     public items: ISoftwareVersion[] = [];
     public subtotal: any;
     public hasMore = true;
@@ -28,20 +30,15 @@ export class VersionComponent implements OnChanges {
     };
     private booted = 0;
 
-    constructor(
-        public service: AppStoreService,
-    ) {
-    }
-
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.itemId > 0 && this.booted !== this.itemId) {
+        if (changes.init && changes.init.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
             this.boot();
         }
     }
 
     private boot() {
-        this.booted = this.itemId;
-        if (this.itemId < 1) {
+        this.booted = this.itemId();
+        if (this.itemId() < 1) {
             return;
         }
         this.tapRefresh();
@@ -77,7 +74,7 @@ export class VersionComponent implements OnChanges {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.versionList({...queries, software: this.itemId}).subscribe({
+        this.service.versionList({...queries, software: this.itemId()}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;

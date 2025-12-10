@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener, inject } from '@angular/core';
 import { toggleClass } from '../../../theme/utils/doc';
 
 @Directive({
@@ -6,10 +6,8 @@ import { toggleClass } from '../../../theme/utils/doc';
     selector: '[appDropdown]'
 })
 export class DropdownDirective {
+    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
-    constructor(
-        private elementRef: ElementRef<HTMLDivElement>
-    ) { }
 
     @HostListener('click', [])
     public onClick() {

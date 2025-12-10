@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -14,6 +14,11 @@ import { OnlineBackendService } from '../online.service';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
+    private service = inject(OnlineBackendService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: ICategoryUser[] = [];
     public hasMore = true;
@@ -26,13 +31,6 @@ export class UserComponent implements OnInit {
         category: 0,
     };
     public users: IUser[] = [];
-
-    constructor(
-        private service: OnlineBackendService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

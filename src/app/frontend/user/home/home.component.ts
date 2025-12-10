@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IStatisticsItem } from '../../../theme/models/seo';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
@@ -11,14 +11,12 @@ import { openLink } from '../../../theme/utils/deeplink';
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+    private service = inject(UserService);
+    private router = inject(Router);
+
 
     public items: IStatisticsItem[] = [];
     public isLoading = true;
-
-    constructor(
-        private service: UserService,
-        private router: Router,
-    ) { }
 
     ngOnInit() {
         this.service.statistics().subscribe({

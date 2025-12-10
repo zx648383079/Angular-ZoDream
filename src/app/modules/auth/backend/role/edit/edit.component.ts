@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -12,6 +12,11 @@ import { RoleService } from '../role.service';
     styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(RoleService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -23,13 +28,6 @@ export class EditComponent implements OnInit {
     public data: IRole;
 
     public permissionItems: IPermission[] = [];
-
-    constructor(
-        private fb: FormBuilder,
-        private service: RoleService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {}
 
     ngOnInit() {
         this.service.permissionAll().subscribe(res => {

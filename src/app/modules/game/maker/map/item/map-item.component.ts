@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IGameMapItem } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { GameMakerService } from '../../game-maker.service';
@@ -14,6 +14,11 @@ import { parseNumber } from '../../../../../theme/utils';
   styleUrls: ['./map-item.component.scss']
 })
 export class MapItemComponent implements OnInit {
+    private service = inject(GameMakerService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IGameMapItem[] = [];
     public hasMore = true;
@@ -27,14 +32,6 @@ export class MapItemComponent implements OnInit {
         map: 0,
     };
     public editData: IGameMapItem = {} as any;
-
-    constructor(
-        private service: GameMakerService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.parent.params.subscribe(params => {

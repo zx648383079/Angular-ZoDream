@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IPage, IPageQueries } from '../../../../theme/models/page';
 import { GameCommand, GameRouterInjectorToken, IGameBagItem, IGameRouter, IGameScene, ItemTypeItems } from '../../model';
 
@@ -9,6 +9,8 @@ import { GameCommand, GameRouterInjectorToken, IGameBagItem, IGameRouter, IGameS
     styleUrls: ['./bag.component.scss']
 })
 export class BagComponent implements IGameScene, OnInit {
+    private router = inject<IGameRouter>(GameRouterInjectorToken);
+
 
     public items: IGameBagItem[] = [];
     public hasMore = true;
@@ -21,10 +23,6 @@ export class BagComponent implements IGameScene, OnInit {
         type: 0,
     };
     public typeItems = ItemTypeItems;
-
-    constructor(
-        @Inject(GameRouterInjectorToken) private router: IGameRouter,
-    ) { }
 
     ngOnInit(): void {
         this.tapType(0);

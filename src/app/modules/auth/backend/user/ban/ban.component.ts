@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../../components/dialog';
@@ -17,6 +17,12 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./ban.component.scss']
 })
 export class BanComponent implements OnInit, OnDestroy {
+    private service = inject(AuthService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private store = inject<Store<AppState>>(Store);
+    private searchService = inject(SearchService);
+
     public items: IBanAccount[] = [];
     public hasMore = true;
     public isLoading = false;
@@ -30,13 +36,7 @@ export class BanComponent implements OnInit, OnDestroy {
     private subItems = new Subscription();
 
 
-    constructor(
-        private service: AuthService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private store: Store<AppState>,
-        private searchService: SearchService,
-    ) {
+    constructor() {
         this.subItems.add(this.store.select(selectAuthRole).subscribe(roles => {
             this.editable = roles.indexOf('user_manage') >= 0;
         }));

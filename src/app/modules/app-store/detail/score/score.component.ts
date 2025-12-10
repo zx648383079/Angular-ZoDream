@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { IScoreSubtotal } from '../../../../theme/models/seo';
@@ -11,9 +11,12 @@ import { AppStoreService } from '../../app-store.service';
   styleUrls: ['./score.component.scss']
 })
 export class ScoreComponent implements OnChanges {
+    service = inject(AppStoreService);
+    private toastrService = inject(DialogService);
 
-    @Input() public itemId = 0;
-    @Input() public init = false;
+
+    public readonly itemId = input(0);
+    public readonly init = input(false);
     public subtotal: IScoreSubtotal;
     public isLoading = false;
     private booted = 0;
@@ -21,21 +24,15 @@ export class ScoreComponent implements OnChanges {
         score: 10,
     };
 
-    constructor(
-        public service: AppStoreService,
-        private toastrService: DialogService,
-    ) {
-    }
-
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.itemId > 0 && this.booted !== this.itemId) {
+        if (changes.init && changes.init.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
             this.boot();
         }
     }
 
     private boot() {
-        this.booted = this.itemId;
-        if (this.itemId < 1) {
+        this.booted = this.itemId();
+        if (this.itemId() < 1) {
             return;
         }
         this.tapRefresh();
@@ -47,7 +44,7 @@ export class ScoreComponent implements OnChanges {
             return;
         }
         e?.enter();
-        this.service.scoreGrade({...this.scoreData, id: this.itemId}).subscribe({
+        this.service.scoreGrade({...this.scoreData, id: this.itemId()}).subscribe({
             next: _ => {
                 e?.reset();
                 this.toastrService.success($localize `Score successfull`);
@@ -67,7 +64,7 @@ export class ScoreComponent implements OnChanges {
 
     public tapRefresh() {
         this.service.scoreSubtotal({
-            id: this.itemId
+            id: this.itemId()
         }).subscribe(res => {
             this.subtotal = res;
         });

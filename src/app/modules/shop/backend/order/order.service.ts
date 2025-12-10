@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IData, IDataOne, IPage } from '../../../../theme/models/page';
 import { IAddress, ICartItem, ICashierData, ICoupon, IDelivery, IOrder, IPayment, IShipping } from '../../model';
@@ -7,10 +7,8 @@ import { IUser } from '../../../../theme/models/user';
 
 @Injectable()
 export class OrderService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public orderList(params: any) {
         return this.http.get<IPage<IOrder>>('shop/admin/order', {

@@ -1,18 +1,14 @@
 import {
     HttpClient
 } from '@angular/common/http';
-import {
-    Injectable
-} from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { IArticle, IArticleCategory } from '../model';
 
 @Injectable()
 export class ArticleService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient,
-    ) {}
 
     public articleList(params: any) {
         return this.http.get<IPage<IArticle>>('shop/admin/article', {

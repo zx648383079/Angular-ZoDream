@@ -1,6 +1,6 @@
-@if (visible) {
+@if (visible()) {
 <div class="loading-tip-box">
-    @if (loading) {
+    @if (loading()) {
         <div class="loading-ring1">
             <span></span>
             <span></span>
@@ -10,11 +10,11 @@
         </div>
     } @else {
         <div class="page-empty-tip">
-            @if (emptyIcon) {
-                <i class="iconfont" [ngClass]="emptyIcon"></i>
+            @if (emptyIcon()) {
+                <i class="iconfont" [ngClass]="emptyIcon()"></i>
             }
             
-            <p>{{ emptyTip }}</p>
+            <p>{{ emptyTip() }}</p>
         </div>
     }
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { DialogLoadingOption } from '..';
 import { DialogPackage } from '../dialog.injector';
 import { DialogService } from '../dialog.service';
@@ -10,16 +10,18 @@ import { DialogService } from '../dialog.service';
   styleUrls: ['./dialog-loading.component.scss']
 })
 export class DialogLoadingComponent implements OnDestroy {
+    private data = inject<DialogPackage<DialogLoadingOption>>(DialogPackage);
+    private service = inject(DialogService);
+
 
     public title = '';
     public closeable = true;
 
     private timeHandle: any;
 
-    constructor(
-        private data: DialogPackage<DialogLoadingOption>,
-        private service: DialogService,
-    ) {
+    constructor() {
+        const data = this.data;
+
         const option = data.data;
         this.title = option.title || '';
         if (typeof option.closeable === 'boolean') {

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { IDataOne } from '../models/page';
 import { IUser } from '../models/user';
@@ -7,9 +7,9 @@ import { IUser } from '../models/user';
 @Injectable()
 export class WebAuthn {
 
-    constructor(
-        private http: HttpClient
-    ) {
+    private http = inject(HttpClient);
+
+    constructor() {
         this.ready();
     }
 

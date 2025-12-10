@@ -9,7 +9,7 @@
 
         <div class="row info-box">
             <div class="col-md-6">
-                <app-gallery-slider [items]="galleryItems"></app-gallery-slider>
+                <app-gallery-slider [items]="galleryItems" />
             </div>
             <div class="col-md-6">
                 <div class="bg-white">
@@ -26,7 +26,7 @@
                             <div class="panel-header">
                                 <div class="time">
                                     距离结束
-                                    <app-countdown [end]="activity.end_at" [auto]="true"></app-countdown>
+                                    <app-countdown [end]="activity.end_at" [auto]="true" />
                                 </div>
                                 <div class="count">
                                     0次围观
@@ -53,7 +53,7 @@
                         <div class="flex-group">
                             <div class="group-header">配送
                             </div>
-                            <div class="group-body">至<app-region url="shop/region/tree"></app-region>
+                            <div class="group-body">至<app-region url="shop/region/tree" />
                             </div>
                         </div>
                         <div class="flex-group">
@@ -61,7 +61,7 @@
                                 出价
                             </div>
                             <div class="group-body">
-                                <app-number-input [(ngModel)]="bid" [min]="minBid" [max]="activity.configure.fixed_price" [step]="activity.configure.step_price"></app-number-input>
+                                <app-number-input [(ngModel)]="bid" [min]="minBid" [max]="activity.configure.fixed_price" [step]="activity.configure.step_price" />
                                 <div class="label-item">
                                     最低加价
                                     {{ minBid | price }}
@@ -139,14 +139,14 @@
                             </div>
                         </div>
                         <div id="comment-tab" class="tab-item" [ngClass]="{active: tabIndex == 1}">
-                            <app-comment-page [itemId]="data.id" [init]="tabIndex == 1"></app-comment-page>
+                            <app-comment-page [itemId]="data.id" [init]="tabIndex == 1" />
                         </div>
                         <div class="tab-item issue-box" [ngClass]="{active: tabIndex == 2}">
 
                         </div>
                         <div class="tab-item log-box"
                             [ngClass]="{active: tabIndex == 3}">
-                            <app-auction-log [activity]="activity.id" [init]="tabIndex == 3"></app-auction-log>
+                            <app-auction-log [activity]="activity.id" [init]="tabIndex == 3" />
                         </div>
                     </div>
                 </div>

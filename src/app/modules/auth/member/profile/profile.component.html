@@ -36,7 +36,7 @@
         <div class="input-group-control">
             <label for="sex" i18n>Sex</label>
             <div>
-                <app-check-input [items]="sexItems" rangeKey="value" formControlName="sex"></app-check-input>
+                <app-check-input [items]="sexItems" rangeKey="value" formControlName="sex" />
             </div>
         </div>
         <div class="input-group-control">
@@ -48,7 +48,7 @@
         <div class="input-group-control">
             <label for="birthday" i18n>Birthday</label>
             <div>
-                <app-date-input formControlName="birthday"></app-date-input>
+                <app-date-input formControlName="birthday" />
             </div>
         </div>
         <div class="offset-md-3">
@@ -57,7 +57,7 @@
     </form>
     @if (tabIndex == 2) {
     <div class="inner-container">
-        <app-member-bind-step [name]="stepData.name" [user]="user"></app-member-bind-step>
+        <app-member-bind-step [name]="stepData.name" [user]="user" />
     </div>
     }
 </div>

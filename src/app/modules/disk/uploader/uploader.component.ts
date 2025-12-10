@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, input, output } from '@angular/core';
 import { UploadFile } from '../../../theme/services/uploader';
 import { formatDate, mapFormat } from '../../../theme/utils';
 import { IDisk } from '../model';
@@ -30,13 +30,13 @@ interface IUploadGroup {
 })
 export class UploaderComponent implements OnChanges {
 
-    @Input() public title = '上传';
+    public readonly title = input('上传');
     public min = false;
     public visible = false;
-    @Input() public items: IUploadItem[] = [];
+    public readonly items = input<IUploadItem[]>([]);
     public formatedItems: IUploadGroup[] = [];
-    @Input() public maxTime = 86400000;
-    @Output() public uploading = new EventEmitter<File[]>();
+    public readonly maxTime = input(86400000);
+    public readonly uploading = output<File[]>();
 
     constructor() {}
 
@@ -56,21 +56,22 @@ export class UploaderComponent implements OnChanges {
 
     public append(items: IUploadItem[]|IUploadItem) {
         if (items instanceof Array) {
-            this.items.push(...items);
+            this.items().push(...items);
         } else {
-            this.items.push(items);
+            this.items().push(items);
         }
-        this.formatedItems = this.format(this.items);
+        this.formatedItems = this.format(this.items());
     }
 
     public tapRemove(item: IUploadItem) {
         item.file.stop();
-        for (let i = this.items.length - 1; i >= 0; i--) {
-            if (this.items[i] === item) {
-                this.items.splice(i);
+        for (let i = this.items().length - 1; i >= 0; i--) {
+            const items = this.items();
+            if (items[i] === item) {
+                items.splice(i);
             }
         }
-        this.formatedItems = this.format(this.items);
+        this.formatedItems = this.format(this.items());
     }
 
     public tapStart(item: IUploadItem) {
@@ -101,7 +102,7 @@ export class UploaderComponent implements OnChanges {
         let lastGroup: IUploadGroup;
         for (const item of items) {
             const time = this.formatTime(item.created_at);
-            if (!lastTime || this.diffTime(time, lastTime) > this.maxTime) {
+            if (!lastTime || this.diffTime(time, lastTime) > this.maxTime()) {
                 lastTime = time;
                 lastGroup = {
                     name: formatDate(time, 'yyyy-mm-dd'),

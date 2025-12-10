@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, input, output } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -8,13 +8,13 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 })
 export class ColorLayerComponent implements OnChanges {
 
-    @Input() public disabled = false;
-    @Input() public value = '';
+    public readonly disabled = input(false);
+    public readonly value = input('');
     public hY = 0;
     public x = 0;
     public y = 0;
     public background = '#fff';
-    @Output() public valueChange = new EventEmitter<string>();
+    public readonly valueChange = output<string>();
     private hsv = [0, 0, 0];
 
     constructor() { }
@@ -34,7 +34,7 @@ export class ColorLayerComponent implements OnChanges {
     }
 
     public tapNotTouch(e: MouseEvent) {
-        if (this.disabled) {
+        if (this.disabled()) {
             return;
         }
         if ('ontouchstart' in document.documentElement) {
@@ -52,7 +52,7 @@ export class ColorLayerComponent implements OnChanges {
     }
 
     public tapHNotTouch(e: MouseEvent) {
-        if (this.disabled) {
+        if (this.disabled()) {
             return;
         }
         if ('ontouchstart' in document.documentElement) {
@@ -69,37 +69,37 @@ export class ColorLayerComponent implements OnChanges {
     }
 
     public touchStart(e: TouchEvent) {
-        if (this.disabled) {
+        if (this.disabled()) {
             return;
         }
         this.doColor(e);
     }
     public touchMove(e: TouchEvent) {
-        if (this.disabled) {
+        if (this.disabled()) {
             return;
         }
         this.doColor(e);
     }
     public touchEnd(e: TouchEvent) {
-        if (this.disabled) {
+        if (this.disabled()) {
             return;
         }
         this.triggerChange();
     }
     public touchHStart(e: TouchEvent) {
-        if (this.disabled) {
+        if (this.disabled()) {
             return;
         }
         this.doH(e);
     }
     public touchHMove(e: TouchEvent) {
-        if (this.disabled) {
+        if (this.disabled()) {
             return;
         }
         this.doH(e);
     }
     private applyColor() {
-        this.hsv = this.parse(this.value);
+        this.hsv = this.parse(this.value());
         this.hY = this.clamp(160 - this.hsv[0] * 160, 0, 160);
         this.setBackground(this.hsv[0]);
         this.x = this.clamp(this.hsv[1] * 160, 0, 160);
@@ -112,7 +112,7 @@ export class ColorLayerComponent implements OnChanges {
     }
     private triggerChange() {
         this.value = '#' + this.HSV2HEX(this.hsv);
-        this.valueChange.emit(this.value);
+        this.valueChange.emit(this.value());
     }
 
     private doColor(e: TouchEvent) {

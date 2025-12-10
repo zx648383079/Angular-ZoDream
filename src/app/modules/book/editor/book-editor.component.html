@@ -11,7 +11,7 @@
             <div class="input-group-control">
                 <label for="cover" i18n>Cover</label>
                 <div>
-                    <app-file-input  [(ngModel)]="book.cover"></app-file-input>
+                    <app-file-input [(ngModel)]="book.cover" />
                 </div>
             </div>
             <div class="input-group-control">
@@ -112,17 +112,17 @@
                     <input type="text" id="name"  class="title-input" [(ngModel)]="data.title" [placeholder]="data.type > 0 ? '请输入卷名' : '请输入章节名'">
                 }
                 <div #editorArea class="editor-area" [contentEditable]="true" spellcheck="false"></div>
-                <ng-container #modalVC></ng-container>
+                <ng-container #modalVC />
             </div>
         </div>
     </div>
 </div>
 
-<app-context-menu></app-context-menu>
+<app-context-menu />
 
-<app-editor-role-panel #rolePanel [targetId]="book ? book.id : 0"></app-editor-role-panel>
-<app-editor-preferences-panel #preferencePanel [targetId]="book ? book.id : 0"></app-editor-preferences-panel>
-<app-editor-map-panel #mapPanel [targetId]="book ? book.id : 0"></app-editor-map-panel>
+<app-editor-role-panel #rolePanel [targetId]="book ? book.id : 0" />
+<app-editor-preferences-panel #preferencePanel [targetId]="book ? book.id : 0" />
+<app-editor-map-panel #mapPanel [targetId]="book ? book.id : 0" />
 
 <app-dialog-box #publishModal title="发布章节">
     @if (data) {
@@ -152,7 +152,7 @@
         <div class="input-group-control">
             <label for="">设置发布时间</label>
             <div>
-                <app-check-input [(ngModel)]="publishData.publish_type" [items]="['立即发布', '定时发布']" [rangeKey]="1"></app-check-input>
+                <app-check-input [(ngModel)]="publishData.publish_type" [items]="['立即发布', '定时发布']" [rangeKey]="1" />
                 @if (publishData.publish_type > 0) {
                 <p>
                     <input type="date" class="form-control" [(ngModel)]="publishData.publish_date">
@@ -183,7 +183,7 @@
         <div class="input-group-control">
             <label for=""></label>
             <div>
-                <app-check-input [items]="['之前', '之后']" [(ngModel)]="moveData.type" [rangeKey]="1"></app-check-input>
+                <app-check-input [items]="['之前', '之后']" [(ngModel)]="moveData.type" [rangeKey]="1" />
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
@@ -14,6 +14,11 @@ import { ButtonEvent } from '../../../../components/form';
   styleUrls: ['./edit-thread.component.scss']
 })
 export class EditThreadComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(ForumService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         title: ['', Validators.required],
@@ -23,13 +28,6 @@ export class EditThreadComponent implements OnInit {
     });
     public data: IThread = {} as any;
     public forum: IForum;
-
-    constructor(
-        private fb: FormBuilder,
-        private service: ForumService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

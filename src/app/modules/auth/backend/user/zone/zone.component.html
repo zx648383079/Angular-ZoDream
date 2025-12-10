@@ -35,10 +35,10 @@
                     <td>{{ item.name }}</td>
                     <td>{{ item.decsription }}</td>
                     <td>
-                        <app-switch [(ngModel)]="item.is_open"></app-switch>
+                        <app-switch [(ngModel)]="item.is_open" />
                     </td>
                     <td>
-                        <app-switch [(ngModel)]="item.status"></app-switch>
+                        <app-switch [(ngModel)]="item.status" />
                     </td>
                     <td>
                         <div class="btn-group">
@@ -50,8 +50,8 @@
                 }
                 </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>
 
@@ -65,7 +65,7 @@
     <div class="form-group">
         <label for="icon-input">图标</label>
         <div class="input-group-control">
-            <app-file-input [(ngModel)]="editData.icon"></app-file-input>
+            <app-file-input [(ngModel)]="editData.icon" />
         </div>
     </div>
     <div class="form-group">
@@ -77,13 +77,13 @@
     <div class="form-horizontal-group">
         <label class="col-2" for="open-input">公开</label>
         <div class="input-group-control">
-            <app-switch [(ngModel)]="editData.is_open"></app-switch>
+            <app-switch [(ngModel)]="editData.is_open" />
         </div>
     </div>
     <div class="form-horizontal-group">
         <label class="col-2" for="status-input">状态</label>
         <div class="input-group-control">
-            <app-switch [(ngModel)]="editData.status"></app-switch>
+            <app-switch [(ngModel)]="editData.status" />
         </div>
     </div>
 </app-dialog-box>

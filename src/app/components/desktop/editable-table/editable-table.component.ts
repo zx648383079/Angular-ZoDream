@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, HostListener, OnChanges, SimpleChanges, TemplateRef, input, output } from '@angular/core';
 import { IColumnLink, ITableHeaderItem } from './model';
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { eachObject } from '../../../theme/utils';
@@ -11,17 +11,17 @@ import { eachObject } from '../../../theme/utils';
 })
 export class EditableTableComponent implements OnChanges {
 
-    @Input() public items: any[] = [];
-    @Input() public columnItems: ITableHeaderItem[] = [];
-    @Input() public batchable = true;
-    @Input() public searchable = true;
-    @Input() public loading = false;
-    @Input() public page = 1;
-    @Input() public perPage = 20;
-    @Input() public total = -1;
-    @Input() public action: TemplateRef<any>;
-    @Output() public pageChange = new EventEmitter<number>();
-    @Output() public remove = new EventEmitter<any[]>();
+    public readonly items = input<any[]>([]);
+    public readonly columnItems = input<ITableHeaderItem[]>([]);
+    public readonly batchable = input(true);
+    public readonly searchable = input(true);
+    public readonly loading = input(false);
+    public readonly page = input(1);
+    public readonly perPage = input(20);
+    public readonly total = input(-1);
+    public readonly action = input<TemplateRef<any>>(undefined);
+    public readonly pageChange = output<number>();
+    public readonly remove = output<any[]>();
 
     public nameItems: IColumnLink[] = [];
     public sortKey = -1;
@@ -37,7 +37,7 @@ export class EditableTableComponent implements OnChanges {
      * 根据关键词过滤
      */
     public get searchItems() {
-        return this.items.filter(i => this.inSearch(i));
+        return this.items().filter(i => this.inSearch(i));
     }
 
     public get filterItems() {
@@ -45,7 +45,7 @@ export class EditableTableComponent implements OnChanges {
         if (this.sortKey < 0) {
             return items;
         }
-        const column = this.columnItems[this.sortKey];
+        const column = this.columnItems()[this.sortKey];
         const compare = column.compare;
         return items.sort((a, b) => {
             const [av, bv] = this.orderAsc ? [a[column.name], b[column.name]] : [b[column.name], a[column.name]];
@@ -81,13 +81,13 @@ export class EditableTableComponent implements OnChanges {
         if (changes.columnItems) {
             this.refreshColumn();
         }
-        if (changes.items && this.columnItems.length < 1) {
+        if (changes.items && this.columnItems().length < 1) {
             this.resetColumn();
         }
     }
 
     public toggleHidden(i: number) {
-        const item = this.columnItems[i];
+        const item = this.columnItems()[i];
         if (item.hidden) {
             item.hidden = false;
             this.refreshColumn();
@@ -108,12 +108,13 @@ export class EditableTableComponent implements OnChanges {
             this.orderAsc = !this.orderAsc;
         } else {
             this.sortKey = i;
-            this.orderAsc = typeof this.columnItems[i].asc !== 'boolean' || this.columnItems[i].asc;
+            const columnItems = this.columnItems();
+            this.orderAsc = typeof columnItems[i].asc !== 'boolean' || columnItems[i].asc;
         }
     }
 
     public formatValue(item: any, name: IColumnLink) {
-        const header = this.columnItems[name.index];
+        const header = this.columnItems()[name.index];
         const format = header.format;
         if (typeof format === 'string' && ['img', 'switch', 'size', 'numberFormat', 'ago', 'timestamp'].indexOf(format) >= 0) {
             return '';
@@ -205,7 +206,7 @@ export class EditableTableComponent implements OnChanges {
 
     private refreshColumn() {
         const items: IColumnLink[] = [];
-        this.columnItems.forEach((item, i) => {
+        this.columnItems().forEach((item, i) => {
             if (item.hidden) {
                 return;
             }
@@ -224,12 +225,12 @@ export class EditableTableComponent implements OnChanges {
     }
 
     private resetColumn() {
-        if (this.items.length < 1) {
+        if (this.items().length < 1) {
             return;
         }
         const column: ITableHeaderItem[] = [];
         let i = -1;
-        eachObject(this.items[0], (value, name: string) => {
+        eachObject(this.items()[0], (value, name: string) => {
             i ++;
             column.push({
                 name,

@@ -50,8 +50,8 @@
             </tbody>
         
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>    
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />    
     </div>
 </div>
 
@@ -60,13 +60,13 @@
         <div class="input-group-control">
             <label for="">权益卡</label>
             <div>
-                <ng-select [items]="cardItems" bindValue="id" bindLabel="name" [(ngModel)]="editData.card_id" placeholder="权益卡"></ng-select>
+                <ng-select [items]="cardItems" bindValue="id" bindLabel="name" [(ngModel)]="editData.card_id" placeholder="权益卡" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="">到期日期</label>
             <div>
-                <app-date-input [(ngModel)]="editData.expired_at"></app-date-input>
+                <app-date-input [(ngModel)]="editData.expired_at" />
             </div>
         </div>
     </div>

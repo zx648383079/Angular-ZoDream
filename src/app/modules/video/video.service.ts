@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IDataOne, IPage } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
 import { IComment, IMusic, IVideo } from './model';
 
 @Injectable()
 export class VideoService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) { }
 
     public videoList(params: any) {
         return this.http.get<IPage<IVideo>>('video/video', {params});

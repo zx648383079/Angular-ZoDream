@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { DialogPackage } from '../dialog.injector';
 import { DialogLeadTour, DialogLeadTourStep } from '../model';
 import { DialogService } from '../dialog.service';
@@ -33,6 +33,9 @@ import { scrollTop } from '../../../theme/utils/doc';
     styles: ['']
 })
 export class DialogLeadComponent {
+    private data = inject<DialogPackage<DialogLeadTour>>(DialogPackage);
+    private service = inject(DialogService);
+
 
     public overlayStyle = {};
     public dialogStyle = {};
@@ -44,10 +47,7 @@ export class DialogLeadComponent {
     private index = -1;
     private option: DialogLeadTour;
 
-    constructor(
-        private data: DialogPackage<DialogLeadTour>,
-        private service: DialogService,
-    ) {
+    constructor() {
         this.option = this.data.data;
         this.next();
     }

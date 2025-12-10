@@ -1,50 +1,46 @@
-import { AfterViewInit, Component, ElementRef, forwardRef, Input, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AfterViewInit, Component, effect, ElementRef, inject, input, model, viewChild } from '@angular/core';
 import { FileUploadService } from '../../../../../theme/services';
 import { IGoodsGallery } from '../../../model';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
     selector: 'app-gallery-panel',
     templateUrl: './gallery-panel.component.html',
     styleUrls: ['./gallery-panel.component.scss'],
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => GalleryPanelComponent),
-        multi: true
-    }]
 })
-export class GalleryPanelComponent implements ControlValueAccessor, AfterViewInit {
+export class GalleryPanelComponent implements FormValueControl<any>, AfterViewInit {
+    private uploadService = inject(FileUploadService);
 
-    @ViewChild('imageBox') 
-    private imageElement: ElementRef<HTMLDivElement>;
-    @Input() public max = 0;
+
+    private readonly imageElement = viewChild<ElementRef<HTMLDivElement>>('imageBox');
+    public readonly max = input(0);
     public items: IGoodsGallery[] = [];
-    public disabled = false;
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<any>();
     public isLoading = false;
     public imageId = '';
     public videoId = '';
 
-    onChange: any = () => { };
-    onTouch: any = () => { };
-
-    constructor(
-        private uploadService: FileUploadService,
-    ) {
+    constructor() {
         const fileName = this.uploadService.uniqueGuid();
         this.imageId = 'image_' + fileName;
         this.videoId = 'video_' + fileName;
+        effect(() => {
+            const obj = this.value();
+            this.items = obj instanceof Array ? obj : [];
+        });
     }
 
     public get canUpload() {
         if (this.disabled) {
             return false;
         }
-        return this.max <= 0 || this.max > this.items.length;
+        return this.max() <= 0 || this.max() > this.items.length;
     }
 
     get imageBox() {
-        return this.imageElement.nativeElement as HTMLDivElement;
+        return this.imageElement().nativeElement as HTMLDivElement;
     }
 
     ngAfterViewInit() {
@@ -87,7 +83,7 @@ export class GalleryPanelComponent implements ControlValueAccessor, AfterViewIni
             maps[file.name] = file.type.indexOf('image/') < 0 ? 1 : 0;
             form.append('file[]', file, file.name);
             j ++;
-            if (this.max > 0 && j >= this.max) {
+            if (this.max() > 0 && j >= this.max()) {
                 return;
             }
         }
@@ -108,20 +104,7 @@ export class GalleryPanelComponent implements ControlValueAccessor, AfterViewIni
     }
 
     private output() {
-        this.onChange(this.items);
-    }
-
-    writeValue(obj: any): void {
-        this.items = obj instanceof Array ? obj : [];
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
+        this.value.set(this.items);
     }
 
 }

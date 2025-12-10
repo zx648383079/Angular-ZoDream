@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, inject, input } from '@angular/core';
 import { AuthService } from '../../../auth.service';
 import { openLink } from '../../../../../../theme/utils/deeplink';
 import { Router } from '@angular/router';
@@ -11,20 +11,18 @@ import { IStatisticsItem } from '../../../../../../theme/models/seo';
     styleUrls: ['./statistics-panel.component.scss']
 })
 export class StatisticsPanelComponent implements OnChanges {
+    private service = inject(AuthService);
+    private router = inject(Router);
 
-    @Input() public itemId = 0;
-    @Input() public init = false;
+
+    public readonly itemId = input(0);
+    public readonly init = input(false);
     public items: IStatisticsItem[] = [];
     public isLoading = false;
     private booted = 0;
 
-    constructor(
-        private service: AuthService,
-        private router: Router,
-    ) { }
-
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.itemId > 0 && this.booted !== this.itemId) {
+        if (changes.init && changes.init.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
             this.boot();
         }
     }
@@ -37,8 +35,8 @@ export class StatisticsPanelComponent implements OnChanges {
     }
 
     private boot() {
-        this.booted = this.itemId;
-        if (this.itemId < 1) {
+        this.booted = this.itemId();
+        if (this.itemId() < 1) {
             return;
         }
         this.tapRefresh();
@@ -46,7 +44,7 @@ export class StatisticsPanelComponent implements OnChanges {
 
     public tapRefresh() {
         this.service.userAccount({
-            id: this.itemId,
+            id: this.itemId(),
             extra: 'count'
         }).subscribe({
             next: res => {

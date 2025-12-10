@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IShortLink } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
 import { ShortLinkService } from './short-link.service';
@@ -14,6 +14,11 @@ import { emptyValidate } from '../../../theme/validators';
     styleUrls: ['./short-member.component.scss']
 })
 export class ShortMemberComponent implements OnInit {
+    private service = inject(ShortLinkService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IShortLink[] = [];
     public queries: IPageQueries = {
@@ -25,14 +30,6 @@ export class ShortMemberComponent implements OnInit {
     public isLoading = false;
     public total = 0;
     public editData: IShortLink = {} as any;
-
-    constructor(
-        private service: ShortLinkService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(res => {

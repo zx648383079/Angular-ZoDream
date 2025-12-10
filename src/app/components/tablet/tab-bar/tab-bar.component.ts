@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { INavLink } from '../../../theme/models/seo';
 
 @Component({
@@ -9,6 +9,6 @@ import { INavLink } from '../../../theme/models/seo';
 })
 export class TabBarComponent {
 
-    @Input() public items: INavLink[] = [];
+    public readonly items = input<INavLink[]>([]);
 
 }

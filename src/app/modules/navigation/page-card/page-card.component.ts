@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -11,7 +11,7 @@ export class PageCardComponent {
     /**
      * 是否显示
      */
-     @Input() public visible = false;
+     public readonly visible = input(false);
 
      public isLoading = false;
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { NoteService } from './note.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { NoteService } from './note.service';
   styleUrls: ['./note-backend.component.scss']
 })
 export class NoteBackendComponent implements OnInit {
+    private service = inject(NoteService);
+
 
     public isLoading = true;
     public data: any = {};
-
-    constructor(
-        private service: NoteService,
-    ) { }
 
     ngOnInit() {
         this.service.statistics().subscribe(res => {

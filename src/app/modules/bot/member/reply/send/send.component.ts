@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -13,6 +13,10 @@ import { BotService } from '../../bot.service';
   styleUrls: ['./send.component.scss']
 })
 export class SendComponent implements OnInit {
+    private service = inject(BotService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+
 
     public toTypeItems = ['全部用户', '指定分组', '指定用户'];
     public data = {
@@ -23,12 +27,6 @@ export class SendComponent implements OnInit {
     public editorData: any = {
         type: 0
     };
-
-    constructor(
-        private service: BotService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-    ) { }
 
     ngOnInit() {
     }

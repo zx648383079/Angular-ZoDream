@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IThread } from '../model';
 import { IDataOne, IPage } from '../../../theme/models/page';
 
 @Injectable()
 export class ForumService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) { }
 
     public threadList(params: any) {
         return this.http.get<IPage<IThread>>('forum/member/thread', {params});

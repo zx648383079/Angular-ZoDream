@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { INavLink } from '../../theme/models/seo';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
@@ -12,6 +12,9 @@ import { selectAuthUser } from '../../theme/reducers/auth.selectors';
     styleUrls: ['./trend-analysis.component.scss']
 })
 export class TrendAnalysisComponent {
+    private store = inject<Store<AppState>>(Store);
+    private themeService = inject(ThemeService);
+
 
     public navItems: INavLink[] = [
         {
@@ -136,8 +139,7 @@ export class TrendAnalysisComponent {
         }
     ];
 
-    constructor(private store: Store<AppState>,
-        private themeService: ThemeService,) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Trend Analysis`);
         this.store.select(selectAuthUser).subscribe(user => {
             if (!user) {

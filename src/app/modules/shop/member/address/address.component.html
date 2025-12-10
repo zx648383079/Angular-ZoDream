@@ -1,7 +1,7 @@
 <div class="user-page">
     <div class="container side-box">
         <div>
-            <app-user-menu currentUrl="member/address"></app-user-menu>
+            <app-user-menu currentUrl="member/address" />
         </div>
         <div class="address-box">
             <div class="header">
@@ -51,7 +51,7 @@
         <div class="address-body">
             <div>*所在地区:</div>
             <div class="region-input">
-                <app-region url="shop/region/tree" [(ngModel)]="editData.region_id"></app-region>
+                <app-region url="shop/region/tree" [(ngModel)]="editData.region_id" />
             </div>
             <div>*详细地址:</div>
             <div>

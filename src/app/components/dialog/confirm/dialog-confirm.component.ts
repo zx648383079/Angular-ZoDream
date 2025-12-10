@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DialogPackage } from '../dialog.injector';
 import { DialogService } from '../dialog.service';
 import { DialogConfirmOption } from '../model';
@@ -10,6 +10,9 @@ import { DialogConfirmOption } from '../model';
     styleUrls: ['./dialog-confirm.component.scss'],
 })
 export class DialogConfirmComponent {
+    private data = inject<DialogPackage<DialogConfirmOption>>(DialogPackage);
+    private service = inject(DialogService);
+
 
     public title = '';
     public icon = '';
@@ -18,10 +21,9 @@ export class DialogConfirmComponent {
     public cancelText = '';
     public visible = true;
 
-    constructor(
-        private data: DialogPackage<DialogConfirmOption>,
-        private service: DialogService,
-    ) {
+    constructor() {
+        const data = this.data;
+
         const option = data.data;
         this.title = option.title || $localize `Tip`;
         this.content = option.content || '';

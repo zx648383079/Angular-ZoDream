@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameCharacter, IGameMessage, IGameRouter, IGameScene, IGmeRoute } from '../../model';
 
 @Component({
@@ -8,6 +8,8 @@ import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameCharacter, IG
     styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements IGameScene, OnInit {
+    private router = inject<IGameRouter>(GameRouterInjectorToken);
+
 
     public topItems: IGmeRoute[] = [
         {name: '签到', path: 'checkin'},
@@ -30,9 +32,7 @@ export class MainComponent implements IGameScene, OnInit {
     public character: IGameCharacter;
     public messsageItems: IGameMessage[];
 
-    constructor(
-        @Inject(GameRouterInjectorToken) private router: IGameRouter,
-    ) {
+    constructor() {
         this.character = this.router.character;
     }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -13,6 +13,11 @@ import { TvService } from '../tv.service';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
+    private service = inject(TvService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public queries: IPageQueries = {
         keywords: '',
@@ -28,13 +33,6 @@ export class SearchComponent implements OnInit {
     public isLoading = false;
     public total = 0;
     public filterItems: any[] = [];
-
-    constructor(
-        private service: TvService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

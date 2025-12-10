@@ -1,16 +1,16 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { ISiteCategory } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-navigation-category-panel',
-  templateUrl: './category-panel.component.html',
-  styleUrls: ['./category-panel.component.scss']
+    selector: 'app-navigation-category-panel',
+    templateUrl: './category-panel.component.html',
+    styleUrls: ['./category-panel.component.scss']
 })
 export class CategoryPanelComponent {
 
-    @Input() public items: ISiteCategory[] = [];
-    @Output() public changed = new EventEmitter<ISiteCategory>();
+    public readonly items = input<ISiteCategory[]>([]);
+    public readonly changed = output<ISiteCategory>();
 
     // public current: ISiteCategory|undefined = undefined;
     // public kidItems: ISiteCategory[] = [];
@@ -19,13 +19,13 @@ export class CategoryPanelComponent {
     constructor() { }
 
     public get current(): ISiteCategory|undefined {
-        if (this.crumbs.length < 1 || this.items.length < 1) {
+        if (this.crumbs.length < 1 || this.items().length < 1) {
             return undefined;
         }
         let item: ISiteCategory = undefined;
         for (const i of this.crumbs) {
             if (!item) {
-                item = this.items[i];
+                item = this.items()[i];
                 continue;
             }
             if (item.children && item.children.length > 0) {
@@ -39,11 +39,11 @@ export class CategoryPanelComponent {
 
     public get kidItems(): ISiteCategory[] {
         if (this.crumbs.length < 1) {
-            return this.items;
+            return this.items();
         }
         const item = this.current;
         if (!item) {
-            return this.items;
+            return this.items();
         }
         return item.children || [];
     }

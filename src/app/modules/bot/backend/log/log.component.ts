@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -14,6 +14,11 @@ import { BotService } from '../bot.service';
   styleUrls: ['./log.component.scss']
 })
 export class LogComponent implements OnInit {
+    private service = inject(BotService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IBotMessageHistory[] = [];
     public hasMore = true;
@@ -27,13 +32,6 @@ export class LogComponent implements OnInit {
     };
 
     public editData: IBotMessageHistory = {} as any;
-
-    constructor(
-        private service: BotService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

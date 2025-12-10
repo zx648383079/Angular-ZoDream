@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
 import { ITask } from '../model';
@@ -11,6 +11,9 @@ import { TaskService } from '../task.service';
     styleUrls: ['./task-select.component.scss'],
 })
 export class TaskSelectComponent {
+    private service = inject(TaskService);
+    private searchService = inject(SearchService);
+
 
     public visible = false;
     public items: ITask[] = [];
@@ -27,11 +30,6 @@ export class TaskSelectComponent {
     };
 
     private confirmFn: (data: ITask) => void;
-
-    constructor(
-        private service: TaskService,
-        private searchService: SearchService,
-    ) { }
 
 
     public open(cb: (data: ITask) => void) {

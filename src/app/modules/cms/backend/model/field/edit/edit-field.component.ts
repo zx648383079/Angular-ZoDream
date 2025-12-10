@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
@@ -13,6 +13,11 @@ import { CmsService } from '../../../cms.service';
   styleUrls: ['./edit-field.component.scss']
 })
 export class EditFieldComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(CmsService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -35,13 +40,6 @@ export class EditFieldComponent implements OnInit {
     public tabItems: string[] = [];
     public optionItems: ICmsFormInput[] = [];
     private model = 0;
-
-    constructor(
-        private fb: FormBuilder,
-        private service: CmsService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {

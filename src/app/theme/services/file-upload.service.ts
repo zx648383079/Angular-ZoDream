@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpEventType, HttpRequest } from '@angular/common/http';
 import { IUploadFile, IUploadResult } from '../models/open';
 import { IPage } from '../models/page';
@@ -13,7 +13,7 @@ export class FileUploadService {
 
     static guid = 0;
 
-    constructor(private http: HttpClient) {}
+    private http = inject(HttpClient);
 
     public uniqueId(): number {
         if (FileUploadService.guid > 100000) {
@@ -201,6 +201,6 @@ export class FileUploadService {
      * @returns 
      */
     public uploadChunk<T = IUploadResult>(url: string|IUploadServer, file: File, customFormData: ICustomFormData = {}, fileMd5 = '') {
-        return new UploadFile<T>(this.http, url, file, customFormData, fileMd5);
+        return new UploadFile<T>(url, file, customFormData, fileMd5);
     }
 }

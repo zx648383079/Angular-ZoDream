@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit, inject, output } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { IEmoji } from '../../../theme/models/seo';
 import { IMicro, ITopic } from '../model';
@@ -18,6 +18,11 @@ import { ThemeService } from '../../../theme/services';
     styleUrls: ['./publish-form.component.scss']
 })
 export class PublishFormComponent {
+    private service = inject(MicroService);
+    private toastrService = inject(DialogService);
+    private uploadService = inject(FileUploadService);
+    private themeService = inject(ThemeService);
+
 
     public fileType = 0;
 
@@ -37,14 +42,7 @@ export class PublishFormComponent {
     public topic = '';
     public topicItems: ITopic[] = [];
 
-    @Output() public published = new EventEmitter<IMicro>();
-
-    constructor(
-        private service: MicroService,
-        private toastrService: DialogService,
-        private uploadService: FileUploadService,
-        private themeService: ThemeService,
-    ) { }
+    public readonly published = output<IMicro>();
 
     public onTopicChange() {
         this.service.topicList({

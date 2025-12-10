@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -14,6 +14,11 @@ import { IService } from '../../../model';
   styleUrls: ['./waiter.component.scss']
 })
 export class WaiterComponent implements OnInit {
+    private service = inject(LegworkService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
 
     public items: IUser[] = [];
     public hasMore = true;
@@ -24,13 +29,6 @@ export class WaiterComponent implements OnInit {
         per_page: 20
     };
     public data: IService;
-
-    constructor(
-        private service: LegworkService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

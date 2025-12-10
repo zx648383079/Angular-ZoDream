@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
@@ -14,6 +14,11 @@ import { OpenService } from '../../open.service';
     styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(OpenService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -65,13 +70,6 @@ export class EditComponent implements OnInit {
         },
     ];
     public reviewable = false;
-
-    constructor(
-        private fb: FormBuilder,
-        private service: OpenService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-      ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

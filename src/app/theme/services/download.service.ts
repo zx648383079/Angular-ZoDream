@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class DownloadService {
-    constructor(private http: HttpClient) { }
+
+
+    private http = inject(HttpClient);
 
     /**
      * Blob请求

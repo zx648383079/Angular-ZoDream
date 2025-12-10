@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, input, model } from '@angular/core';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -9,37 +9,18 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     host: {
         class: 'control-inline-group',
     },
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => EditorShadowPopupComponent),
-        multi: true
-    }]
 })
-export class EditorShadowPopupComponent implements ControlValueAccessor {
+export class EditorShadowPopupComponent implements FormValueControl<string> {
 
-    @Input() public header: string = '';
+    public readonly header = input<string>('');
     public visible = false;
 
     public isEmpty = true;
-    public disabled = false;
-    private onChange: any = () => {};
-    private onTouch: any = () => {};
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<string>('');
 
     public tapEmpty() {
 
     }
     
-    writeValue(obj: any): void {
-        
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
-    }
-
 }

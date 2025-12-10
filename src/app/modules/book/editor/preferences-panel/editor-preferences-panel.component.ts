@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { BookService } from '../book.service';
 
 @Component({
@@ -8,15 +8,13 @@ import { BookService } from '../book.service';
     styleUrls: ['./editor-preferences-panel.component.scss'],
 })
 export class EditorPreferencesPanelComponent {
-    @Input() public visible = false;
-    @Input() public targetId = 0;
+    private service = inject(BookService);
+
+    public readonly visible = input(false);
+    public readonly targetId = input(0);
     public subOpen = false;
     public items: any[] = [];
     private booted = false;
-
-    constructor(
-        private service: BookService,
-    ) { }
 
     public open() {
         this.visible = true;

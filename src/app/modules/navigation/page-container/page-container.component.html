@@ -1,39 +1,39 @@
-<div class="page-container" [ngClass]="{'page-not-thumb': !value.thumb}">
+<div class="page-container" [ngClass]="{'page-not-thumb': !value().thumb}">
     <div class="page-header">
-        <a [href]="value.link" target="_blank" rel="noopener">
-            <app-rule-block [value]="value.title" [rules]="rules"></app-rule-block>
+        <a [href]="value().link" target="_blank" rel="noopener">
+            <app-rule-block [value]="value().title" [rules]="rules" />
         </a>
-        @if (value.score >= 80) {
+        @if (value().score >= 80) {
             <i class="iconfont icon-shield" i18n-title title="This page is safe"></i>
-        } @else if (value.score >= 10 && value.score < 60) {
+        } @else if (value().score >= 10 && value().score < 60) {
             <i class="iconfont icon-exclamation-triangle" i18n-title title="This page is not recommended to visit"></i>
-        } @else if (value.score < 10) {
+        } @else if (value().score < 10) {
             <i class="iconfont icon-exclamation-triangle" i18n-title title="This page contains dangerous content"></i>
         }
     </div>
     <div class="page-flex-body">
-        @if (value.thumb) {
+        @if (value().thumb) {
         <div class="page-thumb">
-            <img [appLazyLoad]="value.thumb" [alt]="value.title">
+            <img [appLazyLoad]="value().thumb" [alt]="value().title">
         </div>
         }
         <div class="page-body">
-            <span class="page-time">{{ value.updated_at | ago }}</span> <span class="page-content">
-                <app-rule-block [value]="value.description" [rules]="rules"></app-rule-block>
+            <span class="page-time">{{ value().updated_at | ago }}</span> <span class="page-content">
+                <app-rule-block [value]="value().description" [rules]="rules" />
             </span>
             <div class="page-footer">
-                @if (value.site) {
-                <a class="page-site" [href]="formatLink(value.site)" target="_blank" rel="noopener">
-                    @if (value.site.logo) {
+                @if (value().site) {
+                <a class="page-site" [href]="formatLink(value().site)" target="_blank" rel="noopener">
+                    @if (value().site.logo) {
                     <div class="site-logo">
-                        <img [src]="value.site.logo" alt="">
+                        <img [src]="value().site.logo" alt="">
                     </div>
                     }
-                    <span class="site-name">{{ value.site.name }}</span>
+                    <span class="site-name">{{ value().site.name }}</span>
                 </a>
                 } @else {
-                <a class="page-site" [href]="value.link" target="_blank" rel="noopener">
-                    <span class="site-name">{{ formatDomain(value.link) }}</span>
+                <a class="page-site" [href]="value().link" target="_blank" rel="noopener">
+                    <span class="site-name">{{ formatDomain(value().link) }}</span>
                 </a>
                 }
                 <div class="page-action" (mouseenter)="menuOpen = true" (mouseleave)="menuOpen = false">

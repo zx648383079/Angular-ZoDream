@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FrontendService } from '../frontend.service';
 import { IFriendLink, ILink } from '../../theme/models/seo';
 import { emptyValidate } from '../../theme/validators';
@@ -13,6 +13,10 @@ import { ThemeService } from '../../theme/services';
   styleUrls: ['./friend-link.component.scss']
 })
 export class FriendLinkComponent implements OnInit {
+    private service = inject(FrontendService);
+    private toastrService = inject(DialogService);
+    private themeService = inject(ThemeService);
+
 
     public friendLinks: ILink[] = [];
     public editData: IFriendLink = {
@@ -22,11 +26,7 @@ export class FriendLinkComponent implements OnInit {
         email: '',
     } as any;
 
-    constructor(
-        private service: FrontendService,
-        private toastrService: DialogService,
-        private themeService: ThemeService,
-    ) {
+    constructor() {
         this.service.friendLinks().subscribe(res => {
             this.friendLinks = res;
         });

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IEmoji, IEmojiCategory } from '../../../theme/models/seo';
 import { IPageQueries } from '../../../theme/models/page';
 import { emptyValidate } from '../../../theme/validators';
@@ -15,6 +15,11 @@ import { SearchService } from '../../../theme/services';
     styleUrls: ['./emoji.component.scss']
 })
 export class EmojiComponent implements OnInit {
+    private service = inject(SystemService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IEmoji[] = [];
     public hasMore = true;
@@ -31,12 +36,7 @@ export class EmojiComponent implements OnInit {
     public isMultiple = false;
     public isChecked = false;
 
-    constructor(
-        private service: SystemService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
+    constructor() {
         this.service.emojiCategoryList({}).subscribe(res => {
             this.categories = res.data;
         });

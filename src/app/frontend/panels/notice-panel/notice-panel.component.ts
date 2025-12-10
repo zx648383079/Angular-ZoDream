@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { IPage } from '../../../theme/models/page';
 import { INote } from '../../../modules/note/model';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -11,14 +11,12 @@ import { DomSanitizer } from '@angular/platform-browser';
     styleUrls: ['./notice-panel.component.scss']
 })
 export class NoticePanelComponent {
+    private http = inject(HttpClient);
+    private sanitizer = inject(DomSanitizer);
+
 
     public isLoading = true;
     public items: any[] = [];
-
-    constructor(
-        private http: HttpClient,
-        private sanitizer: DomSanitizer,
-    ) { }
 
     public loadData() {
         this.http.get<IPage<INote>>('note', {

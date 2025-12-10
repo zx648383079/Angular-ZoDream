@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { filterTree } from '../../../../../theme/utils';
 import { emptyValidate } from '../../../../../theme/validators';
@@ -12,17 +12,14 @@ import { BotService } from '../../bot.service';
   styleUrls: ['./template-category.component.scss']
 })
 export class TemplateCategoryComponent implements OnInit {
+    private service = inject(BotService);
+    private toastrService = inject(DialogService);
+
 
     public items: IBotTemplateCategory[] = [];
     public isLoading = false;
     public editData: any;
     public filterItems: IBotTemplateCategory[] = [];
-
-    constructor(
-        private service: BotService,
-        private toastrService: DialogService,
-    ) {
-    }
 
     ngOnInit() {
         this.tapRefresh();

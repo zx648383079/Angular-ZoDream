@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, viewChild } from '@angular/core';
 import { IFileDataSource, IFileExplorerTool, IFileItem } from '../../model';
 import { assetUri } from '../../../../theme/utils';
 import { Canvas } from './Canvas';
@@ -14,8 +14,7 @@ import { ISize } from '../../../../theme/utils/canvas';
 })
 export class FileExplorerImageEditorComponent implements IFileExplorerTool, AfterViewInit {
 
-    @ViewChild('imageBox')
-    private imageBox: ElementRef<HTMLDivElement>;
+    private readonly imageBox = viewChild<ElementRef<HTMLDivElement>>('imageBox');
     public visible = false;
     public data: IFileItem;
     public isLoading = false;
@@ -41,7 +40,7 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool, Afte
     }
 
     ngAfterViewInit(): void {
-        if (!this.imageBox?.nativeElement) {
+        if (!this.imageBox()?.nativeElement) {
             return;
         }
         // this.canvas = new Canvas(this.imageBox.nativeElement);
@@ -139,7 +138,7 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool, Afte
     }
 
     private resetImage(img: HTMLImageElement, width: number, height: number) {
-        const target = this.imageBox?.nativeElement;
+        const target = this.imageBox()?.nativeElement;
         if (!this.visible || !target) {
             return;
         }
@@ -156,7 +155,7 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool, Afte
     }
 
     private resetCanvas(img: HTMLCanvasElement) {
-        const target = this.imageBox?.nativeElement;
+        const target = this.imageBox()?.nativeElement;
         if (!this.visible || !target) {
             return;
         }
@@ -167,7 +166,7 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool, Afte
     }
 
     private reset(element: HTMLElement) {
-        const target = this.imageBox?.nativeElement;
+        const target = this.imageBox()?.nativeElement;
         if (!target) {
             return;
         }
@@ -178,7 +177,7 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool, Afte
     }
 
     private getOuterSize(): ISize {
-        const target = this.imageBox?.nativeElement;
+        const target = this.imageBox()?.nativeElement;
         if (!this.visible || !target) {
             return {width: 0, height: 0};
         }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -14,6 +14,11 @@ import { BotService } from '../bot.service';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
+    private service = inject(BotService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IBotUser[] = [];
 
@@ -27,13 +32,6 @@ export class UserComponent implements OnInit {
         group: 0,
     };
     public editData: any = {};
-
-    constructor(
-        private service: BotService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {}
 
     get selectUrl() {
         return 'wx/admin/user/group_search?wid=' + this.service.baseId;

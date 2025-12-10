@@ -1,7 +1,4 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
     ActivatedRoute
 } from '@angular/router';
@@ -20,6 +17,11 @@ import { IAd } from '../model';
     styleUrls: ['./ad.component.scss']
 })
 export class AdComponent implements OnInit {
+    private service = inject(AdService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IAd[] = [];
     public hasMore = true;
@@ -31,13 +33,6 @@ export class AdComponent implements OnInit {
         keywords: '',
         position: 0,
     };
-
-    constructor(
-        private service: AdService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

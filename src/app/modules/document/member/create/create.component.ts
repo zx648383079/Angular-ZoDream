@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -12,6 +12,10 @@ import { DocumentService } from '../document.service';
   styleUrls: ['./create.component.scss']
 })
 export class CreateComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(DocumentService);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -39,12 +43,6 @@ export class CreateComponent implements OnInit {
             value: 1,
         },
     ];
-
-    constructor(
-        private fb: FormBuilder,
-        private service: DocumentService,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
     }

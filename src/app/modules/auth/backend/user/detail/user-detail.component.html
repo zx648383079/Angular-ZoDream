@@ -162,16 +162,16 @@
             </div>
         </div>
         <div [hidden]="tabIndex != 1">
-            <app-log-account-panel [itemId]="user.id" [init]="tabIndex == 1"></app-log-account-panel>
+            <app-log-account-panel [itemId]="user.id" [init]="tabIndex == 1" />
         </div>
         <div [hidden]="tabIndex != 2">
-            <app-log-action-panel [itemId]="user.id" [init]="tabIndex == 2"></app-log-action-panel>
+            <app-log-action-panel [itemId]="user.id" [init]="tabIndex == 2" />
         </div>
         <div [hidden]="tabIndex != 3">
-            <app-log-login-panel [itemId]="user.id" [init]="tabIndex == 3"></app-log-login-panel>
+            <app-log-login-panel [itemId]="user.id" [init]="tabIndex == 3" />
         </div>
         <div [hidden]="tabIndex != 4">
-            <app-log-statistics-panel [itemId]="user.id" [init]="tabIndex == 4"></app-log-statistics-panel>
+            <app-log-statistics-panel [itemId]="user.id" [init]="tabIndex == 4" />
         </div>
     </div>
     }

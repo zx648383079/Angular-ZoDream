@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
 
 @Component({
@@ -8,6 +8,8 @@ import { GameCommand, GameRouterInjectorToken, IGameRouter, IGameScene } from '.
     styleUrls: ['./prize.component.scss']
 })
 export class PrizeComponent implements IGameScene {
+    private router = inject<IGameRouter>(GameRouterInjectorToken);
+
 
     public items: any[] = [
         {is_open: false},
@@ -17,10 +19,6 @@ export class PrizeComponent implements IGameScene {
     public isLoading = false;
     public lotterying = false;
     public isConfirmed = false;
-
-    constructor(
-        @Inject(GameRouterInjectorToken) private router: IGameRouter,
-    ) { }
 
     public tapBack() {
         this.router.navigateBack();

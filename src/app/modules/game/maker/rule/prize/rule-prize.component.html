@@ -44,8 +44,8 @@
                 }
             </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination  [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>
 
@@ -59,7 +59,7 @@
     <div class="form-group">
         <label>价格</label>
         <div class="input-group-control">
-            <app-number-input [(ngModel)]="editData.name"></app-number-input>
+            <app-number-input [(ngModel)]="editData.name" />
         </div>
     </div>
 </app-dialog-box>

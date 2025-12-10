@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { IPage } from '../../../theme/models/page';
 import { IFeedback } from '../../../theme/models/seo';
 
@@ -10,14 +10,12 @@ import { IFeedback } from '../../../theme/models/seo';
     styleUrls: ['./message-panel.component.scss']
 })
 export class MessagePanelComponent {
+    private http = inject(HttpClient);
+
 
 
     public isLoading = true;
     public items: any[] = [];
-
-    constructor(
-        private http: HttpClient,
-    ) { }
 
     public loadData() {
         this.http.get<IPage<IFeedback>>('contact', {

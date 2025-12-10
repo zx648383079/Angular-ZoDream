@@ -1,15 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IShortLink } from './model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ShortLinkService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
 
     public generate(data: any) {

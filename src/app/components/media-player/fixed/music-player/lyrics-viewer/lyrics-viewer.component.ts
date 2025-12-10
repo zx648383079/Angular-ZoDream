@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, Input, OnChanges, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, OnChanges, SimpleChanges, inject, input, viewChild, viewChildren } from '@angular/core';
 
 interface ILyricsItem {
     text: string;
@@ -17,31 +17,27 @@ interface ILyricsItem {
     styleUrls: ['./lyrics-viewer.component.scss']
 })
 export class LyricsViewerComponent implements OnChanges {
+    private http = inject(HttpClient);
 
-    @ViewChild('scoller')
-    private scroller: ElementRef<HTMLDivElement>;
-    @ViewChildren('innerItem')
-    private innerItems: QueryList<ElementRef<HTMLDivElement>>;
+
+    private readonly scroller = viewChild<ElementRef<HTMLDivElement>>('scoller');
+    private readonly innerItems = viewChildren<ElementRef<HTMLDivElement>>('innerItem');
     public items: ILyricsItem[] = [];
-    @Input() public value = '';
-    @Input() public height = 200;
-    @Input() public width = 0;
-    @Input() public src = '';
-    @Input() public duration = 0;
-    @Input() public currentTime = 0;
+    public readonly value = input('');
+    public readonly height = input(200);
+    public readonly width = input(0);
+    public readonly src = input('');
+    public readonly duration = input(0);
+    public readonly currentTime = input(0);
     private valueSrc = '';
-
-    constructor(
-        private http: HttpClient
-    ) {
-    }
 
     public get boxStyle() {
         const style: any = {
-            height: this.height + 'px',
+            height: this.height() + 'px',
         };
-        if (this.width) {
-            style.width = this.width + 'px';
+        const width = this.width();
+        if (width) {
+            style.width = width + 'px';
         }
         return style;
     }
@@ -49,7 +45,7 @@ export class LyricsViewerComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges) {
         if (changes.value) {
             this.valueSrc = '';
-            this.items = this.format(this.value, this.duration);
+            this.items = this.format(this.value(), this.duration());
         }
         if (changes.src && changes.src.currentValue && this.valueSrc !== changes.src.currentValue) {
             this.http.get(changes.src.currentValue, {
@@ -58,7 +54,7 @@ export class LyricsViewerComponent implements OnChanges {
                 next: res => {
                     this.valueSrc = changes.src.currentValue;
                     this.value = res;
-                    this.items = this.format(this.value, this.duration);
+                    this.items = this.format(this.value(), this.duration());
                 },
                 error: err => {
                     // TODO
@@ -77,8 +73,8 @@ export class LyricsViewerComponent implements OnChanges {
             if (!item.text) {
                 continue;
             }
-            item.active = this.isActive(item, this.currentTime);
-            item.offset = this.formatOffset(item, this.currentTime);
+            item.active = this.isActive(item, this.currentTime());
+            item.offset = this.formatOffset(item, this.currentTime());
             if (item.active) {
                 activeIndex = i;
             }
@@ -89,11 +85,12 @@ export class LyricsViewerComponent implements OnChanges {
             //     'color': 'transparent',
             // } : {};
         }
-        if (this.scroller && this.scroller.nativeElement) {
-            const ele = this.innerItems.get(activeIndex);
+        const scroller = this.scroller();
+        if (scroller && scroller.nativeElement) {
+            const ele = this.innerItems().at(activeIndex);
             if (ele && ele.nativeElement) {
-                this.scroller.nativeElement.scrollTo({
-                    top: ele.nativeElement.offsetTop - this.scroller.nativeElement.offsetTop - this.height / 2,
+                scroller.nativeElement.scrollTo({
+                    top: ele.nativeElement.offsetTop - scroller.nativeElement.offsetTop - this.height() / 2,
                     behavior: 'smooth',
                 });
             }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ComponentTypeItems, ISiteComponent, ISitePage, IThemeComponent } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { VisualService } from '../../visual.service';
@@ -14,6 +14,11 @@ import { emptyValidate } from '../../../../../theme/validators';
   styleUrls: ['./site-weight.component.scss']
 })
 export class SiteWeightComponent implements OnInit {
+    private service = inject(VisualService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: ISiteComponent[] = [];
     public hasMore = true;
@@ -28,14 +33,6 @@ export class SiteWeightComponent implements OnInit {
     };
     public typeItems = ComponentTypeItems;
     public pageData: ISitePage = {} as any;
-
-    constructor(
-        private service: VisualService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

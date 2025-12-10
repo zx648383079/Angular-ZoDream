@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { BackendService } from '../backend.service';
 
 @Component({
@@ -8,15 +8,12 @@ import { BackendService } from '../backend.service';
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+    private service = inject(BackendService);
+
 
     public isLoading = true;
     public data: any = {};
     public debugKey = '';
-
-    constructor(
-        private service: BackendService,
-    ) {
-    }
 
     ngOnInit() {
         this.service.statistics().subscribe(res => {

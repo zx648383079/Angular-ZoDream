@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EChartsCoreOption } from 'echarts/core';
 import { mapFormat } from '../../../../theme/utils';
@@ -12,6 +12,9 @@ import { IBudget } from '../../model';
     styleUrls: ['./budget-container.component.scss']
 })
 export class BudgetContainerComponent implements OnInit {
+    private service = inject(FinanceService);
+    private route = inject(ActivatedRoute);
+
 
     public isLoading = true;
     public data: IBudget;
@@ -20,11 +23,6 @@ export class BudgetContainerComponent implements OnInit {
     public total = 0;
     public budgetTotal = 0;
     public overTotal = 0;
-
-    constructor(
-        private service: FinanceService,
-        private route: ActivatedRoute,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

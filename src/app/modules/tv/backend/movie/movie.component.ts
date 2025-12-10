@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,6 +13,11 @@ import { TVService } from '../tv.service';
   styleUrls: ['./movie.component.scss']
 })
 export class MovieComponent implements OnInit {
+    private service = inject(TVService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IMovie[] = [];
     public hasMore = true;
@@ -27,14 +32,6 @@ export class MovieComponent implements OnInit {
     };
     public categories: ICategory[] = [];
     public areaItems: IMovieArea[] = [];
-
-    constructor(
-        private service: TVService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.service.categoryTree().subscribe(res => {

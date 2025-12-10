@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -16,9 +16,15 @@ import { SkuFormComponent } from '../../../components';
   styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
+    private service = inject(GoodsService);
+    private fb = inject(FormBuilder);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private uploadService = inject(FileUploadService);
+    private attrService = inject(AttributeService);
 
-    @ViewChild(SkuFormComponent)
-    public skuForm: SkuFormComponent;
+
+    public readonly skuForm = viewChild(SkuFormComponent);
 
     public data: IGoods;
 
@@ -58,14 +64,7 @@ export class EditComponent implements OnInit {
     public attrItems: IAttribute[] = [];
     public productItems: IProduct[] = [];
 
-    constructor(
-        private service: GoodsService,
-        private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private uploadService: FileUploadService,
-        private attrService: AttributeService,
-    ) {
+    constructor() {
         this.service.batch({
             category: {},
             group: {},
@@ -137,8 +136,8 @@ export class EditComponent implements OnInit {
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }
-        data.attr = this.skuForm.attrFormData();
-        data.products = this.skuForm.productFormData();
+        data.attr = this.skuForm().attrFormData();
+        data.products = this.skuForm().productFormData();
         data.gallery = this.gallaryItems;
         e?.enter();
         this.service.goodsSave(data).subscribe({

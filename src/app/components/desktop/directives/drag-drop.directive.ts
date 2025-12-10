@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, HostBinding, HostListener, inject, input, output } from '@angular/core';
 import { EditorHelper } from '../../editor/base/util';
 
 const MimeType = 'application/json';
@@ -8,22 +8,20 @@ const MimeType = 'application/json';
     selector: '[appDragDrop]'
 })
 export class DragDropDirective implements AfterViewInit {
+    private element = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
-    @Input() public appDragDrop: any;
-    @Input() public placeholderHeight = 0;
-    @Input() public effectAllowed: 'none' | 'copy' | 'copyLink' | 'copyMove' | 'link' | 'linkMove' | 'move' | 'all' | 'uninitialized' = 'move';
 
-    @Output() public appDrog = new EventEmitter<{
-        data: any;
-        before: boolean;
-    }>();
+    public readonly appDragDrop = input<any>(undefined);
+    public readonly placeholderHeight = input(0);
+    public readonly effectAllowed = input<'none' | 'copy' | 'copyLink' | 'copyMove' | 'link' | 'linkMove' | 'move' | 'all' | 'uninitialized'>('move');
+
+    public readonly appDrog = output<{
+    data: any;
+    before: boolean;
+}>();
 
     @HostBinding('attr.draggable') draggable = true;
     private static placeholder: HTMLElement | null = null;
-
-    constructor(
-        private element: ElementRef<HTMLDivElement>
-    ) { }
 
     ngAfterViewInit(): void {
     }
@@ -34,8 +32,8 @@ export class DragDropDirective implements AfterViewInit {
             return false;
         }
         event.stopPropagation();
-        event.dataTransfer.setData(MimeType, JSON.stringify(this.appDragDrop));
-        event.dataTransfer.effectAllowed = this.effectAllowed;
+        event.dataTransfer.setData(MimeType, JSON.stringify(this.appDragDrop()));
+        event.dataTransfer.effectAllowed = this.effectAllowed();
         this.tryGetPlaceholder();
         return true;
     }
@@ -75,7 +73,7 @@ export class DragDropDirective implements AfterViewInit {
             element.setAttribute('appDragDropPlaceholder', '');
             DragDropDirective.placeholder = element;
         }
-        DragDropDirective.placeholder.style.height = (this.placeholderHeight <= 0 ? this.element.nativeElement.clientHeight : this.placeholderHeight) + 'px';
+        DragDropDirective.placeholder.style.height = (this.placeholderHeight() <= 0 ? this.element.nativeElement.clientHeight : this.placeholderHeight()) + 'px';
     }
 
     private checkAndUpdatePlaceholderPosition(event: DragEvent) {

@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, input } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
@@ -12,8 +12,12 @@ import { BookService } from '../book.service';
     styleUrls: ['./spider.component.scss']
 })
 export class SpiderComponent implements OnDestroy {
+    private service = inject(BookService);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
 
-    @Input() public visible = false;
+
+    public readonly visible = input(false);
     public items: IBookSpiderItem[] = [];
     public hasMore = true;
     public isLoading = false;
@@ -29,12 +33,6 @@ export class SpiderComponent implements OnDestroy {
     public loadTip = '';
     private loadStartAt = new Date();
     private loadHandle = 0;
-
-    constructor(
-        private service: BookService,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) { }
 
     ngOnDestroy(): void {
         if (this.loadHandle) {

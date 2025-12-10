@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -14,8 +14,12 @@ import { CustomDialogComponent } from '../goods/custom-dialog/custom-dialog.comp
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-    @ViewChild(CustomDialogComponent)
-    private customModal: CustomDialogComponent;
+    private service = inject(CateringService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
+    private readonly customModal = viewChild(CustomDialogComponent);
 
     public items: ICateringPatron[] = [];
     public hasMore = true;
@@ -33,13 +37,6 @@ export class UsersComponent implements OnInit {
         discount: 100,
     };
 
-    constructor(
-        private service: CateringService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
-
     ngOnInit() {
         this.service.merchantPatronGroup().subscribe(res => {
             this.categoryItems = res.data;
@@ -55,7 +52,7 @@ export class UsersComponent implements OnInit {
             name: '',
             discount: 100,
         };
-        this.customModal.open(value => {
+        this.customModal().open(value => {
             this.service.merchantPatronGroupSave({...this.editGroupData, name: value}).subscribe(res => {
                 if (item) {
                     this.categoryItems = this.categoryItems.map(i => {

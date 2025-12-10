@@ -50,8 +50,8 @@
                 }
             </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>
 
@@ -60,7 +60,7 @@
         <div class="input-group-control">
             <label for="">数量</label>
             <div>
-                <app-number-input [(ngModel)]="editData.amount"></app-number-input>
+                <app-number-input [(ngModel)]="editData.amount" />
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
@@ -13,6 +13,11 @@ import { DialogService } from '../../../../components/dialog';
   styleUrls: ['./client.component.scss']
 })
 export class ClientComponent implements OnInit {
+    private service = inject(DiskService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+    private toastrService = inject(DialogService);
+
 
     public items: IDiskServerFile[] = [];
     public hasMore = true;
@@ -31,14 +36,6 @@ export class ClientComponent implements OnInit {
         download_url: '',
         ping_url: '',
     };
-
-    constructor(
-        private service: DiskService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-        private toastrService: DialogService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

@@ -9,7 +9,7 @@
 
         <div class="row info-box">
             <div class="col-md-6">
-                <app-gallery-slider [items]="galleryItems"></app-gallery-slider>
+                <app-gallery-slider [items]="galleryItems" />
             </div>
             <div class="col-md-6">
                 <div class="bg-white">
@@ -32,7 +32,7 @@
                                     </div>
                                     <div class="label-item">
                                         剩余时间
-                                        <app-countdown [auto]="true" [end]="activity.end_at"></app-countdown>
+                                        <app-countdown [auto]="true" [end]="activity.end_at" />
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                         <div class="flex-group">
                             <div class="group-header">配送
                             </div>
-                            <div class="group-body">至<app-region url="shop/region/tree"></app-region>
+                            <div class="group-body">至<app-region url="shop/region/tree" />
                             </div>
                         </div>
                     </div>
@@ -121,7 +121,7 @@
                             </div>
                         </div>
                         <div id="comment-tab" class="tab-item" [ngClass]="{active: tabIndex == 1}">
-                            <app-comment-page [itemId]="data.id" [init]="tabIndex == 1"></app-comment-page>
+                            <app-comment-page [itemId]="data.id" [init]="tabIndex == 1" />
                         </div>
                         <div class="tab-item issue-box" [ngClass]="{active: tabIndex == 2}">
 
@@ -129,7 +129,7 @@
                         @if (dataType > 0) {
                         <div class="tab-item log-box" 
                             [ngClass]="{active: tabIndex == 3}">
-                            <app-bargain-log [activity]="activity.id" [log]="log.id" [init]="tabIndex == 3"></app-bargain-log>
+                            <app-bargain-log [activity]="activity.id" [log]="log.id" [init]="tabIndex == 3" />
                         </div>
                         }
                     </div>

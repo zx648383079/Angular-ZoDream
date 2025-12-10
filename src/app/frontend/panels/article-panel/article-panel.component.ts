@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { IPage } from '../../../theme/models/page';
 import { IBlog } from '../../../modules/blog/model';
 
@@ -10,13 +10,11 @@ import { IBlog } from '../../../modules/blog/model';
   styleUrls: ['./article-panel.component.scss']
 })
 export class ArticlePanelComponent {
+    private http = inject(HttpClient);
+
 
     public isLoading = true;
     public items: any[] = [];
-
-    constructor(
-        private http: HttpClient,
-    ) { }
 
     public loadData() {
         this.http.get<IPage<IBlog>>('blog', {

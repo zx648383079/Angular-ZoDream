@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, IGameBagItem, IGameCharacter, IGameEquipItem, IGameRouter, IGameScene } from '../../model';
 
 @Component({
@@ -8,13 +8,13 @@ import { GameCommand, GameRouterInjectorToken, IGameBagItem, IGameCharacter, IGa
   styleUrls: ['./character-panel.component.scss']
 })
 export class CharacterPanelComponent implements IGameScene, OnInit {
+    private router = inject<IGameRouter>(GameRouterInjectorToken);
+
 
     public data: IGameCharacter;
     public equipItems: IGameEquipItem[] = [];
 
-    constructor(
-        @Inject(GameRouterInjectorToken) private router: IGameRouter,
-    ) {
+    constructor() {
         this.data = this.router.character;
     }
 

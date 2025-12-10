@@ -1,8 +1,4 @@
-import {
-    Component,
-    NgZone,
-    OnInit
-} from '@angular/core';
+import { Component, NgZone, OnInit, inject } from '@angular/core';
 import {
     BlogService
 } from '../blog.service';
@@ -27,6 +23,14 @@ import { IErrorResult } from '../../../../theme/models/page';
     styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
+    private service = inject(BlogService);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private toastrService = inject(DialogService);
+    private themeService = inject(ThemeService);
+    private searchService = inject(SearchService);
+    private ngZoon = inject(NgZone);
+
 
     public content = '';
     public data: IBlog;
@@ -35,15 +39,7 @@ export class DetailComponent implements OnInit {
     public commentLoaded = false;
     public openKey = '';
 
-    constructor(
-        private service: BlogService,
-        private route: ActivatedRoute,
-        private router: Router,
-        private toastrService: DialogService,
-        private themeService: ThemeService,
-        private searchService: SearchService,
-        private ngZoon: NgZone,
-    ) {
+    constructor() {
         (window as any).deeplinkOpen = path => {
             this.ngZoon.run(() => {
                 openLink(this.router, path);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { ThemeService } from '../../../theme/services';
@@ -12,18 +12,16 @@ import { ISoftware, ISoftwarePackage } from '../model';
     styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
+    private service = inject(AppStoreService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private themeSerive = inject(ThemeService);
+
 
     public data: ISoftware;
     public currentPackage: ISoftwarePackage;
     public isLoading = false;
     public tabIndex = 0;
-
-    constructor(
-        private service: AppStoreService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private themeSerive: ThemeService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(param => {

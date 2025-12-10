@@ -1,7 +1,4 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
     FormBuilder,
     Validators
@@ -30,6 +27,12 @@ import {
     styleUrls: ['./edit-category.component.scss']
 })
 export class EditCategoryComponent implements OnInit {
+    private service = inject(ArticleService);
+    private fb = inject(FormBuilder);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private uploadService = inject(FileUploadService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -42,13 +45,7 @@ export class EditCategoryComponent implements OnInit {
     public data: IArticleCategory;
     public categories: IArticleCategory[] = [];
 
-    constructor(
-        private service: ArticleService,
-        private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private uploadService: FileUploadService,
-    ) {
+    constructor() {
         this.service.categoryTree().subscribe(res => {
             this.categories = res.data;
         });

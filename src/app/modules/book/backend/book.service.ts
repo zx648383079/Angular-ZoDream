@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IAuthor, IBook, IBookList, IBookSpiderItem, ICategory, IChapter } from '../model';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 
 @Injectable()
 export class BookService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) { }
 
 
     public categoryList() {

@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑用户' : '新增用户'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑用户' : '新增用户'" (submited)="tapSubmit()" [disabled]="form.invalid" />
 <div class="container-fluid">
     <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="row">
@@ -37,25 +37,25 @@
                     <div class="input-group-control">
                         <label for="sex">性别</label>
                         <div>
-                            <app-check-input formControlName="sex" rangeKey="value" [items]="sexItems"></app-check-input>
+                            <app-check-input formControlName="sex" rangeKey="value" [items]="sexItems" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="birthday">生日</label>
                         <div class="calendar-input">
-                            <app-date-input formControlName="birthday"></app-date-input>
+                            <app-date-input formControlName="birthday" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label>角色</label>
                         <div>
-                            <ng-select [multiple]="true" [items]="roleItems" bindValue="id" bindLabel="display_name" formControlName="roles" placeholder="选择角色"></ng-select>
+                            <ng-select [multiple]="true" [items]="roleItems" bindValue="id" bindLabel="display_name" formControlName="roles" placeholder="选择角色" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label>分区</label>
                         <div>
-                            <ng-select [items]="zoneItems" bindValue="id" bindLabel="name" formControlName="zone_id" placeholder="选择分区"></ng-select>
+                            <ng-select [items]="zoneItems" bindValue="id" bindLabel="name" formControlName="zone_id" placeholder="选择分区" />
                         </div>
                     </div>
                 </app-panel>

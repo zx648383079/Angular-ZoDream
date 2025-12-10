@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IActionLog } from '../../../../../theme/models/auth';
@@ -13,6 +13,11 @@ import { SearchService } from '../../../../../theme/services';
   styleUrls: ['./action-log.component.scss']
 })
 export class ActionLogComponent implements OnInit {
+    private service = inject(AuthService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
 
     public items: IActionLog[] = [];
     public hasMore = true;
@@ -24,14 +29,6 @@ export class ActionLogComponent implements OnInit {
         per_page: 20,
         user: 0,
     };
-
-    constructor(
-        private service: AuthService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

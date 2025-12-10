@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -14,6 +14,12 @@ import { VideoService } from '../../video.service';
   styleUrls: ['./edit-music.component.scss']
 })
 export class EditMusicComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(VideoService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private uploadService = inject(FileUploadService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -25,15 +31,6 @@ export class EditMusicComponent implements OnInit {
     public data: IMusic;
 
     private audioElement: HTMLAudioElement;
-
-    constructor(
-        private fb: FormBuilder,
-        private service: VideoService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private uploadService: FileUploadService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

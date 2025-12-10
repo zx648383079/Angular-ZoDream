@@ -1,7 +1,7 @@
 @for (item of items; track $index) {
     <div class="select--with-search" [ngClass]="{focus: item.focus, 'select-loading': item.isLoading}">
         <div class="select-input" [ngClass]="{'input--with-placeholder': !item.label}" (click)="item.focus = !item.focus">
-            {{ item.label || placeholder }}
+            {{ item.label || placeholder() }}
         </div>
         <div class="select-option-bar">
             @if (item.searchable) {

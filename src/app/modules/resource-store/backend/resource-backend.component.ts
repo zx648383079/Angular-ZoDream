@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ResourceService } from './resource.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { ResourceService } from './resource.service';
   styleUrls: ['./resource-backend.component.scss']
 })
 export class ResourceBackendComponent implements OnInit {
+    private service = inject(ResourceService);
+
 
     public isLoading = false;
     public data: any = {};
-
-    constructor(
-        private service: ResourceService
-    ) { }
 
     ngOnInit() {
         this.service.statistics().subscribe({

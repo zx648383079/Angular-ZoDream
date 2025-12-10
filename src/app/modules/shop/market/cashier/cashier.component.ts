@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
@@ -27,9 +27,15 @@ interface ICartData {
     styleUrls: ['./cashier.component.scss'],
 })
 export class CashierComponent implements OnInit {
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private service = inject(ShopService);
+    private toastrService = inject(DialogService);
+    private store = inject<Store<ShopAppState>>(Store);
+    private themeService = inject(ThemeService);
 
-    @ViewChild(InvoiceDialogComponent)
-    private invoiceModal: InvoiceDialogComponent;
+
+    private readonly invoiceModal = viewChild(InvoiceDialogComponent);
 
     public user: IUser;
     public address: IAddress;
@@ -53,14 +59,7 @@ export class CashierComponent implements OnInit {
     public dialogOpen = 0;
     public dialogSelected;
 
-    constructor(
-        private route: ActivatedRoute,
-        private router: Router,
-        private service: ShopService,
-        private toastrService: DialogService,
-        private store: Store<ShopAppState>,
-        private themeService: ThemeService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next('结算');
         this.store.select(selectShopCheckout).subscribe(res => {
             if (!res || res.length < 1) {
@@ -117,7 +116,7 @@ export class CashierComponent implements OnInit {
 
     public tapEditInvoice() {
         this.dialogOpen = 0;
-        this.invoiceModal.open(this.invoice, data => {
+        this.invoiceModal().open(this.invoice, data => {
             this.invoice = data;
         });
     }

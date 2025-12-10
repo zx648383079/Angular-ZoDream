@@ -15,7 +15,7 @@
                 }
             </div>
             <div class="tool-right">
-                <app-toggle-bar [items]="localizes" [(ngModel)]="data.language" (ngModelChange)="onLocalizeChange()"></app-toggle-bar>
+                <app-toggle-bar [items]="localizes" [(ngModel)]="data.language" (ngModelChange)="onLocalizeChange()" />
                 <app-action-button class="tool-item btn-primary" (tapped)="tapSubmit($event)">
                     <i class="iconfont icon-floppy-o"></i>
                 </app-action-button>
@@ -29,13 +29,13 @@
         </div>
     </div>
     <form class="editor-body" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        <app-blog-add-panel [visible]="addToggle" (toolTapped)="tapTool($event)" (command)="tapCommand($event)"></app-blog-add-panel>
+        <app-blog-add-panel [visible]="addToggle" (toolTapped)="tapTool($event)" (command)="tapCommand($event)" />
         <div class="editor-area">
             <div class="editor-input-wrapper">
                 <input type="text" class="title-input" formControlName="title" placeholder="Title">
                 <textarea #editorArea spellcheck="false" placeholder="Content"></textarea>
             </div>
-            <ng-container #modalVC></ng-container>
+            <ng-container #modalVC />
         </div>
         <div class="editor-panel" [hidden]="!propertyToggle">
             <div class="panel-header">
@@ -98,7 +98,7 @@
                     <div class="input-group-control">
                         <label for="thumb" i18n>Image</label>
                         <div>
-                            <app-image-input formControlName="thumb"></app-image-input>
+                            <app-image-input formControlName="thumb" />
                         </div>
                     </div>
                     <div class="input-group-control">
@@ -115,20 +115,20 @@
                     <div class="input-group-control">
                         <label for="keywords" i18n>Keywords</label>
                         <div>
-                            <app-words-input id="keywords" formControlName="keywords"></app-words-input>
+                            <app-words-input id="keywords" formControlName="keywords" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="description" i18n>Description</label>
                         <div>
-                            <app-text-editor formControlName="description" [height]="120"></app-text-editor>
+                            <app-text-editor formControlName="description" [height]="120" />
                         </div>
                     </div>
                     
                     <div class="input-group-control">
                         <label i18n>Tags</label>
                         <div>
-                            <ng-select [multiple]="true" [items]="tagItems" bindLabel="name" [(ngModel)]="tags" [ngModelOptions]="{standalone: true}" [addTag]="addTagFn" i18n placeholder="Select tags"></ng-select>
+                            <ng-select [multiple]="true" [items]="tagItems" bindLabel="name" [(ngModel)]="tags" [ngModelOptions]="{standalone: true}" [addTag]="addTagFn" i18n placeholder="Select tags" />
                         </div>
                     </div>
                 </app-expand-card>
@@ -164,13 +164,13 @@
                     <div class="input-group-control">
                         <label for="audio_url" i18n>Audio</label>
                         <div class="file-input">
-                            <app-file-input formControlName="audio_url" accept="audio/*"></app-file-input>
+                            <app-file-input formControlName="audio_url" accept="audio/*" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="video_url" i18n>Video</label>
                         <div>
-                            <app-file-input formControlName="video_url" accept="video/*"></app-file-input>
+                            <app-file-input formControlName="video_url" accept="video/*" />
                         </div>
                     </div>
                     <div class="input-group-control">
@@ -187,7 +187,7 @@
                     <div class="input-group-control">
                         <label for="comment_status" i18n>Comment Status</label>
                         <div>
-                            <app-switch id="comment_status" formControlName="comment_status"></app-switch>
+                            <app-switch id="comment_status" formControlName="comment_status" />
                         </div>
                     </div>
                 </app-expand-card>
@@ -196,7 +196,7 @@
                     <div class="input-group-control">
                         <label for="meta_is_hide" i18n>Whether to hide</label>
                         <div>
-                            <app-switch id="meta_is_hide" formControlName="is_hide"></app-switch>
+                            <app-switch id="meta_is_hide" formControlName="is_hide" />
                         </div>
                     </div>
                     }
@@ -210,7 +210,7 @@
                     <div class="input-group-control">
                         <label for="meta_seo_description" i18n>SEO Description</label>
                         <div>
-                            <app-text-editor id="meta_seo_description" formControlName="seo_description" [height]="120"></app-text-editor>
+                            <app-text-editor id="meta_seo_description" formControlName="seo_description" [height]="120" />
                         </div>
                     </div>
                     <div class="input-group-control">

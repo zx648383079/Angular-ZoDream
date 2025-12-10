@@ -10,7 +10,7 @@
             <a (click)="tapClear()" class="btn btn-danger">清除备份</a>
         </div>
 
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
         @if (items && items.length > 0) {
              <table class="table table-hover">
             <thead>

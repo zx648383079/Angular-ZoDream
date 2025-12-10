@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -17,6 +17,14 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./goods.component.scss']
 })
 export class GoodsComponent implements OnInit {
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private service = inject(ShopService);
+    private sanitizer = inject(DomSanitizer);
+    private toastrService = inject(DialogService);
+    private store = inject<Store<ShopAppState>>(Store);
+    private themeService = inject(ThemeService);
+
 
     public data: IGoods;
     public galleryItems: IGoodsGallery[] = [];
@@ -32,16 +40,6 @@ export class GoodsComponent implements OnInit {
     public productItems: IProduct[] = [];
     public properties: IGoodsProperty[] = [];
     public regionId = 0;
-
-    constructor(
-        private route: ActivatedRoute,
-        private router: Router,
-        private service: ShopService,
-        private sanitizer: DomSanitizer,
-        private toastrService: DialogService,
-        private store: Store<ShopAppState>,
-        private themeService: ThemeService,
-    ) { }
 
     ngOnInit() {
         this.regionId = this.service.regionId;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,6 +13,11 @@ import { IJumpLog, TimeTabItems } from '../../model';
     styleUrls: ['./jump.component.scss']
 })
 export class JumpComponent implements OnInit {
+    private service = inject(TrendService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IJumpLog[] = [];
     public hasMore = true;
@@ -26,13 +31,6 @@ export class JumpComponent implements OnInit {
     };
     public tabItems = TimeTabItems;
     public tabIndex = '';
-
-    constructor(
-        private service: TrendService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

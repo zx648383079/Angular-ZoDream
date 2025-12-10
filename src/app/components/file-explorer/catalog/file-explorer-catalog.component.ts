@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, OnInit, inject, output } from '@angular/core';
 import { FILE_PROVIDER, IFileCatalogItem, IFileItem, IFileProvider } from '../model';
 
 @Component({
@@ -8,8 +8,10 @@ import { FILE_PROVIDER, IFileCatalogItem, IFileItem, IFileProvider } from '../mo
   styleUrls: ['./file-explorer-catalog.component.scss']
 })
 export class FileExplorerCatalogComponent implements OnInit {
+    private service = inject<IFileProvider>(FILE_PROVIDER);
 
-    @Output() public pathChange = new EventEmitter<string>();
+
+    public readonly pathChange = output<string>();
     public items: IFileCatalogItem[] = [
         {
             icon: 'icon-home',
@@ -40,10 +42,6 @@ export class FileExplorerCatalogComponent implements OnInit {
         }
     ];
     public activePath = '';
-
-    constructor(
-        @Inject(FILE_PROVIDER) private service: IFileProvider
-    ) { }
 
     ngOnInit() {
         this.service.driveList().subscribe(data => {

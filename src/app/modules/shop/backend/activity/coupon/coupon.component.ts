@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -15,6 +15,11 @@ import { ActivityRuleItems } from '../model';
   styleUrls: ['./coupon.component.scss']
 })
 export class CouponComponent implements OnInit {
+    private service = inject(ActivityService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: ICoupon[] = [];
     public hasMore = true;
@@ -25,13 +30,6 @@ export class CouponComponent implements OnInit {
         per_page: 20,
         keywords: '',
     };
-
-    constructor(
-        private service: ActivityService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

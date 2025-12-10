@@ -1,9 +1,7 @@
 import {
     HttpClient
 } from '@angular/common/http';
-import {
-    Injectable
-} from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
     IData,
     IDataOne,
@@ -16,8 +14,8 @@ import {
 
 @Injectable()
 export class AdService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) {}
 
     public adList(params: any) {
         return this.http.get<IPage<IAd>>('ad/admin/ad', {

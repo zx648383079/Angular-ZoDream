@@ -1,53 +1,53 @@
-<div class="question-box" [ngClass]="{'item-right': !editable && value.right > 0, 'item-wrong': !editable && value.right < 0}">
+<div class="question-box" [ngClass]="{'item-right': !editable() && value().right > 0, 'item-wrong': !editable() && value().right < 0}">
     <div class="title">
-        <span class="order">{{ value.order }}.</span>
-        <app-math-mark [content]="value.title"></app-math-mark>
-        @if (value.score) {
-            ({{ value.score }}分)
+        <span class="order">{{ value().order }}.</span>
+        <app-math-mark [content]="value().title" />
+        @if (value().score) {
+            ({{ value().score }}分)
         }
     </div>
-    @if (value.content) {
+    @if (value().content) {
     <div class="content">
-        <app-math-mark [content]="value.content" [allowInput]="value.type == 4" [value]="editable ? value.answer : value.your_answer" (valueChange)="onAnswerChange($event)" [editable]="editable" [rightValue]="!editable ? value.answer : []"></app-math-mark>
+        <app-math-mark [content]="value().content" [allowInput]="value().type == 4" [value]="editable() ? value().answer : value().your_answer" (valueChange)="onAnswerChange($event)" [editable]="editable()" [rightValue]="!editable() ? value().answer : []" />
     </div>
     }
-    @if (value.image) {
+    @if (value().image) {
     <div class="image">
-        <img [src]="value.image | asset">
+        <img [src]="value().image | asset">
     </div>
     }
-    @if (editable) {
-        @if (value.type < 2) {
+    @if (editable()) {
+        @if (value().type < 2) {
         <div class="option-list">
-            @for (item of value.option; track $index) {
+            @for (item of value().option; track $index) {
                 <div class="option-item" (click)="tapCheckItem(item)">
                     <i class="iconfont" [ngClass]="{'icon-check-square-o': item.checked}"></i>
                     <span class="order">{{ item.order }}.</span>
                     <span class="option-label">
-                        <app-math-mark [content]="item.content"></app-math-mark>
+                        <app-math-mark [content]="item.content" />
                     </span>
                 </div>
             }
         </div>
-        } @else if (value.type == 2) {
+        } @else if (value().type == 2) {
         <div class="option-list">
-            <app-check-input [items]="['错', '对']" [rangeKey]="1" [(ngModel)]="value.answer" (ngModelChange)="onAnswerChange()"></app-check-input>
+            <app-check-input [items]="['错', '对']" [rangeKey]="1" [(ngModel)]="value().answer" (ngModelChange)="onAnswerChange()" />
         </div>
-        } @else if (value.type == 3) {
+        } @else if (value().type == 3) {
         <div>
-            <textarea rows="4" class="form-control" [(ngModel)]="value.answer"  (ngModelChange)="onAnswerChange()"></textarea>
+            <textarea rows="4" class="form-control" [(ngModel)]="value().answer"  (ngModelChange)="onAnswerChange()"></textarea>
         </div>
         }
     } @else {
-        @if (value.type < 2) {
+        @if (value().type < 2) {
         <div class="option-list">
-            @for (item of value.option; track $index) {
+            @for (item of value().option; track $index) {
                 @if (optionChecked(item) || item.is_right) {
                     <div class="option-item" [ngClass]="{'right': item.is_right, 'wrong': !item.is_right}">
                         <i class="iconfont" [ngClass]="{'icon-check': item.is_right, 'icon-close': !item.is_right}"></i>
                         <span class="order">{{ item.order }}.</span>
                         <span class="option-label">
-                            <app-math-mark [content]="item.content"></app-math-mark>
+                            <app-math-mark [content]="item.content" />
                         </span>
                     </div>
                 } @else {
@@ -55,35 +55,35 @@
                         <i class="iconfont"></i>
                         <span class="order">{{ item.order }}.</span>
                         <span class="option-label">
-                            <app-math-mark [content]="item.content"></app-math-mark>
+                            <app-math-mark [content]="item.content" />
                         </span>
                     </div>
                 }
             }
         </div>
-        } @else if (value.type == 2) {
+        } @else if (value().type == 2) {
         <div class="option-list">
-            @if (value.right > 0) {
+            @if (value().right > 0) {
             <div class="option-item right">
                 <i class="iconfont icon-check"></i>
-                {{ value.answer > 0 ? '对' : '错' }}
+                {{ value().answer > 0 ? '对' : '错' }}
             </div>
             } @else {
             <div class="option-item wrong">
                 <i class="iconfont icon-close"></i>
-                正确答案：{{ value.answer > 0 ? '对' : '错' }}
+                正确答案：{{ value().answer > 0 ? '对' : '错' }}
             </div>
             }
         </div>
-        } @else if (value.type == 3) {
+        } @else if (value().type == 3) {
         <div>
-            <div class="answer-text" [ngClass]="{'right': value.right > 0, 'wrong': value.right < 0}">
+            <div class="answer-text" [ngClass]="{'right': value().right > 0, 'wrong': value().right < 0}">
                 <label>你的答案:</label>
-                <textarea rows="4" class="form-control" readonly>{{ value.your_answer }}</textarea>
+                <textarea rows="4" class="form-control" readonly>{{ value().your_answer }}</textarea>
             </div>
             <div class="answer-text right">
                 <label>参考答案:</label>
-                <textarea rows="4" class="form-control" readonly>{{ value.answer }}</textarea>
+                <textarea rows="4" class="form-control" readonly>{{ value().answer }}</textarea>
             </div>
         </div>
         }

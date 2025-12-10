@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
 
 @Component({
@@ -8,13 +8,11 @@ import { GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
   styleUrls: ['./recharge.component.scss']
 })
 export class RechargeComponent implements IGameScene {
+    private router = inject<IGameRouter>(GameRouterInjectorToken);
+
 
     public tabIndex = 0;
     public modalVisible = false;
-
-    constructor(
-        @Inject(GameRouterInjectorToken) private router: IGameRouter,
-    ) { }
 
     public tapBack() {
         this.router.navigateBack();

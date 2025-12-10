@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -15,9 +15,13 @@ import { SpiderComponent } from '../spider/spider.component';
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+    private service = inject(BookService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
 
-    @ViewChild(SpiderComponent)
-    private modal: SpiderComponent;
+
+    private readonly modal = viewChild(SpiderComponent);
     public items: IBook[] = [];
     public hasMore = true;
     public isLoading = false;
@@ -43,12 +47,7 @@ export class HomeComponent implements OnInit {
     };
 
 
-    constructor(
-        private service: BookService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {
+    constructor() {
         this.service.categoryAll().subscribe(res => {
             this.categories = res.data;
         });
@@ -62,7 +61,7 @@ export class HomeComponent implements OnInit {
     }
 
     public tapImport() {
-        this.modal.open();
+        this.modal().open();
     }
 
     public tapSortOut() {

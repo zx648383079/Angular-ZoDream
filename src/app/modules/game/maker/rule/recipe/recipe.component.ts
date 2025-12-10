@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IGameRecipe } from '../../../model';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService, DialogEvent } from '../../../../../components/dialog';
@@ -14,6 +14,11 @@ import { GameMakerService } from '../../game-maker.service';
     styleUrls: ['./recipe.component.scss']
 })
 export class RecipeComponent implements OnInit {
+    private service = inject(GameMakerService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IGameRecipe[] = [];
     public hasMore = true;
@@ -26,14 +31,6 @@ export class RecipeComponent implements OnInit {
         project: 0
     };
     public editData: IGameRecipe = {} as any;
-
-    constructor(
-        private service: GameMakerService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.parent.params.subscribe(params => {

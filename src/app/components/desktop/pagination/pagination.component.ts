@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, Renderer2, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, Renderer2, SimpleChanges, input, output } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -8,14 +8,14 @@ import { Component, EventEmitter, Input, OnChanges, Output, Renderer2, SimpleCha
 })
 export class PaginationComponent implements OnChanges {
 
-    @Input() public perPage = 20;
-    @Input() public page = 1;
-    @Input() public pageTotal = -1;
-    @Input() public total = -1;
-    @Input() public pageCount = 0;
-    @Input() public directionLinks = false;
-    @Input() public goto = false;
-    @Output() public pageChange = new EventEmitter<number>();
+    public readonly perPage = input(20);
+    public readonly page = input(1);
+    public readonly pageTotal = input(-1);
+    public readonly total = input(-1);
+    public readonly pageCount = input(0);
+    public readonly directionLinks = input(false);
+    public readonly goto = input(false);
+    public readonly pageChange = output<number>();
 
     public items: number[] = [];
 
@@ -24,18 +24,18 @@ export class PaginationComponent implements OnChanges {
     }
 
     private get realTotal() {
-        if (this.pageTotal >= 0) {
-            return this.pageTotal;
+        if (this.pageTotal() >= 0) {
+            return this.pageTotal();
         }
-        return Math.ceil(this.total / this.perPage);
+        return Math.ceil(this.total() / this.perPage());
     }
 
     public get canPrevious() {
-        return this.page > 1;
+        return this.page() > 1;
     }
 
     public get canNext() {
-        return this.page < this.realTotal;
+        return this.page() < this.realTotal;
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -58,7 +58,7 @@ export class PaginationComponent implements OnChanges {
         this.paginate(page);
     }
 
-    public paginate(page: number = this.page) {
+    public paginate(page: number = this.page()) {
         if (!page || page < 1) {
             page = 1;
         }
@@ -72,37 +72,38 @@ export class PaginationComponent implements OnChanges {
     }
 
     public previous() {
-        if (this.page <= 1) {
+        if (this.page() <= 1) {
             return;
         }
-        this.paginate(this.page - 1);
+        this.paginate(this.page() - 1);
     }
 
     public next() {
-        if (this.page > this.realTotal) {
+        if (this.page() > this.realTotal) {
             return;
         }
-        this.paginate(this.page + 1);
+        this.paginate(this.page() + 1);
     }
 
     private initPage() {
         const total = this.realTotal;
-        if (total < 2 && this.page === 1) {
+        const page = this.page();
+        if (total < 2 && page === 1) {
             this.items = [];
             return;
         }
         const items = [];
         items.push(1);
-        let lastList = Math.floor(this.pageCount / 2);
-        let i = this.page - lastList;
-        let length = this.page + lastList ;
+        let lastList = Math.floor(this.pageCount() / 2);
+        let i = page - lastList;
+        let length = page + lastList ;
         if (i < 2) {
             i = 2;
-            length = i + this.pageCount
+            length = i + this.pageCount()
         }
         if (length > total - 1) {
             length = total - 1;
-            i = Math.max(2, length - this.pageCount);
+            i = Math.max(2, length - this.pageCount());
         }
         if (i > 2) {
             items.push(0);

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, QueryList, Renderer2, SimpleChanges, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnChanges, OnInit, Renderer2, SimpleChanges, inject, input, viewChildren } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -7,21 +7,18 @@ import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, QueryLi
   styleUrls: ['./mix-slider.component.scss']
 })
 export class MixSliderComponent implements OnInit, OnChanges, AfterViewInit {
+    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
+    private renderer = inject(Renderer2);
 
-    @ViewChildren('itemView')
-    public viewItems: QueryList<ElementRef<HTMLLIElement>>;
 
-    @Input() public items: any[] = [];
+    public readonly viewItems = viewChildren<ElementRef<HTMLLIElement>>('itemView');
+
+    public readonly items = input<any[]>([]);
 
     public index = 0;
     private itemWidth = 0;
     private itemHeight = 0;
     private boxWidth = 0;
-
-    constructor(
-        private elementRef: ElementRef<HTMLDivElement>,
-        private renderer: Renderer2,
-    ) { }
 
     public get boxStyle() {
         if (this.itemHeight < 1) {
@@ -37,7 +34,7 @@ export class MixSliderComponent implements OnInit, OnChanges, AfterViewInit {
             return {};
         }
         return {
-            width: (this.itemWidth * this.items.length) + 'px',
+            width: (this.itemWidth * this.items().length) + 'px',
             left: (- this.index * this.itemWidth) + 'px',
         }
     }
@@ -56,7 +53,7 @@ export class MixSliderComponent implements OnInit, OnChanges, AfterViewInit {
 
     ngAfterViewInit() {
         this.refreshSize();
-        const item = this.viewItems.get(0);
+        const item = this.viewItems().at(0);
         if (!item || !item.nativeElement) {
             return;
         }
@@ -67,14 +64,14 @@ export class MixSliderComponent implements OnInit, OnChanges, AfterViewInit {
 
     public tapPrevious() {
         if (this.index < 1) {
-            this.index = this.items.length - 1;
+            this.index = this.items().length - 1;
         } else {
             this.index --;
         }
     }
 
     public tapNext() {
-        if (this.index >= this.items.length - 1) {
+        if (this.index >= this.items().length - 1) {
             this.index = 0;
         } else {
             this.index ++;

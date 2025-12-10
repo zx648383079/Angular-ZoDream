@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ICategory, IThemeComponent, ComponentTypeItems } from '../../../model';
 import { VisualService } from '../../visual.service';
@@ -14,6 +14,11 @@ import { parseNumber } from '../../../../../theme/utils';
     styleUrls: ['./edit-weight.component.scss']
 })
 export class EditWeightComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(VisualService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -29,13 +34,6 @@ export class EditWeightComponent implements OnInit {
     public data: IThemeComponent;
     private categories: ICategory[] = [];
     public typeItems = ComponentTypeItems;
-
-    constructor(
-        private fb: FormBuilder,
-        private service: VisualService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.service.categoryTree().subscribe(res => {

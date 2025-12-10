@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { CateringService } from '../../catering.service';
 import { ICateringStore } from '../../model';
@@ -10,15 +10,13 @@ import { ICateringStore } from '../../model';
     styleUrls: ['./setting.component.scss']
 })
 export class SettingComponent implements OnInit, OnDestroy {
+    private service = inject(CateringService);
+    private toastrService = inject(DialogService);
+
 
     public data: ICateringStore;
     private isUpdated = false;
     private asyncTimer = 0;
-
-    constructor(
-        private service: CateringService,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.service.merchantSetting().subscribe(res => {

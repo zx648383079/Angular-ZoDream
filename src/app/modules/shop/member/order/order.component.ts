@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -14,6 +14,12 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit {
+    private service = inject(ShopService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
     public title = '我的订单';
     public items: IOrder[] = [];
     public hasMore = true;
@@ -47,15 +53,6 @@ export class OrderComponent implements OnInit {
         page: 1,
         per_page: 20,
     };
-
-    constructor(
-        private service: ShopService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

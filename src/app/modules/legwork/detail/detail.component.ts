@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { LegworkService } from '../legwork.service';
@@ -11,16 +11,14 @@ import { IService } from '../model';
   styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
+    private service = inject(LegworkService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public data: IService;
     public amount = 1;
     public remark = [];
-
-    constructor(
-        private service: LegworkService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

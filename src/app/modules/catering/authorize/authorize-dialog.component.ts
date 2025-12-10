@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -11,8 +11,8 @@ export class AuthorizeDialogComponent {
     /**
      * 是否显示
      */
-    @Input() public visible = false;
-    @Input() public title = '扫码加入';
+    public readonly visible = input(false);
+    public readonly title = input('扫码加入');
     public image = 'assets/images/wx.jpg';
 
     constructor() { }

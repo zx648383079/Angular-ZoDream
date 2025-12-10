@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,6 +13,12 @@ import { ResourceService } from '../resource.service';
   styleUrls: ['./resource.component.scss']
 })
 export class ResourceComponent implements OnInit {
+    private service = inject(ResourceService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private searchService = inject(SearchService);
+
 
     public items: IResource[] = [];
     public hasMore = true;
@@ -26,15 +32,6 @@ export class ResourceComponent implements OnInit {
         per_page: 20
     };
     public categories: ICategory[] = [];
-
-    constructor(
-        private service: ResourceService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private router: Router,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.service.categoryTree().subscribe(res => {

@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { ISite, ISiteCategory, ISiteCollect, ISiteCollectGroup, IWebPage } from './model';
 
 @Injectable()
 export class NavigationService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient,
-    ) { }
 
 
     public search(params: any) {

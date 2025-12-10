@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, Input, OnInit } from '@angular/core';
+import { Directive, ElementRef, HostListener, OnInit, inject, input } from '@angular/core';
 import { scrollTop } from '../../../theme/utils/doc';
 
 @Directive({
@@ -6,16 +6,14 @@ import { scrollTop } from '../../../theme/utils/doc';
     selector: '[appScrollFixed]'
 })
 export class ScrollFixedDirective implements OnInit {
+    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
-    @Input() public appScrollFixed: string;
-    @Input() public whenScrollTop = true;
+
+    public readonly appScrollFixed = input<string>(undefined);
+    public readonly whenScrollTop = input(true);
 
     private lastOffset = 0;
     private lastScrollTop = 0;
-
-    constructor(
-        private elementRef: ElementRef<HTMLDivElement>
-    ) { }
 
     ngOnInit(): void {
         this.onResize();
@@ -27,7 +25,8 @@ export class ScrollFixedDirective implements OnInit {
         if (!target) {
             return;
         }
-        if (this.appScrollFixed && target.classList.contains(this.appScrollFixed)) {
+        const appScrollFixed = this.appScrollFixed();
+        if (appScrollFixed && target.classList.contains(appScrollFixed)) {
             return;
         }
         this.lastOffset = target.getBoundingClientRect().top + scrollTop();
@@ -38,14 +37,14 @@ export class ScrollFixedDirective implements OnInit {
         const oldTop = this.lastScrollTop;
         const sT = this.lastScrollTop = scrollTop();
         if (sT <= this.lastOffset) {
-            this.toggleClass(this.appScrollFixed, false);
+            this.toggleClass(this.appScrollFixed(), false);
             return;
         }
-        if (this.whenScrollTop) {
-            this.toggleClass(this.appScrollFixed, oldTop > sT);
+        if (this.whenScrollTop()) {
+            this.toggleClass(this.appScrollFixed(), oldTop > sT);
             return;
         }
-        this.toggleClass(this.appScrollFixed, true);
+        this.toggleClass(this.appScrollFixed(), true);
     }
 
     public toggleClass(tag: string, force?: boolean) {

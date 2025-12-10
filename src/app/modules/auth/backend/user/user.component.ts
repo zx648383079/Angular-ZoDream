@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -20,6 +20,13 @@ import { AccountStatusItems } from '../../../../theme/models/auth';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit, OnDestroy {
+    private service = inject(AuthService);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private toastrService = inject(DialogService);
+    private store = inject<Store<AppState>>(Store);
+    private searchService = inject(SearchService);
+
 
     public items: IUser[] = [];
     public hasMore = true;
@@ -64,14 +71,7 @@ export class UserComponent implements OnInit, OnDestroy {
     ];
     private subItems = new Subscription();
 
-    constructor(
-        private service: AuthService,
-        private route: ActivatedRoute,
-        private router: Router,
-        private toastrService: DialogService,
-        private store: Store<AppState>,
-        private searchService: SearchService
-    ) {
+    constructor() {
         this.subItems.add(this.store.select(selectAuthRole).subscribe(roles => {
             this.editable = roles.indexOf('user_manage') >= 0;
         }));

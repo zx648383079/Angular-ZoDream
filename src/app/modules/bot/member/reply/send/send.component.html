@@ -15,11 +15,11 @@
                     }
                 </select>
                 <div [hidden]="data.to_type < 1">
-                    <app-select-input [url]="selectUrl" [(ngModel)]="data.to" [formatFn]="formatUser"></app-select-input>
+                    <app-select-input [url]="selectUrl" [(ngModel)]="data.to" [formatFn]="formatUser" />
                 </div>
             </div>
         </div>
-        <app-bot-message-editor [(value)]="editorData" (valueChange)="onEditorChange()"></app-bot-message-editor>
+        <app-bot-message-editor [(value)]="editorData" (valueChange)="onEditorChange()" />
 
         <div class="btn-group">
             <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)">发送</app-action-button>

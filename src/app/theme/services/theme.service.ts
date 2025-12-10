@@ -1,4 +1,4 @@
-import { DOCUMENT, Inject, Injectable } from '@angular/core';
+import { DOCUMENT, Injectable, inject } from '@angular/core';
 import { css, toggleClass } from '../utils/doc';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { INavigationDisplay, NavigationDisplayMode } from '../models/event';
@@ -9,6 +9,9 @@ import { SuggestChangeEvent } from '../../components/form';
     providedIn: 'root'
 })
 export class ThemeService {
+    private router = inject(Router);
+    private document = inject<Document>(DOCUMENT);
+
 
     private readonly body: HTMLElement;
     /**
@@ -44,10 +47,9 @@ export class ThemeService {
      */
     public readonly suggestQuerySubmitted = new Subject<string|any>();
 
-    constructor(
-        private router: Router,
-        @Inject(DOCUMENT) private document: Document
-    ) {
+    constructor() {
+        const document = this.document;
+
         this.body = this.document.body;
         this.titleChanged.next(document.title);
         this.titleChanged.subscribe(title => this.document.title = title);

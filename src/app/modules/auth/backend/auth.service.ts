@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IAccountLog, IActionLog, IAdminLog, IApplyLog, IBanAccount, IEquityCard, IInviteCode, IInviteLog, ILoginLog, IRole, IUserCard } from '../../../theme/models/auth';
 import { IPage, IData, IDataOne } from '../../../theme/models/page';
@@ -6,10 +6,8 @@ import { IUser, IUserStatus, IUserZone } from '../../../theme/models/user';
 
 @Injectable()
 export class AuthService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
 
     public userList(params: any) {

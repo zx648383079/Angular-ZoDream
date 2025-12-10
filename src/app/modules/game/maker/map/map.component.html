@@ -45,8 +45,8 @@
                 }
             </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination  [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>
 
@@ -66,7 +66,7 @@
     <div class="form-group">
         <label for="">归属地区</label>
         <div class="input-group-control">
-            <app-multi-select-input></app-multi-select-input>
+            <app-multi-select-input />
         </div>
     </div>
     <div class="form-group">
@@ -74,26 +74,26 @@
         <div class="link-area-bar">
             <div class="link-item">
                 <label for="">东</label>
-                <app-multi-select-input></app-multi-select-input>
+                <app-multi-select-input />
             </div>
             <div class="link-item">
                 <label for="">西</label>
-                <app-multi-select-input></app-multi-select-input>
+                <app-multi-select-input />
             </div>
             <div class="link-item">
                 <label for="">南</label>
-                <app-multi-select-input></app-multi-select-input>
+                <app-multi-select-input />
             </div>
             <div class="link-item">
                 <label for="">北</label>
-                <app-multi-select-input></app-multi-select-input>
+                <app-multi-select-input />
             </div>
         </div>
     </div>
     <div class="form-group">
         <label for="">新手村</label>
         <div class="input-group-control">
-            <app-switch></app-switch>
+            <app-switch />
         </div>
     </div>
 </app-dialog-box>

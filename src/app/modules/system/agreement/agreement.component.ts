@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -13,6 +13,11 @@ import { SystemService } from '../system.service';
   styleUrls: ['./agreement.component.scss']
 })
 export class AgreementComponent implements OnInit {
+    private service = inject(SystemService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IAgreement[] = [];
     public hasMore = true;
@@ -23,13 +28,6 @@ export class AgreementComponent implements OnInit {
         per_page: 20,
         keywords: ''
     };
-
-    constructor(
-        private service: SystemService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ShortLinkService } from './short-link.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { ShortLinkService } from './short-link.service';
   styleUrls: ['./short-link-backend.component.scss']
 })
 export class ShortLinkBackendComponent implements OnInit {
+    private service = inject(ShortLinkService);
+
 
     public isLoading = false;
     public data: any = {};
-
-    constructor(
-        private service: ShortLinkService
-    ) { }
 
     ngOnInit() {
         this.service.statistics().subscribe({

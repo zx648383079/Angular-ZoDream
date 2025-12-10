@@ -47,8 +47,8 @@
                 
             </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>
 
@@ -58,7 +58,7 @@
             <label for="">模板名称</label>
             <div>
                 <input type="text" class="form-control" [(ngModel)]="editData.title">
-                <app-switch offLabel="无效" onLabel="有效" [(ngModel)]="editData.status"></app-switch>
+                <app-switch offLabel="无效" onLabel="有效" [(ngModel)]="editData.status" />
             </div>
         </div>
         <div class="input-group-control">
@@ -89,14 +89,14 @@
                 <label for="">模板名称</label>
                 <div>
                     <input type="text" class="form-control" [(ngModel)]="sendData.template.title">
-                    <app-switch offLabel="无效" onLabel="有效" [(ngModel)]="sendData.template.status"></app-switch>
+                    <app-switch offLabel="无效" onLabel="有效" [(ngModel)]="sendData.template.status" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">接收者</label>
                 <div>
                     <div>
-                        <app-select-input [url]="selectUrl" [(ngModel)]="sendData.to" [formatFn]="formatUser"></app-select-input>
+                        <app-select-input [url]="selectUrl" [(ngModel)]="sendData.to" [formatFn]="formatUser" />
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, HostListener, OnChanges, SimpleChanges, inject, input, output } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { IErrorResponse } from '../../../theme/models/page';
 import { IEmoji } from '../../../theme/models/seo';
@@ -13,12 +13,15 @@ import { IComment } from '../model';
     styleUrls: ['./comment-viewer.component.scss']
 })
 export class CommentViewerComponent implements OnChanges {
+    private toastrService = inject(DialogService);
+    private service = inject(MicroService);
 
-    @Input() public open = false;
-    @Input() public user: IUser;
-    @Input() public micro = 0;
-    @Input() public auto = false;
-    @Output() public loadMore = new EventEmitter<void>();
+
+    public readonly open = input(false);
+    public readonly user = input<IUser>(undefined);
+    public readonly micro = input(0);
+    public readonly auto = input(false);
+    public readonly loadMore = output<void>();
     public items: IComment[] = [];
     public page = 1;
     public hasMore = true;
@@ -33,18 +36,13 @@ export class CommentViewerComponent implements OnChanges {
         is_forward: false,
     };
 
-    constructor(
-        private toastrService: DialogService,
-        private service: MicroService,
-    ) { }
-
     @HostListener('scroll', [
         '$event',
     ])
     public onDivScroll(
         event: Event
     ): void {
-        if (!this.auto) {
+        if (!this.auto()) {
             return;
         }
         const target = event.target as HTMLElement;
@@ -65,7 +63,7 @@ export class CommentViewerComponent implements OnChanges {
         if (this.booted) {
             return;
         }
-        if (this.micro < 1 || !this.open) {
+        if (this.micro() < 1 || !this.open()) {
             return;
         }
         this.booted = true;
@@ -81,11 +79,11 @@ export class CommentViewerComponent implements OnChanges {
             this.toastrService.warning($localize `Please input content`);
             return;
         }
-        if (this.micro < 1) {
+        if (this.micro() < 1) {
             this.toastrService.warning($localize `operation failed`);
             return;
         }
-        const data = Object.assign({micro_id: this.micro}, this.editData);
+        const data = Object.assign({micro_id: this.micro()}, this.editData);
         this.service.commentSave(data).subscribe({
             next: _ => {
                 this.toastrService.success($localize `Successful comment`);
@@ -129,7 +127,8 @@ export class CommentViewerComponent implements OnChanges {
         if (!this.hasMore) {
             return;
         }
-        if (!this.auto) {
+        if (!this.auto()) {
+            // TODO: The 'emit' function requires a mandatory void argument
             this.loadMore.emit();
             return;
         }
@@ -142,7 +141,7 @@ export class CommentViewerComponent implements OnChanges {
         }
         this.isLoading = true;
         this.service.commentList({
-            id: this.micro,
+            id: this.micro(),
             page
         }).subscribe({
             next: res => {

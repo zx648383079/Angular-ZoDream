@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent } from '../../../../components/dialog';
 import { IAdminLog } from '../../../../theme/models/auth';
@@ -13,6 +13,10 @@ import { SearchService } from '../../../../theme/services';
   styleUrls: ['./admin-log.component.scss']
 })
 export class AdminLogComponent implements OnInit {
+    private service = inject(AuthService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IAdminLog[] = [];
     public hasMore = true;
@@ -24,14 +28,6 @@ export class AdminLogComponent implements OnInit {
         per_page: 20,
     };
     public editData: IAdminLog = {} as any;
-
-
-    constructor(
-        private service: AuthService,
-        private route: ActivatedRoute,
-        private searchService: SearchService
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

@@ -1,7 +1,7 @@
 import {
     Injectable,
-    Inject,
-    PLATFORM_ID
+    PLATFORM_ID,
+    inject
 } from '@angular/core';
 import {
     HttpRequest,
@@ -44,15 +44,13 @@ const USER_KEY = 'user';
 @Injectable()
 export class AuthService {
 
-    constructor(
-        private http: HttpClient,
-        private actions: AuthActions,
-        private store: Store<AppState>,
-        private router: Router,
-        private toastrService: DialogService,
-        private cookieService: CookieService,
-        @Inject(PLATFORM_ID) private platformId: any) {}
-
+    private http = inject(HttpClient);
+    private actions = inject(AuthActions);
+    private store = inject(Store<AppState>);
+    private router = inject(Router);
+    private toastrService = inject(DialogService);
+    private cookieService = inject(CookieService);
+    private platformId = inject(PLATFORM_ID);
     
     /**
      * 是否能跳转到路径

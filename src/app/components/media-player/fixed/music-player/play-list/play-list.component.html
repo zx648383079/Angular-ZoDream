@@ -1,5 +1,5 @@
 <div class="play-list-container" [ngStyle]="boxStyle">
-    @for (item of items; track $index) {
+    @for (item of items(); track $index) {
         <div class="music-item" [ngClass]="{active: item.active}" (click)="tapItem(item)">
             <div class="icon">
                 @if (item.active) {
@@ -15,7 +15,7 @@
                     <i class="iconfont icon-trash"></i>
                 </div>
             </div>
-            @if (!min) {
+            @if (!min()) {
             <div class="artist">
                 {{ item.artist }}
             </div>

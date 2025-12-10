@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { DialogBoxComponent } from '../../../../../components/dialog';
@@ -13,6 +13,10 @@ import { CmsService } from '../../cms.service';
   styleUrls: ['./site-option.component.scss']
 })
 export class SiteOptionComponent implements OnInit {
+    private service = inject(CmsService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public items: IOption[] = [];
 
@@ -32,14 +36,6 @@ export class SiteOptionComponent implements OnInit {
     ];
 
     private id = 0;
-
-    constructor(
-        private service: CmsService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {
-        
-    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IDataOne, IPage } from '../../../theme/models/page';
 import { ICheckIn } from '../model';
 
 @Injectable()
 export class CheckinService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) { }
 
     public statistics() {
         return this.http.get<any>('checkin/admin/home/index');

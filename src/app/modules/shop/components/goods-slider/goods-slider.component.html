@@ -4,7 +4,7 @@
     </div>
     <div class="slider-box" [ngStyle]="boxStyle">
         <ul [ngStyle]="scrollStyle">
-            @for (item of items; track $index) {
+            @for (item of items(); track $index) {
             <li #itemView class="goods-item item-hover fixed-item">
                 @if (itemType < 1) {
                     <div class="thumb">

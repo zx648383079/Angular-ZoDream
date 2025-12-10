@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,6 +13,11 @@ import { LegworkService } from '../legwork.service';
     styleUrls: ['./provider.component.scss']
 })
 export class ProviderComponent implements OnInit {
+    private service = inject(LegworkService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IProvider[] = [];
     public hasMore = true;
@@ -24,14 +29,6 @@ export class ProviderComponent implements OnInit {
         per_page: 20
     };
     public editData: IProvider = {} as any;
-
-    constructor(
-        private service: LegworkService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

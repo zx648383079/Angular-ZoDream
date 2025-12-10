@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, output, viewChild } from '@angular/core';
 import { SwipeListControlComponent } from './swipe-list-control.component';
 
 @Component({
@@ -9,14 +9,12 @@ import { SwipeListControlComponent } from './swipe-list-control.component';
 })
 export class SwipeControlComponent {
 
-    @ViewChild('leftBox')
-    private leftItemsRef: ElementRef<HTMLDivElement>;
-    @ViewChild('rightBox')
-    private rightItemsRef: ElementRef<HTMLDivElement>;
+    private readonly leftItemsRef = viewChild<ElementRef<HTMLDivElement>>('leftBox');
+    private readonly rightItemsRef = viewChild<ElementRef<HTMLDivElement>>('rightBox');
 
    
     public left = 0;
-    @Output() public tapped = new EventEmitter();
+    public readonly tapped = output();
 
     public parent: SwipeListControlComponent;
 
@@ -59,14 +57,14 @@ export class SwipeControlComponent {
     }
 
     private get leftWidth(): number {
-        const ele = this.leftItemsRef?.nativeElement;
+        const ele = this.leftItemsRef()?.nativeElement;
         if (!ele) {
             return 0;
         }
         return ele.clientWidth || ele.offsetWidth;
     }
     private get rightWidth(): number {
-        const ele = this.rightItemsRef?.nativeElement;
+        const ele = this.rightItemsRef()?.nativeElement;
         if (!ele) {
             return 0;
         }

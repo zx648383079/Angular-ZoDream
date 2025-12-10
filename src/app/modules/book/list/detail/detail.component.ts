@@ -1,7 +1,4 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBookList, IBookListItem } from '../../model';
 import { BookService } from '../../book.service';
@@ -14,18 +11,15 @@ import { DialogService } from '../../../../components/dialog';
     styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
+    private service = inject(BookService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public data: IBookList;
 
     public items: IBookListItem[] = [];
-
-    constructor(
-        private service: BookService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private toastrService: DialogService) {
-
-    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

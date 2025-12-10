@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑板块' : '新增板块'" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑板块' : '新增板块'" (submited)="tapSubmit($event)" [disabled]="form.invalid" />
 <div class="container-fluid">
     <div class="form-table-control">
         <form class="panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
@@ -23,7 +23,7 @@
             <div class="input-group-control">
                 <label for="thumb">图标</label>
                 <div>
-                    <app-file-input formControlName="thumb"></app-file-input>
+                    <app-file-input formControlName="thumb" />
                 </div>
             </div>
             <div class="input-group-control">
@@ -108,7 +108,7 @@
     <div class="form-group">
         <label for="content-input">图片</label>
         <div class="input-group-control">
-            <app-file-input [(ngModel)]="editData.icon"></app-file-input>
+            <app-file-input [(ngModel)]="editData.icon" />
         </div>
     </div>
 </app-dialog-box>

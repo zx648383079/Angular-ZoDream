@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IStorageFile } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
@@ -16,6 +16,11 @@ import { ButtonEvent } from '../../../../../components/form';
   styleUrls: ['./explorer-storage.component.scss']
 })
 export class ExplorerStorageComponent implements OnInit {
+    private service = inject(DiskService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+    private toastrService = inject(DialogService);
+
 
     public items: IStorageFile[] = [];
     public hasMore = true;
@@ -33,14 +38,6 @@ export class ExplorerStorageComponent implements OnInit {
     };
     public isMultiple = false;
     public isChecked = false;
-
-    constructor(
-        private service: DiskService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-        private toastrService: DialogService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

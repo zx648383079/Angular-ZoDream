@@ -1,7 +1,7 @@
 <div class="user-page">
     <div class="container side-box">
         <div>
-            <app-user-menu currentUrl="member/account"></app-user-menu>
+            <app-user-menu currentUrl="member/account" />
         </div>
         @if (user) {
         <div class="account-box">
@@ -70,8 +70,8 @@
                 }
             </tbody>
            </table>
-           <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-           <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+           <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+           <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
         </div>
         }
     </div>

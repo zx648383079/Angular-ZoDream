@@ -1,12 +1,12 @@
-@if (visible && value) {
+@if (visible() && value()) {
 <div class="product-dialog-container">
     <div class="dialog-header">
-        <img [src]="value.thumb" alt="">
-        <div class="cover-label">{{ value.name }}</div>
+        <img [src]="value().thumb" alt="">
+        <div class="cover-label">{{ value().name }}</div>
     </div>
     <div class="dialog-body">
         <div class="property-box">
-            @for (item of value.properties; track $index; let i = $index) {
+            @for (item of value().properties; track $index; let i = $index) {
               <div class="flex-group" [ngClass]="{'multi-group': item.type == 2}">
                   <div class="group-header">{{ item.name }}</div>
                   <div class="group-body">
@@ -22,7 +22,7 @@
                   数量
                 </div>
                 <div class="group-body">
-                  <app-number-input [(ngModel)]="amount" [min]="1" [max]="stock"></app-number-input>
+                  <app-number-input [(ngModel)]="amount" [min]="1" [max]="stock" />
                 </div>
             </div>
             }
@@ -30,7 +30,7 @@
     </div>
     <div class="dialog-footer">
         <div class="price">
-            <em>￥</em> {{ value.price }}
+            <em>￥</em> {{ value().price }}
         </div>
         <div class="btn-group">
             <div class="btn btn-primary" (click)="tapYes()">确认</div>

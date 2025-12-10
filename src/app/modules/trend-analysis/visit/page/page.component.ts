@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
@@ -13,6 +13,11 @@ import { TimeTabItems } from '../../model';
     styleUrls: ['./page.component.scss']
 })
 export class PageComponent implements OnInit {
+    private service = inject(TrendService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: any[] = [];
     public hasMore = true;
@@ -26,13 +31,6 @@ export class PageComponent implements OnInit {
     };
     public tabItems = TimeTabItems;
     public tabIndex = '';
-
-    constructor(
-        private service: TrendService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

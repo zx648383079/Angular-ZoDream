@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -16,6 +16,11 @@ import { NavigationService } from '../navigation.service';
   styleUrls: ['./page.component.scss']
 })
 export class PageComponent implements OnInit {
+    private service = inject(NavigationService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IWebPage[] = [];
     public hasMore = true;
@@ -33,13 +38,6 @@ export class PageComponent implements OnInit {
     public wordItems$: Observable<IWebPageKeywords[]>;
     public wordInput$ = new Subject<string>();
     public wordLoading = false;
-
-    constructor(
-        private service: NavigationService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { ContextMenuComponent } from '../../../../components/context-menu';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { emptyValidate } from '../../../../theme/validators';
@@ -13,22 +13,17 @@ import { EditorLayer } from '../model/menu';
   styleUrls: ['./editor-layer.component.scss']
 })
 export class EditorLayerComponent implements OnInit {
+    private dialogService = inject(DialogService);
+    private service = inject(EditorService);
 
-    @ViewChild("catalogModal")
-    public catalogModal: DialogBoxComponent;
-    @ViewChild(ContextMenuComponent)
-    public contextMenu: ContextMenuComponent;
+
+    public readonly catalogModal = viewChild<DialogBoxComponent>("catalogModal");
+    public readonly contextMenu = viewChild(ContextMenuComponent);
     public tabIndex = 0;
     public catalogItems: ICatalogItem[] = [];
     public weightItems: Widget[] = [];
     public editData: any = {};
     public bodyStyle: any = {};
-
-
-    constructor(
-        private dialogService: DialogService,
-        private service: EditorService,
-    ) { }
 
     ngOnInit() {
         this.service.editorSize$.subscribe(res => {
@@ -56,7 +51,7 @@ export class EditorLayerComponent implements OnInit {
             name: '',
             isGroup: group,
         };
-        this.catalogModal.open(() => {
+        this.catalogModal().open(() => {
             this.service.pushCatalog({
                 name: this.editData.name,
                 canExpand: this.editData.isGroup,
@@ -89,7 +84,7 @@ export class EditorLayerComponent implements OnInit {
             return;
         }
         if (e.action === TREE_ACTION.CONTEXT) {
-            this.contextMenu.show(e.event, EditorLayer)
+            this.contextMenu().show(e.event, EditorLayer)
             return;
         }
     }

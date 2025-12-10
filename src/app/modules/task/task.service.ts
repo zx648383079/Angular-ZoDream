@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IShare, ITask, ITaskComment, ITaskDay, ITaskPlan, ITaskReview } from './model';
 
 @Injectable()
 export class TaskService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public dayList(params: any) {
         return this.http.get<IPage<ITaskDay>>('task/home/today', {params});

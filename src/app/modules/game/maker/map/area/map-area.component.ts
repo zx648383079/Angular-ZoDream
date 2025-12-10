@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IGameMapArea } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { GameMakerService } from '../../game-maker.service';
@@ -15,6 +15,11 @@ import { parseNumber } from '../../../../../theme/utils';
   styleUrls: ['./map-area.component.scss']
 })
 export class MapAreaComponent implements OnInit {
+    private service = inject(GameMakerService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IGameMapArea[] = [];
     public hasMore = true;
@@ -29,13 +34,6 @@ export class MapAreaComponent implements OnInit {
         parent: 0,
         project: 0,
     };
-
-    constructor(
-        private service: GameMakerService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.parent.params.subscribe(params => {

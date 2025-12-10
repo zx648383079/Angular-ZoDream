@@ -1,7 +1,4 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
     ActivatedRoute
 } from '@angular/router';
@@ -23,6 +20,11 @@ import {
     styleUrls: ['./region.component.scss']
 })
 export class RegionComponent implements OnInit {
+    private service = inject(RegionService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IRegion[] = [];
     public hasMore = true;
@@ -36,13 +38,6 @@ export class RegionComponent implements OnInit {
         keywords: '',
         parent: 0,
     };
-
-    constructor(
-        private service: RegionService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

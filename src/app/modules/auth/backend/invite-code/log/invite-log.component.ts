@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IInviteLog } from '../../../../../theme/models/auth';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -12,6 +12,10 @@ import { SearchService } from '../../../../../theme/services';
   styleUrls: ['./invite-log.component.scss']
 })
 export class InviteLogComponent implements OnInit {
+    private service = inject(AuthService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IInviteLog[] = [];
     public hasMore = true;
@@ -24,13 +28,6 @@ export class InviteLogComponent implements OnInit {
         user: 0,
         inviter: 0,
     };
-
-    constructor(
-        private service: AuthService,
-        private route: ActivatedRoute,
-        private searchService: SearchService
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

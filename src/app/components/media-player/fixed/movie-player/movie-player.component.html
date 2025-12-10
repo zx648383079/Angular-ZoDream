@@ -1,11 +1,11 @@
-<div class="movie-player" [ngClass]="{'max-player': isFull, 'fixed-player': isFixed || isFull}">
+<div class="movie-player" [ngClass]="{'max-player': isFull, 'fixed-player': isFixed() || isFull}">
     <div class="player-container">
         <div class="player-body" [ngStyle]="{height: bodyHeight + 'px'}">
             <video class="player-video" #playerVideo></video>
         </div>
         @if (openCatalog) {
         <div class="player-catalog">
-            <app-play-list [min]="true" [height]="bodyHeight" [items]="items" (playing)="play($event)"></app-play-list>
+            <app-play-list [min]="true" [height]="bodyHeight" [items]="items" (playing)="play($event)" />
         </div>
         }
         
@@ -27,11 +27,11 @@
                 </div>
             </div>
             <div class="bar-progress">
-                <app-player-progress-bar [value]="progress" [loaded]="loaded" [max]="duration" (valueChange)="onProgressChange($event)"></app-player-progress-bar>
+                <app-player-progress-bar [value]="progress" [loaded]="loaded" [max]="duration" (valueChange)="onProgressChange($event)" />
             </div>
         </div>
         <div class="bar-footer">
-            @if (speedable) {
+            @if (speedable()) {
             <select class="speed-btn">
                 <option>0.5X</option>
                 <option selected>1.0X</option>
@@ -56,7 +56,7 @@
             <i class="iconfont icon-sun"></i>
         </span>
         <div class="item-body">
-            <app-player-progress-bar [formatValue]="false"></app-player-progress-bar>
+            <app-player-progress-bar [formatValue]="false" />
         </div>
     </div>
     <div class="group-item">
@@ -64,7 +64,7 @@
             <i class="iconfont icon-volume-up"></i>
         </span>
         <div class="item-body">
-            <app-player-progress-bar [formatValue]="false"></app-player-progress-bar>
+            <app-player-progress-bar [formatValue]="false" />
         </div>
     </div>
 </div>

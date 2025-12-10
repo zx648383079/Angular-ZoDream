@@ -4,11 +4,12 @@
             @for (item of selectedItems; track $index) {
                 <div class="selected-item">
                     <span class="item-close" (click)="tapUnselect(item)">&times;</span>
-                    <div class="item-label">{{ item[rangeLabel] }}</div>
+                    <div class="item-label">{{ item[rangeLabel()] }}</div>
                 </div>
             }
         </div>
-        <input type="text" [(ngModel)]="keywords" [placeholder]="placeholder" (ngModelChange)="onKeywordsChange()" [disabled]="disabled" (focus)="onFocus()" (blur)="onBlur()">
+        <input type="text" [(ngModel)]="keywords" [placeholder]="placeholder()" (ngModelChange)="onKeywordsChange()" 
+        [disabled]="disabled()" (focus)="onFocus()" (blur)="onBlur()">
         <div class="input-arrow">
             <span class="arrow-icon"></span>
         </div>
@@ -16,7 +17,7 @@
     <div class="option-container">
         @for (item of optionItems; track $index) {
             <div class="option-item" [ngClass]="{selected: isSelected(item)}" (click)="tapSelected(item)">
-                {{ item[rangeLabel] }}
+                {{ item[rangeLabel()] }}
             </div>
         }
     </div>

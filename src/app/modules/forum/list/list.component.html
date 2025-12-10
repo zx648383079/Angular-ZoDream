@@ -1,6 +1,6 @@
 @if (forum) {
 <div class="container tablet-collapse">
-    <app-search-bar [keywords]="queries.keywords" [type]="queries.type" (confirm)="tapSearch($event)"></app-search-bar>
+    <app-search-bar [keywords]="queries.keywords" [type]="queries.type" (confirm)="tapSearch($event)" />
     <ul  class="breadcrumb">
         <li class="breadcrumb-item">
             <a routerLink="/" class="iconfont icon-home"></a>
@@ -115,7 +115,7 @@
         </div>
         @if (forum && forum.thread_top && forum.thread_top.length > 0) {
             @for (item of forum.thread_top; track $index) {
-                <app-thread-list-item [value]="item" (classifyChanged)="tapClassify($event)"></app-thread-list-item>
+                <app-thread-list-item [value]="item" (classifyChanged)="tapClassify($event)" />
             }
             <div class="split-line"></div>
         }
@@ -130,11 +130,11 @@
         
         
         @for (item of items; track $index) {
-            <app-thread-list-item [value]="item" (classifyChanged)="tapClassify($event)"></app-thread-list-item>
+            <app-thread-list-item [value]="item" (classifyChanged)="tapClassify($event)" />
         }
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
         <div class="paging-box">
-            <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+            <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
         </div>
 
 
@@ -161,7 +161,7 @@
                 <input type="text" class="form-control" formControlName="title" i18n-placeholder placeholder="Please input title">
             </div>
 
-            <app-forum-editor formControlName="content" i18n-placeholder placeholder="Please input content"></app-forum-editor>
+            <app-forum-editor formControlName="content" i18n-placeholder placeholder="Please input content" />
             
             <div class="footer">
                 <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="form.invalid" i18n>Publish</app-action-button>

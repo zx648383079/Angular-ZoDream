@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { INavLink } from '../../../theme/models/seo';
 import { Subscription } from 'rxjs';
 import { AppState } from '../../../theme/interfaces';
@@ -13,6 +13,9 @@ import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
     styleUrls: ['./game-profiler.component.scss']
 })
 export class GameProfilerComponent implements OnDestroy {
+private store = inject<Store<AppState>>(Store);
+private themeService = inject(ThemeService);
+
 
 public navItems: INavLink[] = [
         {
@@ -55,8 +58,7 @@ public navItems: INavLink[] = [
     ];
     private subItems = new Subscription();
 
-    constructor(private store: Store<AppState>,
-        private themeService: ThemeService,) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Game Profiler`);
         this.subItems.add(this.store.select(selectAuthUser).subscribe(user => {
             if (!user) {

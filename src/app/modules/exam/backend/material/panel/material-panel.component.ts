@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit, inject, input, output } from '@angular/core';
 import { DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
@@ -12,6 +12,10 @@ import { ExamService } from '../../exam.service';
   styleUrls: ['./material-panel.component.scss']
 })
 export class MaterialPanelComponent implements OnInit {
+    private service = inject(ExamService);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
 
     public items: IQuestionMaterial[] = [];
     public hasMore = true;
@@ -23,11 +27,11 @@ export class MaterialPanelComponent implements OnInit {
         keywords: '',
         course: 0,
     };
-    @Input() public courseItems: ICourse[] = [];
+    public readonly courseItems = input<ICourse[]>([]);
     public typeItems = ['文本', '音频', '视频'];
     public tabIndex = false;
-    @Input() public value: IQuestionMaterial;
-    @Output() public valueChange = new EventEmitter<IQuestionMaterial>();
+    public readonly value = input<IQuestionMaterial>(undefined);
+    public readonly valueChange = output<IQuestionMaterial>();
     public editData: IQuestionMaterial = {
         title: '',
         course_id: 0,
@@ -35,12 +39,6 @@ export class MaterialPanelComponent implements OnInit {
         type: 0,
         content: '',
     };
-
-    constructor(
-        private service: ExamService,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
     }

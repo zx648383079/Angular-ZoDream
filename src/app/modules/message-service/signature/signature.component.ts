@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -14,6 +14,11 @@ import { MessageServiceService } from '../ms.service';
     styleUrls: ['./signature.component.scss']
 })
 export class SignatureComponent implements OnInit {
+    private service = inject(MessageServiceService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
 
     public items: ISignature[] = [];
     public hasMore = true;
@@ -25,14 +30,6 @@ export class SignatureComponent implements OnInit {
         keywords: ''
     };
     public editData: ISignature = {id: undefined, name: '', sign_no: ''};
-
-    constructor(
-        private service: MessageServiceService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit(): void {
         this.route.queryParams.subscribe(params => {

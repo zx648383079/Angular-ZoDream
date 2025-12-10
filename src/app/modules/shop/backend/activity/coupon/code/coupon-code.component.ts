@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../../components/dialog';
 import { UploadButtonEvent } from '../../../../../../components/form';
@@ -15,6 +15,12 @@ import { ActivityService } from '../../activity.service';
   styleUrls: ['./coupon-code.component.scss']
 })
 export class CouponCodeComponent implements OnInit {
+    private service = inject(ActivityService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private downloadService = inject(DownloadService);
+    private searchService = inject(SearchService);
+
 
     public items: ICouponLog[] = [];
     public hasMore = true;
@@ -29,15 +35,6 @@ export class CouponCodeComponent implements OnInit {
     public editData = {
         amount: 1,
     };
-
-    constructor(
-        private service: ActivityService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private downloadService: DownloadService,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

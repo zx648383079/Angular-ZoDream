@@ -1,21 +1,21 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
     standalone: false,
     selector: 'app-editor-input-group',
     template: `
-    <i class="control-updated-tag" [hidden]="isEmpty" (click)="reset.emit()"></i>
-    @if (header) {
-        <label>{{ header }}</label>
+    <i class="control-updated-tag" [hidden]="isEmpty()" (click)="reset.emit()"></i>
+    @if (header()) {
+        <label>{{ header() }}</label>
     }
-    <ng-content></ng-content>
+    <ng-content />
     `,
     styles: [],
 })
 export class EditorInputGroupComponent {
-    @Input() public header = '';
-    @Input() public isEmpty = true;
+    public readonly header = input('');
+    public readonly isEmpty = input(true);
 
-    @Output() public reset = new EventEmitter<void>();
+    public readonly reset = output<void>();
 
 }

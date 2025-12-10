@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IForum } from '../model';
 import { ForumService } from '../forum.service';
 
@@ -9,13 +9,11 @@ import { ForumService } from '../forum.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+    private service = inject(ForumService);
+
 
     public items: IForum[] = [];
     public isLoading = false;
-
-    constructor(
-        private service: ForumService
-    ) { }
 
     ngOnInit() {
         this.isLoading = true;

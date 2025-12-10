@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IAuthorize, IPlatform } from '../../../theme/models/open';
@@ -13,6 +13,11 @@ import { SearchService } from '../../../theme/services';
   styleUrls: ['./authorize.component.scss']
 })
 export class AuthorizeComponent implements OnInit {
+    private service = inject(OpenService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
 
     public items: IAuthorize[] = [];
     public hasMore = true;
@@ -28,14 +33,6 @@ export class AuthorizeComponent implements OnInit {
         platform_id: 0,
         expired_at: '',
     };
-
-    constructor(
-        private service: OpenService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

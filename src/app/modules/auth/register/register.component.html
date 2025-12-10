@@ -16,7 +16,7 @@
                 (click)="isObserve = !isObserve"></i>
         </div>
         <div class="input-tip">
-            <app-password-strong [value]="password.value"></app-password-strong>
+            <app-password-strong [value]="password.value" />
         </div>
         <div class="input-group-control" [class]="{error: registerForm.errors && registerForm.errors.confirm}">
             <input [type]="isObserve ? 'text' : 'password'" formControlName="confirm_password" i18n-placeholder

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { INavLink } from '../../theme/models/seo';
 import { AppState } from '../../theme/interfaces';
@@ -12,6 +12,9 @@ import { ThemeService } from '../../theme/services';
     styleUrls: ['./task.component.scss']
 })
 export class TaskComponent implements OnInit {
+    private store = inject<Store<AppState>>(Store);
+    private themeService = inject(ThemeService);
+
 
     public navItems: INavLink[] = [{
             name: '首页',
@@ -129,10 +132,7 @@ export class TaskComponent implements OnInit {
         }
     ];
 
-    constructor(
-        private store: Store<AppState>,
-        private themeService: ThemeService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next('时间管理');
         this.store.select(selectAuthUser).subscribe(user => {
             if (!user) {

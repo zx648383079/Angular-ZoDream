@@ -52,7 +52,7 @@
                         <span>{{ item.price | price }}</span>
                     </div>
                     <div>
-                        <app-number-input [(ngModel)]="item.amount" (ngModelChange)="onAmountChange(item)" [max]="item.goods.stock"></app-number-input>
+                        <app-number-input [(ngModel)]="item.amount" (ngModelChange)="onAmountChange(item)" [max]="item.goods.stock" />
                     </div>
                     <div class="total">
                         <span>{{ item.price * item.amount | price }}</span>
@@ -103,7 +103,7 @@
             </div>
             @if (likeItems.length > 0) {
             <div class="panel-body">
-                <app-goods-slider [items]="likeItems"></app-goods-slider>
+                <app-goods-slider [items]="likeItems" />
             </div>
             }
         </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IThemeComponent } from '../../model';
 import { VisualService } from '../visual.service';
 
@@ -9,13 +9,11 @@ import { VisualService } from '../visual.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+    private service = inject(VisualService);
+
 
     public pageItems: IThemeComponent[] = [];
     public weightItems: IThemeComponent[] = [];
-
-    constructor(
-        private service: VisualService
-    ) { }
 
     ngOnInit() {
 

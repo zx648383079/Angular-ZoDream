@@ -3,7 +3,7 @@
         <i class="iconfont icon-cog"></i>
     </div>
     <div class="h-container" (mouseleave)="onLineEnd()">
-        <app-editor-rule-bar (tapped)="tapBar($event)" (hovered)="onLineMove($event)"></app-editor-rule-bar>
+        <app-editor-rule-bar (tapped)="tapBar($event)" (hovered)="onLineMove($event)" />
         @if (lineVisible) {
         <div class="line-bar">
             @for (item of hLines; track $index; let i = $index) {
@@ -25,7 +25,7 @@
         }
     </div>
     <div class="v-container" (mouseleave)="onLineEnd()">
-        <app-editor-rule-bar [orientation]="false" (tapped)="tapBar($event)" (hovered)="onLineMove($event)"></app-editor-rule-bar>
+        <app-editor-rule-bar [orientation]="false" (tapped)="tapBar($event)" (hovered)="onLineMove($event)" />
         @if (lineVisible) {
         <div class="line-bar">
             @for (item of vLines; track $index; let i = $index) {
@@ -48,4 +48,4 @@
     </div>
 </div>
 
-<app-context-menu></app-context-menu>
+<app-context-menu />

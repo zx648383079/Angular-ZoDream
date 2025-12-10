@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -15,6 +15,12 @@ import { confirmValidator } from '../../../../../components/desktop/directives';
     styleUrls: ['./edit.component.scss']
 })
 export class EditUserComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(AuthService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private uploadService = inject(FileUploadService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -33,14 +39,6 @@ export class EditUserComponent implements OnInit {
     public roleItems: IRole[] = [];
     public zoneItems: IUserZone[] = [];
     public sexItems = SexItems;
-
-    constructor(
-        private fb: FormBuilder,
-        private service: AuthService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private uploadService: FileUploadService,
-    ) {}
 
     ngOnInit() {
         this.service.batch({

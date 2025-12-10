@@ -1,11 +1,4 @@
-import {
-    Component,
-    Injector,
-    OnDestroy,
-    OnInit,
-    ViewChild,
-    ViewContainerRef
-} from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit, ViewContainerRef, inject, viewChild } from '@angular/core';
 import {
     ChatService
 } from './chat.service';
@@ -56,11 +49,15 @@ interface IMessagePing {
     styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, OnDestroy {
+    private service = inject(ChatService);
+    private toastrService = inject(DialogService);
+    private authService = inject(AuthService);
+    private themeService = inject(ThemeService);
+    private injector = inject(Injector);
 
-    @ViewChild(ContextMenuComponent)
-    public contextMenu: ContextMenuComponent;
-    @ViewChild('modalVC', {read: ViewContainerRef})
-    private modalViewContainer: ViewContainerRef;
+
+    public readonly contextMenu = viewChild(ContextMenuComponent);
+    private readonly modalViewContainer = viewChild('modalVC', { read: ViewContainerRef });
 
 
     /**
@@ -110,13 +107,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         remark: '',
     };
 
-    constructor(
-        private service: ChatService,
-        private toastrService: DialogService,
-        private authService: AuthService,
-        private themeService: ThemeService,
-        private injector: Injector
-    ) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Chat`);
         this.request = this.service.createRequest();
         this.recorder = new Recorder();
@@ -209,7 +200,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     public tapContextMenu(e: MouseEvent, user?: IUser) {
-        this.contextMenu.show(e, !user ? [
+        this.contextMenu().show(e, !user ? [
             {
                 name: '新建分组',
                 icon: 'icon-plus',
@@ -412,7 +403,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     public tapApplyLog() {
         this.navOpen = false;
-        const modalRef = this.modalViewContainer.createComponent(ApplyDialogComponent, {
+        const modalRef = this.modalViewContainer().createComponent(ApplyDialogComponent, {
             injector: this.injector
         });
         modalRef.instance.open(() => {
@@ -422,7 +413,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     public tapRename(user?: IUser) {
         this.navOpen = false;
-        const modalRef = this.modalViewContainer.createComponent(RenameDialogComponent, {
+        const modalRef = this.modalViewContainer().createComponent(RenameDialogComponent, {
             injector: this.injector
         });
         modalRef.instance.open(() => {
@@ -432,7 +423,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     public tapProfile(user?: IUser) {
         this.navOpen = false;
-        const modalRef = this.modalViewContainer.createComponent(ProfileDialogComponent, {
+        const modalRef = this.modalViewContainer().createComponent(ProfileDialogComponent, {
             injector: this.injector
         });
         modalRef.instance.open(user ?? this.user.user, () => {
@@ -442,7 +433,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     public tapMoveGroup(item: IUser) {
         this.navOpen = false;
-        const modalRef = this.modalViewContainer.createComponent(SelectDialogComponent, {
+        const modalRef = this.modalViewContainer().createComponent(SelectDialogComponent, {
             injector: this.injector
         });
         modalRef.instance.open(this.friends, 0, res => {
@@ -455,7 +446,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     public tapAdd(event: Event) {
         event.stopPropagation();
-        const modalRef = this.modalViewContainer.createComponent(SearchDialogComponent, {
+        const modalRef = this.modalViewContainer().createComponent(SearchDialogComponent, {
             injector: this.injector
         });
         modalRef.instance.open(() => {

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, input, output, viewChild } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -8,13 +8,12 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, View
 })
 export class GuaComponent implements AfterViewInit {
 
-    @ViewChild('drawerBox')
-    private drawerElement: ElementRef<HTMLCanvasElement>;
-    @Input() public placeholder = '刮开有奖';
-    @Input() public value = '未中奖';
-    @Input() public foreground = 'grey';
-    @Input() public background = 'white';
-    @Output() public loading = new EventEmitter();
+    private readonly drawerElement = viewChild<ElementRef<HTMLCanvasElement>>('drawerBox');
+    public readonly placeholder = input('刮开有奖');
+    public readonly value = input('未中奖');
+    public readonly foreground = input('grey');
+    public readonly background = input('white');
+    public readonly loading = output();
 
     private ctx: CanvasRenderingContext2D;
     private disabled = true;
@@ -23,7 +22,7 @@ export class GuaComponent implements AfterViewInit {
     constructor() { }
 
     get drawer(): HTMLCanvasElement {
-        return this.drawerElement.nativeElement as HTMLCanvasElement;
+        return this.drawerElement().nativeElement as HTMLCanvasElement;
     }
 
     ngAfterViewInit() {
@@ -62,9 +61,9 @@ export class GuaComponent implements AfterViewInit {
         this.isLoaded = false;
         this.disabled = true;
         this.ctx.beginPath();
-        this.ctx.fillStyle = this.foreground;
+        this.ctx.fillStyle = this.foreground();
         this.ctx.fillRect(0, 0, 300, 180);
-        this.ctx.fillStyle = this.background;
+        this.ctx.fillStyle = this.background();
         this.ctx.font = '30px Microsoft YaHei';
         this.ctx.fillText('刮开有奖', 90, 100);
     }

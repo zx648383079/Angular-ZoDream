@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ALIGN_ACTION, IWorkEditor, MENU_ACTION } from '../model';
 import { EditorService } from '../editor.service';
 import { isMergeable, isSplitable, parseEnum } from '../util';
@@ -10,6 +10,8 @@ import { isMergeable, isSplitable, parseEnum } from '../util';
   styleUrls: ['./editor-tool-bar.component.scss']
 })
 export class EditorToolBarComponent {
+    private readonly service = inject(EditorService);
+
 
     public canForward = false;
     public canBack = false;
@@ -19,9 +21,7 @@ export class EditorToolBarComponent {
 
     private editor: IWorkEditor;
 
-    constructor(
-        private readonly service: EditorService,
-    ) {
+    constructor() {
         this.editor = this.service.workspace;
         this.editor.$undoStateChanged.subscribe(res => {
             this.canBack = res;

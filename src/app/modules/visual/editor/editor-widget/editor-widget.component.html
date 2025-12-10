@@ -4,33 +4,33 @@
     (mouseenter)="onMouseEnter()"
     (mouseleave)="onMouseLeave()">
     <div class="widget-content">
-        @switch (value.tag) {
+        @switch (value().tag) {
             @case ('button') {
-                <app-button-control [value]="value"></app-button-control>
+                <app-button-control [value]="value()" />
             }
             @case ('carousel') {
-                <app-carousel-control [value]="value"></app-carousel-control>
+                <app-carousel-control [value]="value()" />
             }
             @case ('image') {
-                <app-image-control [value]="value"></app-image-control>
+                <app-image-control [value]="value()" />
             }
             @case ('label') {
-                <app-label-control [value]="value"></app-label-control>
+                <app-label-control [value]="value()" />
             }
             @case ('line') {
-                <app-line-control [value]="value"></app-line-control>
+                <app-line-control [value]="value()" />
             }
             @case ('link') {
-                <app-link-control [value]="value"></app-link-control>
+                <app-link-control [value]="value()" />
             }
             @case ('map') {
-                <app-map-control [value]="value"></app-map-control>
+                <app-map-control [value]="value()" />
             }
             @case ('rectangle') {
-                <app-rectangle-control [value]="value"></app-rectangle-control>
+                <app-rectangle-control [value]="value()" />
             }
             @case ('rich-text') {
-                <app-rich-text-control [value]="value"></app-rich-text-control>
+                <app-rich-text-control [value]="value()" />
             }
         }
     </div>

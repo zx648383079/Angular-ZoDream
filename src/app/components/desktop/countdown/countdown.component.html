@@ -1,6 +1,6 @@
 <div class="countdown">
-    @if (label) {
-        <p class="label">{{ label }}</p>
+    @if (label()) {
+        <p class="label">{{ label() }}</p>
     }
     
     <p class="time">

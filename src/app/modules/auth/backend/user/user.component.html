@@ -57,7 +57,7 @@
                   <td>{{ item.money }}</td>
                   @if (editable) {
                   <td>
-                        <app-switch [(ngModel)]="item.is_verified" (ngModelChange)="onVerify(item, modal)"></app-switch>
+                        <app-switch [(ngModel)]="item.is_verified" (ngModelChange)="onVerify(item, modal)" />
                   </td>
                   <td>{{ formatStatus(item.status) }}</td>
                   }
@@ -65,14 +65,14 @@
                   <td class="auto-hide" [title]="item.updated_at">{{ item.updated_at | ago }}</td>
                   <td class="auto-hide" [title]="item.created_at">{{ item.created_at | ago }}</td>
                   <td>
-                        <app-button-group [items]="formatButtons(item)" (tapped)="onActionTap($event, item)"></app-button-group>
+                        <app-button-group [items]="formatButtons(item)" (tapped)="onActionTap($event, item)" />
                   </td>
               </tr>
               }
               </tbody>
       </table>
-      <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+      <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
   </div>
 </div>
 <app-dialog-box #modal [scrollable]="false">

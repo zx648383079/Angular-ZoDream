@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { emptyValidate } from '../../../../../theme/validators';
 import { ICateringStaffRole } from '../../../model';
 
@@ -25,7 +25,7 @@ export class RoleDialogComponent {
     /**
      * 是否显示
      */
-    @Input() public visible = false;
+    public readonly visible = input(false);
     public data: ICateringStaffRole = {name: ''} as any;
     public isChecked = false;
     public items: IRoleGroup[] = [

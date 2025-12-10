@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { IApiField, ICategory, IDocApi, IDocPage, IProject, IProjectVersion } from '../model';
 
 @Injectable()
 export class DocumentService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient,
-    ) { }
 
     public categoryTree() {
         return this.http.get<IData<ICategory>>('doc/admin/category/all');

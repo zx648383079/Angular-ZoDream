@@ -1,39 +1,34 @@
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, effect, input, model } from '@angular/core';
 import { parseNumber } from '../../../theme/utils';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
     selector: 'app-data-size',
     templateUrl: './data-size.component.html',
     styleUrls: ['./data-size.component.scss'],
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => DataSizeComponent),
-        multi: true
-    }]
 })
-export class DataSizeComponent implements ControlValueAccessor {
+export class DataSizeComponent implements FormValueControl<string|number> {
 
-    @Input() public placeholder = $localize `Please input`;
-    @Input() public unitItems = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
-    @Input() public unitBase = 1024;
-    private value = 0;
+    public readonly placeholder = input($localize `Please input`);
+    public readonly unitItems = input(['B', 'KB', 'MB', 'GB', 'TB', 'PB']);
+    public readonly unitBase = input(1024);
     public unitIndex = 0;
     public unitValue: any = 0;
-    public disabled = false;
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<string|number>(0);
+    private formattedValue = 0;
 
-    onChange: any = () => {};
-    onTouch: any = () => {};
-
+    constructor() {
+        effect(() => this.writeValue(this.value()));
+    }
 
     public onValueChange() {
-        this.value = Math.pow(this.unitBase, this.unitIndex) * parseNumber(this.unitValue);
-        this.onChange(this.value);
+        this.value.set(Math.pow(this.unitBase(), this.unitIndex) * parseNumber(this.unitValue));
     }
 
     public onUnitChange() {
-        this.unitValue = this.formatFloat(this.value / Math.pow(this.unitBase, this.unitIndex), 2);
+        this.unitValue = this.formatFloat(this.formattedValue / Math.pow(this.unitBase(), this.unitIndex), 2);
     }
 
     private formatFloat(src: number, pos: number) {
@@ -43,28 +38,19 @@ export class DataSizeComponent implements ControlValueAccessor {
     private formatUnit(val: number): number {
         let i = 0;
         let diff = val;
-        while (diff > this.unitBase) {
+        while (diff > this.unitBase()) {
             i ++;
-            diff /= this.unitBase;
+            diff /= this.unitBase();
         }
         return i;
     } 
 
     writeValue(obj: any): void {
-        const oldVal = this.value;
-        this.value = parseNumber(obj);
-        if (oldVal === 0 && this.value > 0) {
-            this.unitIndex = this.formatUnit(this.value);
+        const oldVal = this.formattedValue;
+        this.formattedValue = parseNumber(obj);
+        if (oldVal === 0 && this.formattedValue > 0) {
+            this.unitIndex = this.formatUnit(this.formattedValue);
         }
         this.onUnitChange();
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
     }
 }

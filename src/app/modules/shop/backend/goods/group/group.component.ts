@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IAttributeGroup } from '../../../model';
 import { AttributeService } from '../attribute.service';
@@ -14,6 +14,11 @@ import { emptyValidate } from '../../../../../theme/validators';
   styleUrls: ['./group.component.scss']
 })
 export class GroupComponent implements OnInit {
+    private service = inject(AttributeService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IAttributeGroup[] = [];
     public hasMore = true;
@@ -25,14 +30,6 @@ export class GroupComponent implements OnInit {
         per_page: 20,
     };
     public editData: IAttributeGroup = {} as any;
-
-    constructor(
-        private service: AttributeService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

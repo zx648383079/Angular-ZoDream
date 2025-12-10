@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { ThemeService } from '../../theme/services';
 import { environment } from '../../../environments/environment';
 import { DialogService } from '../../components/dialog';
@@ -16,6 +16,9 @@ interface IMetaLink {
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements AfterViewInit {
+    private themeService = inject(ThemeService);
+    private toastrService = inject(DialogService);
+
 
     public linkItems: IMetaLink[] = [
         {
@@ -130,10 +133,7 @@ export class HomeComponent implements AfterViewInit {
         
     ];
 
-    constructor(
-        private themeService: ThemeService,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Home`);
         if (!environment.production) {
             this.linkItems.push({

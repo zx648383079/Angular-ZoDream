@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit, inject, input, output } from '@angular/core';
 import { FILE_PROVIDER, IFileDataSource, IFileItem, IFileProvider } from '../model';
 import { IPage } from '../../../theme/models/page';
 import { parseNumber } from '../../../theme/utils';
@@ -10,10 +10,12 @@ import { parseNumber } from '../../../theme/utils';
     styleUrls: ['./file-explorer-panel.component.scss']
 })
 export class FileExplorerPanelComponent implements IFileDataSource {
+    private service = inject<IFileProvider>(FILE_PROVIDER);
 
-    @Input() public editable = true;
-    @Output() public pathChange = new EventEmitter<string>();
-    @Output() public selectedChange = new EventEmitter<IFileItem>();
+
+    public readonly editable = input(true);
+    public readonly pathChange = output<string>();
+    public readonly selectedChange = output<IFileItem>();
     public items: IFileItem[] = [];
     public listViewMode = false;
     public listEditable = false;
@@ -27,11 +29,6 @@ export class FileExplorerPanelComponent implements IFileDataSource {
     public page = 1;
     public hasMore = true;
     public isLoading = false;
-
-
-    constructor(
-        @Inject(FILE_PROVIDER) private service: IFileProvider
-    ) { }
 
     public get filterItems() {
         const items = this.items;

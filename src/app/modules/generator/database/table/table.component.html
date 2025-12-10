@@ -7,7 +7,7 @@
     </app-page-tip>
 
     <div class="panel-container">
-        <app-editable-table [columnItems]="headerItems" [items]="items" [action]="actionTpl" [loading]="isLoading"></app-editable-table>
+        <app-editable-table [columnItems]="headerItems" [items]="items" [action]="actionTpl" [loading]="isLoading" />
     </div>
 </div>
 <ng-template #actionTpl let-name="Name" let-free="Data_free">

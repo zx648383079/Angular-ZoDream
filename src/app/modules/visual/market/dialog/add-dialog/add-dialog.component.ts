@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { ISite, IThemeComponent } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { VisualService } from '../../visual.service';
@@ -16,7 +16,13 @@ import { ButtonEvent } from '../../../../../components/form';
     styleUrls: ['./add-dialog.component.scss']
 })
 export class AddDialogComponent {
-    @Input() public multiple = false;
+    private service = inject(VisualService);
+    private searchService = inject(SearchService);
+    private themeService = inject(ThemeService);
+    private store = inject<Store<AppState>>(Store);
+    private toastrService = inject(DialogService);
+
+    public readonly multiple = input(false);
     public visible = false;
     public sourceData: IThemeComponent;
     public items: ISite[] = [];
@@ -32,13 +38,7 @@ export class AddDialogComponent {
     public onlySelected = false;
     private isGuest = true;
 
-    constructor(
-        private service: VisualService,
-        private searchService: SearchService,
-        private themeService: ThemeService,
-        private store: Store<AppState>,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.store.select(selectAuthStatus).subscribe(
             data => {
                 this.isGuest = data.guest
@@ -70,7 +70,7 @@ export class AddDialogComponent {
     }
 
     public tapSelected(item: ISite) {
-        if (!this.multiple) {
+        if (!this.multiple()) {
             this.selectedItems = [item];
             return;
         }

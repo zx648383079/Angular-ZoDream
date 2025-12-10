@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MessageServiceService } from './ms.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { MessageServiceService } from './ms.service';
     styleUrls: ['./ms.component.scss']
 })
 export class MessageServiceComponent implements OnInit {
+    private service = inject(MessageServiceService);
+
 
     public isLoading = true;
     public data: any = {};
-
-    constructor(
-        private service: MessageServiceService,
-    ) { }
 
     ngOnInit() {
         this.service.statistics().subscribe({

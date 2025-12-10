@@ -4,7 +4,7 @@
 
 <div class="datepicker">
     <div (click)="showCalendar()" class="datepicker__input-container">
-        <ng-content></ng-content>
+        <ng-content />
     </div>
     @if (calendarVisible) {
     <div class="datepicker__calendar datepicker__calendar_animate_slide-in" [ngStyle]="calendarStyle">

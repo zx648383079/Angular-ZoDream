@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CustomDialogEvent } from '../../../../../components/dialog';
 import { cloneObject } from '../../../../../theme/utils';
 import { emptyValidate } from '../../../../../theme/validators';
@@ -22,16 +22,16 @@ export class QuestionDialogComponent implements CustomDialogEvent {
         type: 0,
         content: '',
     };
-    @Input() public value: IQuestion = {} as any;
+    public readonly value = input<IQuestion>({} as any);
     public optionItems: any[] = cloneObject(QuestionDefaultOption);
-    @Output() public valueChange = new EventEmitter<IQuestion>();
+    public readonly valueChange = output<IQuestion>();
     private actionFn: any;
 
     constructor() { }
 
     public tapType(i: number) {
         this.typeOpen = false;
-        this.value.type = i;
+        this.value().type = i;
         if (i === 2 && questionOptionIsEmpty(this.optionItems)) {
             this.optionItems = cloneObject(QuestionCheckOption);
         }
@@ -43,10 +43,11 @@ export class QuestionDialogComponent implements CustomDialogEvent {
     }
 
     private onTypeChange() {
-        if (this.value.type != 4) {
+        const value = this.value();
+        if (value.type != 4) {
             return;
         }
-        this.optionItems = formatFillOption(this.value.content, this.optionItems);
+        this.optionItems = formatFillOption(value.content, this.optionItems);
     }
 
     public close(result?: any) {
@@ -54,7 +55,7 @@ export class QuestionDialogComponent implements CustomDialogEvent {
             this.visible = false;
             return;
         }
-        this.valueChange.emit(this.value);
+        this.valueChange.emit(this.value());
         if (!this.actionFn) {
             this.visible = false;
             return;
@@ -64,23 +65,26 @@ export class QuestionDialogComponent implements CustomDialogEvent {
 
     public open<T>(data: T, confirm: (data: T) => void, check?: (data: T) => boolean) {
         this.value = data as any;
-        this.analysisData = this.value.analysis_items && this.value.analysis_items.length > 0 ? this.value.analysis_items[0] : {type: 0, content: ''};
-        if (questionNeedOption(this.value)) {
-            this.optionItems = this.value.option_items || cloneObject(QuestionDefaultOption);
+        const value = this.value();
+        this.analysisData = value.analysis_items && value.analysis_items.length > 0 ? value.analysis_items[0] : {type: 0, content: ''};
+        const valueValue = this.value();
+        if (questionNeedOption(valueValue)) {
+            this.optionItems = valueValue.option_items || cloneObject(QuestionDefaultOption);
         }
         this.analysisOpen = false;
         this.extendOpen = false;
         this.typeOpen = false;
         this.visible = true;
         this.actionFn = () => {
-            if (questionNeedOption(this.value)) {
-                this.value.option_items = this.optionItems;
+            const valueVal = this.value();
+            if (questionNeedOption(valueVal)) {
+                valueVal.option_items = this.optionItems;
             }
-            this.value.analysis_items = emptyValidate(this.analysisData.content) ? [] : [{...this.analysisData}];
-            if (check && !check(this.value as any)) {
+            valueVal.analysis_items = emptyValidate(this.analysisData.content) ? [] : [{...this.analysisData}];
+            if (check && !check(valueVal as any)) {
                 return;
             }
-            confirm(this.value as any);
+            confirm(valueVal as any);
             this.visible = false;
         };
     }

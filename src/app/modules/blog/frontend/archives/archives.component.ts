@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { BlogService } from '../blog.service';
 import { IArchives } from '../../model';
 import { ThemeService } from '../../../../theme/services';
@@ -10,14 +10,14 @@ import { ThemeService } from '../../../../theme/services';
     styleUrls: ['./archives.component.scss']
 })
 export class ArchivesComponent implements OnInit {
+    private service = inject(BlogService);
+    private themeService = inject(ThemeService);
+
 
     public items: IArchives[] = [];
     public isLoading = false;
 
-    constructor(
-        private service: BlogService,
-        private themeService: ThemeService,
-        ) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Archives`);
         this.service.getArchives().subscribe(res => {
             this.items = res;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShopService } from '../../shop.service';
 
@@ -9,6 +9,10 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./bonus.component.scss']
 })
 export class BonusComponent implements OnInit {
+    private service = inject(ShopService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+
     public title = '我的红包';
     public items: any[] = [];
     public hasMore = true;
@@ -17,11 +21,7 @@ export class BonusComponent implements OnInit {
     public isLoading = false;
     public total = 0;
 
-    constructor(
-        private service: ShopService,
-        private router: Router,
-        private route: ActivatedRoute,
-    ) {
+    constructor() {
         this.tapRefresh();
     }
 

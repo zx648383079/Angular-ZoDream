@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
+import { Component, OnDestroy, inject, output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { environment } from '../../../../../environments/environment';
 import { DialogService } from '../../../../components/dialog';
@@ -21,8 +21,14 @@ import { EncryptorService } from '../../../../theme/services/encryptor.service';
   styleUrls: ['./login-panel.component.scss']
 })
 export class LoginPanelComponent implements OnDestroy {
+    private store = inject<Store<AppState>>(Store);
+    private toastrService = inject(DialogService);
+    private authService = inject(AuthService);
+    private encryptor = inject(EncryptorService);
+    private webAuthn = inject(WebAuthn);
 
-    @Output() public logined = new EventEmitter<IUser>();
+
+    public readonly logined = output<IUser>();
 
     public tabIndex = 2;
     public mobile = '';
@@ -44,13 +50,7 @@ export class LoginPanelComponent implements OnDestroy {
     private subItems = new Subscription();
     private inputData: any = {};
 
-    constructor(
-        private store: Store<AppState>,
-        private toastrService: DialogService,
-        private authService: AuthService,
-        private encryptor: EncryptorService,
-        private webAuthn: WebAuthn
-    ) {
+    constructor() {
         this.subItems.add(
             this.store.select(selectAuthUser).subscribe(res => {
                 if (!res) {

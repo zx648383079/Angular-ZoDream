@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, IGameItem, IGameRouter, IGameScene, ItemTypeItems } from '../../../model';
 import { IPageQueries, IPage } from '../../../../../theme/models/page';
 
@@ -9,6 +9,8 @@ import { IPageQueries, IPage } from '../../../../../theme/models/page';
   styleUrls: ['./organize-store.component.scss']
 })
 export class OrganizeStoreComponent implements IGameScene, OnInit {
+    private router = inject<IGameRouter>(GameRouterInjectorToken);
+
 
     public items: IGameItem[] = [];
     public hasMore = true;
@@ -22,10 +24,6 @@ export class OrganizeStoreComponent implements IGameScene, OnInit {
     };
     public modalVisible = false;
     public typeItems = ItemTypeItems;
-
-    constructor(
-        @Inject(GameRouterInjectorToken) private router: IGameRouter,
-    ) { }
 
     ngOnInit(): void {
         this.tapType(0);

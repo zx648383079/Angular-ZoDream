@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IPageQueries } from '../../../theme/models/page';
 import { DialogService } from '../../../components/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -14,6 +14,12 @@ import { IItem } from '../../../theme/models/seo';
     styleUrls: ['./member.component.scss']
 })
 export class MemberComponent implements OnInit {
+    private service = inject(BlogService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+    private themeService = inject(ThemeService);
+
 
     public categories: ICategory[] = [];
     public statusItems: IItem[] = [];
@@ -30,13 +36,7 @@ export class MemberComponent implements OnInit {
     public isLoading = false;
     public total = 0;
 
-    constructor(
-        private service: BlogService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-        private themeService: ThemeService,
-    ) {
+    constructor() {
         this.service.editOption().subscribe(res => {
             this.categories = res.categories;
             this.statusItems = res.publish_status;

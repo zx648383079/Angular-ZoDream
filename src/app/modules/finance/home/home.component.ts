@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { EChartsCoreOption } from 'echarts/core';
 import { formatDate, mapFormat } from '../../../theme/utils';
 import { FinanceService } from '../finance.service';
@@ -11,6 +11,8 @@ import { FinanceService } from '../finance.service';
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+    private service = inject(FinanceService);
+
 
     public isLoading = true;
     public data: any = {};
@@ -24,9 +26,7 @@ export class HomeComponent implements OnInit {
     public logTypeItems = ['收入', '支出', '其他'];
     public options: EChartsCoreOption;
 
-    constructor(
-        private service: FinanceService,
-    ) {
+    constructor() {
         this.queries.start_at = formatDate(new Date(), 'yyyy-mm-dd');
     }
 

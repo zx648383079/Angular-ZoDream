@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { EditorService } from '../editor.service';
 import { alginOptions, WidgetType } from '../model';
 
@@ -9,6 +9,8 @@ import { alginOptions, WidgetType } from '../model';
   styleUrls: ['./editor-property.component.scss']
 })
 export class EditorPropertyComponent {
+    private service = inject(EditorService);
+
 
     public panelToggle: any = {
         
@@ -22,9 +24,7 @@ export class EditorPropertyComponent {
 
     public boxStyle: any = {};
 
-    constructor(
-        private service: EditorService,
-    ) {
+    constructor() {
         this.service.workspaceSize$.subscribe(res => {
             if (!res) {
                 return;

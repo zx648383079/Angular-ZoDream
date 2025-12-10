@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, input, output, viewChild } from '@angular/core';
 import { formatHour } from '../../../theme/utils';
 
 @Component({
@@ -9,45 +9,44 @@ import { formatHour } from '../../../theme/utils';
 })
 export class ProgressBarComponent {
 
-    @ViewChild('progressBox')
-    private box: ElementRef<HTMLDivElement>;
+    private readonly box = viewChild<ElementRef<HTMLDivElement>>('progressBox');
 
     /**
      * 当前值
      */
-    @Input() public value = 0;
+    public readonly value = input(0);
 
-    @Input() public loaded = 0;
-    @Input() public formatValue = true;
+    public readonly loaded = input(0);
+    public readonly formatValue = input(true);
     /**
      * 最大值
      */
-    @Input() public max = 100;
+    public readonly max = input(100);
     /**
      * 最小移动值
      */
-    @Input() public min = 0;
-    @Output() public valueChange = new EventEmitter<number>();
+    public readonly min = input(0);
+    public readonly valueChange = output<number>();
     private isMouseMove = false;
 
     constructor() {}
 
     public get titleTip() {
-        if (!this.formatValue) {
-            return this.value;
+        if (!this.formatValue()) {
+            return this.value();
         }
-        return formatHour(this.value, undefined, true) + '/' + formatHour(this.max, undefined, true);
+        return formatHour(this.value(), undefined, true) + '/' + formatHour(this.max(), undefined, true);
     }
 
     public get progressStyle() {
         return {
-            width: this.max < 1 ? 0 : (this.value * 100 / this.max)  + '%'
+            width: this.max() < 1 ? 0 : (this.value() * 100 / this.max())  + '%'
         };
     }
 
     public get loadStyle() {
         return {
-            width: this.max < 1 ? 0 : (this.loaded * 100 / this.max)  + '%'
+            width: this.max() < 1 ? 0 : (this.loaded() * 100 / this.max())  + '%'
         };
     }
 
@@ -56,7 +55,7 @@ export class ProgressBarComponent {
         if (!this.isMouseMove) {
             return;
         }
-        const div = this.box.nativeElement as HTMLDivElement;
+        const div = this.box().nativeElement as HTMLDivElement;
         const bound = div.getBoundingClientRect();
         const offset = event.clientX - bound.left;
         this.tapProgress(offset * 100 / bound.width);
@@ -68,7 +67,7 @@ export class ProgressBarComponent {
     }
 
     ngAfterViewInit(): void {
-        const div = this.box.nativeElement as HTMLDivElement;
+        const div = this.box().nativeElement as HTMLDivElement;
         div.addEventListener('click', (event) => {
             const bound = div.getBoundingClientRect();
             this.tapProgress((event.clientX - bound.left) * 100 / bound.width);
@@ -90,7 +89,8 @@ export class ProgressBarComponent {
         } else if (i > 100) {
             i = 100;
         }
-        this.valueChange.emit(this.value = this.max === 100 ? i : (i * this.max / 100));
+        const max = this.max();
+        this.valueChange.emit(this.value = max === 100 ? i : (i * max / 100));
     }
 
 }

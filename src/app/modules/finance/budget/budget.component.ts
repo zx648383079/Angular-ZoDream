@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -15,6 +15,12 @@ import { mapFormat } from '../../../theme/utils';
     styleUrls: ['./budget.component.scss']
 })
 export class BudgetComponent implements OnInit {
+    private service = inject(FinanceService);
+    private toastrService = inject(DialogService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IBudget[] = [];
     public hasMore = true;
@@ -32,14 +38,6 @@ export class BudgetComponent implements OnInit {
         budget: 0,
     } as any;
     public cycleItems = ['一次', '每天', '每周', '每月', '每年'];
-
-    constructor(
-        private service: FinanceService,
-        private toastrService: DialogService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

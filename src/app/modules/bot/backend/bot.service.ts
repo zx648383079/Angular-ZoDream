@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
 import { Router } from '@angular/router';
@@ -9,13 +9,11 @@ import { IBotAccount, IBotMedia, IBotMenuItem, IBotTemplate, IBotReply, IBotRepl
     providedIn: 'root'
 })
 export class BotService {
+    private http = inject(HttpClient);
+    private router = inject(Router);
+
 
     public baseId = 0;
-
-    constructor(
-        private http: HttpClient,
-        private router: Router,
-        ) { }
 
     public accountList(params: any) {
         return this.http.get<IPage<IBotAccount>>('bot/admin/account', {params});

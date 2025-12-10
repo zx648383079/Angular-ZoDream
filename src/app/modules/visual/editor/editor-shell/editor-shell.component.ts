@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { IPoint } from '../../../../theme/utils/canvas';
 
 @Component({
@@ -11,7 +11,7 @@ export class EditorShellComponent {
 
     public tabVisible = false;
 
-    @Output() public resizing = new EventEmitter<IPoint>();
+    public readonly resizing = output<IPoint>();
 
     constructor() { }
 

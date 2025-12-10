@@ -1,9 +1,9 @@
 
-@if (!loading) {
+@if (!loading()) {
     <table class="table table-hover">
         <thead>
             <tr>
-                @if (batchable) {
+                @if (batchable()) {
                 <th width="40">
                     <i class="iconfont" [ngClass]="{'icon-square-o': !checkAll, 'icon-check-square-o': checkAll}" (click)="toggleCheckAll()"></i>
                 </th>
@@ -20,7 +20,7 @@
                     <div class="drop-menu-btn" [ngClass]="{'open-drop': openDrop}">
                         <i class="iconfont icon-cog" (click)="openDrop = !openDrop"></i>
                         <div class="drop-menu-body">
-                            @for (item of columnItems; track $index; let i = $index) {
+                            @for (item of columnItems(); track $index; let i = $index) {
                             <div class="menu-item">
                                 <i class="iconfont" [ngClass]="{'icon-square-o': item.hidden, 'icon-check-square-o': !item.hidden}" (click)="toggleHidden(i)"></i>
                                 {{ item.label || item.name }}
@@ -31,7 +31,7 @@
                     </div>
                 </th>
             </tr>
-            @if (searchable) {
+            @if (searchable()) {
             <tr>
                 <td></td>
                 @for (item of nameItems; track item.index) {
@@ -39,7 +39,7 @@
                         @if (item.searchable) {
                             @switch (item.inputType) {
                                 @case ('switch') {
-                                    <app-switch [(ngModel)]="item.value"></app-switch>
+                                    <app-switch [(ngModel)]="item.value" />
                                 }
                                 @case ('select') {
                                     <select class="form-control" [(ngModel)]="item.value">
@@ -72,7 +72,7 @@
                                 <img [ngClass]="'img-' + name.name" [src]="item[name.name] | asset">
                             }
                             @case ('switch') {
-                                <app-switch [(ngModel)]="item[name.name]"></app-switch>
+                                <app-switch [(ngModel)]="item[name.name]" />
                             }
                             @case ('size') {
                                 {{ item[name.name] | size }}
@@ -91,14 +91,13 @@
                     </th>
                 }
                 <td>
-                    <ng-container *ngTemplateOutlet="action; context:item">
-                    </ng-container>
+                    <ng-container *ngTemplateOutlet="action(); context:item" />
                 </td>
             </tr>
             }
             
         </tbody>
-        @if (batchable) {
+        @if (batchable()) {
         <tfoot>
             <tr>
                 <td>
@@ -109,7 +108,7 @@
                         <button class="btn btn-danger" type="button" (click)="tapRemoveAll()" [disabled]="checkedItems.length < 1" i18n>
                             Delete Selected
                         </button>
-                        <ng-content></ng-content>
+                        <ng-content />
                     </div>
                 </td>
             </tr>
@@ -117,12 +116,11 @@
         }
         
     </table>
-    @if (total >= 0) {
-        <app-pagination [page]="page" [total]="total" [perPage]="perPage" (pageChange)="tapPage($event)">
-        </app-pagination>
+    @if (total() >= 0) {
+        <app-pagination [page]="page()" [total]="total()" [perPage]="perPage()" (pageChange)="tapPage($event)" />
     }
 } @else {
     <div class="loading-box">
-        <app-loading-ring></app-loading-ring>
+        <app-loading-ring />
     </div>
 }

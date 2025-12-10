@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { IForum, IThread, IThreadPost, IThreadUser } from './model';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
@@ -7,8 +7,8 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ForumService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) { }
 
     public getForumList(): Observable<IForum[]> {
         return this.http.get<IData<IForum>>('forum').pipe(map(res => res.data));

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { IArticle } from '../../../model';
@@ -11,18 +11,16 @@ import { ShopService } from '../../../shop.service';
   styleUrls: ['./help.component.scss']
 })
 export class HelpComponent implements OnInit {
+    private service = inject(ShopService);
+    private route = inject(ActivatedRoute);
+    private sanitizer = inject(DomSanitizer);
+
 
     public items = [];
 
     public data: IArticle;
 
     public content: SafeHtml;
-
-    constructor(
-        private service: ShopService,
-        private route: ActivatedRoute,
-        private sanitizer: DomSanitizer,
-    ) { }
 
     ngOnInit() {
         this.service.help().subscribe(res => {

@@ -79,7 +79,7 @@
                     <div class="btn btn-primary" (click)="openRemark(remarkModal)">备注</div>
                     <div class="btn btn-danger" (click)="tapClose()">关闭</div>
                 </div>
-                <app-message-container class="message-body" [items]="messageItems" [currentId]="currentUser"></app-message-container>
+                <app-message-container class="message-body" [items]="messageItems" [currentId]="currentUser" />
                 <div class="message-tools">
                     <app-emoji-picker class="tool-item" (tapped)="tapEmoji($event)">
                         <i class="iconfont icon-smile-o"></i>

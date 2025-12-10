@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑文章' : '新增文章'" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑文章' : '新增文章'" (submited)="tapSubmit($event)" [disabled]="form.invalid" />
 
 
 <div class="container-fluid">
@@ -17,7 +17,7 @@
                 <input type="text" id="title" class="form-control" formControlName="title">
             </div>
             
-            <app-markdown-editor formControlName="content" (imageUpload)="editorImageUpload($event)" [height]="400"></app-markdown-editor>
+            <app-markdown-editor formControlName="content" (imageUpload)="editorImageUpload($event)" [height]="400" />
         </div>
 
         <div class="row">
@@ -59,7 +59,7 @@
                     <div class="input-group-control">
                         <label for="thumb">图片</label>
                         <div>
-                            <app-file-input formControlName="thumb"></app-file-input>
+                            <app-file-input formControlName="thumb" />
                         </div>
                     </div>
                     <div class="input-group-control">
@@ -96,7 +96,7 @@
                     <div class="input-group-control">
                         <label for="keywords">关键字</label>
                         <div>
-                            <app-words-input id="keywords" formControlName="keywords"></app-words-input>
+                            <app-words-input id="keywords" formControlName="keywords" />
                         </div>
                     </div>
                     <div class="input-group-control">
@@ -112,7 +112,7 @@
                     <div class="input-group-control">
                         <label>标签</label>
                         <div>
-                            <ng-select [multiple]="true" [items]="tagItems" bindLabel="name" [(ngModel)]="tags" [ngModelOptions]="{standalone: true}" [addTag]="addTagFn" placeholder="选择标签"></ng-select>
+                            <ng-select [multiple]="true" [items]="tagItems" bindLabel="name" [(ngModel)]="tags" [ngModelOptions]="{standalone: true}" [addTag]="addTagFn" placeholder="选择标签" />
                         </div>
                     </div>
                 </app-panel>
@@ -150,13 +150,13 @@
                     <div class="input-group-control">
                         <label for="audio_url">音频</label>
                         <div class="file-input">
-                            <app-file-input formControlName="audio_url" accept="audio/*"></app-file-input>
+                            <app-file-input formControlName="audio_url" accept="audio/*" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="video_url">视频</label>
                         <div>
-                            <app-file-input formControlName="video_url" accept="video/*"></app-file-input>
+                            <app-file-input formControlName="video_url" accept="video/*" />
                         </div>
                     </div>
                     <div class="input-group-control">
@@ -173,7 +173,7 @@
                     <div class="input-group-control">
                         <label for="comment_status">评论状态</label>
                         <div>
-                            <app-switch id="comment_status" formControlName="comment_status"></app-switch>
+                            <app-switch id="comment_status" formControlName="comment_status" />
                         </div>
                     </div>
                     <div class="input-group-control">
@@ -192,7 +192,7 @@
                     <div class="input-group-control">
                         <label for="meta_is_hide">是否隐藏</label>
                         <div>
-                            <app-switch id="meta_is_hide" formControlName="is_hide"></app-switch>
+                            <app-switch id="meta_is_hide" formControlName="is_hide" />
                         </div>
                     </div>
                     }

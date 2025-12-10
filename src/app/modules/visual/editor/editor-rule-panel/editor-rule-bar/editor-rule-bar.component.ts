@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnChanges, SimpleChanges, inject, input, model, output, viewChild } from '@angular/core';
 import { EditorService } from '../../editor.service';
 import { IRuleLine } from '../../model';
 import { IPoint } from '../../../../../theme/utils/canvas';
@@ -10,39 +10,38 @@ import { IPoint } from '../../../../../theme/utils/canvas';
     styleUrls: ['./editor-rule-bar.component.scss']
 })
 export class EditorRuleBarComponent implements OnChanges {
+    private readonly service = inject(EditorService);
 
-    @ViewChild('drawer')
-    private drawer: ElementRef<HTMLCanvasElement>;
-    @Input() public orientation = true;
-    @Input() public offset = 0;
-    @Input() public gap = 10;
-    @Input() public scale = 1;
-    @Input() public foreground = '#ccc';
-    @Output() public tapped = new EventEmitter<IRuleLine>();
-    @Output() public hovered = new EventEmitter<IRuleLine>();
+
+    private readonly drawer = viewChild<ElementRef<HTMLCanvasElement>>('drawer');
+    public readonly orientation = input(true);
+    public readonly offset = model(0);
+    public readonly gap = input(10);
+    public readonly scale = model(1);
+    public readonly foreground = input('#ccc');
+    public readonly tapped = output<IRuleLine>();
+    public readonly hovered = output<IRuleLine>();
 
     private baseWidth = 0;
     private baseX = 0;
     private baseHeight = 16;
 
     private get offsetX() {
-        return (this.baseHeight - this.offset) * this.scale;
+        return (this.baseHeight - this.offset()) * this.scale();
     }
 
-    constructor(
-        private readonly service: EditorService,
-    ) {
+    constructor() {
         this.service.shellSize$.subscribe(res => {
             if (!res) {
                 return;
             }
             const zoom = this.service.workspaceSize$.value;
-            this.baseWidth = (this.orientation ? zoom.width :  zoom.height) - this.baseHeight;
-            this.baseX = (this.orientation ? zoom.x :  zoom.y) + this.baseHeight;
-            this.offset = (this.orientation ? res.size.x : res.size.y);
-            this.scale = res.scale / 100;
-            const canvas = this.drawer.nativeElement;
-            if (this.orientation) {
+            this.baseWidth = (this.orientation() ? zoom.width :  zoom.height) - this.baseHeight;
+            this.baseX = (this.orientation() ? zoom.x :  zoom.y) + this.baseHeight;
+            this.offset.set(this.orientation() ? res.size.x : res.size.y);
+            this.scale.set(res.scale / 100);
+            const canvas = this.drawer().nativeElement;
+            if (this.orientation()) {
                 canvas.width = this.baseWidth;
                 canvas.height = this.baseHeight;
             } else {
@@ -54,8 +53,9 @@ export class EditorRuleBarComponent implements OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if ((changes.offset || changes.gap || changes.scale) && this.drawer) {
-            this.onRender(this.drawer.nativeElement.getContext('2d'));
+        const drawer = this.drawer();
+        if ((changes.offset || changes.gap || changes.scale) && drawer) {
+            this.onRender(drawer.nativeElement.getContext('2d'));
         }
     }
 
@@ -68,11 +68,11 @@ export class EditorRuleBarComponent implements OnChanges {
     }
 
     private createLine(event: MouseEvent) :IRuleLine {
-        const x = (this.orientation ? event.clientX : event.clientY) - this.baseX;
+        const x = (this.orientation() ? event.clientX : event.clientY) - this.baseX;
         return {
             value: x,
-            label: Math.floor((x + this.offsetX) / this.scale),
-            horizontal: this.orientation
+            label: Math.floor((x + this.offsetX) / this.scale()),
+            horizontal: this.orientation()
         };
     }
 
@@ -80,12 +80,13 @@ export class EditorRuleBarComponent implements OnChanges {
         drawingContext.fillStyle = '#fff';
         drawingContext.lineWidth = 2;
         const h = this.baseHeight;
-        if (this.orientation) {
+        const orientation = this.orientation();
+        if (orientation) {
             drawingContext.fillRect(0, 0, this.baseWidth, h);
         } else {
             drawingContext.fillRect(0, 0, h, this.baseWidth);
         }
-        const gap = this.gap * this.scale;
+        const gap = this.gap() * this.scale();
         const count = Math.ceil(this.baseWidth / gap);
         const start = Math.ceil(this.offsetX / gap);
         const fontSize = h * .3;
@@ -95,19 +96,21 @@ export class EditorRuleBarComponent implements OnChanges {
             const hasLabel = real % 5 == 0;
             const x = (real * gap - this.offsetX);
             const y = h * (hasLabel ? .6 : .4);
-            if (this.orientation)
+            if (orientation)
             {
-                this.drawLine(drawingContext, {x, y: 0}, {x, y}, this.foreground);
+                const foreground = this.foreground();
+                this.drawLine(drawingContext, {x, y: 0}, {x, y}, foreground);
                 if (hasLabel)
                 {
-                    this.drawText(drawingContext, (real * this.gap).toString(), fontSize, this.foreground, {x, y});
+                    this.drawText(drawingContext, (real * this.gap()).toString(), fontSize, foreground, {x, y});
                 }
             } else
             {
-                this.drawLine(drawingContext, {x: 0, y: x}, {x: y, y: x}, this.foreground);
+                const foreground = this.foreground();
+                this.drawLine(drawingContext, {x: 0, y: x}, {x: y, y: x}, foreground);
                 if (hasLabel)
                 {
-                    this.drawText(drawingContext, (real * this.gap).toString(), fontSize, this.foreground, {x: y - fontSize * 2, y: x});
+                    this.drawText(drawingContext, (real * this.gap()).toString(), fontSize, foreground, {x: y - fontSize * 2, y: x});
                 }
             }
         }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { SearchService } from '../../../../theme/services';
 import { CateringService } from '../../catering.service';
@@ -13,6 +13,11 @@ import { ActivatedRoute } from '@angular/router';
     styleUrls: ['./address.component.scss']
 })
 export class AddressComponent implements OnInit {
+    private service = inject(CateringService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: ICateringAddress[] = [];
     public hasMore = true;
@@ -23,13 +28,6 @@ export class AddressComponent implements OnInit {
         page: 1,
         per_page: 20
     };
-
-    constructor(
-        private service: CateringService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

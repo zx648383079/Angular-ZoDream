@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { BotService } from './bot.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { BotService } from './bot.service';
   styleUrls: ['./bot-backend.component.scss']
 })
 export class BotBackendComponent implements OnInit {
+    private service = inject(BotService);
+
 
     public isLoading = false;
     public data: any = {};
-
-    constructor(
-        private service: BotService
-    ) { }
 
     ngOnInit() {
         this.service.statistics().subscribe({

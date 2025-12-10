@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { EditorService } from '../editor.service';
 import { Widget, BatchCommand, ResizeWidgetCommand, MENU_ACTION } from '../model';
 import { isMergeable, isSplitable, maxBound } from '../util';
@@ -17,6 +17,8 @@ enum EditMode {
   styleUrls: ['./editor-reflection.component.scss']
 })
 export class EditorReflectionComponent implements OnInit {
+    private service = inject(EditorService);
+
 
     public mode = EditMode.NONE;
     public canMerge = false;
@@ -53,10 +55,6 @@ export class EditorReflectionComponent implements OnInit {
     public set bound(args: IBound) {
         this.widgetBound = args;
     }
-
-    constructor(
-        private service: EditorService,
-    ) { }
 
     ngOnInit() {
         this.service.selectionChanged$.subscribe(res => {

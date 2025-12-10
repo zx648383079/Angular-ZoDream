@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -12,6 +12,11 @@ import { ICategory, IService } from '../../../model';
   styleUrls: ['./edit-service.component.scss']
 })
 export class EditServiceComponent implements OnInit {
+    private service = inject(LegworkService);
+    private route = inject(ActivatedRoute);
+    private fb = inject(FormBuilder);
+    private toastrService = inject(DialogService);
+
 
     public data: IService;
     public form = this.fb.group({
@@ -24,13 +29,6 @@ export class EditServiceComponent implements OnInit {
         form: this.fb.array([])
     });
     public categories: ICategory[] = [];
-
-    constructor(
-        private service: LegworkService,
-        private route: ActivatedRoute,
-        private fb: FormBuilder,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.service.providerCategory().subscribe(res => {

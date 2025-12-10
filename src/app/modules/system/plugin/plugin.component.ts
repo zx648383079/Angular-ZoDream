@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { IPageEditItem, IPageQueries } from '../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent, DialogEvent, DialogService } from '../../../components/dialog';
+import { DialogBoxComponent, DialogService } from '../../../components/dialog';
 import { SearchService } from '../../../theme/services';
 import { SystemService } from '../system.service';
 import { IPluginItem } from '../../../theme/models/seo';
-import { ButtonEvent, FormPanelComponent, FormPanelEvent, IFormInput } from '../../../components/form';
+import { ButtonEvent, FormPanelComponent, IFormInput } from '../../../components/form';
 
 @Component({
     standalone: false,
@@ -14,11 +14,14 @@ import { ButtonEvent, FormPanelComponent, FormPanelEvent, IFormInput } from '../
     styleUrls: ['./plugin.component.scss']
 })
 export class PluginComponent implements OnInit {
+    private service = inject(SystemService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
 
-    @ViewChild(DialogBoxComponent)
-    private modal: DialogEvent;
-    @ViewChild(FormPanelComponent)
-    private form: FormPanelEvent;
+
+    private readonly modal = viewChild(DialogBoxComponent);
+    private readonly form = viewChild(FormPanelComponent);
     public isChecked = false;
     public items: IPluginItem[] = [];
     public hasMore = true;
@@ -29,13 +32,6 @@ export class PluginComponent implements OnInit {
         keywords: '',
         per_page: 20,
     };
-
-    constructor(
-        private service: SystemService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -131,10 +127,10 @@ export class PluginComponent implements OnInit {
     }
 
     private renderForm(item: IPluginItem, items: IFormInput[]) {
-        this.form.items = items;
-        this.modal.open(() => {
-            this.tapInstall(item, this.form.value);
-        }, () => this.form.valid, '快速配置');
+        this.form().items = items;
+        this.modal().open(() => {
+            this.tapInstall(item, this.form().value);
+        }, () => this.form().valid, '快速配置');
     }
 
     public tapRefresh() {

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IItem } from '../../theme/models/seo';
@@ -7,8 +7,8 @@ import { IColumn, IPreviewFile, ITable, ITableColumn } from './model';
 
 @Injectable()
 export class GenerateService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) { }
 
     public controller(data: any) {
         return this.http.post<IData<IPreviewFile>>('gzo/template/controller', data);

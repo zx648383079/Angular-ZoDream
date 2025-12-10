@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { DialogService } from '../../components/dialog';
 import { IEmoji } from '../../theme/models/seo';
 import { OnlineService } from './online.service';
@@ -13,6 +13,9 @@ const SESSION_KEY = 'session_token';
   styleUrls: ['./online-service.component.scss']
 })
 export class OnlineServiceComponent implements OnDestroy {
+    private service = inject(OnlineService);
+    private toastrService = inject(DialogService);
+
 
     public dialogOpen = false;
     public content = '';
@@ -24,10 +27,7 @@ export class OnlineServiceComponent implements OnDestroy {
     private isLoading = false;
     private timer = 0;
 
-    constructor(
-        private service: OnlineService,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.sessionToken = window.localStorage.getItem(SESSION_KEY) || '';
     }
 

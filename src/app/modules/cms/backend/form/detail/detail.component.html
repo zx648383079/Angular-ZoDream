@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑表单' : '新增表单'" (submited)="tapSubmit()"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑表单' : '新增表单'" (submited)="tapSubmit()" />
 
 <div class="container-fluid">
     <div class="panel-container form-table-control">
@@ -38,52 +38,52 @@
                             }
                             @case ('radio') {
                                 <div>
-                                    <app-check-input [items]="item.items" [(ngModel)]="item.value"></app-check-input>
+                                    <app-check-input [items]="item.items" [(ngModel)]="item.value" />
                                 </div>
                             }
                             @case ('checkbox') {
                                 <div>
-                                    <app-check-input [items]="item.items" [(ngModel)]="item.value" [multiple]="true"></app-check-input>
+                                    <app-check-input [items]="item.items" [(ngModel)]="item.value" [multiple]="true" />
                                 </div>
                             }
                             @case ('switch') {
                                 <div>
-                                    <app-switch [(ngModel)]="item.value"></app-switch>
+                                    <app-switch [(ngModel)]="item.value" />
                                 </div>
                             }
                             @case ('image') {
                                 <div>
-                                    <app-file-input [(ngModel)]="item.value"></app-file-input>
+                                    <app-file-input [(ngModel)]="item.value" />
                                 </div>
                             }
                             @case ('images') {
                                 <div>
-                                    <app-file-input [(ngModel)]="item.value"></app-file-input>
+                                    <app-file-input [(ngModel)]="item.value" />
                                 </div>
                             }
                             @case ('file') {
                                 <div>
-                                    <app-file-input [(ngModel)]="item.value" accept="*"></app-file-input>
+                                    <app-file-input [(ngModel)]="item.value" accept="*" />
                                 </div>
                             }
                             @case ('files') {
                                 <div>
-                                    <app-file-input [(ngModel)]="item.value" accept="*"></app-file-input>
+                                    <app-file-input [(ngModel)]="item.value" accept="*" />
                                 </div>
                             }
                             @case ('editor') {
                                 <div>
-                                    <app-zre-editor [(ngModel)]="item.value"></app-zre-editor>
+                                    <app-zre-editor [(ngModel)]="item.value" />
                                 </div>
                             } 
                             @case ('basic_editor') {
                                 <div>
-                                    <app-zre-editor [(ngModel)]="item.value"></app-zre-editor>
+                                    <app-zre-editor [(ngModel)]="item.value" />
                                 </div>
                             }
                             @case ('markdown') {
                                 <div>
-                                    <app-markdown-editor [(ngModel)]="item.value"></app-markdown-editor>
+                                    <app-markdown-editor [(ngModel)]="item.value" />
                                 </div>
                             }
                             @default {

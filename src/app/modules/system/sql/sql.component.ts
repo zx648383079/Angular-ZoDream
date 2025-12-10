@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { SystemService } from '../system.service';
 
@@ -9,14 +9,14 @@ import { SystemService } from '../system.service';
   styleUrls: ['./sql.component.scss']
 })
 export class SqlComponent implements OnInit {
+    private service = inject(SystemService);
+    private toastrService = inject(DialogService);
+
 
     public items: any[] = [];
     public isLoading = false;
 
-    constructor(
-        private service: SystemService,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.tapRefresh();
     }
 

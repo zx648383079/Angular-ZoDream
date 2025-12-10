@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { twoPad } from '../../../../../theme/utils';
 
 @Component({
@@ -9,9 +9,9 @@ import { twoPad } from '../../../../../theme/utils';
 })
 export class MobileBarComponent {
 
-    @Input() public color = '#fff';
-    @Input() public background = '#000';
-    @Input() public title = '首页';
+    public readonly color = input('#fff');
+    public readonly background = input('#000');
+    public readonly title = input('首页');
 
     public get time() {
         const now = new Date();
@@ -20,8 +20,8 @@ export class MobileBarComponent {
 
     public get barStyle() {
         return {
-            color: this.color,
-            background: this.background
+            color: this.color(),
+            background: this.background()
         };
     }
 

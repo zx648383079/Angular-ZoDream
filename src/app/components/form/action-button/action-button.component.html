@@ -1,6 +1,6 @@
-<div class="action-btn" [ngClass]="{disabled: disabled, loading: loading}">
+<div class="action-btn" [ngClass]="{disabled: disabled(), loading: loading()}">
     <div class="action-body">
-        <ng-content></ng-content>
+        <ng-content />
     </div>
     <div class="action-loading">
         <span [ngStyle]="loadingStyle"></span>

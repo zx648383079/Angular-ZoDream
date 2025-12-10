@@ -5,7 +5,7 @@
         @if (item.type == 1) {
         <i class="iconfont icon-play play-icon"></i>
         }
-        @if (!disabled) {
+        @if (!disabled()) {
         <i class="iconfont icon-close action-icon" (click)="tapRemoveGallary(i)"></i>
         }
     </div>

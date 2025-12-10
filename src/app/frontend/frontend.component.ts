@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { FrontendService } from './frontend.service';
 import { ILink, ISystemOption } from '../theme/models/seo';
@@ -33,9 +33,15 @@ interface IDropNavItem {
     styleUrls: ['./frontend.component.scss']
 })
 export class FrontendComponent implements OnDestroy {
+    private service = inject(FrontendService);
+    private router = inject(Router);
+    private store = inject<Store<AppState>>(Store);
+    private authService = inject(AuthService);
+    private toastrService = inject(DialogService);
+    private themeService = inject(ThemeService);
 
-    @ViewChild(LoginDialogComponent)
-    private loginModal: LoginDialogComponent;
+
+    private readonly loginModal = viewChild(LoginDialogComponent);
 
     public menus: IMenuItem[] = [
         {name: $localize `Home`, url: '../'},
@@ -69,14 +75,7 @@ export class FrontendComponent implements OnDestroy {
     ];
     private subItems = new Subscription();
 
-    constructor(
-        private service: FrontendService,
-        private router: Router,
-        private store: Store<AppState>,
-        private authService: AuthService,
-        private toastrService: DialogService,
-        private themeService: ThemeService,
-    ) {
+    constructor() {
         this.subItems.add(
             this.store.select(selectAuth).subscribe(res => {
                 if (this.userLoading === res.isLoading && !this.user === res.guest) {
@@ -105,7 +104,7 @@ export class FrontendComponent implements OnDestroy {
             }),
         );
         this.subItems.add(this.themeService.loginRequest.subscribe(() => {
-                this.loginModal.open();
+                this.loginModal().open();
             }),
         );
         this.subItems.add(this.themeService.navigationDisplayRequest.pipe(debounceTime(100)).subscribe(toggle => {

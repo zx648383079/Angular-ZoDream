@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, viewChild } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { emptyValidate } from '../../../theme/validators';
 import { ISiteCollect, ISiteCollectGroup } from '../model';
@@ -18,9 +18,12 @@ const NavSaveModekey = 'nsmk';
   styleUrls: ['./navigation-panel.component.scss']
 })
 export class NavigationPanelComponent {
+    private service = inject(NavigationService);
+    private toastrService = inject(DialogService);
+    private store = inject<Store<AppState>>(Store);
 
-    @ViewChild('modal')
-    public modal: DialogEvent;
+
+    public readonly modal = viewChild<DialogEvent>('modal');
 
     public editMode = false;
     public items: ISiteCollectGroup[] = [];
@@ -29,11 +32,7 @@ export class NavigationPanelComponent {
     private saveMode = 0;
     private isUpdated = false;
 
-    constructor(
-        private service: NavigationService,
-        private toastrService: DialogService,
-        private store: Store<AppState>,
-    ) {
+    constructor() {
         const mode = parseNumber(window.localStorage.getItem(NavSaveModekey));
         this.store.select(selectAuthStatus).subscribe(res => {
             if (!res.isLoading) {
@@ -209,7 +208,7 @@ export class NavigationPanelComponent {
         if (!this.editData.group_id) {
             this.editData.group_id = 0;
         }
-        this.modal.open(() => {
+        this.modal().open(() => {
             if (this.editData.group_id > 0) {
                 if (emptyValidate(this.editData.link)) {
                     this.toastrService.error($localize `Please input the Link`);

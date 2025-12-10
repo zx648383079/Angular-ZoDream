@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../components/dialog';
@@ -18,9 +18,14 @@ import { IBotAccount, IBotMenuItem } from '../model';
   styleUrls: ['./emulate.component.scss']
 })
 export class EmulateComponent implements OnInit {
+    private service = inject(BotService);
+    private route = inject(ActivatedRoute);
+    private themeService = inject(ThemeService);
+    private toastrService = inject(DialogService);
+    private store = inject<Store<AppState>>(Store);
 
-    @ViewChild(MessageContainerComponent)
-    public messageBody: MessageContainerComponent;
+
+    public readonly messageBody = viewChild(MessageContainerComponent);
 
     public account: IBotAccount;
     public menuItems: IBotMenuItem[] = [];
@@ -33,13 +38,7 @@ export class EmulateComponent implements OnInit {
         avatar: '/assets/images/favicon.png',
     };
 
-    constructor(
-        private service: BotService,
-        private route: ActivatedRoute,
-        private themeService: ThemeService,
-        private toastrService: DialogService,
-        private store: Store<AppState>,
-    ) {
+    constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
             if (user) {
                 this.user = user;
@@ -89,7 +88,7 @@ export class EmulateComponent implements OnInit {
             item.open = !item.open;
             return;
         }
-        this.messageBody.append([this.formatByUser({
+        this.messageBody().append([this.formatByUser({
             type: 99,
             content: $localize `You tap "${item.name}" menu`,
         })]);
@@ -125,7 +124,7 @@ export class EmulateComponent implements OnInit {
             content: this.content,
         }).subscribe({
             next: res => {
-                this.messageBody.append([this.formatByUser({type: 0, content: this.content})]);
+                this.messageBody().append([this.formatByUser({type: 0, content: this.content})]);
                 this.appendResp(res);
                 this.content = '';
             },
@@ -154,7 +153,7 @@ export class EmulateComponent implements OnInit {
 
     private appendResp(res: any) {
         const items = res.data instanceof Array ? res.data : [res.data];
-        this.messageBody.append(items.map(i => {
+        this.messageBody().append(items.map(i => {
             if (i.type === 'text') {
                 return this.formatByAccount({
                     type: 0,

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
@@ -19,6 +19,12 @@ interface ISizeItem {
     styleUrls: ['./preview.component.scss']
 })
 export class PreviewComponent implements OnInit {
+    private service = inject(ResourceService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private themeService = inject(ThemeService);
+    private sanitizer = inject(DomSanitizer);
+
 
     public data: IResource;
     public isLoading = false;
@@ -31,14 +37,6 @@ export class PreviewComponent implements OnInit {
         {name: '812x375', width: 812, height: 375},
     ];
     public resizeIndex = -1;
-
-    constructor(
-        private service: ResourceService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private themeService: ThemeService,
-        private sanitizer: DomSanitizer,
-    ) { }
 
     public get frameStyle() {
         if (this.resizeIndex < 1) {

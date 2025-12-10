@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IAgreement, IFriendLink, ILink } from '../theme/models/seo';
 import { HttpClient } from '@angular/common/http';
@@ -9,13 +9,10 @@ import { map } from 'rxjs/operators';
     providedIn: 'root'
 })
 export class FrontendService {
+    private http = inject(HttpClient);
+
 
     private link$: Observable<ILink[]>;
-
-    constructor(
-      private http: HttpClient
-    ) {
-    }
 
     /**
      * friendLinks

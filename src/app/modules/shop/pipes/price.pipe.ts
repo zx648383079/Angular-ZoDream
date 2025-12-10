@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ShopAppState } from '../shop.reducer';
 import { selectSite } from '../shop.selectors';
@@ -9,12 +9,12 @@ import { selectSite } from '../shop.selectors';
     pure: false,
 })
 export class PricePipe implements PipeTransform {
+    private store = inject<Store<ShopAppState>>(Store);
+
 
     private currency = '￥';
 
-    constructor(
-        private store: Store<ShopAppState>,
-    ) {
+    constructor() {
         this.store.select(selectSite).subscribe(site => {
             if (site && site.currency) {
                 this.currency = site.currency;

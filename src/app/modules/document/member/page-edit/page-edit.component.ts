@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
@@ -18,6 +18,12 @@ import { treeRemoveId } from '../../shared';
     styleUrls: ['./page-edit.component.scss']
 })
 export class PageEditComponent implements OnInit, OnDestroy {
+    private fb = inject(FormBuilder);
+    private service = inject(DocumentService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private themeService = inject(ThemeService);
+
     public form = this.fb.group({
         name: ['', Validators.required],
         content: [''],
@@ -29,15 +35,6 @@ export class PageEditComponent implements OnInit, OnDestroy {
     public catalog: IDocPage[] = [];
     public versionItems: IProjectVersion[] = [];
     public editData: any = {};
-
-
-    constructor(
-        private fb: FormBuilder,
-        private service: DocumentService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private themeService: ThemeService,
-    ) { }
 
     ngOnInit() {
         this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Compact);

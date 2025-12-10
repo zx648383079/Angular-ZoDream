@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -13,6 +13,10 @@ import { SystemService } from '../../system.service';
   styleUrls: ['./edit-agreement.component.scss']
 })
 export class EditAgreementComponent implements OnInit {
+    private service = inject(SystemService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public data: IAgreement = {
         id: 0,
@@ -24,12 +28,6 @@ export class EditAgreementComponent implements OnInit {
     } as any;
 
     public languageItems: IItem[] = [];
-
-    constructor(
-        private service: SystemService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-      ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

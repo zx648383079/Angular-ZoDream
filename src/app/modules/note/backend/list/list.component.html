@@ -47,7 +47,7 @@
                     </td>
                     <td>{{ item.content }}</td>
                     <td>
-                        <app-switch [ngModel]="item.is_notice" (ngModelChange)="onNoticeToggle(item)"></app-switch>
+                        <app-switch [ngModel]="item.is_notice" (ngModelChange)="onNoticeToggle(item)" />
                     </td>
                     <td [title]="item.created_at">{{ item.created_at | ago }}</td>
                     <td>
@@ -70,15 +70,15 @@
                 </tr>
             </tfoot>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>
 
 <app-dialog-box #modal [title]="editData.id > 0 ? '编辑便签' : '新增便签'" [scrollable]="false">
-    <app-text-editor [(ngModel)]="editData.content" placeholder="请输入内容" [height]="200"></app-text-editor>
+    <app-text-editor [(ngModel)]="editData.content" placeholder="请输入内容" [height]="200" />
     <div>
         <label for="notice-input">是否为公告</label>
-        <app-toggle-bar [items]="['No', '中', 'EN']" [(ngModel)]="editData.is_notice"></app-toggle-bar>
+        <app-toggle-bar [items]="['No', '中', 'EN']" [(ngModel)]="editData.is_notice" />
     </div>
 </app-dialog-box>

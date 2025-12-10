@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { UserService } from '../user.service';
 import { ThemeService } from '../../../theme/services';
 import { IUserZone } from '../../../theme/models/user';
@@ -12,17 +12,17 @@ import { DialogService } from '../../../components/dialog';
     styleUrls: ['./zone.component.scss']
 })
 export class ZoneComponent implements OnInit {
+    private themeService = inject(ThemeService);
+    private toastrService = inject(DialogService);
+    private service = inject(UserService);
+
 
 
     public selectedItems: IUserZone[] = [];
     public items: IUserZone[] = [];
     public activatedAt = 0;
 
-    constructor(
-        private themeService: ThemeService,
-        private toastrService: DialogService,
-        private service: UserService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Zone Selection`);
     }
 

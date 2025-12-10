@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { map } from 'rxjs';
 import { IAccountLog, ILoginLog, IBulletinUser, IConnect } from '../../../theme/models/auth';
 import { IData, IPage, IDataOne } from '../../../theme/models/page';
@@ -10,10 +10,8 @@ import { IUser } from '../../../theme/models/user';
     providedIn: 'root'
 })
 export class MemberService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public profile() {
         return this.http.get<IUser>('auth/user');

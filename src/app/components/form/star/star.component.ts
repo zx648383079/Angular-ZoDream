@@ -1,54 +1,27 @@
 import {
-    Component,
-    forwardRef,
-    Input,
+  Component,
+  input,
+  model
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
     selector: 'app-star',
     templateUrl: './star.component.html',
     styleUrls: ['./star.component.scss'],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => StarComponent),
-            multi: true
-        }
-    ]
 })
-export class StarComponent implements ControlValueAccessor {
+export class StarComponent implements FormValueControl<number> {
 
-    @Input() public disabled = true;
-    @Input() public labelVisible = false;
-    public value = 10;
+    public readonly disabled = input(true);
+    public readonly labelVisible = input(false);
+    public value = model(10);
     public items = [2, 4, 6, 8, 10];
 
-    onChange: any = () => { };
-    onTouch: any = () => { };
-
-    constructor() {}
-
     public tapChange(i: number) {
-        if (this.disabled) {
+        if (this.disabled()) {
             return;
         }
-        this.onChange(this.value = i);
-    }
-
-    writeValue(obj: any): void {
-        this.value = obj;
-    }
-
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
+        this.value.set(i);
     }
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, input, model, signal, viewChild } from '@angular/core';
 import { IPage, IPageQueries } from '../../../../../theme/models/page';
 import { IBrand, ICategory, IGoods, IGoodsResult } from '../../../model';
 import { SearchService } from '../../../../../theme/services';
@@ -7,19 +7,20 @@ import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
-  selector: 'app-search-dialog',
-  templateUrl: './search-dialog.component.html',
-  styleUrls: ['./search-dialog.component.scss']
+    selector: 'app-search-dialog',
+    templateUrl: './search-dialog.component.html',
+    styleUrls: ['./search-dialog.component.scss']
 })
 export class SearchDialogComponent implements OnChanges  {
+    private http = inject(HttpClient);
+    private searchService = inject(SearchService);
 
-    @ViewChild(ProductDialogComponent)
-    private modal: ProductDialogComponent;
-    @Input() public multiple = false;
-    @Input() public value: any;
-    @Input() public visible = false;
-    @Input() public propertyVisible = false;
-    @Output() public valueChange = new EventEmitter<IGoodsResult|IGoodsResult[]>();
+
+    private readonly modal = viewChild(ProductDialogComponent);
+    public readonly multiple = input(false);
+    public readonly value = model<IGoodsResult | IGoodsResult[]>(undefined);
+    public readonly visible = signal(false);
+    public readonly propertyVisible = input(false);
     private confirmFn: (items: IGoodsResult|IGoodsResult[]) => void;
     public items: IGoods[] = [];
     public hasMore = true;
@@ -37,10 +38,7 @@ export class SearchDialogComponent implements OnChanges  {
     public selectedItems: IGoodsResult[] = [];
     public onlySelected = false;
 
-    constructor(
-        private http: HttpClient,
-        private searchService: SearchService,
-    ) {
+    constructor() {
         this.http.post<{
             category?: ICategory[];
             brand?: IBrand[];
@@ -66,12 +64,12 @@ export class SearchDialogComponent implements OnChanges  {
     public open();
     public open(confirm: (items: IGoodsResult|IGoodsResult[]) => void);
     public open(confirm?: (items: IGoodsResult|IGoodsResult[], next?: (close: boolean) => void) => void) {
-        this.visible = true;
+        this.visible.set(true);
         this.confirmFn = confirm;
     }
 
     public close() {
-        this.visible = false;
+        this.visible.set(false);
     }
 
     public tapToggleOnly() {
@@ -88,7 +86,7 @@ export class SearchDialogComponent implements OnChanges  {
     }
 
     public tapSelected(item: IGoods) {
-        if (!this.multiple) {
+        if (!this.multiple()) {
             this.selectProduct(item, data => {
                 this.selectedItems = [data];
             });
@@ -107,11 +105,11 @@ export class SearchDialogComponent implements OnChanges  {
     }
 
     private selectProduct(item: IGoods, cb: (item: IGoodsResult) => void) {
-        if (!this.propertyVisible || (item.products && item.products.length < 1) || (!item.products && !item.attribute_group_id)) {
+        if (!this.propertyVisible() || (item.products && item.products.length < 1) || (!item.products && !item.attribute_group_id)) {
             cb(item);
             return;
         }
-        this.modal.open(item, data => {
+        this.modal().open(item, data => {
             if (data) {
                 cb(data);
             }
@@ -119,7 +117,7 @@ export class SearchDialogComponent implements OnChanges  {
     }
 
     public tapYes() {
-        if (this.multiple) {
+        if (this.multiple()) {
             this.output(this.selectedItems);
             return;
         }
@@ -127,11 +125,11 @@ export class SearchDialogComponent implements OnChanges  {
     }
 
     private output(items: any) {
-        this.valueChange.emit(items);
+        this.value.set(items);
         if (this.confirmFn) {
             this.confirmFn(items);
         }
-        this.visible = false;
+        this.visible.set(false);
     }
 
     public tapCancel() {
@@ -191,28 +189,29 @@ export class SearchDialogComponent implements OnChanges  {
     }
 
     private formatValue() {
-        if (!this.value) {
+        const value = this.value();
+        if (!value) {
             this.selectedItems = [];
             return;
         }
-        if (typeof this.value !== 'object') {
+        if (typeof value !== 'object') {
 
-        } else if (this.value instanceof Array) {
-            if (this.value.length < 1) {
+        } else if (value instanceof Array) {
+            if (value.length < 1) {
                 this.selectedItems = [];
                 return;
             }
-            if (typeof this.value[0] === 'object') {
-                this.selectedItems = [...this.value];
+            if (typeof value[0] === 'object') {
+                this.selectedItems = [...value];
                 return;
             }
         } else {
-            this.selectedItems = [this.value];
+            this.selectedItems = [value];
             return;
         }
         this.search({
-            id: this.value,
-            per_page: typeof this.value === 'object' ? this.value.length : 20,
+            id: value,
+            per_page: typeof value === 'object' ? value.length : 20,
         }).subscribe(res => {
             this.selectedItems = res.data;
         });

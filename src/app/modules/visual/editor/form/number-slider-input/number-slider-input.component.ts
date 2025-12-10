@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
+import { Component, input, model } from '@angular/core';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -7,30 +7,16 @@ import { ControlValueAccessor } from '@angular/forms';
     templateUrl: './number-slider-input.component.html',
     styleUrls: ['./number-slider-input.component.scss']
 })
-export class EditorNumberSliderInputComponent implements ControlValueAccessor {
+export class EditorNumberSliderInputComponent implements FormValueControl<string> {
 
-    @Input() public header: string = '';
-    @Input() public hasUnit = true;
+    public readonly header = input<string>('');
+    public readonly hasUnit = input(true);
     public isEmpty = false;
-    public disabled = false;
-    private onChange: any = () => {};
-    private onTouch: any = () => {};
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<string>('');
 
     public tapEmpty() {
 
-    }
-    
-    writeValue(obj: any): void {
-        
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
     }
 
 }

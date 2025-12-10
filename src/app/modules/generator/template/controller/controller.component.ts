@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { GenerateService } from '../../generate.service';
 import { IPreviewFile } from '../../model';
@@ -10,18 +10,15 @@ import { IPreviewFile } from '../../model';
   styleUrls: ['./controller.component.scss']
 })
 export class ControllerComponent {
+    private service = inject(GenerateService);
+    private toastrService = inject(DialogService);
 
-    @ViewChild(DialogBoxComponent)
-    public modal: DialogBoxComponent;
+
+    public readonly modal = viewChild(DialogBoxComponent);
     public module = '';
     public name = 'Home';
 
     public previewItems: IPreviewFile[] = [];
-
-    constructor(
-        private service: GenerateService,
-        private toastrService: DialogService,
-    ) { }
 
     public tapSubmit(preview = true) {
         this.service.controller({
@@ -31,7 +28,7 @@ export class ControllerComponent {
         }).subscribe({
             next: res => {
                 this.previewItems = res.data;
-                this.modal.open();
+                this.modal().open();
             },
             error: err => {
                 this.toastrService.error(err);

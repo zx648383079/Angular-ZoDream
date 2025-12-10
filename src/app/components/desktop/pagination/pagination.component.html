@@ -1,6 +1,6 @@
 <nav aria-label="Page navigation" class="justify-content-center">
     <ul class="pagination">
-        @if (directionLinks) {
+        @if (directionLinks()) {
         <li class="page-item" [ngClass]="{disabled: canPrevious}">
             <a class="page-link" (click)="previous()" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
@@ -9,11 +9,11 @@
         </li>
         }
         @for (item of items; track $index) {
-            <li class="page-item" [ngClass]="{active: page == item, disabled: item < 1}">
+            <li class="page-item" [ngClass]="{active: page() == item, disabled: item < 1}">
                 <a class="page-link" (click)="tapItem(item)">{{ item > 0 ? item : '...' }}</a>
             </li>
         }
-        @if (directionLinks) {
+        @if (directionLinks()) {
         <li class="page-item" [ngClass]="{disabled: canNext}">
             <a class="page-link" (click)="next()" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
@@ -23,10 +23,10 @@
         }
         
     </ul>
-    @if (goto) {
+    @if (goto()) {
     <div class="go-input">
         GO
-        <input type="number" class="form-control" [value]="page" (keydown)="onKeyDown($event)">
+        <input type="number" class="form-control" [value]="page()" (keydown)="onKeyDown($event)">
     </div>
     }
 

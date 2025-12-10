@@ -53,7 +53,7 @@
         <div class="input-group-control">
             <label for="image">图片</label>
             <div>
-                <app-file-input formControlName="image"></app-file-input>
+                <app-file-input formControlName="image" />
             </div>
         </div>
         <div class="input-group-control">
@@ -65,7 +65,7 @@
         <div class="input-group-control">
             <label for="content">内容<i class="iconfont icon-eye" title="预览" (click)="openPreview(previewModal, 'content')"></i></label>
             <div>
-                <app-exam-editor formControlName="content" (change)="onTypeChange()"></app-exam-editor>
+                <app-exam-editor formControlName="content" (change)="onTypeChange()" />
             </div>
         </div>
         <div class="input-group-control">
@@ -96,7 +96,7 @@
                                 @if (item.get('type').value < 1) {
                                     <input type="text" class="form-control" formControlName="content">
                                 } @else {
-                                    <app-file-input formControlName="content"></app-file-input>
+                                    <app-file-input formControlName="content" />
                                 }
                             </div>
                             <select class="form-control" formControlName="type">
@@ -160,13 +160,13 @@
             </div>
             } @else if (typeValue == 5) {
                 <div>子题目</div>
-                <app-question-children [(value)]="childrenItems"></app-question-children>
+                <app-question-children [(value)]="childrenItems" />
             }
             
             <div class="input-group-control">
                 <label for="analysis">解析</label>
                 <div>
-                    <app-question-analysis [(value)]="analysisItems"></app-question-analysis>
+                    <app-question-analysis [(value)]="analysisItems" />
                 </div>
             </div>
         </div>
@@ -179,7 +179,7 @@
 
 <app-dialog-box class="dialog-search-box" #materialModal>
     <i class="iconfont icon-close dialog-close" (click)="materialModal.close(false)"></i>
-    <app-material-panel [courseItems]="courseItems" [(value)]="materialSelected"></app-material-panel>
+    <app-material-panel [courseItems]="courseItems" [(value)]="materialSelected" />
 </app-dialog-box>
 
 <app-dialog-box #sameModal title="相似题目" [footerVisible]="false">
@@ -204,5 +204,5 @@
 </app-dialog-box>
 <app-dialog-box #previewModal title="预览" [footerVisible]="false">
     <textarea class="form-control" [(ngModel)]="previewData"></textarea>
-    <app-math-mark [content]="previewData" [editable]="true" [allowInput]="true"></app-math-mark>
+    <app-math-mark [content]="previewData" [editable]="true" [allowInput]="true" />
 </app-dialog-box>

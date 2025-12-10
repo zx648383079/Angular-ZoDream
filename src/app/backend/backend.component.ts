@@ -1,8 +1,4 @@
-import {
-    Component,
-    OnDestroy,
-    OnInit
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
     AppState
 } from '../theme/interfaces';
@@ -30,19 +26,19 @@ import { INavLink } from '../theme/models/seo';
     styleUrls: ['./backend.component.scss']
 })
 export class BackendComponent implements OnInit, OnDestroy {
+    private store = inject<Store<AppState>>(Store);
+    private actions = inject(AuthActions);
+    private service = inject(BackendService);
+    private toastrService = inject(DialogService);
+    private menuService = inject(MenuService);
+    private themeService = inject(ThemeService);
+
 
     public navItems: INavLink[] = [];
     public bottomNavs: INavLink[] = [];
     private subItems = new Subscription();
 
-    constructor(
-        private store: Store<AppState>,
-        private actions: AuthActions,
-        private service: BackendService,
-        private toastrService: DialogService,
-        private menuService: MenuService,
-        private themeService: ThemeService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next('管理平台');
         this.menuService.change$.subscribe(res => {
             this.navItems = res.items;

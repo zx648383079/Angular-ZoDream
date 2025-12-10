@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../../../../environments/environment';
@@ -15,6 +15,11 @@ import { ArticleService } from '../../article.service';
   styleUrls: ['./edit.component.scss']
 })
 export class EditArticleComponent implements OnInit {
+    private service = inject(ArticleService);
+    private fb = inject(FormBuilder);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         title: ['', Validators.required],
@@ -28,12 +33,7 @@ export class EditArticleComponent implements OnInit {
     public data: IArticle;
     public categories: IArticleCategory[] = [];
 
-    constructor(
-        private service: ArticleService,
-        private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.service.categoryTree().subscribe(res => {
             this.categories = res.data;
         });

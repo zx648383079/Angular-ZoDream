@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, input, output } from '@angular/core';
 import { ButtonEvent } from '../../../components/form';
 import { ThemeService } from '../../../theme/services';
 
@@ -9,16 +9,14 @@ import { ThemeService } from '../../../theme/services';
     styleUrls: ['./edit-header.component.scss']
 })
 export class EditHeaderComponent implements OnChanges, ButtonEvent {
+    private themeService = inject(ThemeService);
 
-    @Input() public title = '';
-    @Input() public min = false;
-    @Input() public disabled = false;
-    @Input() public loading = false;
-    @Output() public submited = new EventEmitter<ButtonEvent>();
 
-    constructor(
-        private themeService: ThemeService
-    ) { }
+    public readonly title = input('');
+    public readonly min = input(false);
+    public readonly disabled = input(false);
+    public readonly loading = input(false);
+    public readonly submited = output<ButtonEvent>();
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes.title) {
@@ -31,7 +29,7 @@ export class EditHeaderComponent implements OnChanges, ButtonEvent {
     }
 
     public tapSubmit() {
-        if (this.disabled || this.loading) {
+        if (this.disabled() || this.loading()) {
             return;
         }
         this.submited.emit(this);

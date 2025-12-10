@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑章节' : '新增章节'" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑章节' : '新增章节'" (submited)="tapSubmit($event)" [disabled]="form.invalid" />
 
 <div class="container-fluid">
     <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
@@ -8,7 +8,7 @@
                 <input type="text" id="title" class="form-control" formControlName="title">
             </div>
             
-            <app-text-editor formControlName="content"></app-text-editor>
+            <app-text-editor formControlName="content" />
         </div>
 
         <app-panel title="附加属性">

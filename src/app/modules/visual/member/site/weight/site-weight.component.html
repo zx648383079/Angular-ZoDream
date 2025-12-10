@@ -45,10 +45,10 @@
 </div>
 
 
-<app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-<app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+<app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+<app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
 
-<app-search-dialog #modal [multiple]="true"></app-search-dialog>
+<app-search-dialog #modal [multiple]="true" />
 
 <app-dialog-box #pageModal i18n-title title="Create Page">
     <div class="form-group">
@@ -66,13 +66,13 @@
     <div class="form-group">
         <label for="keywords-input" i18n>Page Keywords</label>
         <div>
-            <app-words-input [(ngModel)]="pageData.keywords" i18n-placeholder placeholder="Please input the keywords of page"></app-words-input>
+            <app-words-input [(ngModel)]="pageData.keywords" i18n-placeholder placeholder="Please input the keywords of page" />
         </div>
     </div>
     <div class="form-group">
         <label for="description-input" i18n>Page Description</label>
         <div>
-            <app-text-editor [(ngModel)]="pageData.description" height="100"></app-text-editor>
+            <app-text-editor [(ngModel)]="pageData.description" height="100" />
         </div>
     </div>
 </app-dialog-box>

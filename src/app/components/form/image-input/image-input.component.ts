@@ -1,44 +1,34 @@
-import { Component, EventEmitter, Input, Output, forwardRef } from '@angular/core';
+import { Component, inject, input, model, output } from '@angular/core';
 import { FileUploadService } from '../../../theme/services';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { IUploadResult, IUploadFile } from '../../../theme/models/open';
 import { assetUri } from '../../../theme/utils';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
     selector: 'app-image-input',
     templateUrl: './image-input.component.html',
     styleUrls: ['./image-input.component.scss'],
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => ImageInputComponent),
-        multi: true
-    }]
 })
-export class ImageInputComponent implements ControlValueAccessor {
+export class ImageInputComponent implements FormValueControl<string> {
+    private uploadService = inject(FileUploadService);
 
-    @Input() public placeholder = $localize `Select an image`;
-    public value = '';
-    public disabled = false;
+
+    public readonly placeholder = input($localize `Select an image`);
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<string>('');
     public isLoading = false;
     public uploadFailure = false;
     public fileName = this.uploadService.uniqueGuid();
 
-    @Output() public fileUploaded = new EventEmitter<IUploadResult | IUploadFile>();
-
-    onChange: any = () => {};
-    onTouch: any = () => {};
-
-    constructor(
-        private uploadService: FileUploadService,
-    ) { }
+    public readonly fileUploaded = output<IUploadResult | IUploadFile>();
 
     public formatAsset(val?: string) {
         return assetUri(val);
     }
 
     public tapRemove() {
-        this.onChange(this.value = '');
+        this.value.set('');
     }
 
     public uploadFile(event: any) {
@@ -51,7 +41,7 @@ export class ImageInputComponent implements ControlValueAccessor {
         this.uploadService.uploadImage(files[0]).subscribe({
             next: res => {
                 this.isLoading = false;
-                this.onChange(this.value = res.url);
+                this.value.set(res.url);
                 this.fileUploaded.emit(res);
             },
             error: _ => {
@@ -61,16 +51,4 @@ export class ImageInputComponent implements ControlValueAccessor {
         });
     }
 
-    writeValue(obj: any): void {
-        this.value = obj;
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
-    }
 }

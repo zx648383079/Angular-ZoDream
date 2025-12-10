@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { IItem } from '../../../../../theme/models/seo';
 
 @Component({
@@ -9,12 +9,12 @@ import { IItem } from '../../../../../theme/models/seo';
 })
 export class EditMediaComponent {
 
-    @Input() public value: any = {
-        title: '',
-        type: 'image',
-        material_type: 0
-    };
-    @Output() public valueChange = new EventEmitter<any>();
+    public readonly value = input<any>({
+    title: '',
+    type: 'image',
+    material_type: 0
+});
+    public readonly valueChange = output<any>();
     public typeItems: IItem[] = [
         {name: '图片', value: 'image'},
         {name: '语音', value: 'voice'},
@@ -26,7 +26,7 @@ export class EditMediaComponent {
     constructor() { }
 
     public get fileFilter() {
-        switch (this.value.type) {
+        switch (this.value().type) {
             case 'voice':
                 return 'audio/*';
             case 'video':
@@ -37,15 +37,16 @@ export class EditMediaComponent {
     }
 
     public onValueChange() {
-        this.valueChange.emit(this.value);
+        this.valueChange.emit(this.value());
     }
 
     public onFileUpload(e: any) {
+        const value = this.value();
         if (e.thumb) {
-            this.value.thumb = e.thumb;
+            value.thumb = e.thumb;
         }
-        if (e.original && !this.value.title) {
-            this.value.title = e.original;
+        if (e.original && !value.title) {
+            value.title = e.original;
             this.onValueChange();
         }
     }

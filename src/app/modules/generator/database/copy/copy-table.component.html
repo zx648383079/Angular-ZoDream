@@ -48,26 +48,26 @@
         <div class="input-group-control">
             <label for="">数据库</label>
             <div>
-                <ng-select [(ngModel)]="tableData.schema" [items]="schemaItems" bindLabel="name" bindValue="value" (ngModelChange)="onSchemaChange()"></ng-select>
+                <ng-select [(ngModel)]="tableData.schema" [items]="schemaItems" bindLabel="name" bindValue="value" (ngModelChange)="onSchemaChange()" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="">表</label>
             <div>
-                <ng-select [(ngModel)]="tableData.table" [items]="tableItems" bindLabel="name" bindValue="value" (ngModelChange)="onTableChange()"></ng-select>
+                <ng-select [(ngModel)]="tableData.table" [items]="tableItems" bindLabel="name" bindValue="value" (ngModelChange)="onTableChange()" />
             </div>
         </div>
         @if (tableData.type > 1) {
         <div class="input-group-control">
             <label for="">列</label>
             <div>
-                <ng-select [(ngModel)]="tableData.column" [items]="columnItems" bindLabel="label" bindValue="value"></ng-select>
+                <ng-select [(ngModel)]="tableData.column" [items]="columnItems" bindLabel="label" bindValue="value" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="">外接列</label>
             <div>
-                <ng-select [(ngModel)]="tableData.foreign" [items]="srcColumnItems" bindLabel="label"></ng-select>
+                <ng-select [(ngModel)]="tableData.foreign" [items]="srcColumnItems" bindLabel="label" />
             </div>
         </div>
         }
@@ -103,7 +103,7 @@
                 <div class="input-group-control">
                     <label for="">列</label>
                     <div>
-                        <ng-select [(ngModel)]="columnData.column" [items]="srcColumnItems" bindLabel="label"></ng-select>
+                        <ng-select [(ngModel)]="columnData.column" [items]="srcColumnItems" bindLabel="label" />
                     </div>
                 </div>
                 <div class="input-group-control">
@@ -127,6 +127,4 @@
     </div>
 </app-dialog-box>
 
-<app-dialog-box #previewModal title="预览" [fullscreen]="true">
-    
-</app-dialog-box>
+<app-dialog-box #previewModal title="预览" [fullscreen]="true" />

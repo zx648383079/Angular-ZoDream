@@ -1,6 +1,6 @@
 <div class="upload-dialog-box" [hidden]="!visible" [ngClass]="{'dialog-min': min}">
     <div class="dialog-header">
-        <div class="header-title" (click)="min = false">{{ title }}</div>
+        <div class="header-title" (click)="min = false">{{ title() }}</div>
         <div class="header-action">
             <i class="iconfont icon-minus" (click)="min = true"></i>
             <i class="iconfont icon-close" (click)="visible = false"></i>
@@ -46,6 +46,6 @@
             </div>
             }
         }
-        <app-loading-tip [loading]="false" [visible]="formatedItems.length == 0"></app-loading-tip>
+        <app-loading-tip [loading]="false" [visible]="formatedItems.length == 0" />
     </div>
 </div>

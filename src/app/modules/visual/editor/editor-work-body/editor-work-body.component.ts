@@ -1,4 +1,4 @@
-import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
+import { Component, ElementRef, NgZone, inject, viewChild } from '@angular/core';
 import { ContextMenuComponent } from '../../../../components/context-menu';
 import { checkRange } from '../../../../theme/utils';
 import { EditorService } from '../editor.service';
@@ -10,16 +10,17 @@ import { IBound, IPoint, ISize } from '../../../../theme/utils/canvas';
 
 @Component({
     standalone: false,
-  selector: 'app-editor-work-body',
-  templateUrl: './editor-work-body.component.html',
-  styleUrls: ['./editor-work-body.component.scss']
+    selector: 'app-editor-work-body',
+    templateUrl: './editor-work-body.component.html',
+    styleUrls: ['./editor-work-body.component.scss']
 })
 export class EditorWorkBodyComponent extends CommandManager implements IWorkEditor {
+    private service = inject(EditorService);
+    elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
-    @ViewChild(ContextMenuComponent)
-    private contextMenu: ContextMenuComponent;
-    @ViewChild(EditorRulePanelComponent)
-    private rulePanel: EditorRulePanelComponent;
+
+    private readonly contextMenu = viewChild(ContextMenuComponent);
+    private readonly rulePanel = viewChild(EditorRulePanelComponent);
     public trackData = {
         xMin: 0,
         xMax: 100,
@@ -30,10 +31,7 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
 
     private selectionRect = new SelectionBound();
     
-    constructor(
-        private service: EditorService,
-        public elementRef: ElementRef<HTMLDivElement>,
-    ) {
+    constructor() {
         super();
         this.service.workspace = this;
         this.service.shellSize$.subscribe(res => {
@@ -136,7 +134,7 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
     public onContext(e: MouseEvent, item?: Widget|boolean) {
         const items: Widget[] = item && item instanceof Widget ? [item] : (item === true ? this.service.selectionChanged$.value : filterItems(this.widgetItems$.value, this.getPosition({x: e.clientX, y: e.clientY})));
         const navItems = items.length > 0 ? menu.EditorSelected(isMergeable(items), isSplitable(items)) : menu.EditorNotSelected;
-        return this.contextMenu.show(e, navItems, menu => {
+        return this.contextMenu().show(e, navItems, menu => {
             if (typeof menu.data === 'undefined') {
                 return;
             }
@@ -250,10 +248,10 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
                 this.reverseUndo();
                 return;
             case MENU_ACTION.VISIBLE_RULE:
-                this.rulePanel.lineVisible = true;
+                this.rulePanel().lineVisible = true;
                 return;
             case MENU_ACTION.HIDE_RULE:
-                this.rulePanel.lineVisible = false;
+                this.rulePanel().lineVisible = false;
                 return;
             case MENU_ACTION.SELECT_ALL:
                 this.service.selectionChanged$.next(this.widgetItems$.value);

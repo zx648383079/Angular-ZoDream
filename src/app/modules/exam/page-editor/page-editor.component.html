@@ -31,12 +31,12 @@
             </div>
         </div>
         <div class="col-sm-9">
-            <app-question-editor [value]="editItem" (valueChange)="onValueChange($event)"></app-question-editor>
+            <app-question-editor [value]="editItem" (valueChange)="onValueChange($event)" />
         </div>
     </div>
     
 </div>
-<app-context-menu></app-context-menu>
+<app-context-menu />
 
 <app-dialog-box #modal title="配置试卷信息" [scrollable]="false">
     <div class="form-table-control">
@@ -71,13 +71,13 @@
         <div class="input-group-control">
             <label for="start_at">开始时间</label>
             <div>
-                <app-date-input id="start_at" [(ngModel)]="data.start_at"></app-date-input>
+                <app-date-input id="start_at" [(ngModel)]="data.start_at" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="end_at">结束时间</label>
             <div>
-                <app-date-input id="end_at" [(ngModel)]="data.end_at"></app-date-input>
+                <app-date-input id="end_at" [(ngModel)]="data.end_at" />
             </div>
         </div>
     </div>
@@ -110,6 +110,6 @@
             <div class="item-body">{{ item.content }}</div>
         </div>
         }
-        <app-pagination [total]="dialogData.total" [(page)]="dialogData.page" [perPage]="dialogData.perPage" (pageChange)="tapDialogPage()"></app-pagination>
+        <app-pagination [total]="dialogData.total" [(page)]="dialogData.page" [perPage]="dialogData.perPage" (pageChange)="tapDialogPage()" />
     </div>
 </app-dialog-box>

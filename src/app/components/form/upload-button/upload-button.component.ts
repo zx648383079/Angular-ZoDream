@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, SimpleChanges, inject, input, output } from '@angular/core';
 import { FileUploadService } from '../../../theme/services';
 import { UploadButtonEvent } from '../event';
 
@@ -9,21 +9,19 @@ import { UploadButtonEvent } from '../event';
     styleUrls: ['./upload-button.component.scss']
 })
 export class UploadButtonComponent {
+    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
+    private uploadService = inject(FileUploadService);
 
-    @Input() public disabled = false;
-    @Input() public loading = false;
-    @Input() public accept = '';
-    @Input() public multiple = false;
+
+    public readonly disabled = input(false);
+    public readonly loading = input(false);
+    public readonly accept = input('');
+    public readonly multiple = input(false);
 
     public fileName = this.uploadService.uniqueGuid();
 
-    @Output() public uploading = new EventEmitter<UploadButtonEvent>();
+    public readonly uploading = output<UploadButtonEvent>();
     private height = 0;
-
-    constructor(
-        private elementRef: ElementRef<HTMLDivElement>,
-        private uploadService: FileUploadService,
-    ) { }
 
     get loadingStyle() {
         const width = this.height - 10;
@@ -65,11 +63,11 @@ export class UploadButtonComponent {
      */
     public reset() {
         this.loading = false;
-        this.toggleClass('disabled', this.disabled);
+        this.toggleClass('disabled', this.disabled());
     }
 
     public uploadFile(e: any) {
-        if (this.disabled || this.loading) {
+        if (this.disabled() || this.loading()) {
             return;
         }
         const files = e.target.files as FileList;

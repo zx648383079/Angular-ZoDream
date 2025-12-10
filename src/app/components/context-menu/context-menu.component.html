@@ -1,3 +1,3 @@
 <div class="menu-flyout" [ngClass]="{'menu-flow-left': flowLeft}" [ngStyle]="boxStyle">
-    <app-menu-body [items]="items" [flowLeft]="flowLeft" (tapped)="tapMenuItem($event)"></app-menu-body>
+    <app-menu-body [items]="items()" [flowLeft]="flowLeft" (tapped)="tapMenuItem($event)" />
 </div>

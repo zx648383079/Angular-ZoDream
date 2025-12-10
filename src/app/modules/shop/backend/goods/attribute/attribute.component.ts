@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IAttribute, IAttributeGroup } from '../../../model';
@@ -13,6 +13,11 @@ import { SearchService } from '../../../../../theme/services';
     styleUrls: ['./attribute.component.scss']
 })
 export class AttributeComponent implements OnInit {
+    private service = inject(AttributeService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IAttribute[] = [];
     public hasMore = true;
@@ -24,14 +29,6 @@ export class AttributeComponent implements OnInit {
         per_page: 20,
     };
     public group: IAttributeGroup;
-
-    constructor(
-        private service: AttributeService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

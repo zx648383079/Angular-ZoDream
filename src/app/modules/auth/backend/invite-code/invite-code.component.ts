@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IInviteCode } from '../../../../theme/models/auth';
@@ -13,6 +13,11 @@ import { SearchService } from '../../../../theme/services';
   styleUrls: ['./invite-code.component.scss']
 })
 export class InviteCodeComponent implements OnInit {
+    private service = inject(AuthService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
 
     public items: IInviteCode[] = [];
     public hasMore = true;
@@ -27,14 +32,6 @@ export class InviteCodeComponent implements OnInit {
         amount: 0,
         expired_at: '',
     };
-
-    constructor(
-        private service: AuthService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

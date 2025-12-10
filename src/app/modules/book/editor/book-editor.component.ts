@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewContainerRef, inject, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContextMenuComponent, IMenuItem } from '../../../components/context-menu';
 import { DialogEvent, DialogService } from '../../../components/dialog';
@@ -19,17 +19,19 @@ import { TextElement } from './text-editor';
     styleUrls: ['./book-editor.component.scss'],
 })
 export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
+    private service = inject(BookService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private renderer = inject(Renderer2);
+    private themeService = inject(ThemeService);
+    private editor = inject(EditorService);
 
-    @ViewChild(ContextMenuComponent)
-    public contextMenu: ContextMenuComponent;
-    @ViewChild('publishModal')
-    private publishModal: DialogEvent;
-    @ViewChild('moveModal')
-    private moveModal: DialogEvent;
-    @ViewChild('editorArea')
-    private areaElement: ElementRef<HTMLDivElement>;
-    @ViewChild('modalVC', {read: ViewContainerRef})
-    private modalViewContainer: ViewContainerRef;
+
+    public readonly contextMenu = viewChild(ContextMenuComponent);
+    private readonly publishModal = viewChild<DialogEvent>('publishModal');
+    private readonly moveModal = viewChild<DialogEvent>('moveModal');
+    private readonly areaElement = viewChild<ElementRef<HTMLDivElement>>('editorArea');
+    private readonly modalViewContainer = viewChild('modalVC', { read: ViewContainerRef });
 
     public book: IBook;
     public data: IChapter;
@@ -49,14 +51,7 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
         publish_time: ''
     };
     
-    constructor(
-        private service: BookService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private renderer: Renderer2,
-        private themeService: ThemeService,
-        private editor: EditorService
-    ) {
+    constructor() {
         this.themeService.titleChanged.next('编辑书籍');
     }
 
@@ -80,7 +75,7 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit(): void {
-        this.editor.ready(new TextElement(this.areaElement.nativeElement, this.editor), this.modalViewContainer);
+        this.editor.ready(new TextElement(this.areaElement().nativeElement, this.editor), this.modalViewContainer());
         this.editor.toggle(false);
     }
 
@@ -147,7 +142,7 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public tapContextMenu(event: MouseEvent, parent?: IChapter) {
-        return this.contextMenu.show(event, <IMenuItem[]>[
+        return this.contextMenu().show(event, <IMenuItem[]>[
             {
                 name: '新建卷',
                 icon: 'icon-folder-o',
@@ -215,7 +210,7 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public tapMove(item: IChapter) {
         this.moveData.source = item.id;
-        this.moveModal.open(() => {
+        this.moveModal().open(() => {
             const data: any = {id: this.moveData.source};
             if (this.moveData.type < 9) {
                 data.before = this.moveData.target;
@@ -269,7 +264,7 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
             this.toastrService.warning('请输入内容');
             return;
         }
-        this.publishModal.open(() => {
+        this.publishModal().open(() => {
             data.publish_type = this.publishData.publish_type;
             if (data.publish_type > 0) {
                 data.publish_at = `${this.publishData.publish_date} ${this.publishData.publish_time}`;

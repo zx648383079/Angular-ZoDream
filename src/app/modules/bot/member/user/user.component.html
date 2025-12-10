@@ -47,7 +47,7 @@
                     </td>
                     <td>{{ item.status >= 0 ? '已关注' : '未关注' }}</td>
                     <td>
-                        <app-switch [(ngModel)]="item.is_black" (ngModelChange)="onBlackChange(item)"></app-switch>
+                        <app-switch [(ngModel)]="item.is_black" (ngModelChange)="onBlackChange(item)" />
                     </td>
                     <td>
                         <div class="btn-group  btn-group-xs">
@@ -60,8 +60,8 @@
                 
             </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>
 <app-dialog-box #modal>
@@ -75,13 +75,13 @@
         <div class="input-group-control">
             <label for="">分组</label>
             <div>
-                <app-select-input [url]="selectUrl" [(ngModel)]="editData.group_id"></app-select-input>
+                <app-select-input [url]="selectUrl" [(ngModel)]="editData.group_id" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="">是否拉黑</label>
             <div>
-                <app-switch [(ngModel)]="editData.is_black"></app-switch>
+                <app-switch [(ngModel)]="editData.is_black" />
             </div>
         </div>
         <div class="input-group-control">

@@ -11,7 +11,7 @@
 
       <div class="row info-box">
           <div class="col-md-6">
-            <app-gallery-slider [items]="galleryItems"></app-gallery-slider>
+            <app-gallery-slider [items]="galleryItems" />
           </div>
           <div class="col-md-6">
             <div class="bg-white">
@@ -75,7 +75,7 @@
                     <div class="flex-group">
                         <div class="group-header">配送
                         </div>
-                        <div class="group-body">至<app-region url="shop/region/tree" [(ngModel)]="regionId" (ngModelChange)="onRegionChange()"></app-region></div>
+                        <div class="group-body">至<app-region url="shop/region/tree" [(ngModel)]="regionId" (ngModelChange)="onRegionChange()" /></div>
                     </div>
                    
                     <hr>
@@ -106,7 +106,7 @@
                           Amount
                         </div>
                         <div class="group-body">
-                          <app-number-input [(ngModel)]="amount" [min]="1" [max]="stock" [disabled]="stock < 1"></app-number-input>
+                          <app-number-input [(ngModel)]="amount" [min]="1" [max]="stock" [disabled]="stock < 1" />
                         </div>
                     </div>
                 </div>
@@ -144,7 +144,7 @@
                     People who viewed this also viewed
                 </div>
                 <div class="panel-body">
-                    <app-goods-slider [items]="recommendItems"></app-goods-slider>
+                    <app-goods-slider [items]="recommendItems" />
                 </div>
             </div>
             }
@@ -192,10 +192,10 @@
                         }
                     </div>
                     <div id="comment-tab" class="tab-item" [ngClass]="{active: tabIndex == 2}">
-                        <app-comment-page [itemId]="data.id" [init]="tabIndex == 2"></app-comment-page>
+                        <app-comment-page [itemId]="data.id" [init]="tabIndex == 2" />
                     </div>
                     <div class="tab-item issue-box" [ngClass]="{active: tabIndex == 3}">
-                        <app-issue-page [itemId]="data.id" [init]="tabIndex == 3"></app-issue-page>
+                        <app-issue-page [itemId]="data.id" [init]="tabIndex == 3" />
                     </div>
                 </div>
             </div>
@@ -229,4 +229,4 @@
   </div>
 </div>
 }
-<app-shop-share-dialog #shareModal></app-shop-share-dialog>
+<app-shop-share-dialog #shareModal />

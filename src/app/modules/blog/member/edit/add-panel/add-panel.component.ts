@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { IUploadFile } from '../../../../../theme/models/open';
 import { FileUploadService, SearchService } from '../../../../../theme/services';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -11,10 +11,13 @@ import { EditorBlockType, IEditorBlock } from '../../../../../components/editor'
     styleUrls: ['./add-panel.component.scss'],
 })
 export class AddPanelComponent {
+    private uploadService = inject(FileUploadService);
+    private searchService = inject(SearchService);
 
-    @Input() public visible = false;
-    @Output() public toolTapped = new EventEmitter<string>();
-    @Output() public command = new EventEmitter<IEditorBlock>();
+
+    public readonly visible = input(false);
+    public readonly toolTapped = output<string>();
+    public readonly command = output<IEditorBlock>();
     public tabIndex = 0;
     public tabItems = ['组件', '模板', '资源'];
     public toolItems: {
@@ -66,11 +69,6 @@ export class AddPanelComponent {
         page: 1,
         per_page: 20,
     };
-
-    constructor(
-        private uploadService: FileUploadService,
-        private searchService: SearchService,
-    ) { }
 
     public tapTab(i: number) {
         this.tabIndex = i;

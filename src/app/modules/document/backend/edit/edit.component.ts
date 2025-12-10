@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
@@ -13,6 +13,11 @@ import { DocumentService } from '../document.service';
   styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(DocumentService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -25,13 +30,6 @@ export class EditComponent implements OnInit {
     public data: IProject;
     public categories: ICategory[] = [];
     public tabIndex = 0;
-
-    constructor(
-        private fb: FormBuilder,
-        private service: DocumentService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.service.categoryTree().subscribe(res => {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { IItem } from '../../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
@@ -11,19 +11,16 @@ import { IPreviewFile } from '../../model';
   styleUrls: ['./model.component.scss']
 })
 export class ModelComponent implements OnInit {
+    private service = inject(GenerateService);
+    private toastrService = inject(DialogService);
 
-    @ViewChild(DialogBoxComponent)
-    public modal: DialogBoxComponent;
+
+    public readonly modal = viewChild(DialogBoxComponent);
     public module = '';
     public tableItems: IItem[] = [];
 
     public selected = '';
     public previewItems: IPreviewFile[] = [];
-
-    constructor(
-        private service: GenerateService,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.service.tableList().subscribe(res => {
@@ -44,7 +41,7 @@ export class ModelComponent implements OnInit {
         }).subscribe({
             next: res => {
                 this.previewItems = res.data;
-                this.modal.open();
+                this.modal().open();
             },
             error: err => {
                 this.toastrService.error(err);

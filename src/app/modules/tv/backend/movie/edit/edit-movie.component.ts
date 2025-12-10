@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ICategory, IMovie, IMovieArea, ITag } from '../../../model';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
@@ -16,6 +16,12 @@ import { EditorBlockType, IEditorFileBlock, IImageUploadEvent } from '../../../.
   styleUrls: ['./edit-movie.component.scss']
 })
 export class EditMovieComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(TVService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private uploadService = inject(FileUploadService);
+
 
     public form = this.fb.group({
         title: ['', Validators.required],
@@ -42,14 +48,6 @@ export class EditMovieComponent implements OnInit {
     public tagItems$: Observable<ITag[]>;
     public tagInput$ = new Subject<string>();
     public tagLoading = false;
-
-    constructor(
-        private fb: FormBuilder,
-        private service: TVService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private uploadService: FileUploadService,
-    ) { }
 
     ngOnInit() {
         this.service.batch({

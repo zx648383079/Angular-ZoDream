@@ -1,5 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑满减/满送' : '新增满减/满送'" (submited)="tapSubmit()" [disabled]="form.invalid">
-</app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑满减/满送' : '新增满减/满送'" (submited)="tapSubmit()" [disabled]="form.invalid" />
 <div class="container-fluid">
     <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group-control">
@@ -11,7 +10,7 @@
         <div class="input-group-control">
             <label for="thumb">图片</label>
             <div>
-                <app-file-input formControlName="thumb"></app-file-input>
+                <app-file-input formControlName="thumb" />
             </div>
         </div>
         <div class="input-group-control">
@@ -34,7 +33,7 @@
         <div class="input-group-control" [hidden]="scopeType < 1">
             <label for="scope">范围区间</label>
             <div>
-                <app-select-input [url]="selectUrl" formControlName="scope" [multiple]="true"></app-select-input>
+                <app-select-input [url]="selectUrl" formControlName="scope" [multiple]="true" />
             </div>
         </div>
         <div class="input-group-control" formGroupName="configure">
@@ -56,7 +55,7 @@
                     <p><input type="checkbox"  formControlName="check_money" [value]="1">减<input type="text"
                         formControlName="discount_money" size="10" class="form-control">元</p>
                     <p><input type="checkbox"  formControlName="check_gift" [value]="1">送赠品 
-                        <app-select-input url="shop/admin/goods/search" formControlName="discount_goods"></app-select-input>
+                        <app-select-input url="shop/admin/goods/search" formControlName="discount_goods" />
                     </p>
                     <p><input type="checkbox" formControlName="check_shipping" [value]="1">包邮</p>
                 </div>
@@ -68,9 +67,9 @@
         <div class="input-group-control">
             <label for="start_at">起止时间</label>
             <div>
-                <app-date-input formControlName="start_at" placeholder="请输入开始时间"></app-date-input>
+                <app-date-input formControlName="start_at" placeholder="请输入开始时间" />
                 ~
-                <app-date-input formControlName="end_at" placeholder="请输入结束时间"></app-date-input>
+                <app-date-input formControlName="end_at" placeholder="请输入结束时间" />
             </div>
         </div>
         <div class="btn-group">

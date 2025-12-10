@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, input } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -8,11 +8,14 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 })
 export class CodeBlockComponent implements OnChanges {
 
-    @Input() private raw = '';
-    @Input() public value = '';
-    @Input() public src = '';
-    @Input() public lang = '';
+    public readonly raw = input('');
+    public readonly value = input('');
+    public readonly src = input('');
+    public readonly lang = input('');
 
+    public internalValue = '';
+    public internalLang = '';
+    public internalSrc = '';
     public lineNo: {
         value: number;
         checked?: boolean;
@@ -23,9 +26,16 @@ export class CodeBlockComponent implements OnChanges {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.value) {
+            this.internalValue = changes.value.currentValue;
             this.createLine(this.computeLine(changes.value.currentValue));
         } else if (changes.raw) {
             this.parseRaw(changes.raw.currentValue);
+        }
+        if (changes.src) {
+            this.internalSrc = this.src();
+        }
+        if (changes.lang) {
+            this.internalLang = this.lang();
         }
     }
 
@@ -34,7 +44,7 @@ export class CodeBlockComponent implements OnChanges {
     }
 
     public tapCopy() {
-        navigator.clipboard.writeText(this.value).then(
+        navigator.clipboard.writeText(this.value()).then(
             () => {
                 this.copyTip = $localize `Copy successfully`;
             },
@@ -80,7 +90,7 @@ export class CodeBlockComponent implements OnChanges {
         while (info.length > i && info[j] !== ' ') {
             j ++;
         }
-        this.lang = info.substring(i, j);
+        this.internalLang = info.substring(i, j);
         i = info.indexOf('(', j);
         j = info.indexOf('{', j);
         let highlight: number[][] = [];
@@ -92,23 +102,23 @@ export class CodeBlockComponent implements OnChanges {
             if (j > 0) {
                 highlight = this.subBlock(info, j + 1, '}').split(',').map(this.parseQuoteLine);
             }
-            this.src = this.subBlock(info, i + 1, ')');
+            this.internalSrc = this.subBlock(info, i + 1, ')');
         } else if (i > 0 && j < 0) {
-            this.src = this.subBlock(info, i + 1, ')');
+            this.internalSrc = this.subBlock(info, i + 1, ')');
         } else if (j > 0) {
             highlight = this.subBlock(info, j + 1, '}').split(',').map(this.parseQuoteLine);
         }
         const lineBegin = lines.length > 0 ? lines[0] : 1;
         j = 0;
         this.lineNo = [];
-        this.value = '';
+        this.internalValue = '';
         for (i = begin; i <= end; i++) {
             const lineNo = j + lineBegin;
             j ++;
             if (i > begin) {
-                this.value += '\n';
+                this.internalValue += '\n';
             }
-            this.value += items[i];
+            this.internalValue += items[i];
             this.lineNo.push({
                 value: lineNo,
                 checked: this.isInRange(lineNo, highlight)

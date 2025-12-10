@@ -1,11 +1,4 @@
-import {
-    Component,
-    ElementRef,
-    OnDestroy,
-    OnInit,
-    Renderer2,
-    ViewChild
-} from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, Renderer2, inject, viewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IChapter } from '../model';
 import { BookService } from '../book.service';
@@ -21,12 +14,17 @@ import { NavigationDisplayMode } from '../../../theme/models/event';
     styleUrls: ['./reader.component.scss']
 })
 export class ReaderComponent implements OnInit, OnDestroy {
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private service = inject(BookService);
+    private renderer = inject(Renderer2);
+    private searchService = inject(SearchService);
+    private themeService = inject(ThemeService);
 
-    @ViewChild('container')
-    public containerElement: ElementRef<HTMLDivElement>;
 
-    @ViewChild(FlipPagerComponent)
-    public flipPager: FlipPagerComponent;
+    public readonly containerElement = viewChild<ElementRef<HTMLDivElement>>('container');
+
+    public readonly flipPager = viewChild(FlipPagerComponent);
     public chapterId = 0;
     public mode = 0;
     public fontItems = ['雅黑', '宋体', '楷书', '启体'];
@@ -56,15 +54,6 @@ export class ReaderComponent implements OnInit, OnDestroy {
     private lastProgress = -30;
     private cacheChapters: {[id: number]: IChapter} = {};
 
-    constructor(
-        private route: ActivatedRoute,
-        private router: Router,
-        private service: BookService,
-        private renderer: Renderer2,
-        private searchService: SearchService,
-        private themeService: ThemeService,
-    ) {}
-
     ngOnInit() {
         this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Collapse);
         this.renderer.listen(window, 'scroll', this.onScroll.bind(this));
@@ -89,7 +78,7 @@ export class ReaderComponent implements OnInit, OnDestroy {
     }
 
     get container() {
-        return this.containerElement.nativeElement;
+        return this.containerElement().nativeElement;
     }
 
     get footerStyle() {
@@ -119,7 +108,7 @@ export class ReaderComponent implements OnInit, OnDestroy {
     }
 
     public onScrollChange() {
-        this.flipPager.scrollTo(this.flipPager.current, this.progress);
+        this.flipPager().scrollTo(this.flipPager().current, this.progress);
     }
 
     public onRequest(event: IRequestEvent) {
@@ -147,11 +136,11 @@ export class ReaderComponent implements OnInit, OnDestroy {
     }
 
     public tapPrev() {
-        this.flipPager.tapPrevious();
+        this.flipPager().tapPrevious();
     }
 
     public tapNext() {
-        this.flipPager.tapNext();
+        this.flipPager().tapNext();
     }
 
     public onBackgroundChange() {
@@ -208,7 +197,7 @@ export class ReaderComponent implements OnInit, OnDestroy {
     }
 
     public tapChapter() {
-        this.router.navigate(['../../../chapter/' + this.flipPager.current?.book], {relativeTo: this.route});
+        this.router.navigate(['../../../chapter/' + this.flipPager().current?.book], {relativeTo: this.route});
     }
 
     public tapEye() {
@@ -233,9 +222,9 @@ export class ReaderComponent implements OnInit, OnDestroy {
         const scrollWindowBottom = this.scrollTop + windowHeight();
         this.scrollToUp = this.scrollTop < oldTop;
         if (this.booted && !this.isLoading && scrollBottom() < 30) {
-            this.flipPager.loadNext();
+            this.flipPager().loadNext();
         }
-        this.flipPager.onScroll(this.scrollTop, scrollWindowBottom, this.scrollToUp);
+        this.flipPager().onScroll(this.scrollTop, scrollWindowBottom, this.scrollToUp);
     }
 
 }

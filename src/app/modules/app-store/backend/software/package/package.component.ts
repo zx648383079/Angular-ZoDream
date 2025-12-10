@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { UploadCustomEvent } from '../../../../../components/form';
@@ -16,6 +16,11 @@ import { AppService } from '../../app.service';
     styleUrls: ['./package.component.scss']
 })
 export class PackageComponent implements OnInit {
+    private service = inject(AppService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: ISoftwarePackage[] = [];
     public hasMore = true;
@@ -31,14 +36,6 @@ export class PackageComponent implements OnInit {
     public osItems = ['windows', 'linux', 'android', 'ios'];
     public frameworkItems = ['any', 'x86', 'x64', 'ARM',];
     public urlTypeItems = FileTypeItems;
-
-    constructor(
-        private service: AppService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

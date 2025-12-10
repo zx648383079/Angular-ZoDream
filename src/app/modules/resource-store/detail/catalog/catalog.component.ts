@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { IResourceCatalog } from '../../model';
 
 @Component({
@@ -9,7 +9,7 @@ import { IResourceCatalog } from '../../model';
 })
 export class CatalogComponent {
 
-    @Input() public items: IResourceCatalog[] = [];
+    public readonly items = input<IResourceCatalog[]>([]);
  
     constructor() { }
 

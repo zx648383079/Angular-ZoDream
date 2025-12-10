@@ -1,15 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
 import { ICourse, IExamPage, IPageEvaluate, IQuestion, IQuestionMaterial } from '../model';
 
 @Injectable()
 export class ExamService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public questionList(params: any) {
         return this.http.get<IPage<IQuestion>>('exam/admin/question', {params});

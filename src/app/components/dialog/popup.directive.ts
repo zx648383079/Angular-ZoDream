@@ -1,4 +1,4 @@
-import { ApplicationRef, ComponentRef, Directive, ElementRef, Injector, Input, NgZone, OnInit, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core';
+import { ApplicationRef, ComponentRef, Directive, ElementRef, Injector, NgZone, OnInit, Renderer2, TemplateRef, ViewContainerRef, inject, input } from '@angular/core';
 import { DialogPopupComponent } from './popup/dialog-popup.component';
 import { IPoint } from '../../theme/utils/canvas';
 import { css } from '../../theme/utils/doc';
@@ -8,22 +8,18 @@ import { css } from '../../theme/utils/doc';
     selector: '[appPopup]'
 })
 export class PopupDirective implements OnInit {
+    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
+    private renderer = inject(Renderer2);
+    private injector = inject(Injector);
+    private viewContainerRef = inject(ViewContainerRef);
+    private applicationRef = inject(ApplicationRef);
+    private zoon = inject(NgZone);
 
-    @Input() public placement = 'left';
-    @Input() public appPopup: TemplateRef<any>|string;
+
+    public readonly placement = input('left');
+    public readonly appPopup = input<TemplateRef<any> | string>(undefined);
 
     private popupRef: ComponentRef<DialogPopupComponent>;
-
-    constructor(
-        private elementRef: ElementRef<HTMLDivElement>,
-        private renderer: Renderer2,
-        private injector: Injector,
-        private viewContainerRef: ViewContainerRef,
-        private applicationRef: ApplicationRef,
-        private zoon: NgZone
-    ) {
-
-    }
 
     ngOnInit(): void {
         const ele = this.elementRef.nativeElement;
@@ -48,7 +44,7 @@ export class PopupDirective implements OnInit {
             injector: this.injector,
             projectableNodes: this.createBodyNode()
         });
-        this.popupRef.setInput('placement', this.placement);
+        this.popupRef.setInput('placement', this.placement());
         this.popupRef.changeDetectorRef.detectChanges();
         this.zoon.runOutsideAngular(() => {
             const ele = this.popupRef.location.nativeElement as HTMLDivElement;
@@ -71,7 +67,7 @@ export class PopupDirective implements OnInit {
     }
 
     private createBodyNode(): Node[][] {
-        const content = this.appPopup;
+        const content = this.appPopup();
         if (!content) {
             return [];
         }
@@ -86,7 +82,7 @@ export class PopupDirective implements OnInit {
     private getPosition(ele: HTMLDivElement): IPoint {
         const offset = 8;
         const target = this.elementRef.nativeElement;
-        switch (this.placement) {
+        switch (this.placement()) {
             case 'top':
                 return {
                     x: (target.clientWidth - ele.clientWidth) / 2,

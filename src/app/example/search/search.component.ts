@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService, DialogEvent } from '../../components/dialog';
 import { IPageQueries } from '../../theme/models/page';
@@ -13,6 +13,10 @@ import { mapFormat } from '../../theme/utils';
     styleUrls: ['./search.component.scss']
 })
 export class ExampleSearchComponent implements OnInit {
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IFeedback[] = [];
     public hasMore = true;
@@ -28,14 +32,6 @@ export class ExampleSearchComponent implements OnInit {
     public editData: IFeedback = {} as any;
     public isMultiple = false;
     public isChecked = false;
-
-    constructor(
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-        
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

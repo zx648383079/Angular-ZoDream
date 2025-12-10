@@ -46,8 +46,8 @@
                 }
             </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>
 
@@ -56,7 +56,7 @@
     <div class="form-group">
         <label for="goods">选择商品</label>
         <div class="input-group-control">
-            <app-select-input url="shop/admin/goods/search" [(ngModel)]="editData.goods_id"></app-select-input>
+            <app-select-input url="shop/admin/goods/search" [(ngModel)]="editData.goods_id" />
         </div>
     </div>
     }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FileTypeMap, IDisk, IFile, IShare } from './model';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
@@ -6,10 +6,8 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class DiskService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient,
-    ) { }
 
     public getCatalog(params: any) {
         return this.http.get<IPage<IDisk>>('disk', {params});

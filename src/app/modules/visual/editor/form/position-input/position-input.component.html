@@ -1,7 +1,7 @@
 <div class="control-inline-group">
     <i class="control-updated-tag" [hidden]="isEmpty" (click)="tapEmpty()"></i>
-    @if (header) {
-    <label >{{ header }}</label>
+    @if (header()) {
+    <label >{{ header() }}</label>
     }
     <select class="form-control" [(ngModel)]="positionType">
         <option value="static">无</option>
@@ -13,6 +13,6 @@
 
 <div class="position-container">
     @if (positionType != 'static') {
-        <app-editor-bound-input></app-editor-bound-input>
+        <app-editor-bound-input />
     }
 </div>

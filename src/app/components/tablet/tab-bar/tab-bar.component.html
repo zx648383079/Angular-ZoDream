@@ -1,5 +1,5 @@
 <div class="bottom-tab-bar">
-    @for (item of items; track $index) {
+    @for (item of items(); track $index) {
         <a class="tab-item" [ngClass]="{active: item.active}" [routerLink]="item.url" [queryParams]="item.urlQuery || {}" [title]="item.name">
             <i class="iconfont item-icon" [ngClass]="item.icon"></i>
             <span class="item-body">{{ item.name }}</span>

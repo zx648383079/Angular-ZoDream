@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { IItem } from '../../../../theme/models/seo';
 import { DownloadService } from '../../../../theme/services';
@@ -11,6 +11,10 @@ import { GenerateService } from '../../generate.service';
   styleUrls: ['./export.component.scss']
 })
 export class ExportComponent implements OnInit {
+    private service = inject(GenerateService);
+    private toastrService = inject(DialogService);
+    private downloadService = inject(DownloadService);
+
 
     public schemaItems: IItem[] = [];
     public tableItems: IItem[] = [];
@@ -27,12 +31,6 @@ export class ExportComponent implements OnInit {
         {name: 'SQL文件', value: 'sql'},
         {name: 'ZIP压缩文件', value: 'zip'},
     ];
-
-    constructor(
-        private service: GenerateService,
-        private toastrService: DialogService,
-        private downloadService: DownloadService,
-    ) { }
 
     ngOnInit() {
         this.service.schemaList().subscribe(res => {

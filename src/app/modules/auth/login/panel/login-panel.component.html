@@ -14,7 +14,7 @@
         </div>
         <div class="code-input">
             <input type="text" [(ngModel)]="code" i18n-placeholder placeholder="SMS verification code">
-            <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)"></app-countdown-button>
+            <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)" />
         </div>
         @if (captchaImage) {
         <div class="captcha-input">

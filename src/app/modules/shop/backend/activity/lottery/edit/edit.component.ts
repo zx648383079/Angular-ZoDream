@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
@@ -13,9 +13,13 @@ import { SearchDialogComponent } from '../../../../components';
     styleUrls: ['./edit.component.scss'],
 })
 export class EditLotteryComponent implements OnInit {
+    private service = inject(ActivityService);
+    private fb = inject(FormBuilder);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
 
-    @ViewChild(SearchDialogComponent)
-    private modal: SearchDialogComponent;
+
+    private readonly modal = viewChild(SearchDialogComponent);
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -43,13 +47,6 @@ export class EditLotteryComponent implements OnInit {
             color: '',
         }
     ];
-
-    constructor(
-        private service: ActivityService,
-        private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) { }
 
     get scopeType() {
         const val = this.form.get('scope_type').value;
@@ -113,7 +110,7 @@ export class EditLotteryComponent implements OnInit {
     }
 
     public tapAddItem() {
-        this.modal.open((event: IGoods[]) => {
+        this.modal().open((event: IGoods[]) => {
             if (event.length < 1) {
                 return;
             }

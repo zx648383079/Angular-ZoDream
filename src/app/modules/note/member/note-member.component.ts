@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { INote } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
 import { NoteService } from './note.service';
@@ -14,6 +14,11 @@ import { emptyValidate } from '../../../theme/validators';
     styleUrls: ['./note-member.component.scss']
 })
 export class NoteMemberComponent implements OnInit {
+    private service = inject(NoteService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: INote[] = [];
     public queries: IPageQueries = {
@@ -25,14 +30,6 @@ export class NoteMemberComponent implements OnInit {
     public isLoading = false;
     public total = 0;
     public editData: INote = {} as any;
-
-    constructor(
-        private service: NoteService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(res => {

@@ -1,42 +1,39 @@
-import { Component, Input, Output, EventEmitter, forwardRef, OnChanges, SimpleChanges, HostListener } from '@angular/core';
+import { Component, SimpleChanges, HostListener, inject, input, output, model, effect } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IDataOne } from '../../../theme/models/page';
 import { cloneObject, eachObject } from '../../../theme/utils';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { hasElementByClass } from '../../../theme/utils/doc';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
     selector: 'app-region',
     styleUrls: ['./region.component.scss'],
     templateUrl: 'region.component.html',
-    providers: [
-        {
-          provide: NG_VALUE_ACCESSOR,
-          useExisting: forwardRef(() => RegionComponent),
-          multi: true
-        }
-    ]
 })
-export class RegionComponent<T = any> implements ControlValueAccessor, OnChanges {
+export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
+    private http = inject(HttpClient);
+
 
     static cacheMaps: {[url: string]: any} = {};
 
-    @Input() public url: string;
-    @Input() public range: {
-        [key: number]: T
-    } | T[];
-    @Input() public canYes = false;
-    @Input() public placeholder = $localize `Please select...`;
-    @Input() public rangeKey = 'id';
-    @Input() public rangeLabel = 'name';
-    @Input() public rangeChildren = 'children';
-    @Output() public columnChange = new EventEmitter<{column: number, value: T}>();
-
-    public value: T[] | T;
-    public disabled = false;
+    public readonly url = input<string>(undefined);
+    public readonly range = input<{
+    [key: number]: T;
+} | T[]>(undefined);
+    public readonly canYes = input(false);
+    public readonly placeholder = input($localize `Please select...`);
+    public readonly rangeKey = input('id');
+    public readonly rangeLabel = input('name');
+    public readonly rangeChildren = input('children');
+    public readonly columnChange = output<{
+        column: number;
+        value: T;
+    }>();
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<T[] | T>();
 
     public paths: Array<T> = [];
     public items: Array<T> = [];
@@ -48,34 +45,24 @@ export class RegionComponent<T = any> implements ControlValueAccessor, OnChanges
     } | T[];
     private booted = false;
 
-    private onChange: any = () => { };
-    private onTouch: any = () => { };
-
-    constructor(private http: HttpClient) {
-
+    constructor() {
+        effect(() => this.writeValue(this.value()));
+        effect(() => this.initByUrl(this.url()));
+        effect(() => this.init(this.range()));
     }
 
     get pathLabel() {
-        const items = this.paths.filter(i => i[this.rangeKey]);
+        const items = this.paths.filter(i => i[this.rangeKey()]);
         if (items.length < 1) {
-            return this.placeholder;
+            return this.placeholder();
         }
-        return items.map(i => i[this.rangeLabel]).join('/');
+        return items.map(i => i[this.rangeLabel()]).join('/');
     }
 
     @HostListener('document:click', ['$event']) 
     public hideCalendar(event: any) {
         if (!(event.target as HTMLDivElement).closest('.selector') && !hasElementByClass(event.path, 'selector-panel-container')) {
             this.panelVisible = false;
-        }
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.url) {
-            this.initByUrl(changes.url.currentValue);
-        }
-        if (changes.range) {
-            this.init(changes.range.currentValue);
         }
     }
 
@@ -120,8 +107,8 @@ export class RegionComponent<T = any> implements ControlValueAccessor, OnChanges
     }
 
     public isSelected(item: T): boolean {
-        const id = this.paths[this.activeColumn][this.rangeKey];
-        return id && item[this.rangeKey] === id;
+        const id = this.paths[this.activeColumn][this.rangeKey()];
+        return id && item[this.rangeKey()] === id;
     }
 
     public tapClose() {
@@ -136,13 +123,13 @@ export class RegionComponent<T = any> implements ControlValueAccessor, OnChanges
     private coloumnItems(column: number): T[] {
         let items = this.data;
         for (let i = 0; i < column; i++) {
-            const id = this.paths[i][this.rangeKey];
+            const id = this.paths[i][this.rangeKey()];
             if (!id) {
                 return;
             }
             if (eachObject(items, (item) => {
-                if (item[this.rangeKey] === id) {
-                    items = item[this.rangeChildren];
+                if (item[this.rangeKey()] === id) {
+                    items = item[this.rangeChildren()];
                     return false;
                 }
             }) !== false) {
@@ -167,7 +154,7 @@ export class RegionComponent<T = any> implements ControlValueAccessor, OnChanges
             return;
         }
         this.paths.push({
-            [this.rangeLabel]: this.placeholder
+            [this.rangeLabel()]: this.placeholder()
         } as any);
         this.items = items;
         this.activeColumn = nextColumn;
@@ -193,14 +180,15 @@ export class RegionComponent<T = any> implements ControlValueAccessor, OnChanges
         const findPath = (data: any): any[] => {
             let res = [];
             eachObject(data, (item) => {
-                if (this.eq(item[this.rangeKey], id)) {
+                if (this.eq(item[this.rangeKey()], id)) {
                     res = [item];
                     return false;
                 }
-                if (!Object.prototype.hasOwnProperty.call(item, this.rangeChildren)) {
+                const rangeChildren = this.rangeChildren();
+                if (!Object.prototype.hasOwnProperty.call(item, rangeChildren)) {
                     return;
                 }
-                const args = findPath(item[this.rangeChildren]);
+                const args = findPath(item[rangeChildren]);
                 if (args.length > 0) {
                     res = [item, ...args];
                     return false;
@@ -229,19 +217,20 @@ export class RegionComponent<T = any> implements ControlValueAccessor, OnChanges
             return;
         }
         let path = [];
-        if (!this.value) {
+        const value = this.value();
+        if (!value) {
             path = [];
-        } else if (typeof this.value !== 'object') {
-            path = this.getPath(this.value as any);
-        } else if (this.value instanceof Array) {
-            path = cloneObject(this.value);
+        } else if (typeof value !== 'object') {
+            path = this.getPath(value as any);
+        } else if (value instanceof Array) {
+            path = cloneObject(value);
         } else {
-            path = this.getPath(this.value[this.rangeKey]);
+            path = this.getPath(value[this.rangeKey()]);
         }
         if (path.length < 1) {
             path = [
                 {
-                    [this.rangeLabel]: this.placeholder
+                    [this.rangeLabel()]: this.placeholder()
                 }
             ];
         }
@@ -251,43 +240,30 @@ export class RegionComponent<T = any> implements ControlValueAccessor, OnChanges
 
     private output() {
         const path = this.paths.filter(i => {
-            return i[this.rangeKey];
+            return i[this.rangeKey()];
         }).map(i => {
             return {
                 ...i,
-                [this.rangeChildren]: undefined
+                [this.rangeChildren()]: undefined
             };
         });
         if (path.length < 1) {
             return;
         }
-        if (typeof this.value === 'undefined' || typeof this.value === 'boolean' || this.value === null) {
-            this.value = path[path.length - 1];
-        } else if (typeof this.value !== 'object') {
-            this.value = path[path.length - 1][this.rangeKey];
-        } else if (this.value instanceof Array) {
-            this.value = path;
+        const value = this.value();
+        if (typeof value === 'undefined' || typeof value === 'boolean' || value === null) {
+            this.value.set(path[path.length - 1]);
+        } else if (typeof value !== 'object') {
+            this.value.set(path[path.length - 1][this.rangeKey()]);
+        } else if (value instanceof Array) {
+            this.value.set(path);
         } else {
-            this.value = path[path.length - 1];
+            this.value.set(path[path.length - 1]);
         }
-        this.onChange(this.value);
     }
 
-    writeValue(obj: any): void {
-        this.value = obj;
+    private writeValue(obj: any): void {
         this.booted = false;
         this.formatPath();
-    }
-
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
     }
 }

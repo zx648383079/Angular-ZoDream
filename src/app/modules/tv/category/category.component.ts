@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ICategory } from '../model';
 import { TvService } from '../tv.service';
@@ -10,14 +10,12 @@ import { TvService } from '../tv.service';
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
+    private service = inject(TvService);
+    private route = inject(ActivatedRoute);
+
 
     public items: ICategory[] = [];
     public isLoading = false;
-
-    constructor(
-        private service: TvService,
-        private route: ActivatedRoute,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(param => {

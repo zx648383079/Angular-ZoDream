@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IAccountLog, IBulletinUser, IConnect, ILoginLog } from '../../theme/models/auth';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { ISite } from '../../theme/models/seo';
@@ -19,12 +19,12 @@ const REGION_KEY = 'region';
     providedIn: 'root',
 })
 export class ShopService {
+    private http = inject(HttpClient);
+
 
     private _regionId = 0;
 
-    constructor(
-        private http: HttpClient
-    ) {
+    constructor() {
         this._regionId = parseInt(window.localStorage.getItem(REGION_KEY), 10) || 0;
     }
 

@@ -4,7 +4,7 @@ import { Component, HostBinding, ViewEncapsulation } from '@angular/core';
     standalone: false,
     encapsulation: ViewEncapsulation.None,
     selector: 'app-stack-item',
-    template: `<ng-content></ng-content>`,
+    template: `<ng-content />`,
     styles: [''],
     host: {
         class: 'stack-item',

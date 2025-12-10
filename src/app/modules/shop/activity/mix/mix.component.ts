@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IActivity, IMixConfigure } from '../../model';
@@ -13,6 +13,11 @@ import { ActivityService } from '../activity.service';
   styleUrls: ['./mix.component.scss']
 })
 export class MixComponent implements OnInit {
+    private themeService = inject(ThemeService);
+    private route = inject(ActivatedRoute);
+    private service = inject(ActivityService);
+    private searchService = inject(SearchService);
+
 
     public items: IActivity<IMixConfigure>[] = [];
     public hasMore = true;
@@ -24,12 +29,7 @@ export class MixComponent implements OnInit {
         keywords: '',
     };
 
-    constructor(
-        private themeService: ThemeService,
-        private route: ActivatedRoute,
-        private service: ActivityService,
-        private searchService: SearchService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next('超值礼包');
     }
 

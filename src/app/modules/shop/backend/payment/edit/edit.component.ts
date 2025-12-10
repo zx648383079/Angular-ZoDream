@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -15,6 +15,11 @@ import { PaymentService } from '../../payment.service';
   styleUrls: ['./edit.component.scss']
 })
 export class EditPaymentComponent implements OnInit {
+    private service = inject(PaymentService);
+    private route = inject(ActivatedRoute);
+    private fb = inject(FormBuilder);
+    private toastrService = inject(DialogService);
+
 
     public data: IPayment;
 
@@ -31,12 +36,7 @@ export class EditPaymentComponent implements OnInit {
         shipping: [],
     });
 
-    constructor(
-        private service: PaymentService,
-        private route: ActivatedRoute,
-        private fb: FormBuilder,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.service.paymentPlugin().subscribe(res => {
             this.items = res;
         });

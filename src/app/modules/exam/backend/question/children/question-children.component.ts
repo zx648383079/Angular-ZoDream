@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output as output_1 } from '@angular/core';
 import { IQuestion } from '../../../model';
 
 @Component({
@@ -9,13 +9,13 @@ import { IQuestion } from '../../../model';
 })
 export class QuestionChildrenComponent {
 
-    @Input() public value: IQuestion[] = [];
-    @Output() public valueChange = new EventEmitter<IQuestion[]>();
+    public readonly value = input<IQuestion[]>([]);
+    public readonly valueChange = output<IQuestion[]>();
 
     constructor() { }
 
     public tapAdd() {
-        this.value.push({
+        this.value().push({
             type: 0,
             title: '',
             answer: '',
@@ -26,12 +26,12 @@ export class QuestionChildrenComponent {
     }
 
     public tapEdit(item: IQuestion, i: number) {
-        this.value[i] = item;
+        this.value()[i] = item;
         this.output();
     }
 
     public tapRemove(i: number) {
-        this.value.splice(i, 1);
+        this.value().splice(i, 1);
         this.output();
     }
 
@@ -40,6 +40,6 @@ export class QuestionChildrenComponent {
     }
 
     private output() {
-        this.valueChange.emit(this.value);
+        this.valueChange.emit(this.value());
     }
 }

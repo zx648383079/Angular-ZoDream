@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, viewChild } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -8,7 +8,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 })
 export class BulletinSendComponent implements OnInit {
 
-    @ViewChild('box') box: ElementRef;
+    readonly box = viewChild<ElementRef>('box');
     public lastUsers: any[] = [];
     public users: any[] = [];
     public messages: any[] = [];
@@ -45,13 +45,14 @@ export class BulletinSendComponent implements OnInit {
     }
 
     public scroll(y: number = -1) {
-        if (!this.box.nativeElement) {
+        const box = this.box();
+        if (!box.nativeElement) {
             return;
         }
         if (y < 0) {
-            y = this.box.nativeElement.scrollHeight + 100;
+            y = box.nativeElement.scrollHeight + 100;
         }
-        this.box.nativeElement.scrollTop = y;
+        box.nativeElement.scrollTop = y;
     }
 
 }

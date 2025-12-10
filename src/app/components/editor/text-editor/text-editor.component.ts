@@ -1,48 +1,39 @@
-import { AfterViewInit, Component, ElementRef, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, input, model, viewChild } from '@angular/core';
 import { wordLength } from '../../../theme/utils';
 import { IEditorRange } from '../model';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
     selector: 'app-text-editor',
     templateUrl: './text-editor.component.html',
     styleUrls: ['./text-editor.component.scss'],
-    providers: [
-        {
-          provide: NG_VALUE_ACCESSOR,
-          useExisting: forwardRef(() => TextEditorComponent),
-          multi: true
-        }
-    ]
 })
-export class TextEditorComponent implements AfterViewInit, ControlValueAccessor {
+export class TextEditorComponent implements AfterViewInit, FormValueControl<string> {
 
-    @ViewChild('editorArea')
-    private areaElement: ElementRef<HTMLTextAreaElement>;
-    @Input() public height: string|number = '80vh';
-    @Input() public maxLength = 0;
-    @Input() public placeholder = '';
+    private readonly areaElement = viewChild<ElementRef<HTMLTextAreaElement>>('editorArea');
+    public readonly height = input<string | number>('80vh');
+    public readonly maxLength = input(0);
+    public readonly placeholder = input('');
 
-    @Input() public disabled = false;
-    public value = '';
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<string>('');
     private range: IEditorRange;
 
-    onChange: any = () => { };
-    onTouch: any = () => { };
     
     get size() {
-        return wordLength(this.value);
+        return wordLength(this.value());
     }
 
     get areaStyle() {
+        const height = this.height();
         return {
-            height: typeof this.height === 'number' || /^[\d\.]+$/.test(this.height) ? this.height + 'px' : this.height,
+            height: typeof height === 'number' || /^[\d\.]+$/.test(height) ? height + 'px' : height,
         };
     }
 
     get area(): HTMLTextAreaElement {
-        return this.areaElement.nativeElement as HTMLTextAreaElement;
+        return this.areaElement().nativeElement as HTMLTextAreaElement;
     }
 
     ngAfterViewInit() {
@@ -76,10 +67,6 @@ export class TextEditorComponent implements AfterViewInit, ControlValueAccessor 
             start: this.area.selectionStart,
             end: this.area.selectionEnd
         };
-    }
-
-    public onValueChange() {
-        this.onChange(this.value);
     }
 
     public insertTab() {
@@ -169,21 +156,7 @@ export class TextEditorComponent implements AfterViewInit, ControlValueAccessor 
     }
 
     public setContent(value: string) {
-        this.value = this.area.value = value;
-        this.onValueChange();
-    }
-
-    writeValue(obj: any): void {
-        this.value = obj;
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
+        this.value.set(this.area.value = value);
     }
 
 }

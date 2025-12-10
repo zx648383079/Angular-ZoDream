@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IConnect } from '../../../../theme/models/auth';
 import { WebAuthn } from '../../../../theme/services';
@@ -12,9 +12,12 @@ import { MemberService } from '../member.service';
     styleUrls: ['./connect.component.scss']
 })
 export class ConnectComponent implements OnInit {
+    private service = inject(MemberService);
+    private toastrService = inject(DialogService);
+    private webAuthnn = inject(WebAuthn);
 
-    @ViewChild('faModal')
-    private faModal: DialogEvent;
+
+    private readonly faModal = viewChild<DialogEvent>('faModal');
     public items: IConnect[] = [];
     public isLoading = false;
     public data = {
@@ -22,12 +25,6 @@ export class ConnectComponent implements OnInit {
         twofa_code: '',
         qr: '',
     };
-
-    constructor(
-        private service: MemberService,
-        private toastrService: DialogService,
-        private webAuthnn: WebAuthn
-    ) { }
 
     ngOnInit() {
         this.tapRefresh();
@@ -83,7 +80,7 @@ export class ConnectComponent implements OnInit {
             next: res => {
                 this.data.recovery_code = res.recovery_code;
                 this.data.qr = res.qr;
-                this.faModal.open(() => {
+                this.faModal().open(() => {
                     this.service.save2FA({
                         twofa_code: this.data.twofa_code
                     }).subscribe({

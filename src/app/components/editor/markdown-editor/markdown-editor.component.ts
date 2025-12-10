@@ -1,45 +1,35 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, Input, OnDestroy, Output, ViewChild, ViewContainerRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewContainerRef, inject, input, output, viewChild, model, effect } from '@angular/core';
 import { IEditor, IEditorBlock, IImageUploadEvent } from '../model';
 import { EditorService } from '../container';
 import { EDITOR_EVENT_CUSTOM, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITOR_READY, EDITOR_FULL_SCREEN_TOOL, EDITOR_PREVIEW_TOOL, IEditorTool } from '../base';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
     selector: 'app-markdown-editor',
     templateUrl: './markdown-editor.component.html',
     styleUrls: ['./markdown-editor.component.scss'],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => MarkdownEditorComponent),
-            multi: true
-        }
-    ]
 })
-export class MarkdownEditorComponent implements AfterViewInit, OnDestroy, ControlValueAccessor, IEditor {
+export class MarkdownEditorComponent implements AfterViewInit, OnDestroy, FormValueControl<string>, IEditor {
 
-    @ViewChild('modalVC', {read: ViewContainerRef})
-    private modalViewContainer: ViewContainerRef;
-    @ViewChild('editorArea')
-    private areaElement: ElementRef<HTMLTextAreaElement>;
-    @Input() public height = 200;
-    @Input() public placeholder = '';
-    @Output() public imageUpload = new EventEmitter<IImageUploadEvent>();
+    private readonly modalViewContainer = viewChild('modalVC', { read: ViewContainerRef });
+    private readonly areaElement = viewChild<ElementRef<HTMLTextAreaElement>>('editorArea');
+    public readonly height = input(200);
+    public readonly placeholder = input('');
+    public readonly imageUpload = output<IImageUploadEvent>();
     public topLeftItems: IEditorTool[] = [];
     public topRightItems: IEditorTool[] = [];
-    public disabled = false;
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<string>('');
     public isPreview = false;
     public size = 0;
     public previewValue = '';
     public isFullScreen = false;
     private container: EditorService;
-    onChange: any = () => { };
-    onTouch: any = () => { };
 
-    constructor(
-        container: EditorService
-    ) {
+    constructor() {
+        const container = inject(EditorService);
+
         this.container = container.clone();
         this.container.option.merge({
             toolbar: {
@@ -50,7 +40,7 @@ export class MarkdownEditorComponent implements AfterViewInit, OnDestroy, Contro
         this.topLeftItems = this.container.option.leftToolbar;
         this.topRightItems = this.container.option.rightToolbar;
         this.container.on(EDITOR_EVENT_EDITOR_CHANGE, () => {
-            this.onChange(this.container.value);
+            this.value.set(this.container.value);
             this.size = this.container.wordLength;
         }).on(EDITOR_EVENT_EDITOR_READY, () => {
             setTimeout(() => {
@@ -65,16 +55,17 @@ export class MarkdownEditorComponent implements AfterViewInit, OnDestroy, Contro
                 this.isFullScreen = !this.isFullScreen;
             }
         });
+        effect(() => this.container.value = this.value());
     }
 
     get areaStyle() {
         return {
-            height: this.height + 'px',
+            height: this.height() + 'px',
         };
     }
 
     ngAfterViewInit() {
-        this.container.ready(this.areaElement.nativeElement, this.modalViewContainer);
+        this.container.ready(this.areaElement().nativeElement, this.modalViewContainer());
     }
 
     ngOnDestroy(): void {
@@ -104,18 +95,5 @@ export class MarkdownEditorComponent implements AfterViewInit, OnDestroy, Contro
         }
         this.previewValue = this.container.value;
         this.isPreview = true;
-    }
-
-    writeValue(obj: any): void {
-        this.container.value = obj;
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
     }
 }

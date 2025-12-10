@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CateringService } from '../catering.service';
 import { ICateringCategory, ICateringProduct } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
@@ -10,6 +10,8 @@ import { IPageQueries } from '../../../theme/models/page';
   styleUrls: ['./store.component.scss']
 })
 export class StoreComponent implements OnInit {
+    private service = inject(CateringService);
+
 
     public categories: ICateringCategory[] = [];
     public items: ICateringProduct[] = [];
@@ -22,10 +24,6 @@ export class StoreComponent implements OnInit {
         page: 1,
         per_page: 20
     };
-
-    constructor(
-        private service: CateringService,
-    ) { }
 
     ngOnInit() {
         this.service.categoryList().subscribe(res => {

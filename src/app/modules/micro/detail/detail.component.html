@@ -18,9 +18,9 @@
                     }
                 </p>
                 <div class="content">
-                    <app-rule-block [value]="data.content" [rules]="data.extra_rule" (tapped)="tapBlock($event)"></app-rule-block>
+                    <app-rule-block [value]="data.content" [rules]="data.extra_rule" (tapped)="tapBlock($event)" />
                 </div>
-                <app-attachment-viewer [items]="data.attachment"></app-attachment-viewer>
+                <app-attachment-viewer [items]="data.attachment" />
             </div>
         </div>
 
@@ -52,7 +52,7 @@
         </div>
     </div>
     <div class="comment-box">
-        <app-comment-viewer [user]="authUser" [micro]="data.id" [open]="true" [auto]="true"></app-comment-viewer>
+        <app-comment-viewer [user]="authUser" [micro]="data.id" [open]="true" [auto]="true" />
     </div>
     }
     
@@ -69,7 +69,7 @@
             <textarea class="form-control" [(ngModel)]="editData.content" i18n-placeholder placeholder="Please enter the reason for forwarding"></textarea>
         </div>
         <div class="actions">
-            <app-switch [(ngModel)]="editData.is_comment"></app-switch>
+            <app-switch [(ngModel)]="editData.is_comment" />
             <ng-container i18n>
                 Also comment to {{ data ? data.user.name : '' }}
             </ng-container>

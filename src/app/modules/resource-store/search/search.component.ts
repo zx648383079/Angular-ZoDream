@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IFilter, IFilterOptionItem, IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
@@ -18,6 +18,10 @@ export interface IFilterTag {
     styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
+    private service = inject(ResourceService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public queries: IPageQueries = {
         keywords: '',
@@ -38,12 +42,6 @@ export class SearchComponent implements OnInit {
     public filterItems: IFilter[] = [];
     public viewTable = true;
     public filterOpen = true;
-
-    constructor(
-        private service: ResourceService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

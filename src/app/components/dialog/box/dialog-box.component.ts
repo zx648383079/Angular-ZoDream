@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { DialogActionFn, DialogCheckFn, DialogConfirmFn, DialogEvent } from '../model';
 
 @Component({
@@ -12,51 +12,51 @@ export class DialogBoxComponent implements DialogEvent {
     /**
      * 标题
      */
-    @Input() public title: string;
-    @Input() public customHeader = false;
+    public readonly title = input<string>(undefined);
+    public readonly customHeader = input(false);
     /**
      * 是否显示
      */
-    @Input() public visible = false;
+    public readonly visible = input(false);
     /**
      * 整体高度
      */
-    @Input() public height = 400;
+    public readonly height = input(400);
 
-    @Input() public width = 0;
+    public readonly width = input(0);
 
     /**
      * 底部按钮是否显示
      */
-    @Input() public buttonVisible = true;
-    @Input() public footerVisible = true;
-    @Input() public confirmText = $localize `Ok`;
-    @Input() public cancelText =  $localize `Cancel`;
+    public readonly buttonVisible = input(true);
+    public readonly footerVisible = input(true);
+    public readonly confirmText = input($localize `Ok`);
+    public readonly cancelText = input($localize `Cancel`);
     /**
      * 内容框是否滚动，false 设置的高度将无效
      */
-    @Input() public scrollable = true;
+    public readonly scrollable = input(true);
     /**
      * 全屏，高度设置失效
      */
-    @Input() public fullscreen = false;
+    public readonly fullscreen = input(false);
     /**
      * 验证方法
      */
-    @Input() public checkFn: DialogCheckFn;
+    public readonly checkFn = input<DialogCheckFn>(undefined);
     /**
      * 确认事件
      */
-    @Input() public confirmFn: DialogConfirmFn;
-    @Input() public actionFn: DialogActionFn;
+    public readonly confirmFn = input<DialogConfirmFn>(undefined);
+    public readonly actionFn = input<DialogActionFn>(undefined);
     public invalidTip = '';
-    @Output() public confirm = new EventEmitter();
+    public readonly confirm = output();
     private asyncHandler = 0;
 
     constructor() { }
 
     get boxStyle() {
-        if (this.fullscreen) {
+        if (this.fullscreen()) {
             return {
                 width: '100%',
                 left: 0,
@@ -68,16 +68,16 @@ export class DialogBoxComponent implements DialogEvent {
             };
         }
         const res: any = {};
-        if (this.width > 0 && this.width < window.innerWidth) {
-            res.width = this.width + 'px';
-            res['margin-left'] = (- this.width / 2) + 'px';
+        if (this.width() > 0 && this.width() < window.innerWidth) {
+            res.width = this.width() + 'px';
+            res['margin-left'] = (- this.width() / 2) + 'px';
         }
-        if (!this.scrollable) {
+        if (!this.scrollable()) {
             res['margin-top'] = '-30vh';
             return res;
         }
-        res.height = this.height + 'px';
-        res['margin-top'] = (- this.height / 2) + 'px';
+        res.height = this.height() + 'px';
+        res['margin-top'] = (- this.height() / 2) + 'px';
         return res;
     }
 
@@ -91,7 +91,8 @@ export class DialogBoxComponent implements DialogEvent {
             this.visible = false;
             return;
         }
-        if (this.actionFn && this.actionFn(result) === false) {
+        const actionFn = this.actionFn();
+        if (actionFn && actionFn(result) === false) {
             return;
         }
         if (!result) {
@@ -102,8 +103,9 @@ export class DialogBoxComponent implements DialogEvent {
             return;
         }
         this.visible = false;
-        if (this.confirmFn) {
-            this.confirmFn();
+        const confirmFn = this.confirmFn();
+        if (confirmFn) {
+            confirmFn();
         }
         this.confirm.emit();
     }
@@ -187,10 +189,11 @@ export class DialogBoxComponent implements DialogEvent {
     }
 
     private formatCheck(): boolean {
-        if (!this.checkFn) {
+        const checkFn = this.checkFn();
+        if (!checkFn) {
             return true;
         }
-        const res = this.checkFn();
+        const res = checkFn();
         let success = true;
         let msg = '';
         if (typeof res === 'boolean') {

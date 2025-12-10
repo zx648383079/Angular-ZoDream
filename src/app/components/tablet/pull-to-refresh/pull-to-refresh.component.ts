@@ -1,17 +1,4 @@
-import {
-    Component,
-    OnInit,
-    Input,
-    ViewChild,
-    ElementRef,
-    OnDestroy,
-    OnChanges,
-    SimpleChanges,
-    Output,
-    EventEmitter,
-    HostListener,
-    Renderer2
-} from '@angular/core';
+import { Component, OnInit, ElementRef, OnDestroy, OnChanges, SimpleChanges, HostListener, Renderer2, inject, input, output, viewChild } from '@angular/core';
 
 export enum ESTATE {
     NONE = 0,
@@ -38,47 +25,44 @@ enum EDIRECTION {
     styleUrls: ['./pull-to-refresh.component.scss']
 })
 export class PullToRefreshComponent implements OnInit, OnDestroy, OnChanges {
+    private renderer = inject(Renderer2);
+
 
     /**
      * 是否允许刷新
      */
-    @Input() public refresh = true;
+    public readonly refresh = input(true);
     /**
      * 是否可以加载更多
      */
-    @Input() public more = true;
+    public readonly more = input(true);
     /**
      * 距离底部距离触发加载更多
      */
-    @Input() public distance = 10;
+    public readonly distance = input(10);
     /**
      * 是否加载中
      */
-    @Input() public loading = false;
-    @Input() public maxHeight = 100;
+    public readonly loading = input(false);
+    public readonly maxHeight = input(100);
     public ESTATE = ESTATE;
     public state: ESTATE = ESTATE.NONE;
     public startY = 0;
     public startUp: EDIRECTION = EDIRECTION.NONE; // 一开始滑动的方向
-    @ViewChild('pullScroll')
-    public boxRef: ElementRef;
+    public readonly boxRef = viewChild<ElementRef>('pullScroll');
     public scrollTop = 0;
     public topHeight = 0;
 
-    @Output() public stateChange = new EventEmitter<ESTATE>();
+    public readonly stateChange = output<ESTATE>();
     /**
      * 加载更多的事件
      */
-    @Output() public moreChange = new EventEmitter<boolean>();
-    @Output() public topHeightChange = new EventEmitter<number>();
+    public readonly moreChange = output<boolean>();
+    public readonly topHeightChange = output<number>();
     /**
      * 刷新事件
      */
-    @Output() public refreshChange = new EventEmitter<boolean>();
-
-    constructor(
-        private renderer: Renderer2,
-    ) {}
+    public readonly refreshChange = output<boolean>();
 
     ngOnInit() {
         this.renderer.listen(window, 'scroll', this.onScroll.bind(this));
@@ -97,14 +81,15 @@ export class PullToRefreshComponent implements OnInit, OnDestroy, OnChanges {
         const target = event.target as HTMLElement;
         const height = target.scrollHeight;
         const y = target.scrollTop + target.offsetHeight;
-        if (this.more && y + this.distance > height) {
+        const more = this.more();
+        if (more && y + this.distance() > height) {
             this.state = ESTATE.MORE;
-            this.moreChange.emit(this.more);
+            this.moreChange.emit(more);
         }
     }
 
     get box(): HTMLDivElement {
-        return this.boxRef.nativeElement as HTMLDivElement;
+        return this.boxRef().nativeElement as HTMLDivElement;
     }
 
     get style(): string {
@@ -173,14 +158,15 @@ export class PullToRefreshComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     public onScroll(event: any) {
-        if (!this.more) {
+        const more = this.more();
+        if (!more) {
             return;
         }
-        if (this.getScrollBottomHeight() > this.distance) {
+        if (this.getScrollBottomHeight() > this.distance()) {
             return;
         }
         this.state = ESTATE.MORE;
-        this.moreChange.emit(this.more);
+        this.moreChange.emit(more);
     }
 
     public touchStart(event: TouchEvent) {
@@ -204,10 +190,10 @@ export class PullToRefreshComponent implements OnInit, OnDestroy, OnChanges {
             if (this.state === ESTATE.NONE && diff > 0) {
                 this.state = ESTATE.PULL;
             }
-            if (this.state === ESTATE.PULL && diff >= this.maxHeight) {
+            if (this.state === ESTATE.PULL && diff >= this.maxHeight()) {
                 this.state = ESTATE.PULLED;
             }
-            if (this.state === ESTATE.PULLED && diff < this.maxHeight) {
+            if (this.state === ESTATE.PULLED && diff < this.maxHeight()) {
                 this.state = ESTATE.CANCEL;
             }
             if (this.state === ESTATE.PULL) {
@@ -215,8 +201,8 @@ export class PullToRefreshComponent implements OnInit, OnDestroy, OnChanges {
             }
         }
         // 上拉加载更多
-        if (this.startUp === EDIRECTION.UP && this.more) {
-            this.state = Math.abs(diff) > this.distance ? ESTATE.MORE : ESTATE.NONE;
+        if (this.startUp === EDIRECTION.UP && this.more()) {
+            this.state = Math.abs(diff) > this.distance() ? ESTATE.MORE : ESTATE.NONE;
         }
     }
 
@@ -230,11 +216,11 @@ export class PullToRefreshComponent implements OnInit, OnDestroy, OnChanges {
             return;
         }
         if (this.state === ESTATE.PULLED) {
-            this.refreshChange.emit(this.refresh);
+            this.refreshChange.emit(this.refresh());
             return;
         }
         if (this.state === ESTATE.MORE) {
-            this.moreChange.emit(this.more);
+            this.moreChange.emit(this.more());
         }
     }
 

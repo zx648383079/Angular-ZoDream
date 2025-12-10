@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { ICategory, ISite, ISiteComponent, ISitePage, IThemeComponent } from '../model';
 import { IUploadResult } from '../../../theme/models/open';
@@ -11,12 +11,10 @@ import { DialogService } from '../../../components/dialog';
   providedIn: 'root'
 })
 export class VisualService {
+    private http = inject(HttpClient);
+    private router = inject(Router);
+    private toastrService = inject(DialogService);
 
-    constructor(
-        private http: HttpClient,
-        private router: Router,
-        private toastrService: DialogService,
-    ) { }
 
 
     public search(params: any) {

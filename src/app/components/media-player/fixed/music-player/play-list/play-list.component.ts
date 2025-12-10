@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { IMediaActionEvent, IMediaFile, MediaAction } from '../../model';
 
 @Component({
@@ -9,18 +9,18 @@ import { IMediaActionEvent, IMediaFile, MediaAction } from '../../model';
 })
 export class PlayListComponent {
 
-    @Input() public items: IMediaFile[] = [];
-    @Input() public min = false;
-    @Input() public height = 0;
-    @Output() public tapped = new EventEmitter<IMediaActionEvent>();
-    @Output() public playing = new EventEmitter<IMediaFile>();
+    public readonly items = input<IMediaFile[]>([]);
+    public readonly min = input(false);
+    public readonly height = input(0);
+    public readonly tapped = output<IMediaActionEvent>();
+    public readonly playing = output<IMediaFile>();
 
     constructor() { }
 
     public get boxStyle() {
-        if (this.height > 0) {
+        if (this.height() > 0) {
             return {
-                height: this.height + 'px',
+                height: this.height() + 'px',
             };
         }
         return {};

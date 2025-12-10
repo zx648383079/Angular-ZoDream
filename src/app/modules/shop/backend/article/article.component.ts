@@ -1,7 +1,4 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
     ActivatedRoute
 } from '@angular/router';
@@ -23,6 +20,11 @@ import {
     styleUrls: ['./article.component.scss']
 })
 export class ArticleComponent implements OnInit {
+    private service = inject(ArticleService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IArticle[] = [];
     public hasMore = true;
@@ -36,12 +38,7 @@ export class ArticleComponent implements OnInit {
         cat_id: 0,
     };
 
-    constructor(
-        private service: ArticleService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
+    constructor() {
         this.service.categoryTree().subscribe(res => {
             this.categories = res.data;
         });

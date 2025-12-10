@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../components/dialog';
 import { IPageQueries } from '../../theme/models/page';
@@ -14,6 +14,13 @@ import { VideoService } from './video.service';
     styleUrls: ['./video.component.scss']
 })
 export class VideoComponent implements OnInit {
+    private service = inject(VideoService);
+    private toastrService = inject(DialogService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private themeService = inject(ThemeService);
+    private searchService = inject(SearchService);
+
 
     public items: IVideo[] = [];
     public hasMore = true;
@@ -26,14 +33,7 @@ export class VideoComponent implements OnInit {
         page: 1,
     };
 
-    constructor(
-        private service: VideoService,
-        private toastrService: DialogService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private themeService: ThemeService,
-        private searchService: SearchService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Short video`);
     }
 

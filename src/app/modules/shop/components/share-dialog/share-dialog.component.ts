@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnChanges, SimpleChanges, viewChild } from '@angular/core';
 import { DialogEvent } from '../../../../components/dialog';
 import { assetUri } from '../../../../theme/utils';
 
@@ -10,8 +10,7 @@ import { assetUri } from '../../../../theme/utils';
 })
 export class ShareDialogComponent implements OnChanges, DialogEvent {
 
-    @ViewChild('imageBox', {static: true})
-    private imageBox: ElementRef<HTMLDivElement>;
+    private readonly imageBox = viewChild<ElementRef<HTMLDivElement>>('imageBox');
     public visible = false;
     public isLoading = true;
     private resizeFn: Function;
@@ -63,7 +62,7 @@ export class ShareDialogComponent implements OnChanges, DialogEvent {
     }
 
     private displayImage(img: HTMLImageElement, width: number, height: number) {
-        const target = this.imageBox.nativeElement;
+        const target = this.imageBox().nativeElement;
         if (!this.visible || !target) {
             return;
         }

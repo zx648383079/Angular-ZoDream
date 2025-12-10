@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { IFormInput, FormPanelEvent } from '../event';
 
 @Component({
@@ -9,7 +9,7 @@ import { IFormInput, FormPanelEvent } from '../event';
 })
 export class FormPanelComponent implements FormPanelEvent {
 
-    @Input() public items: IFormInput[] = [];
+    public items: IFormInput[] = [];
 
     public get valid(): boolean {
         return !this.invalid;

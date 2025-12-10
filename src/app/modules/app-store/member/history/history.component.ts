@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IButton } from '../../../../components/form';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,6 +13,10 @@ import { ISoftwareLog } from '../../model';
     styleUrls: ['./history.component.scss']
 })
 export class HistoryComponent implements OnInit {
+    private service = inject(AppStoreService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public buttonItems: IButton[] = [
         {name: 'Open', icon: 'icon-folder-open-o', color: 'btn-primary'},
@@ -30,12 +34,6 @@ export class HistoryComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-
-    constructor(
-        private service: AppStoreService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
@@ -15,6 +15,11 @@ import { ActivityRuleItems } from '../../model';
   styleUrls: ['./edit.component.scss']
 })
 export class EditCouponComponent implements OnInit {
+    private service = inject(ActivityService);
+    private fb = inject(FormBuilder);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -37,13 +42,6 @@ export class EditCouponComponent implements OnInit {
         {name: '折扣', value: 1},
     ];
     public ruleItems: IItem[] = ActivityRuleItems;
-
-    constructor(
-        private service: ActivityService,
-        private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) { }
 
     get typeValue() {
         return this.form.get('type').value;

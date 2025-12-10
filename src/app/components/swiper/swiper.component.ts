@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, ContentChildren, ElementRef, HostBinding, HostListener, Input, OnChanges, OnDestroy, QueryList, Renderer2, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, ElementRef, HostBinding, HostListener, OnChanges, OnDestroy, Renderer2, SimpleChanges, ViewEncapsulation, inject, input, contentChildren } from '@angular/core';
 import { SwiperItemComponent } from './swiper-item.component';
 import { checkLoopRange } from '../../theme/utils';
 import { BehaviorSubject } from 'rxjs';
@@ -17,20 +17,21 @@ import { SwiperEvent } from './model';
     },
 })
 export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestroy, OnChanges, SwiperEvent {
+    private elementRef = inject(ElementRef);
+    private renderer = inject(Renderer2);
 
-    @ContentChildren(SwiperItemComponent) 
-    public items: QueryList<SwiperItemComponent>;
-    @Input() public navigation = true;
-    @Input() public width = 0;
-    @Input() public height = 0;
-    @Input() public autoplay = false;
-    @Input() public duration = 5000;
-    @Input() public pauseOnOver = true;
-    @Input() public keyboard = true;
-    @Input() public touchable = true;
-    @Input()
+
+    public readonly items = contentChildren(SwiperItemComponent);
+    public readonly navigation = input(true);
+    public readonly width = input(0);
+    public readonly height = input(0);
+    public readonly autoplay = input(false);
+    public readonly duration = input(5000);
+    public readonly pauseOnOver = input(true);
+    public readonly keyboard = input(true);
+    public readonly touchable = input(true);
     @HostBinding('class')
-    public theme = 'swiper-theme-default';
+public readonly theme = input('swiper-theme-default');
     public navigationVisible = false;
     public previousVisible = false;
     public nextVisible = false;
@@ -40,12 +41,9 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
     private itemCount$ = new BehaviorSubject(0);
     private maxWidth = 0;
     private isLoop = false;
-    private tween = new AnimationTween(this.duration);
+    private tween = new AnimationTween(this.duration());
 
-    constructor(
-        private elementRef: ElementRef,
-        private renderer: Renderer2,
-    ) {
+    constructor() {
         this.resize$ = new ResizeObserver(entries => {
             for (const item of entries) {
                 if (item.contentRect.width === this.maxWidth) {
@@ -56,7 +54,7 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
             }
         });
         this.itemCount$.subscribe(res => {
-            this.navigationVisible = this.navigation && res > 1;
+            this.navigationVisible = this.navigation() && res > 1;
             this.updateAction();
         });
         this.tween.finish$.subscribe(() => {
@@ -67,21 +65,21 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
 
     @HostListener('document:mouseup', ['$event'])
     public onMouseUp(e: MouseEvent) {
-        if (!this.touchable) {
+        if (!this.touchable()) {
             return;
         }
     }
 
     @HostListener('document:mousemove', ['$event'])
     public onMouseMove(e: MouseEvent) {
-        if (!this.touchable) {
+        if (!this.touchable()) {
             return;
         }
     }
 
     @HostListener('mouseover', [])
     public onMouseOver() {
-        if (!this.pauseOnOver) {
+        if (!this.pauseOnOver()) {
             return;
         }
         this.tween.stop();
@@ -89,7 +87,7 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
 
     @HostListener('mouseleave', [])
     public onMouseLeave() {
-        if (!this.pauseOnOver || !this.autoplay) {
+        if (!this.pauseOnOver() || !this.autoplay()) {
             return;
         }
         this.tween.next();
@@ -107,7 +105,7 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
     ngAfterViewInit(): void {
         const box = this.elementRef.nativeElement;
         this.resize$.observe(box);
-        if (!this.touchable) {
+        if (!this.touchable()) {
             return;
         }
         this.renderer.listen(box, 'mousedown', (e: MouseEvent) => {
@@ -125,9 +123,10 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
     }
 
     ngAfterContentInit(): void {
-        this.itemCount$.next(this.items.length);
-        this.items.changes.subscribe(() => {
-            this.itemCount$.next(this.items.length);
+        const items = this.items();
+        this.itemCount$.next(items.length);
+        items.changes.subscribe(() => {
+            this.itemCount$.next(this.items().length);
         });
         setTimeout(() => {
             this.navigate(Math.max(0, this.index));
@@ -156,23 +155,23 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
     public navigate(index: number): void {
         this.tween.stop();
         const lastIndex = this.index;
-        this.index = checkLoopRange(index, this.items.length - 1);
+        this.index = checkLoopRange(index, this.items().length - 1);
         this.updateAction();
         if (this.index === lastIndex) {
             return;
         }
-        this.items.get(this.index).active = true;
-        if (lastIndex >= 0 && lastIndex < this.items.length) {
-            this.items.get(lastIndex).active = false;
+        this.items().at(this.index).active = true;
+        if (lastIndex >= 0 && lastIndex < this.items().length) {
+            this.items().at(lastIndex).active = false;
         }
-        if (this.autoplay) {
+        if (this.autoplay()) {
             this.tween.next();
         }
     }
 
     private updateAction() {
         this.previousVisible = this.itemCount$.value > 0 && (this.isLoop || this.index > 0);
-        this.nextVisible = this.itemCount$.value > 0 && (this.isLoop || this.index < this.items.length - 1);
+        this.nextVisible = this.itemCount$.value > 0 && (this.isLoop || this.index < this.items().length - 1);
     }
 
 }

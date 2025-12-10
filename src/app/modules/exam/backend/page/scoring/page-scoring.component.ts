@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -14,9 +14,12 @@ import { ExamService } from '../../exam.service';
   styleUrls: ['./page-scoring.component.scss']
 })
 export class PageScoringComponent implements OnInit {
+    private service = inject(ExamService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
 
-    @ViewChild('modal')
-    public modal: DialogEvent;
+
+    public readonly modal = viewChild<DialogEvent>('modal');
 
     public data: IPageEvaluate;
     public cardItems: IQuestionCard[] = [];
@@ -27,12 +30,6 @@ export class PageScoringComponent implements OnInit {
     public editData = {
         remark: '',
     };
-
-    constructor(
-        private service: ExamService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -68,7 +65,7 @@ export class PageScoringComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        this.modal.open(() => {
+        this.modal().open(() => {
             e?.enter();
             this.service.pageScoring({
                 id: this.data.id,

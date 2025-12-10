@@ -1,11 +1,11 @@
-@if (visible) {
+@if (visible()) {
 <div class="dialog-mask" (click)="close()"></div>
 <div class="dialog-box" animate.enter="dialog-opened" animate.leave="dialog-closed">
     <i class="iconfont icon-close" (click)="close()"></i>
     <div class="feedback-box">
         <div class="line-item">
             <ng-container i18n>Report content:</ng-container>
-            <span class="form-control">{{ data?.link }}</span>
+            <span class="form-control">{{ data()?.link }}</span>
         </div>
         <div class="line-header">
             <em>*</em><ng-container i18n>Report type:</ng-container>

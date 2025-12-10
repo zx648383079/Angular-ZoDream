@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { INavLink } from '../../../theme/models/seo';
 import { VisualService } from './visual.service';
 
@@ -9,13 +9,11 @@ import { VisualService } from './visual.service';
   styleUrls: ['./visual-market.component.scss']
 })
 export class VisualMarketComponent implements OnInit {
+    private service = inject(VisualService);
+
 
     public navItems: INavLink[] = [
     ];
-
-    constructor(
-        private service: VisualService
-    ) { }
 
     ngOnInit() {
         this.service.getNav().subscribe(res => {

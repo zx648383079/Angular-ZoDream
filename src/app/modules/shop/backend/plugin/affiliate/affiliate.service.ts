@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IDataOne, IPage } from '../../../../../theme/models/page';
 import { IAffiliateLog, IShopPlugin } from '../../../model';
 
 @Injectable()
 export class AffiliateService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) { }
 
     public logList(params: any) {
         return this.http.get<IPage<IAffiliateLog>>('shop/admin/plugin/affiliate', {params});

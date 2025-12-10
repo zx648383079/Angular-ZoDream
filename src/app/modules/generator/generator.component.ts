@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { INavLink } from '../../theme/models/seo';
 import { AppState } from '../../theme/interfaces';
@@ -12,6 +12,9 @@ import { ThemeService } from '../../theme/services';
   styleUrls: ['./generator.component.scss']
 })
 export class GeneratorComponent implements OnInit {
+    private store = inject<Store<AppState>>(Store);
+    private themeService = inject(ThemeService);
+
 
     public navItems: INavLink[] = [{
             name: $localize `Home`,
@@ -118,9 +121,7 @@ export class GeneratorComponent implements OnInit {
         }
     ];
 
-    constructor(
-        private store: Store<AppState>,
-        private themeService: ThemeService,) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Generator`);
         this.store.select(selectAuthUser).subscribe(user => {
             if (!user) {

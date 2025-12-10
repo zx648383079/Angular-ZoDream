@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { LegworkService } from './legwork.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { LegworkService } from './legwork.service';
   styleUrls: ['./legwork-backend.component.scss']
 })
 export class LegworkBackendComponent implements OnInit {
+    private service = inject(LegworkService);
+
 
     public isLoading = true;
     public data: any = {};
-
-    constructor(
-        private service: LegworkService,
-    ) { }
 
     ngOnInit() {
         this.service.statistics().subscribe(res => {

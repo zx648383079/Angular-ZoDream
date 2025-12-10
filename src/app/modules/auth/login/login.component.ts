@@ -1,8 +1,4 @@
-import {
-    Component,
-    OnDestroy,
-    OnInit
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
     Subscription
 } from 'rxjs';
@@ -48,6 +44,16 @@ import { passwordValidator } from '../../../components/desktop/directives';
     styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
+    private store = inject<Store<AppState>>(Store);
+    private route = inject(ActivatedRoute);
+    private fb = inject(FormBuilder);
+    private router = inject(Router);
+    private toastrService = inject(DialogService);
+    private themeService = inject(ThemeService);
+    private authService = inject(AuthService);
+    private encryptor = inject(EncryptorService);
+    private webAuthn = inject(WebAuthn);
+
 
     public mode = 0;
     public redirectUri: string;
@@ -71,16 +77,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     public qrImage = '';
     private subItems = new Subscription();
 
-    constructor(
-        private store: Store<AppState>,
-        private route: ActivatedRoute,
-        private fb: FormBuilder,
-        private router: Router,
-        private toastrService: DialogService,
-        private themeService: ThemeService,
-        private authService: AuthService,
-        private encryptor: EncryptorService,
-        private webAuthn: WebAuthn) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Sign in`);
         this.subItems.add(
             this.store.select(selectSystemConfig).subscribe(res => {

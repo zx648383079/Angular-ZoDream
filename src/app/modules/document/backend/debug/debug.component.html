@@ -65,7 +65,7 @@
                 </div>
                 <div class="tab-item" [ngClass]="{active: requestIndex == 1}">
                     <div class="type-bar">
-                        <app-check-input [items]="typeItems" [rangeKey]="1" [(ngModel)]="bodyType" (ngModelChange)="onTypeChange()"></app-check-input>
+                        <app-check-input [items]="typeItems" [rangeKey]="1" [(ngModel)]="bodyType" (ngModelChange)="onTypeChange()" />
                         <select [hidden]="bodyType != 3" [(ngModel)]="rawType" class="form-control">
                             @for (item of rawItems; track $index;let i = $index) {
                                 <option [value]="i">{{ item }}</option>

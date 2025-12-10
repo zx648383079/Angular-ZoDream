@@ -1,4 +1,4 @@
-<app-edit-header [title]="'系统基本设置'" (submited)="tapSubmit()"></app-edit-header>
+<app-edit-header [title]="'系统基本设置'" (submited)="tapSubmit()" />
 <div class="container-fluid">
     <div class="row">
             @for (group of groups; track $index) {
@@ -35,27 +35,27 @@
                             }
                             @case ('radio') {
                                 <div>
-                                    <app-check-input [rangeKey]="item.itemKey" [items]="item.items" [(ngModel)]="item.value"></app-check-input>
+                                    <app-check-input [rangeKey]="item.itemKey" [items]="item.items" [(ngModel)]="item.value" />
                                 </div>
                             }
                             @case ('checkbox') {
                                 <div>
-                                    <app-check-input [rangeKey]="item.itemKey" [items]="item.items" [(ngModel)]="item.value" [multiple]="true"></app-check-input>
+                                    <app-check-input [rangeKey]="item.itemKey" [items]="item.items" [(ngModel)]="item.value" [multiple]="true" />
                                 </div>
                             }
                             @case ('switch') {
                                 <div>
-                                    <app-switch [(ngModel)]="item.value" onLabel="On" offLabel="Off"></app-switch>
+                                    <app-switch [(ngModel)]="item.value" onLabel="On" offLabel="Off" />
                                 </div>
                             }
                             @case ('image') {
                                 <div>
-                                    <app-file-input [(ngModel)]="item.value"></app-file-input>
+                                    <app-file-input [(ngModel)]="item.value" />
                                 </div>
                             }
                             @case ('file') {
                                 <div>
-                                    <app-file-input [(ngModel)]="item.value" accept="*"></app-file-input>
+                                    <app-file-input [(ngModel)]="item.value" accept="*" />
                                 </div>
                             }
                             @case ('editor') {

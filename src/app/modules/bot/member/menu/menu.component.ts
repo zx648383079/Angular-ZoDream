@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IBotMenuItem } from '../../model';
@@ -13,17 +13,15 @@ import { eachObject } from '../../../../theme/utils';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
+    private service = inject(BotService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+
 
 
     public menuItems: IBotMenuItem[] = [];
     public editData: any;
     public editorData: any;
-
-    constructor(
-        private service: BotService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-    ) {}
 
     ngOnInit() {
         this.service.menuList({}).subscribe(res => {

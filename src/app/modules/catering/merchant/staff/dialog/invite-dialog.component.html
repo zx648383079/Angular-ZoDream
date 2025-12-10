@@ -1,8 +1,8 @@
-@if (visible) {
+@if (visible()) {
     <div class="dialog-mask" (click)="close()"></div>
     <div class="dialog-box"  animate.enter="dialog-opened" animate.leave="dialog-closed">
         <div class="dialog-header">
-            <span>{{ title }}</span>
+            <span>{{ title() }}</span>
             <div class="dialog-action" (click)="close()">
                 <i class="iconfont icon-close"></i>
             </div>

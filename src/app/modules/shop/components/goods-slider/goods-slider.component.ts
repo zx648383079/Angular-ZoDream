@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, QueryList, Renderer2, SimpleChanges, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnChanges, OnInit, Renderer2, SimpleChanges, inject, input, viewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -8,11 +8,13 @@ import { ActivatedRoute } from '@angular/router';
     styleUrls: ['./goods-slider.component.scss']
 })
 export class GoodsSliderComponent implements OnInit, OnChanges, AfterViewInit {
+    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
+    private renderer = inject(Renderer2);
 
-    @ViewChildren('itemView')
-    public viewItems: QueryList<ElementRef<HTMLLIElement>>;
 
-    @Input() public items: any[] = [];
+    public readonly viewItems = viewChildren<ElementRef<HTMLLIElement>>('itemView');
+
+    public readonly items = input<any[]>([]);
 
     public itemType = 0;
     public index = 0;
@@ -22,11 +24,9 @@ export class GoodsSliderComponent implements OnInit, OnChanges, AfterViewInit {
     private itemHeight = 0;
     private boxWidth = 0;
 
-    constructor(
-        private elementRef: ElementRef<HTMLDivElement>,
-        private renderer: Renderer2,
-        route: ActivatedRoute,
-    ) {
+    constructor() {
+        const route = inject(ActivatedRoute);
+
         let next = route;
         while (next.routeConfig.path !== 'market') {
             next = next.parent;
@@ -48,7 +48,7 @@ export class GoodsSliderComponent implements OnInit, OnChanges, AfterViewInit {
             return {};
         }
         return {
-            width: (this.itemWidth * this.items.length) + 'px',
+            width: (this.itemWidth * this.items().length) + 'px',
             left: (- this.index * this.itemWidth) + 'px',
         }
     }
@@ -68,7 +68,7 @@ export class GoodsSliderComponent implements OnInit, OnChanges, AfterViewInit {
 
     ngAfterViewInit() {
         this.refreshSize();
-        const item = this.viewItems.get(0);
+        const item = this.viewItems().at(0);
         if (!item || !item.nativeElement) {
             return;
         }
@@ -81,14 +81,14 @@ export class GoodsSliderComponent implements OnInit, OnChanges, AfterViewInit {
 
     public tapPrevious() {
         if (this.index < 1) {
-            this.index = this.items.length - 1;
+            this.index = this.items().length - 1;
         } else {
             this.index --;
         }
     }
 
     public tapNext() {
-        if (this.index >= this.items.length - 1) {
+        if (this.index >= this.items().length - 1) {
             this.index = 0;
         } else {
             this.index ++;
@@ -112,9 +112,9 @@ export class GoodsSliderComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     private formatType() {
-        if (this.items.length < 1) {
+        if (this.items().length < 1) {
             return;
         }
-        this.itemType = this.items[0].goods ? 1 : 0;
+        this.itemType = this.items()[0].goods ? 1 : 0;
     }
 }

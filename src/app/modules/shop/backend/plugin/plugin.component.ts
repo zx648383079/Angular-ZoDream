@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IData } from '../../../../theme/models/page';
 import { IShopPlugin } from '../../model';
 import { DialogService } from '../../../../components/dialog';
@@ -21,6 +21,9 @@ interface IPluginItem {
     styleUrls: ['./plugin.component.scss']
 })
 export class PluginComponent implements OnInit {
+    private http = inject(HttpClient);
+    private toastrService = inject(DialogService);
+
 
     public items: IPluginItem[] = [
         {
@@ -40,11 +43,6 @@ export class PluginComponent implements OnInit {
             setting_url: 'affiliate/setting'
         },
     ];
-
-    constructor(
-        private http: HttpClient,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.pluginList().subscribe(res => {

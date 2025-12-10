@@ -1,14 +1,4 @@
-import {
-    Component,
-    ElementRef,
-    EventEmitter,
-    Input,
-    OnChanges,
-    Output,
-    QueryList,
-    SimpleChanges,
-    ViewChildren
-} from '@angular/core';
+import { Component, ElementRef, OnChanges, SimpleChanges, inject, input, output, viewChildren } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { IChapter } from '../../model';
 import { windowScollTop } from '../../util';
@@ -40,23 +30,20 @@ export interface IRequestEvent {
     styleUrls: ['./flip-pager.component.scss']
 })
 export class FlipPagerComponent implements OnChanges {
+    private toastrService = inject(DialogService);
 
-    @ViewChildren('filpPage')
-    public pageItems: QueryList<ElementRef<HTMLDivElement>>;
 
-    @Input() public initChapter = 0;
-    @Input() public maxCache = 5;
-    @Input() public flipMode = 0;
-    @Input() public options: any = {};
-    @Output() progressChanged = new EventEmitter<IFlipProgress>();
-    @Output() previewRequest = new EventEmitter<IRequestEvent>();
+    public readonly pageItems = viewChildren<ElementRef<HTMLDivElement>>('filpPage');
+
+    public readonly initChapter = input(0);
+    public readonly maxCache = input(5);
+    public readonly flipMode = input(0);
+    public readonly options = input<any>({});
+    readonly progressChanged = output<IFlipProgress>();
+    readonly previewRequest = output<IRequestEvent>();
 
     public blockItems: IBlockItem[] = [];
     private currentIndex = -1;
-
-    constructor(
-        private toastrService: DialogService,
-    ) {}
 
     public ngOnChanges(changes: SimpleChanges) {
         if (changes.initChapter && changes.initChapter.currentValue > 0) {
@@ -66,20 +53,21 @@ export class FlipPagerComponent implements OnChanges {
 
     get pageStyle() {
         const style: any = {};
-        if (this.options.size) {
-            style['font-size'] = this.options.size + 'px';
+        const options = this.options();
+        if (options.size) {
+            style['font-size'] = options.size + 'px';
         }
-        if (this.options.font) {
+        if (options.font) {
             const fontItems = ['Microsoft YaHei', 'PingFangSC-Regular', 'Kaiti', '方正启体简体'];
-            style['font-family'] = typeof this.options.font === 'number' ? fontItems[this.options.font] : this.options.font;
+            style['font-family'] = typeof options.font === 'number' ? fontItems[options.font] : options.font;
         }
-        if (this.options.backgroundImage) {
-            style['background-image'] = 'url(' + this.options.backgroundImage + ')';
-        } else if (this.options.background) {
-            style['background-color'] = this.options.background;
+        if (options.backgroundImage) {
+            style['background-image'] = 'url(' + options.backgroundImage + ')';
+        } else if (options.background) {
+            style['background-color'] = options.background;
         }
-        if (this.options.color) {
-            style.color = this.options.color;
+        if (options.color) {
+            style.color = options.color;
         }
         return style;
     }
@@ -144,7 +132,7 @@ export class FlipPagerComponent implements OnChanges {
             item: this.current,
             progress,
         });
-        const element = this.pageItems.get(index);
+        const element = this.pageItems().at(index);
         if (!element || !element.nativeElement) {
             return;
         }
@@ -196,8 +184,8 @@ export class FlipPagerComponent implements OnChanges {
     }
 
     private getScrollCurrent(top: number, bottom: number, isUp: boolean): number[] {
-        for (let i = 0; i < this.pageItems.length; i++) {
-            const element = this.pageItems.get(i);
+        for (let i = 0; i < this.pageItems().length; i++) {
+            const element = this.pageItems().at(i);
             const bound = element.nativeElement.getBoundingClientRect();
             if (bound.top <= 0 && bound.top + bound.height > 0) {
                 return [i, (- bound.top) * 100 / bound.height];
@@ -207,10 +195,11 @@ export class FlipPagerComponent implements OnChanges {
     }
 
     private init() {
-        if (this.initChapter === this.current?.id) {
+        const initChapter = this.initChapter();
+        if (initChapter === this.current?.id) {
             return;
         }
-        this.showChanpter(this.initChapter);
+        this.showChanpter(initChapter);
     }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { IItem } from '../../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
@@ -10,13 +10,11 @@ import { GenerateService } from '../../generate.service';
   styleUrls: ['./import.component.scss']
 })
 export class ImportComponent implements OnInit {
+    private service = inject(GenerateService);
+    private toastrService = inject(DialogService);
+
     public schemaItems: IItem[] = [];
     public schema = '';
-
-    constructor(
-        private service: GenerateService,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.service.schemaList().subscribe(res => {

@@ -10,7 +10,7 @@
         <ul class="selector-header">
             @for (item of paths; track $index; let i = $index) {
                 <li class="select-header"  [ngClass]="{open: i == activeColumn}" (click)="tapColumn(i)">
-                    {{ item[rangeLabel] }}
+                    {{ item[rangeLabel()] }}
                     <i class="iconfont icon-chevron-down"></i>
                 </li>
             }
@@ -19,11 +19,11 @@
             <ul>
                 @for (item of items; track $index) {
                     <li (click)="tapCheckedItem(item)" [ngClass]="{selected: isSelected(item)}">
-                        {{ item[rangeLabel] }}</li>
+                        {{ item[rangeLabel()] }}</li>
                 }
             </ul>
         </div>
-        @if (canYes) {
+        @if (canYes()) {
         <div class="selector-footer">
             <button class="selector-yes btn-primary" (click)="tapYes()" i18n>Ok</button>
         </div>

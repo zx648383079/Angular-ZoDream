@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IPage } from '../../theme/models/page';
 import { ILastestLog, IProduct, ITradeLog } from './model';
 
@@ -7,10 +7,8 @@ import { ILastestLog, IProduct, ITradeLog } from './model';
     providedIn: 'root'
 })
 export class TrackerService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
 
     public logList(params: any) {

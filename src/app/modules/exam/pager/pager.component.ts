@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
@@ -14,6 +14,10 @@ import { formatPager } from '../util';
   styleUrls: ['./pager.component.scss']
 })
 export class PagerComponent implements OnInit {
+    private service = inject(ExamService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public data: IExamPager;
     public finished = false;
@@ -24,12 +28,6 @@ export class PagerComponent implements OnInit {
     public current: IQuestionPageItem;
     private saveHandle = 0;
     private saveData = [];
-
-    constructor(
-        private service: ExamService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { ICategory, IMovie } from '../model';
 import { TvService } from '../tv.service';
 
@@ -9,13 +9,11 @@ import { TvService } from '../tv.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+    private service = inject(TvService);
+
 
     public items: IMovie[] = [];
     public categories: ICategory[] = [];
-
-    constructor(
-        private service: TvService,
-    ) { }
 
     @HostListener('keydown', ['$event'])
     public onKeyDown(e: KeyboardEvent) {

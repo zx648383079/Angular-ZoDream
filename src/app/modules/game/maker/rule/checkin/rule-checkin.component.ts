@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { GameMakerService } from '../../game-maker.service';
 import { DialogService } from '../../../../../components/dialog';
 
@@ -14,6 +14,9 @@ interface IPlusItem {
   styleUrls: ['./rule-checkin.component.scss']
 })
 export class RuleCheckinComponent implements OnInit {
+    private service = inject(GameMakerService);
+    private toastrService = inject(DialogService);
+
 
     public data: any = {
         basic: 0,
@@ -21,11 +24,6 @@ export class RuleCheckinComponent implements OnInit {
     };
 
     public plusItems: IPlusItem[] = [];
-
-    constructor(private service: GameMakerService,
-                private toastrService: DialogService,) {
-
-    }
 
     ngOnInit() {
         // this.service.option().subscribe(res => {

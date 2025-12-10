@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, forwardRef, input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { formatDate } from '../../../theme/utils';
 
@@ -15,12 +15,12 @@ import { formatDate } from '../../../theme/utils';
 })
 export class DateInputComponent {
 
-    @Input() public placeholder = $localize `Please select a date`;
-    @Input() public format = 'yyyy-mm-dd';
-    @Input() min: Date = new Date('2000/01/01 00:00:00');
-    @Input() max: Date = new Date('2090/12/31 23:59:59');
-    @Input() minYear = 2000;
-    @Input() maxYear = 2066;
+    public readonly placeholder = input($localize `Please select a date`);
+    public readonly format = input('yyyy-mm-dd');
+    readonly min = input<Date>(new Date('2000/01/01 00:00:00'));
+    readonly max = input<Date>(new Date('2090/12/31 23:59:59'));
+    readonly minYear = input(2000);
+    readonly maxYear = input(2066);
     public value = '';
     public disabled = false;
 
@@ -45,7 +45,7 @@ export class DateInputComponent {
     }
 
     writeValue(obj: any): void {
-        this.value = obj && /^\d{10}$/.test(obj) ? formatDate(obj, this.format) : (obj ? obj : '');
+        this.value = obj && /^\d{10}$/.test(obj) ? formatDate(obj, this.format()) : (obj ? obj : '');
     }
     registerOnChange(fn: any): void {
         this.onChange = fn;

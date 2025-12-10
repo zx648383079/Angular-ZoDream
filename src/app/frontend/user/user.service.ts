@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IUser, IUserZone } from '../../theme/models/user';
 import { IStatisticsItem } from '../../theme/models/seo';
@@ -7,10 +7,8 @@ import { IBulletinUser } from '../../theme/models/auth';
 
 @Injectable()
 export class UserService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public profile() {
         return this.http.get<IUser>('auth/user');

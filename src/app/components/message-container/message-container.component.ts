@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, SimpleChanges, inject, input, output } from '@angular/core';
 import { IBlockItem } from '../link-rule';
 import { assetUri, formatAgo } from '../../theme/utils';
 import { IMessageBase } from './model';
@@ -10,25 +10,23 @@ import { IMessageBase } from './model';
     styleUrls: ['./message-container.component.scss']
 })
 export class MessageContainerComponent {
+    private element = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
-    @Input() public items: IMessageBase[] = [];
-    @Input() public hasMore = false;
-    @Input() public maxTime = 600000;
-    @Input() public currentId: string|number;
-    @Output() public loadMore = new EventEmitter<number>();
-    @Output() public tapped = new EventEmitter<IBlockItem>();
+
+    public readonly items = input<IMessageBase[]>([]);
+    public readonly hasMore = input(false);
+    public readonly maxTime = input(600000);
+    public readonly currentId = input<string | number>(undefined);
+    public readonly loadMore = output<number>();
+    public readonly tapped = output<IBlockItem>();
 
     private minId = 0;
 
-    constructor(
-        private element: ElementRef<HTMLDivElement>
-    ) { }
-
     get formatItems() {
-        if (this.items.length < 1) {
+        if (this.items().length < 1) {
             return [];
         }
-        const sortItems = this.items;
+        const sortItems = this.items();
         sortItems.sort((a, b) => {
             a.created_at = this.formatTime(a.created_at);
             b.created_at = this.formatTime(b.created_at);
@@ -40,7 +38,7 @@ export class MessageContainerComponent {
             }
             return 0;
         });
-        this.minId = this.items[0].id;
+        this.minId = this.items()[0].id;
         const items = [];
         let lastTime: Date;
         const now = new Date();
@@ -50,7 +48,7 @@ export class MessageContainerComponent {
                 continue;
             }
             const time = this.formatTime(item.created_at);
-            if (!lastTime || this.diffTime(time, lastTime) > this.maxTime) {
+            if (!lastTime || this.diffTime(time, lastTime) > this.maxTime()) {
                 lastTime = time;
                 items.push({
                     type: 99,
@@ -115,11 +113,11 @@ export class MessageContainerComponent {
     }
 
     public messageIsUser(item: IMessageBase) {
-        return item.user && item.user.id && this.currentId === item.user.id;
+        return item.user && item.user.id && this.currentId() === item.user.id;
     }
 
     public tapMore() {
-        if (!this.hasMore) {
+        if (!this.hasMore()) {
             return;
         }
         this.loadMore.emit(this.minId);
@@ -140,7 +138,7 @@ export class MessageContainerComponent {
      */
     public prepend(items: IMessageBase[]) {
         if (items && items.length > 0) {
-            this.items = [].concat(items, this.items);
+            this.items = [].concat(items, this.items());
         }
     }
 
@@ -150,7 +148,7 @@ export class MessageContainerComponent {
      */
     public append(items: IMessageBase[]) {
         if (items && items.length > 0) {
-            this.items = [].concat(this.items, items);
+            this.items = [].concat(this.items(), items);
         }
     }
 

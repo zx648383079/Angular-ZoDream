@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AuthService } from '../../../theme/services';
 import { Router } from '@angular/router';
 
@@ -9,10 +9,11 @@ import { Router } from '@angular/router';
     styleUrls: ['./logout.component.scss']
 })
 export class LogoutComponent implements OnInit {
+    private authService = inject(AuthService);
+    private router = inject(Router);
 
-    constructor(
-        private authService: AuthService,
-        private router: Router) {
+
+    constructor() {
         this.authService.logout().subscribe(_ => {
             this.router.navigateByUrl('./login');
         });

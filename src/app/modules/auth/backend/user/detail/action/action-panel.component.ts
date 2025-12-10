@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
 import { IActionLog } from '../../../../../../theme/models/auth';
 import { IPageQueries } from '../../../../../../theme/models/page';
 import { AuthService } from '../../../auth.service';
@@ -11,9 +11,12 @@ import { SearchService } from '../../../../../../theme/services';
     styleUrls: ['./action-panel.component.scss']
 })
 export class ActionPanelComponent implements OnChanges {
+    private service = inject(AuthService);
+    private searchService = inject(SearchService);
 
-    @Input() public itemId = 0;
-    @Input() public init = false;
+
+    public readonly itemId = input(0);
+    public readonly init = input(false);
     public items: IActionLog[] = [];
     public hasMore = true;
     public isLoading = false;
@@ -25,20 +28,15 @@ export class ActionPanelComponent implements OnChanges {
     };
     private booted = 0;
 
-    constructor(
-        private service: AuthService,
-        private searchService: SearchService,
-    ) { }
-
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.itemId > 0 && this.booted !== this.itemId) {
+        if (changes.init && changes.init.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
             this.boot();
         }
     }
 
     private boot() {
-        this.booted = this.itemId;
-        if (this.itemId < 1) {
+        this.booted = this.itemId();
+        if (this.itemId() < 1) {
             return;
         }
         this.tapRefresh();
@@ -70,7 +68,7 @@ export class ActionPanelComponent implements OnChanges {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.actionLogList({...queries, user: this.itemId}).subscribe({
+        this.service.actionLogList({...queries, user: this.itemId()}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;

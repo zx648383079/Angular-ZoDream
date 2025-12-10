@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ThemeService } from '../../theme/services';
 import { ForumService } from './forum.service';
@@ -11,15 +11,15 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./forum.component.scss']
 })
 export class ForumComponent implements OnInit, OnDestroy {
+    private themeService = inject(ThemeService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private service = inject(ForumService);
+
 
     private subItems = new Subscription();
 
-    constructor(
-        private themeService: ThemeService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private service: ForumService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Forum`);
     }
 

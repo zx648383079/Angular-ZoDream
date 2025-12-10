@@ -13,11 +13,11 @@
         <a i18n-title title="full screen" (click)="toggleScreen(2)">
             <i class="icon-full-screen"></i>
         </a>
-        @if (src) {
-            <a [href]="src" target="_blank" rel="noopener" i18n-title title="open url"><i class="icon-cloud"></i></a>
+        @if (internalSrc) {
+            <a [href]="internalSrc" target="_blank" rel="noopener" i18n-title title="open url"><i class="icon-cloud"></i></a>
         }
-        @if (lang) {
-            <span>{{ lang }}</span>
+        @if (internalLang) {
+            <span>{{ internalLang }}</span>
         }
     </div>
     <div class="highlight-bar">
@@ -25,7 +25,7 @@
             <span [ngClass]="{highlighted: item.checked}">&nbsp;</span>
         }
     </div>
-    <pre><code [ngClass]="'language-' + lang">{{ value }}</code></pre>
+    <pre><code [ngClass]="'language-' + internalLang">{{ internalValue }}</code></pre>
     <div class="line-number-bar">
         @for (item of lineNo; track $index) {
             <span>{{ item.value }}</span>

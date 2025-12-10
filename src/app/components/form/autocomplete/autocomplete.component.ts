@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, Renderer2, SimpleChanges } from '@angular/core';
+import { Component, HostListener, OnChanges, OnInit, Renderer2, SimpleChanges, inject, input, output as output_1 } from '@angular/core';
 import { hasElementByClass } from '../../../theme/utils/doc';
 
 const MailSuffixMap = [
@@ -18,12 +18,14 @@ const MailSuffixMap = [
     styleUrls: ['./autocomplete.component.scss']
 })
 export class AutocompleteComponent implements OnChanges, OnInit {
+    private renderer = inject(Renderer2);
 
-    @Input() public prefix = '';
-    @Input() public suffix = '@';
-    @Input() public suffixItems = [...MailSuffixMap];
-    @Input() public value = '';
-    @Output() public valueChange = new EventEmitter<string>();
+
+    public readonly prefix = input('');
+    public readonly suffix = input('@');
+    public readonly suffixItems = input([...MailSuffixMap]);
+    public readonly value = input('');
+    public readonly valueChange = output<string>();
     
     public panelVisible = false;
     public optionItems = [];
@@ -35,10 +37,6 @@ export class AutocompleteComponent implements OnChanges, OnInit {
             this.panelVisible = false;
         }
     }
-
-    constructor(
-        private renderer: Renderer2
-    ) { }
 
     ngOnInit() {
         this.renderer.listen(document, 'keydown', (event: KeyboardEvent) => {
@@ -68,7 +66,7 @@ export class AutocompleteComponent implements OnChanges, OnInit {
                 this.selectedIndex = -1;
                 this.refreshOption();
             } else if (this.selectedIndex < 0) {
-                this.panelVisible = this.optionItems.indexOf(this.value) < 0;
+                this.panelVisible = this.optionItems.indexOf(this.value()) < 0;
             }
         }
     }
@@ -95,19 +93,19 @@ export class AutocompleteComponent implements OnChanges, OnInit {
         if (typeof value !== 'string') {
             return '';
         }
-        const i = value.indexOf(this.suffix);
+        const i = value.indexOf(this.suffix());
         return i > 0 ? value.substring(0, i) : value;
     }
 
     private refreshOption() {
-        const value = this.realValue(this.value);
+        const value = this.realValue(this.value());
         if (value.length < 1) {
             this.optionItems = [];
             return;
         }
         const items = [];
-        for (const item of this.suffixItems) {
-            items.push(this.prefix + value + this.suffix + item);
+        for (const item of this.suffixItems()) {
+            items.push(this.prefix() + value + this.suffix() + item);
         }
         this.optionItems = items;
     }

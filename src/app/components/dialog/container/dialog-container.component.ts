@@ -1,4 +1,4 @@
-import { Component, ViewContainerRef } from '@angular/core';
+import { Component, ViewContainerRef, inject } from '@angular/core';
 import { DialogService } from '../dialog.service';
 
 @Component({
@@ -8,11 +8,11 @@ import { DialogService } from '../dialog.service';
     styles: [''],
 })
 export class DialogContainerComponent {
+    private service = inject(DialogService);
+    private viewContainerRef = inject(ViewContainerRef);
 
-    constructor(
-        private service: DialogService,
-        private viewContainerRef: ViewContainerRef,
-    ) {
+
+    constructor() {
         this.service.containerRef = this.viewContainerRef;
     }
 }

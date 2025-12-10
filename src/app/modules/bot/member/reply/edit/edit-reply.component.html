@@ -1,9 +1,9 @@
-@if (value) {
+@if (value()) {
 <div class="form-table-control">
     <div class="input-group-control">
         <label for="event">事件</label>
         <div>
-            <select id="event" [(ngModel)]="value.event" class="form-control" (ngModelChange)="onValueChange()">
+            <select id="event" [(ngModel)]="value().event" class="form-control" (ngModelChange)="onValueChange()">
                 @for (item of eventItems; track $index) {
                 <option [value]="item.value">{{ item.name }}</option>
                 }
@@ -11,29 +11,29 @@
         </div>
     </div>
 
-    @if (value.event == 'message') {
+    @if (value().event == 'message') {
     <div>
         <div class="input-group-control">
             <label for="">精确匹配</label>
             <div>
-                <app-switch [(ngModel)]="value.match" (ngModelChange)="onValueChange()"></app-switch>
+                <app-switch [(ngModel)]="value().match" (ngModelChange)="onValueChange()" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="">关键词</label>
             <div>
-                <app-words-input [(ngModel)]="value.keywords" (ngModelChange)="onValueChange()"></app-words-input>
+                <app-words-input [(ngModel)]="value().keywords" (ngModelChange)="onValueChange()" />
             </div>
         </div>
     </div>
-    } @else if (value.event == 'CLICK') {
+    } @else if (value().event == 'CLICK') {
     <div class="input-group-control">
         <label for="">事件名</label>
         <div>
-            <input type="text" class="form-control" [(ngModel)]="value.keywords" (ngModelChange)="onValueChange()">
+            <input type="text" class="form-control" [(ngModel)]="value().keywords" (ngModelChange)="onValueChange()">
         </div>
     </div>
     }
-    <app-bot-message-editor [(value)]="editorData" (valueChange)="onEditorChange()"></app-bot-message-editor>
+    <app-bot-message-editor [(value)]="editorData" (valueChange)="onEditorChange()" />
 </div>
 }

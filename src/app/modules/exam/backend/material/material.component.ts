@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -14,6 +14,11 @@ import { ExamService } from '../exam.service';
     styleUrls: ['./material.component.scss']
 })
 export class MaterialComponent implements OnInit {
+    private service = inject(ExamService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IQuestionMaterial[] = [];
     public hasMore = true;
@@ -34,13 +39,6 @@ export class MaterialComponent implements OnInit {
     };
     public courseItems: ICourse[] = [];
     public typeItems = ['文本', '音频', '视频'];
-
-    constructor(
-        private service: ExamService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.service.courseAll().subscribe(res => {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, HostListener, OnChanges, SimpleChanges, input, output } from '@angular/core';
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { ButtonEvent, ButtonGroupEvent, IButton } from '../event';
 
@@ -10,14 +10,14 @@ import { ButtonEvent, ButtonGroupEvent, IButton } from '../event';
 })
 export class ButtonGroupComponent implements ButtonEvent, OnChanges {
 
-    @Input() public items: IButton[] = [];
-    @Input() public max = 2;
-    @Input() public min = 0;
+    public readonly items = input<IButton[]>([]);
+    public readonly max = input(2);
+    public readonly min = input(0);
     public dropVisible = false;
     public isLoading = false;
     public inlineItems: IButton[] = [];
     public dropItems: IButton[] = [];
-    @Output() public tapped = new EventEmitter<ButtonGroupEvent>();
+    public readonly tapped = output<ButtonGroupEvent>();
 
     @HostListener('document:click', ['$event']) 
     public hideDrop(event: any) {
@@ -40,15 +40,15 @@ export class ButtonGroupComponent implements ButtonEvent, OnChanges {
     }
 
     private splitButton() {
-        const items = this.items.filter(i => !i.disable);
+        const items = this.items().filter(i => !i.disable);
         if (items.length < 1) {
             this.inlineItems = [];
             this.dropItems = [];
             return;
         }
-        let i = this.min;
+        let i = this.min();
         if (window.innerWidth > 700) {
-            i = this.max;
+            i = this.max();
         }
         if (i > 0) {
             this.inlineItems = items.slice(0, i);
@@ -67,8 +67,8 @@ export class ButtonGroupComponent implements ButtonEvent, OnChanges {
             item.onTapped(this);
             return;
         }
-        for (let i = 0; i < this.items.length; i++) {
-            const element = this.items[i];
+        for (let i = 0; i < this.items().length; i++) {
+            const element = this.items()[i];
             if (element === item) {
                 this.tapped.emit({
                     data: item,

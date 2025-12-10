@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostBinding, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, HostBinding, ViewEncapsulation, input, output } from '@angular/core';
 import { IMenuButton, IMenuItem } from '../model';
 
 @Component({
@@ -12,13 +12,12 @@ import { IMenuButton, IMenuItem } from '../model';
 })
 export class MenuBodyComponent {
 
-    @Input() public items: IMenuItem[] = [];
+    public readonly items = input<IMenuItem[]>([]);
 
-    @Input()
     @HostBinding('class.menu-flow-left')
-    public flowLeft = false;
+public readonly flowLeft = input(false);
 
-    @Output() public tapped = new EventEmitter<IMenuButton>();
+    public readonly tapped = output<IMenuButton>();
 
     constructor() { }
 

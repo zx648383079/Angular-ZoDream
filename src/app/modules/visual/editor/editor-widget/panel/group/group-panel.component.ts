@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { PanelWidget } from '../../../model';
 
 @Component({
@@ -9,7 +9,7 @@ import { PanelWidget } from '../../../model';
 })
 export class GroupPanelComponent  {
 
-    @Input() public value: PanelWidget;
+    public readonly value = input<PanelWidget>(undefined);
 
     constructor() { }
 

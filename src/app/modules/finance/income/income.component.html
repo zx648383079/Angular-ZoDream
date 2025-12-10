@@ -78,8 +78,8 @@
                 
             </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>
 
@@ -96,7 +96,7 @@
         </div>
     </div>
 
-    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
     <app-swipe-list-control>
         @for (group of groupItems; track $index) {
             <div class="group-header-bar">
@@ -199,13 +199,13 @@
         <div class="form-group">
             <label for="start_at">开始时间</label>
             <div class="input-group-control">
-                <app-date-input id="start_at" [ngModel]="queries.start_at" name="start_at"></app-date-input>
+                <app-date-input id="start_at" [ngModel]="queries.start_at" name="start_at" />
             </div>
         </div>
         <div class="form-group">
             <label for="end_at">结束时间</label>
             <div class="input-group-control">
-                <app-date-input id="end_at" [ngModel]="queries.end_at" name="end_at"></app-date-input>
+                <app-date-input id="end_at" [ngModel]="queries.end_at" name="end_at" />
             </div>
         </div>
         <div class="form-group">

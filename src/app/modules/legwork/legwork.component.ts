@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { INavLink } from '../../theme/models/seo';
 import { ThemeService } from '../../theme/services';
 import { LegworkService } from './legwork.service';
@@ -10,13 +10,13 @@ import { LegworkService } from './legwork.service';
   styleUrls: ['./legwork.component.scss']
 })
 export class LegworkComponent implements OnInit {
+    private service = inject(LegworkService);
+    private themeService = inject(ThemeService);
+
 
     public items: INavLink[] = this.renderNav();
 
-    constructor(
-        private service: LegworkService,
-        private themeService: ThemeService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next('跑腿');
         this.service.role().subscribe(res => {
             this.items = this.renderNav(res.is_waiter === 1, res.is_provider === 1);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
@@ -13,6 +13,11 @@ import { AttributeService } from '../../attribute.service';
   styleUrls: ['./edit-group.component.scss']
 })
 export class EditGroupComponent implements OnInit {
+    private service = inject(AttributeService);
+    private fb = inject(FormBuilder);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -20,15 +25,6 @@ export class EditGroupComponent implements OnInit {
     });
 
     public data: IAttributeGroup;
-
-    constructor(
-        private service: AttributeService,
-        private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {
-
-    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

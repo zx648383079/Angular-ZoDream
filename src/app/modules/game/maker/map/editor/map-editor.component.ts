@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, inject, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IBound, IPoint, computedBound, isIntersect, drawLineTo } from '../../../../../theme/utils/canvas';
@@ -17,15 +17,16 @@ const posMap = ['north_id', 'east_id', 'south_id', 'west_id'];
     styleUrls: ['./map-editor.component.scss'],
 })
 export class MapEditorComponent implements OnInit, AfterViewInit {
+    private boxRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
+    private service = inject(GameMakerService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
 
-    @ViewChild('lineCanvas', {static: true})
-    private lineCanvasRef: ElementRef<HTMLCanvasElement>;
-    @ViewChild('areaModal')
-    private areaModal: DialogEvent;
-    @ViewChild('mapModal')
-    private mapModal: DialogEvent;
-    @ViewChild('monsterModal')
-    private monsterModal: DialogEvent;
+
+    private readonly lineCanvasRef = viewChild<ElementRef<HTMLCanvasElement>>('lineCanvas');
+    private readonly areaModal = viewChild<DialogEvent>('areaModal');
+    private readonly mapModal = viewChild<DialogEvent>('mapModal');
+    private readonly monsterModal = viewChild<DialogEvent>('monsterModal');
     public items: IGameMap[] = [];
     public areaItems: IGameMapArea[] = [];
     public panelOpen = false;
@@ -52,16 +53,9 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
     private height = 0;
     private lineColor = 'lightblue';
 
-    constructor(
-        private boxRef: ElementRef<HTMLDivElement>,
-        private service: GameMakerService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-    ) { }
-
     @HostListener('window:resize')
     public onResize() {
-        const canvas = this.lineCanvasRef?.nativeElement;
+        const canvas = this.lineCanvasRef()?.nativeElement;
         if (!canvas) {
             return;
         }
@@ -98,7 +92,7 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        const canvas = this.lineCanvasRef?.nativeElement;
+        const canvas = this.lineCanvasRef()?.nativeElement;
         if (!canvas) {
             return;
         }
@@ -150,7 +144,7 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
             });
             return;
         }
-        this.mapModal.open(() => {
+        this.mapModal().open(() => {
             this.service.mapSave({...this.editData, project_id: this.queries.project, ...this.formatPoint(e)}).subscribe(res => {
                 this.items.push(res);
             });
@@ -214,7 +208,7 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
                 name: '',
                 [toKey]: item.id
             };
-            this.mapModal.open(() => {
+            this.mapModal().open(() => {
                 this.service.mapSave({...this.editData, project_id: this.queries.project, ...this.formatPoint(p)}).subscribe(res => {
                     item[this.posToKey(pos)] = res.id;
                     this.items.forEach(i => {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from '../../../../components/dialog';
 import { LegworkService } from '../../legwork.service';
@@ -11,6 +11,10 @@ import { ICategory, IProvider } from '../../model';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+    private service = inject(LegworkService);
+    private fb = inject(FormBuilder);
+    private toastrService = inject(DialogService);
+
 
     public data: IProvider;
     public form = this.fb.group({
@@ -21,12 +25,6 @@ export class ProfileComponent implements OnInit {
         categories: [],
     });
     public categories: ICategory[] = [];
-
-    constructor(
-        private service: LegworkService,
-        private fb: FormBuilder,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.service.providerProfile().subscribe(res => {

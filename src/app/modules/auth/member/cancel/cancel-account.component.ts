@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { MemberService } from '../member.service';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -12,6 +12,11 @@ import { Router } from '@angular/router';
     styleUrls: ['./cancel-account.component.scss']
 })
 export class CancelAccountComponent implements AfterViewInit {
+    private authService = inject(AuthService);
+    private router = inject(Router);
+    private service = inject(MemberService);
+    private toastrService = inject(DialogService);
+
 
     public items: string[] = [
         $localize `Need to unbundle of phone`,
@@ -20,13 +25,6 @@ export class CancelAccountComponent implements AfterViewInit {
         $localize `It's a redundant account`,
     ];
     public selectedIndex = 0;
-
-    constructor(
-        private authService: AuthService,
-        private router: Router,
-        private service: MemberService,
-        private toastrService: DialogService,
-    ) { }
 
     ngAfterViewInit(): void {
         this.toastrService.confirm({

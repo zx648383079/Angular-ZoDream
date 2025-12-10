@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
 import { IItem, IOption } from '../../theme/models/seo';
@@ -13,6 +13,9 @@ import { SystemService } from './system.service';
   styleUrls: ['./system.component.scss']
 })
 export class SystemComponent {
+    private service = inject(SystemService);
+    private toastrService = inject(DialogService);
+
 
     public groups: IOption[] = [];
     public editData: IOption = {} as any;
@@ -36,10 +39,7 @@ export class SystemComponent {
     ];
     public visibleItems = ['隐藏', '后台可见', '前台可见'];
 
-    constructor(
-        private service: SystemService,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.service.optionList().subscribe(res => {
             this.groups = res.data.map(group => {
                 if (!group.children) {

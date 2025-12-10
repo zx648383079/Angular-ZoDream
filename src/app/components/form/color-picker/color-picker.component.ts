@@ -1,4 +1,4 @@
-import { Component, EventEmitter, forwardRef, HostListener, Output } from '@angular/core';
+import { Component, forwardRef, HostListener, output as output_1 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -19,7 +19,7 @@ export class ColorPickerComponent  {
     public value = '';
     public visibility = false;
 
-    @Output() public valueChange = new EventEmitter<string>();
+    public readonly valueChange = output<string>();
 
     onChange: any = () => { };
     onTouch: any = () => { };

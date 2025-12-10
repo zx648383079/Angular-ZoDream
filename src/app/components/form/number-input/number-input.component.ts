@@ -1,66 +1,56 @@
-import { Component, forwardRef, Input } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, input, model } from '@angular/core';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
     selector: 'app-number-input',
     templateUrl: './number-input.component.html',
     styleUrls: ['./number-input.component.scss'],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => NumberInputComponent),
-            multi: true
-        }
-    ]
 })
-export class NumberInputComponent implements ControlValueAccessor {
+export class NumberInputComponent implements FormValueControl<number|string> {
 
-    @Input() public min = 0;
-    @Input() public max = 0;
-    @Input() public step = 1;
-    @Input() public disabled = false;
+    public readonly min = input(0);
+    public readonly max = input(0);
+    public readonly step = input(1);
     /**
      * 是否仅允许数字
      */
-    @Input() public only = true;
-    public value: string|number = 1;
-
-    onChange: any = () => { };
-    onTouch: any = () => { };
-
-    constructor() {}
+    public readonly only = input(true);
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<number|string>(1);
 
     public get minDisabled() {
-        if (this.disabled) {
+        if (this.disabled()) {
             return true;
         }
-        return this.valueInt <= this.min;
+        return this.valueInt <= this.min();
     }
 
     public get maxDisabled() {
-        if (this.disabled) {
+        if (this.disabled()) {
             return true;
         }
-        return this.max > 0 && this.valueInt >= this.max;
+        return this.max() > 0 && this.valueInt >= this.max();
     }
 
     public get valueInt(): number {
-        return this.parseInt(this.value);
+        return this.parseInt(this.value());
     }
 
     public tapMinus() {
         if (this.minDisabled) {
             return;
         }
-        this.tapChange(this.valueInt - Math.max(typeof this.step === 'string' ? parseFloat(this.step) : this.step, 1));
+        const step = this.step();
+        this.tapChange(this.valueInt - Math.max(typeof step === 'string' ? parseFloat(step) : step, 1));
     }
 
     public tapPlus() {
         if (this.maxDisabled) {
             return;
         }
-        this.tapChange(this.valueInt + Math.max(typeof this.step === 'string' ? parseFloat(this.step) : this.step, 1));
+        const step = this.step();
+        this.tapChange(this.valueInt + Math.max(typeof step === 'string' ? parseFloat(step) : step, 1));
     }
 
     public onValueChange(e: Event) {
@@ -69,15 +59,17 @@ export class NumberInputComponent implements ControlValueAccessor {
     }
 
     public tapChange(i: number, format?: string) {
-        if (this.disabled) {
+        if (this.disabled()) {
             return;
         }
-        if (i < this.min) {
-            i = typeof this.min === 'string' ? parseFloat(this.min) : this.min;
-        } else if (this.max > 0 && i > this.max) {
-            i = typeof this.max === 'string' ? parseFloat(this.max) : this.max;
+        if (i < this.min()) {
+            const min = this.min();
+            i = typeof min === 'string' ? parseFloat(min) : min;
+        } else if (this.max() > 0 && i > this.max()) {
+            const max = this.max();
+            i = typeof max === 'string' ? parseFloat(max) : max;
         }
-        this.onChange(this.value = this.renderInt(i, format));
+        this.value.set(this.renderInt(i, format));
     }
 
     private parseInt(value: number|string) {
@@ -87,7 +79,7 @@ export class NumberInputComponent implements ControlValueAccessor {
         if (typeof value === 'number') {
             return value;
         }
-        if (this.only) {
+        if (this.only()) {
             const v = parseFloat(value)
             return isNaN(v) ? 0 : v;
         }
@@ -99,8 +91,8 @@ export class NumberInputComponent implements ControlValueAccessor {
         return isNaN(v) ? 0 : v;
     }
 
-    private renderInt(value: number, format = this.value): number|string {
-        if (this.only || !format || typeof format === 'number') {
+    private renderInt(value: number, format = this.value()): number|string {
+        if (this.only() || !format || typeof format === 'number') {
             return value;
         }
         const match = format.match(/[\d.]+/);
@@ -109,20 +101,4 @@ export class NumberInputComponent implements ControlValueAccessor {
         }
         return format.substring(0, match.index) + value + format.substring(match.index + match[0].length);
     }
-
-    writeValue(obj: any): void {
-        this.value = typeof obj === 'string' ? parseFloat(obj) : obj;
-    }
-
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
-    }
-
 }

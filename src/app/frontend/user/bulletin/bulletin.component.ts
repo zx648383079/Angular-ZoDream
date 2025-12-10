@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IBlockItem } from '../../../components/link-rule';
@@ -15,6 +15,13 @@ import { UserService } from '../user.service';
     styleUrls: ['./bulletin.component.scss']
 })
 export class BulletinComponent implements OnInit {
+    private service = inject(UserService);
+    private toastrService = inject(DialogService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+    private themeService = inject(ThemeService);
+
 
     public items: IBulletinUser[] = [];
     public hasMore = true;
@@ -25,16 +32,6 @@ export class BulletinComponent implements OnInit {
         page: 1,
         per_page: 20,
     };
-
-    constructor(
-        private service: UserService,
-        private toastrService: DialogService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-        private themeService: ThemeService,
-    ) {
-    }
 
     ngOnInit() {
         this.themeService.titleChanged.next($localize `Bulletin`);

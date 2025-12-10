@@ -68,7 +68,7 @@
                 @if (item.grade < 1) {
                     <div class="post-item">
                     <div class="item-user-header" (mouseover)="loadUser(item)" (mouseleave)="item.is_hover_user = false" [ngClass]="{'--with-open': item.is_hover_user}">
-                        <ng-container *ngTemplateOutlet="userTpl;context: {$implicit: item.user}"></ng-container>
+                        <ng-container *ngTemplateOutlet="userTpl;context: {$implicit: item.user}" />
                     </div>
                     <div class="item-body">
                         <div class="item-header">
@@ -87,7 +87,7 @@
                         </div>
                         <div class="last-time" i18n>Last edit {{ item.updated_at | ago }}</div>
                         <div class="item-content">
-                            <app-post-block [value]="item.content" (tapped)="tapBlock($event, item)"></app-post-block>
+                            <app-post-block [value]="item.content" (tapped)="tapBlock($event, item)" />
                         </div>
                         <div class="item-action-bar">
                             @if (thread.like_type == 1) {
@@ -115,10 +115,10 @@
                         <div class="item-footer">
                             <app-command-bar [flowLeft]="true">
                                 @if (user) {
-                                    <app-command-button icon="icon-undo" label="Reply" i18n-label (tapped)="tapReply(item)"></app-command-button>
+                                    <app-command-button icon="icon-undo" label="Reply" i18n-label (tapped)="tapReply(item)" />
                                 }
                                 @if (thread.digestable || thread.highlightable || thread.closeable || thread.topable) {
-                                    <app-command-button icon="icon-edit" label="Edit" i18n-label (tapped)="open(modal)"></app-command-button>
+                                    <app-command-button icon="icon-edit" label="Edit" i18n-label (tapped)="open(modal)" />
                                 }
                             </app-command-bar>
                         </div>
@@ -127,7 +127,7 @@
                 } @else {
                     <div class="post-item">
                     <div class="item-user-header" (mouseover)="loadUser(item)" (mouseleave)="item.is_hover_user = false" [ngClass]="{'--with-open': item.is_hover_user}">
-                        <ng-container *ngTemplateOutlet="userTpl;context: {$implicit: item.user}"></ng-container>
+                        <ng-container *ngTemplateOutlet="userTpl;context: {$implicit: item.user}" />
                     </div>
                     <div class="item-body">
                         <div class="item-header">
@@ -147,18 +147,18 @@
                             @if (item.status > 0) {
                                 <div class="stamp">{{ formatStatus(item) }}</div>
                             }
-                            <app-post-block [value]="item.content" [readable]="item.is_public_post" (tapped)="tapBlock($event, item)"></app-post-block>
+                            <app-post-block [value]="item.content" [readable]="item.is_public_post" (tapped)="tapBlock($event, item)" />
                           </div>
                         <div class="item-footer">
                             <app-command-bar [flowLeft]="true">
                                 @if (user && item.is_public_post) {
-                                    <app-command-button icon="icon-undo" label="Reply" i18n-label (tapped)="tapReply(item)"></app-command-button>
+                                    <app-command-button icon="icon-undo" label="Reply" i18n-label (tapped)="tapReply(item)" />
                                 }
                                 @if (thread.editable) {
-                                    <app-command-button icon="icon-edit" label="Edit" i18n-label (tapped)="tapChange(statusModal, item)"></app-command-button>
+                                    <app-command-button icon="icon-edit" label="Edit" i18n-label (tapped)="tapChange(statusModal, item)" />
                                 }
                                 @if (item.deleteable) {
-                                    <app-command-button icon="icon-trash" label="Delete" i18n-label (tapped)="tapRemove(item)"></app-command-button>
+                                    <app-command-button icon="icon-trash" label="Delete" i18n-label (tapped)="tapRemove(item)" />
                                 }
                             </app-command-bar>
                         </div>
@@ -168,9 +168,9 @@
             }
             
         </div>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
         <div class="paging-box">
-            <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+            <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
         </div>
         @if (user && thread && !thread.is_closed) {
         <div class="post-item --with-new">
@@ -182,7 +182,7 @@
             </div>
             <div id="post-editor" class="item-body">
                 <form [formGroup]="form" (ngSubmit)="tapSubmit()">
-                    <app-forum-editor formControlName="content" i18n-placeholder placeholder="Please input content"></app-forum-editor>
+                    <app-forum-editor formControlName="content" i18n-placeholder placeholder="Please input content" />
                     <div class="item-footer">
                         <app-action-button class="btn btn-primary" [disabled]="form.invalid" (tapped)="tapSubmit($event)" i18n>Post Reply</app-action-button>
                     </div>
@@ -241,7 +241,7 @@
         <div class="link-item">
             <div class="label" i18n>Topest</div>
             <div class="value">
-                <app-switch [(ngModel)]="editData.top_type"></app-switch>
+                <app-switch [(ngModel)]="editData.top_type" />
             </div>
         </div>
         }
@@ -250,7 +250,7 @@
         <div class="link-item">
             <div class="label" i18n>Digest</div>
             <div class="value">
-                <app-switch [(ngModel)]="editData.is_digest"></app-switch>
+                <app-switch [(ngModel)]="editData.is_digest" />
             </div>
         </div>
         }
@@ -259,7 +259,7 @@
         <div class="link-item">
             <div class="label" i18n>Highlight</div>
             <div class="value">
-                <app-switch [(ngModel)]="editData.is_highlight"></app-switch>
+                <app-switch [(ngModel)]="editData.is_highlight" />
             </div>
         </div>
         }
@@ -268,7 +268,7 @@
         <div class="link-item">
             <div class="label" i18n>Close</div>
             <div class="value">
-                <app-switch [(ngModel)]="editData.is_closed"></app-switch>
+                <app-switch [(ngModel)]="editData.is_closed" />
             </div>
         </div>
         }
@@ -290,5 +290,5 @@
 </app-dialog-box>
 
 <app-dialog-box #statusModal [scrollable]="false" i18n-title title="Modify Status">
-    <app-check-input [items]="statusData.items" [rangeKey]="1"[(ngModel)]="statusData.selected"></app-check-input>
+    <app-check-input [items]="statusData.items" [rangeKey]="1"[(ngModel)]="statusData.selected" />
 </app-dialog-box>

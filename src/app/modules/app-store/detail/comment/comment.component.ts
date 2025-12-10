@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, inject, input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -17,8 +17,12 @@ import { IComment } from '../../model';
   styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent implements OnChanges {
-    @Input() public itemId = 0;
-    @Input() public init = false;
+    service = inject(AppStoreService);
+    private store = inject<Store<AppState>>(Store);
+    private toastrService = inject(DialogService);
+
+    public readonly itemId = input(0);
+    public readonly init = input(false);
     public items: IComment[] = [];
     public subtotal: any;
     public hasMore = true;
@@ -38,25 +42,21 @@ export class CommentComponent implements OnChanges {
     };
     public user: IUser;
 
-    constructor(
-        public service: AppStoreService,
-        private store: Store<AppState>,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;
         });
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.itemId > 0 && this.booted !== this.itemId) {
+        if (changes.init && changes.init.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
             this.boot();
         }
     }
 
     private boot() {
-        this.booted = this.itemId;
-        if (this.itemId < 1) {
+        this.booted = this.itemId();
+        if (this.itemId() < 1) {
             return;
         }
         this.tapRefresh();
@@ -72,7 +72,7 @@ export class CommentComponent implements OnChanges {
             return;
         }
         e?.enter();
-        this.service.commentSave({...this.commentData, resource: this.itemId}).subscribe({
+        this.service.commentSave({...this.commentData, resource: this.itemId()}).subscribe({
             next: _ => {
                 e?.reset();
                 this.toastrService.success($localize `Comment successful`);
@@ -113,7 +113,7 @@ export class CommentComponent implements OnChanges {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.commentList({...queries, software: this.itemId}).subscribe({
+        this.service.commentList({...queries, software: this.itemId()}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;

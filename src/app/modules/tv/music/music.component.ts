@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SuggestChangeEvent } from '../../../components/form';
 import { MusicPlayerComponent } from '../../../components/media-player';
@@ -16,9 +16,13 @@ import { TvService } from '../tv.service';
     styleUrls: ['./music.component.scss']
 })
 export class MusicComponent implements OnInit {
+    private service = inject(TvService);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private searchService = inject(SearchService);
 
-    @ViewChild(MusicPlayerComponent)
-    public player: PlayerEvent;
+
+    public readonly player = viewChild(MusicPlayerComponent);
 
     public items: IMusic[] = [];
     public hasMore = true;
@@ -29,13 +33,6 @@ export class MusicComponent implements OnInit {
         per_page: 20,
         keywords: ''
     };
-
-    constructor(
-        private service: TvService,
-        private route: ActivatedRoute,
-        private router: Router,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -54,7 +51,7 @@ export class MusicComponent implements OnInit {
     }
 
     public tapPlay(item: IMusic) {
-        this.player.play({
+        this.player().play({
             name: item.name,
             cover: item.cover,
             artist: item.artist,

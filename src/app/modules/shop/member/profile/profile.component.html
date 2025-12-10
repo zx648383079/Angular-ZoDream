@@ -1,7 +1,7 @@
 <div class="user-page">
     <div class="container side-box">
         <div>
-            <app-user-menu currentUrl="member/profile"></app-user-menu>
+            <app-user-menu currentUrl="member/profile" />
         </div>
         <div>
             <div class="header-tab">
@@ -46,7 +46,7 @@
                             <div class="input-group-control">
                                 <label for="性　　别">性　　别</label>
                                 <div>
-                                    <app-check-input [items]="sexItems" rangeKey="value" rangeLabel="name" formControlName="sex"></app-check-input>
+                                    <app-check-input [items]="sexItems" rangeKey="value" rangeLabel="name" formControlName="sex" />
                                 </div>
                             </div>
                             <div class="input-group-control">
@@ -58,7 +58,7 @@
                             <div class="input-group-control">
                                 <label for="birthday">出生日期</label>
                                 <div>
-                                    <app-date-input formControlName="birthday"></app-date-input>
+                                    <app-date-input formControlName="birthday" />
                                 </div>
                             </div>
                             <div class="offset-md-3">
@@ -68,7 +68,7 @@
                     </div>
 
                     @if (tabIndex == 2) {
-                        <app-bind-step [name]="stepData.name" [user]="user"></app-bind-step>
+                        <app-bind-step [name]="stepData.name" [user]="user" />
                     }
                 </div>
             </div>
@@ -89,7 +89,7 @@
                                 <div class="item-meta">是否接收新的消息通知，包括关注、评论、&#64;等</div>
                             </div>
                             <div class="item-action">
-                                <app-switch></app-switch>
+                                <app-switch />
                             </div>
                         </div>
                         <div class="input-item">
@@ -100,7 +100,7 @@
                                 <div class="item-name">勿扰模式</div>
                             </div>
                             <div class="item-action">
-                                <app-switch></app-switch>
+                                <app-switch />
                             </div>
                         </div>
                     </div>

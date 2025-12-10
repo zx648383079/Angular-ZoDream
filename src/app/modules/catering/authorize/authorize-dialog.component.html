@@ -1,11 +1,11 @@
-@if (visible) {
+@if (visible()) {
     <div class="dialog-mask" (click)="close()"></div>
     <div class="dialog-box"  animate.enter="dialog-opened" animate.leave="dialog-closed">
     <div class="user-panel">
         <div class="item-avatar">
             <img [src]="'assets/images/avatar/18.png' | asset" alt="">
         </div>
-        <div class="title-bar">{{ title }}</div>
+        <div class="title-bar">{{ title() }}</div>
     </div>
     <div class="dialog-action">
         <a href="" class="btn btn-primary">确认授权</a>

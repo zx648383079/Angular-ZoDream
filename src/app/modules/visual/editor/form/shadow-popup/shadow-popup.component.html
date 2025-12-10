@@ -1,6 +1,6 @@
 <i class="control-updated-tag" [hidden]="isEmpty" (click)="tapEmpty()"></i>
-@if (header) {
-<label >{{ header }}</label>
+@if (header()) {
+<label >{{ header() }}</label>
 }
 <div class="control-popup-target">
     <div class="color-icon" (click)="visible = !visible">
@@ -9,15 +9,15 @@
 </div>
 <div class="control-popup" [hidden]="!visible">
     <div class="control-row">
-        <app-editor-number-input label="X"></app-editor-number-input>
-        <app-editor-number-input label="Y"></app-editor-number-input>
-        <app-editor-number-input label="BLUR"></app-editor-number-input>
-        <app-editor-number-input label="SPREAD"></app-editor-number-input>
+        <app-editor-number-input label="X" />
+        <app-editor-number-input label="Y" />
+        <app-editor-number-input label="BLUR" />
+        <app-editor-number-input label="SPREAD" />
     </div>
    
-    <app-editor-color-popup header="Color"></app-editor-color-popup>
+    <app-editor-color-popup header="Color" />
     <div class="control-inline-group">
         <label for="">Inset</label>
-        <app-switch></app-switch>
+        <app-switch />
     </div>
 </div>

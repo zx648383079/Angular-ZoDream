@@ -1,6 +1,6 @@
 <i class="control-updated-tag" [hidden]="isEmpty" (click)="tapEmpty()"></i>
-@if (header) {
-<label >{{ header }}</label>
+@if (header()) {
+<label >{{ header() }}</label>
 }
 <div class="control-popup-target">
     <div class="color-icon" (click)="visible = !visible">
@@ -8,6 +8,6 @@
     </div>
 </div>
 <div class="control-popup" [hidden]="!visible">
-    <app-editor-color-popup header="Background Color"></app-editor-color-popup>
-    <app-editor-image-input header="Background Image"></app-editor-image-input>
+    <app-editor-color-popup header="Background Color" />
+    <app-editor-image-input header="Background Image" />
 </div>

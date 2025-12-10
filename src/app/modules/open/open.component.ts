@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { OpenService } from './open.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { OpenService } from './open.service';
   styleUrls: ['./open.component.scss']
 })
 export class OpenComponent implements OnInit {
+    private service = inject(OpenService);
+
 
     public isLoading = true;
     public data: any = {};
-
-    constructor(
-        private service: OpenService,
-    ) { }
 
     ngOnInit() {
         this.service.statistics().subscribe(res => {

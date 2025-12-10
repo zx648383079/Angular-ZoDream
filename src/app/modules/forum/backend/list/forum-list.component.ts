@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,6 +13,11 @@ import { ForumService } from '../forum.service';
   styleUrls: ['./forum-list.component.scss']
 })
 export class ForumListComponent implements OnInit {
+    private service = inject(ForumService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IForum[] = [];
     public hasMore = true;
@@ -25,14 +30,6 @@ export class ForumListComponent implements OnInit {
         parent: 0,
     };
     public parent: IForum;
-
-    constructor(
-        private service: ForumService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

@@ -37,7 +37,7 @@
             </div>
             }
 
-            <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+            <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
         </div>
         <div class="panel-footer">
             <div class="panel-action">
@@ -47,11 +47,11 @@
                     <app-action-button class="btn btn-success" (tapped)="tapSync($event)">更新</app-action-button>
                 </div>
             </div>
-            <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+            <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
         </div>
     </div>
 </div>
 
 <app-dialog-box>
-    <app-form-panel></app-form-panel>
+    <app-form-panel />
 </app-dialog-box>

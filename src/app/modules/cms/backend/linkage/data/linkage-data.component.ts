@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -14,6 +14,11 @@ import { CmsService } from '../../cms.service';
     styleUrls: ['./linkage-data.component.scss']
 })
 export class LinkageDataComponent implements OnInit {
+    private service = inject(CmsService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
 
     public items: ICmsLinkageData[] = [];
     public hasMore = true;
@@ -28,13 +33,6 @@ export class LinkageDataComponent implements OnInit {
     public editData: ICmsLinkageData = {} as any;
     public typeItems = ['栏目', '内容'];
     public path: ICmsLinkageData[] = [];
-
-    constructor(
-        private service: CmsService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {

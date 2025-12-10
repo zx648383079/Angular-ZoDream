@@ -17,7 +17,7 @@
             </select>
             <a class="btn btn-primary" (click)="openVersion(versionModal)">创建新版本</a>
         </div>
-        <app-doc-tree-panel [items]="catalog" (valueChange)="tapEdit($event)" (deleted)="tapRemove($event)" (created)="onCreate($event)"></app-doc-tree-panel>
+        <app-doc-tree-panel [items]="catalog" (valueChange)="tapEdit($event)" (deleted)="tapRemove($event)" (created)="onCreate($event)" />
     </div>
     <div class="col-lg-9 col-md-8">
         @if (data) {
@@ -106,7 +106,7 @@
                             <div>备注说明</div>
                             <div></div>
                         </div>
-                        <app-doc-api-field-tr [(items)]="data.request" [kind]="1"></app-doc-api-field-tr>
+                        <app-doc-api-field-tr [(items)]="data.request" [kind]="1" />
                         <div>
                             <div class="btn-group">
                                 <a class="btn btn-primary" (click)="tapAddItem(1)"><i class="iconfont icon-plus"></i>添加参数</a>
@@ -128,7 +128,7 @@
                             <div>备注说明</div>
                             <div></div>
                         </div>
-                        <app-doc-api-field-tr [(items)]="data.response" [kind]="2"></app-doc-api-field-tr>
+                        <app-doc-api-field-tr [(items)]="data.response" [kind]="2" />
                         <div class="btn-group">
                             <a class="btn btn-primary" (click)="tapAddItem(2)"><i class="iconfont icon-plus"></i>添加参数</a>
                             <a class="btn btn-info" (click)="tapParse(parseModal, 2)"><i class="iconfont icon-refresh"></i>自动匹配数据</a>

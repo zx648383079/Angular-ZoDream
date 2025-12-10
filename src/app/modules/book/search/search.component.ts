@@ -1,7 +1,4 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
     ActivatedRoute,
     Router
@@ -20,6 +17,10 @@ import {
     styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
+    private service = inject(BookService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+
 
     public items: IBook[] = [];
     public page = 1;
@@ -27,12 +28,6 @@ export class SearchComponent implements OnInit {
     public isLoading = false;
     public total = 0;
     public perPage = 20;
-
-    constructor(
-        private service: BookService,
-        private router: Router,
-        private route: ActivatedRoute,
-    ) {}
 
     ngOnInit() {
         this.tapRefresh();

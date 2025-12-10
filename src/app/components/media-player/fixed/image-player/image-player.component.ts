@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { IMediaFile, PlayerEvent, PlayerListeners } from '../model';
 import { assetUri } from '../../../../theme/utils';
 
@@ -13,8 +13,8 @@ export class ImagePlayerComponent implements PlayerEvent {
     public items: IMediaFile[] = [];
     public index = -1;
     public data: IMediaFile;
-    @Input() public visible = false;
-    @Input() public isFixed = false;
+    public readonly visible = input(false);
+    public readonly isFixed = input(false);
     private listeners: {
         [key: string]: Function[];
     } = {};

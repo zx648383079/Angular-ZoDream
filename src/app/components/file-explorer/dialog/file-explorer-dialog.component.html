@@ -1,8 +1,8 @@
-@if (visible && mode > 0) {
+@if (visible() && mode() > 0) {
     <div class="dialog-mask"></div>
 }
-@if (visible) {
-<div [ngClass]="{'file-explorer-window': mode < 1, 'file-explorer-dailog': mode > 0}">
+@if (visible()) {
+<div [ngClass]="{'file-explorer-window': mode() < 1, 'file-explorer-dailog': mode() > 0}">
     <div class="explorer-header">
         <div class="action-item" (click)="tapBack()" [ngClass]="{disabled: !canBack}">
             <i class="iconfont icon-arrow-left"></i>
@@ -34,16 +34,16 @@
             <input type="text" name="keywords" [(ngModel)]="keywords" placeholder="Search">
             <i class="iconfont icon-search" (click)="tapConfirmSearch()"></i>
         </form>
-        @if (mode > 0) {
-        <div class="action-item" (click)="visible = false">
+        @if (mode() > 0) {
+        <div class="action-item" (click)="visible = false()">
             <i class="iconfont icon-close"></i>
         </div>
         }
        
     </div>
     <div class="explorer-body">
-        <app-file-explorer-catalog (pathChange)="onCatalogTap($event)"></app-file-explorer-catalog>
-        <app-file-explorer-panel (pathChange)="onFileTap($event)" (selectedChange)="onSelectedChange($event)"></app-file-explorer-panel>
+        <app-file-explorer-catalog (pathChange)="onCatalogTap($event)" />
+        <app-file-explorer-panel (pathChange)="onFileTap($event)" (selectedChange)="onSelectedChange($event)" />
     </div>
     <div class="dialog-footer">
 
@@ -52,4 +52,4 @@
 }
 
 
-<ng-container #modalVC></ng-container>
+<ng-container #modalVC />

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
@@ -16,6 +16,12 @@ import { AppService } from '../../app.service';
     styleUrls: ['./edit-software.component.scss']
 })
 export class EditSoftwareComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(AppService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private uploadService = inject(FileUploadService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -36,14 +42,6 @@ export class EditSoftwareComponent implements OnInit {
     public tagItems$: Observable<ITag[]>;
     public tagInput$ = new Subject<string>();
     public tagLoading = false;
-
-    constructor(
-        private fb: FormBuilder,
-        private service: AppService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private uploadService: FileUploadService,
-    ) { }
 
     ngOnInit() {
         this.service.categoryTree().subscribe(res => {

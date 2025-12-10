@@ -20,7 +20,7 @@
     </div>
 
     <div class="panel-container" [hidden]="total < 0">
-        <app-editable-table [items]="items" [action]="actionTpl" [searchable]="false" [loading]="isLoading" [page]="page" [total]="total" [perPage]="perPage" (pageChange)="onPageChange($event)"></app-editable-table>
+        <app-editable-table [items]="items" [action]="actionTpl" [searchable]="false" [loading]="isLoading" [page]="page" [total]="total" [perPage]="perPage" (pageChange)="onPageChange($event)" />
     </div>
 </div>
 

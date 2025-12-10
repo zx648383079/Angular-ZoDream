@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IErrorResponse } from '../../../theme/models/page';
@@ -13,6 +13,13 @@ import { confirmValidator } from '../../../components/desktop/directives';
     styleUrls: ['./find.component.scss']
 })
 export class FindComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(AuthService);
+    private toastrService = inject(DialogService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private themeService = inject(ThemeService);
+
 
     public sended = false;
     public isObserve = false;
@@ -26,14 +33,7 @@ export class FindComponent implements OnInit {
         validators: confirmValidator()
     });
 
-    constructor(
-        private fb: FormBuilder,
-        private service: AuthService,
-        private toastrService: DialogService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private themeService: ThemeService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Retrieve password`);
     }
 

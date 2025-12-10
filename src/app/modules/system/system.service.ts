@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IAgreement, IBlackWord, IEmoji, IEmojiCategory, IItem, IOption, IPluginItem } from '../../theme/models/seo';
@@ -7,10 +7,8 @@ import { IFormInput } from '../../components/form';
 
 @Injectable()
 export class SystemService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public cacheStore() {
         return this.http.get<IData<IItem>>('seo/admin/cache').pipe(map(res => res.data));

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, input, output } from '@angular/core';
 import { IPage } from '../../../../theme/models/page';
 import { IItem } from '../../../../theme/models/seo';
 import { mapFormat, parseNumber } from '../../../../theme/utils';
@@ -27,12 +27,14 @@ interface IEditorData {
     styleUrls: ['./message-editor.component.scss']
 })
 export class MessageEditorComponent implements OnChanges {
+    private service = inject(BotService);
 
-    @Input() public other = '';
-    @Input() public source = 0;
-    @Input() public value: any = {
-        type: 0,
-    };
+
+    public readonly other = input('');
+    public readonly source = input(0);
+    public readonly value = input<any>({
+    type: 0,
+});
     public data: IEditorData = {
         type: 0,
     };
@@ -40,12 +42,10 @@ export class MessageEditorComponent implements OnChanges {
     public typeItems: IItem[] = [...EditorTypeItems];
     public sceneItems: IItem[] = [];
     public requestUrl = 'wx/admin/media/search';
-    @Output() public valueChange = new EventEmitter<any>();
+    public readonly valueChange = output<any>();
     private template: IBotReplyTemplate;
 
-    constructor(
-        private service: BotService,
-    ) {
+    constructor() {
         this.requestUrl += '?wid=' + this.service.baseId;
         this.service.batch({scenes: {}}).subscribe(res => {
             this.sceneItems = res.scenes;

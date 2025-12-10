@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
@@ -14,6 +14,11 @@ import { ExamService } from '../../exam.service';
   styleUrls: ['./edit-page.component.scss']
 })
 export class EditPageComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(ExamService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -39,13 +44,6 @@ export class EditPageComponent implements OnInit {
         keywords: '',
         course: 0,
     };
-
-    constructor(
-        private fb: FormBuilder,
-        private service: ExamService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {}
 
     ngOnInit() {
         this.service.courseAll().subscribe(res => {

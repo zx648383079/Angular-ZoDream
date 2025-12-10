@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IMicro } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
 import { MicroService } from './micro.service';
@@ -13,6 +13,11 @@ import { SearchService } from '../../../theme/services';
   styleUrls: ['./micro-member.component.scss']
 })
 export class MicroMemberComponent implements OnInit {
+    private service = inject(MicroService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IMicro[] = [];
     public queries: IPageQueries = {
@@ -23,14 +28,6 @@ export class MicroMemberComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-
-    constructor(
-        private service: MicroService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(res => {

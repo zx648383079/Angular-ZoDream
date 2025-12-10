@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit, input, output } from '@angular/core';
 import { DialogEvent } from '../../../../components/dialog';
 import { IQuestionFormat, IQuestionOption } from '../../model';
 
@@ -13,8 +13,8 @@ import { IQuestionFormat, IQuestionOption } from '../../model';
 })
 export class QuestionScoringComponent {
 
-    @Input() public value: IQuestionFormat;
-    @Output() public valueChange = new EventEmitter<IQuestionFormat>();
+    public readonly value = input<IQuestionFormat>(undefined);
+    public readonly valueChange = output<IQuestionFormat>();
 
     public editData = {
         score: 0,
@@ -24,37 +24,40 @@ export class QuestionScoringComponent {
     constructor() { }
 
     public get yourAnswer() {
-        if (this.value.your_answer) {
-            return this.value.your_answer;
+        const value = this.value();
+        if (value.your_answer) {
+            return value.your_answer;
         }
-        if (this.value.log) {
-            return this.value.log.answer;
+        if (value.log) {
+            return value.log.answer;
         }
         return '';
     }
 
     public optionChecked(option: IQuestionOption) {
-        if (!this.value) {
+        const value = this.value();
+        if (!value) {
             return false;
         }
-        if (this.value.type < 1) {
+        if (value.type < 1) {
             return this.yourAnswer == option.id;
         }
         return typeof this.yourAnswer === 'object' && this.yourAnswer.indeOf(option.id) >= 0;
     }
 
     public tapEdit(modal: DialogEvent) {
-        if (!this.value.log) {
-            this.value.log = {} as any;
+        const value = this.value();
+        if (!value.log) {
+            value.log = {} as any;
         }
         this.editData = {
-            score: this.value.log.score || 0,
-            remark: this.value.log.remark || '',
+            score: value.log.score || 0,
+            remark: value.log.remark || '',
         }
         modal.open(() => {
-            this.value.log.score = this.editData.score;
-            this.value.log.remark = this.editData.remark;
-            this.valueChange.emit(this.value);
+            valueValue.log.score = this.editData.score;
+            valueValue.log.remark = this.editData.remark;
+            this.valueChange.emit(valueValue);
         });
     }
 

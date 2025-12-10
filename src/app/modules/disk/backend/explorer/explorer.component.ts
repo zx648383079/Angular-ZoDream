@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, viewChild } from '@angular/core';
 import { FileExplorerDialogComponent } from '../../../../components/file-explorer';
 
 @Component({
@@ -9,8 +9,7 @@ import { FileExplorerDialogComponent } from '../../../../components/file-explore
 })
 export class ExplorerComponent implements OnInit {
 
-    @ViewChild(FileExplorerDialogComponent)
-    public modal: FileExplorerDialogComponent
+    public readonly modal = viewChild(FileExplorerDialogComponent);
 
     constructor() { }
 

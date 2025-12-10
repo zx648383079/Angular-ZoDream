@@ -1,4 +1,4 @@
-import { Component, ComponentRef, Injector, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentRef, Injector, OnInit, ViewContainerRef, inject, input, viewChild } from '@angular/core';
 import { IBreadcrumbItem, IFileExplorerTool, IFileItem } from '../model';
 import { FileExplorerPanelComponent } from '../panel/file-explorer-panel.component';
 import { FileExplorerImageEditorComponent } from '../tools';
@@ -10,26 +10,22 @@ import { FileExplorerImageEditorComponent } from '../tools';
   styleUrls: ['./file-explorer-dialog.component.scss']
 })
 export class FileExplorerDialogComponent implements OnInit {
+    private injector = inject(Injector);
 
-    @ViewChild('modalVC', {read: ViewContainerRef})
-    private modalViewContainer: ViewContainerRef;
-    @ViewChild(FileExplorerPanelComponent)
-    private panel: FileExplorerPanelComponent;
+
+    private readonly modalViewContainer = viewChild('modalVC', { read: ViewContainerRef });
+    private readonly panel = viewChild(FileExplorerPanelComponent);
     public breadcrumbItems: IBreadcrumbItem[] = [
         {icon: 'icon-home', name: 'Home', path: ''},
     ];
-    @Input() public visible = false;
-    @Input() public mode = 0;
+    public readonly visible = input(false);
+    public readonly mode = input(0);
     public path = '';
     public keywords = '';
     public pathIsInputing = false;
     private historyItems: string[] = [];
     private historyIndex = -1;
     private modalRef: ComponentRef<IFileExplorerTool>;
-
-    constructor(
-        private injector: Injector,
-    ) { }
 
     ngOnInit() {
     }
@@ -80,7 +76,7 @@ export class FileExplorerDialogComponent implements OnInit {
 
     public tapRefresh() {
         this.pathIsInputing = false;
-        this.panel.tapRefresh();
+        this.panel().tapRefresh();
     }
 
     public tapBreadcrumb(item: IBreadcrumbItem, e?: MouseEvent) {
@@ -96,7 +92,7 @@ export class FileExplorerDialogComponent implements OnInit {
 
     public tapConfirmSearch() {
         this.pathIsInputing = false;
-        this.panel.search(this.path, this.keywords);
+        this.panel().search(this.path, this.keywords);
     }
 
     public onCatalogTap(path: string) {
@@ -121,7 +117,7 @@ export class FileExplorerDialogComponent implements OnInit {
     private enterPath(path: string, useHistory = false) {
         this.applyPath(path, useHistory);
         this.keywords = '';
-        this.panel.search(path);
+        this.panel().search(path);
     }
 
     private addHistory(path: string) {
@@ -198,9 +194,9 @@ export class FileExplorerDialogComponent implements OnInit {
             return;
         }
         let tool = FileExplorerImageEditorComponent;
-        this.modalRef = this.modalViewContainer.createComponent<IFileExplorerTool>(tool, {
+        this.modalRef = this.modalViewContainer().createComponent<IFileExplorerTool>(tool, {
             injector: this.injector
         });
-        this.modalRef.instance.open(file, this.panel);
+        this.modalRef.instance.open(file, this.panel());
     }
 }

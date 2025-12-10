@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IUserStatus } from '../../../theme/models/user';
 import { IDataOne } from '../../../theme/models/page';
 
@@ -7,10 +7,8 @@ import { IDataOne } from '../../../theme/models/page';
     providedIn: 'root'
 })
 export class MemberSpaceService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public user(params: any) {
         return this.http.get<IUserStatus>('auth/space', {params});

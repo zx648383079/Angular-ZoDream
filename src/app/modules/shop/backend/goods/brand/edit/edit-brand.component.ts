@@ -1,7 +1,4 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
@@ -18,6 +15,12 @@ import { GoodsService } from '../../goods.service';
     styleUrls: ['./edit-brand.component.scss']
 })
 export class EditBrandComponent implements OnInit {
+    private service = inject(GoodsService);
+    private fb = inject(FormBuilder);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private uploadService = inject(FileUploadService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -28,15 +31,6 @@ export class EditBrandComponent implements OnInit {
     });
 
     public data: IBrand;
-
-    constructor(
-        private service: GoodsService,
-        private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private uploadService: FileUploadService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

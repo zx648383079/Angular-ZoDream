@@ -1,10 +1,9 @@
 import {
-    Component,
-    EventEmitter,
-    Input,
-    OnChanges,
-    Output,
-    SimpleChanges
+  Component,
+  OnChanges,
+  SimpleChanges,
+  input,
+  output
 } from '@angular/core';
 import { CountdownEvent } from '../event';
 
@@ -16,15 +15,15 @@ import { CountdownEvent } from '../event';
 })
 export class CountdownButtonComponent implements OnChanges, CountdownEvent {
 
-    @Input() public time = 60;
+    public readonly time = input(60);
 
-    @Input() public label = $localize `Get code`;
+    public readonly label = input($localize `Get code`);
 
-    @Input() public againLabel = $localize `Reacquire`;
+    public readonly againLabel = input($localize `Reacquire`);
 
-    @Output() public tapped: EventEmitter<CountdownButtonComponent> = new EventEmitter();
+    public readonly tapped = output<CountdownButtonComponent>();
 
-    public text = this.label;
+    public text = this.label();
 
     public disable = false;
 
@@ -51,7 +50,7 @@ export class CountdownButtonComponent implements OnChanges, CountdownEvent {
     public start(time: number = 0) {
         this.disable = true;
         if (time < 1) {
-            time = this.time;
+            time = this.time();
         }
         this.text = time.toString();
         this.handle = window.setInterval(() => {
@@ -60,7 +59,7 @@ export class CountdownButtonComponent implements OnChanges, CountdownEvent {
                 clearInterval(this.handle);
                 this.disable = false;
                 this.handle = 0;
-                this.text = this.againLabel;
+                this.text = this.againLabel();
                 return;
             }
             this.text = time.toString();
@@ -75,7 +74,7 @@ export class CountdownButtonComponent implements OnChanges, CountdownEvent {
             clearInterval(this.handle);
         }
         this.handle = 0;
-        this.text = this.label;
+        this.text = this.label();
     }
 
 }

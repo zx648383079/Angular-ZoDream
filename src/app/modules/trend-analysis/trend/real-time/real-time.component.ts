@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { TrendService } from '../../trend.service';
 import { ActivatedRoute } from '@angular/router';
@@ -12,6 +12,11 @@ import { SearchService } from '../../../../theme/services';
     styleUrls: ['./real-time.component.scss']
 })
 export class RealTimeComponent implements OnInit {
+    private service = inject(TrendService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: any[] = [];
     public hasMore = true;
@@ -22,13 +27,6 @@ export class RealTimeComponent implements OnInit {
         page: 1,
         per_page: 20
     };
-
-    constructor(
-        private service: TrendService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

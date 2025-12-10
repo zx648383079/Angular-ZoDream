@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,6 +13,11 @@ import { TVService } from '../tv.service';
   styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent implements OnInit {
+    private service = inject(TVService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IComment[] = [];
     public hasMore = true;
@@ -23,14 +28,6 @@ export class CommentComponent implements OnInit {
         page: 1,
         per_page: 20
     };
-
-    constructor(
-        private service: TVService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

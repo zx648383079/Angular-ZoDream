@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ForumService } from './forum.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { ForumService } from './forum.service';
   styleUrls: ['./forum.component.scss']
 })
 export class ForumComponent implements OnInit {
+    private service = inject(ForumService);
+
 
     public isLoading = true;
     public data: any = {};
-
-    constructor(
-        private service: ForumService,
-    ) { }
 
     ngOnInit() {
         this.service.statistics().subscribe(res => {

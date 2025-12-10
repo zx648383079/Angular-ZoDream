@@ -1,18 +1,18 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
     standalone: false,
     selector: 'app-dialog-popup',
     template: ` <div class="popup-arrow"></div>
-    <div class="popup-body"><ng-content></ng-content></div>`,
+    <div class="popup-body"><ng-content /></div>`,
     styles: [],
     host: {
-        '[class]': '"dialog-popup dialog-popup-" + placement',
+        '[class]': '"dialog-popup dialog-popup-" + placement()',
     }
 })
 export class DialogPopupComponent {
 
-    @Input() public placement = 'left';
+    public readonly placement = input('left');
 
     constructor() { }
 

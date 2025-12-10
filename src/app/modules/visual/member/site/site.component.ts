@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ISite } from '../../model';
 import { IPageQueries } from '../../../../theme/models/page';
 import { VisualService } from '../visual.service';
@@ -14,6 +14,11 @@ import { emptyValidate } from '../../../../theme/validators';
     styleUrls: ['./site.component.scss']
 })
 export class SiteComponent implements OnInit {
+    private service = inject(VisualService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: ISite[] = [];
     public hasMore = true;
@@ -25,14 +30,6 @@ export class SiteComponent implements OnInit {
         per_page: 20
     };
     public editData: ISite = {} as any;
-
-    constructor(
-        private service: VisualService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

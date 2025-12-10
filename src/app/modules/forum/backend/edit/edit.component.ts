@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IForum, IForumClassify } from '../../model';
@@ -16,6 +16,11 @@ import { ButtonEvent } from '../../../../components/form';
     styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(ForumService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -38,12 +43,7 @@ export class EditComponent implements OnInit {
     public userKeywords = '';
     public users: IUser[] = [];
 
-    constructor(
-        private fb: FormBuilder,
-        private service: ForumService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.service.forumAll().subscribe(res => {
             this.categories = res.data;
         });

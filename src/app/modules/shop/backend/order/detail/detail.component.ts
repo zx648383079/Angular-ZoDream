@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -13,6 +13,11 @@ import { OrderService } from '../order.service';
     styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
+    private service = inject(OrderService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public data: IOrder;
     public items: IOrderGoods[] = [];
@@ -30,13 +35,6 @@ export class DetailComponent implements OnInit {
     public remarkData = {
         remark: '',
     }
-
-    constructor(
-        private service: OrderService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

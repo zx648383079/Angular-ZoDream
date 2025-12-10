@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ThemeService } from '../../theme/services';
 import { SuggestChangeEvent } from '../../components/form';
 
@@ -9,12 +9,10 @@ import { SuggestChangeEvent } from '../../components/form';
     styleUrls: ['./search.component.scss']
 })
 export class SearchComponent {
+    private themeService = inject(ThemeService);
+
 
     public panelVisible = false;
-
-    constructor(
-        private themeService: ThemeService,
-    ) { }
 
     public tapConfirm(keywords: any) {
         this.themeService.suggestQuerySubmitted.next(keywords);

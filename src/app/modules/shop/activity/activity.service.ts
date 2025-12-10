@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { IActivity, IActivityTime, ICoupon, ISeckillGoods } from '../model';
 
 @Injectable()
 export class ActivityService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient,
-    ) { }
 
     public seckillTime() {
         return this.http.get<IData<IActivityTime>>('shop/activity/seckill/time');

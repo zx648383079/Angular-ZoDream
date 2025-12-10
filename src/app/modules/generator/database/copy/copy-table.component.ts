@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { IItem } from '../../../../theme/models/seo';
@@ -43,9 +43,11 @@ interface IColumnValue {
   styleUrls: ['./copy-table.component.scss']
 })
 export class CopyTableComponent implements OnInit {
+    private service = inject(GenerateService);
+    private toastrService = inject(DialogService);
 
-    @ViewChild('previewModal')
-    public previewModal: DialogBoxComponent;
+
+    public readonly previewModal = viewChild<DialogBoxComponent>('previewModal');
     public distTable?: ITableItem;
     public srcTable: ITableItem[] = [];
     public linkItems: ILinkItem[] = [];
@@ -84,11 +86,6 @@ export class CopyTableComponent implements OnInit {
 
     private cacheItems: any = {};
 
-    constructor(
-        private service: GenerateService,
-        private toastrService: DialogService,
-    ) { }
-
     ngOnInit() {
         this.getSchame(data => {
             this.schemaItems = data.map(i => {
@@ -124,7 +121,7 @@ export class CopyTableComponent implements OnInit {
                     this.toastrService.success('复制成功');
                     return;
                 }
-                this.previewModal.open();
+                this.previewModal().open();
             },
             error: err => {
                 e.reset();

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { SearchService, ThemeService } from '../../../../theme/services';
 import { IGameProject } from '../../model';
@@ -13,6 +13,12 @@ import { ActivatedRoute } from '@angular/router';
     styleUrls: ['./game-list.component.scss']
 })
 export class GameListComponent implements OnInit {
+    private service = inject(GameMakerService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+    private themeService = inject(ThemeService);
+
 
     public items: IGameProject[] = [];
     public hasMore = true;
@@ -25,13 +31,7 @@ export class GameListComponent implements OnInit {
     };
     public editData: IGameProject = {} as any;
 
-    constructor(
-        private service: GameMakerService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-        private themeService: ThemeService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Game Maker`);
     }
 

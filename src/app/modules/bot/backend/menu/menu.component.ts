@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IBotMenuItem } from '../../model';
@@ -13,6 +13,11 @@ import { SearchService } from '../../../../theme/services';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
+    private service = inject(BotService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IBotMenuItem[] = [];
     public hasMore = true;
@@ -24,13 +29,6 @@ export class MenuComponent implements OnInit {
         page: 1,
         per_page: 20
     };
-
-    constructor(
-        private service: BotService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

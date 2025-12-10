@@ -2,7 +2,7 @@
     @if (!editable) {
     <div class="picker-body">
         @for (item of items; track $index) {
-            <div class="address-item" [ngClass]="{active: value && item.id == value.id}" (click)="tapItem(item)">
+            <div class="address-item" [ngClass]="{active: value && item.id == value().id}" (click)="tapItem(item)">
                 <div>收货人: {{ item.name }}</div>
                 <div>联系方式：{{ item.tel }}</div>
                 <div>收货地址：{{ item.region.full_name }} {{ item.address }}</div>
@@ -19,19 +19,19 @@
     <div class="picker-form">
         <div>*所在地区:</div>
         <div class="region-input">
-            <app-region url="shop/region/tree" [(ngModel)]="value.region_id"></app-region>
+            <app-region url="shop/region/tree" [(ngModel)]="value().region_id" />
         </div>
         <div>*详细地址:</div>
         <div>
-            <textarea [(ngModel)]="value.address" cols="30" rows="10"></textarea>
+            <textarea [(ngModel)]="value().address" cols="30" rows="10"></textarea>
         </div>
         <div>*收货人:</div>
         <div>
-            <input type="text" [(ngModel)]="value.name">
+            <input type="text" [(ngModel)]="value().name">
         </div>
         <div>*手机号码:</div>
         <div>
-            <input type="text" [(ngModel)]="value.tel">
+            <input type="text" [(ngModel)]="value().tel">
         </div>
     </div>
     }

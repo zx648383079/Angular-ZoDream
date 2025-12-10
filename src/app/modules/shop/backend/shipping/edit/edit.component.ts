@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -17,6 +17,12 @@ import { RegionService } from '../../region.service';
     styleUrls: ['./edit.component.scss']
 })
 export class EditShippingComponent implements OnInit {
+    private service = inject(PaymentService);
+    private route = inject(ActivatedRoute);
+    private fb = inject(FormBuilder);
+    private toastrService = inject(DialogService);
+    private regionService = inject(RegionService);
+
 
     public data: IShipping;
 
@@ -38,13 +44,7 @@ export class EditShippingComponent implements OnInit {
         position: [99],
     });
 
-    constructor(
-        private service: PaymentService,
-        private route: ActivatedRoute,
-        private fb: FormBuilder,
-        private toastrService: DialogService,
-        private regionService: RegionService,
-    ) {
+    constructor() {
         this.service.shippingPlugin().subscribe(res => {
             this.items = res;
         });

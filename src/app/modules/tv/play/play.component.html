@@ -18,7 +18,7 @@
 
     <div class="play-bar">
         <div class="progress--bar">
-            <app-progress-bar theme="progress-primary" [label]="false" [value]="progress" [max]="duration" (valueChange)="onProgressChange($event)"></app-progress-bar>
+            <app-progress-bar theme="progress-primary" [label]="false" [value]="progress" [max]="duration" (valueChange)="onProgressChange($event)" />
         </div>
         <div class="bar-body">
             <div class="bar-action">
@@ -57,7 +57,7 @@
                     <i class="iconfont icon-sun"></i>
                 </span>
                 <div class="item-body">
-                    <app-progress-bar theme="progress-primary" [label]="false"></app-progress-bar>
+                    <app-progress-bar theme="progress-primary" [label]="false" />
                 </div>
             </div>
             <div class="group-item">
@@ -65,7 +65,7 @@
                     <i class="iconfont icon-volume-up"></i>
                 </span>
                 <div class="item-body">
-                    <app-progress-bar theme="progress-primary" [label]="false"></app-progress-bar>
+                    <app-progress-bar theme="progress-primary" [label]="false" />
                 </div>
             </div>
         </div>

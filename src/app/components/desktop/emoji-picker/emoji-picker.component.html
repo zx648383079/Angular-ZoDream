@@ -1,6 +1,6 @@
 <div class="emoji-picker">
     <div (click)="tapButton()" class="emoji-picker__button">
-        <ng-content></ng-content>
+        <ng-content />
     </div>
     @if (panelVisible) {
     <div class="emoji-picker_container" [ngStyle]="panelStyle">

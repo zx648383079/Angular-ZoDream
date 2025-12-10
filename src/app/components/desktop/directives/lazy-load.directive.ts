@@ -1,6 +1,5 @@
 import { isPlatformServer } from '@angular/common';
-import { Directive, ElementRef,
-    EventEmitter, HostListener, Inject, Input, OnDestroy, OnInit, Output, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostListener, OnDestroy, OnInit, PLATFORM_ID, Renderer2, inject, input, output } from '@angular/core';
 import { assetUri } from '../../../theme/utils';
 
 interface IRect {
@@ -15,24 +14,22 @@ interface IRect {
     selector: '[appLazyLoad]'
 })
 export class LazyLoadDirective implements OnInit, OnDestroy {
+    private elementRef = inject(ElementRef);
+    private platformId = inject(PLATFORM_ID);
+
 
     /** 指定屏幕宽度最小值 */
-    @Input() public min = 0;
+    public readonly min = input(0);
     /** 指定屏幕宽度最大值 */
-    @Input() public max = 0;
+    public readonly max = input(0);
     /** 指定加载次数 */
-    @Input() public loadTime = 1;
-    @Input() public scrollTarget?: any;
-    @Input() public offset = 0;
-    @Input() public appLazyLoad = '';
-    @Output() public lazyLoading = new EventEmitter<void>();
+    public loadTime = 1;
+    public readonly scrollTarget = input<any>(undefined);
+    public readonly offset = input(0);
+    public readonly appLazyLoad = input('');
+    public readonly lazyLoading = output<void>();
 
     private lastIsVisible = false;
-
-    constructor(
-        private elementRef: ElementRef,
-        @Inject(PLATFORM_ID) private platformId: any
-    ) { }
 
     ngOnInit() {
         this.emitInit();
@@ -60,11 +57,12 @@ export class LazyLoadDirective implements OnInit, OnDestroy {
     }
 
     private emitLoad() {
-        if (this.appLazyLoad) {
+        const appLazyLoad = this.appLazyLoad();
+        if (appLazyLoad) {
             const element = this.elementRef.nativeElement;
             const tagName = element.tagName.toLocaleLowerCase();
             if (tagName === 'img') {
-                (element as HTMLImageElement).src = assetUri(this.appLazyLoad);
+                (element as HTMLImageElement).src = assetUri(appLazyLoad);
             }
         }
         this.lazyLoading.emit();
@@ -77,10 +75,10 @@ export class LazyLoadDirective implements OnInit, OnDestroy {
             return;
         }
         const width = document.body.clientWidth;
-        if (this.min > 0 && this.min > width) {
+        if (this.min() > 0 && this.min() > width) {
             return;
         }
-        if (this.max > 0 && this.max < width) {
+        if (this.max() > 0 && this.max() < width) {
             return;
         }
         if (this.loadTime < 1) {
@@ -104,17 +102,19 @@ export class LazyLoadDirective implements OnInit, OnDestroy {
         }
         const elementBounds: IRect = element.getBoundingClientRect();
         const windowBounds: IRect = {left: 0, top: 0, right: window.innerWidth, bottom:  window.innerHeight};
-        if (this.offset !== 0) {
-            elementBounds.top -= this.offset;
-            elementBounds.left -= this.offset;
-            elementBounds.bottom += this.offset;
-            elementBounds.right += this.offset;
+        const offset = this.offset();
+        if (offset !== 0) {
+            elementBounds.top -= offset;
+            elementBounds.left -= offset;
+            elementBounds.bottom += offset;
+            elementBounds.right += offset;
         }
-        if (!this.scrollTarget) {
+        const scrollTarget = this.scrollTarget();
+        if (!scrollTarget) {
             return this.intersectsWith(elementBounds, windowBounds);
         }
-        const scrollContainerBounds: IRect = (this.scrollTarget instanceof ElementRef ?
-            this.elementRef.nativeElement : this.scrollTarget).getBoundingClientRect();
+        const scrollContainerBounds: IRect = (scrollTarget instanceof ElementRef ?
+            this.elementRef.nativeElement : scrollTarget).getBoundingClientRect();
         const intersection = this.getIntersectionWith(scrollContainerBounds, windowBounds);
         return this.intersectsWith(elementBounds, intersection);
     }

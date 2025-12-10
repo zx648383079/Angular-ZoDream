@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑分类' : '新增分类'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑分类' : '新增分类'" (submited)="tapSubmit()" [disabled]="form.invalid" />
 
 <div class="container-fluid">
     <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
@@ -21,7 +21,7 @@
                     <div class="input-group-control">
                         <label for="type">类型</label>
                         <div>
-                            <app-check-input [items]="typeItems" [rangeKey]="1" formControlName="type"></app-check-input>
+                            <app-check-input [items]="typeItems" [rangeKey]="1" formControlName="type" />
                         </div>
                     </div>
                     @if (typeValue < 1) {
@@ -50,13 +50,13 @@
                     <div class="input-group-control">
                         <label for="thumb">缩略图</label>
                         <div>
-                            <app-file-input formControlName="thumb"></app-file-input>
+                            <app-file-input formControlName="thumb" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="image">主图</label>
                         <div>
-                            <app-file-input formControlName="image"></app-file-input>
+                            <app-file-input formControlName="image" />
                         </div>
                     </div>
                     <div class="input-group-control">
@@ -76,7 +76,7 @@
                     <div class="input-group-control">
                         <label for="groups">分组</label>
                         <div>
-                            <app-check-input [items]="groupItems" rangeKey="name" rangeLabel="name" formControlName="groups"></app-check-input>
+                            <app-check-input [items]="groupItems" rangeKey="name" rangeLabel="name" formControlName="groups" />
                         </div>
                     </div>
                     <div class="input-group-control">
@@ -114,7 +114,7 @@
                     <div class="input-group-control">
                         <label for="setting_open_comment">开启评论</label>
                         <div formGroupName="setting">
-                            <app-switch formControlName="open_comment"></app-switch>
+                            <app-switch formControlName="open_comment" />
                         </div>
                     </div>
                 </app-panel>
@@ -131,7 +131,7 @@
                     </div>
                     }
                     @if (typeValue == 1) {
-                        <app-html-editor formControlName="content"></app-html-editor>
+                        <app-html-editor formControlName="content" />
                     }
                     
                 </app-panel>

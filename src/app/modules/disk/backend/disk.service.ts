@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { IDiskServer, IDiskServerFile, ILinkServerData, IStorageFile } from '../model';
 import { IFileItem, IFileProvider, IFileQueries } from '../../../components/file-explorer/model';
@@ -9,10 +9,8 @@ import { Observable, map } from 'rxjs';
   providedIn: 'root'
 })
 export class DiskService implements IFileProvider {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public serverList(params: any) {
         return this.http.get<IPage<IDiskServer>>('disk/admin/file/server', {

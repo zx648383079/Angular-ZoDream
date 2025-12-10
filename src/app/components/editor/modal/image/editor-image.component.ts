@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FileUploadService } from '../../../../theme/services';
 import { EditorModalCallback, IEditorModal } from '../../model';
 
@@ -9,6 +9,8 @@ import { EditorModalCallback, IEditorModal } from '../../model';
   styleUrls: ['./editor-image.component.scss']
 })
 export class EditorImageComponent implements IEditorModal {
+    private uploadService = inject(FileUploadService);
+
 
     public visible = false;
     public fileName = this.uploadService.uniqueGuid();
@@ -16,9 +18,6 @@ export class EditorImageComponent implements IEditorModal {
     public url = '';
     public isLoading = false;
     private confirmFn: EditorModalCallback;
-    constructor(
-        private uploadService: FileUploadService,
-    ) { }
 
     public open(data: any, cb: EditorModalCallback) {
         this.visible = true;

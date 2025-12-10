@@ -80,7 +80,7 @@
 
 
 <div class="inner-body">
-    <router-outlet></router-outlet>
+    <router-outlet />
 </div>
 
 <footer class="--with-tablet-bottom" [hidden]="diplayMode > 0">
@@ -131,7 +131,7 @@
     </a>
 </div>
 
-<app-online-service class="tablet-collapse" [hidden]="diplayMode > 0"></app-online-service>
-<app-search #searchModal></app-search>
-<app-login-dialog></app-login-dialog>
-<app-cookie-bar></app-cookie-bar>
+<app-online-service class="tablet-collapse" [hidden]="diplayMode > 0" />
+<app-search #searchModal />
+<app-login-dialog />
+<app-cookie-bar />

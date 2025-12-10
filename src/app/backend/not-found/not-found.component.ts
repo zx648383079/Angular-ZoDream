@@ -1,23 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
     standalone: false,
-  selector: 'zo-not-found',
-  templateUrl: './not-found.component.html',
-  styleUrls: ['./not-found.component.scss']
+    selector: 'zo-not-found',
+    templateUrl: './not-found.component.html',
+    styleUrls: ['./not-found.component.scss']
 })
 export class NotFoundComponent implements OnInit {
+    private router = inject(Router);
 
-  constructor(
-    private router: Router
-  ) { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
-  goToHome() {
-    this.router.navigateByUrl('/');
-  }
+    goToHome() {
+        this.router.navigateByUrl('/');
+    }
 
 }

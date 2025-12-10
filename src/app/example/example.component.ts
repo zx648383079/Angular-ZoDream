@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { INavLink } from '../theme/models/seo';
 import { SearchService, ThemeService } from '../theme/services';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,6 +11,11 @@ import { SuggestChangeEvent } from '../components/form';
     styleUrls: ['./example.component.scss']
 })
 export class ExampleComponent {
+    private searchService = inject(SearchService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private themeService = inject(ThemeService);
+
 
     public navItems: INavLink[] = [
         {
@@ -173,12 +178,7 @@ export class ExampleComponent {
         }
     ];
 
-    constructor(
-        private searchService: SearchService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private themeService: ThemeService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Example`);
     }
 

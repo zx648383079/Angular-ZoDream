@@ -1,7 +1,7 @@
 <div class="action-btn" [ngClass]="{disabled: disabled, loading: isLoading}">
-    @if (value) {
+    @if (value()) {
         <div class="action-body">
-            <img [src]="formatAsset(value)" alt="">
+            <img [src]="formatAsset(value())" alt="">
             <div class="btn-group">
                 <label [for]="fileName" class="btn btn-info" i18n>
                     Change
@@ -11,7 +11,7 @@
         </div>
     } @else {
         <label [for]="fileName" class="action-body">
-            {{ placeholder }}
+            {{ placeholder() }}
         </label>
     }
     

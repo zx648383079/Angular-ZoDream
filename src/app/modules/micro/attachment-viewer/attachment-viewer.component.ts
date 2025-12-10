@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, input } from '@angular/core';
 import { IAttachment } from '../model';
 
 @Component({
@@ -9,7 +9,7 @@ import { IAttachment } from '../model';
 })
 export class AttachmentViewerComponent implements OnChanges  {
 
-    @Input() public items: IAttachment[] = [];
+    public readonly items = input<IAttachment[]>([]);
 
     /**
      * 0 表示没有， 1 表示单张图片，2 多张图片 3 音频 4 视频
@@ -22,7 +22,7 @@ export class AttachmentViewerComponent implements OnChanges  {
 
     
     public get largeImage(): string {
-        return this.items[this.current].file;
+        return this.items()[this.current].file;
     }
     
 
@@ -34,14 +34,14 @@ export class AttachmentViewerComponent implements OnChanges  {
 
     public tapPrevious() {
         if (this.current === 0) {
-            this.current = this.items.length - 1;
+            this.current = this.items().length - 1;
             return;
         }
         this.current --;
     }
 
     public tapNext() {
-        if (this.current === this.items.length - 1) {
+        if (this.current === this.items().length - 1) {
             this.current = 0;
             return;
         }

@@ -1,4 +1,4 @@
-<app-edit-header [title]="data.id ? '编辑图文' : '新增图文'" (submited)="tapSubmit($event)"></app-edit-header>
+<app-edit-header [title]="data.id ? '编辑图文' : '新增图文'" (submited)="tapSubmit($event)" />
 <div class="form-table-control">
     <div class="input-group-control">
         <label for="title">素材标题</label>
@@ -9,35 +9,35 @@
     <div class="input-group-control">
         <label for="parent_id">主素材</label>
         <div>
-            <app-select-input id="parent_id" rangeKey="id" rangeLabel="title" [url]="requestUrl" [(ngModel)]="data.parent_id" ></app-select-input>
+            <app-select-input id="parent_id" rangeKey="id" rangeLabel="title" [url]="requestUrl" [(ngModel)]="data.parent_id"  />
         </div>
     </div>
     <div class="input-group-control">
         <label for="thumb">封面</label>
         <div>
-            <app-file-input id="thumb" [(ngModel)]="data.thumb"></app-file-input>
+            <app-file-input id="thumb" [(ngModel)]="data.thumb" />
         </div>
     </div>
     <div class="input-group-control">
         <label for="show_cover">显示封面</label>
         <div>
-            <app-switch name="show_cover" [(ngModel)]="data.show_cover"></app-switch>
+            <app-switch name="show_cover" [(ngModel)]="data.show_cover" />
         </div>
     </div>
     <div class="input-group-control">
         <label for="open_comment">开启评论</label>
         <div>
-            <app-switch name="open_comment" [(ngModel)]="data.open_comment"></app-switch>
+            <app-switch name="open_comment" [(ngModel)]="data.open_comment" />
         </div>
     </div>
     @if (data.open_comment > 0) {
     <div class="input-group-control">
         <label for="only_comment">评论人</label>
         <div>
-            <app-check-input [items]="onlyItems" [(ngModel)]="data.only_comment"></app-check-input>
+            <app-check-input [items]="onlyItems" [(ngModel)]="data.only_comment" />
         </div>
     </div>
     }
     
-    <app-template-editor [(ngModel)]="data.content"></app-template-editor>
+    <app-template-editor [(ngModel)]="data.content" />
 </div>

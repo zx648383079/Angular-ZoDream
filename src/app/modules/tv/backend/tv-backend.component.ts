@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { TVService } from './tv.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { TVService } from './tv.service';
   styleUrls: ['./tv-backend.component.scss']
 })
 export class TvBackendComponent implements OnInit {
+    private service = inject(TVService);
+
 
     public isLoading = false;
     public data: any = {};
-
-    constructor(
-        private service: TVService
-    ) { }
 
     ngOnInit() {
         this.service.statistics().subscribe({

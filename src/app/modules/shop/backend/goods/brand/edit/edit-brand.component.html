@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑品牌' : '新增品牌'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑品牌' : '新增品牌'" (submited)="tapSubmit()" [disabled]="form.invalid" />
 <div class="container-fluid">
     <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group-control">
@@ -13,13 +13,13 @@
         <div class="input-group-control">
             <label for="logo">Logo</label>
             <div>
-                <app-file-input id="logo" formControlName="logo"></app-file-input>
+                <app-file-input id="logo" formControlName="logo" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="app_logo">APP Logo</label>
             <div>
-                <app-file-input id="app_logo" formControlName="app_logo"></app-file-input>
+                <app-file-input id="app_logo" formControlName="app_logo" />
             </div>
         </div>
         <div class="input-group-control">

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { eachObject, parseNumber, uriEncode } from '../utils';
 
@@ -10,14 +10,11 @@ const HistoryTitle = $localize `Query results`;
     providedIn: 'root',
 })
 export class SearchService {
+    private router = inject(Router);
+
 
 
     private queriesCheckFn: HistoryCheckFn = this.queriesDefaultCheck({keywords: '', page: 1, per_page: 20});
-
-    constructor(
-        private router: Router
-    ) {
-    }
 
     /**
     * 从当前页面链接获取查询参数

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { INavLink } from '../../theme/models/seo';
 import { AppState } from '../../theme/interfaces';
@@ -13,6 +13,9 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./book.component.scss']
 })
 export class BookComponent implements OnDestroy {
+    private store = inject<Store<AppState>>(Store);
+    private themeService = inject(ThemeService);
+
 
     public navItems: INavLink[] = [
         {
@@ -56,8 +59,7 @@ export class BookComponent implements OnDestroy {
     ];
     private subItems = new Subscription();
 
-    constructor(private store: Store<AppState>,
-        private themeService: ThemeService,) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Book`);
         this.subItems.add(this.store.select(selectAuthUser).subscribe(user => {
             if (!user) {

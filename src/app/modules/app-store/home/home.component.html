@@ -80,7 +80,7 @@
             </div>
             <div class="col-md-8">
                 <div class="template-lazy" appLazyLoad (lazyLoading)="loadFeature()">
-                    <app-loading-tip [loading]="featureLoading" [visible]="featureLoading || featureItems.length == 0"></app-loading-tip>
+                    <app-loading-tip [loading]="featureLoading" [visible]="featureLoading || featureItems.length == 0" />
                     <div class="row">
                         @for (item of featureItems; track $index) {
                         <div class="col-md-6">
@@ -136,7 +136,7 @@
             
         </div>
         <div class="filter-body" appLazyLoad (lazyLoading)="loadNewest()">
-            <app-loading-tip [loading]="newLoading" [visible]="newLoading || newItems.length == 0"></app-loading-tip>
+            <app-loading-tip [loading]="newLoading" [visible]="newLoading || newItems.length == 0" />
             <div class="row">
                 @for (item of newItems; track $index) {
                 <div class="col-md-3">

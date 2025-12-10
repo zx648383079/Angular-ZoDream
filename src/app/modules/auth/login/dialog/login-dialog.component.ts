@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { IUser } from '../../../../theme/models/user';
 
 @Component({
@@ -12,7 +12,7 @@ export class LoginDialogComponent {
     /**
      * 是否显示
      */
-     @Input() public visible = false;
+     public readonly visible = input(false);
      private onLogin: (user: IUser) => void;
 
     constructor() { }

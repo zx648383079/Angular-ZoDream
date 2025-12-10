@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, ContentChildren, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, output, QueryList, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, OnChanges, OnDestroy, OnInit, output, SimpleChanges, ViewEncapsulation, input, contentChildren } from '@angular/core';
 import { StackItemComponent } from './stack-item.component';
 import { checkLoopRange } from '../../../theme/utils';
 import { SwiperEvent } from '../model';
@@ -9,16 +9,15 @@ import { SwiperEvent } from '../model';
     encapsulation: ViewEncapsulation.None,
     template: `
     <div class="stack-container">
-        <ng-content></ng-content>
+        <ng-content />
     </div>`,
     styleUrls: ['./stack-container.component.scss']
 })
 export class StackContainerComponent implements OnInit, OnChanges, AfterContentInit, AfterViewInit, OnDestroy, SwiperEvent {
 
-    @ContentChildren(StackItemComponent) 
-    private items: QueryList<StackItemComponent>;
-    @Input() public index = -1;
-    @Output() public indexChange = new EventEmitter<number>();
+    private readonly items = contentChildren(StackItemComponent);
+    public readonly index = input(-1);
+    public readonly indexChange = output<number>();
 
     ngOnInit() {
     }
@@ -47,7 +46,7 @@ export class StackContainerComponent implements OnInit, OnChanges, AfterContentI
                 }
             }, 10);
         };
-        this.items.changes.subscribe(() => {
+        this.items().changes.subscribe(() => {
             lazyFn();
         });
         lazyFn();
@@ -58,43 +57,43 @@ export class StackContainerComponent implements OnInit, OnChanges, AfterContentI
     }
 
     public get backable() {
-        return this.index > 0;
+        return this.index() > 0;
     }
 
     public get nextable() {
-        return this.index < this.items.length - 1;
+        return this.index() < this.items().length - 1;
     }
 
     public back() {
         if (!this.backable) {
             return;
         }
-        this.navigate(this.index - 1);
+        this.navigate(this.index() - 1);
     }
 
     public next() {
         if (!this.nextable) {
             return;
         }
-        this.navigate(this.index + 1);
+        this.navigate(this.index() + 1);
     }
 
     public navigate(index: number) {
-        this.navigateTo(index, this.index);
+        this.navigateTo(index, this.index());
     }
 
     private refresh() {
-        this.navigate(Math.max(0, this.index));
+        this.navigate(Math.max(0, this.index()));
     }
 
     private navigateTo(to: number, from: number) {
-        const max = this.items.length - 1;
+        const max = this.items().length - 1;
         to = checkLoopRange(to, max);
         // if (to === from) {
         //     return;
         // }
-        for (let i = 0; i < this.items.length; i++) {
-            this.items.get(i).index = i - to;
+        for (let i = 0; i < this.items().length; i++) {
+            this.items().at(i).index = i - to;
         }
         this.index = to;
         this.indexChange.emit(to);

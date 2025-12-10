@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { MoviePlayerComponent, PlayerEvent, PlayerEvents } from '../../../components/media-player';
 import { IComment, IVideo } from '../model';
@@ -11,9 +11,11 @@ import { VideoService } from '../video.service';
   styleUrls: ['./video-detail.component.scss']
 })
 export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
+    private service = inject(VideoService);
+    private toastrService = inject(DialogService);
 
-    @ViewChild(MoviePlayerComponent)
-    private videoPlayer: PlayerEvent;
+
+    private readonly videoPlayer = viewChild(MoviePlayerComponent);
     private audioElement: HTMLAudioElement;
 
     public isPlaying = false;
@@ -32,11 +34,6 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
         page: 1,
         hasMore: true,
     };
-
-    constructor(
-        private service: VideoService,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.tapRefresh(() => {
@@ -103,7 +100,7 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public play() {
         this.isPlaying = true;
-        this.videoPlayer.play({
+        this.videoPlayer().play({
             source: this.data.video_path,
             name: this.data.content,
             cover: this.data.cover,
@@ -117,13 +114,13 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public pause() {
         this.isPlaying = false;
-        this.videoPlayer.pause();
+        this.videoPlayer().pause();
         this.audio.pause();
     }
 
     public stop() {
         this.isPlaying = false;
-        this.videoPlayer.stop();
+        this.videoPlayer().stop();
         this.audio.src = '';
     }
 
@@ -158,7 +155,7 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private bindVideoEvent() {
-        const video = this.videoPlayer;
+        const video = this.videoPlayer();
         video.on(PlayerEvents.TIME_UPDATE, () => {
         });
         video.on(PlayerEvents.ENDED, () => {

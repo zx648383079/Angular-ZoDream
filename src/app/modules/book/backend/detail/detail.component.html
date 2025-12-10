@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑书籍' : '新增书籍'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑书籍' : '新增书籍'" (submited)="tapSubmit()" [disabled]="form.invalid" />
 
 <div class="container-fluid">
     <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
@@ -23,7 +23,7 @@
         <div class="input-group-control">
             <label for="author_id">作者</label>
             <div>
-                <app-select-input formControlName="author_id" url="book/admin/author/search"></app-select-input>
+                <app-select-input formControlName="author_id" url="book/admin/author/search" />
             </div>
         </div>
         <div class="input-group-control">
@@ -45,7 +45,7 @@
         <div class="input-group-control">
             <label for="cover">封面</label>
             <div>
-                <app-file-input formControlName="cover"></app-file-input>
+                <app-file-input formControlName="cover" />
             </div>
         </div>
         <div class="input-group-control">

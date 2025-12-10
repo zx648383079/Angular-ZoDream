@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IUser, IUserStatus } from '../../../theme/models/user';
 import { MemberSpaceService } from './member-space.service';
 import { ActivatedRoute } from '@angular/router';
@@ -14,17 +14,17 @@ import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
     styleUrls: ['./member-space.component.scss']
 })
 export class MemberSpaceComponent implements OnInit {
+    private store = inject<Store<AppState>>(Store);
+    private service = inject(MemberSpaceService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public isLoading = false;
     public data: IUserStatus;
     public authUser: IUser;
 
-    constructor(
-        private store: Store<AppState>,
-        private service: MemberSpaceService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
             this.authUser = user;
         });

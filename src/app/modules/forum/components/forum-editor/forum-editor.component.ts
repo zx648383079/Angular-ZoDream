@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, ElementRef, forwardRef, Input, Output, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, inject, input, viewChild, model } from '@angular/core';
 import { DialogBoxComponent } from '../../../../components/dialog';
 import { IEmoji } from '../../../../theme/models/seo';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
 import { wordLength } from '../../../../theme/utils';
+import { FormValueControl } from '@angular/forms/signals';
 
 interface IRange {
     start: number;
@@ -15,25 +15,18 @@ interface IRange {
     selector: 'app-forum-editor',
     templateUrl: './forum-editor.component.html',
     styleUrls: ['./forum-editor.component.scss'],
-    providers: [
-        {
-          provide: NG_VALUE_ACCESSOR,
-          useExisting: forwardRef(() => ForumEditorComponent),
-          multi: true
-        }
-    ]
 })
-export class ForumEditorComponent implements AfterViewInit, ControlValueAccessor {
+export class ForumEditorComponent implements AfterViewInit, FormValueControl<string> {
+    private uploadService = inject(FileUploadService);
 
-    @ViewChild('editorArea')
-    private areaElement: ElementRef<HTMLTextAreaElement>;
-    @ViewChild(DialogBoxComponent)
-    private modal: DialogBoxComponent;
-    @Input() public height = 200;
-    @Input() public placeholder = '';
 
-    public disable = false;
-    public value = '';
+    private readonly areaElement = viewChild<ElementRef<HTMLTextAreaElement>>('editorArea');
+    private readonly modal = viewChild(DialogBoxComponent);
+    public readonly height = input(200);
+    public readonly placeholder = input('');
+
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<string>('');
     private range: IRange;
     public dialogData: any = {
         title: '',
@@ -41,25 +34,18 @@ export class ForumEditorComponent implements AfterViewInit, ControlValueAccessor
     };
     public uploadKey = this.uploadService.uniqueId();
 
-    onChange: any = () => { };
-    onTouch: any = () => { };
-
-    constructor(
-        private uploadService: FileUploadService,
-    ) { }
-
     get size() {
-        return wordLength(this.value);
+        return wordLength(this.value());
     }
 
     get areaStyle() {
         return {
-            height: this.height + 'px',
+            height: this.height() + 'px',
         };
     }
 
     get area(): HTMLTextAreaElement {
-        return this.areaElement.nativeElement as HTMLTextAreaElement;
+        return this.areaElement().nativeElement as HTMLTextAreaElement;
     }
 
     ngAfterViewInit() {
@@ -93,10 +79,6 @@ export class ForumEditorComponent implements AfterViewInit, ControlValueAccessor
             start: this.area.selectionStart,
             end: this.area.selectionEnd
         };
-    }
-
-    public onValueChange() {
-        this.onChange(this.value);
     }
 
     public tapEmoji(item: IEmoji) {
@@ -265,7 +247,7 @@ export class ForumEditorComponent implements AfterViewInit, ControlValueAccessor
 
     private openDialog<T>(data: T, cb: (data: T) => void, check?: (data: T) => boolean|any) {
         this.dialogData = data;
-        this.modal.open(() => {
+        this.modal().open(() => {
             cb(this.dialogData);
         }, () => {
             return check(this.dialogData);
@@ -287,20 +269,8 @@ export class ForumEditorComponent implements AfterViewInit, ControlValueAccessor
     }
 
     public setContent(value: string) {
-        this.value = this.area.value = value;
-        this.onValueChange();
+        this.value.set(this.area.value = value);
     }
 
-    writeValue(obj: any): void {
-        this.value = obj;
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disable = isDisabled;
-    }
+
 }

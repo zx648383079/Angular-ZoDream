@@ -1,14 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IPage, IDataOne } from '../../../theme/models/page';
 import { IBook, IChapter, IBookRole, IBookRoleRelation } from '../model';
 
 @Injectable()
 export class BookService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public selfBookList(params: any) {
         return this.http.get<IPage<IBook>>('book/member/book', {params});

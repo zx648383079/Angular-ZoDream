@@ -2,14 +2,14 @@
     @for (item of items; track $index) {
         @switch (item.type) {
             @case ('input') {
-                @if (editable) {
+                @if (editable()) {
                     <input type="text" class="form-control" [(ngModel)]="item.value" (ngModelChange)="onInputChange()" [size]="item.size">
                 } @else {
                     <div class="input-bar">
                         <p class="success-color">正确答案：
-                            <app-math-mark [content]="item.rightValue"></app-math-mark>
+                            <app-math-mark [content]="item.rightValue" />
                         </p>
-                        <p>你的回答：<app-math-mark [content]="item.value"></app-math-mark></p>
+                        <p>你的回答：<app-math-mark [content]="item.value" /></p>
                     </div>
                 }
             }

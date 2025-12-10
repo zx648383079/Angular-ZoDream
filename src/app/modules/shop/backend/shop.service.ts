@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IData } from '../../../theme/models/page';
 import { map } from 'rxjs/operators';
@@ -11,10 +11,8 @@ export interface ISubtotal {
 
 @Injectable()
 export class ShopService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
 
     public statistics() {

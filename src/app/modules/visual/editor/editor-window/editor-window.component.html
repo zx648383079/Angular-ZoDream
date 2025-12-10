@@ -1,30 +1,30 @@
 <div class="visual-editor-container" [ngStyle]="editorStyle">
     <!-- 组件库 -->
     <div class="panel-soul">
-        <app-editor-soul></app-editor-soul>
+        <app-editor-soul />
     </div>
     <div class="panel-main" [ngStyle]="workStyle">
-        <app-editor-work-body></app-editor-work-body>
+        <app-editor-work-body />
         <!-- 属性编辑 -->
         <div class="property-box">
-            <app-editor-property></app-editor-property>
+            <app-editor-property />
         </div>
     </div>
     <!-- 辅助条 -->
     <div class="panel-tool-bar">
-        <app-editor-tool-bar></app-editor-tool-bar>
+        <app-editor-tool-bar />
     </div>
 
     <!-- 图层 -->
     <div class="panel-layer">
-        <app-editor-layer></app-editor-layer>
+        <app-editor-layer />
     </div>
 </div>
 <div class="await-widget-box">
     <!-- 待创建的组件 -->
     @if (tempWidget) {
         <div class="await-widget" [ngStyle]="{left: tempWidget.x + 'px', top: tempWidget.y + 'px'}">
-            <app-editor-widget [value]="tempWidget"></app-editor-widget>
+            <app-editor-widget [value]="tempWidget" />
         </div>
     }
 </div>

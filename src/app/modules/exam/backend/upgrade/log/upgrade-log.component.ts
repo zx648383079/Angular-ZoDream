@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -12,6 +12,11 @@ import { ExamService } from '../../exam.service';
   styleUrls: ['./upgrade-log.component.scss']
 })
 export class UpgradeLogComponent implements OnInit {
+    private service = inject(ExamService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: any[] = [];
 
@@ -25,13 +30,6 @@ export class UpgradeLogComponent implements OnInit {
         user: 0,
         upgrade: 0,
     };
-
-    constructor(
-        private service: ExamService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {

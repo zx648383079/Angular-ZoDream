@@ -1,8 +1,4 @@
-import {
-    Component,
-    OnInit,
-    ViewChild
-} from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import {
     BlogService
 } from './blog.service';
@@ -28,9 +24,13 @@ import { PullToRefreshComponent } from '../../components/tablet';
     styleUrls: ['./blog.component.scss']
 })
 export class BlogComponent implements OnInit {
+    private service = inject(BlogService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
 
-    @ViewChild(PullToRefreshComponent)
-    public pullBox: PullToRefreshComponent;
+
+    public readonly pullBox = viewChild(PullToRefreshComponent);
 
     public detailMode = false;
 
@@ -62,12 +62,7 @@ export class BlogComponent implements OnInit {
 
     public content = '';
 
-    constructor(
-        private service: BlogService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {
+    constructor() {
         this.service.getCategories().subscribe(res => {
             this.categories = res;
         });
@@ -101,7 +96,7 @@ export class BlogComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.pullBox?.startLoad();
+        this.pullBox()?.startLoad();
         this.service.getPage({
             category: this.category,
             keywords: this.keywords,
@@ -113,11 +108,11 @@ export class BlogComponent implements OnInit {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 this.items = page < 2 ? res.data : [].concat(this.items, res.data);
-                this.pullBox?.endLoad();
+                this.pullBox()?.endLoad();
             }, 
             error: () => {
                 this.isLoading = false;
-                this.pullBox?.endLoad();
+                this.pullBox()?.endLoad();
             }
         });
     }

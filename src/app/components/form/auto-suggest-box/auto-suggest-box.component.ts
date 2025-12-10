@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, HostListener, OnChanges, SimpleChanges, input, output } from '@angular/core';
 import { SuggestChangeEvent } from '../event';
 import { hasElementByClass } from '../../../theme/utils/doc';
 
@@ -10,16 +10,16 @@ import { hasElementByClass } from '../../../theme/utils/doc';
 })
 export class AutoSuggestBoxComponent implements OnChanges, SuggestChangeEvent {
 
-    @Input() public text = '';
-    @Input() public placeholder = $localize `Please enter a keyword, press Enter to search`;
-    @Input() public historyKey = '';
+    public readonly text = input('');
+    public readonly placeholder = input($localize `Please enter a keyword, press Enter to search`);
+    public readonly historyKey = input('');
     public suggestItems: any[] = [];
     public dropIndex = -1;
     public histories: string[] = [];
     public openType = 0;
 
-    @Output() public textChange = new EventEmitter<SuggestChangeEvent>();
-    @Output() public confirm = new EventEmitter<any>();
+    public readonly textChange = output<SuggestChangeEvent>();
+    public readonly confirm = output<any>();
 
     constructor() {}
 
@@ -44,7 +44,7 @@ export class AutoSuggestBoxComponent implements OnChanges, SuggestChangeEvent {
     }
 
     public onFocus() {
-        if (this.text.length > 0) {
+        if (this.text().length > 0) {
             return;
         }
         this.openType = this.histories.length > 0 ? 2 : 0;
@@ -100,7 +100,7 @@ export class AutoSuggestBoxComponent implements OnChanges, SuggestChangeEvent {
     }
 
     public tapConfirm() {
-        let text = this.openType === 1 && this.dropIndex >= 0 ? this.suggestItems[this.dropIndex] : this.text;
+        let text = this.openType === 1 && this.dropIndex >= 0 ? this.suggestItems[this.dropIndex] : this.text();
         this.confirm.emit(text);
         this.openType = 0;
         this.addHistory(text);
@@ -116,13 +116,13 @@ export class AutoSuggestBoxComponent implements OnChanges, SuggestChangeEvent {
         if (this.dropIndex >= 0) {
             return;
         }
-        if (this.text.length < 1) {
+        if (this.text().length < 1) {
             this.suggestItems = [];
             this.dropIndex = -1;
             return;
         }
         this.textChange.emit({
-            text: this.text,
+            text: this.text(),
             suggest: this.suggest.bind(this)
         });
     }
@@ -161,21 +161,23 @@ export class AutoSuggestBoxComponent implements OnChanges, SuggestChangeEvent {
     }
 
     private saveHistory() {
-        if (!this.historyKey) {
+        const historyKey = this.historyKey();
+        if (!historyKey) {
             return;
         }
         if (this.histories.length === 0) {
-            window.localStorage.removeItem(this.historyKey);
+            window.localStorage.removeItem(historyKey);
             return;
         }
-        window.localStorage.setItem(this.historyKey, JSON.stringify(this.histories));
+        window.localStorage.setItem(historyKey, JSON.stringify(this.histories));
     }
 
     private loadHistory() {
-        if (!this.historyKey) {
+        const historyKey = this.historyKey();
+        if (!historyKey) {
             return;
         }
-        const text = window.localStorage.getItem(this.historyKey);
+        const text = window.localStorage.getItem(historyKey);
         if (!text) {
             return;
         }

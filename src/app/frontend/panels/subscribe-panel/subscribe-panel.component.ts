@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ButtonEvent } from '../../../components/form';
 import { HttpClient } from '@angular/common/http';
 import { IDataOne } from '../../../theme/models/page';
@@ -12,14 +12,12 @@ import { DialogService } from '../../../components/dialog';
     styleUrls: ['./subscribe-panel.component.scss']
 })
 export class SubscribePanelComponent {
+    private http = inject(HttpClient);
+    private toastrService = inject(DialogService);
+
 
     public name = '';
     public email = '';
-
-    constructor(
-        private http: HttpClient,
-        private toastrService: DialogService,
-    ) { }
 
     public tapSubmit(e?: ButtonEvent) {
         if (!emailValidate(this.email)) {

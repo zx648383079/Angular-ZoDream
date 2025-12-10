@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IShare, ITask, ITaskComment } from '../../model';
@@ -12,6 +12,10 @@ import { TaskService } from '../../task.service';
     styleUrls: ['./share-detail.component.scss'],
 })
 export class ShareDetailComponent implements OnInit {
+    private service = inject(TaskService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+
 
     public data: ITask;
     public share: IShare;
@@ -29,12 +33,6 @@ export class ShareDetailComponent implements OnInit {
 
     public userKeywords = '';
     public userItems: any[] = [];
-
-    constructor(
-        private service: TaskService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute
-    ) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {

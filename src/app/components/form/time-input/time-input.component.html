@@ -1,6 +1,6 @@
 <div class="time-input-container" [ngClass]="{'panel-open': panelVisible}">
     <div class="input-container">
-        <input type="text"[value]="value" (change)="onValueChange($event)" [disabled]="disabled" [placeholder]="placeholder" (focus)="onFocus()">
+        <input type="text" [value]="value()" (change)="onValueChange($event)" [disabled]="disabled()" [placeholder]="placeholder()" (focus)="onFocus()">
         <div class="input-arrow">
             <span class="arrow-icon"></span>
         </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,6 +13,11 @@ import { CmsService } from '../cms.service';
   styleUrls: ['./model.component.scss']
 })
 export class ModelComponent implements OnInit {
+    private service = inject(CmsService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
 
     public items: ICmsModel[] = [];
     public hasMore = true;
@@ -25,13 +30,6 @@ export class ModelComponent implements OnInit {
     };
     public typeItems = ['实体', '表单'];
     public siteId = 0;
-
-    constructor(
-        private service: CmsService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {

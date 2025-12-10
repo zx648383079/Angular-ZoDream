@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ICateringStore } from '../../../model';
 import { CateringBackendService } from '../../catering.service';
@@ -15,6 +15,12 @@ import { IUser } from '../../../../../theme/models/user';
     styleUrls: ['./edit-store.component.scss']
 })
 export class EditStoreComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(CateringBackendService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private uploadService = inject(FileUploadService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -25,14 +31,6 @@ export class EditStoreComponent implements OnInit {
     });
     public data: ICateringStore;
     public user: IUser;
-
-    constructor(
-        private fb: FormBuilder,
-        private service: CateringBackendService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private uploadService: FileUploadService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

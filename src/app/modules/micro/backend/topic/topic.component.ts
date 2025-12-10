@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,6 +13,11 @@ import { MicroService } from '../micro.service';
   styleUrls: ['./topic.component.scss']
 })
 export class TopicComponent implements OnInit {
+    private service = inject(MicroService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
     public items: ITopic[] = [];
     public hasMore = true;
     public isLoading = false;
@@ -22,13 +27,6 @@ export class TopicComponent implements OnInit {
         page: 1,
         per_page: 20,
     };
-
-    constructor(
-        private service: MicroService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

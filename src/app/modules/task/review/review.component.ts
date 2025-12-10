@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ITaskReview } from '../model';
 import { TaskService } from '../task.service';
@@ -11,6 +11,9 @@ import { EChartsCoreOption } from 'echarts/core';
     styleUrls: ['./review.component.scss']
 })
 export class ReviewComponent implements OnInit {
+    private service = inject(TaskService);
+    private route = inject(ActivatedRoute);
+
 
     public date = '';
     public type = 0;
@@ -42,11 +45,6 @@ export class ReviewComponent implements OnInit {
         },
         series: []
     };
-
-    constructor(
-        private service: TaskService,
-        private route: ActivatedRoute,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

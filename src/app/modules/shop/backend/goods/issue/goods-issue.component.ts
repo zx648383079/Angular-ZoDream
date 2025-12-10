@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IIssue } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { GoodsService } from '../goods.service';
@@ -15,6 +15,11 @@ import { mapFormat } from '../../../../../theme/utils';
     styleUrls: ['./goods-issue.component.scss']
 })
 export class GoodsIssueComponent implements OnInit {
+    private service = inject(GoodsService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IIssue[] = [];
     public hasMore = true;
@@ -34,14 +39,6 @@ export class GoodsIssueComponent implements OnInit {
         {name: '置顶', value: 5},
         {name: '软删除', value: 9},
     ];
-
-    constructor(
-        private service: GoodsService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

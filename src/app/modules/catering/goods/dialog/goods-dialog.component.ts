@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -11,7 +11,7 @@ export class GoodsDialogComponent {
     /**
      * 是否显示
      */
-     @Input() public visible = false;
+     public readonly visible = input(false);
 
     constructor() { }
 

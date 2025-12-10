@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit, input, output } from '@angular/core';
 import { IItem } from '../../../../../theme/models/seo';
 
 @Component({
@@ -9,9 +9,9 @@ import { IItem } from '../../../../../theme/models/seo';
 })
 export class BoolInputComponent {
 
-    @Input() public value = 1;
-    @Input() public editable = true;
-    @Output() public valueChange = new EventEmitter<number>();
+    public readonly value = input(1);
+    public readonly editable = input(true);
+    public readonly valueChange = output<number>();
     public items: IItem[] = [
         {name: '对', value: 1},
         {name: '错', value: 0},
@@ -20,7 +20,7 @@ export class BoolInputComponent {
     constructor() { }
 
     public tapSelected(item: IItem) {
-        if (!this.editable) {
+        if (!this.editable()) {
             return;
         }
         this.valueChange.emit(this.value = item.value as number);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IArticle } from '../../model';
 import { IUser } from '../../../../theme/models/user';
@@ -14,15 +14,15 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./top-bar.component.scss']
 })
 export class TopBarComponent implements OnInit {
+    private service = inject(ShopService);
+    private store = inject<Store<ShopAppState>>(Store);
+    private authService = inject(AuthService);
+
 
     public noticeItems: IArticle[] = [];
     public user: IUser;
 
-    constructor(
-        private service: ShopService,
-        private store: Store<ShopAppState>,
-        private authService: AuthService,
-    ) {
+    constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;
         });

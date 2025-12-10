@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { ISortItem } from '../../../../theme/models/seo';
 import { ActivatedRoute } from '@angular/router';
@@ -13,6 +13,10 @@ import { ISite } from '../../model';
     styleUrls: ['./site.component.scss']
 })
 export class SiteComponent implements OnInit {
+    private route = inject(ActivatedRoute);
+    private service = inject(VisualService);
+    private searchService = inject(SearchService);
+
 
     public items: ISite[] = [];
     public hasMore = true;
@@ -31,12 +35,6 @@ export class SiteComponent implements OnInit {
     ];
     public sortKey = '';
     public orderAsc = true;
-
-    constructor(
-        private route: ActivatedRoute,
-        private service: VisualService,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

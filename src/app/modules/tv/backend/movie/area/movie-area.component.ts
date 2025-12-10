@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -14,18 +14,15 @@ import { TVService } from '../../tv.service';
   styleUrls: ['./movie-area.component.scss']
 })
 export class MovieAreaComponent implements OnInit {
+    private service = inject(TVService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IMovieArea[] = [];
     public isLoading = false;
     public editData: IMovieArea = {} as any;
-
-    constructor(
-        private service: TVService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.load()

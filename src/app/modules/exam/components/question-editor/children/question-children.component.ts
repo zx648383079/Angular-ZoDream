@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CustomDialogEvent } from '../../../../../components/dialog';
 import { IQuestion } from '../../../model';
 
@@ -9,32 +9,33 @@ import { IQuestion } from '../../../model';
   styleUrls: ['./question-children.component.scss']
 })
 export class QuestionChildrenComponent {
-    @Input() public value: IQuestion[] = [];
-    @Input() public editable = true;
-    @Output() public valueChange = new EventEmitter<IQuestion[]>();
+    public readonly value = input<IQuestion[]>([]);
+    public readonly editable = input(true);
+    public readonly valueChange = output<IQuestion[]>();
     public editData: IQuestion = {
     } as any;
 
     constructor() { }
 
     public tapEdit(modal: CustomDialogEvent, i = -1) {
-        modal.open<IQuestion>(i >= 0 ? this.value[i] : {} as any,  data => {
+        modal.open<IQuestion>(i >= 0 ? this.value()[i] : {} as any,  data => {
+            const value = this.value();
             if (i >=0) {
-                this.value[i] = data;
+                value[i] = data;
             } else {
-                this.value.push(data);
+                value.push(data);
             }
-            this.valueChange.emit(this.value);
+            this.valueChange.emit(value);
         });
     }
 
     public tapRemove(event: MouseEvent, i: number) {
         event.stopPropagation();
-        if (!this.editable) {
+        if (!this.editable()) {
             return;
         }
-        this.value.splice(i, 1);
-        this.valueChange.emit(this.value);
+        this.value().splice(i, 1);
+        this.valueChange.emit(this.value());
     }
 
 }

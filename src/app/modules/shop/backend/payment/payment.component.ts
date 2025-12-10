@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,6 +13,11 @@ import { PaymentService } from '../payment.service';
   styleUrls: ['./payment.component.scss']
 })
 export class PaymentComponent implements OnInit {
+    private service = inject(PaymentService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IPayment[] = [];
     public hasMore = true;
@@ -22,14 +27,6 @@ export class PaymentComponent implements OnInit {
         page: 1,
         per_page: 20,
     };
-
-    constructor(
-        private service: PaymentService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

@@ -32,7 +32,7 @@
                 <a [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2" i18n>Download</a>
                 <a [ngClass]="{active: tabIndex == 3}" (click)="tabIndex = 3">
                     <ng-container i18n>Reviews</ng-container>
-                    <app-star [ngModel]="data.score"></app-star>
+                    <app-star [ngModel]="data.score" />
                     <div class="count-label">{{ data.download_count | numberFormat }}</div>
                 </a>
                 <a [ngClass]="{active: tabIndex == 4}" (click)="tabIndex = 4">
@@ -46,7 +46,7 @@
 </div>
 }
 <div class="container-fluid detail-body">
-    <app-loading-tip [loading]="isLoading" [visible]="!data || isLoading"></app-loading-tip>
+    <app-loading-tip [loading]="isLoading" [visible]="!data || isLoading" />
     @if (data) {
     <div class="row">
         <div class="col-md-8">
@@ -67,7 +67,7 @@
                         }
                     </div>
                     <div class="content-body">
-                        <app-markdown-block [value]="data.content"></app-markdown-block>
+                        <app-markdown-block [value]="data.content" />
                         <div class="body-memu-bar">
                             <a (click)="tapCollect()" i18n-title title="Collect this resource">
                                 <i class="iconfont" [ngClass]="{'icon-heart': data.is_collected, 'icon-heart-o': !data.is_collected}"></i>
@@ -83,7 +83,7 @@
                 </div>
                 <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
                     <div class="group-box">
-                        <app-catalog [items]="catalogItems"></app-catalog>
+                        <app-catalog [items]="catalogItems" />
                     </div>
                 </div>
                 <div class="tab-item" [ngClass]="{active: tabIndex == 2}">
@@ -105,11 +105,11 @@
                     </div>
                 </div>
                 <div class="tab-item" [ngClass]="{active: tabIndex == 3}">
-                    <app-score [itemId]="data.id" [init]="tabIndex == 3"></app-score>
+                    <app-score [itemId]="data.id" [init]="tabIndex == 3" />
                 </div>
                 <div class="tab-item" [ngClass]="{active: tabIndex == 4}">
                     <div class="group-box">
-                        <app-comment [itemId]="data.id" [init]="tabIndex == 4"></app-comment>
+                        <app-comment [itemId]="data.id" [init]="tabIndex == 4" />
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-@if (!readable) {
+@if (!readable()) {
     <div class="hide-locked-node">
         <i class="iconfont icon-lock"></i>
         <ng-container i18n>The content of this post is only visible to the owner</ng-container>
@@ -56,11 +56,11 @@
                 {{ block.content }}
             }
         } @else if (block.type === 98 && block.tag === 'audio') {
-            <app-audio-player [src]="block.src"></app-audio-player>
+            <app-audio-player [src]="block.src" />
         } @else if (block.type === 98 && block.tag === 'video') {
-            <app-video-player [src]="block.src"></app-video-player>
+            <app-video-player [src]="block.src" />
         } @else if (block.type === 98 && block.tag === 'code') {
-            <app-code-block [value]="block.content" [lang]="block.language" [src]="block.src"></app-code-block>
+            <app-code-block [value]="block.content" [lang]="block.language" [src]="block.src" />
         } @else if (block.type === 98 && block.tag === 'hide') {
             @if (block.name) {
                 <div class="hide-locked-node">
@@ -71,7 +71,7 @@
             } @else if (block.content) {
                  <div class="hide-open-node">
                     <div class="node-tip" i18n>The hidden content of this post</div>
-                    <app-post-block [value]="block.content" (tapped)="tapBlock($event)"></app-post-block>
+                    <app-post-block [value]="block.content" (tapped)="tapBlock($event)" />
                 </div>
             }
         } @else if (block.type === 98 && block.tag === 'hide_buy') {

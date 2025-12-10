@@ -1,6 +1,5 @@
 <app-edit-header [title]="data && data.id > 0 ? '编辑组合' : '新增组合'" (submited)="tapSubmit()"
-    [disabled]="form.invalid">
-</app-edit-header>
+    [disabled]="form.invalid" />
 <div class="container-fluid">
     <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group-control">
@@ -13,7 +12,7 @@
         <div class="input-group-control">
             <label for="thumb">图片</label>
             <div>
-                <app-file-input formControlName="thumb"></app-file-input>
+                <app-file-input formControlName="thumb" />
             </div>
         </div>
         <div class="input-group-control">
@@ -74,9 +73,9 @@
         <div class="input-group-control">
             <label for="start_at">起止时间</label>
             <div>
-                <app-date-input formControlName="start_at" placeholder="请输入开始时间"></app-date-input>
+                <app-date-input formControlName="start_at" placeholder="请输入开始时间" />
                 ~
-                <app-date-input formControlName="end_at" placeholder="请输入结束时间"></app-date-input>
+                <app-date-input formControlName="end_at" placeholder="请输入结束时间" />
             </div>
         </div>
         <div class="btn-group">
@@ -88,6 +87,6 @@
 @if (dialogOpen) {
 <div class="dialog-box goods-dialog"  animate.enter="dialog-opened" animate.leave="dialog-closed">
     <i class="iconfont icon-close dialog-close" (click)="dialogOpen = false"></i>
-    <app-search-dialog (cancel)="dialogOpen = false" [multiple]="true" (valueChange)="onGoodsSelected($event)"></app-search-dialog>
+    <app-search-dialog (cancel)="dialogOpen = false" [multiple]="true" (valueChange)="onGoodsSelected($event)" />
 </div>
 }

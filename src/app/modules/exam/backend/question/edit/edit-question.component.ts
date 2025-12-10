@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogEvent, DialogService } from '../../../../../components/dialog';
@@ -15,6 +15,11 @@ import { ExamService } from '../../exam.service';
   styleUrls: ['./edit-question.component.scss']
 })
 export class EditQuestionComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(ExamService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         title: ['', Validators.required],
@@ -43,13 +48,6 @@ export class EditQuestionComponent implements OnInit {
 
     public sameItems: IQuestion[] = [];
     public previewData = '';
-
-    constructor(
-        private fb: FormBuilder,
-        private service: ExamService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {}
 
     ngOnInit() {
         this.service.courseAll().subscribe(res => {

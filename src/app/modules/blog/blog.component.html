@@ -81,11 +81,11 @@
                 </div>
                 <article id="content" class="content">
                     @if (blog.audio_url) {
-                        <app-audio-player [src]="blog.audio_url"></app-audio-player>
+                        <app-audio-player [src]="blog.audio_url" />
                     } @else if (blog.video_url) {
-                        <app-video-player [src]="blog.video_url"></app-video-player>
+                        <app-video-player [src]="blog.video_url" />
                     }
-                    <app-markdown-block [value]="content"></app-markdown-block>
+                    <app-markdown-block [value]="content" />
                     @if (blog.url) {
                         <p class="book-copyright">
                             <ng-container i18n>Please keep the original link for reprinting:</ng-container>

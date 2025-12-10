@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, EventEmitter, Output, HostListener, SimpleChanges, ElementRef } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef, inject, input, model, effect } from '@angular/core';
 import { formatDate } from '../../theme/utils';
 import { IDay, DayMode } from './datepicker.base';
 import { hasElementByClass } from '../../theme/utils/doc';
@@ -9,17 +9,17 @@ import { hasElementByClass } from '../../theme/utils/doc';
     templateUrl: 'datepicker.component.html',
     styleUrls: ['./datepicker.component.scss']
 })
-export class DatepickerComponent implements OnInit, OnChanges {
-    @Input() min: Date = new Date('1900/01/01 00:00:00');
-    @Input() max: Date = new Date('2099/12/31 23:59:59');
-    @Input() minYear = 1900;
-    @Input() maxYear = 2099;
-    @Input() titleFormat = $localize `y-mm-dd`;
-    @Input() format = 'y-mm-dd hh:ii:ss';
-    @Input() public value: string|Date;
-    private currentDate: Date = new Date();
+export class DatepickerComponent implements OnInit {
+    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
-    @Output() valueChange: EventEmitter<string> = new EventEmitter();
+    readonly min = input(new Date('1900/01/01 00:00:00'), {transform: this.transformMin});
+    readonly max = input(new Date('2099/12/31 23:59:59'), {transform: this.transformMax});
+    readonly minYear = input(1900);
+    readonly maxYear = input(2099);
+    readonly titleFormat = input($localize `y-mm-dd`);
+    readonly format = input('y-mm-dd hh:ii:ss');
+    public readonly value = model<string | Date>(undefined);
+    private currentDate: Date = new Date();
 
     public title = '-';
 
@@ -53,16 +53,44 @@ export class DatepickerComponent implements OnInit, OnChanges {
 
     gridMode: DayMode = DayMode.Day;
 
+    constructor() {
+        effect(() => {
+            this.hasTime = this.format().indexOf('h') > 0;
+        });
+        effect(() => {
+            this.currentDate = this.parseDate(this.value());
+            this.refresh();
+        });
+        effect(() => {
+            if (this.min() >= this.currentDate) {
+                // 加一天
+                this.currentDate = new Date(this.min().getTime() + 86400000);
+            }
+        });
+    }
+
+    private transformMax(value: Date|string): Date|undefined {
+        value = this.parseDate(value);
+        if (!this.hasTime) {
+            value.setHours(0, 0, 0, 0);
+        }
+        return value;
+    }
+    private transformMin(value: Date|string): Date|undefined {
+        value = this.parseDate(value);
+        if (!this.hasTime) {
+            value.setHours(23, 59, 59, 999);
+        } else {
+            value.setMilliseconds(999);
+        }
+        return value;
+    }
+
     @HostListener('document:click', ['$event']) 
     public hideCalendar(event: any) {
         if (!event.target.closest('.datepicker') && !hasElementByClass(event.path, 'datepicker__calendar')) {
             this.calendarVisible = false;
         }
-    }
-
-    constructor(
-        private elementRef: ElementRef<HTMLDivElement>
-    ) {
     }
 
     get calendarStyle() {
@@ -89,34 +117,6 @@ export class DatepickerComponent implements OnInit, OnChanges {
             this.initSeconds();
         }
         // this.output();
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.format) {
-            this.hasTime = changes.format.currentValue.indexOf('h') > 0;
-        }
-        if (changes.value) {
-            this.currentDate = this.parseDate(changes.value.currentValue);
-        }
-        if (changes.min) {
-            this.min = this.parseDate(changes.min.currentValue);
-            if (!this.hasTime) {
-                this.min.setHours(23, 59, 59, 999);
-            } else {
-                this.min.setMilliseconds(999);
-            }
-            if (this.min >= this.currentDate) {
-                // 加一天
-                this.currentDate = new Date(this.min.getTime() + 86400000);
-            }
-        }
-        if (changes.max) {
-            this.max = this.parseDate(changes.max.currentValue);
-            if (!this.hasTime) {
-                this.max.setHours(0, 0, 0, 0);
-            }
-        }
-        this.refresh();
     }
 
     public twoPad(val: number) {
@@ -146,11 +146,11 @@ export class DatepickerComponent implements OnInit, OnChanges {
      * 验证Date
      */
      checkDate(date: Date): boolean {
-        const min = this.min;
+        const min = this.min();
         if (min && date <= min) {
             return false;
         }
-        const max = this.max;
+        const max = this.max();
         return !max || date < max;
     }
 
@@ -158,7 +158,7 @@ export class DatepickerComponent implements OnInit, OnChanges {
      * 刷新变化部分
      */
     refresh() {
-        this.hasTime = this.format.indexOf('h') > 0;
+        this.hasTime = this.format().indexOf('h') > 0;
         this.refreshCurrent();
         this.initDays();
     }
@@ -172,7 +172,7 @@ export class DatepickerComponent implements OnInit, OnChanges {
             this.currentMinute = this.currentDate.getMinutes();
             this.currentSecond = this.currentDate.getSeconds();
         }
-        this.title = formatDate(this.currentDate, this.titleFormat);
+        this.title = formatDate(this.currentDate, this.titleFormat());
     }
 
     initHours() {
@@ -205,7 +205,7 @@ export class DatepickerComponent implements OnInit, OnChanges {
 
     initYears() {
         this.yearItems = [];
-        for (let i = this.minYear; i <= this.maxYear; i++) {
+        for (let i = this.minYear(); i <= this.maxYear(); i++) {
             this.yearItems.push(i);
         }
     }
@@ -311,7 +311,7 @@ export class DatepickerComponent implements OnInit, OnChanges {
         if (this.hasTime) {
             this.currentDate.setHours(this.currentHour, this.currentMinute, this.currentSecond);
         }
-        this.title = formatDate(this.currentDate, this.titleFormat);
+        this.title = formatDate(this.currentDate, this.titleFormat());
     }
 
     changeYear(year: number) {
@@ -372,7 +372,7 @@ export class DatepickerComponent implements OnInit, OnChanges {
     }
 
     output() {
-        this.valueChange.emit(formatDate(this.currentDate, this.format));
+        this.value.set(formatDate(this.currentDate, this.format()));
     }
 
     showCalendar() {

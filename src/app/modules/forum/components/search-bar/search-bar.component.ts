@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -8,9 +8,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class SearchBarComponent {
 
-    @Input() public keywords = '';
-    @Input() public type = 0;
-    @Output() public confirm = new EventEmitter<any>();
+    public readonly keywords = input('');
+    public readonly type = input(0);
+    public readonly confirm = output<any>();
 
     public typeItems = [
         $localize `All`,
@@ -21,6 +21,6 @@ export class SearchBarComponent {
     constructor() { }
 
     public tapSearch() {
-        this.confirm.emit({type: this.type, keywords: this.keywords});
+        this.confirm.emit({type: this.type(), keywords: this.keywords()});
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBlockItem } from '../../../../components/link-rule';
 import { IMessageBase } from '../../../../components/message-container';
@@ -20,6 +20,10 @@ interface IMessageGroup {
     styleUrls: ['./message.component.scss']
 })
 export class MessageComponent implements OnInit {
+    private service = inject(ShopService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+
 
     public title = '消息中心';
 
@@ -38,14 +42,6 @@ export class MessageComponent implements OnInit {
     public perPage = 20;
     public isLoading = false;
     public total = 0;
-
-    constructor(
-        private service: ShopService,
-        private router: Router,
-        private route: ActivatedRoute,
-    ) {
-
-    }
 
     ngOnInit() {
         this.service.bulletinUser().subscribe(res => {

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { ITaskComment } from '../model';
@@ -11,9 +11,12 @@ import { TaskService } from '../task.service';
     styleUrls: ['./comment-panel.component.scss'],
 })
 export class CommentPanelComponent implements OnChanges {
+    private service = inject(TaskService);
+    private toastrService = inject(DialogService);
 
-    @Input() public itemId = 0;
-    @Input() public visible = false;
+
+    public readonly itemId = input(0);
+    public visible = false;
     public content = '';
     public items: ITaskComment[] = [];
     public hasMore = true;
@@ -27,20 +30,15 @@ export class CommentPanelComponent implements OnChanges {
 
     private booted = 0;
 
-    constructor(
-        private service: TaskService,
-        private toastrService: DialogService,
-    ) { }
-
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.visible && changes.visible.currentValue && this.itemId > 0 && this.booted !== this.itemId) {
+        if (changes.visible && changes.visible.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
             this.boot();
         }
     }
 
     public open() {
         this.visible = true;
-        if (this.itemId > 0 && this.booted !== this.itemId) {
+        if (this.itemId() > 0 && this.booted !== this.itemId()) {
             this.boot();
         }
     }
@@ -59,7 +57,7 @@ export class CommentPanelComponent implements OnChanges {
             return;
         }
         this.service.commenSave({
-            task_id: this.itemId,
+            task_id: this.itemId(),
             content: this.content
         }).subscribe({
             next: _ => {
@@ -76,7 +74,7 @@ export class CommentPanelComponent implements OnChanges {
     public uploadFile(event: any) {
         const files = event.target.files as FileList;
         const form = new FormData();
-        form.append('task_id', this.itemId.toString());
+        form.append('task_id', this.itemId().toString());
         form.append('file', files[0], files[0].name);
         this.service.commenSave(form).subscribe({
             next: _ => {
@@ -90,8 +88,8 @@ export class CommentPanelComponent implements OnChanges {
     }
 
     private boot() {
-        this.booted = this.itemId;
-        if (this.itemId < 1) {
+        this.booted = this.itemId();
+        if (this.itemId() < 1) {
             return;
         }
         this.tapRefresh();
@@ -118,7 +116,7 @@ export class CommentPanelComponent implements OnChanges {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.commentList({...queries, task_id: this.itemId}).subscribe({
+        this.service.commentList({...queries, task_id: this.itemId()}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;

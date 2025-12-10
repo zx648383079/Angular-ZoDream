@@ -1,7 +1,4 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
     IDisk
 } from '../model';
@@ -16,6 +13,8 @@ import {
     styleUrls: ['./trash.component.scss']
 })
 export class TrashComponent implements OnInit {
+    private service = inject(DiskService);
+
 
     public checkedAll = false;
 
@@ -24,10 +23,6 @@ export class TrashComponent implements OnInit {
     public page = 1;
     public hasMore = true;
     public isLoading = false;
-
-    constructor(
-        private service: DiskService
-    ) {}
 
     ngOnInit() {
         this.tapRefresh();

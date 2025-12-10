@@ -143,7 +143,7 @@
             <i class="iconfont icon-arrow-left" (click)="roomMode = false"></i>
             <span>与 {{ chatUser.name }} 聊天中</span>
         </div>
-        <app-message-container class="message-box" [items]="messageItems" [currentId]="user.user.id"></app-message-container>
+        <app-message-container class="message-box" [items]="messageItems" [currentId]="user.user.id" />
         <div class="message-tools">
             <app-emoji-picker class="tool-item" (tapped)="tapEmoji($event)">
                 <i class="iconfont icon-smile-o"></i>
@@ -183,9 +183,9 @@
 }
 
 <!-- 右键菜单 -->
-<app-context-menu></app-context-menu>
+<app-context-menu />
 
-<ng-container #modalVC></ng-container>
+<ng-container #modalVC />
 
 
 

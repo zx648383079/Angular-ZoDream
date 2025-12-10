@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, forwardRef, input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { emptyValidate } from '../../../../../theme/validators';
 import { ICoupon } from '../../../model';
@@ -16,7 +16,7 @@ import { ICoupon } from '../../../model';
 })
 export class CouponPickerComponent {
 
-    @Input() public user = 0;
+    public readonly user = input(0);
     public disabled = false;
     public couponItems: ICoupon[] = [];
     private couponLoaded = false;

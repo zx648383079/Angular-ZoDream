@@ -1,29 +1,26 @@
-import { Component, forwardRef, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, inject, input, model, viewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { IItem } from '../../../../../theme/models/seo';
 import { IBotTemplate } from '../../../model';
 import { BotService } from '../../bot.service';
 import { EditorBlockType, EditorComponent } from '../../../../../components/editor';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
     selector: 'app-bot-m-template-editor',
     templateUrl: './template-editor.component.html',
     styleUrls: ['./template-editor.component.scss'],
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => TemplateEditorComponent),
-        multi: true
-    }]
 })
-export class TemplateEditorComponent implements ControlValueAccessor {
+export class TemplateEditorComponent implements FormValueControl<string> {
+    private service = inject(BotService);
+    private sanitizer = inject(DomSanitizer);
 
-    @ViewChild(EditorComponent)
-    public editor: EditorComponent;
-    public value = '';
-    public disabled = false;
+
+    public readonly editor = viewChild(EditorComponent);
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<string>('');
     public typeItems: IItem[] = [];
     public templateItems: IBotTemplate[] = [];
     public hasMore = true;
@@ -35,13 +32,8 @@ export class TemplateEditorComponent implements ControlValueAccessor {
         page: 1,
         per_page: 20
     };
-    onChange: any = () => {};
-    onTouch: any = () => {};
 
-    constructor(
-        private service: BotService,
-        private sanitizer: DomSanitizer,
-    ) {
+    constructor() {
         this.service.batch({template_type: {}}).subscribe(res => {
             this.typeItems = res.template_type;
             if (this.typeItems.length > 0) {
@@ -56,7 +48,7 @@ export class TemplateEditorComponent implements ControlValueAccessor {
     }
 
     public tapInsert(item: IBotTemplate) {
-        this.editor.insert({
+        this.editor().insert({
             type: EditorBlockType.AddRaw,
             value: item.content + '<p></p>'
         });
@@ -97,20 +89,4 @@ export class TemplateEditorComponent implements ControlValueAccessor {
         });
     }
 
-    public onValueChange() {
-        this.onChange(this.value);
-    }
-
-    writeValue(obj: any): void {
-        this.value = obj;
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
-    }
 }

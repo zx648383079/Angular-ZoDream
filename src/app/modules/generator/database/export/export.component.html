@@ -8,13 +8,13 @@
         <div class="input-group-control">
             <label for="">数据库</label>
             <div>
-                <ng-select [(ngModel)]="schema" [items]="schemaItems" bindLabel="name" bindValue="value" (ngModelChange)="onSchemaChange()"></ng-select>
+                <ng-select [(ngModel)]="schema" [items]="schemaItems" bindLabel="name" bindValue="value" (ngModelChange)="onSchemaChange()" />
             </div>
         </div>
         <div class="input-group-control" [hidden]="tableItems.length < 1">
             <label for="">数据表</label>
             <div>
-                <ng-select [(ngModel)]="tables" [items]="tableItems" bindLabel="name" bindValue="value" [multiple]="true"></ng-select>
+                <ng-select [(ngModel)]="tables" [items]="tableItems" bindLabel="name" bindValue="value" [multiple]="true" />
             </div>
         </div>
         <div class="input-group-control">

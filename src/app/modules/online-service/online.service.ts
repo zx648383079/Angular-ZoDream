@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IPage } from '../../theme/models/page';
 import { IMessage } from './model';
 
 @Injectable()
 export class OnlineService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public getList(params: any) {
         return this.http.get<IPage<IMessage>>('os/home/index', {params});

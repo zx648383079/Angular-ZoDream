@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑广告位' : '新增广告位'" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑广告位' : '新增广告位'" (submited)="tapSubmit($event)" [disabled]="form.invalid" />
 <div class="container-fluid">
     <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group-control">
@@ -22,13 +22,13 @@
         <div class="input-group-control">
             <label for="auto_size">自适应</label>
             <div>
-                <app-switch id="auto_size" formControlName="auto_size"></app-switch>
+                <app-switch id="auto_size" formControlName="auto_size" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="source_type">来源类型</label>
             <div>
-                <app-switch id="source_type" formControlName="source_type" onLabel="第三方接入" offLabel="本地"></app-switch>
+                <app-switch id="source_type" formControlName="source_type" onLabel="第三方接入" offLabel="本地" />
             </div>
         </div>
         <div class="input-group-control">
@@ -53,7 +53,7 @@
         <div class="input-group-control">
             <label for="status">状态</label>
             <div>
-                <app-switch id="status" formControlName="status" onLabel="启用" offLabel="关闭"></app-switch>
+                <app-switch id="status" formControlName="status" onLabel="启用" offLabel="关闭" />
             </div>
         </div>
         <div class="btn-group">

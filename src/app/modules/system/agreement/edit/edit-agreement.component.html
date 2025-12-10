@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑协议' : '新增协议'" (submited)="tapSubmit()"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑协议' : '新增协议'" (submited)="tapSubmit()" />
 
 <div class="container-fluid">
     <div class="form-table-control panel-container">
@@ -34,11 +34,11 @@
         <div class="input-group-control">
             <label for="content">内容</label>
         </div>
-        <app-agreement-editor id="content" [(ngModel)]="data.content"></app-agreement-editor>
+        <app-agreement-editor id="content" [(ngModel)]="data.content" />
         <div class="input-group-control">
             <label for="status">状态</label>
             <div>
-                <app-switch id="status" [(ngModel)]="data.status"></app-switch>
+                <app-switch id="status" [(ngModel)]="data.status" />
             </div>
         </div>
         

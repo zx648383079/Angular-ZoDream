@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, output } from '@angular/core';
 import { DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
 import { IErrorResult } from '../../theme/models/page';
@@ -23,6 +23,11 @@ interface IDay {
     styleUrls: ['./checkin.component.scss']
 })
 export class CheckinComponent {
+    private service = inject(CheckinService);
+    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
+    private toastrService = inject(DialogService);
+    private themeService = inject(ThemeService);
+
 
     public panelVisible = false;
     public dayItems: IDay[] = [];
@@ -31,20 +36,13 @@ export class CheckinComponent {
     public canNext = false;
     private booted = false;
     private monthDate: Date;
-    @Output() public checkedChange = new EventEmitter<boolean>();
+    public readonly checkedChange = output<boolean>();
 
     @HostListener('document:click', ['$event']) hideCalendar(event: any) {
         if (!event.target.closest('.checkin-picker') && !hasElementByClass(event.path, 'checkin-picker_container')) {
             this.panelVisible = false;
         }
     }
-
-    constructor(
-        private service: CheckinService,
-        private elementRef: ElementRef<HTMLDivElement>,
-        private toastrService: DialogService,
-        private themeService: ThemeService,
-    ) { }
 
     get panelStyle() {
         const bound = this.elementRef.nativeElement.getBoundingClientRect();

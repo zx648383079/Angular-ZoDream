@@ -1,11 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 @Injectable()
-export class ExamService {
+export class ExamService {    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
 }

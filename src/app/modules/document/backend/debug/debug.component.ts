@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -32,6 +32,10 @@ interface ICacheRequest {
   styleUrls: ['./debug.component.scss']
 })
 export class DebugComponent implements OnInit {
+    private service = inject(DocumentService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public methodItems = ['GET', 'POST', 'PUT', 'DELETE', 'OPTION'];
     public method = 'GET';
@@ -62,12 +66,6 @@ export class DebugComponent implements OnInit {
     public responseBody = '';
     public responseHeader: IOptionItem[] = [];
     public responseInfo: IOptionItem[] = [];
-
-    constructor(
-        private service: DocumentService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

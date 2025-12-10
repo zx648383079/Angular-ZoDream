@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,6 +13,11 @@ import { ExamService } from '../exam.service';
   styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent implements OnInit {
+    private service = inject(ExamService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IQuestion[] = [];
     public hasMore = true;
@@ -26,13 +31,6 @@ export class QuestionComponent implements OnInit {
         material: 0,
     };
     public courseItems: ICourse[] = [];
-
-    constructor(
-        private service: ExamService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.service.courseAll().subscribe(res => {

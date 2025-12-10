@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { ITag } from '../../model';
 import { BlogService } from '../blog.service';
@@ -10,14 +10,14 @@ import { BlogService } from '../blog.service';
   styleUrls: ['./tag.component.scss']
 })
 export class TagComponent implements OnInit {
+    private service = inject(BlogService);
+    private toastrService = inject(DialogService);
+
 
     public items: ITag[] = [];
     public isLoading = false;
 
-    constructor(
-        private service: BlogService,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.tapRefresh();
     }
 

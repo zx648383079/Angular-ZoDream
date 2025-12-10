@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SuggestChangeEvent } from '../../components/form';
 import { IPageQueries } from '../../theme/models/page';
@@ -14,6 +14,12 @@ import { IProject } from './model';
     styleUrls: ['./document.component.scss']
 })
 export class DocumentComponent implements OnInit {
+    private service = inject(DocumentService);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private themeService = inject(ThemeService);
+    private searchService = inject(SearchService);
+
 
     public items: IProject[] = [];
     public hasMore = true;
@@ -24,14 +30,6 @@ export class DocumentComponent implements OnInit {
         per_page: 20,
         keywords: ''
     };
-
-    constructor(
-        private service: DocumentService,
-        private route: ActivatedRoute,
-        private router: Router,
-        private themeService: ThemeService,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.themeService.titleChanged.next($localize `Document`);

@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne } from '../../../../../theme/models/page';
 import { IShopPlugin } from '../../../model';
 
 @Injectable()
 export class TbkService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) { }
 
     public search(params: any) {
         return this.http.get<IData<any>>('shop/admin/plugin/tbk', {params});

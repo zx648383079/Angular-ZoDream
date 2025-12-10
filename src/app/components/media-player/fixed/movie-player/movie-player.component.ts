@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, Renderer2, inject, input, viewChild } from '@angular/core';
 import { ScreenFull } from '../../util';
 import { IMediaFile, PlayerEvent, PlayerEvents, PlayerListeners } from '../model';
 import Hls from 'hls.js';
@@ -10,13 +10,13 @@ import Hls from 'hls.js';
   styleUrls: ['./movie-player.component.scss']
 })
 export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestroy {
+    private render = inject(Renderer2);
 
-    @ViewChild('playerVideo')
-    private videoElement: ElementRef<HTMLVideoElement>;
-    @ViewChild('playerBar')
-    private barElement: ElementRef<HTMLDivElement>;
-    @Input() public isFixed = true;
-    @Input() public speedable = true;
+
+    private readonly videoElement = viewChild<ElementRef<HTMLVideoElement>>('playerVideo');
+    private readonly barElement = viewChild<ElementRef<HTMLDivElement>>('playerBar');
+    public readonly isFixed = input(true);
+    public readonly speedable = input(true);
     public paused = true;
     public booted = false;
     public isFull = false;
@@ -36,12 +36,9 @@ export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestr
         [key: string]: Function[];
     } = {};
 
-    constructor(
-        private render: Renderer2,
-    ) { }
-
     public get videoPlayer() {
-        return this.videoElement && this.videoElement.nativeElement ? this.videoElement.nativeElement : undefined;
+        const videoElement = this.videoElement();
+        return videoElement && videoElement.nativeElement ? videoElement.nativeElement : undefined;
     }
 
     ngOnDestroy() {
@@ -67,7 +64,7 @@ export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestr
         if (!video) {
             return;
         }
-        const bar = this.barElement.nativeElement;
+        const bar = this.barElement().nativeElement;
         const barHeight = bar ? bar.clientHeight : 0;
         setTimeout(() => {
             this.bodyHeight = video.height = window.innerHeight - (this.isFull ? 0 : barHeight);

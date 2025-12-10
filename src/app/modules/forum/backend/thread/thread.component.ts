@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -15,6 +15,11 @@ import { mapFormat } from '../../../../theme/utils';
     styleUrls: ['./thread.component.scss']
 })
 export class ThreadComponent implements OnInit {
+    private service = inject(ForumService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
     public items: IThread[] = [];
     public hasMore = true;
     public isLoading = false;
@@ -29,13 +34,6 @@ export class ThreadComponent implements OnInit {
     public isMultiple = false;
     public isChecked = false;
     public isReview = false;
-
-    constructor(
-        private service: ForumService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { map } from 'rxjs';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { eachObject } from '../../theme/utils';
@@ -7,8 +7,8 @@ import { IAccount, IBudget, IConsumptionChannel, IFinancialProduct, IFinancialPr
 
 @Injectable()
 export class FinanceService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) { }
 
     public accountList(params: any) {
         return this.http.get<IData<IAccount>>('finance/account', {params});

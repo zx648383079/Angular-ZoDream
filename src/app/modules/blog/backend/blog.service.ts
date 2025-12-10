@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ICategory, ITag, IArchives, IBlog, IComment, IEditOptions } from '../model';
 import { IPage, IData, IDataOne } from '../../../theme/models/page';
@@ -7,10 +7,8 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class BlogService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public statistics() {
         return this.http.get<any>('blog/admin/statistics');

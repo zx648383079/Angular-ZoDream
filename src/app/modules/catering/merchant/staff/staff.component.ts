@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -15,11 +15,14 @@ import { RoleDialogComponent } from './role/role-dialog.component';
   styleUrls: ['./staff.component.scss']
 })
 export class StaffComponent implements OnInit {
+    private service = inject(CateringService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
 
-    @ViewChild(RoleDialogComponent)
-    private roleModal: RoleDialogComponent;
-    @ViewChild(InviteDialogComponent)
-    private inviteModal: InviteDialogComponent;
+
+    private readonly roleModal = viewChild(RoleDialogComponent);
+    private readonly inviteModal = viewChild(InviteDialogComponent);
 
     public items: ICateringStaff[] = [];
     public hasMore = true;
@@ -31,13 +34,6 @@ export class StaffComponent implements OnInit {
         per_page: 20
     };
     public categoryItems: ICateringStaffRole[] = [];
-
-    constructor(
-        private service: CateringService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.service.merchantStaffRole().subscribe(res => {
@@ -55,7 +51,7 @@ export class StaffComponent implements OnInit {
             description: '',
             action: '',
         };
-        this.roleModal.open(data as any, value => {
+        this.roleModal().open(data as any, value => {
             this.service.merchantStaffRoleSave(value).subscribe(res => {
                 if (item) {
                     this.categoryItems = this.categoryItems.map(i => {
@@ -75,7 +71,7 @@ export class StaffComponent implements OnInit {
     }
 
     public tapAdd() {
-        this.inviteModal.open();
+        this.inviteModal().open();
     }
 
     public tapSearch(form: any) {

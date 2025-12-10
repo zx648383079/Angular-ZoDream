@@ -1,71 +1,44 @@
 import {
-    Component,
-    forwardRef,
-    Input
+  Component,
+  input,
+  model
 } from '@angular/core';
-import {
-    ControlValueAccessor,
-    NG_VALUE_ACCESSOR
-} from '@angular/forms';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
     selector: 'app-switch',
     templateUrl: './switch.component.html',
     styleUrls: ['./switch.component.scss'],
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => SwitchComponent),
-        multi: true
-    }]
 })
-export class SwitchComponent implements ControlValueAccessor {
+export class SwitchComponent implements FormValueControl<boolean | number> {
 
-    @Input() public label = '';
-    @Input() public offLabel = '';
-    @Input() public onLabel = '';
+    public readonly label = input('');
+    public readonly offLabel = input('');
+    public readonly onLabel = input('');
 
-    public value: boolean | number = false;
-    public disable = false;
-
-    onChange: any = () => {};
-    onTouch: any = () => {};
+    public readonly value = model<boolean | number>(false);
+    public disabled = input(false);
 
     public get labelContent(): string {
         if (this.isActive) {
-            return this.onLabel || this.label;
+            return this.onLabel() || this.label();
         }
-        return this.offLabel || this.label;
+        return this.offLabel() || this.label();
     }
 
     public get isActive(): boolean {
-        if (typeof this.value === 'boolean') {
-            return this.value;
+        const value = this.value();
+        if (typeof value === 'boolean') {
+            return value;
         }
-        return this.value > 0;
+        return value > 0;
     }
 
     public tapToggle() {
-        if (this.disable) {
+        if (this.disabled()) {
             return;
         }
-        if (typeof this.value === 'boolean') {
-            this.onChange(this.value = !this.value);
-            return;
-        }
-        this.onChange(this.value = this.value > 0 ? 0 : 1);
-    }
-
-    writeValue(obj: any): void {
-        this.value = obj;
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState ?(isDisabled: boolean): void {
-        this.disable = isDisabled;
+        this.value.update(v => typeof v === 'boolean' ? !v : (v > 0 ? 0 : 1));
     }
 }

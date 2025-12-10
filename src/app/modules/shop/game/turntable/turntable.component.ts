@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnChanges, OnInit, SimpleChanges, input, output, viewChild } from '@angular/core';
 
 interface ITurnItem {
     index: number;
@@ -12,19 +12,18 @@ interface ITurnItem {
 
 @Component({
     standalone: false,
-  selector: 'app-turntable',
-  templateUrl: './turntable.component.html',
-  styleUrls: ['./turntable.component.scss']
+    selector: 'app-turntable',
+    templateUrl: './turntable.component.html',
+    styleUrls: ['./turntable.component.scss']
 })
 export class TurntableComponent implements AfterViewInit, OnChanges {
 
-    @ViewChild('drawerBox')
-    private drawerElement: ElementRef<HTMLCanvasElement>;
-    @Input() public items: any[] = [];
-    @Input() public buttonText = '抽奖';
-    @Input() public size = 500;
-    @Output() public loading = new EventEmitter();
-    @Output() public finished = new EventEmitter();
+    private readonly drawerElement = viewChild<ElementRef<HTMLCanvasElement>>('drawerBox');
+    public readonly items = input<any[]>([]);
+    public readonly buttonText = input('抽奖');
+    public readonly size = input(500);
+    public readonly loading = output<TurntableComponent>();
+    public readonly finished = output();
 
     public canvasStyle = {};
     public pointerStyle: any = {};
@@ -41,7 +40,7 @@ export class TurntableComponent implements AfterViewInit, OnChanges {
     }
 
     get drawer(): HTMLCanvasElement {
-        return this.drawerElement.nativeElement as HTMLCanvasElement;
+        return this.drawerElement().nativeElement as HTMLCanvasElement;
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -130,8 +129,8 @@ export class TurntableComponent implements AfterViewInit, OnChanges {
      */
     private getIndexInFormat(item: any): number {
         let index = -1;
-        for (let i = 0; i < this.items.length; i++) {
-            if (this.items[i].name === item.name) {
+        for (let i = 0; i < this.items().length; i++) {
+            if (this.items()[i].name === item.name) {
                 index = i;
                 break;
             }
@@ -155,10 +154,10 @@ export class TurntableComponent implements AfterViewInit, OnChanges {
 
     private initStyle() {
         this.canvasStyle = {
-            width: this.size + 'px',
-            height: this.size + 'px',
+            width: this.size() + 'px',
+            height: this.size() + 'px',
         };
-        const center = this.size / 2;
+        const center = this.size() / 2;
         this.pointerStyle = {
             left: center + 'px',
             top: center + 'px',
@@ -166,10 +165,10 @@ export class TurntableComponent implements AfterViewInit, OnChanges {
     }
 
     ngAfterViewInit() {
-        this.drawer.width = this.size;
-        this.drawer.height = this.size;
+        this.drawer.width = this.size();
+        this.drawer.height = this.size();
         this.ctx = this.drawer.getContext('2d');
-        this.ctx.translate(this.size / 2, this.size / 2);
+        this.ctx.translate(this.size() / 2, this.size() / 2);
         if (this.formatItems.length > 0) {
             this.refreshGift();
         }
@@ -177,11 +176,11 @@ export class TurntableComponent implements AfterViewInit, OnChanges {
 
     private formatOption() {
         let total = 0;
-        for (const item of this.items) {
+        for (const item of this.items()) {
             total += item.chance;
         }
         let start = 0;
-        this.formatItems = this.items.map((item, i) => {
+        this.formatItems = this.items().map((item, i) => {
             return {
                 index: i,
                 text: item.name,
@@ -217,27 +216,28 @@ export class TurntableComponent implements AfterViewInit, OnChanges {
     private drawItem(item: ITurnItem, ctx: CanvasRenderingContext2D = this.ctx) {
         const [img, angle] = this.createArc(item);
         ctx.rotate(angle);
-        ctx.drawImage(img, - this.size / 2, - this.size / 2, this.size, this.size);
+        ctx.drawImage(img, - this.size() / 2, - this.size() / 2, this.size(), this.size());
         ctx.rotate(-angle);
     }
 
     private createArc(item: ITurnItem): any[] {
         const canvas = document.createElement('canvas');
-        canvas.width = this.size;
-        canvas.height = this.size;
+        canvas.width = this.size();
+        canvas.height = this.size();
         const ctx = canvas.getContext('2d');
         const centerAngle = (item.deg[0] + item.deg[1]) / 2;
         ctx.beginPath();
-        ctx.moveTo(this.size / 2, this.size / 2);
+        const size = this.size();
+        ctx.moveTo(size / 2, size / 2);
         ctx.strokeStyle = 'white';
         ctx.fillStyle = item.background;
-        ctx.arc(this.size / 2, this.size / 2, this.size / 2, this.degToAngle(item.deg[0] - centerAngle), this.degToAngle(item.deg[1] - centerAngle));
+        ctx.arc(size / 2, size / 2, size / 2, this.degToAngle(item.deg[0] - centerAngle), this.degToAngle(item.deg[1] - centerAngle));
         ctx.fill();
         ctx.closePath();
         ctx.stroke();
         ctx.font = '16px scans-serif';
         ctx.fillStyle = item.color || '#000';
-        ctx.fillText(item.text, (this.size - item.text.length * 16) / 2, this.size * .1);
+        ctx.fillText(item.text, (size - item.text.length * 16) / 2, size * .1);
         return [canvas, this.degToAngle(centerAngle + 90)];
     }
 

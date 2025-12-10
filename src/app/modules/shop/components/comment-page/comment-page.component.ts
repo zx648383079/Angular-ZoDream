@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IScoreSubtotal } from '../../../../theme/models/seo';
 import { IComment } from '../../model';
@@ -11,9 +11,11 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./comment-page.component.scss']
 })
 export class CommentPageComponent implements OnChanges {
+    private service = inject(ShopService);
 
-    @Input() public itemId = 0;
-    @Input() public init = false;
+
+    public readonly itemId = input(0);
+    public readonly init = input(false);
     public items: IComment[] = [];
     public subtotal: IScoreSubtotal;
     public hasMore = true;
@@ -26,22 +28,18 @@ export class CommentPageComponent implements OnChanges {
     };
     private booted = 0;
 
-    constructor(
-        private service: ShopService,
-    ) { }
-
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.itemId > 0 && this.booted !== this.itemId) {
+        if (changes.init && changes.init.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
             this.boot();
         }
     }
 
     private boot() {
-        this.booted = this.itemId;
-        if (this.itemId < 1) {
+        this.booted = this.itemId();
+        if (this.itemId() < 1) {
             return;
         }
-        this.service.commentSubtotal(this.itemId).subscribe(res => {
+        this.service.commentSubtotal(this.itemId()).subscribe(res => {
             this.subtotal = res;
         });
         this.tapRefresh();
@@ -68,7 +66,7 @@ export class CommentPageComponent implements OnChanges {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.commentList({...queries, item_id: this.itemId}).subscribe({
+        this.service.commentList({...queries, item_id: this.itemId()}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;

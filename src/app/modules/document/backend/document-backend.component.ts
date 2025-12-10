@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -13,6 +13,11 @@ import { DocumentService } from './document.service';
   styleUrls: ['./document-backend.component.scss']
 })
 export class DocumentBackendComponent implements OnInit {
+    private service = inject(DocumentService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IProject[] = [];
     public hasMore = true;
@@ -23,13 +28,6 @@ export class DocumentBackendComponent implements OnInit {
         per_page: 20,
         keywords: ''
     };
-
-    constructor(
-        private service: DocumentService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

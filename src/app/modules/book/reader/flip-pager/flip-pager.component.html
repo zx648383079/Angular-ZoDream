@@ -1,5 +1,5 @@
 <div class="flip-pager-box">
-    @if (flipMode == 0) {
+    @if (flipMode() == 0) {
         @for (item of blockItems; track $index) {
         <div class="panel-container" #filpPage [ngStyle]="pageStyle">
             <div class="title">{{ item.title }}</div>

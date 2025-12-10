@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, input, viewChild } from '@angular/core';
 import { ICateringPurchaseOrder, ICateringPurchaseOrderGoods } from '../../../model';
 import { emptyValidate } from '../../../../../theme/validators';
 import { FlipContainerComponent } from '../../../../../components/swiper';
@@ -10,12 +10,11 @@ import { FlipContainerComponent } from '../../../../../components/swiper';
     styleUrls: ['./stock-dialog.component.scss'],
 })
 export class StockDialogComponent {
-    @ViewChild(FlipContainerComponent)
-    public flipModal: FlipContainerComponent;
+    public readonly flipModal = viewChild(FlipContainerComponent);
     /**
      * 是否显示
      */
-     @Input() public visible = false;
+     public readonly visible = input(false);
      public data: ICateringPurchaseOrder = {} as any;
      public items: ICateringPurchaseOrderGoods[] = [];
      public multipleEditable = false;
@@ -29,11 +28,11 @@ export class StockDialogComponent {
     }
 
     public close(yes = false) {
-        if (this.flipModal.index > 0) {
+        if (this.flipModal().index() > 0) {
             if (yes && !this.addLine()) {
                 return;
             }
-            this.flipModal.back();
+            this.flipModal().back();
             return;
         }
         this.visible = false;
@@ -42,7 +41,7 @@ export class StockDialogComponent {
     public tapEditLine(item?: ICateringPurchaseOrderGoods) {
         this.nextData = item ? item : {name: '', unit: this.nextData.unit};
         this.multipleEditable = false;
-        this.flipModal.navigate(1);
+        this.flipModal().navigate(1);
     }
 
     public tapRemoveLine(item: ICateringPurchaseOrderGoods) {

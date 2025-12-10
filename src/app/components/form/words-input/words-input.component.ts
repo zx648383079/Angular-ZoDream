@@ -1,40 +1,33 @@
-import { Component, ElementRef, forwardRef, Input, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, effect, ElementRef, input, model, viewChild } from '@angular/core';
 import { eachObject } from '../../../theme/utils';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
     selector: 'app-words-input',
     templateUrl: './words-input.component.html',
     styleUrls: ['./words-input.component.scss'],
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => WordsInputComponent),
-        multi: true
-    }]
 })
-export class WordsInputComponent implements ControlValueAccessor {
+export class WordsInputComponent implements FormValueControl<string[] | number | string> {
 
-    @ViewChild('inputBox')
-    private inputBoxRef: ElementRef<HTMLInputElement>;
+    private readonly inputBoxRef = viewChild<ElementRef<HTMLInputElement>>('inputBox');
 
-    @Input() public placeholder = $localize `Please input...`;
-    @Input() public join = ',';
+    public readonly placeholder = input($localize `Please input...`);
+    public readonly join = input(',');
     
-    public value: string[] | number | string;
-    public disabled = false;
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<string[] | number | string>('');
     public selectedItems: string[] = [];
     public keywords = '';
     public isFocus = false;
 
-    onChange: any = () => {};
-    onTouch: any = () => {};
-
-    constructor() { }
+    constructor() {
+        effect(() => this.writeValue(this.value()));
+    }
 
     private output() {
-        this.value = this.join ? this.selectedItems.join(this.join) : {...this.selectedItems};
-        this.onChange(this.value);
+        const join = this.join();
+        this.value.set(join ? this.selectedItems.join(join) : {...this.selectedItems});
     }
 
     public tapUnselect(v: string) {
@@ -53,7 +46,7 @@ export class WordsInputComponent implements ControlValueAccessor {
                 this.selectedItems.splice(i, 1);
             }
         }
-        this.inputBoxRef.nativeElement?.focus();
+        this.inputBoxRef().nativeElement?.focus();
     }
 
     public onKeydown(e: KeyboardEvent) {
@@ -83,8 +76,7 @@ export class WordsInputComponent implements ControlValueAccessor {
         this.selectedItems.push(v);
     }
 
-    writeValue(obj: any): void {
-        this.value = obj;
+    private writeValue(obj: any): void {
         this.selectedItems = [];
         if (typeof obj === 'undefined' || obj === null) {
             return;
@@ -95,21 +87,13 @@ export class WordsInputComponent implements ControlValueAccessor {
             });
             return;
         }
-        if (!this.join || typeof obj !== 'string') {
+        const join = this.join();
+        if (!join || typeof obj !== 'string') {
             this.push(obj);
             return;
         }
-        obj.split(this.join).forEach(v => {
+        obj.split(join).forEach(v => {
             this.push(v);
         });
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
     }
 }

@@ -1,7 +1,4 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBook, IChapter } from '../model';
 import { BookService } from '../book.service';
@@ -14,16 +11,14 @@ import { DownloadService } from '../../../theme/services';
     styleUrls: ['./book-detail.component.scss']
 })
 export class BookDetailComponent implements OnInit {
+    private service = inject(BookService);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private downloadService = inject(DownloadService);
+
 
     public data: IBook;
     public chapterItems: IChapter[] = [];
-
-    constructor(
-        private service: BookService,
-        private route: ActivatedRoute,
-        private router: Router,
-        private downloadService: DownloadService,
-    ) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {

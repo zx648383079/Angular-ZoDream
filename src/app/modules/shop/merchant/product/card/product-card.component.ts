@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService, DialogEvent } from '../../../../../components/dialog';
 import { UploadButtonEvent } from '../../../../../components/form';
@@ -14,6 +14,12 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./product-card.component.scss']
 })
 export class ProductCardComponent implements OnInit {
+    private service = inject(ShopService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private downloadService = inject(DownloadService);
+    private searchService = inject(SearchService);
+
 
     public items: IGoodsCard[] = [];
     public hasMore = true;
@@ -28,15 +34,6 @@ export class ProductCardComponent implements OnInit {
     public editData = {
         amount: 1,
     };
-
-    constructor(
-        private service: ShopService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private downloadService: DownloadService,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

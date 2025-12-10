@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, input, output } from '@angular/core';
 import { ThemeService } from '../../../theme/services';
 import { INavLink } from '../../../theme/models/seo';
 import { SuggestChangeEvent } from '../../form';
@@ -14,25 +14,23 @@ import { NavigationDisplayMode } from '../../../theme/models/event';
     styleUrls: ['./nav-bar.component.scss']
 })
 export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
+    private themeService = inject(ThemeService);
+
 
     public displayMode: NavigationDisplayMode = 0; // 0 为展开 1 为 一条线 2 为 一个点 3 为不显示
     public isPaneOverlay = false;
     public suggestIndex = -1;
-    @Input() public menu: INavLink[] = [];
-    @Input() public bottomMenu: INavLink[] = [];
-    @Input() public hasSuggest = false;
-    @Input() public suggestItems: any[] = [];
-    @Output() public textChanged = new EventEmitter<SuggestChangeEvent>();
-    @Output() public querySubmitted = new EventEmitter<any>();
-    @Output() public suggestionChosen = new EventEmitter<number>();
+    public readonly menu = input<INavLink[]>([]);
+    public readonly bottomMenu = input<INavLink[]>([]);
+    public readonly hasSuggest = input(false);
+    public readonly suggestItems = input<any[]>([]);
+    public readonly textChanged = output<SuggestChangeEvent>();
+    public readonly querySubmitted = output<any>();
+    public readonly suggestionChosen = output<number>();
 
     public suggestText = '';
 
     private subItems = new Subscription();
-
-    constructor(
-        private themeService: ThemeService,
-    ) { }
 
     ngOnInit() {
         this.subItems.add(
@@ -53,13 +51,13 @@ export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
 
     public get tabletItems(): INavLink[] {
         const items: INavLink[] = [];
-        for (const item of this.menu) {
+        for (const item of this.menu()) {
             if (item.tabletEnabled) {
                 items.push(item);
             }
         }
-        if (items.length === 0 && this.menu.length > 0) {
-            items.push(this.menu[0]);
+        if (items.length === 0 && this.menu().length > 0) {
+            items.push(this.menu()[0]);
         }
         return items;
     }
@@ -121,7 +119,7 @@ export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
 
     public suggestKeyPress(e: KeyboardEvent) {
         if (e.key === 'Enter') {
-            const item = this.suggestIndex >= 0 ? this.suggestItems[this.suggestIndex] : this.suggestText;
+            const item = this.suggestIndex >= 0 ? this.suggestItems()[this.suggestIndex] : this.suggestText;
             this.themeService.suggestQuerySubmitted.next(item);
             this.querySubmitted.emit(item);
             return;
@@ -132,28 +130,28 @@ export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
             this.textChanged.emit(this);
             return;
         }
-        if (this.suggestItems.length < 0) {
+        if (this.suggestItems().length < 0) {
             return;
         }
         let i = this.suggestIndex;
         if (e.key === 'ArrowDown') {
-            i = i < this.suggestItems.length - 1 ? i + 1 : 0;
+            i = i < this.suggestItems().length - 1 ? i + 1 : 0;
         } else if (e.key === 'ArrowUp') {
-            i = (i < 1 ? this.suggestItems.length: i) - 1;
+            i = (i < 1 ? this.suggestItems().length: i) - 1;
         }
         this.suggestIndex = i;
-        this.suggestText = this.formatTitle(this.suggestItems[this.suggestIndex]);
+        this.suggestText = this.formatTitle(this.suggestItems()[this.suggestIndex]);
     }
 
     public tapSuggestion(i: number) {
         this.suggestionChosen.emit(i);
-        this.themeService.suggestQuerySubmitted.next(this.suggestItems[i]);
+        this.themeService.suggestQuerySubmitted.next(this.suggestItems()[i]);
     }
 
     public tapItem(item: INavLink, e: MouseEvent) {
         e.stopPropagation();
-        this.isActive(this.menu, item);
-        this.isActive(this.bottomMenu, item);
+        this.isActive(this.menu(), item);
+        this.isActive(this.bottomMenu(), item);
     }
 
     private isActive(items: INavLink[], current: INavLink) {

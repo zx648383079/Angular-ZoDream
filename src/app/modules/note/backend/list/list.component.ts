@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -14,6 +14,11 @@ import { emptyValidate } from '../../../../theme/validators';
     styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
+    private service = inject(NoteService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
 
     public items: INote[] = [];
     public hasMore = true;
@@ -28,13 +33,6 @@ export class ListComponent implements OnInit {
     public editData: INote = {} as any;
     public isMultiple = false;
     public isChecked = false;
-
-    constructor(
-        private service: NoteService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IPage } from '../../theme/models/page';
 import { IScoreSubtotal } from '../../theme/models/seo';
 import { ICategory, IComment, ISoftware, ISoftwareCheck, ISoftwareLog, ISoftwareVersion } from './model';
@@ -8,10 +8,8 @@ import { ICategory, IComment, ISoftware, ISoftwareCheck, ISoftwareLog, ISoftware
     providedIn: 'root'
 })
 export class AppStoreService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public categoryList(params: any) {
         return this.http.get<IData<ICategory>>('app/category', {params});

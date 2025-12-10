@@ -1,14 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IData, IDataOne, IPage } from '../../../../theme/models/page';
 import { IRole, IPermission } from '../../../../theme/models/auth';
 
 @Injectable()
 export class RoleService {
+  private http = inject(HttpClient);
 
-  constructor(
-    private http: HttpClient
-  ) { }
 
   public roleList(params: any) {
     return this.http.get<IPage<IRole>>('auth/admin/role', {

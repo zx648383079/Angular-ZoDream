@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, input } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -8,9 +8,9 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 })
 export class PanelComponent implements OnChanges {
 
-    @Input() public title = $localize `Tip`;
-    @Input() public theme = '';
-    @Input() public min = false;
+    public readonly title = input($localize `Tip`);
+    public readonly theme = input('');
+    public readonly min = input(false);
     public isOpen = true;
 
     ngOnChanges(changes: SimpleChanges) {

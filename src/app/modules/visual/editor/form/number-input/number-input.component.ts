@@ -1,5 +1,5 @@
-import { Component, HostBinding, Input, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, HostBinding, input, model } from '@angular/core';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -9,22 +9,16 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     host: {
         class: 'select-with-control'
     },
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => EditorNumberInputComponent),
-        multi: true
-    }]
 })
-export class EditorNumberInputComponent implements ControlValueAccessor {
+export class EditorNumberInputComponent implements FormValueControl<string> {
 
-    @Input() public label = '';
+    public readonly label = input('');
 
     public unit = 'px';
     public visible = false;
     public unitItems: string[] = ['px', 'em', 'rem', 'vh', 'vw', '%', 'auto', 'none'];
-    public disabled = false;
-    private onChange: any = () => {};
-    private onTouch: any = () => {};
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<string>('');
 
     @HostBinding('class')
     public get ngClass() {
@@ -34,19 +28,6 @@ export class EditorNumberInputComponent implements ControlValueAccessor {
     public tapSelectedUnit(item: string) {
         this.unit = item;
         this.visible = false;
-    }
-
-    writeValue(obj: any): void {
-        
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
     }
 
 }

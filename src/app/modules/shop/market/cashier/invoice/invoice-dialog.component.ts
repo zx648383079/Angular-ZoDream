@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { IInvoiceTitle } from '../../../model';
 import { IUser } from '../../../../../theme/models/user';
 
@@ -10,8 +10,8 @@ import { IUser } from '../../../../../theme/models/user';
 })
 export class InvoiceDialogComponent {
 
-    @Input() public visible = false;
-    @Input() public user: IUser;
+    public visible = false;
+    public readonly user = input<IUser>(undefined);
     public titleTypeItems = ['个人', '企业'];
     public typeItems = ['普通发票', '电子普通发票'];
     public contentItems = ['商品明细', '商品类别'];

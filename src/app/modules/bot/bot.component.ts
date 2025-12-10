@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../theme/models/page';
 import { SearchService } from '../../theme/services';
@@ -13,6 +13,11 @@ import { IBotAccount } from './model';
   styleUrls: ['./bot.component.scss']
 })
 export class BotComponent implements OnInit {
+    private service = inject(BotService);
+    private route = inject(ActivatedRoute);
+    private themeService = inject(ThemeService);
+    private searchService = inject(SearchService);
+
 
     public items: IBotAccount[] = [];
     public hasMore = true;
@@ -25,12 +30,7 @@ export class BotComponent implements OnInit {
         per_page: 20
     };
 
-    constructor(
-        private service: BotService,
-        private route: ActivatedRoute,
-        private themeService: ThemeService,
-        private searchService: SearchService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Bot`);
     }
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -23,10 +23,15 @@ const GuestUserKey = 'gu';
     styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent implements OnChanges {
+    private service = inject(BlogService);
+    private toastrService = inject(DialogService);
+    private themeService = inject(ThemeService);
+    private store = inject<Store<AppState>>(Store);
 
-    @Input() public itemId = 0;
-    @Input() public init = false;
-    @Input() public status = 0;
+
+    public readonly itemId = input(0);
+    public readonly init = input(false);
+    public readonly status = input(0);
 
     public hotItems: IComment[] = [];
     public items: IComment[] = [];
@@ -54,12 +59,7 @@ export class CommentComponent implements OnChanges {
     };
 
 
-    constructor(
-        private service: BlogService,
-        private toastrService: DialogService,
-        private themeService: ThemeService,
-        private store: Store<AppState>,
-    ) {
+    constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;
         });
@@ -67,18 +67,18 @@ export class CommentComponent implements OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.itemId > 0 && this.booted !== this.itemId) {
+        if (changes.init && changes.init.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
             this.boot();
         }
     }
 
     private boot() {
-        this.booted = this.itemId;
-        if (this.itemId < 1) {
+        this.booted = this.itemId();
+        if (this.itemId() < 1) {
             return;
         }
         this.service.commentList({
-            blog_id: this.itemId,
+            blog_id: this.itemId(),
             is_hot: true,
             per_page: 5,
         }).subscribe(res => {
@@ -102,7 +102,7 @@ export class CommentComponent implements OnChanges {
     }
 
     public onReply(data: any) {
-        if (this.status === 2 && !this.user) {
+        if (this.status() === 2 && !this.user) {
             this.tapLogin();
             data.error();
             return;
@@ -117,7 +117,7 @@ export class CommentComponent implements OnChanges {
                 this.guestUser[k] = data[k];
             });
         }
-        const commentData = {...data, blog_id: this.itemId};
+        const commentData = {...data, blog_id: this.itemId()};
         delete commentData['next'], commentData['error'];
         this.service.commentSave(commentData).subscribe({
             next: _ => {
@@ -133,7 +133,7 @@ export class CommentComponent implements OnChanges {
     }
     
     public tapComment(e?: ButtonEvent) {
-        if (this.status === 2 && !this.user) {
+        if (this.status() === 2 && !this.user) {
             this.tapLogin();
             return;
         }
@@ -141,7 +141,7 @@ export class CommentComponent implements OnChanges {
             this.toastrService.warning($localize `Please input content`);
             return;
         }
-        const data = Object.assign({blog_id: this.itemId}, this.commentData);
+        const data = Object.assign({blog_id: this.itemId()}, this.commentData);
         if (!this.user) {
             eachObject(this.guestUser, (v, k) => {
                 data[k] = v;
@@ -189,7 +189,7 @@ export class CommentComponent implements OnChanges {
         }
         this.isLoading = true;
         const queries = {...this.queries, page};
-        this.service.commentList({...queries, blog_id: this.itemId}).subscribe({
+        this.service.commentList({...queries, blog_id: this.itemId()}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;

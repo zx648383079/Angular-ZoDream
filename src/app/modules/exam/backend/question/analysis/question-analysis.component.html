@@ -1,12 +1,12 @@
-@for (item of value; track $index; let i = $index) {
+@for (item of value(); track $index; let i = $index) {
     <div class="edit-row">
       <div class="content">
             @if (item.type < 1) {
               <textarea class="form-control" [value]="item.content" readonly></textarea>
             } @else if (item.type == 1) {
-              <app-audio-player [src]="item.content"></app-audio-player>
+              <app-audio-player [src]="item.content" />
             } @else if (item.type == 2) {
-              <app-video-player [src]="item.content"></app-video-player>
+              <app-video-player [src]="item.content" />
             }
       </div>
       <div class="edit-action">
@@ -29,8 +29,8 @@
         </select>
     </div>
     @if (analysisData.type < 1) {
-        <app-exam-editor [(ngModel)]="analysisData.content"></app-exam-editor>
+        <app-exam-editor [(ngModel)]="analysisData.content" />
     } @else {
-        <app-file-input [(ngModel)]="analysisData.content" accept="*/*"></app-file-input>
+        <app-file-input [(ngModel)]="analysisData.content" accept="*/*" />
     }
 </app-dialog-box>

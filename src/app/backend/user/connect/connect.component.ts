@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IConnect } from '../../../theme/models/auth';
 import { UserService } from '../user.service';
 
 @Component({
     standalone: false,
-  selector: 'app-connect',
-  templateUrl: './connect.component.html',
-  styleUrls: ['./connect.component.scss']
+    selector: 'app-connect',
+    templateUrl: './connect.component.html',
+    styleUrls: ['./connect.component.scss']
 })
 export class ConnectComponent implements OnInit {
+    private service = inject(UserService);
+
 
     public items: IConnect[] = [];
 
-    constructor(
-        private service: UserService
-    ) {
+    constructor() {
         this.tapRefresh();
     }
 

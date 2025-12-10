@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IPage, IDataOne } from '../../../theme/models/page';
 import { IChannel, IProduct, ITradeLog } from '../model';
 
 @Injectable()
 export class TrackerBackendService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public channelList(params: any) {
         return this.http.get<IPage<IChannel>>('tracker/admin/product/channel', {params});

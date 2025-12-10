@@ -40,7 +40,7 @@
     
             </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
     </div>
 </div>
 
@@ -63,7 +63,7 @@
     <div class="form-group">
         <label for="icon">图标</label>
         <div class="input-group-control">
-            <app-file-input [(ngModel)]="editData.thumb"></app-file-input>
+            <app-file-input [(ngModel)]="editData.thumb" />
         </div>
     </div>
     <div class="form-group">

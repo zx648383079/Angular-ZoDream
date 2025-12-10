@@ -1,39 +1,35 @@
-import { Component, forwardRef, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, effect, input, model } from '@angular/core';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
     selector: 'app-check-input',
     templateUrl: './check-input.component.html',
     styleUrls: ['./check-input.component.scss'],
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => CheckInputComponent),
-        multi: true
-    }]
 })
-export class CheckInputComponent implements ControlValueAccessor {
+export class CheckInputComponent implements FormValueControl<any> {
 
-    @Input() public items: any[] = [];
-    @Input() public multiple = false;
+    public readonly items = input<any[]>([]);
+    public readonly multiple = input(false);
     /**
      * 值的键名，数字表示为数组的排序，空为项，其他为项的值
      */
-    @Input() public rangeKey: any = '';
-    @Input() public rangeLabel = '';
+    public readonly rangeKey = input<any>('');
+    public readonly rangeLabel = input('');
 
     private selectedItems: any[] = [];
-    public disabled = false;
-    private onChange: any = () => {};
-    private onTouch: any = () => {};
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<any>();
 
-    constructor() { }
+    constructor() {
+        effect(() => this.writeValue(this.value()));
+    }
 
     public format(item: any) {
-        if (this.rangeLabel != '') {
-            return typeof item === 'object' ? item[this.rangeLabel] : item;
+        if (this.rangeLabel() != '') {
+            return typeof item === 'object' ? item[this.rangeLabel()] : item;
         }
-        if (this.rangeKey === 'value') {
+        if (this.rangeKey() === 'value') {
             return item.name;
         }
         return item;
@@ -54,7 +50,7 @@ export class CheckInputComponent implements ControlValueAccessor {
         if (this.disabled) {
             return;
         }
-        if (!this.multiple) {
+        if (!this.multiple()) {
             this.selectedItems = [value];
             this.output();
             return;
@@ -71,34 +67,26 @@ export class CheckInputComponent implements ControlValueAccessor {
     }
 
     private itemValue(item: any, index: number) {
-        if (typeof this.rangeKey === 'number') {
+        const rangeKey = this.rangeKey();
+        if (typeof rangeKey === 'number') {
             return index;
         }
-        if (this.rangeKey) {
-            return item[this.rangeKey];
+        if (rangeKey) {
+            return item[rangeKey];
         }
         return item;
     }
 
     private output() {
-        const def = typeof this.rangeKey === 'number' ? -1 : null;
-        this.onChange(this.multiple ? [...this.selectedItems] : (this.selectedItems.length > 0 ? this.selectedItems[0] : def));
+        const def = typeof this.rangeKey() === 'number' ? -1 : null;
+        this.value.set(this.multiple() ? [...this.selectedItems] : (this.selectedItems.length > 0 ? this.selectedItems[0] : def));
     }
 
-    writeValue(obj: any): void {
+    private writeValue(obj: any): void {
         if (typeof obj === 'object' && obj instanceof Array) {
             this.selectedItems = obj;
             return;
         }
-        this.selectedItems = [typeof this.rangeKey === 'number' && !obj ? 0 : obj];
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
+        this.selectedItems = [typeof this.rangeKey() === 'number' && !obj ? 0 : obj];
     }
 }

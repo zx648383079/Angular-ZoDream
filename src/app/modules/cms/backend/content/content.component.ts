@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -14,6 +14,11 @@ import { SearchService } from '../../../../theme/services';
   styleUrls: ['./content.component.scss']
 })
 export class ContentComponent implements OnInit {
+    private service = inject(CmsService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
 
     public items: ICmsContent[] = [];
     public hasMore = true;
@@ -30,15 +35,6 @@ export class ContentComponent implements OnInit {
     };
     public columnItems: ICmsColumn[] = [];
     public model: ICmsModel;
-
-    constructor(
-        private service: CmsService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService
-    ) {
-        
-    }
   
     ngOnInit() {
         this.route.params.subscribe(params => {

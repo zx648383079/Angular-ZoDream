@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { IItem } from '../../../theme/models/seo';
 import { emptyValidate } from '../../../theme/validators';
@@ -12,6 +12,9 @@ import { ITableHeaderItem } from '../../../components/desktop/editable-table/mod
   styleUrls: ['./database.component.scss']
 })
 export class DatabaseComponent implements OnInit {
+    private service = inject(GenerateService);
+    private toastrService = inject(DialogService);
+
 
     public items: any[] = [];
     public headerItems: ITableHeaderItem[] = [
@@ -28,11 +31,6 @@ export class DatabaseComponent implements OnInit {
         name: '',
         collation: '',
     };
-
-    constructor(
-        private service: GenerateService,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.isLoading = true;

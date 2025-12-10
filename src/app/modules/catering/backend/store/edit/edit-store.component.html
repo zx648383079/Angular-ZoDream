@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑店铺' : '新增店铺'" (submited)="tapSubmit($event)" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑店铺' : '新增店铺'" (submited)="tapSubmit($event)" [disabled]="form.invalid" />
 
 
 <div class="container-fluid">
@@ -13,25 +13,25 @@
             <div class="input-group-control">
                 <label for="logo">店主</label>
                 <div>
-                    <app-user-picker [(ngModel)]="user" [ngModelOptions]="{standalone: true}"></app-user-picker>
+                    <app-user-picker [(ngModel)]="user" [ngModelOptions]="{standalone: true}" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="logo">图标</label>
                 <div>
-                    <app-file-input formControlName="logo"></app-file-input>
+                    <app-file-input formControlName="logo" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="keywords">关键字</label>
                 <div>
-                    <app-words-input id="keywords" formControlName="keywords"></app-words-input>
+                    <app-words-input id="keywords" formControlName="keywords" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="description">说明</label>
                 <div>
-                    <app-text-editor formControlName="description" height="100"></app-text-editor>
+                    <app-text-editor formControlName="description" height="100" />
                 </div>
             </div>
             <div class="input-group-control">

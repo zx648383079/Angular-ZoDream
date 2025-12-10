@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -14,6 +14,11 @@ import { ButtonEvent } from '../../../../../components/form';
   styleUrls: ['./edit-account.component.scss']
 })
 export class EditAccountComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(BotService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -34,14 +39,6 @@ export class EditAccountComponent implements OnInit {
 
     public data: IBotAccount;
     public typeItems = ['订阅号', '认证订阅号', '企业号', '认证服务号'];
-
-    constructor(
-        private fb: FormBuilder,
-        private service: BotService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

@@ -1,8 +1,4 @@
-import {
-    Component,
-    OnInit,
-    ViewChild
-} from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { ThemeService } from '../../../theme/services';
@@ -21,9 +17,13 @@ import { NavigationDisplayMode } from '../../../theme/models/event';
     styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
+    private service = inject(TaskService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private themeService = inject(ThemeService);
 
-    @ViewChild(CircleProgressComponent)
-    public progressor: CircleProgressComponent;
+
+    public readonly progressor = viewChild(CircleProgressComponent);
     public maxProgress = 0;
     public progress = 0;
 
@@ -31,13 +31,6 @@ export class DetailComponent implements OnInit {
     public current: ITask;
     public items: ITask[] = [];
     public expanded = false;
-
-    constructor(
-        private service: TaskService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private themeService: ThemeService,
-    ) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -55,7 +48,7 @@ export class DetailComponent implements OnInit {
                     this.maxProgress = res.task.every_time * 60;
                     this.progress = res.log?.time;
                     setTimeout(() => {
-                        this.progressor.start(this.progress, this.maxProgress);
+                        this.progressor().start(this.progress, this.maxProgress);
                     }, 100);
                 }
             });
@@ -86,7 +79,7 @@ export class DetailComponent implements OnInit {
                 this.data = res;
                 this.maxProgress = res.task.every_time * 60;
                 this.progress = res.log?.time;
-                this.progressor.start(this.progress, this.maxProgress);
+                this.progressor().start(this.progress, this.maxProgress);
             },
             error: err => {
                 this.toastrService.error(err);
@@ -99,7 +92,7 @@ export class DetailComponent implements OnInit {
         this.service.taskPause(this.data.id).subscribe({
             next: res => {
                 this.data = res;
-                this.progressor.stop();
+                this.progressor().stop();
             },
             error: err => {
                 this.toastrService.error(err);
@@ -112,7 +105,7 @@ export class DetailComponent implements OnInit {
         this.service.taskStop(this.data.id).subscribe({
             next: res => {
                 this.data = res;
-                this.progressor.stop();
+                this.progressor().stop();
                 if (res.amount < 1) {
                     history.back();
                 }
@@ -136,7 +129,7 @@ export class DetailComponent implements OnInit {
                     title: '提示',
                     content: res.message
                 });
-                this.progressor.stop();
+                this.progressor().stop();
                 if (this.data.amount < 1) {
                     history.back();
                 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../components/dialog';
@@ -16,6 +16,10 @@ import { parseNumber } from '../../theme/utils';
   styleUrls: ['./form.component.scss']
 })
 export class ExampleFormComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         title: ['', Validators.required],
@@ -52,13 +56,6 @@ export class ExampleFormComponent implements OnInit {
     public tags: ITag[] = [];
     public statusItems: IItem[] = [];
     public openItems: IItem[] = [];
-
-    constructor(
-        private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {
-    }
 
     ngOnInit() {
     }

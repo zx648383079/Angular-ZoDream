@@ -1,5 +1,5 @@
 <div class="container mb-5">
-    <app-auto-suggest-box (confirm)="tapSearch($event)" (textChange)="onSuggestChange($event)"></app-auto-suggest-box>
+    <app-auto-suggest-box (confirm)="tapSearch($event)" (textChange)="onSuggestChange($event)" />
 </div>
 
 <div class="container-fluid">
@@ -45,8 +45,8 @@
             }
         </tbody>
     </table>
-    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-    <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+    <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
 </div>
 
-<app-trade-toolbar #toolbar></app-trade-toolbar>
+<app-trade-toolbar #toolbar />

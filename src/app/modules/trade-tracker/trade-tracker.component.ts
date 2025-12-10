@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IPageQueries } from '../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../theme/services';
@@ -13,6 +13,10 @@ import { SuggestChangeEvent } from '../../components/form';
     styleUrls: ['./trade-tracker.component.scss']
 })
 export class TradeTrackerComponent implements OnInit {
+    private service = inject(TrackerService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: ILastestLog[] = [];
     public hasMore = true;
@@ -26,13 +30,6 @@ export class TradeTrackerComponent implements OnInit {
         page: 1,
         per_page: 20,
     };
-
-    constructor(
-        private service: TrackerService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(res => {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { emptyValidate } from '../../../../theme/validators';
 import { FinanceService } from '../../finance.service';
@@ -11,6 +11,9 @@ import { IAccount, IFinancialProduct, IFinancialProject } from '../../model';
     styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
+    private service = inject(FinanceService);
+    private toastrService = inject(DialogService);
+
 
     public items: IFinancialProject[] = [];
     public isLoading = false;
@@ -30,11 +33,6 @@ export class ProjectComponent implements OnInit {
 
     public accountItems: IAccount[] = [];
     public productItems: IFinancialProduct[] = [];
-
-    constructor(
-        private service: FinanceService,
-        private toastrService: DialogService,
-    ) {}
 
     ngOnInit() {
         this.tapRefresh();

@@ -1,27 +1,27 @@
-<div class="catalog-item" [ngClass]="{active: value.active, expand: value.expand, default: value.isDefault}">
+<div class="catalog-item" [ngClass]="{active: value().active, expand: value().expand, default: value().isDefault}">
     <div class="item-header" (click)="tapExpand($event)" [ngStyle]="headerStyle" (contextmenu)="tapContextMenu($event)">
-        @if (!value.onEdit) {
-            <i class="iconfont" [ngClass]="value.icon"></i>
-            <span (dblclick)="tapEdit($event)">{{ value.name }}</span>
+        @if (!value().onEdit) {
+            <i class="iconfont" [ngClass]="value().icon"></i>
+            <span (dblclick)="tapEdit($event)">{{ value().name }}</span>
             <div class="item-action">
-                @if (!value.canExpand && !isWidget) {
+                @if (!value().canExpand && !isWidget) {
                 <i class="iconfont icon-home" (click)="tapSetHome()"></i>
                 }
-                @if (!value.canExpand) {
+                @if (!value().canExpand) {
                 <i class="iconfont icon-copy"  (click)="tapCopy()"></i>
                 }
                 <i class="iconfont icon-trash" (click)="tapTrash()"></i>
             </div>
         } @else {
-            <input type="text" #input class="form-control" (click)="$event.stopPropagation()" [(ngModel)]="value.name" (keydown)="onKeyDown($event)" (blur)="tapFinish()">
+            <input type="text" #input class="form-control" (click)="$event.stopPropagation()" [(ngModel)]="value().name" (keydown)="onKeyDown($event)" (blur)="tapFinish()">
         }
-        @if (value.canExpand) {
-            <i class="iconfont" [ngClass]="{'icon-chevron-up': value.expand, 'icon-chevron-down': !value.expand}"></i>
+        @if (value().canExpand) {
+            <i class="iconfont" [ngClass]="{'icon-chevron-up': value().expand, 'icon-chevron-down': !value().expand}"></i>
         }
     </div>
-    @if (value.children && value.children.length > 0) {
+    @if (value().children && value().children.length > 0) {
         <div class="catalog-sub">
-            <app-catalog-list [items]="value.children" [level]="level + 1"></app-catalog-list>
+            <app-catalog-list [items]="value().children" [level]="level() + 1" />
         </div>
     }
 </div>

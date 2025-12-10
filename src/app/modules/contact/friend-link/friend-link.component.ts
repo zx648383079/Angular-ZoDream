@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService, ManageDialogEvent } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -14,6 +14,11 @@ import { emailValidate, emptyValidate } from '../../../theme/validators';
   styleUrls: ['./friend-link.component.scss']
 })
 export class FriendLinkComponent implements OnInit {
+    private service = inject(ContactService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IFriendLink[] = [];
     public hasMore = true;
@@ -33,14 +38,6 @@ export class FriendLinkComponent implements OnInit {
     };
     public isMultiple = false;
     public isChecked = false;
-
-    constructor(
-        private service: ContactService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

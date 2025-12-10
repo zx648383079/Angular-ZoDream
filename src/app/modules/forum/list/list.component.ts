@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IForum, IForumClassify, IThread } from '../model';
 import { ForumService } from '../forum.service';
 import { ActivatedRoute } from '@angular/router';
@@ -20,6 +20,14 @@ import { SearchService, ThemeService } from '../../../theme/services';
     styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(ForumService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private store = inject<Store<AppState>>(Store);
+    private searchService = inject(SearchService);
+    private themeService = inject(ThemeService);
+
 
     public forum: IForum;
     public items: IThread[] = [];
@@ -50,15 +58,7 @@ export class ListComponent implements OnInit {
         {name: $localize `Better`, value: 'top_type', asc: false},
     ];
 
-    constructor(
-        private fb: FormBuilder,
-        private service: ForumService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private store: Store<AppState>,
-        private searchService: SearchService,
-        private themeService: ThemeService
-    ) {
+    constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;
         });

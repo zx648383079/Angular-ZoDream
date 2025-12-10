@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AdService } from './ad.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { AdService } from './ad.service';
     styleUrls: ['./ad-sense.component.scss']
 })
 export class AdSenseComponent implements OnInit {
+    private service = inject(AdService);
+
 
     public isLoading = false;
     public data: any = {};
-
-    constructor(
-        private service: AdService
-    ) { }
 
     ngOnInit() {
         this.service.statistics().subscribe({

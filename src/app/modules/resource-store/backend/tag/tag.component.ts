@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,6 +13,11 @@ import { ResourceService } from '../resource.service';
   styleUrls: ['./tag.component.scss']
 })
 export class TagComponent implements OnInit {
+    private service = inject(ResourceService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: ITag[] = [];
     public hasMore = true;
@@ -24,13 +29,6 @@ export class TagComponent implements OnInit {
         keywords: '',
     };
     public editData: ITag = {} as any;
-
-    constructor(
-        private service: ResourceService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

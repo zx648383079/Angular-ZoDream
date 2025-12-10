@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, input } from '@angular/core';
 import { INavLink } from '../../../../theme/models/seo';
 
 @Component({
@@ -15,7 +15,7 @@ export class WaiterMenuComponent implements OnChanges, OnInit {
         {name: '记录管理', url: 'log'},
     ];
 
-    @Input() public currentUrl: string = '';
+    public readonly currentUrl = input<string>('');
     private basePath = '../';
 
     constructor() { }

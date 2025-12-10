@@ -1,11 +1,11 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑模型' : '新增模型'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑模型' : '新增模型'" (submited)="tapSubmit()" [disabled]="form.invalid" />
 
 <div class="container-fluid">
     <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
         <div class="input-group-control">
             <label for="type">类型</label>
             <div>
-                <app-check-input [items]="typeItems" [rangeKey]="1" formControlName="type"></app-check-input>
+                <app-check-input [items]="typeItems" [rangeKey]="1" formControlName="type" />
             </div>
         </div>
         <div class="input-group-control">
@@ -62,28 +62,28 @@
             <div class="input-group-control">
                 <label for="setting_is_show">显示</label>
                 <div formGroupName="setting">
-                    <app-switch formControlName="is_show"></app-switch>
+                    <app-switch formControlName="is_show" />
                     <div class="input-tip">允许显示在前台</div>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="setting_is_only">唯一</label>
                 <div formGroupName="setting">
-                    <app-switch formControlName="is_only"></app-switch>
+                    <app-switch formControlName="is_only" />
                     <div class="input-tip">是否保持用户唯一</div>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="setting_is_extend_auth">是否继承拓展用户表单</label>
                 <div formGroupName="setting">
-                    <app-switch formControlName="is_extend_auth"></app-switch>
+                    <app-switch formControlName="is_extend_auth" />
                     <div class="input-tip">在会员注册时需要填写此表单数据</div>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="setting_open_captcha">验证码</label>
                 <div formGroupName="setting">
-                    <app-switch formControlName="open_captcha"></app-switch>
+                    <app-switch formControlName="open_captcha" />
                     <div class="input-tip">是否开启验证码</div>
                 </div>
             </div>

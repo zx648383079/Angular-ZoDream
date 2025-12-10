@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IOrder, IPayment, ORDER_STATUS } from '../../../model';
@@ -12,18 +12,18 @@ import { ShopService } from '../../../shop.service';
   styleUrls: ['./pay.component.scss']
 })
 export class PayComponent implements OnInit {
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private service = inject(ShopService);
+    private toastrService = inject(DialogService);
+    private themeService = inject(ThemeService);
+
 
     public data: IOrder;
     public paymentItems: IPayment[] = [];
     public payment: IPayment;
 
-    constructor(
-        private route: ActivatedRoute,
-        private router: Router,
-        private service: ShopService,
-        private toastrService: DialogService,
-        private themeService: ThemeService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next('订单支付');
     }
 

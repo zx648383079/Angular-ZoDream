@@ -43,10 +43,10 @@
             </div>
         </div>
     }
-    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
 </div>
 
-<app-task-select></app-task-select>
+<app-task-select />
 
 <app-dialog-box #addModal [scrollable]="false" title="快捷新增任务">
     <div class="form-table-control">

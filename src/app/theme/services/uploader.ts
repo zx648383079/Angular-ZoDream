@@ -4,6 +4,7 @@ import { ParallelHasher } from 'ts-md5';
 import { IUploadResult } from '../models/open';
 import { IErrorResult } from '../models/page';
 import { eachObject, uriEncode } from '../utils';
+import { inject } from '@angular/core';
 
 export enum UploadStatus {
     Queue,
@@ -46,6 +47,9 @@ export interface IUploadChunk {
 
 export class UploadFile<T = IUploadResult> {
 
+
+    private http = inject(HttpClient);
+
     public $status: BehaviorSubject<UploadStatus> = new BehaviorSubject(UploadStatus.Queue);
     public $progress: BehaviorSubject<number> = new BehaviorSubject(0);
     public $finish: BehaviorSubject<T> = new BehaviorSubject(null);
@@ -60,7 +64,6 @@ export class UploadFile<T = IUploadResult> {
     private chunkItems: IUploadChunk[] = [];
 
     constructor(
-        private http: HttpClient,
         url: string|IUploadServer,
         private file: File,
         private customFormData: ICustomFormData = {},

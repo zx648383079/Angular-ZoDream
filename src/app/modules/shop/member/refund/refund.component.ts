@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,6 +13,12 @@ import { IOrderRefund } from '../../model';
   styleUrls: ['./refund.component.scss']
 })
 export class RefundComponent implements OnInit {
+    private service = inject(ShopService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
     public title = '售后记录';
     public items: IOrderRefund[] = [];
     public hasMore = true;
@@ -23,15 +29,6 @@ export class RefundComponent implements OnInit {
         page: 1,
         per_page: 20,
     };
-
-    constructor(
-        private service: ShopService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IUserRole } from '../theme/models/auth';
 
 @Injectable()
 export class BackendService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) {}
 
     public roles() {
         return this.http.get<IUserRole>('auth/user/role');

@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { UserService } from '../user.service';
@@ -13,6 +12,10 @@ import { confirmValidator } from '../../../components/desktop/directives';
     styleUrls: ['./password.component.scss']
 })
 export class PasswordComponent {
+    private fb = inject(FormBuilder);
+    private service = inject(UserService);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         old_password: ['', Validators.required],
@@ -21,12 +24,6 @@ export class PasswordComponent {
     }, {
         validators: confirmValidator()
     });
-
-    constructor(
-        private router: Router,
-        private fb: FormBuilder,
-        private service: UserService,
-        private toastrService: DialogService) { }
 
     public tapBack() {
         history.back();

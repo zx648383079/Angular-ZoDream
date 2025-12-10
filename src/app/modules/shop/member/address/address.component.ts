@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { IErrorResponse } from '../../../../theme/models/page';
 import { IAddress } from '../../model';
@@ -11,6 +11,9 @@ import { ShopService } from '../../shop.service';
     styleUrls: ['./address.component.scss'],
 })
 export class AddressComponent implements OnInit {
+    private service = inject(ShopService);
+    private toastrService = inject(DialogService);
+
     public title = '地址管理';
     public items: IAddress[] = [];
     public hasMore = true;
@@ -21,10 +24,7 @@ export class AddressComponent implements OnInit {
     public dialogOpen = false;
     public editData: IAddress = {region_id: 0} as any;
 
-    constructor(
-        private service: ShopService,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.tapRefresh();
     }
 

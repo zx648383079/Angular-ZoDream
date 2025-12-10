@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, input } from '@angular/core';
 import { emptyValidate } from '../../../theme/validators';
 
 interface IRatingItem {
@@ -14,7 +14,7 @@ interface IRatingItem {
 })
 export class PasswordStrongComponent implements OnChanges {
 
-    @Input() public value = '';
+    public readonly value = input('');
 
     public score = 0;
 
@@ -81,17 +81,18 @@ export class PasswordStrongComponent implements OnChanges {
     }
 
     public refresh() {
-        if (emptyValidate(this.value)) {
+        const value = this.value();
+        if (emptyValidate(value)) {
             this.score = 0;
             return;
         }
         let score = 0;
         for (const item of this.ratingItems) {
             if (typeof item.check === 'function') {
-                score += item.check(this.value);
+                score += item.check(value);
                 continue;
             }
-            if (item.check.test(this.value)) {
+            if (item.check.test(value)) {
                 score += item.score;
             }
         }

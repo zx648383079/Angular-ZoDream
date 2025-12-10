@@ -35,11 +35,11 @@
         <div class="col-12">
             <div class="page-search-bar">
                 <div class="form-horizontal-control">
-                    <app-toggle-bar [items]="typeItems" [(ngModel)]="queries.type" (ngModelChange)="onQueriesChange()"></app-toggle-bar>
+                    <app-toggle-bar [items]="typeItems" [(ngModel)]="queries.type" (ngModelChange)="onQueriesChange()" />
                     
-                    <app-date-input [(ngModel)]="queries.start_at" (ngModelChange)="onQueriesChange()"></app-date-input>
+                    <app-date-input [(ngModel)]="queries.start_at" (ngModelChange)="onQueriesChange()" />
                     ~
-                    <app-date-input [(ngModel)]="queries.end_at" (ngModelChange)="onQueriesChange()"></app-date-input>
+                    <app-date-input [(ngModel)]="queries.end_at" (ngModelChange)="onQueriesChange()" />
                 </div>
             </div>
             
@@ -52,4 +52,4 @@
 </div>
 }
 
-<app-loading-tip [loading]="isLoading" [visible]="isLoading"></app-loading-tip>
+<app-loading-tip [loading]="isLoading" [visible]="isLoading" />

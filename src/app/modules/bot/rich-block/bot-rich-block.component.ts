@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, ViewEncapsulation, inject, input } from '@angular/core';
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -14,18 +14,16 @@ import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
     }
 })
 export class BotRichBlockComponent implements OnChanges {
+    private sanitizer = inject(DomSanitizer);
 
-    @Input() public value = '';
+
+    public readonly value = input('');
     public formated: SafeHtml;
-
-    constructor(
-        private sanitizer: DomSanitizer,
-    ) { }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.value) {
             this.formated = this.sanitizer.bypassSecurityTrustHtml(
-                this.value
+                this.value()
             );
         }
     }

@@ -1,10 +1,10 @@
 <i class="control-updated-tag" [hidden]="isEmpty" (click)="tapEmpty()"></i>
-@if (header) {
-<label>{{ header }}</label>
+@if (header()) {
+<label>{{ header() }}</label>
 }
 <div class="select-control-container">
     <div class="select-input-container">
-        @if (editable) {
+        @if (editable()) {
             <input type="text" class="input-body">
         } @else {
             <span class="input-body"></span>
@@ -13,11 +13,11 @@
             <i class="iconfont icon-close"></i>
         </div>
         <div class="input-arrow" (click)="visible = !visible">
-            <i class="iconfont" [ngClass]="arrowIcon"></i>
+            <i class="iconfont" [ngClass]="arrowIcon()"></i>
         </div>
     </div>
     <div class="select-option-bar">
-        @if (searchable) {
+        @if (searchable()) {
         <div class="search-option-item">
             <input type="text">
             <i class="iconfont icon-search"></i>
@@ -34,7 +34,7 @@
             </div>
         </div>
         }
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
             <div class="option-item" [ngClass]="{selected: value == item.value}" (click)="tapSelected(item)">{{ item.name }}</div>
         }
     </div>

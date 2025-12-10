@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
 import { DialogService } from '../../../../../components/dialog';
 import { CountdownEvent } from '../../../../../components/form';
 import { IUser } from '../../../../../theme/models/user';
@@ -12,9 +12,12 @@ import { MemberService } from '../../member.service';
     styleUrls: ['./bind-step.component.scss']
 })
 export class BindStepComponent implements OnChanges {
+    private toastrService = inject(DialogService);
+    private service = inject(MemberService);
 
-    @Input() public name = 'email';
-    @Input() public user: IUser;
+
+    public readonly name = input('email');
+    public readonly user = input<IUser>(undefined);
 
     public verify_value = '';
     public stepIndex = 0;
@@ -26,13 +29,8 @@ export class BindStepComponent implements OnChanges {
         code: '',
     };
 
-    constructor(
-        private toastrService: DialogService,
-        private service: MemberService
-    ) { }
-
     public get nameLabel() {
-        return this.formatLabel(this.name);
+        return this.formatLabel(this.name());
     }
 
     public get verifyLabel() {
@@ -50,8 +48,8 @@ export class BindStepComponent implements OnChanges {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.name) {
-            this.data.verify_type = this.data.name = this.name;
-            this.verify_value = this.user[this.data.verify_type];
+            this.data.verify_type = this.data.name = this.name();
+            this.verify_value = this.user()[this.data.verify_type];
             if (!this.verify_value) {
                 this.tapToggleVerify();
             }
@@ -63,10 +61,11 @@ export class BindStepComponent implements OnChanges {
 
     public tapToggleVerify() {
         const type = this.data.verify_type == 'email' ? 'mobile' : 'email';
-        if (this.user[type]) {
+        const user = this.user();
+        if (user[type]) {
             this.data.verify_type = type;
             this.data.verify = '';
-            this.verify_value = this.user[type];
+            this.verify_value = user[type];
         }
     }
 
@@ -119,9 +118,10 @@ export class BindStepComponent implements OnChanges {
             this.toastrService.warning($localize `Please input ${this.nameLabel}`);
             return false;
         }
+        const name = this.name();
         if (
-            (this.name === 'email' && !emailValidate(this.data.value)) ||
-            (this.name === 'mobile' && !mobileValidate(this.data.value))
+            (name === 'email' && !emailValidate(this.data.value)) ||
+            (name === 'mobile' && !mobileValidate(this.data.value))
         ) {
             this.toastrService.warning($localize `Please input valid ${this.nameLabel}`);
             return false;

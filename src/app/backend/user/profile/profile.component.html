@@ -1,4 +1,4 @@
-<app-edit-header [title]="'编辑个人资料'" (submited)="tapSubmit($event)"></app-edit-header>
+<app-edit-header [title]="'编辑个人资料'" (submited)="tapSubmit($event)" />
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-6">
@@ -34,13 +34,13 @@
                     <div class="input-group-control">
                         <label for="sex">性别</label>
                         <div>
-                            <app-check-input formControlName="sex" rangeKey="value" [items]="sexItems"></app-check-input>
+                            <app-check-input formControlName="sex" rangeKey="value" [items]="sexItems" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="birthday">生日</label>
                         <div>
-                            <app-date-input id="birthday" formControlName="birthday" [min]="minDate" [max]="maxDate"></app-date-input>
+                            <app-date-input id="birthday" formControlName="birthday" [min]="minDate" [max]="maxDate" />
                         </div>
                     </div>
 

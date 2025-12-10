@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -15,6 +15,11 @@ import { AppService } from '../../app.service';
     styleUrls: ['./version.component.scss']
 })
 export class VersionComponent implements OnInit {
+    private service = inject(AppService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: ISoftwareVersion[] = [];
     public hasMore = true;
@@ -27,14 +32,6 @@ export class VersionComponent implements OnInit {
     };
     public software: ISoftware;
     public editData: ISoftwareVersion = {} as any;
-
-    constructor(
-        private service: AppService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

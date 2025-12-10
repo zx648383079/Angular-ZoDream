@@ -32,7 +32,7 @@
                     <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
                     <td>
-                        <app-switch [(ngModel)]="item.status" (ngModelChange)="onStatusChange(item)"></app-switch>
+                        <app-switch [(ngModel)]="item.status" (ngModelChange)="onStatusChange(item)" />
                     </td>
                     <td>{{ item.remark }}</td>
                     <td>
@@ -46,7 +46,7 @@
                 
             </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
     </div>
   </div>
 
@@ -61,7 +61,7 @@
             <i class="iconfont icon-plus"></i>
         </a>
     </div>
-    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
+    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
     <app-swipe-list-control>
         @for (item of items; track $index) {
             <app-swipe-control>
@@ -104,7 +104,7 @@
     <div class="form-group">
         <label for="status">是否开启</label>
         <div class="input-group-control">
-            <app-switch id="status" [(ngModel)]="editData.status"></app-switch>
+            <app-switch id="status" [(ngModel)]="editData.status" />
         </div>
     </div>
 </app-dialog-box>

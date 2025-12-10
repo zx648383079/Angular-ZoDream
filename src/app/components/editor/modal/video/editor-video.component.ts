@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FileUploadService } from '../../../../theme/services';
 import { EditorModalCallback, IEditorModal } from '../../model';
 
@@ -9,6 +9,8 @@ import { EditorModalCallback, IEditorModal } from '../../model';
   styleUrls: ['./editor-video.component.scss']
 })
 export class EditorVideoComponent implements IEditorModal {
+    private uploadService = inject(FileUploadService);
+
 
     public visible = false;
     public fileName = this.uploadService.uniqueGuid();
@@ -18,9 +20,6 @@ export class EditorVideoComponent implements IEditorModal {
     public isAutoplay = false;
     public isLoading = false;
     private confirmFn: EditorModalCallback;
-    constructor(
-        private uploadService: FileUploadService,
-    ) { }
 
     public open(data: any, cb: EditorModalCallback) {
         this.visible = true;

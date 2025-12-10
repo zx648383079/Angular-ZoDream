@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { SearchDialogEvent } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { ComponentTypeItems, ICategory, IThemeComponent } from '../../model';
@@ -12,9 +12,12 @@ import { SearchService } from '../../../../theme/services';
     styleUrls: ['./search-dialog.component.scss']
 })
 export class SearchDialogComponent implements SearchDialogEvent {
+    private service = inject(VisualService);
+    private searchService = inject(SearchService);
 
-    @Input() public multiple = false;
-    @Input() public visible = false;
+
+    public readonly multiple = input(false);
+    public visible = false;
     public items: IThemeComponent[] = [];
     public hasMore = true;
     public isLoading = false;
@@ -34,10 +37,7 @@ export class SearchDialogComponent implements SearchDialogEvent {
     private checkFn: (items: IThemeComponent[]) => boolean;
 
 
-    constructor(
-        private service: VisualService,
-        private searchService: SearchService,
-    ) {
+    constructor() {
         this.service.categoryTree().subscribe(res => {
             this.categories = res.data;
         });
@@ -75,7 +75,7 @@ export class SearchDialogComponent implements SearchDialogEvent {
     }
 
     public tapSelected(item: IThemeComponent) {
-        if (!this.multiple) {
+        if (!this.multiple()) {
             this.selectedItems = [item];
             return;
         }
@@ -92,7 +92,7 @@ export class SearchDialogComponent implements SearchDialogEvent {
         if (this.checkFn && this.checkFn(this.selectedItems) === false) {
             return;
         }
-        if (this.multiple) {
+        if (this.multiple()) {
             this.output(this.selectedItems);
             return;
         }

@@ -1,27 +1,26 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnChanges, OnInit, SimpleChanges, input, output, viewChild } from '@angular/core';
 import { PanelWidget, TreeEvent, TreeItem, TREE_ACTION, Widget } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-catalog-item',
-  templateUrl: './catalog-item.component.html',
-  styleUrls: ['./catalog-item.component.scss']
+    selector: 'app-catalog-item',
+    templateUrl: './catalog-item.component.html',
+    styleUrls: ['./catalog-item.component.scss']
 })
 export class CatalogItemComponent implements OnInit, OnChanges {
 
-    @ViewChild('input')
-    public InputRef: ElementRef<HTMLInputElement>;
+    public readonly InputRef = viewChild<ElementRef<HTMLInputElement>>('input');
 
-    @Input() public value: TreeItem;
-    @Input() public level = 0;
-    @Output() public tapped = new EventEmitter<TreeEvent>();
+    public readonly value = input<TreeItem>(undefined);
+    public readonly level = input(0);
+    public readonly tapped = output<TreeEvent>();
     public isWidget = false;
 
     constructor() { }
 
     public get headerStyle() {
         return {
-            'padding-left': this.level * 30 + 'px' 
+            'padding-left': this.level() * 30 + 'px' 
         };
     }
 
@@ -39,10 +38,11 @@ export class CatalogItemComponent implements OnInit, OnChanges {
         if (this.isWidget) {
             return;
         }
-        this.value.onEdit = true;
+        this.value().onEdit = true;
         setTimeout(() => {
-            if (this.InputRef) {
-                this.InputRef.nativeElement.focus();
+            const InputRef = this.InputRef();
+            if (InputRef) {
+                InputRef.nativeElement.focus();
             }
         }, 100);
     }
@@ -51,24 +51,26 @@ export class CatalogItemComponent implements OnInit, OnChanges {
         e.stopPropagation();
         this.tapped.emit({
             action: TREE_ACTION.CONTEXT,
-            data: this.value,
+            data: this.value(),
             event: e,
         });
         return false;
     }
 
     public tapFinish() {
-        this.value.onEdit = false;
+        const value = this.value();
+        value.onEdit = false;
         this.tapped.emit({
             action: TREE_ACTION.EDIT,
-            data: this.value
+            data: value
         });
     }
 
     public tapExpand(e: MouseEvent) {
         e.stopPropagation();
-        if (this.value.canExpand) {
-            this.value.expand = !this.value.expand;
+        const value = this.value();
+        if (value.canExpand) {
+            value.expand = !value.expand;
         }
     }
 
@@ -81,32 +83,33 @@ export class CatalogItemComponent implements OnInit, OnChanges {
     public tapSetHome() {
         this.tapped.emit({
             action: TREE_ACTION.HOME,
-            data: this.value
+            data: this.value()
         });
     }
 
     public tapCopy() {
         this.tapped.emit({
             action: TREE_ACTION.COPY,
-            data: this.value
+            data: this.value()
         });
     }
 
     public tapTrash() {
         this.tapped.emit({
             action: TREE_ACTION.TRASH,
-            data: this.value
+            data: this.value()
         });
     }
 
     private format() {
-        this.isWidget = this.value instanceof Widget;
+        this.isWidget = this.value() instanceof Widget;
+        const value = this.value();
         if (this.isWidget) {
-            this.value.canExpand = this.value instanceof PanelWidget;
+            value.canExpand = value instanceof PanelWidget;
         }
-        if (this.value.icon) {
+        if (value.icon) {
             return;
         }
-        this.value.icon = this.value.canExpand ? 'icon-folder-o' : 'icon-file-o';
+        value.icon = value.canExpand ? 'icon-folder-o' : 'icon-file-o';
     }
 }

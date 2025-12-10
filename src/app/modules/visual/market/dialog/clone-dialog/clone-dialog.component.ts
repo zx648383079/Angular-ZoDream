@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ISite } from '../../../model';
 import { VisualService } from '../../visual.service';
 import { ThemeService } from '../../../../../theme/services';
@@ -16,18 +16,18 @@ import { emptyValidate } from '../../../../../theme/validators';
     styleUrls: ['./clone-dialog.component.scss']
 })
 export class CloneDialogComponent {
+    private service = inject(VisualService);
+    private themeService = inject(ThemeService);
+    private toastrService = inject(DialogService);
+    private store = inject<Store<AppState>>(Store);
+
 
     public visible = false;
     public sourceData: ISite;
     public editData: ISite = {} as any;
     private isGuest = true;
 
-    constructor(
-        private service: VisualService,
-        private themeService: ThemeService,
-        private toastrService: DialogService,
-        private store: Store<AppState>,
-    ) {
+    constructor() {
         this.store.select(selectAuthStatus).subscribe(
             data => {
                 this.isGuest = data.guest

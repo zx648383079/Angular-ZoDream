@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ChapterTypeItems, IChapter } from '../../../model';
@@ -14,6 +14,11 @@ import { ButtonEvent } from '../../../../../components/form';
   styleUrls: ['./chapter-detail.component.scss']
 })
 export class ChapterDetailComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(BookService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         title: ['', Validators.required],
@@ -25,13 +30,6 @@ export class ChapterDetailComponent implements OnInit {
 
     public data: IChapter;
     public typeItems = ChapterTypeItems;
-
-    constructor(
-        private fb: FormBuilder,
-        private service: BookService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {

@@ -2,7 +2,7 @@
 <div class="container-fluid" [ngClass]="{'on-running': data && data.status != 5}">
     
     <div class="detail-box">
-        <app-circle-progress class="timer-desc" (finished)="tapCheck()"></app-circle-progress>
+        <app-circle-progress class="timer-desc" (finished)="tapCheck()" />
         <div class="timer-name">{{ current.name }}</div>
         <div class="timer-desc">{{ current.description }}</div>
     </div>
@@ -52,4 +52,4 @@
 </div>
 }
 
-<app-comment-panel #panel [itemId]="current?.id"></app-comment-panel>
+<app-comment-panel #panel [itemId]="current?.id" />

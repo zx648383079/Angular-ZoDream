@@ -1,6 +1,6 @@
-@for (item of value; track $index; let i = $index) {
+@for (item of value(); track $index; let i = $index) {
     <div class="item-panel">
-        <app-question-min [value]="item" (valueChange)="tapEdit($event, i)"></app-question-min>
+        <app-question-min [value]="item" (valueChange)="tapEdit($event, i)" />
         <i class="iconfont icon-close" (click)="tapRemove(i)"></i>
     </div>
 }

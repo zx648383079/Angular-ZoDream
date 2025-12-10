@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
@@ -18,6 +18,12 @@ import { treeRemoveId } from '../../shared';
   styleUrls: ['./api-edit.component.scss']
 })
 export class ApiEditComponent implements OnInit, OnDestroy {
+    private fb = inject(FormBuilder);
+    private service = inject(DocumentService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private themeService = inject(ThemeService);
+
     public form = this.fb.group({
         name: ['', Validators.required],
         method: ['GET'],
@@ -32,16 +38,6 @@ export class ApiEditComponent implements OnInit, OnDestroy {
     public versionItems: IProjectVersion[] = [];
     public editData: any = {};
     public methodItems = ['GET', 'POST', 'PUT', 'DELETE', 'OPTION'];
-    
-
-
-    constructor(
-        private fb: FormBuilder,
-        private service: DocumentService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private themeService: ThemeService,
-    ) { }
 
     ngOnInit() {
         this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Compact);

@@ -11,7 +11,7 @@
     <div class="form-group row">
         <label for="logo" class="col-md-3 col-form-label">LOGO</label>
         <div class="col-md-9">
-            <app-file-input formControlName="logo"></app-file-input>
+            <app-file-input formControlName="logo" />
         </div>
     </div>
     <div class="form-group row">
@@ -29,7 +29,7 @@
     <div class="form-group row">
         <label for="address" class="col-md-3 col-form-label" i18n>Category</label>
         <div class="col-md-9">
-            <ng-select [multiple]="true" [items]="categories" bindValue="id" bindLabel="name" formControlName="categories" i18n-placeholder placeholder="Select categories"></ng-select>
+            <ng-select [multiple]="true" [items]="categories" bindValue="id" bindLabel="name" formControlName="categories" i18n-placeholder placeholder="Select categories" />
         </div>
     </div>
     

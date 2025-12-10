@@ -55,8 +55,8 @@
             </div>
             }
         </div>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>
 <app-dialog-box #logisticsModal title="物流信息" [footerVisible]="false">
@@ -119,7 +119,7 @@
     <div class="input-group-control">
         <label for="">发生时间</label>
         <div>
-            <app-date-input format="yyyy-mm-dd hh:ii:ss" [(ngModel)]="logisticsData.time"></app-date-input>
+            <app-date-input format="yyyy-mm-dd hh:ii:ss" [(ngModel)]="logisticsData.time" />
         </div>
     </div>
     <div class="btn-group">

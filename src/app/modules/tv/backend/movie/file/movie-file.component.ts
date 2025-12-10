@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { UploadCustomEvent } from '../../../../../components/form';
@@ -16,6 +16,11 @@ import { TVService } from '../../tv.service';
   styleUrls: ['./movie-file.component.scss']
 })
 export class MovieFileComponent implements OnInit {
+    private service = inject(TVService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IMovieFile[] = [];
     public hasMore = true;
@@ -30,14 +35,6 @@ export class MovieFileComponent implements OnInit {
     public series: IMovieSeries = {} as any;
     public urlTypeItems = ['文件', '网址', '网盘', '种子', '字幕文件'];
     public definitionItems = ['标清', '高清', '蓝光'];
-
-    constructor(
-        private service: TVService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

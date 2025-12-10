@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,6 +13,11 @@ import { BookService } from '../book.service';
   styleUrls: ['./author.component.scss']
 })
 export class AuthorComponent implements OnInit {
+    private service = inject(BookService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
 
     public items: IAuthor[] = [];
     public hasMore = true;
@@ -23,13 +28,6 @@ export class AuthorComponent implements OnInit {
         page: 1,
         per_page: 20,
     };
-
-    constructor(
-        private service: BookService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(res => {

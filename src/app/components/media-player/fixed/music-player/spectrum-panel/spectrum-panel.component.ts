@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnChanges, SimpleChanges, input, viewChild } from '@angular/core';
 import { SpectrumType } from '../../model';
 import { IPoint } from '../../../../../theme/utils/canvas';
 
@@ -22,11 +22,10 @@ type RenderSpectumRingFunc = (context: CanvasRenderingContext2D, pen: string, da
 })
 export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
 
-    @ViewChild('drawerBox')
-    private drawerElement: ElementRef;
-    @Input() public value: number[] = [];
-    @Input() public height = 200;
-    @Input() public width = 0;
+    private readonly drawerElement = viewChild<ElementRef>('drawerBox');
+    public readonly value = input<number[]>([]);
+    public readonly height = input(200);
+    public readonly width = input(0);
     public fill = 'red';
     private kind = SpectrumType.Columnar;
     private ctx: CanvasRenderingContext2D;
@@ -43,31 +42,32 @@ export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
 
     public get boxStyle() {
         const style: any = {
-            height: this.height + 'px',
+            height: this.height() + 'px',
         };
-        if (this.width) {
-            style.width = this.width + 'px';
+        const width = this.width();
+        if (width) {
+            style.width = width + 'px';
         }
         return style;
     }
 
     get drawer(): HTMLCanvasElement {
-        return this.drawerElement.nativeElement as HTMLCanvasElement;
+        return this.drawerElement().nativeElement as HTMLCanvasElement;
     }
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes.value) {
-            this.drawColumns(this.value);
+            this.drawColumns(this.value());
         } else if (changes.width || changes.height) {
-            this.drawer.width = this.width;
-            this.drawer.height = this.height;
-            this.drawColumns(this.value);
+            this.drawer.width = this.width();
+            this.drawer.height = this.height();
+            this.drawColumns(this.value());
         }
     }
 
     ngAfterViewInit() {
-        this.drawer.width = this.width;
-        this.drawer.height = this.height;
+        this.drawer.width = this.width();
+        this.drawer.height = this.height();
         this.ctx = this.drawer.getContext('2d');
     }
 
@@ -80,8 +80,10 @@ export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
 
     private onRender(drawingContext: CanvasRenderingContext2D)
     {
-        drawingContext.clearRect(0, 0, this.width, this.height);
-        if (this.width < this.columnWidth || this.height < this.columnWidth)
+        const height = this.height();
+        const width = this.width();
+        drawingContext.clearRect(0, 0, width, height);
+        if (width < this.columnWidth || height < this.columnWidth)
         {
             return;
         }
@@ -135,8 +137,8 @@ export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
             func(drawingContext, pen, 
                 i, outerWidth * i, y,
                 this.columnWidth,
-                dataIndex >= 0 && dataIndex < this.value.length ?
-                Math.min(this.value[dataIndex] * preRectHeight * rate, maxHeight) : 0);
+                dataIndex >= 0 && dataIndex < this.value().length ?
+                Math.min(this.value()[dataIndex] * preRectHeight * rate, maxHeight) : 0);
             dataIndex++;
         }
     }
@@ -147,7 +149,7 @@ export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
 
 
     private renderPolyline(drawingContext: CanvasRenderingContext2D) {
-        let lastPoint: IPoint = {x: 0, y: this.height};
+        let lastPoint: IPoint = {x: 0, y: this.height()};
         const pen = this.fill;
         this.renderEach2(drawingContext, (d, _, x, y, w, h, __) =>
         {
@@ -161,7 +163,7 @@ export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
         }
         this.drawLine(drawingContext, pen, lastPoint, {
             x: lastPoint.x + this.columnWidth / 2,
-            y: this.height
+            y: this.height()
         });
     }
 
@@ -176,12 +178,12 @@ export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
         func: RenderSpectumHatFunc)
     {
         const outerWidth = this.columnWidth + this.space;
-        const maxWidth = isSymmetry ? this.width / 2 : this.width;
+        const maxWidth = isSymmetry ? this.width() / 2 : this.width();
         const leftX = isSymmetry ? maxWidth - this.space / 2 : 0;
         const rightX = isSymmetry ? maxWidth + this.space / 2 : 0;
         this.renderEach(drawingContext, 0,
             Math.floor(maxWidth / outerWidth),
-            this.rate * 2, this.height, (d,p,i,x,y,w,h) =>
+            this.rate * 2, this.height(), (d,p,i,x,y,w,h) =>
             {
                 const hat = this.getHat(i, h);
                 func(d, p, x + rightX, y, w, h, hat);
@@ -195,16 +197,16 @@ export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
     private renderInversePolyline(drawingContext: CanvasRenderingContext2D)
     {
         const outerWidth = this.columnWidth + this.space;
-        const centerX = this.width / 2;
+        const centerX = this.width() / 2;
         const leftX = centerX - this.space / 2;
         const rightX = centerX + this.space / 2;
         let lastX = -this.space/2;
-        let lastY = this.height;
+        let lastY = this.height();
         const pen = this.fill;
         let j = -1;
         this.renderEach(drawingContext, 0,
             Math.floor(centerX / outerWidth),
-            this.rate, this.height, (d, _, i, x, y, w, h) =>
+            this.rate, this.height(), (d, _, i, x, y, w, h) =>
             {
                 j++;
                 var top = y - h;
@@ -338,13 +340,13 @@ export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
         func: RenderSpectumRingFunc)
     {
         const outerWidth = this.columnWidth + this.space;
-        const centerX = this.width / 2;
-        const centerY = this.height / 2;
+        const centerX = this.width() / 2;
+        const centerY = this.height() / 2;
         const radius = Math.min(centerX, centerY) * radiusRate;
-        const columnCount = Math.min(Math.max(this.value.length, 10), 
+        const columnCount = Math.min(Math.max(this.value().length, 10), 
             Math.floor(Math.PI * radius * 2 * perimeterRate / outerWidth));
         const preAngle = maxAngle / columnCount;
-        if (this.value.length < 1)
+        if (this.value().length < 1)
         {
             return;
         }
@@ -367,8 +369,8 @@ export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
     {
         const outerWidth = this.columnWidth + this.space;
         this.renderEach(drawingContext, 0,
-            Math.floor(this.width / outerWidth),
-            this.rate, this.height / 2, this.renderSymmetryColumnar2.bind(this));
+            Math.floor(this.width() / outerWidth),
+            this.rate, this.height() / 2, this.renderSymmetryColumnar2.bind(this));
     }
 
     private renderSymmetryColumnar2(drawingContext: CanvasRenderingContext2D, pen: string, index: number,

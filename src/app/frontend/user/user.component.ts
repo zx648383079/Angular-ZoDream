@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
 import { IUserStatus } from '../../theme/models/user';
@@ -17,6 +17,11 @@ import { debounceTime, Subscription } from 'rxjs';
     styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit, OnDestroy {
+    private store = inject<Store<AppState>>(Store);
+    private router = inject(Router);
+    private menuService = inject(MenuService);
+    private themeService = inject(ThemeService);
+
 
     public user: IUserStatus;
     public tabItems: INavLink[] = [];
@@ -26,13 +31,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
     private subItems = new Subscription();
 
-    constructor(
-        private store: Store<AppState>,
-        // private service: UserService,
-        private router: Router,
-        private menuService: MenuService,
-        private themeService: ThemeService,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next($localize `My`);
         this.store.select(selectAuthUser).subscribe(user => {
             this.user = user as any;

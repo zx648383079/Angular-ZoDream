@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -15,9 +15,14 @@ import { TaskService } from '../task.service';
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+    private service = inject(TaskService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
 
-    @ViewChild(TaskSelectComponent)
-    private taskModal: TaskSelectComponent;
+
+    private readonly taskModal = viewChild(TaskSelectComponent);
 
     public items: ITaskDay[] = [];
     public hasMore = true;
@@ -28,15 +33,6 @@ export class HomeComponent implements OnInit {
         per_page: 20,
     };
     public taskData: ITask = {} as any;
-
-    constructor(
-        private service: TaskService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -85,7 +81,7 @@ export class HomeComponent implements OnInit {
     }
 
     public tapAdd() {
-        this.taskModal.open(item => {
+        this.taskModal().open(item => {
             this.tapAddTo(item);
         });
     }

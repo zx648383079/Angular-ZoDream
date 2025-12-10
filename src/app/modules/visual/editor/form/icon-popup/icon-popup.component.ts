@@ -1,6 +1,6 @@
-import { Component, Input, OnInit, forwardRef } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { Component, input, model } from '@angular/core';
 import { IItem } from '../../../../../theme/models/seo';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -10,15 +10,10 @@ import { IItem } from '../../../../../theme/models/seo';
     host: {
         class: 'control-inline-group',
     },
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => EditorIconPopupComponent),
-        multi: true
-    }]
 })
-export class EditorIconPopupComponent implements ControlValueAccessor {
+export class EditorIconPopupComponent implements FormValueControl<string> {
 
-    @Input() public header: string = '';
+    public readonly header = input<string>('');
 
     public items: IItem[] =  [
         {name: 'Home', value: 'icon-home'},
@@ -29,9 +24,8 @@ export class EditorIconPopupComponent implements ControlValueAccessor {
 
     public visible = false;
     public isEmpty = true;
-    public disabled = false;
-    private onChange: any = () => {};
-    private onTouch: any = () => {};
+    public readonly disabled = input<boolean>(false);
+    public readonly value = model<string>('');
 
     public tapSelect(item: IItem) {
         item.checked = true;
@@ -41,16 +35,4 @@ export class EditorIconPopupComponent implements ControlValueAccessor {
 
     }
     
-    writeValue(obj: any): void {
-        
-    }
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
-    }
 }

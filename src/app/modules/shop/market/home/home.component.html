@@ -50,7 +50,7 @@
                 <a class="header-right"><ng-container i18n>More</ng-container>&gt;</a>
             </div>
             @if (newItems.length > 0) {
-            <app-goods-slider [items]="newItems"></app-goods-slider>
+            <app-goods-slider [items]="newItems" />
             }
         </div>
     </div>
@@ -129,7 +129,7 @@
                 <small></small>
             </div>
             @if (commentItems.length > 0) {
-            <app-goods-slider [items]="commentItems"></app-goods-slider>
+            <app-goods-slider [items]="commentItems" />
             }
         </div>
     </div>

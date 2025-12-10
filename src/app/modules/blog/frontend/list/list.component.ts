@@ -1,8 +1,4 @@
-import {
-    Component,
-    OnDestroy,
-    OnInit
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
     BlogService
 } from '../blog.service';
@@ -32,6 +28,12 @@ import { parseNumber } from '../../../../theme/utils';
     styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit, OnDestroy {
+    private service = inject(BlogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+    private themeService = inject(ThemeService);
+    private store = inject<Store<AppState>>(Store);
+
     public categories: ICategory[] = [];
     public newItems: IBlog[] = [];
     public commentItems: IComment[] = [];
@@ -78,13 +80,7 @@ export class ListComponent implements OnInit, OnDestroy {
         return false;
     };
 
-    constructor(
-        private service: BlogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-        private themeService: ThemeService,
-        private store: Store<AppState>,
-    ) {
+    constructor() {
         this.themeService.titleChanged.next($localize `Blog`);
         this.store.select(selectSystemConfig).subscribe(res => {
             this.listView = parseNumber(res.blog_list_view);

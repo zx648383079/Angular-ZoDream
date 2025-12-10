@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -15,6 +15,11 @@ import { TaskService } from '../task.service';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
+    private service = inject(TaskService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: ITask[] = [];
     public hasMore = true;
@@ -37,14 +42,6 @@ export class ListComponent implements OnInit {
             value: 2
         },
     ];
-
-    constructor(
-        private service: TaskService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

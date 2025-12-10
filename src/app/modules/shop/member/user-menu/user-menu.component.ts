@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { INavLink } from '../../../../theme/models/seo';
 
@@ -86,8 +86,8 @@ export class UserMenuComponent implements OnChanges {
         },
     ];
 
-    @Input() public current: ActivatedRoute;
-    @Input() public currentUrl: string;
+    public readonly current = input<ActivatedRoute>(undefined);
+    public readonly currentUrl = input<string>(undefined);
 
     constructor() { }
 

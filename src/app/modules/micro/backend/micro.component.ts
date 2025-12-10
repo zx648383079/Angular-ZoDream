@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MicroService } from './micro.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { MicroService } from './micro.service';
   styleUrls: ['./micro.component.scss']
 })
 export class MicroComponent implements OnInit {
+    private service = inject(MicroService);
+
 
     public isLoading = true;
     public data: any = {};
-
-    constructor(
-        private service: MicroService,
-    ) { }
 
     ngOnInit() {
         this.service.statistics().subscribe(res => {

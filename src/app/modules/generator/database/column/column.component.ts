@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GenerateService } from '../../generate.service';
 import { IColumn } from '../../model';
@@ -11,6 +11,9 @@ import { ITableHeaderItem } from '../../../../components/desktop/editable-table/
   styleUrls: ['./column.component.scss']
 })
 export class ColumnComponent implements OnInit {
+    private service = inject(GenerateService);
+    private route = inject(ActivatedRoute);
+
 
     public items: IColumn[] = [];
     public headerItems: ITableHeaderItem[] = [
@@ -25,11 +28,6 @@ export class ColumnComponent implements OnInit {
     public schema = '';
     public table = '';
     public isLoading = false;
-
-    constructor(
-        private service: GenerateService,
-        private route: ActivatedRoute,
-    ) { }
 
     ngOnInit() {
         this.isLoading = true;

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit, inject, input, output } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 
 @Component({
@@ -8,21 +8,19 @@ import { DialogService } from '../../../../components/dialog';
     styleUrls: ['./nav-bar.component.scss']
 })
 export class NavBarComponent {
+    private toastrService = inject(DialogService);
 
-    @Input() public items: any[] = [];
-    @Input() public selected = 0;
-    @Input() public header = $localize `Category`;
+
+    public readonly items = input<any[]>([]);
+    public readonly selected = input(0);
+    public readonly header = input($localize `Category`);
 
     public isEditable = false;
 
-    @Output() public selectedChange = new EventEmitter<number>();
-    @Output() public add = new EventEmitter();
-    @Output() public edit = new EventEmitter<any>();
-    @Output() public remove = new EventEmitter<any>();
-
-    constructor(
-        private toastrService: DialogService,
-    ) { }
+    public readonly selectedChange = output<number>();
+    public readonly add = output();
+    public readonly edit = output<any>();
+    public readonly remove = output<any>();
 
 
     public toggleEdit() {

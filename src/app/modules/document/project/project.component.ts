@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentService } from '../document.service';
 import { IDocApi, IDocPage, IProject } from '../model';
@@ -10,16 +10,14 @@ import { IDocApi, IDocPage, IProject } from '../model';
   styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
+    private service = inject(DocumentService);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+
 
     public data: IProject;
     public catalog: IDocPage[]&IDocApi[] = [];
     public tabIndex = 0;
-
-    constructor(
-        private service: DocumentService,
-        private route: ActivatedRoute,
-        private router: Router,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

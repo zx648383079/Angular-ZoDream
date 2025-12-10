@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { UploadCustomEvent } from '../../../../components/form';
@@ -16,6 +16,11 @@ import { TVService } from '../tv.service';
   styleUrls: ['./music.component.scss']
 })
 export class MusicComponent implements OnInit {
+    private service = inject(TVService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IMusic[] = [];
     public hasMore = true;
@@ -34,14 +39,6 @@ export class MusicComponent implements OnInit {
         {name: '超高音质', value: 3},
         {name: '歌词', value: 11},
     ]
-
-    constructor(
-        private service: TVService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

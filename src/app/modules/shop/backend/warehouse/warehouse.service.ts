@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IDataOne, IPage } from '../../../../theme/models/page';
 import { IWarehouse, IWarehouseGoods, IWarehouseLog } from '../../model';
 
 @Injectable()
 export class WarehouseService {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) {}
 
     public warehouseList(params: any) {
         return this.http.get<IPage<IWarehouse>>('shop/admin/warehouse', {

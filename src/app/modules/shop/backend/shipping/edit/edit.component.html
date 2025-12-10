@@ -1,4 +1,4 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑配送方式' : '新增配送方式'" (submited)="tapSubmit()" [disabled]="form.invalid"></app-edit-header>
+<app-edit-header [title]="data && data.id > 0 ? '编辑配送方式' : '新增配送方式'" (submited)="tapSubmit()" [disabled]="form.invalid" />
 <div class="container-fluid">
     
         <app-panel title="基本信息">
@@ -13,13 +13,13 @@
             <div class="input-group-control">
                 <label for="icon">图标</label>
                 <div>
-                    <app-file-input id="icon" formControlName="icon"></app-file-input>
+                    <app-file-input id="icon" formControlName="icon" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="code">Code</label>
                 <div>
-                    <ng-select [items]="items" bindValue="value" bindLabel="name" formControlName="code"></ng-select>
+                    <ng-select [items]="items" bindValue="value" bindLabel="name" formControlName="code" />
     
                 </div>
             </div>
@@ -45,7 +45,7 @@
             <div class="input-group-control">
                 <label for="description">货到付款</label>
                 <div>
-                    <app-switch formControlName="cod_enabled" onLabel="支持" offLabel="不支持"></app-switch>
+                    <app-switch formControlName="cod_enabled" onLabel="支持" offLabel="不支持" />
                 </div>
             </div>
             <div class="input-group-control">

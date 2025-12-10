@@ -187,7 +187,7 @@
                                     <ng-container i18n>Free</ng-container>
                                 }
                             </div>
-                            <app-star></app-star>
+                            <app-star />
                             <p>{{ item.download_count | numberFormat }} Sales</p>
                             <p>{{ item.updated_at | ago }}</p>
                             <div class="btn-group">
@@ -205,8 +205,8 @@
             </div>
 
 
-            <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-            <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+            <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+            <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
         </div>
     </div>
 </div>

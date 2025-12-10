@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -14,6 +14,11 @@ import { SwiperEvent } from '../../../components/swiper';
     styleUrls: ['./feedback.component.scss'],
 })
 export class FeedbackComponent implements OnInit {
+    private service = inject(ContactService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IFeedback[] = [];
     public hasMore = true;
@@ -28,15 +33,6 @@ export class FeedbackComponent implements OnInit {
     public isMultiple = false;
     public isChecked = false;
     public isReview = false;
-
-    constructor(
-        private service: ContactService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-        
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

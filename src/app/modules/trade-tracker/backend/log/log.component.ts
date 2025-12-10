@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -14,6 +14,11 @@ import { emptyValidate } from '../../../../theme/validators';
     styleUrls: ['./log.component.scss']
 })
 export class LogComponent implements OnInit {
+    private service = inject(TrackerBackendService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
 
     public items: ITradeLog[] = [];
     public hasMore = true;
@@ -29,14 +34,6 @@ export class LogComponent implements OnInit {
     public isMultiple = false;
     public isChecked = false;
     public editData = {} as any;
-
-    constructor(
-        private service: TrackerBackendService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

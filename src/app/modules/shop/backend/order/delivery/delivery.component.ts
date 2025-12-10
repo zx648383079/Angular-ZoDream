@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -15,6 +15,11 @@ import { emptyValidate } from '../../../../../theme/validators';
     styleUrls: ['./delivery.component.scss']
 })
 export class DeliveryComponent implements OnInit {
+    private service = inject(OrderService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IDelivery[] = [];
     public hasMore = true;
@@ -36,14 +41,6 @@ export class DeliveryComponent implements OnInit {
         content: '',
         time: '',
     };
-
-    constructor(
-        private service: OrderService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

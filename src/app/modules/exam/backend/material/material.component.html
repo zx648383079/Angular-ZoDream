@@ -55,10 +55,10 @@
                 
             </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>
 <app-dialog-box #modal [title]="editData && editData.id > 0 ? '编辑素材' : '新增素材'">
-    <app-material-form [(value)]="editData" [courseItems]="courseItems"></app-material-form>
+    <app-material-form [(value)]="editData" [courseItems]="courseItems" />
 </app-dialog-box>

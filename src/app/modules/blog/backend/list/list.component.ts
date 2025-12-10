@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IBlog, ICategory } from '../../model';
@@ -16,6 +16,11 @@ import { mapFormat } from '../../../../theme/utils';
     styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
+    private service = inject(BlogService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public categories: ICategory[] = [];
     public statusItems: IItem[] = [];
@@ -33,12 +38,7 @@ export class ListComponent implements OnInit {
     public total = 0;
     public isReview = false;
 
-    constructor(
-        private service: BlogService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
+    constructor() {
         this.service.editOption().subscribe(res => {
             this.categories = res.categories;
             this.statusItems = res.publish_status;

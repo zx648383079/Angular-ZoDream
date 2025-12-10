@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -15,12 +15,15 @@ import { OrderEditDialogComponent } from './edit/order-edit-dialog.component';
     styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit {
+    private service = inject(CateringService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
 
-    @ViewChild(OrderCreateDialogComponent)
-    private createModal: OrderCreateDialogComponent;
 
-    @ViewChild(OrderEditDialogComponent)
-    private editModal: OrderEditDialogComponent;
+    private readonly createModal = viewChild(OrderCreateDialogComponent);
+
+    private readonly editModal = viewChild(OrderEditDialogComponent);
 
     public items: ICateringOrder[] = [];
     public hasMore = true;
@@ -32,13 +35,6 @@ export class OrderComponent implements OnInit {
         per_page: 20
     };
 
-    constructor(
-        private service: CateringService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
-
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries = this.searchService.getQueries(params, this.queries);
@@ -47,11 +43,11 @@ export class OrderComponent implements OnInit {
     }
 
     public tapCreate() {
-        this.createModal.open();
+        this.createModal().open();
     }
 
     public tapOpen() {
-        this.editModal.open();
+        this.editModal().open();
     }
 
     public tapRefresh() {

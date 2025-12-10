@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { IItem } from '../../../theme/models/seo';
 import { SystemService } from '../system.service';
@@ -11,13 +11,13 @@ import { ButtonEvent } from '../../../components/form';
     styleUrls: ['./cache.component.scss']
 })
 export class CacheComponent implements OnInit {
+    private service = inject(SystemService);
+    private toastrService = inject(DialogService);
+
 
     public items: IItem[] = [];
 
-    constructor(
-        private service: SystemService,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.service.cacheStore().subscribe(res => {
             this.items = res;
         });

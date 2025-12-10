@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { TrackerBackendService } from './tracker.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { TrackerBackendService } from './tracker.service';
     styleUrls: ['./backend.component.scss']
 })
 export class TradeTrackerBackendComponent implements OnInit {
+    private service = inject(TrackerBackendService);
+
 
     public isLoading = true;
     public data: any = {};
-
-    constructor(
-        private service: TrackerBackendService
-    ) { }
 
     ngOnInit(): void {
         this.service.statistics().subscribe({

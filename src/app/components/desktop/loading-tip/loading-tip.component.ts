@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -8,10 +8,10 @@ import { Component, Input } from '@angular/core';
 })
 export class LoadingTipComponent {
 
-    @Input() public visible = true;
-    @Input() public loading = true;
-    @Input() public emptyIcon = '';
-    @Input() public emptyTip = $localize `Nothing is here.`;
+    public readonly visible = input(true);
+    public readonly loading = input(true);
+    public readonly emptyIcon = input('');
+    public readonly emptyTip = input($localize `Nothing is here.`);
 
     constructor() { }
 

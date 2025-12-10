@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../components/dialog';
 import { IErrorResult } from '../../theme/models/page';
@@ -14,18 +14,14 @@ import { NavigationDisplayMode } from '../../theme/models/event';
     styleUrls: ['./agreement.component.scss']
 })
 export class AgreementComponent implements OnInit {
+    private service = inject(FrontendService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private themeService = inject(ThemeService);
+
 
     public data: IAgreement;
     public navVisible = true;
-
-    constructor(
-        private service: FrontendService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private themeService: ThemeService,
-    ) {
-        
-    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

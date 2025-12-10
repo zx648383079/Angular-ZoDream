@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -13,6 +13,12 @@ import { ActivityService } from '../../activity.service';
   styleUrls: ['./bargain-goods.component.scss']
 })
 export class BargainGoodsComponent implements OnInit {
+    private service = inject(ActivityService);
+    private route = inject(ActivatedRoute);
+    private sanitizer = inject(DomSanitizer);
+    private toastrService = inject(DialogService);
+    private themeService = inject(ThemeService);
+
 
     public data: IGoods;
     public activity: IActivity<IBargainConfigure>;
@@ -22,14 +28,6 @@ export class BargainGoodsComponent implements OnInit {
     public amount = 1;
     public dataType: 0|1|2 = 0; // 0 没有记录 1 别人的记录 2 自己的记录
     public log: any;
-
-    constructor(
-        private service: ActivityService,
-        private route: ActivatedRoute,
-        private sanitizer: DomSanitizer,
-        private toastrService: DialogService,
-        private themeService: ThemeService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

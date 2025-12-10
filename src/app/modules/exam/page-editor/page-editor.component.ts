@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, inject, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContextMenuComponent } from '../../../components/context-menu';
 import { DialogEvent, DialogService } from '../../../components/dialog';
@@ -18,11 +18,14 @@ import { questionNeedOption } from '../util';
     styleUrls: ['./page-editor.component.scss']
 })
 export class PageEditorComponent implements OnInit {
+    private service = inject(ExamService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private themeService = inject(ThemeService);
 
-    @ViewChild(ContextMenuComponent)
-    public contextMenu: ContextMenuComponent;
-    @ViewChild('scrollBar')
-    public scrollBar: ElementRef<HTMLDivElement>;
+
+    public readonly contextMenu = viewChild(ContextMenuComponent);
+    public readonly scrollBar = viewChild<ElementRef<HTMLDivElement>>('scrollBar');
     public items: IQuestion[] = [];
     public editItem: IQuestion;
     public editIndex = -1;
@@ -45,13 +48,6 @@ export class PageEditorComponent implements OnInit {
         keywords: '',
         course: 0,
     };
-
-    constructor(
-        private service: ExamService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private themeService: ThemeService,
-    ) { }
 
     ngOnInit() {
         this.service.courseAll().subscribe(res => {
@@ -198,7 +194,7 @@ export class PageEditorComponent implements OnInit {
     }
 
     public tapContextMenu(event: MouseEvent, i: number) {
-        return this.contextMenu.show(event, [
+        return this.contextMenu().show(event, [
             {
                 name: '新增',
                 icon: 'icon-plus',
@@ -225,7 +221,7 @@ export class PageEditorComponent implements OnInit {
 
     private scrollBottom() {
         setTimeout(() => {
-            const ele = this.scrollBar.nativeElement;
+            const ele = this.scrollBar().nativeElement;
             ele.scrollTo({
                 top: ele.scrollHeight + 300
             });

@@ -1,11 +1,9 @@
-import { Directive, TemplateRef } from '@angular/core';
+import { Directive, TemplateRef, inject } from '@angular/core';
 
 @Directive({
     standalone: false,
     selector: 'ng-template[appSwiperItem]'
 })
-export class SwiperItemDirective {
-    constructor(
-        public tplRef: TemplateRef<any>
-    ) { }
+export class SwiperItemDirective {    tplRef = inject<TemplateRef<any>>(TemplateRef);
+
 }

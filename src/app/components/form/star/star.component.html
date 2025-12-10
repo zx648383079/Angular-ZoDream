@@ -3,9 +3,9 @@
         <i class="iconfont" [ngClass]="{'icon-star': value >= item, 'icon-star-o': value < item}" (click)="tapChange(item)"></i>
     }
     <div class="star-label">
-        @if (labelVisible) {
+        @if (labelVisible()) {
             {{ value }}
         }
-        <ng-content></ng-content>
+        <ng-content />
     </div>
 </div>

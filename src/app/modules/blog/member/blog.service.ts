@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { IUploadResult } from '../../../theme/models/open';
 import { IBlog, ICategory, IEditOptions, ITag } from '../model';
@@ -10,10 +10,8 @@ import { IItem } from '../../../theme/models/seo';
   providedIn: 'root'
 })
 export class BlogService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient,
-    ) { }
 
 
     public categoryAll() {

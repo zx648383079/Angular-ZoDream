@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
@@ -17,19 +17,19 @@ import { IAuthorProfile, IBook } from '../model';
   styleUrls: ['./book-member.component.scss']
 })
 export class BookMemberComponent implements OnInit {
+    private store = inject<Store<AppState>>(Store);
+    private service = inject(BookService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public user: IUser;
     public data: IAuthorProfile;
     public bookItems: IBook[] = [];
     public bookData: IBook = {} as IBook;
 
-    constructor(
-        private store: Store<AppState>,
-        private service: BookService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;
         });

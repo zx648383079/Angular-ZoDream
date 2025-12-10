@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -14,6 +14,11 @@ import { IChannel } from '../../model';
   styleUrls: ['./channel.component.scss']
 })
 export class ChannelComponent implements OnInit {
+    private service = inject(TrackerBackendService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+    private searchService = inject(SearchService);
+
 
     public items: IChannel[] = [];
     public hasMore = true;
@@ -25,15 +30,6 @@ export class ChannelComponent implements OnInit {
         per_page: 20,
     };
     public editData: IChannel = {} as any;
-
-
-    constructor(
-        private service: TrackerBackendService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(res => {

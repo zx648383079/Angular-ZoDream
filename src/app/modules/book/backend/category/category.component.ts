@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ICategory } from '../../model';
 import { emptyValidate } from '../../../../theme/validators';
 import { BookService } from '../book.service';
@@ -11,15 +11,13 @@ import { DialogEvent, DialogService } from '../../../../components/dialog';
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
+    private service = inject(BookService);
+    private toastrService = inject(DialogService);
+
 
     public items: ICategory[] = [];
     public isLoading = false;
     public editData: ICategory = {} as any;
-
-    constructor(
-        private service: BookService,
-        private toastrService: DialogService,
-    ) {}
 
     ngOnInit() {
         this.tapRefresh();

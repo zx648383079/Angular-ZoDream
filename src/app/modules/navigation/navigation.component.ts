@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../components/dialog';
@@ -22,11 +22,16 @@ import { selectSystemConfig } from '../../theme/reducers/system.selectors';
     styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit, OnDestroy {
+    private service = inject(NavigationService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private store = inject<Store<AppState>>(Store);
+    private themeService = inject(ThemeService);
+    private searchService = inject(SearchService);
 
-    @ViewChild(ReportDialogComponent)
-    private reportModal: ReportDialogComponent;
-    @ViewChild(NavigationPanelComponent)
-    private collectModal: NavigationPanelComponent;
+
+    private readonly reportModal = viewChild(ReportDialogComponent);
+    private readonly collectModal = viewChild(NavigationPanelComponent);
 
     public openType = 0;
     public items: IWebPage[] = [];
@@ -40,14 +45,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     };
     public user: IUser;
 
-    constructor(
-        private service: NavigationService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private store: Store<AppState>,
-        private themeService: ThemeService,
-        private searchService: SearchService,
-    ) {
+    constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;
         });
@@ -84,11 +82,11 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
     public tapItem(e: {type: number, data: IWebPage}) {
         if (e.type == 2) {
-            this.reportModal.open(e.data);
+            this.reportModal().open(e.data);
             return;
         }
         if (e.type == 0) {
-            this.collectModal.collect(e.data.title, e.data.link);
+            this.collectModal().collect(e.data.title, e.data.link);
             return;
         }
     }

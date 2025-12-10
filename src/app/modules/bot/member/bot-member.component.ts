@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { INavLink } from '../../../theme/models/seo';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BotService } from './bot.service';
@@ -11,6 +11,11 @@ import { ThemeService } from '../../../theme/services';
     styleUrls: ['./bot-member.component.scss']
 })
 export class BotMemberComponent implements OnInit {
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private service = inject(BotService);
+    private themeService = inject(ThemeService);
+
 
     public items: INavLink[] = [
         {
@@ -54,14 +59,6 @@ export class BotMemberComponent implements OnInit {
             url: 'log',
         },
     ];
-
-    constructor(
-        private router: Router,
-        private route: ActivatedRoute,
-        private service: BotService,
-        private themeService: ThemeService
-    ) { 
-    }
 
     ngOnInit(): void {
         this.themeService.titleChanged.next($localize `Bot Manage`);

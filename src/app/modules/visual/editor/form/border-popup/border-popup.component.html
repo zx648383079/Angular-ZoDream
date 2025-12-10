@@ -1,6 +1,6 @@
 <i class="control-updated-tag" [hidden]="isEmpty" (click)="tapEmpty()"></i>
-@if (header) {
-<label >{{ header }}</label>
+@if (header()) {
+<label >{{ header() }}</label>
 }
 <div class="control-popup-target">
     <div class="color-icon" (click)="visible = !visible">
@@ -8,7 +8,7 @@
     </div>
 </div>
 <div class="control-popup" [hidden]="!visible">
-    <app-editor-bound-input header="Width"></app-editor-bound-input>
+    <app-editor-bound-input header="Width" />
     <div class="control-inline-group">
         <label for="">Style</label>
         <select>
@@ -17,9 +17,9 @@
             }
         </select>
     </div>
-    <app-editor-color-popup header="Color"></app-editor-color-popup>
+    <app-editor-color-popup header="Color" />
     <div class="control-line-group">
         <label for="">Radius</label>
-        <app-editor-radius-input></app-editor-radius-input>
+        <app-editor-radius-input />
     </div>
 </div>

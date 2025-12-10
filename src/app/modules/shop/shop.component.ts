@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { setSite } from './shop.actions';
 import { ShopAppState } from './shop.reducer';
@@ -11,11 +11,9 @@ import { ShopService } from './shop.service';
   styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent implements OnInit {
+    private store = inject<Store<ShopAppState>>(Store);
+    private service = inject(ShopService);
 
-    constructor(
-        private store: Store<ShopAppState>,
-        private service: ShopService,
-    ) { }
 
     ngOnInit(): void {
         this.service.site().subscribe(site => {

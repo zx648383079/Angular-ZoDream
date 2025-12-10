@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit, inject } from '@angular/core';
 import { EditorService } from '../editor.service';
 import { WidgetPreview, WidgetSource, WidgetType } from '../model';
 
@@ -9,15 +9,13 @@ import { WidgetPreview, WidgetSource, WidgetType } from '../model';
   styleUrls: ['./editor-soul.component.scss']
 })
 export class EditorSoulComponent implements OnInit {
+    private readonly service = inject(EditorService);
+
 
     public tabIndex = 0;
     public controlItems: WidgetPreview[] = [];
     public panelItems: WidgetPreview[] = [];
     public bodyStyle: any = {};
-
-    constructor(
-        private readonly service: EditorService,
-    ) { }
 
     ngOnInit() {
         this.service.editorSize$.subscribe(res => {

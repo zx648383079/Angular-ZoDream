@@ -11,7 +11,7 @@
                     </select>
                     <a class="btn btn-primary" (click)="openVersion(versionModal)">创建新版本</a>
                 </div>
-                <app-doc-tree-panel [items]="catalog" (valueChange)="tapEdit($event)" (deleted)="tapRemove($event)" (created)="onCreate($event)"></app-doc-tree-panel>
+                <app-doc-tree-panel [items]="catalog" (valueChange)="tapEdit($event)" (deleted)="tapRemove($event)" (created)="onCreate($event)" />
             </div>
             <div class="col-md-8">
                 @if (data) {
@@ -22,7 +22,7 @@
                     </div>
                     @if (data.type < 1) {
                     <div>
-                        <app-markdown-editor formControlName="content" [height]="400"></app-markdown-editor>
+                        <app-markdown-editor formControlName="content" [height]="400" />
                     </div>
                     }
                     

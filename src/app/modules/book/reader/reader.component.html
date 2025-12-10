@@ -1,7 +1,7 @@
 <div class="container-fluid" #container [ngClass]="{'scroll-up': scrollToUp || mode > 0}" >
   
     <div class="reader-box">
-        <app-flip-pager [initChapter]="chapterId" [options]="configs" (progressChanged)="onProgressChange($event)" (previewRequest)="onRequest($event)"></app-flip-pager>
+        <app-flip-pager [initChapter]="chapterId" [options]="configs" (progressChanged)="onProgressChange($event)" (previewRequest)="onRequest($event)" />
     </div>
     
     @if (isLoading) {
@@ -13,7 +13,7 @@
     <footer class="reader-footer" [ngStyle]="footerStyle" (click)="$event.stopPropagation()">
         <div class="pager">
             <a (click)="tapPrev()" i18n>Previous</a>
-            <app-progress-bar [(value)]="progress" (valueChange)="onScrollChange()"></app-progress-bar>
+            <app-progress-bar [(value)]="progress" (valueChange)="onScrollChange()" />
             <a (click)="tapNext()" i18n>Next</a>
         </div>
         @if (mode == 2) {

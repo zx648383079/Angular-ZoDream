@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -14,9 +14,13 @@ import { CustomDialogComponent } from '../goods/custom-dialog/custom-dialog.comp
     styleUrls: ['./stock.component.scss']
 })
 export class StockComponent implements OnInit {
+    private service = inject(CateringService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
 
-    @ViewChild(CustomDialogComponent)
-    private customModal: CustomDialogComponent;
+
+    private readonly customModal = viewChild(CustomDialogComponent);
 
     public items: ICateringStock[] = [];
     public hasMore = true;
@@ -29,13 +33,6 @@ export class StockComponent implements OnInit {
     };
     public categoryItems: ICateringCategory[] = [];
 
-    constructor(
-        private service: CateringService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) { }
-
     ngOnInit() {
         this.service.merchantStockCategory().subscribe(res => {
             this.categoryItems = res.data;
@@ -47,8 +44,8 @@ export class StockComponent implements OnInit {
     }
 
     public tapEditCategory(item?: ICateringCategory) {
-        this.customModal.value = item ? item.name : '';
-        this.customModal.open(value => {
+        customModal.value = item ? item.name : '';
+        customModal.open(value => {
             this.service.merchantStockCategorySave({id: item?.id, name: value}).subscribe(res => {
                 if (item) {
                     this.categoryItems = this.categoryItems.map(i => {

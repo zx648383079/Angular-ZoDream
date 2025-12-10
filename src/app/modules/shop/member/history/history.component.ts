@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShopService } from '../../shop.service';
 import { IGoodsHistory } from '../../model';
@@ -10,6 +10,10 @@ import { IGoodsHistory } from '../../model';
   styleUrls: ['./history.component.scss']
 })
 export class HistoryComponent implements OnInit {
+    private service = inject(ShopService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+
     public items: IGoodsHistory[] = [];
     public hasMore = true;
     public page = 1;
@@ -17,11 +21,7 @@ export class HistoryComponent implements OnInit {
     public isLoading = false;
     public total = 0;
 
-    constructor(
-        private service: ShopService,
-        private router: Router,
-        private route: ActivatedRoute,
-    ) {
+    constructor() {
         this.tapRefresh();
     }
 

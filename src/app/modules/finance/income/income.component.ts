@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { DialogBoxComponent } from '../../../components/dialog';
@@ -18,6 +18,12 @@ import { formatDate, mapFormat } from '../../../theme/utils';
     styleUrls: ['./income.component.scss'],
 })
 export class IncomeComponent implements OnInit {
+    private service = inject(FinanceService);
+    private toastrService = inject(DialogService);
+    private downloadService = inject(DownloadService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: ILog[] = [];
     public hasMore = true;
@@ -55,13 +61,7 @@ export class IncomeComponent implements OnInit {
 
     public groupItems: ILogGroup[] = [];
 
-    constructor(
-        private service: FinanceService,
-        private toastrService: DialogService,
-        private downloadService: DownloadService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
+    constructor() {
         this.service.batch({
             account: {},
             channel: {},

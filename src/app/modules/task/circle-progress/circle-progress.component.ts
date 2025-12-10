@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, input, output, viewChild } from '@angular/core';
 import { formatHour } from '../../../theme/utils';
 
 @Component({
@@ -9,15 +9,14 @@ import { formatHour } from '../../../theme/utils';
 })
 export class CircleProgressComponent implements AfterViewInit {
 
-    @ViewChild('drawerBox')
-    private drawerElement: ElementRef;
+    private readonly drawerElement = viewChild<ElementRef>('drawerBox');
 
-    @Input() public outline = 'rgba(38,129,215,0.3)';
-    @Input() public inline = '#51eb3e';
-    @Input() public inlineBackground = 'rgba(255,255,255,0.3)';
-    @Input() public lineWidth = 3;
-    @Output() public finished: EventEmitter<CircleProgressComponent> = new EventEmitter();
-    @Output() public valueChange: EventEmitter<number> = new EventEmitter();
+    public readonly outline = input('rgba(38,129,215,0.3)');
+    public readonly inline = input('#51eb3e');
+    public readonly inlineBackground = input('rgba(255,255,255,0.3)');
+    public readonly lineWidth = input(3);
+    public readonly finished = output<CircleProgressComponent>();
+    public readonly valueChange = output<number>();
 
     public label = '';
     private value = 0;
@@ -30,7 +29,7 @@ export class CircleProgressComponent implements AfterViewInit {
     constructor() { }
 
     get drawer(): HTMLCanvasElement {
-        return this.drawerElement.nativeElement as HTMLCanvasElement;
+        return this.drawerElement().nativeElement as HTMLCanvasElement;
     }
 
     // ngOnChanges(changes: SimpleChanges) {
@@ -93,31 +92,31 @@ export class CircleProgressComponent implements AfterViewInit {
             return;
         }
         // 线圈的内半径
-        const lineRadius = radius - this.lineWidth;
+        const lineRadius = radius - this.lineWidth();
         // 内圈的半径
         const inlineRadius = lineRadius - 5;
         ctx.clearRect(centerX - radius, centerY - radius, 2 * radius, 2 * radius);
         ctx.beginPath();
         ctx.arc(centerX, centerY, inlineRadius, 0, Math.PI * 2, false);
-        ctx.fillStyle = this.inlineBackground;
+        ctx.fillStyle = this.inlineBackground();
         ctx.fill();
-        ctx.lineWidth = this.lineWidth;	// 圆环的粗细
+        ctx.lineWidth = this.lineWidth();	// 圆环的粗细
         ctx.lineCap = 'butt';
         ctx.beginPath();
         ctx.arc(centerX, centerY, lineRadius, 0, Math.PI * 2, false);
-        ctx.strokeStyle = this.outline;
+        ctx.strokeStyle = this.outline();
         ctx.stroke();
         const deg = (2 * Math.PI / 100 * progress)
                     - 0.5 * Math.PI; // 圆环的绘制
         ctx.beginPath();
         ctx.arc(centerX, centerY, lineRadius, - 0.5 * Math.PI, deg, false);
-        ctx.strokeStyle = this.inline;
+        ctx.strokeStyle = this.inline();
         ctx.stroke();
         const x = centerX + Math.cos(Math.PI * 2 * (progress - 25) / 100) * lineRadius;
         const y = centerY + Math.sin(Math.PI * 2  * (progress - 25) / 100) * lineRadius;
         ctx.beginPath();
-        ctx.arc(x, y, this.lineWidth, 0, Math.PI * 2, false);
-        ctx.fillStyle = this.inline;
+        ctx.arc(x, y, this.lineWidth(), 0, Math.PI * 2, false);
+        ctx.fillStyle = this.inline();
         ctx.fill();
     }
 

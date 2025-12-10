@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IBrand, ICategory, IGoods } from '../../model';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
@@ -13,6 +13,11 @@ import { ShopService } from '../shop.service';
     styleUrls: ['./product.component.scss'],
 })
 export class ProductComponent implements OnInit {
+    private service = inject(ShopService);
+    private toastrService = inject(DialogService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IGoods[] = [];
     public hasMore = true;
@@ -32,12 +37,7 @@ export class ProductComponent implements OnInit {
     public brandItems: IBrand[] = [];
     public panelOpen = false;
 
-    constructor(
-        private service: ShopService,
-        private toastrService: DialogService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
+    constructor() {
         this.service.categoryAll().subscribe(res => {
             this.categories = res.data;
         });

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { GameMakerService } from '../game-maker.service';
 import { ActivatedRoute } from '@angular/router';
@@ -10,15 +10,13 @@ import { ActivatedRoute } from '@angular/router';
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+    private service = inject(GameMakerService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public isLoading = true;
     public data: any = {};
-
-    constructor(
-        private service: GameMakerService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ICategory, IResource } from '../model';
 import { ResourceService } from '../resource.service';
@@ -10,18 +10,16 @@ import { ResourceService } from '../resource.service';
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private service = inject(ResourceService);
+
 
     public categories: ICategory[] = [];
     public featureItems: IResource[] = [];
     public featureLoading = true;
     public newItems: IResource[] = [];
     public newLoading = true;
-
-    constructor(
-        private router: Router,
-        private route: ActivatedRoute,
-        private service: ResourceService,
-    ) { }
 
     ngOnInit() {
         this.service.batch({

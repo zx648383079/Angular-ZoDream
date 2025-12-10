@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { DialogBoxComponent } from '../../../../components/dialog';
 import { MindPointSource, MindLinkSource, MindConfirmEvent, MindUpdateEvent } from '../../../../components/mind';
 import { emptyValidate } from '../../../../theme/validators';
@@ -12,9 +12,11 @@ import { BookService } from '../book.service';
     styleUrls: ['./editor-role-panel.component.scss'],
 })
 export class EditorRolePanelComponent {
+    private service = inject(BookService);
 
-    @Input() public visible = false;
-    @Input() public targetId = 0;
+
+    public readonly visible = input(false);
+    public readonly targetId = input(0);
     public subOpen = 0;
     public linkOpen = false;
     public roleItems: IBookRole[] = [];
@@ -38,10 +40,6 @@ export class EditorRolePanelComponent {
         level: '',
     };
     private booted = false;
-
-    constructor(
-        private service: BookService,
-    ) { }
 
     public get goodsItems() {
         if (this.roleIndex < 0 || this.roleIndex >= this.roleItems.length) {
@@ -181,7 +179,7 @@ export class EditorRolePanelComponent {
         modal.open(() => {
             if (event.type === 'new') {
                 this.service.roleSave({
-                    book_id: this.targetId,
+                    book_id: this.targetId(),
                     name: this.roleData.name,
                     avatar: this.roleData.avatar,
                     description: this.roleData.description,
@@ -201,7 +199,7 @@ export class EditorRolePanelComponent {
                 return;
             }
             this.service.roleSave({
-                book_id: this.targetId,
+                book_id: this.targetId(),
                 name: this.roleData.name,
                 avatar: this.roleData.avatar,
                 description: this.roleData.description,
@@ -232,7 +230,7 @@ export class EditorRolePanelComponent {
     }
 
     private loadRole() {
-        this.service.roleList(this.targetId).subscribe(res => {
+        this.service.roleList(this.targetId()).subscribe(res => {
             this.roleItems = res.items;
             this.linkItems = res.link_items;
         });

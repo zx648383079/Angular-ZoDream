@@ -56,7 +56,7 @@
             </tbody>
         </table>
   
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
     </div>
 </div>
 <app-dialog-box #modal [title]="editData.id > 0 ? '编辑联动项' : '新增联动项'">
@@ -67,7 +67,7 @@
     <div class="form-group">
         <label for="thumb">缩略图</label>
         <div>
-            <app-file-input [(ngModel)]="editData.thumb"></app-file-input>
+            <app-file-input [(ngModel)]="editData.thumb" />
         </div>
     </div>
     <div class="form-group">

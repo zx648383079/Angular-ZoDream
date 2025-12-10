@@ -40,8 +40,8 @@
 </div>
 
 
-<app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0"></app-loading-tip>
-<app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()"></app-pagination>
+<app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+<app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
 
 <app-dialog-box #modal [title]="editData.id > 0 ? '编辑链接' : '新增链接'" [scrollable]="false">
     <div class="form-group">

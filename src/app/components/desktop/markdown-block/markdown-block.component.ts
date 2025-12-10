@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, Renderer2, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnChanges, Renderer2, SimpleChanges, ViewEncapsulation, inject, input, viewChild } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { marked } from 'marked';
 import { toggleClass } from '../../../theme/utils/doc';
@@ -11,7 +11,7 @@ import { ImagePlayerComponent } from '../../media-player';
     selector: 'app-markdown-block',
     template: `
     <div [innerHTML]="formated"></div>
-    <app-image-player [isFixed]="true"></app-image-player>
+    <app-image-player [isFixed]="true" />
     `,
     styleUrls: ['./markdown-block.component.scss'],
     host: {
@@ -19,24 +19,21 @@ import { ImagePlayerComponent } from '../../media-player';
     }
 })
 export class MarkdownBlockComponent implements OnChanges, AfterViewInit {
+    private sanitizer = inject(DomSanitizer);
+    private element = inject<ElementRef<HTMLDivElement>>(ElementRef);
+    private renderer = inject(Renderer2);
+    private toastrService = inject(DialogService);
 
-    @ViewChild(ImagePlayerComponent)
-    private player: ImagePlayerComponent;
-    @Input() public value = '';
-    @Input() public isFormated = true;
+
+    private readonly player = viewChild(ImagePlayerComponent);
+    public readonly value = input('');
+    public readonly isFormated = input(true);
     public formated: SafeHtml;
-
-    constructor(
-        private sanitizer: DomSanitizer,
-        private element: ElementRef<HTMLDivElement>,
-        private renderer: Renderer2,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.value) {
             this.formated = this.sanitizer.bypassSecurityTrustHtml(
-                this.isFormated ? this.value : marked(this.value).toString()
+                this.isFormated() ? this.value() : marked(this.value()).toString()
             );
         }
     }
@@ -47,8 +44,8 @@ export class MarkdownBlockComponent implements OnChanges, AfterViewInit {
                 return;
             }
             if (e.target instanceof HTMLImageElement) {
-                this.player.visible = true;
-                this.player.play({
+                player.visible = true;
+                player.play({
                     name: e.target.title,
                     source: e.target.src
                 });

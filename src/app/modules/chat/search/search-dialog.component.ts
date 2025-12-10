@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, viewChild } from '@angular/core';
 import { ChatService } from '../chat.service';
 import { IPageQueries } from '../../../theme/models/page';
 import { ProfileDialogComponent } from '../profile/profile-dialog.component';
@@ -11,9 +11,10 @@ import { IUser } from '../../../theme/models/user';
     styleUrls: ['./search-dialog.component.scss']
 })
 export class SearchDialogComponent {
+    private service = inject(ChatService);
 
-    @ViewChild(ProfileDialogComponent)
-    private profileModal: ProfileDialogComponent;
+
+    private readonly profileModal = viewChild(ProfileDialogComponent);
 
     public isInput = false;
     public queries: IPageQueries = {
@@ -28,11 +29,6 @@ export class SearchDialogComponent {
 
     private confirmFn: Function;
 
-    constructor(
-        private service: ChatService
-    ) {
-    }
-
 
     public open(cb: () => void) {
         this.visible = true;
@@ -46,8 +42,8 @@ export class SearchDialogComponent {
 
     public tapItem(item: IUser) {
         this.visible = false;
-        this.profileModal.mode = item.checked ? 0 : 1;
-        this.profileModal.open(item, res => {
+        profileModal.mode = item.checked ? 0 : 1;
+        profileModal.open(item, res => {
             this.visible = true;
             if (!res) {
                 return;
@@ -57,7 +53,7 @@ export class SearchDialogComponent {
             }
             this.service.apply({
                 [this.tabIndex > 0 ? 'group' : 'user']: item.id,
-                remark: this.profileModal.remark
+                remark: this.profileModal().remark
             }).subscribe(_ => item.checked = true)
         });
     }

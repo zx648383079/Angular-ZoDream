@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IOrder } from '../../../model';
@@ -11,15 +11,13 @@ import { ShopService } from '../../../shop.service';
   styleUrls: ['./order-detail.component.scss']
 })
 export class OrderDetailComponent implements OnInit {
+    private service = inject(ShopService);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private toastrService = inject(DialogService);
+
 
     public data: IOrder;
-
-    constructor(
-        private service: ShopService,
-        private route: ActivatedRoute,
-        private router: Router,
-        private toastrService: DialogService,
-    ) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

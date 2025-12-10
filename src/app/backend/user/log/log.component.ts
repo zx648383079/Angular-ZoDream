@@ -1,7 +1,4 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IAccountLog } from '../../../theme/models/auth';
 import { IPageQueries } from '../../../theme/models/page';
@@ -15,6 +12,10 @@ import { UserService } from '../user.service';
     styleUrls: ['./log.component.scss']
 })
 export class LogComponent implements OnInit {
+    private service = inject(UserService);
+    private route = inject(ActivatedRoute);
+    private searchService = inject(SearchService);
+
 
     public items: IAccountLog[] = [];
     public hasMore = true;
@@ -25,13 +26,6 @@ export class LogComponent implements OnInit {
         page: 1,
         per_page: 20,
     };
-
-    constructor(
-        private service: UserService,
-        private route: ActivatedRoute,
-        private searchService: SearchService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

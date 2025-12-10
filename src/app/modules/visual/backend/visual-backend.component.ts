@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { VisualService } from './visual.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { VisualService } from './visual.service';
     styleUrls: ['./visual-backend.component.scss']
 })
 export class VisualBackendComponent implements OnInit {
+    private service = inject(VisualService);
+
 
     public isLoading = false;
     public data: any = {};
-
-    constructor(
-        private service: VisualService
-    ) { }
 
     ngOnInit() {
         this.service.statistics().subscribe({

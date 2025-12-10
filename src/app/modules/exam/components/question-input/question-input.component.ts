@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, input, output } from '@angular/core';
 import { IQuestionFormat, IQuestionOption } from '../../model';
 
 /**
@@ -12,18 +12,19 @@ import { IQuestionFormat, IQuestionOption } from '../../model';
 })
 export class QuestionInputComponent implements OnChanges {
 
-    @Input() public value: IQuestionFormat;
-    @Input() public editable = true;
-    @Output() public valueChange = new EventEmitter<IQuestionFormat>();
+    public readonly value = input<IQuestionFormat>(undefined);
+    public readonly editable = input(true);
+    public readonly valueChange = output<IQuestionFormat>();
 
     constructor() { }
 
     public get yourAnswer() {
-        if (this.value.your_answer) {
-            return this.value.your_answer;
+        const value = this.value();
+        if (value.your_answer) {
+            return value.your_answer;
         }
-        if (this.value.log) {
-            return this.value.log.answer;
+        if (value.log) {
+            return value.log.answer;
         }
         return '';
     }
@@ -35,10 +36,11 @@ export class QuestionInputComponent implements OnChanges {
     }
 
     public tapCheckItem(item: IQuestionOption) {
-        if (!this.value || !this.editable) {
+        const value = this.value();
+        if (!value || !this.editable()) {
             return;
         }
-        const data = this.value;
+        const data = value;
         for (const option of data.option) {
             if (option.id === item.id) {
                 option.checked = data.type === 1 ? !option.checked : true;
@@ -54,29 +56,31 @@ export class QuestionInputComponent implements OnChanges {
     }
 
     public optionChecked(option: IQuestionOption) {
-        if (!this.value) {
+        const value = this.value();
+        if (!value) {
             return false;
         }
-        if (this.value.type < 1) {
+        if (value.type < 1) {
             return this.yourAnswer == option.id;
         }
         return typeof this.yourAnswer === 'object' && this.yourAnswer.indeOf(option.id) >= 0;
     }
 
     public onAnswerChange(value?: any) {
-        if (this.editable) {
+        if (this.editable()) {
+            const valueValue = this.value();
             if (value) {
-                this.value.answer = value;
+                valueValue.answer = value;
             }
-            this.valueChange.emit(this.value);
+            this.valueChange.emit(valueValue);
         }
     }
 
     private formatOption() {
-        if (this.value.type > 1 || !this.yourAnswer) {
+        if (this.value().type > 1 || !this.yourAnswer) {
             return;
         }
-        this.value.option.forEach(i => {
+        this.value().option.forEach(i => {
             i.checked = this.optionChecked(i);
         });
     }

@@ -34,7 +34,7 @@
                 <button class="btn btn-primary">立即付款</button>
                 @if (data.expired_at) {
                 <div>
-                    <app-countdown [end]="data.expired_at" [auto]="true" label="剩余付款时间：" (finished)="onExpired()"></app-countdown>
+                    <app-countdown [end]="data.expired_at" [auto]="true" label="剩余付款时间：" (finished)="onExpired()" />
                 </div>
                 }
             </div>

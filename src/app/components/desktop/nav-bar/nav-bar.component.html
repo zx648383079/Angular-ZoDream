@@ -2,15 +2,15 @@
     <div class="nav-menu nav-pane-bar">
         <i class="iconfont icon-bars nav-toggle-icon" (click)="tapToggle()"></i>
         <ul class="bar-top">
-            @if (hasSuggest) {
+            @if (hasSuggest()) {
                 <li class="search-item">
                     <div class="search-input">
                         <input type="text" [(ngModel)]="suggestText" (keydown)="suggestKeyPress($event)">
                         <i class="iconfont icon-search" (click)="tapSuggest()"></i>
                     </div>
-                    @if (suggestItems && suggestItems.length > 0) {
+                    @if (suggestItems() && suggestItems().length > 0) {
                     <ul class="search-suggestion">
-                        @for (item of suggestItems; track $index; let i = $index) {
+                        @for (item of suggestItems(); track $index; let i = $index) {
                             <li (click)="tapSuggestion(i)" [ngClass]="{active: i === suggestIndex}" >{{ formatTitle(item) }}</li>
                         }
                     </ul>
@@ -18,7 +18,7 @@
                     
                 </li>
             }
-            @for (item of menu; track $index) {
+            @for (item of menu(); track $index) {
                 <li class="menu-item" [ngClass]="{'active': item.active, 'open': item.expand}"
                     (click)="tapItem(item, $event)">
                     @if (item.url) {
@@ -58,7 +58,7 @@
             }
         </ul>
         <ul class="bar-bottom">
-            @for (item of bottomMenu; track $index) {
+            @for (item of bottomMenu(); track $index) {
                 <li class="menu-item" [ngClass]="{'active': item.active, 'open': item.expand}"
                     (click)="tapItem(item, $event)">
                     @if (item.url) {
@@ -78,7 +78,7 @@
     </div>
 
     <div class="page-body --with-tablet-bottom">
-        <ng-content></ng-content>
+        <ng-content />
     </div>
 
     <div class="tablet-tab-bar tablet-visible">

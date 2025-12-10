@@ -37,7 +37,7 @@
                 <a [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1" i18n>Version</a>
                 <a [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2">
                     <ng-container i18n>Reviews</ng-container>
-                    <app-star [ngModel]="data.score"></app-star>
+                    <app-star [ngModel]="data.score" />
                     <div class="count-label">{{ data.download_count | numberFormat }}</div>
                 </a>
                 <a [ngClass]="{active: tabIndex == 3}" (click)="tabIndex = 3">
@@ -51,14 +51,14 @@
 }
 
 <div class="container-fluid detail-body">
-    <app-loading-tip [loading]="isLoading" [visible]="!data || isLoading"></app-loading-tip>
+    <app-loading-tip [loading]="isLoading" [visible]="!data || isLoading" />
     @if (data) {
     <div class="row">
         <div class="col-md-8">
             <div class="tab-target-body">
                 <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
                     <div class="content-body">
-                        <app-markdown-block [value]="data.content"></app-markdown-block>
+                        <app-markdown-block [value]="data.content" />
                         <div class="body-memu-bar">
                             <a href="">
                                 <i class="iconfont icon-heart"></i>
@@ -73,14 +73,14 @@
                     </div>
                 </div>
                 <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
-                    <app-version [itemId]="data.id" [init]="tabIndex == 1"></app-version>
+                    <app-version [itemId]="data.id" [init]="tabIndex == 1" />
                 </div>
                 <div class="tab-item" [ngClass]="{active: tabIndex == 2}">
-                    <app-score [itemId]="data.id" [init]="tabIndex == 2"></app-score>
+                    <app-score [itemId]="data.id" [init]="tabIndex == 2" />
                 </div>
                 <div class="tab-item" [ngClass]="{active: tabIndex == 3}">
                     <div class="group-box">
-                        <app-comment [itemId]="data.id" [init]="tabIndex == 3"></app-comment>
+                        <app-comment [itemId]="data.id" [init]="tabIndex == 3" />
                     </div>
                 </div>
             </div>

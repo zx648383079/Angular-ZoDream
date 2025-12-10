@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IDataOne, IPage } from '../../../theme/models/page';
 import { IGameAchieve, IGameCharacter, IGameCharacterIdentity, IGameDescent, IGameIndigenous, IGameItem, IGameMap, IGameMapArea, IGameMapItem, IGamePrizeItem, IGameProject, IGameRecipe, IGameRuleGrade, IGameSkill, IGameStoreItem, IGameTask } from '../model';
 
 @Injectable()
 export class GameMakerService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
     public projectList(params: any) {
         return this.http.get<IPage<IGameProject>>('game/maker/project', {params});

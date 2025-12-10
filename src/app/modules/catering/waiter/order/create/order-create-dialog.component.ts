@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, input } from '@angular/core';
 import { ICateringOrder, ICateringOrderGoods } from '../../../model';
 import { emptyValidate } from '../../../../../theme/validators';
 
@@ -12,7 +12,7 @@ export class OrderCreateDialogComponent {
     /**
      * 是否显示
      */
-     @Input() public visible = false;
+     public readonly visible = input(false);
      public flipIndex = 0;
      public data: ICateringOrder = {} as any;
      public items: ICateringOrderGoods[] = [];

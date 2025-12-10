@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IPage, IDataOne, IData } from '../../../theme/models/page';
 import { IGoods, ICategory, IBrand, IGoodsCard, IAttributeGroup, IGoodsAttribute, IOrder, IDelivery } from '../model';
 
 @Injectable()
 export class ShopService {
+    private http = inject(HttpClient);
 
-    constructor(
-        private http: HttpClient
-    ) { }
 
 
     public goodsList(params: any) {

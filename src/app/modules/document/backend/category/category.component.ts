@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { emptyValidate } from '../../../../theme/validators';
 import { ICategory } from '../../model';
 import { DocumentService } from '../document.service';
@@ -12,17 +12,14 @@ import { filterTree, toggleTreeItem } from '../../../../theme/utils';
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
+    private service = inject(DocumentService);
+    private toastrService = inject(DialogService);
+
 
     public items: ICategory[] = [];
     public isLoading = false;
     public editData: ICategory = {} as any;
     public categories: ICategory[] = [];
-
-    constructor(
-        private service: DocumentService,
-        private toastrService: DialogService,
-    ) {
-    }
 
     ngOnInit() {
         this.load();

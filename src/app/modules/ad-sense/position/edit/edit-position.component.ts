@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AdService } from '../../ad.service';
@@ -13,6 +13,11 @@ import { ButtonEvent } from '../../../../components/form';
     styleUrls: ['./edit-position.component.scss']
 })
 export class EditPositionComponent implements OnInit {
+    private service = inject(AdService);
+    private fb = inject(FormBuilder);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -25,14 +30,6 @@ export class EditPositionComponent implements OnInit {
         status: [1],
     });
     public data: IAdPosition;
-
-    constructor(
-        private service: AdService,
-        private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {
-    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {

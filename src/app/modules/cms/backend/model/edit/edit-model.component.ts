@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -12,6 +12,11 @@ import { CmsService } from '../../cms.service';
   styleUrls: ['./edit-model.component.scss']
 })
 export class EditModelComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private service = inject(CmsService);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -36,13 +41,6 @@ export class EditModelComponent implements OnInit {
     public data: ICmsModel;
     public modelItems: ICmsModel[] = [];
     public typeItems = ['实体', '表单'];
-
-    constructor(
-        private fb: FormBuilder,
-        private service: CmsService,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {}
 
     ngOnInit() {
         this.service.modelAll(1).subscribe(res => {

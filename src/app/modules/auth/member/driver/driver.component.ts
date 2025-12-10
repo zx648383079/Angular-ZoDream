@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MemberService } from '../member.service';
 
 @Component({
@@ -8,13 +8,11 @@ import { MemberService } from '../member.service';
     styleUrls: ['./driver.component.scss']
 })
 export class DriverComponent implements OnInit {
+    private service = inject(MemberService);
+
 
     public items: any[] = [];
     public isLoading = false;
-
-    constructor(
-        private service: MemberService
-    ) { }
 
     ngOnInit() {
         this.tapRefresh();

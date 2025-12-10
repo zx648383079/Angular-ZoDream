@@ -1,7 +1,4 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
     FormBuilder,
     Validators
@@ -25,6 +22,11 @@ import { DEEPLINK_SCHEMA } from '../../../../theme/utils/deeplink';
     styleUrls: ['./edit.component.scss']
 })
 export class EditAdComponent implements OnInit {
+    private service = inject(AdService);
+    private fb = inject(FormBuilder);
+    private route = inject(ActivatedRoute);
+    private toastrService = inject(DialogService);
+
 
     public form = this.fb.group({
         name: ['', Validators.required],
@@ -42,12 +44,7 @@ export class EditAdComponent implements OnInit {
 
     public deepSchame = DEEPLINK_SCHEMA;
 
-    constructor(
-        private service: AdService,
-        private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private toastrService: DialogService,
-    ) {
+    constructor() {
         this.service.positionAll().subscribe(res => {
             this.positionItems = res.data;
         });
