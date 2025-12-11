@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostBinding, HostListener, OnChanges, SimpleChanges, input, contentChildren } from '@angular/core';
+import { AfterViewInit, Component, HostBinding, HostListener, OnChanges, SimpleChanges, input, contentChildren, effect } from '@angular/core';
 import { IButton } from '../event';
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { CommandButtonComponent } from './command-button';
@@ -9,7 +9,7 @@ import { CommandButtonComponent } from './command-button';
     templateUrl: './command-bar.component.html',
     styleUrls: ['./command-bar.component.scss']
 })
-export class CommandBarComponent implements OnChanges, AfterViewInit {
+export class CommandBarComponent implements AfterViewInit {
 
     public readonly items = contentChildren(CommandButtonComponent);
     public readonly max = input(3);
@@ -18,6 +18,15 @@ export class CommandBarComponent implements OnChanges, AfterViewInit {
     public dropVisible = false;
     public inlineItems: IButton[] = [];
     public dropItems: IButton[] = [];
+
+    constructor() {
+        effect(() => {
+            this.min();
+            this.max();
+            this.items();
+            this.splitButton();
+        });
+    }
 
     @HostListener('document:click', ['$event']) 
     public hideDrop(event: any) {
@@ -29,25 +38,16 @@ export class CommandBarComponent implements OnChanges, AfterViewInit {
     @HostListener('window:resize', [])
     public onResize() {
         this.splitButton();
-    } 
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.min || changes.max) {
-            this.splitButton();
-        }
     }
 
     ngAfterViewInit(): void {
         setTimeout(() => {
             this.splitButton();
         }, 100);
-        this.items().changes.subscribe(() => {
-            this.splitButton();
-        });
     }
 
     private splitButton() {
-        const items = this.items().filter(i => !i.disable);
+        const items = this.items().filter(i => !i.disabled);
         if (items.length < 1) {
             this.inlineItems = [];
             this.dropItems = [];

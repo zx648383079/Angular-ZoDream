@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { DialogConfirmFn, DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { IItem } from '../../../theme/models/seo';
@@ -20,9 +20,9 @@ export class ReportDialogComponent {
     /**
      * 是否显示
      */
-    public readonly visible = input(false);
-    public readonly data = input<IWebPage>(undefined);
-    public readonly confirmFn = input<DialogConfirmFn>(undefined);
+    public visible = false;
+    public data: IWebPage;
+    private confirmFn: DialogConfirmFn;
 
 
     public typeItems: {
@@ -70,10 +70,10 @@ export class ReportDialogComponent {
     public tapSubmit(e: ButtonEvent) {
         const data = {
             item_type: 31,
-            item_id: this.data().id,
+            item_id: this.data.id,
             type: 99,
             title: '',
-            content: `[${this.data().title}](${this.data().link}):${this.content}`,
+            content: `[${this.data.title}](${this.data.link}):${this.content}`,
             email: this.email
         };
         if (emptyValidate(data.content)) {
@@ -98,7 +98,7 @@ export class ReportDialogComponent {
                 e?.reset();
                 this.toastrService.success($localize `Report successful, waiting for manual review`);
                 this.visible = false;
-                confirmFn && confirmFn();
+                this.confirmFn && this.confirmFn();
             },
             error: err => {
                 e?.reset();

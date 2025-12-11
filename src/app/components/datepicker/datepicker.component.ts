@@ -12,8 +12,8 @@ import { hasElementByClass } from '../../theme/utils/doc';
 export class DatepickerComponent implements OnInit {
     private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
-    readonly min = input(new Date('1900/01/01 00:00:00'), {transform: this.transformMin});
-    readonly max = input(new Date('2099/12/31 23:59:59'), {transform: this.transformMax});
+    readonly minimum = input(new Date('1900/01/01 00:00:00'), {transform: this.transformMin});
+    readonly maximum = input(new Date('2099/12/31 23:59:59'), {transform: this.transformMax});
     readonly minYear = input(1900);
     readonly maxYear = input(2099);
     readonly titleFormat = input($localize `y-mm-dd`);
@@ -62,9 +62,9 @@ export class DatepickerComponent implements OnInit {
             this.refresh();
         });
         effect(() => {
-            if (this.min() >= this.currentDate) {
+            if (this.minimum() >= this.currentDate) {
                 // 加一天
-                this.currentDate = new Date(this.min().getTime() + 86400000);
+                this.currentDate = new Date(this.minimum().getTime() + 86400000);
             }
         });
     }
@@ -146,11 +146,11 @@ export class DatepickerComponent implements OnInit {
      * 验证Date
      */
      checkDate(date: Date): boolean {
-        const min = this.min();
+        const min = this.minimum();
         if (min && date <= min) {
             return false;
         }
-        const max = this.max();
+        const max = this.maximum();
         return !max || date < max;
     }
 

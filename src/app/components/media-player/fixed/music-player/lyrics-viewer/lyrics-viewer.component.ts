@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnChanges, SimpleChanges, inject, input, viewChild, viewChildren } from '@angular/core';
+import { Component, ElementRef, effect, inject, input, model, viewChild, viewChildren } from '@angular/core';
 
 interface ILyricsItem {
     text: string;
@@ -16,20 +16,46 @@ interface ILyricsItem {
     templateUrl: './lyrics-viewer.component.html',
     styleUrls: ['./lyrics-viewer.component.scss']
 })
-export class LyricsViewerComponent implements OnChanges {
+export class LyricsViewerComponent {
     private http = inject(HttpClient);
 
 
     private readonly scroller = viewChild<ElementRef<HTMLDivElement>>('scoller');
     private readonly innerItems = viewChildren<ElementRef<HTMLDivElement>>('innerItem');
     public items: ILyricsItem[] = [];
-    public readonly value = input('');
+    public readonly value = model('');
     public readonly height = input(200);
     public readonly width = input(0);
     public readonly src = input('');
     public readonly duration = input(0);
     public readonly currentTime = input(0);
     private valueSrc = '';
+
+    constructor() {
+        effect(() => {
+            this.valueSrc = '';
+            this.items = this.format(this.value(), this.duration());
+        });
+        effect(() => {
+            this.currentTime();
+            this.refreshItems();
+        });
+        effect(() => {
+            const src = this.src();
+            this.http.get(src, {
+                responseType: 'text'
+            }).subscribe({
+                next: res => {
+                    this.valueSrc = src;
+                    this.value.set(res);
+                    this.items = this.format(this.value(), this.duration());
+                },
+                error: err => {
+                    // TODO
+                }
+            });
+        });
+    }
 
     public get boxStyle() {
         const style: any = {
@@ -40,30 +66,6 @@ export class LyricsViewerComponent implements OnChanges {
             style.width = width + 'px';
         }
         return style;
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.value) {
-            this.valueSrc = '';
-            this.items = this.format(this.value(), this.duration());
-        }
-        if (changes.src && changes.src.currentValue && this.valueSrc !== changes.src.currentValue) {
-            this.http.get(changes.src.currentValue, {
-                responseType: 'text'
-            }).subscribe({
-                next: res => {
-                    this.valueSrc = changes.src.currentValue;
-                    this.value = res;
-                    this.items = this.format(this.value(), this.duration());
-                },
-                error: err => {
-                    // TODO
-                }
-            });
-        }
-        if (changes.currentTime) {
-            this.refreshItems();
-        }
     }
 
     private refreshItems() {

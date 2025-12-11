@@ -12,7 +12,7 @@ export class OrderCreateDialogComponent {
     /**
      * 是否显示
      */
-     public readonly visible = input(false);
+     public visible = false;
      public flipIndex = 0;
      public data: ICateringOrder = {} as any;
      public items: ICateringOrderGoods[] = [];

@@ -10,7 +10,7 @@ import { BookService } from '../book.service';
 export class EditorPreferencesPanelComponent {
     private service = inject(BookService);
 
-    public readonly visible = input(false);
+    public visible = false;
     public readonly targetId = input(0);
     public subOpen = false;
     public items: any[] = [];

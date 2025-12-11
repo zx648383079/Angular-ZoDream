@@ -12,7 +12,7 @@ export class LoginDialogComponent {
     /**
      * 是否显示
      */
-     public readonly visible = input(false);
+     public visible = false;
      private onLogin: (user: IUser) => void;
 
     constructor() { }

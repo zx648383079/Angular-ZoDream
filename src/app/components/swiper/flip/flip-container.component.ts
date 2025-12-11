@@ -1,4 +1,5 @@
-import { AfterContentInit, AfterViewInit, Component, ElementRef, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation, inject, input, output, contentChildren } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, 
+    ViewEncapsulation, inject, contentChildren, model, effect } from '@angular/core';
 import { FlipItemComponent } from './flip-item.component';
 import { SwiperEvent } from '../model';
 
@@ -14,17 +15,25 @@ import { SwiperEvent } from '../model';
     `,
     styleUrls: ['./flip-container.component.scss'],
 })
-export class FlipContainerComponent implements OnInit, OnChanges, AfterContentInit, AfterViewInit, OnDestroy, SwiperEvent {
+export class FlipContainerComponent implements OnInit, AfterContentInit, AfterViewInit, OnDestroy, SwiperEvent {
     private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
 
     public readonly items = contentChildren(FlipItemComponent);
-    public readonly index = input(0);
+    public readonly index = model(0);
     public itemCount = 0;
     private resize$: ResizeObserver;
     public itemWidth = 0;
     private historyItems: number[] = [0];
-    public readonly indexChange = output<number>();
+
+    constructor() {
+        effect(() => {
+            this.navigate(this.index());
+        });
+        effect(() => {
+            this.itemCount = this.items().length;
+        });
+    }
     
 
     public get flipStyle() {
@@ -49,12 +58,6 @@ export class FlipContainerComponent implements OnInit, OnChanges, AfterContentIn
         });
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.index) {
-            this.navigate(changes.index.currentValue);
-        }
-    }
-
     ngAfterViewInit(): void {
         const box = this.elementRef.nativeElement;
         this.resize$.observe(box);
@@ -62,9 +65,6 @@ export class FlipContainerComponent implements OnInit, OnChanges, AfterContentIn
 
     ngAfterContentInit(): void {
         this.itemCount = this.items().length;
-        this.items().changes.subscribe(() => {
-            this.itemCount = this.items().length;
-        });
     }
 
     ngOnDestroy(): void {
@@ -116,7 +116,7 @@ export class FlipContainerComponent implements OnInit, OnChanges, AfterContentIn
     }
 
     private animateFlip(from: number, to: number, isBack = false) {
-        this.indexChange.emit(this.index = to);
+        this.index.set(to);
         const item = this.items().at(to);
         if (item) {
             item.backable = this.historyItems.length > 1;

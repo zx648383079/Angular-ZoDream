@@ -14,7 +14,7 @@ export class StockDialogComponent {
     /**
      * 是否显示
      */
-     public readonly visible = input(false);
+     public visible = false;
      public data: ICateringPurchaseOrder = {} as any;
      public items: ICateringPurchaseOrderGoods[] = [];
      public multipleEditable = false;

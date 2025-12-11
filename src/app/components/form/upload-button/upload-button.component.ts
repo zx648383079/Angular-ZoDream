@@ -1,4 +1,4 @@
-import { Component, ElementRef, SimpleChanges, inject, input, output } from '@angular/core';
+import { Component, ElementRef, SimpleChanges, inject, input, model, output } from '@angular/core';
 import { FileUploadService } from '../../../theme/services';
 import { UploadButtonEvent } from '../event';
 
@@ -14,7 +14,7 @@ export class UploadButtonComponent {
 
 
     public readonly disabled = input(false);
-    public readonly loading = input(false);
+    public readonly loading = model(false);
     public readonly accept = input('');
     public readonly multiple = input(false);
 
@@ -54,7 +54,7 @@ export class UploadButtonComponent {
      * 开始执行加载
      */
     public enter() {
-        this.loading = true;
+        this.loading.set(true);
         this.toggleClass('disabled', true);
     }
 
@@ -62,7 +62,7 @@ export class UploadButtonComponent {
      * 停止执行
      */
     public reset() {
-        this.loading = false;
+        this.loading.set(false);
         this.toggleClass('disabled', this.disabled());
     }
 

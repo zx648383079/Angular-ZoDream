@@ -1,4 +1,4 @@
-import { Component, HostListener, OnChanges, SimpleChanges, inject, input, model, output } from '@angular/core';
+import { Component, effect, HostListener, inject, input, model, output } from '@angular/core';
 import { SuggestChangeEvent, SuggestEvent } from '../../../components/form';
 import { ISearchBar, ISearchEngine, SearchEngineItems } from './engine';
 import { HttpClient } from '@angular/common/http';
@@ -11,13 +11,13 @@ import { hasElementByClass } from '../../../theme/utils/doc';
     templateUrl: './search-bar.component.html',
     styleUrls: ['./search-bar.component.scss']
 })
-export class SearchBarComponent implements OnChanges, SuggestEvent, ISearchBar {
+export class SearchBarComponent implements SuggestEvent, ISearchBar {
     private http = inject(HttpClient);
 
 
-    public readonly text = model('');
+    public readonly value = model('');
     public readonly placeholder = input($localize `Please enter a keyword, press Enter to search`);
-    public readonly suggestable = input(true);
+    public readonly suggestable = model(true);
     public readonly historyKey = input('');
     private eniginKey = 'sd';
     public suggestItems: any[] = [];
@@ -40,18 +40,16 @@ export class SearchBarComponent implements OnChanges, SuggestEvent, ISearchBar {
     constructor() {
         const index = parseNumber(window.localStorage.getItem(this.eniginKey)) || 0;
         this.currentEngine = this.engineItems[index];
+        effect(() => {
+            this.historyKey();
+            this.loadHistory();
+        });
     }
 
     @HostListener('document:click', ['$event']) 
     hideSearchBar(event: any) {
         if (!event.target.closest('.search-box') && !hasElementByClass(event.path, 'search-box')) {
             this.openType = 0;
-        }
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.historyKey) {
-            this.loadHistory();
         }
     }
 
@@ -63,7 +61,7 @@ export class SearchBarComponent implements OnChanges, SuggestEvent, ISearchBar {
     }
 
     public onFocus() {
-        if (this.text().length > 0) {
+        if (this.value().length > 0) {
             return;
         }
         this.openType = this.histories.length > 0 ? 2 : 0;
@@ -118,20 +116,20 @@ export class SearchBarComponent implements OnChanges, SuggestEvent, ISearchBar {
             i = i < items.length - 1 ? i + 1 : 0;
         }
         this.dropIndex = i;
-        this.text.set(this.formatTitle(items[i]));
+        this.value.set(this.formatTitle(items[i]));
     }
 
     
 
     public tapItem(value: any) {
-        this.text.set(this.formatTitle(value));
+        this.value.set(this.formatTitle(value));
         this.dropIndex = this.suggestItems.indexOf(value);
         this.gotoSearch(value);
         this.openType = 0;
     }
 
     public tapConfirm() {
-        let text = this.openType === 1 && this.dropIndex >= 0 ? this.suggestItems[this.dropIndex] : this.text();
+        let text = this.openType === 1 && this.dropIndex >= 0 ? this.suggestItems[this.dropIndex] : this.value();
         this.gotoSearch(text);
         this.openType = 0;
         this.addHistory(text);
@@ -147,7 +145,7 @@ export class SearchBarComponent implements OnChanges, SuggestEvent, ISearchBar {
     }
 
     public tapClear() {
-        this.text.set('');
+        this.value.set('');
         this.suggestItems = [];
         this.openType = 0;
     }
@@ -156,20 +154,20 @@ export class SearchBarComponent implements OnChanges, SuggestEvent, ISearchBar {
         if (!this.suggestable() || this.dropIndex >= 0) {
             return;
         }
-        if (this.text().length < 1) {
+        if (this.value().length < 1) {
             this.suggestItems = [];
             this.dropIndex = -1;
             return;
         }
         if (!this.currentEngine.suggest) {
             this.textChange.emit({
-                text: this.text(),
+                text: this.value(),
                 suggest: this.suggest.bind(this)
             });
             return;
         }
         const suggest = this.currentEngine.suggest;
-        const keywords = encodeURIComponent(this.text());
+        const keywords = encodeURIComponent(this.value());
         if (typeof suggest == 'string') {
             this.jsonp(suggest + keywords, res => {
                 if (!res || !res.data || res.data.length < 1) {
@@ -190,7 +188,7 @@ export class SearchBarComponent implements OnChanges, SuggestEvent, ISearchBar {
     }
 
     public tapHistory(v: string) {
-        this.text.set(v);
+        this.value.set(v);
         this.openType = 0;
         this.gotoSearch(v);
     }

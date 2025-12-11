@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, input, output } from '@angular/core';
+import { Component, inject, input, model, output } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 
 @Component({
@@ -12,12 +12,10 @@ export class NavBarComponent {
 
 
     public readonly items = input<any[]>([]);
-    public readonly selected = input(0);
+    public readonly selected = model(0);
     public readonly header = input($localize `Category`);
 
     public isEditable = false;
-
-    public readonly selectedChange = output<number>();
     public readonly add = output();
     public readonly edit = output<any>();
     public readonly remove = output<any>();
@@ -29,7 +27,7 @@ export class NavBarComponent {
 
     public tapSelect(item?: any) {
         if (!this.isEditable) {
-            this.selectedChange.emit(this.selected = item ? item.id : 0);
+            this.selected.set( item ? item.id : 0);
             return;
         }
         if (item) {

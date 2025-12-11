@@ -15,7 +15,7 @@ export class EditorRolePanelComponent {
     private service = inject(BookService);
 
 
-    public readonly visible = input(false);
+    public visible = false;
     public readonly targetId = input(0);
     public subOpen = 0;
     public linkOpen = false;

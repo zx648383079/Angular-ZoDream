@@ -56,7 +56,7 @@
         <div>
             <app-time-input [(ngModel)]="editData.start_at" />
             ~
-            <app-time-input [(ngModel)]="editData.end_at" [min]="editData.start_at + ''" />
+            <app-time-input [(ngModel)]="editData.end_at" [minimum]="editData.start_at + ''" />
         </div>
     </div>
 </app-dialog-box>

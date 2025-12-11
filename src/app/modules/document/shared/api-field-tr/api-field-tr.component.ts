@@ -1,17 +1,16 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 import { IApiField } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-doc-api-field-tr',
-  templateUrl: './api-field-tr.component.html',
-  styleUrls: ['./api-field-tr.component.scss']
+    selector: 'app-doc-api-field-tr',
+    templateUrl: './api-field-tr.component.html',
+    styleUrls: ['./api-field-tr.component.scss']
 })
 export class ApiFieldTrComponent {
 
-    public readonly items = input<IApiField[]>([]);
+    public readonly items = model<IApiField[]>([]);
     public readonly kind = input(1);
-    public readonly itemsChange = output();
 
     public typeItems = [
         {
@@ -44,12 +43,6 @@ export class ApiFieldTrComponent {
         },
     ];
 
-    constructor() { }
-    
-    public onValueChange() {
-        this.itemsChange.emit(this.items());
-    }
-
     public onTypeChange(item: IApiField) {
         if (item.type == 'object' || item.type == 'array') {
             if (!item.children) {
@@ -59,8 +52,10 @@ export class ApiFieldTrComponent {
     }
 
     public tapRemoveItem(i: number) {
-        this.items().splice(i, 1);
-        this.itemsChange.emit(this.items());
+        this.items.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
     }
 
     public tapAddItem(parent?: IApiField) {
@@ -85,15 +80,18 @@ export class ApiFieldTrComponent {
                 level: parent ? parent.level + 1 : 0
             };
         }
-        if (parent) {
-            if (!parent.children) {
-                parent.children = [item];
+        
+        this.items.update(v => {
+            if (parent) {
+                if (!parent.children) {
+                    parent.children = [item];
+                } else {
+                    parent.children.push(item);
+                }
             } else {
-                parent.children.push(item);
-            }
-        } else {
-            this.items().push(item);
-        }
-        this.itemsChange.emit(this.items());
+                v.push(item);
+            };
+            return v;
+        });
     }
 }

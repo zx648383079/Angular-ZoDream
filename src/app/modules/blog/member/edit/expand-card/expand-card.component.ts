@@ -1,4 +1,4 @@
-import { Component, HostBinding, input } from '@angular/core';
+import { Component, HostBinding, input, model } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -12,9 +12,11 @@ import { Component, HostBinding, input } from '@angular/core';
 export class ExpandCardComponent {
 
     @HostBinding('class.open')
-public readonly toggle = input(false);
+    public readonly toggle = model(false);
     public readonly header = input('Header');
 
-    constructor() { }
 
+    public tapped() {
+        this.toggle.update(v => !v);
+    }
 }

@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, ViewEncapsulation, input, output } from '@angular/core';
+import { Component, ViewEncapsulation, effect, input, model } from '@angular/core';
 import { rangeStep } from '../../../theme/utils';
 
 @Component({
@@ -15,26 +15,23 @@ import { rangeStep } from '../../../theme/utils';
         class: 'swiper-flip-dot',
     }
 })
-export class FlipDotComponent implements OnChanges {
+export class FlipDotComponent {
 
     public readonly max = input(0);
-    public readonly value = input(0);
+    public readonly value = model(0);
     public readonly disabled = input(true);
     public items: number[] = [];
-    public readonly valueChange = output<number>();
 
-    constructor() { }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.max) {
+    constructor() {
+        effect(() => {
             this.items = rangeStep(0, this.max());
-        }
+        });
     }
 
     public tapDot(i: number) {
         if (this.disabled()) {
             return;
         }
-        this.valueChange.emit(this.value = i);
+        this.value.set(i);
     }
 }

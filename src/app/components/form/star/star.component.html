@@ -1,10 +1,10 @@
 <div class="star-box">
     @for (item of items; track $index) {
-        <i class="iconfont" [ngClass]="{'icon-star': value >= item, 'icon-star-o': value < item}" (click)="tapChange(item)"></i>
+        <i class="iconfont" [class]="{'icon-star': value() >= item, 'icon-star-o': value() < item}" (click)="tapChange(item)"></i>
     }
     <div class="star-label">
         @if (labelVisible()) {
-            {{ value }}
+            {{ value() }}
         }
         <ng-content />
     </div>

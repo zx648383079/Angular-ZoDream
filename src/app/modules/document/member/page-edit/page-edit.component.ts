@@ -102,7 +102,7 @@ export class PageEditComponent implements OnInit, OnDestroy {
         });
     }
 
-    public tapEdit(item: IDocPage) {
+    public tapEdit(item: IDocTreeItem) {
         this.service.page(item.id).subscribe(res => {
             this.data = res;
             this.form.patchValue({

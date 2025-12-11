@@ -1,4 +1,4 @@
-import { Component, input, output, viewChild } from '@angular/core';
+import { Component, model, output, viewChild } from '@angular/core';
 import { IDocTreeItem } from '../../model';
 import { ContextMenuComponent } from '../../../../components/context-menu';
 import { treeRemoveId } from '../util';
@@ -13,10 +13,9 @@ export class TreePanelComponent {
 
     private readonly contextMenu = viewChild(ContextMenuComponent);
 
-    public readonly items = input<IDocTreeItem[]>([]);
-    public readonly value = input<IDocTreeItem>(undefined);
+    public readonly items = model<IDocTreeItem[]>([]);
+    public readonly value = model<IDocTreeItem>();
 
-    public readonly valueChange = output<any>();
     public readonly deleted = output<any>();
     public readonly created = output<any>();
 
@@ -59,11 +58,12 @@ export class TreePanelComponent {
         if (value && value.id === item.id) {
             return;
         }
-        this.value = item;
-        this.valueChange.emit(item);
+        this.value.set(item);
     }
 
     public removeId(itemId: number) {
-        this.items = treeRemoveId(this.items(), itemId);
+        this.items.update(v => {
+            return treeRemoveId(v, itemId);
+        });
     }
 }

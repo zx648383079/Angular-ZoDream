@@ -1,4 +1,4 @@
-import { Component, OnInit, input, output } from '@angular/core';
+import { Component, model } from '@angular/core';
 import { DialogEvent } from '../../../../components/dialog';
 import { IQuestionFormat, IQuestionOption } from '../../model';
 
@@ -7,14 +7,13 @@ import { IQuestionFormat, IQuestionOption } from '../../model';
  */
 @Component({
     standalone: false,
-  selector: 'app-question-scoring',
-  templateUrl: './question-scoring.component.html',
-  styleUrls: ['./question-scoring.component.scss']
+    selector: 'app-question-scoring',
+    templateUrl: './question-scoring.component.html',
+    styleUrls: ['./question-scoring.component.scss']
 })
 export class QuestionScoringComponent {
 
-    public readonly value = input<IQuestionFormat>(undefined);
-    public readonly valueChange = output<IQuestionFormat>();
+    public readonly value = model<IQuestionFormat>();
 
     public editData = {
         score: 0,
@@ -55,9 +54,11 @@ export class QuestionScoringComponent {
             remark: value.log.remark || '',
         }
         modal.open(() => {
-            valueValue.log.score = this.editData.score;
-            valueValue.log.remark = this.editData.remark;
-            this.valueChange.emit(valueValue);
+            this.value.update(v => {
+                v.log.score = this.editData.score;
+                v.log.remark = this.editData.remark;
+                return v;
+            });
         });
     }
 

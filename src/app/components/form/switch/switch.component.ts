@@ -11,13 +11,13 @@ import { FormValueControl } from '@angular/forms/signals';
     templateUrl: './switch.component.html',
     styleUrls: ['./switch.component.scss'],
 })
-export class SwitchComponent implements FormValueControl<boolean | number> {
+export class SwitchComponent implements FormValueControl<boolean> {
 
     public readonly label = input('');
     public readonly offLabel = input('');
     public readonly onLabel = input('');
 
-    public readonly value = model<boolean | number>(false);
+    public readonly value = model<boolean>(false);
     public disabled = input(false);
 
     public get labelContent(): string {
@@ -39,6 +39,6 @@ export class SwitchComponent implements FormValueControl<boolean | number> {
         if (this.disabled()) {
             return;
         }
-        this.value.update(v => typeof v === 'boolean' ? !v : (v > 0 ? 0 : 1));
+        this.value.update(v => typeof v === 'boolean' ? !v : v > 0);
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, input, output } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 import { IItem } from '../../../../../theme/models/seo';
 
 @Component({
@@ -9,9 +9,8 @@ import { IItem } from '../../../../../theme/models/seo';
 })
 export class BoolInputComponent {
 
-    public readonly value = input(1);
+    public readonly value = model(1);
     public readonly editable = input(true);
-    public readonly valueChange = output<number>();
     public items: IItem[] = [
         {name: '对', value: 1},
         {name: '错', value: 0},
@@ -23,6 +22,6 @@ export class BoolInputComponent {
         if (!this.editable()) {
             return;
         }
-        this.valueChange.emit(this.value = item.value as number);
+        this.value.set(item.value);
     }
 }

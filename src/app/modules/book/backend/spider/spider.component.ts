@@ -17,7 +17,7 @@ export class SpiderComponent implements OnDestroy {
     private searchService = inject(SearchService);
 
 
-    public readonly visible = input(false);
+    public visible = false;
     public items: IBookSpiderItem[] = [];
     public hasMore = true;
     public isLoading = false;

@@ -25,7 +25,7 @@ export class RoleDialogComponent {
     /**
      * 是否显示
      */
-    public readonly visible = input(false);
+    public visible = false;
     public data: ICateringStaffRole = {name: ''} as any;
     public isChecked = false;
     public items: IRoleGroup[] = [

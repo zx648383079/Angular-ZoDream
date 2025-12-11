@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, model } from '@angular/core';
 import { emptyValidate } from '../../../../../theme/validators';
 
 type DialogConfirmFn = (value: string) => void;
@@ -14,9 +14,9 @@ export class CustomDialogComponent {
     /**
      * 是否显示
      */
-    public readonly visible = input(false);
-    public readonly title = input('名称');
-    public readonly value = input('');
+    public visible = false;
+    public title = '名称';
+    public readonly value = model('');
     private confirmFn: DialogConfirmFn;
 
     constructor() { }

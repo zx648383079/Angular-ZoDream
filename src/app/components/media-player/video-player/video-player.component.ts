@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnChanges, OnDestroy, Renderer2, SimpleChanges, inject, input, output, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnChanges, OnDestroy, Renderer2, SimpleChanges, inject, input, model, output, viewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ScreenFull, mediaIsFrame } from '../util';
 
@@ -14,7 +14,7 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy
 
 
     private readonly videoElement = viewChild<ElementRef<HTMLVideoElement>>('playerVideo');
-    public readonly src = input<string>(undefined);
+    public readonly src = model<string>();
     public readonly cover = input<string>(undefined);
     public readonly ended = output<void>();
     public paused = true;
@@ -100,7 +100,7 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy
             return;
         }
         this.videoPlayer.pause();
-        this.src = '';
+        this.src.set('');
     }
 
     public tapVolume() {

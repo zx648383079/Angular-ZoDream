@@ -1,16 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     standalone: false,
-  selector: 'app-question-option',
-  templateUrl: './question-option.component.html',
-  styleUrls: ['./question-option.component.scss']
+    selector: 'app-question-option',
+    templateUrl: './question-option.component.html',
+    styleUrls: ['./question-option.component.scss']
 })
-export class QuestionOptionComponent implements OnInit {
+export class QuestionOptionComponent  {
 
-  constructor() { }
 
-  ngOnInit() {
-  }
 
 }

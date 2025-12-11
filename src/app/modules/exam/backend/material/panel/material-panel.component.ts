@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, input, output } from '@angular/core';
+import { Component, OnInit, inject, input, model, output } from '@angular/core';
 import { DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
@@ -7,11 +7,11 @@ import { ExamService } from '../../exam.service';
 
 @Component({
     standalone: false,
-  selector: 'app-material-panel',
-  templateUrl: './material-panel.component.html',
-  styleUrls: ['./material-panel.component.scss']
+    selector: 'app-material-panel',
+    templateUrl: './material-panel.component.html',
+    styleUrls: ['./material-panel.component.scss']
 })
-export class MaterialPanelComponent implements OnInit {
+export class MaterialPanelComponent {
     private service = inject(ExamService);
     private toastrService = inject(DialogService);
     private searchService = inject(SearchService);
@@ -30,8 +30,7 @@ export class MaterialPanelComponent implements OnInit {
     public readonly courseItems = input<ICourse[]>([]);
     public typeItems = ['文本', '音频', '视频'];
     public tabIndex = false;
-    public readonly value = input<IQuestionMaterial>(undefined);
-    public readonly valueChange = output<IQuestionMaterial>();
+    public readonly value = model<IQuestionMaterial>();
     public editData: IQuestionMaterial = {
         title: '',
         course_id: 0,
@@ -40,11 +39,9 @@ export class MaterialPanelComponent implements OnInit {
         content: '',
     };
 
-    ngOnInit() {
-    }
 
     public tapSelected(item: IQuestionMaterial) {
-        this.valueChange.emit(this.value = item);
+        this.value.set(item);
     }
 
     public tapAdd() {

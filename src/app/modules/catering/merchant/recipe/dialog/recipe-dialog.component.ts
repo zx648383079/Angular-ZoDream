@@ -15,7 +15,7 @@ export class RecipeDialogComponent {
     /**
      * 是否显示
      */
-     public readonly visible = input(false);
+     public visible = false;
      public data: ICateringRecipe = {} as any;
      public items: ICateringRecipeMaterial[] = [];
      public multipleEditable = false;

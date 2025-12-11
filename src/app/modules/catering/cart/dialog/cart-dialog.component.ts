@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -11,9 +11,7 @@ export class CartDialogComponent {
     /**
      * 是否显示
      */
-     public readonly visible = input(false);
-
-    constructor() { }
+     public visible = false;
 
     public open() {
         this.visible = true;

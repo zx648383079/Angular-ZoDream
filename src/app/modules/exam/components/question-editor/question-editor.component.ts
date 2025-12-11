@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges, inject, input, output as output_1 } from '@angular/core';
+import { Component, effect, inject, input, model } from '@angular/core';
 import { DialogEvent } from '../../../../components/dialog';
 import { FileUploadService } from '../../../../theme/services';
 import { cloneObject } from '../../../../theme/utils';
@@ -10,16 +10,16 @@ import { formatFillOption, questionNeedOption, questionOptionIsEmpty } from '../
  */
 @Component({
     standalone: false,
-  selector: 'app-question-editor',
-  templateUrl: './question-editor.component.html',
-  styleUrls: ['./question-editor.component.scss']
+    selector: 'app-question-editor',
+    templateUrl: './question-editor.component.html',
+    styleUrls: ['./question-editor.component.scss']
 })
-export class QuestionEditorComponent implements OnChanges {
+export class QuestionEditorComponent {
     private uploadService = inject(FileUploadService);
 
 
     public readonly editable = input(true);
-    public readonly value = input<IQuestion>(undefined);
+    public readonly value = model<IQuestion>();
 
     public optionItems: any[] = cloneObject(QuestionDefaultOption);
     public materialType = 0;
@@ -41,14 +41,12 @@ export class QuestionEditorComponent implements OnChanges {
     public typeOpen = false;
     public extendOpen = false;
 
-    public readonly valueChange = output<IQuestion>();
-
     private asyncHandle = 0;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.value) {
-            this.formatValue(changes.value.currentValue);
-        }
+    constructor() {
+        effect(() => {
+            this.formatValue(this.value());
+        });
     }
 
     public get canEdit() {
@@ -134,8 +132,11 @@ export class QuestionEditorComponent implements OnChanges {
 
     public tapRemoveMaterial() {
         this.materialFile = '';
-        value.material_id = 0;
-        value.image = '';
+        this.value.update(v => {
+            v.material_id = 0;
+            v.image = '';
+            return v;
+        });
         this.onValueChange();
     }
 
@@ -177,7 +178,7 @@ export class QuestionEditorComponent implements OnChanges {
             value.children = this.kidItems;
         }
         value.analysis_items = this.analysisItems;
-        this.valueChange.emit(this.value = value);
+        this.value.set(value);
     }
 
     private formatValue(value?: IQuestion) {

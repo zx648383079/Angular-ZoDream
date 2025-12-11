@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges, input, output } from '@angular/core';
+import { Component, effect, input, model } from '@angular/core';
 import { IQuestionFormat, IQuestionOption } from '../../model';
 
 /**
@@ -6,17 +6,21 @@ import { IQuestionFormat, IQuestionOption } from '../../model';
  */
 @Component({
     standalone: false,
-  selector: 'app-question-input',
-  templateUrl: './question-input.component.html',
-  styleUrls: ['./question-input.component.scss']
+    selector: 'app-question-input',
+    templateUrl: './question-input.component.html',
+    styleUrls: ['./question-input.component.scss']
 })
-export class QuestionInputComponent implements OnChanges {
+export class QuestionInputComponent {
 
-    public readonly value = input<IQuestionFormat>(undefined);
+    public readonly value = model<IQuestionFormat>();
     public readonly editable = input(true);
-    public readonly valueChange = output<IQuestionFormat>();
 
-    constructor() { }
+    constructor() {
+        effect(() => {
+            this.value();
+            this.formatOption();
+        });
+    }
 
     public get yourAnswer() {
         const value = this.value();
@@ -27,12 +31,6 @@ export class QuestionInputComponent implements OnChanges {
             return value.log.answer;
         }
         return '';
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.value) {
-            this.formatOption();
-        }
     }
 
     public tapCheckItem(item: IQuestionOption) {
@@ -52,7 +50,7 @@ export class QuestionInputComponent implements OnChanges {
             option.checked = false;
         }
         data.answer = data.type < 1 ? item.id : data.option.map(i => i.id);
-        this.valueChange.emit(this.value = data);
+        this.value.set(data);
     }
 
     public optionChecked(option: IQuestionOption) {
@@ -68,11 +66,12 @@ export class QuestionInputComponent implements OnChanges {
 
     public onAnswerChange(value?: any) {
         if (this.editable()) {
-            const valueValue = this.value();
-            if (value) {
-                valueValue.answer = value;
-            }
-            this.valueChange.emit(valueValue);
+            this.value.update(v => {
+                if (v) {
+                    v.answer = value;
+                }
+                return v;
+            });
         }
     }
 

@@ -42,8 +42,9 @@ export class SearchDialogComponent {
 
     public tapItem(item: IUser) {
         this.visible = false;
-        profileModal.mode = item.checked ? 0 : 1;
-        profileModal.open(item, res => {
+        const modal = this.profileModal();
+        modal.mode = item.checked ? 0 : 1;
+        modal.open(item, res => {
             this.visible = true;
             if (!res) {
                 return;

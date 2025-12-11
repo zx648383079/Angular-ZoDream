@@ -10,9 +10,9 @@ import { CustomDialogComponent } from '../goods/custom-dialog/custom-dialog.comp
 
 @Component({
     standalone: false,
-  selector: 'app-recipe',
-  templateUrl: './recipe.component.html',
-  styleUrls: ['./recipe.component.scss']
+    selector: 'app-recipe',
+    templateUrl: './recipe.component.html',
+    styleUrls: ['./recipe.component.scss']
 })
 export class RecipeComponent implements OnInit {
     private service = inject(CateringService);
@@ -51,8 +51,9 @@ export class RecipeComponent implements OnInit {
 
 
     public tapEditCategory(item?: ICateringCategory) {
-        customModal.value = item ? item.name : '';
-        customModal.open(value => {
+        const modal = this.customModal();
+        modal.value.set(item ? item.name : '');
+        modal.open(value => {
             this.service.merchantRecipeCategorySave({id: item?.id, name: value}).subscribe(res => {
                 if (item) {
                     this.categoryItems = this.categoryItems.map(i => {

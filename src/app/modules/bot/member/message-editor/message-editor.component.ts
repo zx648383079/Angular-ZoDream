@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, inject, input, output } from '@angular/core';
+import { Component, effect, inject, input, model } from '@angular/core';
 import { IPage } from '../../../../theme/models/page';
 import { IItem } from '../../../../theme/models/seo';
 import { mapFormat, parseNumber } from '../../../../theme/utils';
@@ -26,15 +26,15 @@ interface IEditorData {
     templateUrl: './message-editor.component.html',
     styleUrls: ['./message-editor.component.scss']
 })
-export class MessageEditorComponent implements OnChanges {
+export class MessageEditorComponent {
     private service = inject(BotService);
 
 
     public readonly other = input('');
     public readonly source = input(0);
-    public readonly value = input<any>({
-    type: 0,
-});
+    public readonly value = model<any>({
+        type: 0,
+    });
     public data: IEditorData = {
         type: 0,
     };
@@ -42,13 +42,18 @@ export class MessageEditorComponent implements OnChanges {
     public typeItems: IItem[] = [...EditorTypeItems];
     public sceneItems: IItem[] = [];
     public requestUrl = 'wx/admin/media/search';
-    public readonly valueChange = output<any>();
     private template: IBotReplyTemplate;
 
     constructor() {
         this.requestUrl += '?wid=' + this.service.baseId;
         this.service.batch({scenes: {}}).subscribe(res => {
             this.sceneItems = res.scenes;
+        });
+        effect(() => {
+            this.typeItems = this.source() > 0 ? [...MenuTypeItems] : [...EditorTypeItems]
+        });
+        effect(() => {
+            this.data = this.parseData(this.value());
         });
     }
 
@@ -61,15 +66,6 @@ export class MessageEditorComponent implements OnChanges {
         });
     };
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.source) {
-            this.typeItems = changes.source.currentValue > 0 ? [...MenuTypeItems] : [...EditorTypeItems]
-        }
-        if (changes.value) {
-            this.data = this.parseData(changes.value.currentValue);
-        }
-    }
-
 
     public onTypeChange() {
         if (this.data.type == 3) {
@@ -79,7 +75,7 @@ export class MessageEditorComponent implements OnChanges {
     }
 
     public onContentChange() {
-        this.valueChange.emit(this.value = this.renderData(this.data));
+        this.value.set(this.renderData(this.data));
     }
 
     public onTemplateChange() {

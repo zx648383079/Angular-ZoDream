@@ -3,8 +3,11 @@
         <div class="search-icon" [title]="currentEngine.name" (click)="toggleEngine()">
             <i class="iconfont" [ngClass]="currentEngine.icon"></i>
         </div>
-        <input type="text" name="keywords" [(ngModel)]="text()" [placeholder]="placeholder()" (ngModelChange)="onSuggestChange()" autocomplete="off" (keydown)="suggestKeyPress($event)" (focus)="onFocus()" (blur)="onBlur()">
-        <div class="clear-btn" [hidden]="text().length < 1" (click)="tapClear()">
+        <input type="text" name="keywords" [value]="value()" (input)="value.set($event.target.value)" 
+        [placeholder]="placeholder()" (ngModelChange)="onSuggestChange()" 
+        autocomplete="off" (keydown)="suggestKeyPress($event)" 
+        (focus)="onFocus()" (blur)="onBlur()">
+        <div class="clear-btn" [hidden]="value().length < 1" (click)="tapClear()">
             <i class="iconfont icon-close"></i>
         </div>
         <button class="search-btn">
@@ -41,7 +44,7 @@
             <span class="title" i18n>Select your default search engine:</span>
             <div class="search-engine-tool">
                 <ng-container i18n>Search suggest:</ng-container>
-                <app-switch [(ngModel)]="suggestable()" />
+                <app-switch [(value)]="suggestable" />
             </div>
         </div>
         <ul class="search-engine-body">

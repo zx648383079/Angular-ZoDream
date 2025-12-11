@@ -4,7 +4,7 @@ import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { CateringService } from '../../catering.service';
-import { ICateringProduct, ICateringCategory, ICateringStock } from '../../model';
+import { ICateringCategory, ICateringStock } from '../../model';
 import { CustomDialogComponent } from '../goods/custom-dialog/custom-dialog.component';
 
 @Component({
@@ -44,8 +44,9 @@ export class StockComponent implements OnInit {
     }
 
     public tapEditCategory(item?: ICateringCategory) {
-        customModal.value = item ? item.name : '';
-        customModal.open(value => {
+        const modal = this.customModal();
+        modal.value.set(item ? item.name : '');
+        modal.open(value => {
             this.service.merchantStockCategorySave({id: item?.id, name: value}).subscribe(res => {
                 if (item) {
                     this.categoryItems = this.categoryItems.map(i => {

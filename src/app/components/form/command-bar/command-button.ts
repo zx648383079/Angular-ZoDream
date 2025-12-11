@@ -9,12 +9,10 @@ import { ButtonEvent, IButton } from '../event';
 })
 export class CommandButtonComponent implements IButton {
 
-    public readonly icon = input('');
-
+    public readonly icon = '';
     public readonly label = input('');
-
     public readonly tapped = output<void>();
-
+    public disabled = false;
 
     public get name() {
         return this.label();

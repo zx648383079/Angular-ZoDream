@@ -10,9 +10,9 @@ import { CateringService } from '../../catering.service';
 
 @Component({
     standalone: false,
-  selector: 'app-goods',
-  templateUrl: './goods.component.html',
-  styleUrls: ['./goods.component.scss']
+    selector: 'app-goods',
+    templateUrl: './goods.component.html',
+    styleUrls: ['./goods.component.scss']
 })
 export class GoodsComponent implements OnInit {
     private service = inject(CateringService);
@@ -50,8 +50,9 @@ export class GoodsComponent implements OnInit {
     }
 
     public tapEditCategory(item?: ICateringCategory) {
-        customModal.value = item ? item.name : '';
-        customModal.open(value => {
+        const modal = this.customModal();
+        modal.value.set(item ? item.name : '');
+        modal.open(value => {
             this.service.merchantProductCategorySave({id: item?.id, name: value}).subscribe(res => {
                 if (item) {
                     this.categoryItems = this.categoryItems.map(i => {

@@ -1,4 +1,5 @@
-import { AfterContentInit, AfterViewInit, Component, ElementRef, HostBinding, HostListener, OnChanges, OnDestroy, Renderer2, SimpleChanges, ViewEncapsulation, inject, input, contentChildren } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, ElementRef, HostBinding, HostListener, 
+    OnDestroy, Renderer2, ViewEncapsulation, inject, input, contentChildren, effect } from '@angular/core';
 import { SwiperItemComponent } from './swiper-item.component';
 import { checkLoopRange } from '../../theme/utils';
 import { BehaviorSubject } from 'rxjs';
@@ -16,7 +17,7 @@ import { SwiperEvent } from './model';
         'class': 'swiper',
     },
 })
-export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestroy, OnChanges, SwiperEvent {
+export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestroy, SwiperEvent {
     private elementRef = inject(ElementRef);
     private renderer = inject(Renderer2);
 
@@ -31,7 +32,7 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
     public readonly keyboard = input(true);
     public readonly touchable = input(true);
     @HostBinding('class')
-public readonly theme = input('swiper-theme-default');
+    public readonly theme = input('swiper-theme-default');
     public navigationVisible = false;
     public previousVisible = false;
     public nextVisible = false;
@@ -59,6 +60,16 @@ public readonly theme = input('swiper-theme-default');
         });
         this.tween.finish$.subscribe(() => {
             this.next();
+        });
+        effect(() => {
+            this.tween.timeout = this.duration();
+        });
+        effect(() => {
+            this.autoplay();
+            this.tween.next();
+        });
+        effect(() => {
+            this.itemCount$.next(this.items().length);
         });
     }
     
@@ -93,15 +104,6 @@ public readonly theme = input('swiper-theme-default');
         this.tween.next();
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.duration) {
-            this.tween.timeout = changes.duration.currentValue;
-        }
-        if (changes.autoplay) {
-            this.tween.next();
-        }
-    }
-
     ngAfterViewInit(): void {
         const box = this.elementRef.nativeElement;
         this.resize$.observe(box);
@@ -125,9 +127,6 @@ public readonly theme = input('swiper-theme-default');
     ngAfterContentInit(): void {
         const items = this.items();
         this.itemCount$.next(items.length);
-        items.changes.subscribe(() => {
-            this.itemCount$.next(this.items().length);
-        });
         setTimeout(() => {
             this.navigate(Math.max(0, this.index));
         }, 1);

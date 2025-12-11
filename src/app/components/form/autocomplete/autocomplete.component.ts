@@ -1,5 +1,6 @@
-import { Component, HostListener, OnChanges, OnInit, Renderer2, SimpleChanges, inject, input, output as output_1 } from '@angular/core';
+import { Component, HostListener, OnInit, Renderer2, effect, inject, input, model } from '@angular/core';
 import { hasElementByClass } from '../../../theme/utils/doc';
+import { FormValueControl } from '@angular/forms/signals';
 
 const MailSuffixMap = [
     'qq.com',
@@ -17,19 +18,36 @@ const MailSuffixMap = [
     templateUrl: './autocomplete.component.html',
     styleUrls: ['./autocomplete.component.scss']
 })
-export class AutocompleteComponent implements OnChanges, OnInit {
+export class AutocompleteComponent implements FormValueControl<string>, OnInit {
     private renderer = inject(Renderer2);
 
 
     public readonly prefix = input('');
     public readonly suffix = input('@');
-    public readonly suffixItems = input([...MailSuffixMap]);
-    public readonly value = input('');
-    public readonly valueChange = output<string>();
+    public readonly suffixItems = model([...MailSuffixMap]);
+    public readonly value = model('');
     
     public panelVisible = false;
     public optionItems = [];
     public selectedIndex = -1;
+
+    constructor() {
+        effect(() => {
+            if (this.suffix() === '@') {
+                this.suffixItems.set([...MailSuffixMap]);
+            }
+        });
+        let previousValue = '';
+        effect(() => {
+            if (this.realValue(this.value()) !== this.realValue(previousValue)) {
+                this.selectedIndex = -1;
+                this.refreshOption();
+            } else if (this.selectedIndex < 0) {
+                this.panelVisible = this.optionItems.indexOf(this.value()) < 0;
+            }
+            previousValue = this.value();
+        });
+    }
 
     @HostListener('document:click', ['$event']) 
     public hideCalendar(event: any) {
@@ -55,22 +73,6 @@ export class AutocompleteComponent implements OnChanges, OnInit {
         });
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.suffix) {
-            if (changes.suffix.currentValue === '@') {
-                this.suffixItems = [...MailSuffixMap];
-            }
-        }
-        if (changes.value) {
-            if (this.realValue(changes.value.currentValue) !== this.realValue(changes.value.previousValue)) {
-                this.selectedIndex = -1;
-                this.refreshOption();
-            } else if (this.selectedIndex < 0) {
-                this.panelVisible = this.optionItems.indexOf(this.value()) < 0;
-            }
-        }
-    }
-
     public tapInput() {
         this.panelVisible = true;
     }
@@ -86,7 +88,7 @@ export class AutocompleteComponent implements OnChanges, OnInit {
 
     private output(i: number) {
         this.selectedIndex = i;
-        this.valueChange.emit(this.value = this.optionItems[i]);
+        this.value.set(this.optionItems[i]);
     }
 
     private realValue(value: string) {

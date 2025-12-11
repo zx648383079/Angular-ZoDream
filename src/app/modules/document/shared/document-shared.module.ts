@@ -6,6 +6,7 @@ import { ContextMenuModule } from '../../../components/context-menu';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DesktopModule } from '../../../components/desktop';
 import { ThemeModule } from '../../../theme/theme.module';
+import { ZreFormModule } from '../../../components/form';
 
 const COMPONENTS = [
     ApiFieldTrComponent,
@@ -17,6 +18,7 @@ const COMPONENTS = [
         CommonModule,
         ThemeModule,
         DesktopModule,
+        ZreFormModule,
         ReactiveFormsModule,
         ContextMenuModule,
     ],

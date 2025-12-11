@@ -39,7 +39,7 @@
         </div>
     </div>
     <div class="editor-area">
-        <textarea #editorArea [ngStyle]="areaStyle" [value]="value()" (input)="value.set($event.target.value)"
+        <textarea #editorArea [ngStyle]="areaStyle" [(value)]="value"
         [disabled]="disabled()"  spellcheck="false" [placeholder]="placeholder()"></textarea>
         <div class="editor-footer" i18n>{{ size }} words</div>
     </div>

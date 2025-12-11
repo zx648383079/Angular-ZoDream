@@ -11,7 +11,7 @@ export class InviteDialogComponent {
     /**
      * 是否显示
      */
-    public readonly visible = input(false);
+    public visible = false;
     public readonly title = input('扫码加入');
     public image = 'assets/images/wx.jpg';
 

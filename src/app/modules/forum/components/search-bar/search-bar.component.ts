@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, model, output } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -8,8 +8,8 @@ import { Component, input, output } from '@angular/core';
 })
 export class SearchBarComponent {
 
-    public readonly keywords = input('');
-    public readonly type = input(0);
+    public readonly keywords = model('');
+    public readonly type = model(0);
     public readonly confirm = output<any>();
 
     public typeItems = [

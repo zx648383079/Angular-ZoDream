@@ -1,14 +1,14 @@
 <div class="input-group-control">
     <label for="title8">题目</label>
     <div>
-        <textarea id="title8" class="form-control" [(ngModel)]="value().title" (ngModelChange)="onTypeChange()">
+        <textarea id="title8" class="form-control" [(value)]="value().title" (input)="onTypeChange()">
         </textarea>
     </div>
 </div>
 <div class="input-group-control">
     <label for="type8">类型</label>
     <div>
-        <select id="type8" class="form-control" [(ngModel)]="value().type" (ngModelChange)="onTypeChange()">
+        <select id="type8" class="form-control" [(value)]="value().type" (input)="onTypeChange()">
             @for (item of typeItems; track $index; let i = $index) {
             <option [value]="i">{{ item }}</option>
             }
@@ -24,17 +24,17 @@
                 <div class="option-item">
                     <div class="option-value">
                         @if (item.type < 1) {
-                            <input type="text" class="form-control" [(ngModel)]="item.content" (ngModelChange)="onValueChange()">
+                            <input type="text" class="form-control" [(value)]="item.content">
                         } @else {
-                            <app-file-input [(ngModel)]="item.content" (ngModelChange)="onValueChange()" />
+                            <app-file-input [(value)]="item.content"/>
                         }
                     </div>
-                    <select class="form-control" [(ngModel)]="item.type" (ngModelChange)="onValueChange()">
+                    <select class="form-control" [(value)]="item.type">
                         @for (item of optionTypeItems; track $index; let j = $index) {
                         <option [value]="j">{{ item }}</option>
                         }
                     </select>
-                    <select class="form-control" [(ngModel)]="item.is_right" (ngModelChange)="onValueChange()">
+                    <select class="form-control" [(value)]="item.is_right">
                         <option [value]="0">错</option>
                         <option [value]="1">对</option>
                     </select>
@@ -52,7 +52,7 @@
     <div class="input-group-control">
         <label for="answer9">答案</label>
         <div>
-            <select id="answer9" class="form-control" [(ngModel)]="value().answer" (ngModelChange)="onValueChange()">
+            <select id="answer9" class="form-control" [(value)]="value().answer">
                 <option value="0">错</option>
                 <option value="1">对</option>
             </select>
@@ -62,7 +62,7 @@
     <div class="input-group-control">
         <label for="answer0">答案</label>
         <div>
-            <textarea id="answer0" class="form-control"  [(ngModel)]="value().answer" (ngModelChange)="onValueChange()"></textarea>
+            <textarea id="answer0" class="form-control"  [(value)]="value().answer"></textarea>
         </div>
     </div>
     } @else if (value().type == 4) {
@@ -73,7 +73,7 @@
                 @for (item of value().option_items; track $index; let i = $index) {
                     <div class="option-item">
                         <div class="option-value">
-                            <input type="text" class="form-control" [(ngModel)]="item.content" (ngModelChange)="onValueChange()" placeholder="请输入正确的答案">
+                            <input type="text" class="form-control" [(value)]="item.content" placeholder="请输入正确的答案">
                         </div>
                         <a (click)="tapRemoveItem(i)" class="remove-btn">
                             <i class="iconfont icon-close"></i>
@@ -90,7 +90,7 @@
     <div class="input-group-control">
         <label for="analysis">解析</label>
         <div>
-            <app-question-analysis [(value)]="value().analysis_items" (valueChange)="onValueChange()" />
+            <app-question-analysis [value]="value().analysis_items" (valueChange)="onAnalysisChange($event)" />
         </div>
     </div>
 </div>

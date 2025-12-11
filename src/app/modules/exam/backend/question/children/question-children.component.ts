@@ -1,45 +1,40 @@
-import { Component, input, output as output_1 } from '@angular/core';
+import { Component, model } from '@angular/core';
 import { IQuestion } from '../../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-question-children',
-  templateUrl: './question-children.component.html',
-  styleUrls: ['./question-children.component.scss']
+    selector: 'app-question-children',
+    templateUrl: './question-children.component.html',
+    styleUrls: ['./question-children.component.scss']
 })
 export class QuestionChildrenComponent {
 
-    public readonly value = input<IQuestion[]>([]);
-    public readonly valueChange = output<IQuestion[]>();
-
-    constructor() { }
+    public readonly value = model<IQuestion[]>([]);
 
     public tapAdd() {
-        this.value().push({
-            type: 0,
-            title: '',
-            answer: '',
-            analysis_items: [],
-            option_items: [],
-        } as any);
-        this.output();
+        this.value.update(v => {
+            v.push({
+                type: 0,
+                title: '',
+                answer: '',
+                analysis_items: [],
+                option_items: [],
+            } as any);
+            return v;
+        });
     }
 
     public tapEdit(item: IQuestion, i: number) {
-        this.value()[i] = item;
-        this.output();
+        this.value.update(v => {
+            v[i] = item;
+            return v;
+        });
     }
 
     public tapRemove(i: number) {
-        this.value().splice(i, 1);
-        this.output();
-    }
-
-    public onValueChange() {
-        this.output();
-    }
-
-    private output() {
-        this.valueChange.emit(this.value());
+        this.value.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
     }
 }

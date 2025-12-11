@@ -1,4 +1,4 @@
-import { Component, ElementRef, SimpleChanges, inject, input, output } from '@angular/core';
+import { Component, ElementRef, SimpleChanges, inject, input, model, output } from '@angular/core';
 import { IBlockItem } from '../link-rule';
 import { assetUri, formatAgo } from '../../theme/utils';
 import { IMessageBase } from './model';
@@ -13,7 +13,7 @@ export class MessageContainerComponent {
     private element = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
 
-    public readonly items = input<IMessageBase[]>([]);
+    public readonly items = model<IMessageBase[]>([]);
     public readonly hasMore = input(false);
     public readonly maxTime = input(600000);
     public readonly currentId = input<string | number>(undefined);
@@ -138,7 +138,9 @@ export class MessageContainerComponent {
      */
     public prepend(items: IMessageBase[]) {
         if (items && items.length > 0) {
-            this.items = [].concat(items, this.items());
+            this.items.update(v => {
+                return [].concat(items, v);
+            });
         }
     }
 
@@ -148,7 +150,7 @@ export class MessageContainerComponent {
      */
     public append(items: IMessageBase[]) {
         if (items && items.length > 0) {
-            this.items = [].concat(this.items(), items);
+            this.items.update(v => [].concat(v, items));
         }
     }
 

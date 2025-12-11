@@ -1,19 +1,18 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 import { DialogEvent } from '../../../../../components/dialog';
 import { IQuestionOption } from '../../../model';
 import { intToABC } from '../../../util';
 
 @Component({
     standalone: false,
-  selector: 'app-option-input',
-  templateUrl: './option-input.component.html',
-  styleUrls: ['./option-input.component.scss']
+    selector: 'app-option-input',
+    templateUrl: './option-input.component.html',
+    styleUrls: ['./option-input.component.scss']
 })
 export class OptionInputComponent {
-    public readonly value = input<IQuestionOption[]>([]);
+    public readonly value = model<IQuestionOption[]>([]);
     public readonly editable = input(true);
     public readonly multiple = input(false);
-    public readonly valueChange = output<IQuestionOption[]>();
     public optionData: IQuestionOption = {
         type: 0,
         content: '',
@@ -21,24 +20,25 @@ export class OptionInputComponent {
     } as any;
     public optionTypeItems = ['文字', '图片'];
 
-    constructor() { }
-
     public tapSelected(event: MouseEvent, i: number) {
         event.stopPropagation();
         if (!this.editable()) {
             return;
         }
-        const item = this.value()[i];
-        item.is_right = !item.is_right;
-        if (item.is_right && !this.multiple()) {
-            this.value().forEach((v, j) => {
-                if (i === j) {
-                    return;
-                }
-                v.is_right = false;
-            });
-        }
-        this.onValueChange();
+        this.value.update(v => {
+            const item = v[i];
+            item.is_right = !item.is_right;
+            if (item.is_right && !this.multiple()) {
+                v.forEach((v, j) => {
+                    if (i === j) {
+                        return;
+                    }
+                    v.is_right = false;
+                });
+            }
+            return v;
+        });
+        
     }
 
     public tapEditOption(modal: DialogEvent, i = -1) {
@@ -74,7 +74,7 @@ export class OptionInputComponent {
                     v.is_right = false;
                 });
             }
-            this.onValueChange();
+            this.value.set(value);
             if (action === 'next') {
                 this.tapEditOption(modal, i >= value.length - 1 || i < 0 ? -1 : i + 1 );
                 return false;
@@ -100,11 +100,13 @@ export class OptionInputComponent {
         if (!this.editable()) {
             return;
         }
-        this.value().push({
-            content: this.getNewOptionLabel(),
-            is_right: false,
+        this.value.update(v => {
+            v.push({
+                content: this.getNewOptionLabel(),
+                is_right: false,
+            });
+            return v;
         });
-        this.onValueChange();
     }
 
     public tapRemoveOption(event: MouseEvent, i: number) {
@@ -112,11 +114,9 @@ export class OptionInputComponent {
         if (!this.editable()) {
             return;
         }
-        this.value().splice(i, 1);
-        this.onValueChange();
-    }
-
-    private onValueChange() {
-        this.valueChange.emit(this.value());
+        this.value.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
     }
 }

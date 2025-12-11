@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, OnChanges, OnDestroy, OnInit, output, SimpleChanges, ViewEncapsulation, input, contentChildren } from '@angular/core';
+import { AfterContentInit, Component, ViewEncapsulation, contentChildren, effect, model } from '@angular/core';
 import { StackItemComponent } from './stack-item.component';
 import { checkLoopRange } from '../../../theme/utils';
 import { SwiperEvent } from '../model';
@@ -13,47 +13,39 @@ import { SwiperEvent } from '../model';
     </div>`,
     styleUrls: ['./stack-container.component.scss']
 })
-export class StackContainerComponent implements OnInit, OnChanges, AfterContentInit, AfterViewInit, OnDestroy, SwiperEvent {
+export class StackContainerComponent implements AfterContentInit, SwiperEvent {
 
     private readonly items = contentChildren(StackItemComponent);
-    public readonly index = input(-1);
-    public readonly indexChange = output<number>();
+    public readonly index = model(-1);
+    private isUpdated = false;
 
-    ngOnInit() {
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.index) {
-            this.navigateTo(changes.index.currentValue, changes.index.previousValue);
-        }
-    }
-
-    ngAfterViewInit(): void {
-        
+    constructor() {
+        let index = -1;
+        effect(() => {
+            this.navigateTo(this.index(), index);
+            index = this.index();
+        });
+        effect(() => {
+            this.items();
+            this.lazyRefresh();
+        });
     }
 
     ngAfterContentInit(): void {
-        let isUpdated = false;
-        const lazyFn = () => {
-            if (isUpdated) {
-                return;
-            }
-            isUpdated = true;
-            setTimeout(() => {
-                if (isUpdated) {
-                    isUpdated = false;
-                    this.refresh();
-                }
-            }, 10);
-        };
-        this.items().changes.subscribe(() => {
-            lazyFn();
-        });
-        lazyFn();
+        this.lazyRefresh();
     }
 
-    ngOnDestroy(): void {
-        
+    private lazyRefresh() {
+        if (this.isUpdated) {
+            return;
+        }
+        this.isUpdated = true;
+        setTimeout(() => {
+            if (this.isUpdated) {
+                this.isUpdated = false;
+                this.refresh();
+            }
+        }, 10);
     }
 
     public get backable() {
@@ -95,7 +87,6 @@ export class StackContainerComponent implements OnInit, OnChanges, AfterContentI
         for (let i = 0; i < this.items().length; i++) {
             this.items().at(i).index = i - to;
         }
-        this.index = to;
-        this.indexChange.emit(to);
+        this.index.set(to);
     }
 }

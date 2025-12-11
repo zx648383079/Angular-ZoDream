@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, model } from '@angular/core';
 import { CustomDialogEvent } from '../../../../../components/dialog';
 import { cloneObject } from '../../../../../theme/utils';
 import { emptyValidate } from '../../../../../theme/validators';
@@ -22,12 +22,9 @@ export class QuestionDialogComponent implements CustomDialogEvent {
         type: 0,
         content: '',
     };
-    public readonly value = input<IQuestion>({} as any);
+    public readonly value = model<IQuestion>({} as any);
     public optionItems: any[] = cloneObject(QuestionDefaultOption);
-    public readonly valueChange = output<IQuestion>();
     private actionFn: any;
-
-    constructor() { }
 
     public tapType(i: number) {
         this.typeOpen = false;
@@ -55,7 +52,6 @@ export class QuestionDialogComponent implements CustomDialogEvent {
             this.visible = false;
             return;
         }
-        this.valueChange.emit(this.value());
         if (!this.actionFn) {
             this.visible = false;
             return;
@@ -64,7 +60,7 @@ export class QuestionDialogComponent implements CustomDialogEvent {
     }
 
     public open<T>(data: T, confirm: (data: T) => void, check?: (data: T) => boolean) {
-        this.value = data as any;
+        this.value.set(data as any);
         const value = this.value();
         this.analysisData = value.analysis_items && value.analysis_items.length > 0 ? value.analysis_items[0] : {type: 0, content: ''};
         const valueValue = this.value();

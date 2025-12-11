@@ -5,7 +5,7 @@ import { DialogBoxComponent, DialogEvent, DialogService } from '../../../../../c
 import { ButtonEvent } from '../../../../../components/form';
 import { IItem } from '../../../../../theme/models/seo';
 import { emptyValidate } from '../../../../../theme/validators';
-import { ICourse, IQuestion, IQuestionAnalysis, IQuestionMaterial, IQuestionOption, QuestionTypeItems } from '../../../model';
+import { ICourse, IQuestion, IQuestionAnalysis, IQuestionMaterial, QuestionTypeItems } from '../../../model';
 import { ExamService } from '../../exam.service';
 
 @Component({

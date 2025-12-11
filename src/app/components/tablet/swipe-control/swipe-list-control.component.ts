@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, contentChildren } from '@angular/core';
+import { Component, contentChildren, effect } from '@angular/core';
 import { SwipeControlComponent } from './swipe-control.component';
 
 @Component({
@@ -9,14 +9,14 @@ import { SwipeControlComponent } from './swipe-control.component';
     </div>`,
     styleUrls: []
 })
-export class SwipeListControlComponent implements AfterContentInit {
+export class SwipeListControlComponent {
     public readonly items = contentChildren(SwipeControlComponent);
 
-
-    ngAfterContentInit(): void {
-        this.items().changes.subscribe(() => {
-            for (let i = 0; i < this.items().length; i++) {
-                this.items().at(i).parent = this;
+    constructor() {
+        effect(() => {
+            const items = this.items();
+            for (const item of this.items()) {
+                item.parent = this;
             }
         });
     }

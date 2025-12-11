@@ -1,9 +1,9 @@
-@if (visible()) {
+@if (visible) {
 <div class="dialog-mask" (click)="close()"></div>
 <div class="dialog-box"  animate.enter="dialog-opened" animate.leave="dialog-closed">
-    <div class="input-label">{{ title() }}</div>
+    <div class="input-label">{{ title }}</div>
     <div class="item-name">
-        <input type="text" class="form-control" [(ngModel)]="value()">
+        <input type="text" class="form-control" [(value)]="value">
     </div>
     <ng-content />
     <div class="dialog-footer">

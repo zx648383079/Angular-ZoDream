@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, inject, input, output } from '@angular/core';
+import { Component, effect, inject, input, model, output } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MathMarkParser } from './parser';
 
@@ -18,28 +18,30 @@ interface IMarkItem {
   templateUrl: './math-mark.component.html',
   styleUrls: ['./math-mark.component.scss']
 })
-export class MathMarkComponent implements OnChanges {
+export class MathMarkComponent  {
     private sanitizer = inject(DomSanitizer);
 
 
     public readonly content = input('');
-    public readonly value = input<string[]>([]);
+    public readonly value = model<string[]>([]);
     public readonly rightValue = input<string[]>([]);
     public readonly allowInput = input(false);
     public readonly allowMath = input(true);
     public readonly editable = input(true);
     public items: IMarkItem[] = [];
-    public readonly valueChange = output<string[]>();
 
     private parser: MathMarkParser = new MathMarkParser(this.sanitizer);
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.content) {
+    constructor() {
+        effect(() => {
+            this.content();
             this.formatContent();
-        }
-        if (changes.value || changes.rightValue) {
+        });
+        effect(() => {
+            this.value();
+            this.rightValue();
             this.applayValue();
-        }
+        });
     }
 
     public onInputChange() {
@@ -82,6 +84,6 @@ export class MathMarkComponent implements OnChanges {
             }
             items.push(item.value);
         }
-        this.valueChange.emit(this.value = items);
+        this.value.set(items);
     }
 }

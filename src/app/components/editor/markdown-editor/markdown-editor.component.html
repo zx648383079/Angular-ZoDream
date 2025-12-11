@@ -20,7 +20,7 @@
     </div>
     <div class="editor-body">
         <div class="editor-area">
-            <textarea #editorArea [ngStyle]="areaStyle" [disabled]="disabled"  spellcheck="false" [placeholder]="placeholder()"></textarea>
+            <textarea #editorArea [ngStyle]="areaStyle" [disabled]="disabled()"  spellcheck="false" [placeholder]="placeholder()"></textarea>
             <div class="editor-footer" i18n>{{ size }} words</div>
         </div>
         <ng-container #modalVC />

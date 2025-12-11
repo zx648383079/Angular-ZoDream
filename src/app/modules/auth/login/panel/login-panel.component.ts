@@ -16,9 +16,9 @@ import { EncryptorService } from '../../../../theme/services/encryptor.service';
 
 @Component({
     standalone: false,
-  selector: 'app-login-panel',
-  templateUrl: './login-panel.component.html',
-  styleUrls: ['./login-panel.component.scss']
+    selector: 'app-login-panel',
+    templateUrl: './login-panel.component.html',
+    styleUrls: ['./login-panel.component.scss']
 })
 export class LoginPanelComponent implements OnDestroy {
     private store = inject<Store<AppState>>(Store);

@@ -71,7 +71,7 @@ export interface IApiField {
     id:            number;
     name:          string;
     title:         string;
-    is_required:   number;
+    is_required:   boolean;
     default_value: string;
     mock:          string;
     parent_id:     number;

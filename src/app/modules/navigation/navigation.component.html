@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-12" [ngClass]="{'col-lg-6 offset-lg-3': openType < 1}">
             <div class="search-bar">
-                <app-navigation-search-bar [text]="queries.keywords" (confirm)="tapSearch($event)" (textChange)="onSuggestChange($event)" />
+                <app-navigation-search-bar [value]="queries.keywords" (confirm)="tapSearch($event)" (textChange)="onSuggestChange($event)" />
             </div>
         </div>
     </div>

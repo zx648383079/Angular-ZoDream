@@ -12,7 +12,7 @@ export class OrderEditDialogComponent {
     /**
      * 是否显示
      */
-     public readonly visible = input(false);
+     public visible = false;
      public data: ICateringOrder = {} as any;
      public items: ICateringOrderGoods[] = [];
      public multipleEditable = false;

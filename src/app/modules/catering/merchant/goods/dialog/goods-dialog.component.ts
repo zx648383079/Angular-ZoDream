@@ -1,4 +1,4 @@
-import { Component, input, viewChild } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { FlipContainerComponent } from '../../../../../components/swiper';
 import { ICateringRecipeMaterial } from '../../../model';
 import { emptyValidate } from '../../../../../theme/validators';
@@ -16,7 +16,7 @@ export class GoodsDialogComponent {
     /**
      * 是否显示
      */
-    public readonly visible = input(false);
+    public visible = false;
     public tabIndex = 0;
     public items: ICateringRecipeMaterial[] = [];
     public multipleEditable = false;

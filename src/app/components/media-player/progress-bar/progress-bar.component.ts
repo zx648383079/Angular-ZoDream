@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, input, output, viewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, input, model, viewChild } from '@angular/core';
 import { formatHour } from '../../../theme/utils';
 
 @Component({
@@ -14,7 +14,7 @@ export class ProgressBarComponent {
     /**
      * 当前值
      */
-    public readonly value = input(0);
+    public readonly value = model(0);
 
     public readonly loaded = input(0);
     public readonly formatValue = input(true);
@@ -26,7 +26,6 @@ export class ProgressBarComponent {
      * 最小移动值
      */
     public readonly min = input(0);
-    public readonly valueChange = output<number>();
     private isMouseMove = false;
 
     constructor() {}
@@ -90,7 +89,7 @@ export class ProgressBarComponent {
             i = 100;
         }
         const max = this.max();
-        this.valueChange.emit(this.value = max === 100 ? i : (i * max / 100));
+        this.value.set(max === 100 ? i : (i * max / 100));
     }
 
 }
