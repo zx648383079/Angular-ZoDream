@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { ShopService } from '../../shop.service';
 import { IIssue } from '../../model';
@@ -8,11 +8,11 @@ import { DialogService } from '../../../../components/dialog';
 
 @Component({
     standalone: false,
-  selector: 'app-issue-page',
-  templateUrl: './issue-page.component.html',
-  styleUrls: ['./issue-page.component.scss']
+    selector: 'app-issue-page',
+    templateUrl: './issue-page.component.html',
+    styleUrls: ['./issue-page.component.scss']
 })
-export class IssuePageComponent implements OnChanges {
+export class IssuePageComponent {
     private service = inject(ShopService);
     private toastrService = inject(DialogService);
 
@@ -33,10 +33,12 @@ export class IssuePageComponent implements OnChanges {
     };
     private booted = 0;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
-            this.boot();
-        }
+    constructor() {
+        effect(() => {
+            if (this.init() && this.itemId() > 0 && this.booted !== this.itemId()) {
+                this.boot();
+            }
+        });
     }
 
     private boot() {

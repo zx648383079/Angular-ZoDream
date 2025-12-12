@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, inject, input, model, signal } from '@angular/core';
+import { Component, effect, inject, input, model, } from '@angular/core';
 import { ISite } from '../../model';
 import { NavigationService } from '../../navigation.service';
 
@@ -8,7 +8,7 @@ import { NavigationService } from '../../navigation.service';
     templateUrl: './site-group.component.html',
     styleUrls: ['./site-group.component.scss']
 })
-export class SiteGroupComponent implements OnChanges {
+export class SiteGroupComponent {
     private service = inject(NavigationService);
 
 
@@ -19,13 +19,17 @@ export class SiteGroupComponent implements OnChanges {
     public readonly items = model<ISite[]>([]);
     private booted = 0;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.items && this.items().length > 0) {
-            this.booted = this.category();
-        }
-        if (changes.init && changes.init.currentValue && this.category() > 0 && this.booted !== this.category()) {
-            this.boot();
-        }
+    constructor() {
+        effect(() => {
+            if (this.items().length > 0) {
+                this.booted = this.category();
+            }
+        });
+        effect(() => {
+            if (this.init() && this.category() > 0 && this.booted !== this.category()) {
+                this.boot();
+            }
+        });
     }
 
     public formatLink(item: ISite): string {

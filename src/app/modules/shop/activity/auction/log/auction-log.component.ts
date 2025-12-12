@@ -1,14 +1,14 @@
-import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { ActivityService } from '../../activity.service';
 
 @Component({
     standalone: false,
-  selector: 'app-auction-log',
-  templateUrl: './auction-log.component.html',
-  styleUrls: ['./auction-log.component.scss']
+    selector: 'app-auction-log',
+    templateUrl: './auction-log.component.html',
+    styleUrls: ['./auction-log.component.scss']
 })
-export class AuctionLogComponent implements OnChanges {
+export class AuctionLogComponent {
     service = inject(ActivityService);
 
 
@@ -26,10 +26,12 @@ export class AuctionLogComponent implements OnChanges {
     };
     private booted = 0;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.activity() > 0 && this.booted !== this.activity()) {
-            this.boot();
-        }
+    constructor() {
+        effect(() => {
+            if (this.init() && this.activity() > 0 && this.booted !== this.activity()) {
+                this.boot();
+            }
+        });
     }
 
     private boot() {

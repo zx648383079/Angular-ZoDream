@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { IActionLog } from '../../../../../../theme/models/auth';
 import { IPageQueries } from '../../../../../../theme/models/page';
 import { AuthService } from '../../../auth.service';
@@ -10,7 +10,7 @@ import { SearchService } from '../../../../../../theme/services';
     templateUrl: './action-panel.component.html',
     styleUrls: ['./action-panel.component.scss']
 })
-export class ActionPanelComponent implements OnChanges {
+export class ActionPanelComponent {
     private service = inject(AuthService);
     private searchService = inject(SearchService);
 
@@ -28,10 +28,13 @@ export class ActionPanelComponent implements OnChanges {
     };
     private booted = 0;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
-            this.boot();
-        }
+
+    constructor() {
+        effect(() => {
+            if (this.init() && this.itemId() > 0 && this.booted !== this.itemId()) {
+                this.boot();
+            }
+        });
     }
 
     private boot() {

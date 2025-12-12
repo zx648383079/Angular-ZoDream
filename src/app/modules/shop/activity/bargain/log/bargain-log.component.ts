@@ -1,12 +1,12 @@
-import { Component, OnInit, SimpleChanges, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { ActivityService } from '../../activity.service';
 
 @Component({
     standalone: false,
-  selector: 'app-bargain-log',
-  templateUrl: './bargain-log.component.html',
-  styleUrls: ['./bargain-log.component.scss']
+    selector: 'app-bargain-log',
+    templateUrl: './bargain-log.component.html',
+    styleUrls: ['./bargain-log.component.scss']
 })
 export class BargainLogComponent {
     service = inject(ActivityService);
@@ -27,10 +27,12 @@ export class BargainLogComponent {
     };
     private booted = 0;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.log() > 0 && this.booted !== this.log()) {
-            this.boot();
-        }
+    constructor() {
+        effect(() => {
+            if (this.init() && this.log() > 0 && this.booted !== this.log()) {
+                this.boot();
+            }
+        });
     }
 
     private boot() {

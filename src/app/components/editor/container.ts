@@ -26,7 +26,7 @@ export class EditorService implements IEditorContainer {
      */
     public clone(): EditorService {
         if (this.used) {
-            return new EditorService(this.injector);
+            return new EditorService();
         }
         this.used = true;
         return this;

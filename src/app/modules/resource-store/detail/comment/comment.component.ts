@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -12,11 +12,11 @@ import { ResourceService } from '../../resource.service';
 
 @Component({
     standalone: false,
-  selector: 'app-comment',
-  templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.scss']
+    selector: 'app-comment',
+    templateUrl: './comment.component.html',
+    styleUrls: ['./comment.component.scss']
 })
-export class CommentComponent implements OnChanges {
+export class CommentComponent {
     service = inject(ResourceService);
     private store = inject<Store<AppState>>(Store);
     private toastrService = inject(DialogService);
@@ -46,12 +46,11 @@ export class CommentComponent implements OnChanges {
         this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;
         });
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
-            this.boot();
-        }
+        effect(() => {
+            if (this.init() && this.itemId() > 0 && this.booted !== this.itemId()) {
+                this.boot();
+            }
+        });
     }
 
     private boot() {

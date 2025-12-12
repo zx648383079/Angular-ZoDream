@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { mapFormat } from '../../../../theme/utils';
 import { AppStoreService } from '../../app-store.service';
@@ -10,7 +10,7 @@ import { FileTypeItems, ISoftwareVersion } from '../../model';
   templateUrl: './version.component.html',
   styleUrls: ['./version.component.scss']
 })
-export class VersionComponent implements OnChanges {
+export class VersionComponent {
     service = inject(AppStoreService);
 
 
@@ -30,10 +30,12 @@ export class VersionComponent implements OnChanges {
     };
     private booted = 0;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
-            this.boot();
-        }
+    constructor() {
+        effect(() => {
+            if (this.init() && this.itemId() > 0 && this.booted !== this.itemId()) {
+                this.boot();
+            }
+        });
     }
 
     private boot() {

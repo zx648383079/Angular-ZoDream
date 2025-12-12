@@ -1,7 +1,7 @@
 <div class="editor-box">
     <div class="editor-area">
-        <textarea #editorArea [ngStyle]="areaStyle" [value]="value()" 
-        (input)="value.set($event.target.value)" [disabled]="disabled()" [placeholder]="placeholder()"></textarea>
+        <textarea #editorArea [ngStyle]="areaStyle" [(value)]="value" 
+        [disabled]="disabled()" [placeholder]="placeholder()"></textarea>
         <div class="editor-footer">
             <ng-container i18n>{{ size }} words</ng-container>
             @if (maxLength() > 0) {

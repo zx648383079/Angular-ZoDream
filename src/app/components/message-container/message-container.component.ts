@@ -1,4 +1,4 @@
-import { Component, ElementRef, SimpleChanges, inject, input, model, output } from '@angular/core';
+import { Component, ElementRef, effect, inject, input, model, output } from '@angular/core';
 import { IBlockItem } from '../link-rule';
 import { assetUri, formatAgo } from '../../theme/utils';
 import { IMessageBase } from './model';
@@ -68,10 +68,11 @@ export class MessageContainerComponent {
         return items;
     }
 
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.items) {
+    constructor() {
+        effect(() => {
+            this.items();
             this.scrollBottom();
-        }
+        });
     }
 
     public formatAsset(val?: string) {

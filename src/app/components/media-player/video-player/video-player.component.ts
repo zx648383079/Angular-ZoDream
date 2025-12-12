@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnChanges, OnDestroy, Renderer2, SimpleChanges, inject, input, model, output, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, Renderer2, effect, inject, input, model, output, viewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ScreenFull, mediaIsFrame } from '../util';
 
@@ -8,7 +8,7 @@ import { ScreenFull, mediaIsFrame } from '../util';
     templateUrl: './video-player.component.html',
     styleUrls: ['./video-player.component.scss']
 })
-export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy {
+export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
     private sanitizer = inject(DomSanitizer);
     private render = inject(Renderer2);
 
@@ -34,6 +34,17 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy
         return videoElement && videoElement.nativeElement ? videoElement.nativeElement : undefined;
     }
 
+    constructor() {
+        effect(() => {
+            const src = this.src();
+            this.booted = false;
+            this.isFrame = mediaIsFrame(src);
+            if (this.isFrame) {
+                this.formatSrc = this.sanitizer.bypassSecurityTrustResourceUrl(src);
+            }
+        });
+    }
+
     ngOnDestroy() {
         if (this.paused || !this.videoPlayer) {
             return;
@@ -46,16 +57,6 @@ export class VideoPlayerComponent implements OnChanges, AfterViewInit, OnDestroy
         this.render.listen(document, ScreenFull.changeEvent, () => {
             this.isFull = ScreenFull.isFullScreen;
         });
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.src) {
-            this.booted = false;
-            this.isFrame = mediaIsFrame(changes.src.currentValue);
-            if (this.isFrame) {
-                this.formatSrc = this.sanitizer.bypassSecurityTrustResourceUrl(changes.src.currentValue);
-            }
-        }
     }
 
     public tapPlay() {

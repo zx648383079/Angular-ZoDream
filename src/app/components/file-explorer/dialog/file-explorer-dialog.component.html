@@ -35,7 +35,7 @@
             <i class="iconfont icon-search" (click)="tapConfirmSearch()"></i>
         </form>
         @if (mode() > 0) {
-        <div class="action-item" (click)="visible = false()">
+        <div class="action-item" (click)="visible.set(false)">
             <i class="iconfont icon-close"></i>
         </div>
         }

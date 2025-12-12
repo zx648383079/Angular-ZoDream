@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnChanges, SimpleChanges, inject, input, output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, effect, inject, input, model, output } from '@angular/core';
 import { ButtonEvent } from '../event';
 
 @Component({
@@ -10,14 +10,20 @@ import { ButtonEvent } from '../event';
         '(click)': 'tapBody()',
     },
 })
-export class ActionButtonComponent implements OnChanges, AfterViewInit, ButtonEvent {
+export class ActionButtonComponent implements AfterViewInit, ButtonEvent {
     private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
 
     public readonly disabled = input(false);
-    public readonly loading = input(false);
+    public readonly loading = model(false);
     public readonly tapped = output<ButtonEvent>();
     private height = 0;
+
+    constructor() {
+        effect(() => {
+            this.toggleClass('disabled', this.disabled());
+        });
+    }
 
     get loadingStyle() {
         const width = this.height - 10;
@@ -25,12 +31,6 @@ export class ActionButtonComponent implements OnChanges, AfterViewInit, ButtonEv
             height: width + 'px',
             width: width + 'px',
         };
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.disabled) {
-            this.toggleClass('disabled', changes.disabled.currentValue);
-        }
     }
 
     ngAfterViewInit() {
@@ -50,7 +50,7 @@ export class ActionButtonComponent implements OnChanges, AfterViewInit, ButtonEv
      * 开始执行加载
      */
     public enter() {
-        this.loading = true;
+        this.loading.set(true);
         this.toggleClass('disabled', true);
     }
 
@@ -58,7 +58,7 @@ export class ActionButtonComponent implements OnChanges, AfterViewInit, ButtonEv
      * 停止执行
      */
     public reset() {
-        this.loading = false;
+        this.loading.set(false);
         this.toggleClass('disabled', this.disabled());
     }
 

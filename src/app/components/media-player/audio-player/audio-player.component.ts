@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnDestroy, SimpleChanges, input, output } from '@angular/core';
+import { Component, OnDestroy, effect, input, output } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -6,7 +6,7 @@ import { Component, OnChanges, OnDestroy, SimpleChanges, input, output } from '@
     templateUrl: './audio-player.component.html',
     styleUrls: ['./audio-player.component.scss']
 })
-export class AudioPlayerComponent implements OnDestroy, OnChanges {
+export class AudioPlayerComponent implements OnDestroy {
     
     public readonly src = input<string>(undefined);
     public readonly mini = input(false);
@@ -21,7 +21,12 @@ export class AudioPlayerComponent implements OnDestroy, OnChanges {
     private booted = false;
     private volumeLast = 100;
 
-    constructor() { }
+    constructor() {
+        effect(() => {
+            this.src();
+            this.booted = false;
+        });
+    }
 
 
     private get audio(): HTMLAudioElement {
@@ -32,12 +37,6 @@ export class AudioPlayerComponent implements OnDestroy, OnChanges {
             this.bindAudioEvent();
         }
         return this.audioElement;
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.src) {
-            this.booted = false;
-        }
     }
 
     ngOnDestroy() {

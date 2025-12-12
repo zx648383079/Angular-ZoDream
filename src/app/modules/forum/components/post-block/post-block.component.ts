@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, inject, input, output } from '@angular/core';
+import { Component, effect, inject, input, output } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { IBlockItem, IExtraRule, formatLinkRule } from '../../../../components/link-rule';
 
@@ -8,7 +8,7 @@ import { IBlockItem, IExtraRule, formatLinkRule } from '../../../../components/l
     templateUrl: './post-block.component.html',
     styleUrls: ['./post-block.component.scss']
 })
-export class PostBlockComponent implements OnChanges {
+export class PostBlockComponent {
     private toastrService = inject(DialogService);
 
 
@@ -18,10 +18,10 @@ export class PostBlockComponent implements OnChanges {
 
     public blcokItems: IBlockItem[];
 
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.value) {
-            this.formatContent(changes.value.currentValue);
-        }
+    constructor() {
+        effect(() => {
+            this.formatContent(this.value);
+        });
     }
 
     public tapVoteItem(block: any, item: any) {

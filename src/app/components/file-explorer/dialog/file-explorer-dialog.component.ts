@@ -1,15 +1,15 @@
-import { Component, ComponentRef, Injector, OnInit, ViewContainerRef, inject, input, viewChild } from '@angular/core';
+import { Component, ComponentRef, Injector, OnInit, ViewContainerRef, inject, input, model, viewChild } from '@angular/core';
 import { IBreadcrumbItem, IFileExplorerTool, IFileItem } from '../model';
 import { FileExplorerPanelComponent } from '../panel/file-explorer-panel.component';
 import { FileExplorerImageEditorComponent } from '../tools';
 
 @Component({
     standalone: false,
-  selector: 'app-file-explorer-dialog',
-  templateUrl: './file-explorer-dialog.component.html',
-  styleUrls: ['./file-explorer-dialog.component.scss']
+    selector: 'app-file-explorer-dialog',
+    templateUrl: './file-explorer-dialog.component.html',
+    styleUrls: ['./file-explorer-dialog.component.scss']
 })
-export class FileExplorerDialogComponent implements OnInit {
+export class FileExplorerDialogComponent {
     private injector = inject(Injector);
 
 
@@ -18,7 +18,7 @@ export class FileExplorerDialogComponent implements OnInit {
     public breadcrumbItems: IBreadcrumbItem[] = [
         {icon: 'icon-home', name: 'Home', path: ''},
     ];
-    public readonly visible = input(false);
+    public readonly visible = model(false);
     public readonly mode = input(0);
     public path = '';
     public keywords = '';
@@ -26,9 +26,6 @@ export class FileExplorerDialogComponent implements OnInit {
     private historyItems: string[] = [];
     private historyIndex = -1;
     private modalRef: ComponentRef<IFileExplorerTool>;
-
-    ngOnInit() {
-    }
 
     public get canBack() {
         if (this.historyIndex < 0) {
@@ -46,7 +43,7 @@ export class FileExplorerDialogComponent implements OnInit {
     }
 
     public open() {
-        this.visible = true;
+        this.visible.set(true);
     }
 
     public tapBack() {

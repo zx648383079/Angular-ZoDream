@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnChanges, OnInit, SimpleChanges, input, output, viewChild } from '@angular/core';
+import { Component, ElementRef, effect, input, output, viewChild } from '@angular/core';
 import { PanelWidget, TreeEvent, TreeItem, TREE_ACTION, Widget } from '../../model';
 
 @Component({
@@ -7,7 +7,7 @@ import { PanelWidget, TreeEvent, TreeItem, TREE_ACTION, Widget } from '../../mod
     templateUrl: './catalog-item.component.html',
     styleUrls: ['./catalog-item.component.scss']
 })
-export class CatalogItemComponent implements OnInit, OnChanges {
+export class CatalogItemComponent {
 
     public readonly InputRef = viewChild<ElementRef<HTMLInputElement>>('input');
 
@@ -16,21 +16,17 @@ export class CatalogItemComponent implements OnInit, OnChanges {
     public readonly tapped = output<TreeEvent>();
     public isWidget = false;
 
-    constructor() { }
+    constructor() {
+        effect(() => {
+            this.value();
+            this.format();
+        });
+    }
 
     public get headerStyle() {
         return {
             'padding-left': this.level() * 30 + 'px' 
         };
-    }
-
-    ngOnInit() {
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.value) {
-            this.format();
-        }
     }
 
     public tapEdit(e: MouseEvent) {

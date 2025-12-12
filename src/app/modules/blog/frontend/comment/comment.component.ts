@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -22,7 +22,7 @@ const GuestUserKey = 'gu';
     templateUrl: './comment.component.html',
     styleUrls: ['./comment.component.scss']
 })
-export class CommentComponent implements OnChanges {
+export class CommentComponent {
     private service = inject(BlogService);
     private toastrService = inject(DialogService);
     private themeService = inject(ThemeService);
@@ -64,12 +64,11 @@ export class CommentComponent implements OnChanges {
             this.user = user;
         });
         this.loadGuestUser();
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
-            this.boot();
-        }
+        effect(() => {
+            if (this.init() && this.itemId() > 0 && this.booted !== this.itemId()) {
+                this.boot();
+            }
+        });
     }
 
     private boot() {

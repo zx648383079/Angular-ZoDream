@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostBinding, HostListener, OnChanges, SimpleChanges, input, contentChildren, effect } from '@angular/core';
+import { AfterViewInit, Component, HostListener, input, contentChildren, effect } from '@angular/core';
 import { IButton } from '../event';
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { CommandButtonComponent } from './command-button';

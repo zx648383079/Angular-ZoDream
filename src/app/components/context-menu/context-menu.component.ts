@@ -1,4 +1,4 @@
-import { Component, HostListener, input } from '@angular/core';
+import { Component, HostListener, model } from '@angular/core';
 import { hasElementByClass } from '../../theme/utils/doc';
 import { IMenuButton, IMenuItem, MenuEvent } from './model';
 
@@ -10,7 +10,7 @@ import { IMenuButton, IMenuItem, MenuEvent } from './model';
 })
 export class ContextMenuComponent {
 
-    public readonly items = input<IMenuItem[]>([]);
+    public readonly items = model<IMenuItem[]>([]);
 
     public flowLeft = false;
     public isOpen = false;
@@ -51,7 +51,7 @@ export class ContextMenuComponent {
         this.x = x;
         this.y = y as number;
         if (nav) {
-            this.items = nav as IMenuItem[];
+            this.items.set(nav as IMenuItem[]);
         }
         if (cb) {
             this.finished = cb;

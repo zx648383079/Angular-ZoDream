@@ -32,15 +32,6 @@ export class CircleProgressComponent implements AfterViewInit {
         return this.drawerElement().nativeElement as HTMLCanvasElement;
     }
 
-    // ngOnChanges(changes: SimpleChanges) {
-    //     if (changes.value) {
-    //         this.computed();
-    //     }
-    //     if (changes.max) {
-    //         this.computed();
-    //     }
-    // }
-
     ngAfterViewInit() {
         this.drawer.width = 200;
         this.drawer.height = 200;

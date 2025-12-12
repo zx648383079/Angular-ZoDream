@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { IPageQueries } from '../../../../../../theme/models/page';
 import { ILoginLog } from '../../../../../../theme/models/auth';
 import { AuthService } from '../../../auth.service';
@@ -10,7 +10,7 @@ import { SearchService } from '../../../../../../theme/services';
     templateUrl: './login-panel.component.html',
     styleUrls: ['./login-panel.component.scss']
 })
-export class LoginPanelComponent implements OnChanges {
+export class LoginPanelComponent {
     private service = inject(AuthService);
     private searchService = inject(SearchService);
 
@@ -28,10 +28,13 @@ export class LoginPanelComponent implements OnChanges {
     };
     private booted = 0;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
-            this.boot();
-        }
+ 
+    constructor() {
+        effect(() => {
+            if (this.init() && this.itemId() > 0 && this.booted !== this.itemId()) {
+                this.boot();
+            }
+        });
     }
 
     private boot() {

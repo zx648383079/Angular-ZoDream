@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, input } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -6,7 +6,7 @@ import { Component, OnChanges, SimpleChanges, input } from '@angular/core';
     templateUrl: './code-block.component.html',
     styleUrls: ['./code-block.component.scss']
 })
-export class CodeBlockComponent implements OnChanges {
+export class CodeBlockComponent {
 
     public readonly raw = input('');
     public readonly value = input('');
@@ -24,19 +24,20 @@ export class CodeBlockComponent implements OnChanges {
     public screenMode = 0;
     private lockTime = 0;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.value) {
-            this.internalValue = changes.value.currentValue;
-            this.createLine(this.computeLine(changes.value.currentValue));
-        } else if (changes.raw) {
-            this.parseRaw(changes.raw.currentValue);
-        }
-        if (changes.src) {
+    constructor() {
+        effect(() => {
+            this.internalValue = this.value();
+            this.createLine(this.computeLine(this.value()));
+        });
+        effect(() => {
+            this.parseRaw(this.raw());
+        });
+        effect(() => {
             this.internalSrc = this.src();
-        }
-        if (changes.lang) {
+        });
+        effect(() => {
             this.internalLang = this.lang();
-        }
+        });
     }
 
     public toggleScreen(to: number) {

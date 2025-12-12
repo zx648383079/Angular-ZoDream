@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, input, output } from '@angular/core';
+import { Component, effect, input, output } from '@angular/core';
 import { UploadFile } from '../../../theme/services/uploader';
 import { formatDate, mapFormat } from '../../../theme/utils';
 import { IDisk } from '../model';
@@ -24,11 +24,11 @@ interface IUploadGroup {
 
 @Component({
     standalone: false,
-  selector: 'app-uploader',
-  templateUrl: './uploader.component.html',
-  styleUrls: ['./uploader.component.scss']
+    selector: 'app-uploader',
+    templateUrl: './uploader.component.html',
+    styleUrls: ['./uploader.component.scss']
 })
-export class UploaderComponent implements OnChanges {
+export class UploaderComponent {
 
     public readonly title = input('上传');
     public min = false;
@@ -38,12 +38,10 @@ export class UploaderComponent implements OnChanges {
     public readonly maxTime = input(86400000);
     public readonly uploading = output<File[]>();
 
-    constructor() {}
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.items) {
-            this.formatedItems = this.format(changes.items.currentValue);
-        }
+    constructor() {
+        effect(() => {
+            this.formatedItems = this.format(this.items());
+        });
     }
 
     public formatStatus(val: number) {

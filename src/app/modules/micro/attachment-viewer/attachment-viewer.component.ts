@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, input } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { IAttachment } from '../model';
 
 @Component({
@@ -7,7 +7,7 @@ import { IAttachment } from '../model';
   templateUrl: './attachment-viewer.component.html',
   styleUrls: ['./attachment-viewer.component.scss']
 })
-export class AttachmentViewerComponent implements OnChanges  {
+export class AttachmentViewerComponent {
 
     public readonly items = input<IAttachment[]>([]);
 
@@ -18,18 +18,15 @@ export class AttachmentViewerComponent implements OnChanges  {
     public open = false;
     public current = 0;
 
-    constructor() { }
+    constructor() {
+        effect(() => {
+            this.attachmentType = this.formatType(this.items());
+        });
+    }
 
     
     public get largeImage(): string {
         return this.items()[this.current].file;
-    }
-    
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.items) {
-            this.attachmentType = this.formatType(changes.items.currentValue);
-        }
     }
 
     public tapPrevious() {

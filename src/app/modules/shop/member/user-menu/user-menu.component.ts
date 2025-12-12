@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, input } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { INavLink } from '../../../../theme/models/seo';
 
@@ -9,7 +9,7 @@ import { INavLink } from '../../../../theme/models/seo';
     templateUrl: './user-menu.component.html',
     styleUrls: ['./user-menu.component.scss']
 })
-export class UserMenuComponent implements OnChanges {
+export class UserMenuComponent {
 
     public items: INavLink[] = [{
             name: '账号管理',
@@ -89,15 +89,13 @@ export class UserMenuComponent implements OnChanges {
     public readonly current = input<ActivatedRoute>(undefined);
     public readonly currentUrl = input<string>(undefined);
 
-    constructor() { }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.current) {
-            this.checkRoute(changes.current.currentValue);
-        }
-        if (changes.currentUrl) {
-            this.checkUrl(changes.currentUrl.currentValue);
-        }
+    constructor() {
+        effect(() => {
+            this.checkRoute(this.current());
+        });
+        effect(() => {
+            this.checkUrl(this.currentUrl());
+        });
     }
 
     public tapNav(item: INavLink) {

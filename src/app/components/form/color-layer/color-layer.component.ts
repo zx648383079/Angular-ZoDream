@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, input, output } from '@angular/core';
+import { Component, SimpleChanges, effect, input, model} from '@angular/core';
 
 @Component({
     standalone: false,
@@ -6,18 +6,22 @@ import { Component, OnChanges, SimpleChanges, input, output } from '@angular/cor
     templateUrl: './color-layer.component.html',
     styleUrls: ['./color-layer.component.scss']
 })
-export class ColorLayerComponent implements OnChanges {
+export class ColorLayerComponent {
 
     public readonly disabled = input(false);
-    public readonly value = input('');
+    public readonly value = model('');
     public hY = 0;
     public x = 0;
     public y = 0;
     public background = '#fff';
-    public readonly valueChange = output<string>();
     private hsv = [0, 0, 0];
 
-    constructor() { }
+    constructor() {
+        effect(() => {
+            this.value();
+            this.applyColor();
+        });
+    }
 
     get svStyle() {
         return {left: this.x - 5 + 'px', top: this.y - 5 + 'px'};
@@ -27,11 +31,6 @@ export class ColorLayerComponent implements OnChanges {
         return {top: this.hY - 3 + 'px'};
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.value) {
-            this.applyColor();
-        }
-    }
 
     public tapNotTouch(e: MouseEvent) {
         if (this.disabled()) {
@@ -111,8 +110,7 @@ export class ColorLayerComponent implements OnChanges {
         this.background = 'rgb(' + b.join(',') + ')';
     }
     private triggerChange() {
-        this.value = '#' + this.HSV2HEX(this.hsv);
-        this.valueChange.emit(this.value());
+        this.value.set('#' + this.HSV2HEX(this.hsv));
     }
 
     private doColor(e: TouchEvent) {

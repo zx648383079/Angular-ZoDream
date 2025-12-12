@@ -1,4 +1,4 @@
-import { Component, OnChanges, Renderer2, SimpleChanges, input, output } from '@angular/core';
+import { Component, effect, input, model, output } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -6,21 +6,27 @@ import { Component, OnChanges, Renderer2, SimpleChanges, input, output } from '@
     templateUrl: './pagination.component.html',
     styleUrls: ['./pagination.component.scss']
 })
-export class PaginationComponent implements OnChanges {
+export class PaginationComponent {
 
     public readonly perPage = input(20);
-    public readonly page = input(1);
+    public readonly page = model(1);
     public readonly pageTotal = input(-1);
     public readonly total = input(-1);
-    public readonly pageCount = input(0);
+    public readonly pageCount = input(window.innerWidth > 576 ? 7 : 3);
     public readonly directionLinks = input(false);
     public readonly goto = input(false);
-    public readonly pageChange = output<number>();
 
     public items: number[] = [];
 
     constructor() {
-        this.pageCount = window.innerWidth > 576 ? 7 : 3;
+        effect(() => {
+            this.perPage();
+            this.page();
+            this.pageTotal();
+            this.total();
+            this.pageCount();
+            this.initPage();
+        });
     }
 
     private get realTotal() {
@@ -36,12 +42,6 @@ export class PaginationComponent implements OnChanges {
 
     public get canNext() {
         return this.page() < this.realTotal;
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.perPage || changes.page || changes.pageTotal || changes.total || changes.pageCount) {
-            this.initPage();
-        }
     }
 
     public onKeyDown(event: KeyboardEvent) {
@@ -66,9 +66,8 @@ export class PaginationComponent implements OnChanges {
         if (page > total) {
             page = total;
         }
-        this.page = page;
+        this.page.set(page);
         this.initPage();
-        this.pageChange.emit(page);
     }
 
     public previous() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject, input, output } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, input, output, model } from '@angular/core';
 import { ThemeService } from '../../../theme/services';
 import { INavLink } from '../../../theme/models/seo';
 import { SuggestChangeEvent } from '../../form';
@@ -23,7 +23,7 @@ export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
     public readonly menu = input<INavLink[]>([]);
     public readonly bottomMenu = input<INavLink[]>([]);
     public readonly hasSuggest = input(false);
-    public readonly suggestItems = input<any[]>([]);
+    public readonly suggestItems = model<any[]>([]);
     public readonly textChanged = output<SuggestChangeEvent>();
     public readonly querySubmitted = output<any>();
     public readonly suggestionChosen = output<number>();
@@ -68,7 +68,7 @@ export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
 
     public suggest(items: any[]): void {
         this.suggestIndex = -1;
-        this.suggestItems = items;
+        this.suggestItems.set(items);
     }
 
     public formatTitle(item: any) {

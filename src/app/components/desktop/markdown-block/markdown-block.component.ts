@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnChanges, Renderer2, SimpleChanges, ViewEncapsulation, inject, input, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Renderer2, ViewEncapsulation, effect, inject, input, viewChild } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { marked } from 'marked';
 import { toggleClass } from '../../../theme/utils/doc';
@@ -18,7 +18,7 @@ import { ImagePlayerComponent } from '../../media-player';
         class: 'style-markdown',
     }
 })
-export class MarkdownBlockComponent implements OnChanges, AfterViewInit {
+export class MarkdownBlockComponent implements AfterViewInit {
     private sanitizer = inject(DomSanitizer);
     private element = inject<ElementRef<HTMLDivElement>>(ElementRef);
     private renderer = inject(Renderer2);
@@ -30,12 +30,12 @@ export class MarkdownBlockComponent implements OnChanges, AfterViewInit {
     public readonly isFormated = input(true);
     public formated: SafeHtml;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.value) {
+    constructor() {
+        effect(() => {
             this.formated = this.sanitizer.bypassSecurityTrustHtml(
                 this.isFormated() ? this.value() : marked(this.value()).toString()
             );
-        }
+        });
     }
 
     ngAfterViewInit(): void {
@@ -44,8 +44,9 @@ export class MarkdownBlockComponent implements OnChanges, AfterViewInit {
                 return;
             }
             if (e.target instanceof HTMLImageElement) {
-                player.visible = true;
-                player.play({
+                const ctl = this.player();
+                ctl.visible.set(true);
+                ctl.play({
                     name: e.target.title,
                     source: e.target.src
                 });

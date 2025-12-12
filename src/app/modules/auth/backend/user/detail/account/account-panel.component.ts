@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { IAccountLog } from '../../../../../../theme/models/auth';
 import { IPageQueries } from '../../../../../../theme/models/page';
 import { AuthService } from '../../../auth.service';
@@ -11,7 +11,7 @@ import { SearchService } from '../../../../../../theme/services';
     templateUrl: './account-panel.component.html',
     styleUrls: ['./account-panel.component.scss']
 })
-export class AccountPanelComponent implements OnChanges {
+export class AccountPanelComponent {
     private service = inject(AuthService);
     private searchService = inject(SearchService);
 
@@ -30,10 +30,14 @@ export class AccountPanelComponent implements OnChanges {
     private booted = 0;
     public editData: IAccountLog = {} as any;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
-            this.boot();
-        }
+    
+
+    constructor() {
+        effect(() => {
+            if (this.init() && this.itemId() > 0 && this.booted !== this.itemId()) {
+                this.boot();
+            }
+        });
     }
 
     public tapView(modal: DialogEvent, item: IAccountLog) {

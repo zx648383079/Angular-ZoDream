@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, inject, input, output } from '@angular/core';
+import { Component, effect, inject, input, output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -14,7 +14,7 @@ import { BlogService } from '../../blog.service';
     templateUrl: './comment-item.component.html',
     styleUrls: ['./comment-item.component.scss']
 })
-export class CommentItemComponent implements OnChanges {
+export class CommentItemComponent {
     private service = inject(BlogService);
     private toastrService = inject(DialogService);
     private router = inject(Router);
@@ -45,15 +45,8 @@ export class CommentItemComponent implements OnChanges {
         blog_id: 0,
     };
 
-    public get moreCount() {
-        if (!this.hasMore) {
-            return 0;
-        }
-        return this.value().reply_count - this.value().replies.length;
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.value) {
+    constructor() {
+        effect(() => {
             const value = this.value();
             if (!value.replies) {
                 value.replies = [];
@@ -62,8 +55,14 @@ export class CommentItemComponent implements OnChanges {
             this.queries.blog_id = value.blog_id;
             this.queries.parent_id = value.id;
             this.queries.page = 1;
+        });
+    }
+
+    public get moreCount() {
+        if (!this.hasMore) {
+            return 0;
         }
-        
+        return this.value().reply_count - this.value().replies.length;
     }
 
     public toggleExpand() {

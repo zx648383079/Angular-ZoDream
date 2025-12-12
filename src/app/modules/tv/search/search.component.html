@@ -1,6 +1,6 @@
 <div class="search-floor">
     <div class="search-bar">
-        <app-auto-suggest-box [text]="queries.keywords" (confirm)="tapSearch($event)" />
+        <app-auto-suggest-box [value]="queries.keywords" (confirm)="tapSearch($event)" />
     </div>
     <div class="sort-bar">
         <a class="sort-item">

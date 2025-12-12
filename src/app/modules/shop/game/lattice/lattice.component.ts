@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, input, output } from '@angular/core';
+import { Component, effect, input, output } from '@angular/core';
 
 interface ILatticeItem {
     index: number;
@@ -13,7 +13,7 @@ interface ILatticeItem {
     templateUrl: './lattice.component.html',
     styleUrls: ['./lattice.component.scss']
 })
-export class LatticeComponent implements OnChanges {
+export class LatticeComponent {
 
     public readonly items = input<any[]>([]);
     public readonly buttonText = input('抽奖');
@@ -30,12 +30,10 @@ export class LatticeComponent implements OnChanges {
     private timer = 0;
 
     constructor() {
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.items) {
+        effect(() => {
+            this.items();
             this.formatOption();
-        }
+        });
     }
 
     public tapStart() {

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnChanges, OnDestroy, Renderer2, SimpleChanges, inject, input, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef,  OnDestroy, Renderer2, effect, inject, input, viewChild } from '@angular/core';
 import { IMediaFile, PlayerEvent, PlayerEvents, PlayerListeners, PlayerLoopMode } from '../model';
 import { assetUri, randomInt } from '../../../../theme/utils';
 
@@ -8,7 +8,7 @@ import { assetUri, randomInt } from '../../../../theme/utils';
     templateUrl: './music-player.component.html',
     styleUrls: ['./music-player.component.scss']
 })
-export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewInit, OnChanges {
+export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewInit {
     private render = inject(Renderer2);
 
 
@@ -74,6 +74,15 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
         }
     }
 
+    constructor() {
+        effect(() => {
+            this.hidden()
+            if (this.booted) {
+                this.resize();
+            }
+        });
+    }
+
     ngAfterViewInit() {
         this.render.listen(window, 'resize', () => {
             this.resize();
@@ -82,12 +91,6 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
             this.resize();
         }, 100);
         this.booted = true;
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.hidden && this.booted) {
-            this.resize();
-        }
     }
 
     private resize() {

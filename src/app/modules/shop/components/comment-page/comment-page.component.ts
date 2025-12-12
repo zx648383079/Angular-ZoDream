@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IScoreSubtotal } from '../../../../theme/models/seo';
 import { IComment } from '../../model';
@@ -6,11 +6,11 @@ import { ShopService } from '../../shop.service';
 
 @Component({
     standalone: false,
-  selector: 'app-comment-page',
-  templateUrl: './comment-page.component.html',
-  styleUrls: ['./comment-page.component.scss']
+    selector: 'app-comment-page',
+    templateUrl: './comment-page.component.html',
+    styleUrls: ['./comment-page.component.scss']
 })
-export class CommentPageComponent implements OnChanges {
+export class CommentPageComponent {
     private service = inject(ShopService);
 
 
@@ -28,10 +28,12 @@ export class CommentPageComponent implements OnChanges {
     };
     private booted = 0;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
-            this.boot();
-        }
+    constructor() {
+        effect(() => {
+            if (this.init() && this.itemId() > 0 && this.booted !== this.itemId()) {
+                this.boot();
+            }
+        });
     }
 
     private boot() {

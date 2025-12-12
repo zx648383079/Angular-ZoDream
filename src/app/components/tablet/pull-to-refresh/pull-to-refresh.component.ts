@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, OnDestroy, OnChanges, SimpleChanges, HostListener, Renderer2, inject, input, output, viewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, OnDestroy, HostListener, Renderer2, inject, input, output, viewChild, effect, model } from '@angular/core';
 
 export enum ESTATE {
     NONE = 0,
@@ -24,18 +24,18 @@ enum EDIRECTION {
     templateUrl: './pull-to-refresh.component.html',
     styleUrls: ['./pull-to-refresh.component.scss']
 })
-export class PullToRefreshComponent implements OnInit, OnDestroy, OnChanges {
+export class PullToRefreshComponent implements OnInit, OnDestroy {
     private renderer = inject(Renderer2);
 
 
     /**
      * 是否允许刷新
      */
-    public readonly refresh = input(true);
+    public readonly refresh = model(true);
     /**
      * 是否可以加载更多
      */
-    public readonly more = input(true);
+    public readonly more = model(true);
     /**
      * 距离底部距离触发加载更多
      */
@@ -46,23 +46,26 @@ export class PullToRefreshComponent implements OnInit, OnDestroy, OnChanges {
     public readonly loading = input(false);
     public readonly maxHeight = input(100);
     public ESTATE = ESTATE;
-    public state: ESTATE = ESTATE.NONE;
     public startY = 0;
     public startUp: EDIRECTION = EDIRECTION.NONE; // 一开始滑动的方向
     public readonly boxRef = viewChild<ElementRef>('pullScroll');
     public scrollTop = 0;
-    public topHeight = 0;
 
-    public readonly stateChange = output<ESTATE>();
-    /**
-     * 加载更多的事件
-     */
-    public readonly moreChange = output<boolean>();
-    public readonly topHeightChange = output<number>();
-    /**
-     * 刷新事件
-     */
-    public readonly refreshChange = output<boolean>();
+    public readonly state = model<ESTATE>(ESTATE.NONE);
+    public readonly topHeight = model<number>(0);
+
+    constructor() {
+        effect(() => {
+            if (!this.more() && this.state() === ESTATE.MORE) {
+                this.state.set(ESTATE.NONE);
+            }
+        });
+        let lastLoading = false;
+        effect(() => {
+            this.onLoadingChanged(this.loading(), lastLoading);
+            lastLoading = this.loading();
+        });
+    }
 
     ngOnInit() {
         this.renderer.listen(window, 'scroll', this.onScroll.bind(this));
@@ -83,8 +86,8 @@ export class PullToRefreshComponent implements OnInit, OnDestroy, OnChanges {
         const y = target.scrollTop + target.offsetHeight;
         const more = this.more();
         if (more && y + this.distance() > height) {
-            this.state = ESTATE.MORE;
-            this.moreChange.emit(more);
+            this.state.set(ESTATE.MORE);
+            this.more.set(true);
         }
     }
 
@@ -96,48 +99,32 @@ export class PullToRefreshComponent implements OnInit, OnDestroy, OnChanges {
         return 'height: ' + this.topHeight + 'px';
     }
 
-    ngOnChanges(current: SimpleChanges) {
-        if (current.state) {
-            this.stateChange.emit(current.statte.currentValue);
-        }
-        if (current.more) {
-            if (!current.more.currentValue && this.state === ESTATE.MORE) {
-                this.state = ESTATE.NONE;
-            }
-        }
-        if (current.topHeight) {
-            this.topHeightChange.emit(current.topHeight.currentValue);
-        }
-        if (current.loading) {
-            this.onLoadingChanged(current.loading.currentValue, current.loading.previousValue);
-        }
-    }
-
     public onLoadingChanged(val: boolean, oldVal: boolean) {
+        const state = this.state();
         if (val && !oldVal) {
-            if (this.state === ESTATE.PULLED) {
-                this.state = ESTATE.REFRESHING;
+            if (state === ESTATE.PULLED) {
+                this.state.set(ESTATE.REFRESHING);
                 return;
             }
-            if (this.state === ESTATE.MORE) {
-                this.state = ESTATE.LOADING;
+            if (state === ESTATE.MORE) {
+                this.state.set(ESTATE.LOADING);
                 return;
             }
         }
 
         if (oldVal && !val) {
-            if (this.state === ESTATE.LOADING) {
-                this.state = ESTATE.LOADED;
+            if (state === ESTATE.LOADING) {
+                this.state.set(ESTATE.LOADED);
                 this.reset();
                 return;
             }
-            if (this.state === ESTATE.REFRESHING) {
-                this.state = ESTATE.REFRESHED;
+            if (state === ESTATE.REFRESHING) {
+                this.state.set(ESTATE.REFRESHED);
                 this.reset();
                 return;
             }
-            if (this.state === ESTATE.MORE) {
-                this.state = ESTATE.NONE;
+            if (state === ESTATE.MORE) {
+                this.state.set(ESTATE.NONE);
                 return;
             }
         }
@@ -165,8 +152,8 @@ export class PullToRefreshComponent implements OnInit, OnDestroy, OnChanges {
         if (this.getScrollBottomHeight() > this.distance()) {
             return;
         }
-        this.state = ESTATE.MORE;
-        this.moreChange.emit(more);
+        this.state.set(ESTATE.MORE);
+        this.more.set(more);
     }
 
     public touchStart(event: TouchEvent) {
@@ -178,7 +165,8 @@ export class PullToRefreshComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     public touchMove(event: TouchEvent) {
-        if (this.scrollTop > 0 && this.state === ESTATE.NONE) {
+        const state = this.state();
+        if (this.scrollTop > 0 && state === ESTATE.NONE) {
             return;
         }
         const diff = event.changedTouches[0].pageY - this.startY;
@@ -187,22 +175,22 @@ export class PullToRefreshComponent implements OnInit, OnDestroy, OnChanges {
         }
         // 进行滑动操作
         if (this.startUp === EDIRECTION.DOWN) {
-            if (this.state === ESTATE.NONE && diff > 0) {
-                this.state = ESTATE.PULL;
+            if (state === ESTATE.NONE && diff > 0) {
+                this.state.set(ESTATE.PULL);
             }
-            if (this.state === ESTATE.PULL && diff >= this.maxHeight()) {
-                this.state = ESTATE.PULLED;
+            if (state === ESTATE.PULL && diff >= this.maxHeight()) {
+                this.state.set(ESTATE.PULLED);
             }
-            if (this.state === ESTATE.PULLED && diff < this.maxHeight()) {
-                this.state = ESTATE.CANCEL;
+            if (state === ESTATE.PULLED && diff < this.maxHeight()) {
+                this.state.set(ESTATE.CANCEL);
             }
-            if (this.state === ESTATE.PULL) {
-                this.topHeight = diff;
+            if (state === ESTATE.PULL) {
+                this.topHeight.set(diff);
             }
         }
         // 上拉加载更多
         if (this.startUp === EDIRECTION.UP && this.more()) {
-            this.state = Math.abs(diff) > this.distance() ? ESTATE.MORE : ESTATE.NONE;
+            this.state.set(Math.abs(diff) > this.distance() ? ESTATE.MORE : ESTATE.NONE);
         }
     }
 
@@ -211,16 +199,17 @@ export class PullToRefreshComponent implements OnInit, OnDestroy, OnChanges {
             return;
         }
         const diff = event.changedTouches[0].pageY - this.startY;
-        if (this.state === ESTATE.PULL || this.state === ESTATE.CANCEL) {
-            this.state = ESTATE.NONE;
+        const state = this.state();
+        if (state === ESTATE.PULL || state === ESTATE.CANCEL) {
+            this.state.set(ESTATE.NONE);
             return;
         }
-        if (this.state === ESTATE.PULLED) {
-            this.refreshChange.emit(this.refresh());
+        if (state === ESTATE.PULLED) {
+            this.refresh.set(this.refresh());
             return;
         }
-        if (this.state === ESTATE.MORE) {
-            this.moreChange.emit(this.more());
+        if (state === ESTATE.MORE) {
+            this.more.set(this.more());
         }
     }
 
@@ -232,19 +221,19 @@ export class PullToRefreshComponent implements OnInit, OnDestroy, OnChanges {
             start += (step++) * diff;
             if ((diff > 0 && start >= end) || (diff < 0 && start <= end)) {
                 clearInterval(handle);
-                this.topHeight = end;
+                this.topHeight.set(end);
                 if (endHandle) {
                     endHandle();
                 }
                 return;
             }
-            this.topHeight = start;
+            this.topHeight.set(start);
         }, 16);
     }
 
     public reset() {
-        this.animation(this.topHeight, 0, () => {
-            this.state = ESTATE.NONE;
+        this.animation(this.topHeight(), 0, () => {
+            this.state.set(ESTATE.NONE);
         });
     }
 

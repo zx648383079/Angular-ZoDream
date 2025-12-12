@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { AuthService } from '../../../auth.service';
 import { openLink } from '../../../../../../theme/utils/deeplink';
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { IStatisticsItem } from '../../../../../../theme/models/seo';
     templateUrl: './statistics-panel.component.html',
     styleUrls: ['./statistics-panel.component.scss']
 })
-export class StatisticsPanelComponent implements OnChanges {
+export class StatisticsPanelComponent {
     private service = inject(AuthService);
     private router = inject(Router);
 
@@ -21,10 +21,13 @@ export class StatisticsPanelComponent implements OnChanges {
     public isLoading = false;
     private booted = 0;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
-            this.boot();
-        }
+
+    constructor() {
+        effect(() => {
+            if (this.init() && this.itemId() > 0 && this.booted !== this.itemId()) {
+                this.boot();
+            }
+        });
     }
 
     public tapItem(item: any) {

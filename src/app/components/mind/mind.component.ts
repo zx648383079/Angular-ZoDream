@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnChanges, OnInit, Renderer2, SimpleChanges, inject, input, output, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, effect, inject, input, output, viewChild } from '@angular/core';
 import { ContextMenuComponent } from '../context-menu';
 import { randomInt } from '../../theme/utils';
 import { MindConfirmEvent, MindLinkSource, MindPointSource, MindUpdateEvent } from './model';
@@ -25,7 +25,7 @@ interface IPointLink {
     templateUrl: './mind.component.html',
     styleUrls: ['./mind.component.scss']
 })
-export class MindComponent implements OnChanges, AfterViewInit, OnInit {
+export class MindComponent implements AfterViewInit, OnInit {
     private renderer = inject(Renderer2);
     private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
@@ -60,6 +60,15 @@ export class MindComponent implements OnChanges, AfterViewInit, OnInit {
         return this.lineBoxRef().nativeElement as HTMLCanvasElement;
     }
 
+    constructor() {
+        effect(() => {
+            this.items();
+            this.linkItems();
+            this.refreshPoint();
+            this.refresh();
+        });
+    }
+
     ngOnInit() {
         this.renderer.listen(document, 'mousemove', (event: MouseEvent) => {
             if (this.moveListeners.move) {
@@ -79,13 +88,6 @@ export class MindComponent implements OnChanges, AfterViewInit, OnInit {
         this.lineBox.height = bound.height <= 0 ? window.innerHeight : bound.height;
         this.ctx = this.lineBox.getContext('2d');
         this.refresh();
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.items || changes.linkItems) {
-            this.refreshPoint();
-            this.refresh();
-        }
     }
 
     public onMoveStart(start: MouseEvent, i: number) {

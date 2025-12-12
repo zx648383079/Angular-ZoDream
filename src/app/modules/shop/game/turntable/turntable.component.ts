@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnChanges, OnInit, SimpleChanges, input, output, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, effect, input, output, viewChild } from '@angular/core';
 
 interface ITurnItem {
     index: number;
@@ -16,7 +16,7 @@ interface ITurnItem {
     templateUrl: './turntable.component.html',
     styleUrls: ['./turntable.component.scss']
 })
-export class TurntableComponent implements AfterViewInit, OnChanges {
+export class TurntableComponent implements AfterViewInit {
 
     private readonly drawerElement = viewChild<ElementRef<HTMLCanvasElement>>('drawerBox');
     public readonly items = input<any[]>([]);
@@ -37,19 +37,18 @@ export class TurntableComponent implements AfterViewInit, OnChanges {
 
     constructor() {
         this.initStyle();
+        effect(() => {
+            this.items();
+            this.formatOption();
+        });
+        effect(() => {
+            this.size();
+            this.initStyle();
+        });
     }
 
     get drawer(): HTMLCanvasElement {
         return this.drawerElement().nativeElement as HTMLCanvasElement;
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.items) {
-            this.formatOption();
-        }
-        if (changes.size) {
-            this.initStyle();
-        }
     }
 
     public tapStart() {

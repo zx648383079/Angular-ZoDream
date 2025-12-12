@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, model, output } from '@angular/core';
 import { DialogActionFn, DialogCheckFn, DialogConfirmFn, DialogEvent } from '../model';
 
 @Component({
@@ -12,12 +12,12 @@ export class DialogBoxComponent implements DialogEvent {
     /**
      * 标题
      */
-    public readonly title = input<string>(undefined);
+    public readonly title = model<string>();
     public readonly customHeader = input(false);
     /**
      * 是否显示
      */
-    public readonly visible = input(false);
+    public readonly visible = model(false);
     /**
      * 整体高度
      */
@@ -43,12 +43,12 @@ export class DialogBoxComponent implements DialogEvent {
     /**
      * 验证方法
      */
-    public readonly checkFn = input<DialogCheckFn>(undefined);
+    private checkFn: DialogCheckFn;
     /**
      * 确认事件
      */
-    public readonly confirmFn = input<DialogConfirmFn>(undefined);
-    public readonly actionFn = input<DialogActionFn>(undefined);
+    private confirmFn: DialogConfirmFn;
+    private actionFn: DialogActionFn;
     public invalidTip = '';
     public readonly confirm = output();
     private asyncHandler = 0;
@@ -88,22 +88,22 @@ export class DialogBoxComponent implements DialogEvent {
      */
     public close(result?: any) {
         if (typeof result === 'undefined') {
-            this.visible = false;
+            this.visible.set(false);
             return;
         }
-        const actionFn = this.actionFn();
+        const actionFn = this.actionFn;
         if (actionFn && actionFn(result) === false) {
             return;
         }
         if (!result) {
-            this.visible = false;
+            this.visible.set(false);
             return;
         }
         if (!this.formatCheck()) {
             return;
         }
-        this.visible = false;
-        const confirmFn = this.confirmFn();
+        this.visible.set(false);
+        const confirmFn = this.confirmFn;
         if (confirmFn) {
             confirmFn();
         }
@@ -130,9 +130,9 @@ export class DialogBoxComponent implements DialogEvent {
         this.checkFn = check as DialogCheckFn;
         this.confirmFn = cb;
         if (title) {
-            this.title = title;
+            this.title.set(title);
         }
-        this.visible = true;
+        this.visible.set(true);
     }
 
     public openCustom(): void;
@@ -153,9 +153,9 @@ export class DialogBoxComponent implements DialogEvent {
             this.confirmFn = undefined;
         }
         if (title) {
-            this.title = title;
+            this.title.set(title);
         }
-        this.visible = true;
+        this.visible.set(true);
     }
 
     /**
@@ -189,7 +189,7 @@ export class DialogBoxComponent implements DialogEvent {
     }
 
     private formatCheck(): boolean {
-        const checkFn = this.checkFn();
+        const checkFn = this.checkFn;
         if (!checkFn) {
             return true;
         }

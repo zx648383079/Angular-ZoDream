@@ -1,14 +1,14 @@
-import { Component, OnChanges, SimpleChanges, input, output } from '@angular/core';
+import { Component, effect, input, output } from '@angular/core';
 import { formatLinkRule } from '../util';
 import { IBlockItem, IExtraRule } from './model';
 
 @Component({
     standalone: false,
-  selector: 'app-rule-block',
-  templateUrl: './rule-block.component.html',
-  styleUrls: ['./rule-block.component.scss']
+    selector: 'app-rule-block',
+    templateUrl: './rule-block.component.html',
+    styleUrls: ['./rule-block.component.scss']
 })
-export class RuleBlockComponent implements OnChanges {
+export class RuleBlockComponent {
 
     public readonly value = input<string>(undefined);
     public readonly rules = input<IExtraRule[]>(undefined);
@@ -20,12 +20,10 @@ export class RuleBlockComponent implements OnChanges {
 
     public blcokItems: IBlockItem[];
 
-    constructor() { }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.value || changes.rules) {
+    constructor() {
+        effect(() => {
             this.blcokItems = this.renderRule(this.value(), this.rules());
-        }
+        });
     }
 
     public tapBlock(item: IBlockItem) {

@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnChanges, SimpleChanges, viewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, viewChild } from '@angular/core';
 import { DialogEvent } from '../../../../components/dialog';
 import { assetUri } from '../../../../theme/utils';
 
@@ -8,24 +8,18 @@ import { assetUri } from '../../../../theme/utils';
     templateUrl: './share-dialog.component.html',
     styleUrls: ['./share-dialog.component.scss']
 })
-export class ShareDialogComponent implements OnChanges, DialogEvent {
+export class ShareDialogComponent implements DialogEvent {
 
     private readonly imageBox = viewChild<ElementRef<HTMLDivElement>>('imageBox');
     public visible = false;
     public isLoading = true;
     private resizeFn: Function;
 
-    constructor() { }
-
     @HostListener('window:resize', [])
     public onResize() {
         if (this.resizeFn) {
             this.resizeFn();
         }
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        
     }
 
     public close(result?: any): void {

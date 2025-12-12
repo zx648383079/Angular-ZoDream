@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnChanges, SimpleChanges, input, viewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, ElementRef, input, viewChild } from '@angular/core';
 import { SpectrumType } from '../../model';
 import { IPoint } from '../../../../../theme/utils/canvas';
 
@@ -16,11 +16,11 @@ type RenderSpectumRingFunc = (context: CanvasRenderingContext2D, pen: string, da
 
 @Component({
     standalone: false,
-  selector: 'app-spectrum-panel',
-  templateUrl: './spectrum-panel.component.html',
-  styleUrls: ['./spectrum-panel.component.scss']
+    selector: 'app-spectrum-panel',
+    templateUrl: './spectrum-panel.component.html',
+    styleUrls: ['./spectrum-panel.component.scss']
 })
-export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
+export class SpectrumPanelComponent implements AfterViewInit {
 
     private readonly drawerElement = viewChild<ElementRef>('drawerBox');
     public readonly value = input<number[]>([]);
@@ -38,6 +38,14 @@ export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
     private rectHeight = 0;
 
     constructor() {
+        effect(() => {
+            this.drawColumns(this.value());
+        });
+        effect(() => {
+            this.drawer.width = this.width();
+            this.drawer.height = this.height();
+            this.drawColumns(this.value());
+        });
     }
 
     public get boxStyle() {
@@ -53,16 +61,6 @@ export class SpectrumPanelComponent implements OnChanges, AfterViewInit {
 
     get drawer(): HTMLCanvasElement {
         return this.drawerElement().nativeElement as HTMLCanvasElement;
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.value) {
-            this.drawColumns(this.value());
-        } else if (changes.width || changes.height) {
-            this.drawer.width = this.width();
-            this.drawer.height = this.height();
-            this.drawColumns(this.value());
-        }
     }
 
     ngAfterViewInit() {

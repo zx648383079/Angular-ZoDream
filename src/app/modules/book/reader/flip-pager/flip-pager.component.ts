@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnChanges, SimpleChanges, inject, input, output, viewChildren } from '@angular/core';
+import { Component, effect, ElementRef, inject, input, output, viewChildren } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { IChapter } from '../../model';
 import { windowScollTop } from '../../util';
@@ -29,7 +29,7 @@ export interface IRequestEvent {
     templateUrl: './flip-pager.component.html',
     styleUrls: ['./flip-pager.component.scss']
 })
-export class FlipPagerComponent implements OnChanges {
+export class FlipPagerComponent {
     private toastrService = inject(DialogService);
 
 
@@ -45,10 +45,12 @@ export class FlipPagerComponent implements OnChanges {
     public blockItems: IBlockItem[] = [];
     private currentIndex = -1;
 
-    public ngOnChanges(changes: SimpleChanges) {
-        if (changes.initChapter && changes.initChapter.currentValue > 0) {
-            this.init();
-        }
+    constructor() {
+        effect(() => {
+            if (this.initChapter() > 0) {
+                this.init();
+            }
+        });
     }
 
     get pageStyle() {

@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, inject, input, model, signal, viewChild } from '@angular/core';
+import { Component, effect, inject, input, model, signal, viewChild } from '@angular/core';
 import { IPage, IPageQueries } from '../../../../../theme/models/page';
 import { IBrand, ICategory, IGoods, IGoodsResult } from '../../../model';
 import { SearchService } from '../../../../../theme/services';
@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
     templateUrl: './search-dialog.component.html',
     styleUrls: ['./search-dialog.component.scss']
 })
-export class SearchDialogComponent implements OnChanges  {
+export class SearchDialogComponent {
     private http = inject(HttpClient);
     private searchService = inject(SearchService);
 
@@ -49,12 +49,10 @@ export class SearchDialogComponent implements OnChanges  {
             this.categories = res.category;
             this.brandItems = res.brand;
         });
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.value) {
+        effect(() => {
+            this.value();
             this.formatValue();
-        }
+        });
     }
 
     /**

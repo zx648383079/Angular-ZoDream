@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { DialogService } from '../../../../../components/dialog';
 import { CountdownEvent } from '../../../../../components/form';
 import { IUser } from '../../../../../theme/models/user';
@@ -7,11 +7,11 @@ import { ShopService } from '../../../shop.service';
 
 @Component({
     standalone: false,
-  selector: 'app-bind-step',
-  templateUrl: './bind-step.component.html',
-  styleUrls: ['./bind-step.component.scss']
+    selector: 'app-bind-step',
+    templateUrl: './bind-step.component.html',
+    styleUrls: ['./bind-step.component.scss']
 })
-export class BindStepComponent implements OnChanges {
+export class BindStepComponent {
     private toastrService = inject(DialogService);
     private service = inject(ShopService);
 
@@ -29,6 +29,17 @@ export class BindStepComponent implements OnChanges {
         code: '',
     };
 
+    constructor() {
+        this.data.verify_type = this.data.name = this.name();
+        this.verify_value = this.user()[this.data.verify_type];
+        if (!this.verify_value) {
+            this.tapToggleVerify();
+        }
+        if (!this.verify_value) {
+            this.stepIndex = 1;
+        }
+    }
+
     public get nameLabel() {
         return this.formatLabel(this.name());
     }
@@ -43,19 +54,6 @@ export class BindStepComponent implements OnChanges {
             mobile: '手机号'
         };
         return Object.prototype.hasOwnProperty.call(maps, name) ? maps[name] : '--';
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.name) {
-            this.data.verify_type = this.data.name = this.name();
-            this.verify_value = this.user()[this.data.verify_type];
-            if (!this.verify_value) {
-                this.tapToggleVerify();
-            }
-            if (!this.verify_value) {
-                this.stepIndex = 1;
-            }
-        }
     }
 
     public tapToggleVerify() {

@@ -1,15 +1,15 @@
-import { Component, OnChanges, SimpleChanges, input, output } from '@angular/core';
+import { Component, effect, input, output } from '@angular/core';
 import { IExtraRule } from '../../../components/link-rule';
 import { ISite, IWebPage } from '../model';
 import { formatDomain } from '../util';
 
 @Component({
     standalone: false,
-  selector: 'app-navigation-page-container',
-  templateUrl: './page-container.component.html',
-  styleUrls: ['./page-container.component.scss']
+    selector: 'app-navigation-page-container',
+    templateUrl: './page-container.component.html',
+    styleUrls: ['./page-container.component.scss']
 })
-export class PageContainerComponent implements OnChanges {
+export class PageContainerComponent {
 
     public readonly value = input<IWebPage>(undefined);
     public rules: IExtraRule[] = [];
@@ -17,14 +17,12 @@ export class PageContainerComponent implements OnChanges {
     public menuOpen = false;
 
     public readonly onAction = output<{
-    type: number;
-    data: IWebPage;
-}>();
+        type: number;
+        data: IWebPage;
+    }>();
 
-    constructor() { }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.value) {
+    constructor() {
+        effect(() => {
             const value = this.value();
             this.rules = value.keywords ? value.keywords.map(i => {
                 return {
@@ -32,7 +30,7 @@ export class PageContainerComponent implements OnChanges {
                     type: 9
                 };
             }) : [];
-        }
+        });
     }
 
     public formatDomain(v: string) {

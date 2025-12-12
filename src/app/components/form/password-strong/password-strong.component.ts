@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, input } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { emptyValidate } from '../../../theme/validators';
 
 interface IRatingItem {
@@ -8,11 +8,11 @@ interface IRatingItem {
 
 @Component({
     standalone: false,
-  selector: 'app-password-strong',
-  templateUrl: './password-strong.component.html',
-  styleUrls: ['./password-strong.component.scss']
+    selector: 'app-password-strong',
+    templateUrl: './password-strong.component.html',
+    styleUrls: ['./password-strong.component.scss']
 })
-export class PasswordStrongComponent implements OnChanges {
+export class PasswordStrongComponent {
 
     public readonly value = input('');
 
@@ -72,12 +72,11 @@ export class PasswordStrongComponent implements OnChanges {
         return 3;
     }
 
-    constructor() { }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.value) {
+    constructor() {
+        effect(() => {
+            this.value();
             this.refresh();
-        }
+        });
     }
 
     public refresh() {

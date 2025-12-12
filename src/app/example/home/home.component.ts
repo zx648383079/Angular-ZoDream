@@ -1,26 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 @Component({
     standalone: false,
-  selector: 'app-example-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+    selector: 'app-example-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss']
 })
-export class ExampleHomeComponent implements OnInit {
+export class ExampleHomeComponent {
 
-    public isLoading = true;
-    public data: any = {};
+    public readonly isLoading = signal(true);
+    public readonly data = signal<any>({});
 
-    constructor() { }
-
-    ngOnInit() {
+    constructor() {
         setTimeout(() => {
-            this.isLoading = false;
-            this.data = {
+            this.isLoading.set(false);
+            this.data.set({
                 user_today: 100,
                 user_yesterday: 5,
                 user_count: 2000000,
-            };
+            });
         }, 2000);
     }
 

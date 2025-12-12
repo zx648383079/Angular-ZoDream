@@ -9,7 +9,7 @@
         } @else {
             <span class="input-body"></span>
         }
-        <div class="input-clear" [hidden]="!value">
+        <div class="input-clear" [hidden]="!value()">
             <i class="iconfont icon-close"></i>
         </div>
         <div class="input-arrow" (click)="visible = !visible">

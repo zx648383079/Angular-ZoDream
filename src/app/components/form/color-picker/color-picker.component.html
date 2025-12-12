@@ -3,6 +3,6 @@
         <ng-content />
     </div>
     <div class="color-picker-calendar" [hidden]="!visibility" (click)="stopPropagation($event)">
-        <app-color-layer [disabled]="disabled" [(value)]="value" />
+        <app-color-layer [disabled]="disabled()" [(value)]="value" />
     </div>
 </div>

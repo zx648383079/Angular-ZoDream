@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
+import { Component, effect, inject, input, model } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { ITaskComment } from '../model';
@@ -10,13 +10,13 @@ import { TaskService } from '../task.service';
     templateUrl: './comment-panel.component.html',
     styleUrls: ['./comment-panel.component.scss'],
 })
-export class CommentPanelComponent implements OnChanges {
+export class CommentPanelComponent {
     private service = inject(TaskService);
     private toastrService = inject(DialogService);
 
 
     public readonly itemId = input(0);
-    public visible = false;
+    public visible = model(false);
     public content = '';
     public items: ITaskComment[] = [];
     public hasMore = true;
@@ -30,14 +30,16 @@ export class CommentPanelComponent implements OnChanges {
 
     private booted = 0;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.visible && changes.visible.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
-            this.boot();
-        }
+    constructor() {
+        effect(() => {
+            if (this.visible() && this.itemId() > 0 && this.booted !== this.itemId()) {
+                this.boot();
+            }
+        });
     }
 
     public open() {
-        this.visible = true;
+        this.visible.set(true);
         if (this.itemId() > 0 && this.booted !== this.itemId()) {
             this.boot();
         }

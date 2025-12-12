@@ -1,7 +1,7 @@
-@if (visible) {
+@if (visible()) {
 <div class="dialog-panel" animate.enter="panel-opened" animate.leave="panel-closed">
     <div class="panel-header">
-        <i class="iconfont icon-close" (click)="visible = false"></i>
+        <i class="iconfont icon-close" (click)="visible.set(false)"></i>
     </div>
     <div class="panel-search">
         <input type="text" [(ngModel)]="content" (keypress)="commentEnter($event)">

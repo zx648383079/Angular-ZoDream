@@ -1,4 +1,4 @@
-import { Component, HostListener, OnChanges, SimpleChanges, input, output } from '@angular/core';
+import { Component, HostListener, effect, input, output } from '@angular/core';
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { ButtonEvent, ButtonGroupEvent, IButton } from '../event';
 
@@ -8,7 +8,7 @@ import { ButtonEvent, ButtonGroupEvent, IButton } from '../event';
   templateUrl: './button-group.component.html',
   styleUrls: ['./button-group.component.scss']
 })
-export class ButtonGroupComponent implements ButtonEvent, OnChanges {
+export class ButtonGroupComponent implements ButtonEvent {
 
     public readonly items = input<IButton[]>([]);
     public readonly max = input(2);
@@ -31,12 +31,13 @@ export class ButtonGroupComponent implements ButtonEvent, OnChanges {
         this.splitButton();
     } 
 
-    constructor() { }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.items || changes.min || changes.max) {
+    constructor() {
+        effect(() => {
+            this.items();
+            this.min();
+            this.max();
             this.splitButton();
-        }
+        });
     }
 
     private splitButton() {

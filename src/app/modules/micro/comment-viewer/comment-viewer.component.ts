@@ -1,4 +1,4 @@
-import { Component, HostListener, OnChanges, SimpleChanges, inject, input, output } from '@angular/core';
+import { Component, effect, HostListener, inject, input, output } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { IErrorResponse } from '../../../theme/models/page';
 import { IEmoji } from '../../../theme/models/seo';
@@ -12,7 +12,7 @@ import { IComment } from '../model';
     templateUrl: './comment-viewer.component.html',
     styleUrls: ['./comment-viewer.component.scss']
 })
-export class CommentViewerComponent implements OnChanges {
+export class CommentViewerComponent {
     private toastrService = inject(DialogService);
     private service = inject(MicroService);
 
@@ -53,10 +53,12 @@ export class CommentViewerComponent implements OnChanges {
         }
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.open || changes.micro) {
+    constructor() {
+        effect(() => {
+            this.open();
+            this.micro();
             this.init();
-        }
+        });
     }
 
     private init() {

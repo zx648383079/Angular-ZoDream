@@ -2,7 +2,6 @@ import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SuggestChangeEvent } from '../../../components/form';
 import { MusicPlayerComponent } from '../../../components/media-player';
-import { PlayerEvent } from '../../../components/media-player/fixed/model';
 import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
 import { formatHour } from '../../../theme/utils';

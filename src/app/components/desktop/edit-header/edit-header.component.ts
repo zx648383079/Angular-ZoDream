@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, inject, input, output } from '@angular/core';
+import { Component, effect, inject, input, model, output } from '@angular/core';
 import { ButtonEvent } from '../../../components/form';
 import { ThemeService } from '../../../theme/services';
 
@@ -8,20 +8,20 @@ import { ThemeService } from '../../../theme/services';
     templateUrl: './edit-header.component.html',
     styleUrls: ['./edit-header.component.scss']
 })
-export class EditHeaderComponent implements OnChanges, ButtonEvent {
+export class EditHeaderComponent implements ButtonEvent {
     private themeService = inject(ThemeService);
 
 
     public readonly title = input('');
     public readonly min = input(false);
     public readonly disabled = input(false);
-    public readonly loading = input(false);
+    public readonly loading = model(false);
     public readonly submited = output<ButtonEvent>();
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.title) {
-            this.themeService.titleChanged.next(changes.title.currentValue);
-        }
+    
+    constructor() {
+        effect(() => {
+            this.themeService.titleChanged.next(this.title());
+        });
     }
 
     public tapBack() {
@@ -39,14 +39,14 @@ export class EditHeaderComponent implements OnChanges, ButtonEvent {
      * 开始执行加载
      */
     public enter() {
-        this.loading = true;
+        this.loading.set(true);
     }
 
     /**
      * 停止执行
      */
     public reset() {
-        this.loading = false;
+        this.loading.set(false);
     }
 
 }

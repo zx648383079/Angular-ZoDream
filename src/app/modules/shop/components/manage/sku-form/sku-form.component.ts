@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { DialogService } from '../../../../../components/dialog';
 import { IAttribute, IGoodsAttr, IProduct } from '../../../model';
 
@@ -20,7 +20,7 @@ interface ISkuSpec {
     templateUrl: './sku-form.component.html',
     styleUrls: ['./sku-form.component.scss']
 })
-export class SkuFormComponent implements OnChanges {
+export class SkuFormComponent {
     private toastrService = inject(DialogService);
 
 
@@ -41,13 +41,15 @@ export class SkuFormComponent implements OnChanges {
         weight: 0,
     };
 
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.attrItems) {
+    constructor() {
+        effect(() => {
+            this.attrItems();
             this.formatAttr();
-        }
-        if (changes.productItems) {
+        });
+        effect(() => {
+            this.productItems();
             this.formatProduct();
-        }
+        });
     }
 
     public attrFormData(): IGoodsAttr[] {

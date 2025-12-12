@@ -1,12 +1,12 @@
-import { AfterViewInit, Component, ElementRef, OnChanges, OnInit, Renderer2, SimpleChanges, inject, input, viewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, effect, inject, input, viewChildren } from '@angular/core';
 
 @Component({
     standalone: false,
-  selector: 'app-mix-slider',
-  templateUrl: './mix-slider.component.html',
-  styleUrls: ['./mix-slider.component.scss']
+    selector: 'app-mix-slider',
+    templateUrl: './mix-slider.component.html',
+    styleUrls: ['./mix-slider.component.scss']
 })
-export class MixSliderComponent implements OnInit, OnChanges, AfterViewInit {
+export class MixSliderComponent implements OnInit, AfterViewInit {
     private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
     private renderer = inject(Renderer2);
 
@@ -39,16 +39,17 @@ export class MixSliderComponent implements OnInit, OnChanges, AfterViewInit {
         }
     }
 
+    constructor() {
+        effect(() => {
+            this.items();
+            this.reset();
+        });
+    }
+
     ngOnInit() {
         this.renderer.listen(window, 'resize', () => {
             this.refreshSize();
         });
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.items) {
-            this.reset();
-        }
     }
 
     ngAfterViewInit() {

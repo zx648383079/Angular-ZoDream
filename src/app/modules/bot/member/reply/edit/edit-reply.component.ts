@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, input, output } from '@angular/core';
+import { Component, effect, input, output } from '@angular/core';
 import { IItem } from '../../../../../theme/models/seo';
 import { eachObject } from '../../../../../theme/utils';
 import { EditorTypeItems, EventItems, IBotReply } from '../../../model';
@@ -9,7 +9,7 @@ import { EditorTypeItems, EventItems, IBotReply } from '../../../model';
     templateUrl: './edit-reply.component.html',
     styleUrls: ['./edit-reply.component.scss']
 })
-export class EditReplyComponent implements OnChanges {
+export class EditReplyComponent {
 
     public readonly value = input<IBotReply>(undefined);
     public editorData: any;
@@ -17,16 +17,14 @@ export class EditReplyComponent implements OnChanges {
     public typeItems: IItem[] = EditorTypeItems;
     public readonly valueChange = output<IBotReply>();
 
-    constructor() { }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.value) {
-            this.editorData = {...changes.value.currentValue};
+    constructor() {
+        effect(() => {
+            this.editorData = {...this.value()};
             const value = this.value();
             if (value && !value.event) {
                 value.event = this.eventItems[0].value as string;
             }
-        }
+        });
     }
 
     public onEditorChange() {

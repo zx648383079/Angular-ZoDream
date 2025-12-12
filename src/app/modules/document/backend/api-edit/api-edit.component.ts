@@ -11,9 +11,9 @@ import { treeRemoveId } from '../../shared';
 
 @Component({
     standalone: false,
-  selector: 'app-api-edit',
-  templateUrl: './api-edit.component.html',
-  styleUrls: ['./api-edit.component.scss']
+    selector: 'app-api-edit',
+    templateUrl: './api-edit.component.html',
+    styleUrls: ['./api-edit.component.scss']
 })
 export class ApiEditComponent implements OnInit {
     private fb = inject(FormBuilder);
@@ -100,7 +100,7 @@ export class ApiEditComponent implements OnInit {
         });
     }
 
-    public tapEdit(item: IDocApi) {
+    public tapEdit(item: IDocTreeItem) {
         this.service.api(item.id).subscribe(res => {
             this.data = res;
             this.form.patchValue({

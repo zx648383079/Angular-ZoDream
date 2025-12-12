@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnDestroy, SimpleChanges, input } from '@angular/core';
+import { Component, OnDestroy, effect, input } from '@angular/core';
 import { twoPad } from '../../../theme/utils';
 
 @Component({
@@ -7,7 +7,7 @@ import { twoPad } from '../../../theme/utils';
     templateUrl: './voice-player.component.html',
     styleUrls: ['./voice-player.component.scss']
 })
-export class VoicePlayerComponent implements OnChanges, OnDestroy {
+export class VoicePlayerComponent implements OnDestroy {
 
     public readonly src = input<string>(undefined);
     public progress = 0;
@@ -16,7 +16,12 @@ export class VoicePlayerComponent implements OnChanges, OnDestroy {
     private audioElement: HTMLAudioElement;
     private booted = false;
 
-    constructor() { }
+    constructor() {
+        effect(() => {
+            this.src();
+            this.booted = false;
+        });
+    }
 
 
     private get audio(): HTMLAudioElement {
@@ -33,12 +38,6 @@ export class VoicePlayerComponent implements OnChanges, OnDestroy {
 
     public get formatDuration() {
         return this.formatMinute(this.duration);
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.src) {
-            this.booted = false;
-        }
     }
 
     ngOnDestroy() {

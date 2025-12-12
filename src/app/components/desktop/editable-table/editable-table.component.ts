@@ -1,4 +1,4 @@
-import { Component, HostListener, OnChanges, SimpleChanges, TemplateRef, input, output } from '@angular/core';
+import { Component, HostListener, TemplateRef, effect, input, model, output } from '@angular/core';
 import { IColumnLink, ITableHeaderItem } from './model';
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { eachObject } from '../../../theme/utils';
@@ -9,10 +9,10 @@ import { eachObject } from '../../../theme/utils';
     templateUrl: './editable-table.component.html',
     styleUrls: ['./editable-table.component.scss']
 })
-export class EditableTableComponent implements OnChanges {
+export class EditableTableComponent {
 
     public readonly items = input<any[]>([]);
-    public readonly columnItems = input<ITableHeaderItem[]>([]);
+    public readonly columnItems = model<ITableHeaderItem[]>([]);
     public readonly batchable = input(true);
     public readonly searchable = input(true);
     public readonly loading = input(false);
@@ -75,15 +75,13 @@ export class EditableTableComponent implements OnChanges {
         }
     }
 
-    constructor() { }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.columnItems) {
+    constructor() {
+        effect(() => {
             this.refreshColumn();
-        }
-        if (changes.items && this.columnItems().length < 1) {
-            this.resetColumn();
-        }
+            if (this.items() && this.columnItems().length < 1) {
+                this.resetColumn();
+            }
+        });
     }
 
     public toggleHidden(i: number) {
@@ -237,7 +235,7 @@ export class EditableTableComponent implements OnChanges {
                 hidden: (typeof value === 'string' && value.length > 50) || i > 6,
             });
         });
-        this.columnItems = column;
+        this.columnItems.set(column);
         this.refreshColumn();
     }
 }

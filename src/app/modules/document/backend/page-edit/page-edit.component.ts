@@ -11,9 +11,9 @@ import { treeRemoveId } from '../../shared';
 
 @Component({
     standalone: false,
-  selector: 'app-page-edit',
-  templateUrl: './page-edit.component.html',
-  styleUrls: ['./page-edit.component.scss']
+    selector: 'app-page-edit',
+    templateUrl: './page-edit.component.html',
+    styleUrls: ['./page-edit.component.scss']
 })
 export class PageEditComponent implements OnInit {
     private fb = inject(FormBuilder);
@@ -91,7 +91,7 @@ export class PageEditComponent implements OnInit {
         });
     }
 
-    public tapEdit(item: IDocPage) {
+    public tapEdit(item: IDocTreeItem) {
         this.service.page(item.id).subscribe(res => {
             this.data = res;
             this.form.patchValue({

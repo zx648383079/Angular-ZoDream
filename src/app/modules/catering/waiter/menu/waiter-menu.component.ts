@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges, input } from '@angular/core';
+import { Component, OnInit, effect, input } from '@angular/core';
 import { INavLink } from '../../../../theme/models/seo';
 
 @Component({
@@ -7,7 +7,7 @@ import { INavLink } from '../../../../theme/models/seo';
   templateUrl: './waiter-menu.component.html',
   styleUrls: ['./waiter-menu.component.scss']
 })
-export class WaiterMenuComponent implements OnChanges, OnInit {
+export class WaiterMenuComponent implements OnInit {
 
     public items: INavLink[] = [
         {name: '统计', url: '', active: true},
@@ -18,16 +18,14 @@ export class WaiterMenuComponent implements OnChanges, OnInit {
     public readonly currentUrl = input<string>('');
     private basePath = '../';
 
-    constructor() { }
+    constructor() {
+        effect(() => {
+            this.checkUrl(this.currentUrl());
+        })
+    }
 
     ngOnInit(): void {
         this.basePath =  this.getBasePath();
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.currentUrl) {
-            this.checkUrl(changes.currentUrl.currentValue);
-        }
     }
 
     public fullPath(item: INavLink) {

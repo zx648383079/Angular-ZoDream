@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnDestroy, SimpleChanges, input, output } from '@angular/core';
+import { Component, OnDestroy, effect, input, output } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -6,7 +6,7 @@ import { Component, OnChanges, OnDestroy, SimpleChanges, input, output } from '@
     templateUrl: './countdown.component.html',
     styleUrls: ['./countdown.component.scss']
 })
-export class CountdownComponent implements OnChanges, OnDestroy {
+export class CountdownComponent implements OnDestroy {
 
     public readonly label = input('');
     public readonly end = input<any>(undefined);
@@ -19,18 +19,16 @@ export class CountdownComponent implements OnChanges, OnDestroy {
     private formatEnd = 0;
     private timerHandle = 0;
 
-    constructor() { }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.end) {
-            this.formatEnd = this.parseTime(changes.end.currentValue);
+    constructor() {
+        effect(() => {
+            this.formatEnd = this.parseTime(this.end());
             if (this.auto()) {
                 this.startTimer();
             }
-        }
-        if (changes.auto) {
-            changes.auto.currentValue ? this.startTimer() : this.stopTimer();
-        }
+        });
+        effect(() => {
+            this.auto() ? this.startTimer() : this.stopTimer();
+        });
     }
 
     ngOnDestroy() {

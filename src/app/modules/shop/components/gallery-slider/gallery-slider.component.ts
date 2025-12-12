@@ -1,15 +1,15 @@
-import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { IGoodsGallery } from '../../model';
 import { mediaIsFrame } from '../../../../components/media-player/util';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     standalone: false,
-  selector: 'app-gallery-slider',
-  templateUrl: './gallery-slider.component.html',
-  styleUrls: ['./gallery-slider.component.scss']
+    selector: 'app-gallery-slider',
+    templateUrl: './gallery-slider.component.html',
+    styleUrls: ['./gallery-slider.component.scss']
 })
-export class GallerySliderComponent implements OnChanges {
+export class GallerySliderComponent {
     private sanitizer = inject(DomSanitizer);
 
 
@@ -18,10 +18,12 @@ export class GallerySliderComponent implements OnChanges {
     public mediaSrc: any = '';
     public index = 0;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.items && changes.items.currentValue.length > this.index) {
-            this.tapItem(this.index);
-        }
+    constructor() {
+        effect(() => {
+            if (this.items().length > this.index) {
+                this.tapItem(this.index);
+            }
+        });
     }
 
     public tapItem(i: number) {

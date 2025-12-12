@@ -1,15 +1,15 @@
-import { Component, OnChanges, OnInit, SimpleChanges, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { cloneObject } from '../../../theme/utils';
 import { ISiteCategory } from '../model';
 import { NavigationService } from '../navigation.service';
 
 @Component({
     standalone: false,
-  selector: 'app-navigation-site',
-  templateUrl: './site.component.html',
-  styleUrls: ['./site.component.scss']
+    selector: 'app-navigation-site',
+    templateUrl: './site.component.html',
+    styleUrls: ['./site.component.scss']
 })
-export class SiteComponent implements OnChanges {
+export class SiteComponent {
     private service = inject(NavigationService);
 
 
@@ -18,10 +18,12 @@ export class SiteComponent implements OnChanges {
     public selectedItems: ISiteCategory[] = [];
     private booted = false;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.visible && changes.visible.currentValue) {
-            this.boot();
-        }
+    constructor() {
+        effect(() => {
+            if (this.visible()) {
+                this.boot();
+            }
+        });
     }
 
     public tapCategory(item: ISiteCategory) {

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnChanges, SimpleChanges, inject, input, model, output, viewChild } from '@angular/core';
+import { Component, effect, ElementRef, inject, input, model, output, viewChild } from '@angular/core';
 import { EditorService } from '../../editor.service';
 import { IRuleLine } from '../../model';
 import { IPoint } from '../../../../../theme/utils/canvas';
@@ -9,7 +9,7 @@ import { IPoint } from '../../../../../theme/utils/canvas';
     templateUrl: './editor-rule-bar.component.html',
     styleUrls: ['./editor-rule-bar.component.scss']
 })
-export class EditorRuleBarComponent implements OnChanges {
+export class EditorRuleBarComponent {
     private readonly service = inject(EditorService);
 
 
@@ -50,15 +50,16 @@ export class EditorRuleBarComponent implements OnChanges {
             }
             this.onRender(canvas.getContext('2d'));
         });
+        effect(() => {
+            const drawer = this.drawer();
+            this.offset();
+            this.gap();
+            this.scale();
+            if (drawer) {
+                this.onRender(drawer.nativeElement.getContext('2d'));
+            }
+        });
     }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        const drawer = this.drawer();
-        if ((changes.offset || changes.gap || changes.scale) && drawer) {
-            this.onRender(drawer.nativeElement.getContext('2d'));
-        }
-    }
-
     public tapBar(event: MouseEvent) {
         this.tapped.emit(this.createLine(event));
     }

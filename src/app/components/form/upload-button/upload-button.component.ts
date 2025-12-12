@@ -1,4 +1,4 @@
-import { Component, ElementRef, SimpleChanges, inject, input, model, output } from '@angular/core';
+import { Component, ElementRef, effect, inject, input, model, output } from '@angular/core';
 import { FileUploadService } from '../../../theme/services';
 import { UploadButtonEvent } from '../event';
 
@@ -23,18 +23,18 @@ export class UploadButtonComponent {
     public readonly uploading = output<UploadButtonEvent>();
     private height = 0;
 
+    constructor() {
+        effect(() => {
+            this.toggleClass('disabled', this.disabled());
+        });
+    }
+
     get loadingStyle() {
         const width = this.height - 10;
         return {
             height: width + 'px',
             width: width + 'px',
         };
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.disabled) {
-            this.toggleClass('disabled', changes.disabled.currentValue);
-        }
     }
 
     ngAfterViewInit() {

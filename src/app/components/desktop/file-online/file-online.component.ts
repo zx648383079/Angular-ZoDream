@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { IUploadFile } from '../../../theme/models/open';
 import { IPageQueries } from '../../../theme/models/page';
 import { FileUploadService, SearchService } from '../../../theme/services';
@@ -11,7 +11,7 @@ import { IItem } from '../../../theme/models/seo';
     templateUrl: './file-online.component.html',
     styleUrls: ['./file-online.component.scss']
 })
-export class FileOnlineComponent implements OnChanges, SearchDialogEvent {
+export class FileOnlineComponent implements SearchDialogEvent {
     private uploadService = inject(FileUploadService);
     private searchService = inject(SearchService);
 
@@ -21,7 +21,7 @@ export class FileOnlineComponent implements OnChanges, SearchDialogEvent {
     /**
      * 是否显示
      */
-    public readonly visible = input(false);
+    public visible = false;
 
     public items: IUploadFile[] = [];
     public hasMore = true;
@@ -39,20 +39,20 @@ export class FileOnlineComponent implements OnChanges, SearchDialogEvent {
     private confirmFn: (items: IUploadFile|IUploadFile[]) => void;
     private checkFn: (items: IUploadFile[]) => boolean;
 
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.accept) {
+    constructor() {
+        effect(() => {
+            const accept = this.accept();
             this.items = [];
             this.selectedItems = [];
             this.queries.page = 0;
-            this.queries.accept = this.accept();
-            const accept = this.accept();
+            this.queries.accept = accept;
             this.typeItems = accept === '*/*' || !accept ? [
                 {name: $localize `All files`, value: '*/*'},
                 {name: $localize `Image`, value: 'image/*'},
                 {name: $localize `Video`, value: 'video/*'},
                 {name: $localize `Audio`, value: 'audio/*'},
             ] : [];
-        }
+        });
     }
 
     public open(confirm: (data: IUploadFile|IUploadFile[]) => void): void;

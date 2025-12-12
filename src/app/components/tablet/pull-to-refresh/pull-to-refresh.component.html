@@ -1,7 +1,7 @@
 <div class="pull-to-refresh-scroll" #pullScroll (touchstart)="touchStart($event)" (touchmove)="touchMove($event)"
     (touchend)="touchEnd($event)">
     <div class="scroll-top" [style]="style">
-        @switch (state) {
+        @switch (state()) {
             @case (ESTATE.PULL) {
                 <div>
                     <i class="iconfont icon-arrow-down"></i>
@@ -43,7 +43,7 @@
         <ng-content />
     </div>
     <div class="scroll-bottom">
-        @switch (state) {
+        @switch (state()) {
             @case (ESTATE.MORE) {
                 <div>
                     <i class="iconfont icon-refresh"></i>

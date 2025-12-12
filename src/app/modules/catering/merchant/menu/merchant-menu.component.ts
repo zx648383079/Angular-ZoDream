@@ -1,13 +1,13 @@
-import { Component, OnChanges, OnInit, SimpleChanges, input } from '@angular/core';
+import { Component, OnInit, effect, input } from '@angular/core';
 import { INavLink } from '../../../../theme/models/seo';
 
 @Component({
     standalone: false,
-  selector: 'app-merchant-menu',
-  templateUrl: './merchant-menu.component.html',
-  styleUrls: ['./merchant-menu.component.scss']
+    selector: 'app-merchant-menu',
+    templateUrl: './merchant-menu.component.html',
+    styleUrls: ['./merchant-menu.component.scss']
 })
-export class MerchantMenuComponent implements OnChanges, OnInit {
+export class MerchantMenuComponent implements OnInit {
 
     public items: INavLink[] = [
         {name: '统计', url: '', active: true},
@@ -24,16 +24,14 @@ export class MerchantMenuComponent implements OnChanges, OnInit {
     public readonly currentUrl = input<string>('');
     private basePath = '../';
 
-    constructor() { }
+    constructor() {
+        effect(() => {
+            this.checkUrl(this.currentUrl());
+        });
+    }
 
     ngOnInit(): void {
         this.basePath =  this.getBasePath();
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.currentUrl) {
-            this.checkUrl(changes.currentUrl.currentValue);
-        }
     }
 
     public fullPath(item: INavLink) {

@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { IScoreSubtotal } from '../../../../theme/models/seo';
@@ -6,11 +6,11 @@ import { AppStoreService } from '../../app-store.service';
 
 @Component({
     standalone: false,
-  selector: 'app-score',
-  templateUrl: './score.component.html',
-  styleUrls: ['./score.component.scss']
+    selector: 'app-score',
+    templateUrl: './score.component.html',
+    styleUrls: ['./score.component.scss']
 })
-export class ScoreComponent implements OnChanges {
+export class ScoreComponent {
     service = inject(AppStoreService);
     private toastrService = inject(DialogService);
 
@@ -24,10 +24,12 @@ export class ScoreComponent implements OnChanges {
         score: 10,
     };
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.init && changes.init.currentValue && this.itemId() > 0 && this.booted !== this.itemId()) {
-            this.boot();
-        }
+    constructor() {
+        effect(() => {
+            if (this.init() && this.itemId() > 0 && this.booted !== this.itemId()) {
+                this.boot();
+            }
+        });
     }
 
     private boot() {

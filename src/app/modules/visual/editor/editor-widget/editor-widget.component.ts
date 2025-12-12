@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnChanges, SimpleChanges, inject, input } from '@angular/core';
+import { AfterViewInit, Component, effect, ElementRef, inject, input } from '@angular/core';
 import { EditorService } from '../editor.service';
 import { Widget } from '../model';
 import { boundFromScale, elementBound } from '../util';
@@ -9,7 +9,7 @@ import { boundFromScale, elementBound } from '../util';
     templateUrl: './editor-widget.component.html',
     styleUrls: ['./editor-widget.component.scss']
 })
-export class EditorWidgetComponent implements OnChanges, AfterViewInit {
+export class EditorWidgetComponent implements AfterViewInit {
     private service = inject(EditorService);
     private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
@@ -17,8 +17,8 @@ export class EditorWidgetComponent implements OnChanges, AfterViewInit {
     public readonly value = input<Widget>(undefined);
     private isBooted = false;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.value.currentValue) {
+    constructor() {
+        effect(() => {
             this.value().propertyChange$.subscribe(() => {
                 if (!this.isBooted) {
                     return;
@@ -27,9 +27,8 @@ export class EditorWidgetComponent implements OnChanges, AfterViewInit {
                 const bound = boundFromScale(eleBound, this.service.shellSize$.value.scale, 100);
                 this.value().actualBound = bound;
             });
-        }
+        });
     }
-
 
     ngAfterViewInit(): void {
         const eleBound = this.service.workspace.getPosition(elementBound(this.elementRef));

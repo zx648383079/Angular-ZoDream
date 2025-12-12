@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="search-bar">
-        <app-auto-suggest-box [text]="queries.keywords" (confirm)="tapSearch($event)" (textChange)="onSuggestChange($event)" />
+        <app-auto-suggest-box [value]="queries.keywords" (confirm)="tapSearch($event)" (textChange)="onSuggestChange($event)" />
     </div>
 
     @if (!queries.keywords) {

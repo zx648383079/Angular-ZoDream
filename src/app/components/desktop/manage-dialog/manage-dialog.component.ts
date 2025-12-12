@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 import { ManageDialogEvent } from '../../../components/dialog';
 
 @Component({
@@ -12,12 +12,12 @@ export class ManageDialogComponent implements ManageDialogEvent {
     /**
      * 标题
      */
-    public readonly title = input($localize `Confirm execution of this operation?`);
+    public readonly title = model($localize `Confirm execution of this operation?`);
     public readonly placeholder = input($localize `Please enter the operation note information`);
     /**
      * 是否显示
      */
-    public readonly visible = input(false);
+    public visible = false;
     public readonly confirmText = input($localize `Ok`);
     public readonly cancelText = input($localize `Cancel`);
     /**
@@ -58,7 +58,7 @@ export class ManageDialogComponent implements ManageDialogEvent {
     public open(confirm: (data: any) => boolean|void, title?: string) {
         this.confirmFn = confirm;
         if (title) {
-            this.title = title;
+            this.title.set(title);
         }
         this.visible = true;
     }

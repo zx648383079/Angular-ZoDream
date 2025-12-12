@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnChanges, OnInit, Renderer2, SimpleChanges, inject, input, viewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, effect, inject, input, viewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
     templateUrl: './goods-slider.component.html',
     styleUrls: ['./goods-slider.component.scss']
 })
-export class GoodsSliderComponent implements OnInit, OnChanges, AfterViewInit {
+export class GoodsSliderComponent implements OnInit, AfterViewInit {
     private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
     private renderer = inject(Renderer2);
 
@@ -32,6 +32,11 @@ export class GoodsSliderComponent implements OnInit, OnChanges, AfterViewInit {
             next = next.parent;
         }
         this.baseRoute = next;
+        effect(() => {
+            this.items();
+            this.formatType();
+            this.reset();
+        });
     }
 
     public get boxStyle() {
@@ -57,13 +62,6 @@ export class GoodsSliderComponent implements OnInit, OnChanges, AfterViewInit {
         this.renderer.listen(window, 'resize', () => {
             this.refreshSize();
         });
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.items) {
-            this.formatType();
-            this.reset();
-        }
     }
 
     ngAfterViewInit() {
