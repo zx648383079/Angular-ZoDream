@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, NgZone, OnDestroy, OnInit, effect, inject, input } from '@angular/core';
+import { Directive, ElementRef, NgZone, OnDestroy, afterNextRender, afterRenderEffect, inject, input } from '@angular/core';
 import { CHART_TOKEN, ChartConfigs } from './model';
 import { ECharts, EChartsCoreOption, EChartsInitOpts } from 'echarts/core';
 import { asyncScheduler, Subject, throttleTime } from 'rxjs';
@@ -7,7 +7,7 @@ import { asyncScheduler, Subject, throttleTime } from 'rxjs';
     standalone: true,
     selector: '[appChart]'
 })
-export class ChartDirective implements OnInit, AfterViewInit, OnDestroy {
+export class ChartDirective implements OnDestroy {
     private zone = inject(NgZone);
     private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
     private configs = inject<ChartConfigs>(CHART_TOKEN);
@@ -22,10 +22,6 @@ export class ChartDirective implements OnInit, AfterViewInit, OnDestroy {
     private resize$ = new Subject<void>();
 
     constructor() {
-        effect(() => this.onOptionsChange(this.options()));
-    }
-
-    ngOnInit(): void {
         const element = this.elementRef.nativeElement;
         this.resize$.pipe(throttleTime(100, asyncScheduler, { leading: false, trailing: true }))
             .subscribe(() => this.resize());
@@ -41,11 +37,12 @@ export class ChartDirective implements OnInit, AfterViewInit, OnDestroy {
             })
         );
         this.resizeOb.observe(element);
+        afterNextRender({
+            write: () => this.initChart()
+        });
+        afterRenderEffect(() => this.onOptionsChange(this.options()));
+    }
 
-    }
-    ngAfterViewInit(): void {
-        window.setTimeout(() => this.initChart())
-    }
     ngOnDestroy(): void {
         this.resize$.unsubscribe();
         this.resizeOb.disconnect();

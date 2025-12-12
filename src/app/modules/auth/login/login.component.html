@@ -1,20 +1,19 @@
-<form class="form-icon-control login-form" [formGroup]="loginForm" (ngSubmit)="tapSignIn()" [ngClass]="{slided: mode > 0}" [hidden]="mode > 6">
+<form class="form-icon-control login-form" (submit)="tapSubmit()" [class]="{slided: mode > 0}" [hidden]="mode > 6">
   <div class="input-box">
-        <app-autocomplete [value]="email.value" (valueChange)="onAutocomplete($event)">
-            <div class="input-group-control" [class]="{error: email.invalid}">
-                <input type="email" appFocusNext formControlName="email" i18n-placeholder placeholder="Please input username" autocomplete="off">
+        <app-autocomplete [field]="loginForm.email">
+            <div class="input-group-control" [class.error]="loginForm.email().touched() && loginForm.email().invalid()">
+                <input type="email" appFocusNext [field]="loginForm.email" i18n-placeholder placeholder="Please input username" autocomplete="off">
                 <i class="iconfont icon-user" aria-hidden="true"></i>
             </div>
         </app-autocomplete>
-        <div class="input-group-control" [class]="{error: password.invalid}">
-            <input [type]="isObserve ? 'text' : 'password'" appFocusNext formControlName="password" i18n-placeholder placeholder="Please input the password" autocomplete="off" (keypress)="focusNext($event)">
+        <div class="input-group-control" [class.error]="loginForm.password().touched() && loginForm.password().invalid()">
+            <input type="password" appFocusNext [field]="loginForm.password" i18n-placeholder placeholder="Please input the password" autocomplete="off" (keypress)="focusNext($event)">
             <i class="iconfont icon-lock" aria-hidden="true"></i>
-            <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}" (click)="isObserve = !isObserve"></i>
         </div>
 
         @if (captchaImage) {
-        <div class="input-group-control captcha-input" [class]="{error: captcha.invalid}">
-            <input type="text" appFocusNext formControlName="captcha" i18n-placeholder placeholder="Please enter verification code" autocomplete="off" (keypress)="focusNext($event)">
+        <div class="input-group-control captcha-input" [class.error]="loginForm.captcha().touched() && loginForm.captcha().invalid()">
+            <input type="text" appFocusNext [field]="loginForm.captcha" i18n-placeholder placeholder="Please enter verification code" autocomplete="off" (keypress)="focusNext($event)">
             <i class="iconfont icon-key" aria-hidden="true"></i>
             <a (click)="tapCaptcha()" class="btn" i18n-title title="Click refresh">
                 <img [src]="captchaImage" i18n-alt alt="Refresh and retry">
@@ -23,21 +22,17 @@
         }
 
         <!-- <div class="input-group-control code-input" [class]="{error: password.invalid}">
-            <input type="text" formControlName="code" i18n-placeholder placeholder="lease enter verification code">
+            <input type="text" [field]="loginForm.code" i18n-placeholder placeholder="lease enter verification code">
             <i class="iconfont icon-lock" aria-hidden="true"></i>
             <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)"></app-countdown-button>
         </div> -->
 
       <div class="input-group-control">
-          <!-- <div class="checkbox">
-              <input type="checkbox" formControlName="remember" value="1" id="checkboxInput">
-              <label for="checkboxInput"></label>
-          </div> -->
-          <i class="checkbox" [ngClass]="{checked: isRemember}" (click)="toggleRemember()"></i>
+          <input type="checkbox" [field]="loginForm.remember">
           <ng-container i18n>Remember</ng-container>
           <a class="find-link" routerLink="find" i18n>Forgot your password?</a>
       </div>
-      <app-action-button appFocusNext class="btn" [disabled]="loginForm.invalid" (tapped)="tapSignIn($event)" i18n>Sign in</app-action-button>
+      <app-action-button appFocusNext class="btn" [disabled]="loginForm().invalid()" (tapped)="tapSubmit($event)" i18n>Sign in</app-action-button>
       <div class="other-box">
           <a routerLink="register" i18n>Sign up</a>
           <i class="iconfont icon-qrcode" (click)="tapQr()"></i>
@@ -75,7 +70,7 @@
 
     <a (click)="mode = 9" class="link-a" i18n>Use a recovery code or begin account recovery</a>
 
-    <app-action-button class="btn btn-full" (tapped)="tapSignIn($event)" i18n>Verify</app-action-button>
+    <app-action-button class="btn btn-full" (tapped)="tapSubmit($event)" i18n>Verify</app-action-button>
 
     <div class="panel-tip" i18n>
         Open your two-factor authenticator (TOTP) app or browser extension to view your authentication code.
@@ -90,7 +85,7 @@
         <i class="iconfont icon-shield" aria-hidden="true"></i>
     </div>
 
-    <app-action-button class="btn btn-full" (tapped)="tapSignIn($event)" i18n>Verify</app-action-button>
+    <app-action-button class="btn btn-full" (tapped)="tapSubmit($event)" i18n>Verify</app-action-button>
 
     <div class="panel-tip" i18n>
         If you are unable to access your two-factor device, enter one of your recovery code to verify your identity

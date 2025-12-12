@@ -25,11 +25,11 @@
     .input-box {
         padding-top: 4.375rem;
     }
-    input[type="password"] {
-        &::-ms-reveal {
-            display: none;
-        }
-    }
+    // input[type="password"] {
+    //     &::-ms-reveal {
+    //         display: none;
+    //     }
+    // }
     .form-icon-control {
         .input-group-control {
             position: relative;

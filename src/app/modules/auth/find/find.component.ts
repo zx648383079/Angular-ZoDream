@@ -1,10 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IErrorResponse } from '../../../theme/models/page';
 import { AuthService, ThemeService } from '../../../theme/services';
 import { DialogService } from '../../../components/dialog';
-import { confirmValidator } from '../../../components/desktop/directives';
+import { email, form, validate } from '@angular/forms/signals';
+import { emptyValidate } from '../../../theme/validators';
 
 @Component({
     standalone: false,
@@ -12,8 +12,7 @@ import { confirmValidator } from '../../../components/desktop/directives';
     templateUrl: './find.component.html',
     styleUrls: ['./find.component.scss']
 })
-export class FindComponent implements OnInit {
-    private fb = inject(FormBuilder);
+export class FindComponent {
     private service = inject(AuthService);
     private toastrService = inject(DialogService);
     private router = inject(Router);
@@ -24,20 +23,47 @@ export class FindComponent implements OnInit {
     public sended = false;
     public isObserve = false;
 
-    public findForm = this.fb.group({
-        email: ['', [Validators.required, Validators.email]],
-        code: [''],
-        password: [''],
-        confirm_password: ['']
-    }, {
-        validators: confirmValidator()
+    public findModel = signal({
+        email: '',
+        code: '',
+        password: '',
+        confirm_password: ''
+    });
+
+    public findForm = form(this.findModel, schemaPath => {
+        email(schemaPath.email, {message: 'Please enter a valid email address'});
+        validate(schemaPath.confirm_password, ({value, valueOf}) => {
+            if (value() !== valueOf(schemaPath.password)) {
+                return {
+                    kind: 'sameOf',
+                    message: '两次秘密比一致'
+                }
+            }
+            return null;
+        });
+        validate(schemaPath.code, ({value}) => {
+            if (this.sended && emptyValidate(value())) {
+                return {
+                    kind: 'requiredIf',
+                    message: $localize `Please input the security code!`
+                }
+            }
+            return null;
+        });
+        validate(schemaPath.password, ({value}) => {
+            if (this.sended && value().length > 6) {
+                return {
+                    kind: 'requiredIf',
+                    message: $localize `Password must be at least 6 characters`
+                }
+            }
+            return null;
+        });
     });
 
     constructor() {
         this.themeService.titleChanged.next($localize `Retrieve password`);
     }
-
-    ngOnInit() {}
 
     get btnLabel() {
         return this.sended ? $localize `Reset Password ` : $localize `Send verification email`;
@@ -45,7 +71,7 @@ export class FindComponent implements OnInit {
 
     public tapSubmit() {
         if (!this.sended) {
-            this.service.sendFindEmail(this.findForm.get('email').value).subscribe({
+            this.service.sendFindEmail(this.findForm.email().value()).subscribe({
                 next: res => {
                     this.toastrService.success(res.message);
                     this.sended = true;
@@ -56,15 +82,7 @@ export class FindComponent implements OnInit {
             });
             return;
         }
-        const data = Object.assign({}, this.findForm.value);
-        if (!data.code) {
-            this.toastrService.warning($localize `Please input the security code`);
-            return;
-        }
-        if (!data.password) {
-            this.toastrService.warning($localize `Please input a new password `);
-            return;
-        }
+        const data = Object.assign({}, this.findForm().value());
         this.service.resetPassword(data).subscribe({
             next: _ => {
                 this.toastrService.success($localize `Successfully retrieve the password`);

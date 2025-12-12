@@ -1,30 +1,30 @@
-<form class="form-icon-control login-form" [formGroup]="findForm" (ngSubmit)="tapSubmit()">
-    <div class="input-group-control">
-        <input type="email" formControlName="email" i18n-placeholder placeholder="Please input your email" >
+<form class="form-icon-control login-form" (submit)="tapSubmit()">
+    <div class="input-group-control" [class.error]="findForm.email().touched() && findForm.email().invalid()">
+        <input type="email" [field]="findForm.email" i18n-placeholder placeholder="Please input your email" >
         <i class="iconfont icon-at" aria-hidden="true"></i>
     </div>
     @if (sended) {
-        <div class="input-group-control">
-            <input type="text" formControlName="code" i18n-placeholder placeholder="Please input the security code" >
+        <div class="input-group-control" [class.error]="findForm.code().touched() && findForm.code().invalid()">
+            <input type="text" [field]="findForm.code" i18n-placeholder placeholder="Please input the security code" >
             <i class="iconfont icon-shield" aria-hidden="true"></i>
         </div>
-        <div class="input-group-control">
-            <input [type]="isObserve ? 'text' : 'password'" i18n-placeholder placeholder="Please input the password" formControlName="password" required>
+        <div class="input-group-control" [class.error]="findForm.password().touched() && findForm.password().invalid()">
+            <input type="password" i18n-placeholder placeholder="Please input the password" 
+            [field]="findForm.password">
             <i class="iconfont icon-lock" aria-hidden="true"></i>
-            <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}"
-                (click)="isObserve = !isObserve"></i>
         </div>
-        <div class="input-group-control">
-            <input [type]="isObserve ? 'text' : 'password'" i18n-placeholder placeholder="Please confirm your password" formControlName="confirm_password"
-                required>
+        <div class="input-tip">
+            <app-password-strong [value]="findForm.password().value()" />
+        </div>
+        <div class="input-group-control" [class.error]="findForm.confirm_password().touched() && findForm.confirm_password().invalid()">
+            <input type="password" i18n-placeholder placeholder="Please confirm your password" 
+             [field]="findForm.confirm_password">
             <i class="iconfont icon-check" aria-hidden="true"></i>
-            <i class="iconfont" [ngClass]="{'icon-eye': isObserve, 'icon-eye-slash': !isObserve}"
-                (click)="isObserve = !isObserve"></i>
         </div>
     }
 
 
-    <button type="submit" class="btn btn-full" [disabled]="findForm.invalid">{{ btnLabel }}</button>
+    <button type="submit" class="btn btn-full" [disabled]="findForm().invalid()">{{ btnLabel }}</button>
     <div class="other-box">
         <a routerLink="../" i18n>Back</a>
     </div>

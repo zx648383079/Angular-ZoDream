@@ -1,8 +1,4 @@
-import { Component, OnDestroy, inject } from '@angular/core';
-import {
-    FormBuilder,
-    Validators
-} from '@angular/forms';
+import { Component, OnDestroy, inject, signal } from '@angular/core';
 import {
     emptyValidate
 } from '../../../theme/validators';
@@ -19,7 +15,7 @@ import { selectSystemConfig } from '../../../theme/reducers/system.selectors';
 import { parseNumber } from '../../../theme/utils';
 import { Subscription } from 'rxjs';
 import { EncryptorService } from '../../../theme/services/encryptor.service';
-import { confirmValidator, passwordValidator } from '../../../components/desktop/directives';
+import { email, form, minLength, required, validate } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -28,7 +24,6 @@ import { confirmValidator, passwordValidator } from '../../../components/desktop
     styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnDestroy {
-    private fb = inject(FormBuilder);
     private toastrService = inject(DialogService);
     private authService = inject(AuthService);
     private themeService = inject(ThemeService);
@@ -38,15 +33,40 @@ export class RegisterComponent implements OnDestroy {
 
     public isObserve = false;
     public openStatus = 0;
-    public registerForm = this.fb.group({
-        name: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, passwordValidator]],
-        confirm_password: ['', [Validators.required]],
-        invite_code: [''],
-        agree: [false, Validators.requiredTrue]
-    }, {
-        validators: confirmValidator()
+
+    public registerModel = signal({
+        name: '',
+        email: '',
+        password: '',
+        confirm_password: '',
+        invite_code: '',
+        agree: false
+    });
+    public registerForm = form(this.registerModel, schemaPath => {
+        required(schemaPath.name, {message: 'Name is required'});
+        // required(schemaPath.email, {message: 'Email is required'});
+        email(schemaPath.email, {message: 'Please enter a valid email address'});
+        // required(schemaPath.password, {message: 'Email is required'});
+        minLength(schemaPath.password, 6, {message: 'Password must be at least 6 characters'});
+        required(schemaPath.agree, {message: 'Agreement is required'});
+        validate(schemaPath.confirm_password, ({value, valueOf}) => {
+            if (value() !== valueOf(schemaPath.password)) {
+                return {
+                    kind: 'sameOf',
+                    message: '两次秘密比一致'
+                }
+            }
+            return null;
+        });
+        validate(schemaPath.invite_code, ({value}) => {
+            if (this.openStatus == 1 && emptyValidate(value())) {
+                return {
+                    kind: 'requiredIf',
+                    message: $localize `Please input your invitation code!`
+                }
+            }
+            return null;
+        });
     });
     private subItems = new Subscription();
 
@@ -63,27 +83,15 @@ export class RegisterComponent implements OnDestroy {
         this.subItems.unsubscribe();
     }
 
-    get email() {
-        return this.registerForm.get('email');
-    }
-
-    get password() {
-        return this.registerForm.get('password');
-    }
-
-    public tapSignUp() {
+    public tapSubmit() {
         if (this.openStatus == 2) {
             this.toastrService.error($localize `Sorry, membership registration is closed, opening hours are undecided!`);
             return;
         }
-        if (!this.registerForm.valid) {
+        if (this.registerForm().invalid()) {
             return;
         }
-        const data = Object.assign({}, this.registerForm.value);
-        if (this.openStatus == 1 && emptyValidate(data.invite_code)) {
-            this.toastrService.warning($localize `Please input your invitation code!`);
-            return;
-        }
+        const data = Object.assign({}, this.registerForm().value());
         this.authService
             .register({
                 ...data,

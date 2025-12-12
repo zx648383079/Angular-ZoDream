@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import {
     Subscription
 } from 'rxjs';
@@ -36,6 +36,7 @@ import { ButtonEvent, CountdownEvent } from '../../../components/form';
 import { selectSystemConfig } from '../../../theme/reducers/system.selectors';
 import { EncryptorService } from '../../../theme/services/encryptor.service';
 import { passwordValidator } from '../../../components/desktop/directives';
+import { email, form, minLength } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -46,7 +47,6 @@ import { passwordValidator } from '../../../components/desktop/directives';
 export class LoginComponent implements OnInit, OnDestroy {
     private store = inject<Store<AppState>>(Store);
     private route = inject(ActivatedRoute);
-    private fb = inject(FormBuilder);
     private router = inject(Router);
     private toastrService = inject(DialogService);
     private themeService = inject(ThemeService);
@@ -59,12 +59,17 @@ export class LoginComponent implements OnInit, OnDestroy {
     public redirectUri: string;
     public isObserve = false;
 
-    public loginForm = this.fb.group({
-        email: ['', [Validators.email, Validators.required]],
-        password: ['', [Validators.required, passwordValidator]],
-        code: [''],
-        remember: [false],
-        captcha: [''],
+    public loginModel = signal({
+        email: '',
+        password: '',
+        code: '',
+        remember: false,
+        captcha: '',
+    })
+
+    public loginForm = form(this.loginModel, schemaPath => {
+        email(schemaPath.email, {message: 'Please enter a valid email address'});
+        minLength(schemaPath.password, 6, {message: 'Password must be at least 6 characters'});
     });
 
     public openAuth = false;
@@ -87,22 +92,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.openWebAuthn = this.webAuthn.enabled;
     }
 
-    get email() {
-        return this.loginForm.get('email');
-    }
-
-    get password() {
-        return this.loginForm.get('password');
-    }
-
-    get captcha() {
-        return this.loginForm.get('captcha');
-    }
-
-    public get isRemember() {
-        return this.loginForm.get('remember').value;
-    }
-
     ngOnInit() {
         this.route.queryParams.subscribe(res => {
             this.redirectUri = res.redirect_uri || '/';
@@ -112,12 +101,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.subItems.unsubscribe();
-    }
-
-    public toggleRemember() {
-        this.loginForm.patchValue({
-            remember: !this.isRemember
-        });
     }
 
     public tapQr() {
@@ -131,12 +114,6 @@ export class LoginComponent implements OnInit, OnDestroy {
             error: err => {
                 this.toastrService.warning(err);
             }
-        });
-    }
-
-    public onAutocomplete(value: string) {
-        this.loginForm.patchValue({
-            email: value
         });
     }
 
@@ -174,11 +151,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.mode = i;
     }
 
-    public tapSignIn(e?: ButtonEvent) {
-        if (this.loginForm.invalid) {
+    public tapSubmit(e?: ButtonEvent) {
+        if (this.loginForm().invalid()) {
             return;
         }
-        const data: any = Object.assign({}, this.loginForm.value);
+        const data: any = Object.assign({}, this.loginForm().value());
         if (data.password) {
             data.password = this.encryptor.encrypt(data.password);
         }

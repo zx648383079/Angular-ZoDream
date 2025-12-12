@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../../theme/theme.module';
 import { ZreFormModule } from '../../components/form';
 import { DesktopModule } from '../../components/desktop';
+import { Field } from '@angular/forms/signals';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { DesktopModule } from '../../components/desktop';
         AuthRoutingModule,
         ThemeModule,
         ZreFormModule,
+        Field,
     ],
 })
 export class AuthModule { }
