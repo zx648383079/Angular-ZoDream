@@ -22,7 +22,7 @@ export class MarkdownBlockComponent implements AfterViewInit {
     private sanitizer = inject(DomSanitizer);
     private element = inject<ElementRef<HTMLDivElement>>(ElementRef);
     private renderer = inject(Renderer2);
-    private toastrService = inject(DialogService);
+    private readonly toastrService = inject(DialogService);
 
 
     private readonly player = viewChild(ImagePlayerComponent);

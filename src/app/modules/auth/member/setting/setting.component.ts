@@ -19,8 +19,8 @@ interface IGroupHeader {
     styleUrls: ['./setting.component.scss']
 })
 export class SettingComponent implements OnInit {
-    private service = inject(MemberService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(MemberService);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
 

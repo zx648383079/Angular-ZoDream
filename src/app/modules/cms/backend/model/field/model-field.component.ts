@@ -11,9 +11,9 @@ import { CmsService } from '../../cms.service';
   styleUrls: ['./model-field.component.scss']
 })
 export class ModelFieldComponent implements OnInit {
-    private service = inject(CmsService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(CmsService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: ICmsModelField[] = [];

@@ -1,36 +1,40 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IItem } from '../../../../theme/models/seo';
 import { IBook, ICategory } from '../../model';
 import { BookService } from '../book.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-detail',
-  templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.scss']
+    selector: 'app-detail',
+    templateUrl: './detail.component.html',
+    styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(BookService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(BookService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        cat_id: [0, Validators.required],
-        author_id: [0, Validators.required],
-        classify: [0],
-        source: [''],
-        cover: [''],
-        description: [''],
-        status: [0],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        cat_id: '',
+        author_id: 0,
+        classify: '',
+        source: '',
+        cover: '',
+        description: '',
+        status: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.cat_id);
+        required(schemaPath.author_id);
     });
 
-    public data: IBook;
     public categories: ICategory[] = [];
     public classifyItems: IItem[] = [
         {name: '无分级', value: 0},
@@ -51,16 +55,16 @@ export class DetailComponent implements OnInit {
                 return;
             }
             this.service.book(params.id).subscribe(res => {
-                this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                    id: res.id,
                     name: res.name,
-                    cat_id: res.cat_id,
+                    cat_id: res.cat_id as any,
                     author_id: res.author_id,
-                    classify: res.classify,
+                    classify: res.classify as any,
                     source: res.source,
                     cover: res.cover,
                     description: res.description,
-                    status: res.status,
+                    status: res.status as any,
                 });
             });
         });
@@ -71,14 +75,11 @@ export class DetailComponent implements OnInit {
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IBook = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IBook = this.dataForm().value() as any;
         this.service.bookSave(data).subscribe(_ => {
             this.toastrService.success($localize `Save Successfully`);
             this.tapBack();

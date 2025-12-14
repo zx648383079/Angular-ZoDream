@@ -26,7 +26,6 @@ import { ImageInputComponent } from './image-input/image-input.component';
 import { CommandBarComponent } from './command-bar/command-bar.component';
 import { CommandButtonComponent } from './command-bar/command-button';
 import { LetterInputComponent } from './letter-input/letter-input.component';
-import { FormsModule } from '@angular/forms';
 
 const COMPONENTS = [
     CheckInputComponent,
@@ -59,7 +58,6 @@ const COMPONENTS = [
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule,
         DatePickerModule,
     ],
     declarations: [...COMPONENTS],

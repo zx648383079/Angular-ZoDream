@@ -9,7 +9,7 @@ import { IPoint } from '../../../../theme/utils/canvas';
     styleUrls: ['./editor-scroll-bar.component.scss']
 })
 export class EditorScrollBarComponent {
-    private service = inject(EditorService);
+    private readonly service = inject(EditorService);
 
 
     public readonly orientation = input(true);

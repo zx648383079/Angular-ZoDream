@@ -15,9 +15,9 @@ import { CountdownComponent } from '../../../../components/desktop';
   styleUrls: ['./seckill.component.scss']
 })
 export class SeckillComponent implements OnInit, OnDestroy {
-    private service = inject(ActivityService);
-    private themeService = inject(ThemeService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ActivityService);
+    private readonly themeService = inject(ThemeService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

@@ -1,6 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { Validators } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -9,6 +7,7 @@ import { parseNumber } from '../../../../../theme/utils';
 import { IRegion, IShipping, IShippingGroup } from '../../../model';
 import { PaymentService } from '../../payment.service';
 import { RegionService } from '../../region.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -17,10 +16,9 @@ import { RegionService } from '../../region.service';
     styleUrls: ['./edit.component.scss']
 })
 export class EditShippingComponent implements OnInit {
-    private service = inject(PaymentService);
-    private route = inject(ActivatedRoute);
-    private fb = inject(FormBuilder);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(PaymentService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private regionService = inject(RegionService);
 
 
@@ -31,18 +29,24 @@ export class EditShippingComponent implements OnInit {
     public regionItems: IRegion[] = [];
     public selectedItems: IRegion[] = [];
     public selectedAll = false;
-    public groupItems: IShippingGroup[] = [];
     public regionKeywords = '';
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        code: ['', Validators.required],
-        method: ['0'],
-        icon: [''],
-        description: [''],
-        cod_enabled: [0],
-        position: [99],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        code: '',
+        method: '0',
+        icon: '',
+        description: '',
+        cod_enabled: 0,
+        position: 99,
+        groups: []
     });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.code);
+    });
+    public readonly method = computed(() => parseNumber(this.dataForm.method().value()));
 
     constructor() {
         this.service.shippingPlugin().subscribe(res => {
@@ -57,27 +61,24 @@ export class EditShippingComponent implements OnInit {
             }
             this.service.shipping(params.id).subscribe(res => {
                 this.data = res;
-                this.groupItems = res.groups.map(item => {
-                    if (!item.region_label) {
-                        item.region_label = this.formatRegion(item);
-                    }
-                    return item;
-                });
-                this.form.patchValue({
+                this.dataModel.set({
+                    id: res.id,
                     name: res.name,
                     code: res.code,
                     method: res.method.toString(),
                     icon: res.icon,
                     description: res.description,
                     position: res.position,
-                    cod_enabled: res.cod_enabled
+                    cod_enabled: res.cod_enabled,
+                    groups: res.groups.map(item => {
+                        if (!item.region_label) {
+                            item.region_label = this.formatRegion(item);
+                        }
+                        return item;
+                    })
                 });
             });
         });
-    }
-
-    get method() {
-        return parseNumber(this.form.get('method').value);
     }
 
     private formatRegion(item: IShippingGroup): string {
@@ -92,15 +93,11 @@ export class EditShippingComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: any = Object.assign({}, this.form.value);
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
-        data.groups = this.groupItems;
+        const data: any = this.dataForm().value();
         e?.enter();
         this.service.shippingSave(data).subscribe({
             next: _ => {
@@ -114,7 +111,7 @@ export class EditShippingComponent implements OnInit {
             }
         });
     }
-    
+
     public open(modal: DialogEvent, item?: IShippingGroup) {
         const isNew = !item;
         if (!item) {
@@ -135,13 +132,16 @@ export class EditShippingComponent implements OnInit {
             item.is_all = this.selectedAll;
             item.region_label = this.formatRegion(item);
             if (isNew) {
-                this.groupItems.push(item);
+                this.dataForm.groups().value.update(v => {
+                    v.push(item);
+                    return v;
+                });
             }
         });
     }
 
     public removeGroup(item: any) {
-        this.groupItems = this.groupItems.filter(i => i !== item);
+        this.dataForm.groups().value.update(v => v.filter(i => i !== item));
     }
 
     public tapSelectAll() {

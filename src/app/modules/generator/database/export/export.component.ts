@@ -11,8 +11,8 @@ import { GenerateService } from '../../generate.service';
   styleUrls: ['./export.component.scss']
 })
 export class ExportComponent implements OnInit {
-    private service = inject(GenerateService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(GenerateService);
+    private readonly toastrService = inject(DialogService);
     private downloadService = inject(DownloadService);
 
 

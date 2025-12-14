@@ -17,9 +17,9 @@ import { IAd } from '../model';
     styleUrls: ['./ad.component.scss']
 })
 export class AdComponent implements OnInit {
-    private service = inject(AdService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(AdService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

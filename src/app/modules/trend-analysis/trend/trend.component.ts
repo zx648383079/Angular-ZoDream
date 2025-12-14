@@ -19,9 +19,9 @@ interface ILogGroup {
     styleUrls: ['./trend.component.scss']
 })
 export class TrendComponent implements OnInit {
-    private service = inject(TrendService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(TrendService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

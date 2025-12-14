@@ -9,7 +9,7 @@ import { NavigationService } from '../../navigation.service';
     styleUrls: ['./site-group.component.scss']
 })
 export class SiteGroupComponent {
-    private service = inject(NavigationService);
+    private readonly service = inject(NavigationService);
 
 
     public readonly header = input($localize `Recommend`);

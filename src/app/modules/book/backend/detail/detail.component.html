@@ -1,18 +1,18 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑书籍' : '新增书籍'" (submited)="tapSubmit()" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑书籍' : '新增书籍'" (submited)="tapSubmit()" [disabled]="dataForm().invalid()" />
 
 <div class="container-fluid">
-    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control panel-container" (submit)="tapSubmit()">
         <div class="input-group-control">
             <label for="name">书名</label>
             <div>
-                <input type="text" id="name" class="form-control" formControlName="name">
+                <input type="text" id="name" class="form-control" [field]="dataForm.name">
 
             </div>
         </div>
         <div class="input-group-control">
             <label for="cat_id">分类</label>
             <div>
-                <select id="cat_id" formControlName="cat_id" class="form-control">
+                <select id="cat_id" [field]="dataForm.cat_id" class="form-control">
                     <option [value]="0">请选择</option>
                     @for (item of categories; track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
@@ -23,13 +23,13 @@
         <div class="input-group-control">
             <label for="author_id">作者</label>
             <div>
-                <app-select-input formControlName="author_id" url="book/admin/author/search" />
+                <app-select-input [field]="dataForm.author_id" url="book/admin/author/search" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="classify">分级</label>
             <div>
-                <select id="classify" formControlName="classify" class="form-control">
+                <select id="classify" [field]="dataForm.classify" class="form-control">
                     @for (item of classifyItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
                     }
@@ -39,25 +39,25 @@
         <div class="input-group-control">
             <label for="source">来源</label>
             <div>
-                <input type="text" id="source" class="form-control" formControlName="source">
+                <input type="text" id="source" class="form-control" [field]="dataForm.source">
             </div>
         </div>
         <div class="input-group-control">
             <label for="cover">封面</label>
             <div>
-                <app-file-input formControlName="cover" />
+                <app-file-input [field]="dataForm.cover" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">简介</label>
             <div>
-                <textarea id="description" class="form-control" formControlName="description"></textarea>
+                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
             </div>
         </div>
         <div class="input-group-control">
             <label for="status">状态</label>
             <div>
-                <select id="status" formControlName="status" class="form-control">
+                <select id="status" [field]="dataForm.status" class="form-control">
                     @for (item of statusItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
                     }

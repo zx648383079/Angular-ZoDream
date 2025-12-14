@@ -11,9 +11,9 @@ import { ButtonEvent, FormPanelComponent, FormPanelEvent } from '../../../compon
     styleUrls: ['./option.component.scss']
 })
 export class OptionComponent implements OnInit {
-    private service = inject(MessageServiceService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(MessageServiceService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
     private readonly form = viewChild(FormPanelComponent);

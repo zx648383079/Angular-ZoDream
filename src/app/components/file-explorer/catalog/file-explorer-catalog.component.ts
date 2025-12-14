@@ -8,7 +8,7 @@ import { FILE_PROVIDER, IFileCatalogItem, IFileItem, IFileProvider } from '../mo
   styleUrls: ['./file-explorer-catalog.component.scss']
 })
 export class FileExplorerCatalogComponent implements OnInit {
-    private service = inject<IFileProvider>(FILE_PROVIDER);
+    private readonly service = inject<IFileProvider>(FILE_PROVIDER);
 
 
     public readonly pathChange = output<string>();

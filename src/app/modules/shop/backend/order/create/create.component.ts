@@ -14,8 +14,8 @@ import { SearchDialogComponent } from '../../../components';
     styleUrls: ['./create.component.scss'],
 })
 export class CreateComponent implements OnInit {
-    private service = inject(OrderService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(OrderService);
+    private readonly toastrService = inject(DialogService);
 
 
     private readonly modal = viewChild(SearchDialogComponent);

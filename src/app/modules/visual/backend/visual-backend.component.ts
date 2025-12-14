@@ -8,7 +8,7 @@ import { VisualService } from './visual.service';
     styleUrls: ['./visual-backend.component.scss']
 })
 export class VisualBackendComponent implements OnInit {
-    private service = inject(VisualService);
+    private readonly service = inject(VisualService);
 
 
     public isLoading = false;

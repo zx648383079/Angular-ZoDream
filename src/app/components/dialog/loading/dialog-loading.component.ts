@@ -11,7 +11,7 @@ import { DialogService } from '../dialog.service';
 })
 export class DialogLoadingComponent implements OnDestroy {
     private data = inject<DialogPackage<DialogLoadingOption>>(DialogPackage);
-    private service = inject(DialogService);
+    private readonly service = inject(DialogService);
 
 
     public title = '';

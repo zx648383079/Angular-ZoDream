@@ -15,9 +15,9 @@ import { AppService } from '../../app.service';
     styleUrls: ['./version.component.scss']
 })
 export class VersionComponent implements OnInit {
-    private service = inject(AppService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(AppService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

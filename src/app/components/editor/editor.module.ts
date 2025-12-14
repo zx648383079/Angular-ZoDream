@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MarkdownEditorComponent } from './markdown-editor/markdown-editor.component';
-import { FormsModule } from '@angular/forms';
 import { TextEditorComponent } from './text-editor/text-editor.component';
-import { ThemeModule } from '../../theme/theme.module';
 import { EditorComponent } from './editor.component';
 import { EditorColorComponent } from './modal/color/editor-color.component';
 import { EditorImageComponent } from './modal/image/editor-image.component';
@@ -32,7 +30,6 @@ const COMPONENTS = [
         CommonModule,
         DesktopModule,
         ZreFormModule,
-        FormsModule,
     ],
     declarations: [
         ...COMPONENTS,

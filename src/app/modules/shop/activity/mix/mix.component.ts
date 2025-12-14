@@ -13,9 +13,9 @@ import { ActivityService } from '../activity.service';
   styleUrls: ['./mix.component.scss']
 })
 export class MixComponent implements OnInit {
-    private themeService = inject(ThemeService);
-    private route = inject(ActivatedRoute);
-    private service = inject(ActivityService);
+    private readonly themeService = inject(ThemeService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly service = inject(ActivityService);
     private searchService = inject(SearchService);
 
 

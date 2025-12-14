@@ -11,7 +11,7 @@ import { ShopService } from '../../shop.service';
     styleUrls: ['./comment-page.component.scss']
 })
 export class CommentPageComponent {
-    private service = inject(ShopService);
+    private readonly service = inject(ShopService);
 
 
     public readonly itemId = input(0);

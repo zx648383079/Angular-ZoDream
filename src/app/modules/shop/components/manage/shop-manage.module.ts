@@ -5,7 +5,6 @@ import { ProductDialogComponent } from './product-dialog/product-dialog.componen
 import { SearchDialogComponent } from './search-dialog/search-dialog.component';
 import { SearchPanelComponent } from './search-panel/search-panel.component';
 import { SkuFormComponent } from './sku-form/sku-form.component';
-import { FormsModule } from '@angular/forms';
 import { ZreFormModule } from '../../../../components/form';
 import { DesktopModule } from '../../../../components/desktop';
 
@@ -21,7 +20,6 @@ const COMPONENTS = [
     imports: [
         CommonModule,
         DesktopModule,
-        FormsModule,
         ZreFormModule,
     ],
     declarations: [...COMPONENTS],

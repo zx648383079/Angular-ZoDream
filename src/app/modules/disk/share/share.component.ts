@@ -13,7 +13,7 @@ import {
     styleUrls: ['./share.component.scss']
 })
 export class ShareComponent implements OnInit {
-    private service = inject(DiskService);
+    private readonly service = inject(DiskService);
 
 
     public checkedAll = false;

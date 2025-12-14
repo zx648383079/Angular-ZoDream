@@ -9,7 +9,7 @@ import { VisualService } from './visual.service';
   styleUrls: ['./visual-market.component.scss']
 })
 export class VisualMarketComponent implements OnInit {
-    private service = inject(VisualService);
+    private readonly service = inject(VisualService);
 
 
     public navItems: INavLink[] = [

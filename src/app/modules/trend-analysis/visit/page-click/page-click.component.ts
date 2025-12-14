@@ -12,9 +12,9 @@ import { TrendService } from '../../trend.service';
     styleUrls: ['./page-click.component.scss']
 })
 export class PageClickComponent implements OnInit {
-    private service = inject(TrendService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(TrendService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

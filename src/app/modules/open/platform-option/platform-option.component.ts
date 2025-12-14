@@ -13,7 +13,7 @@ import { IData, IDataOne } from '../../../theme/models/page';
 })
 export class PlatformOptionComponent implements OnInit {
     private http = inject(HttpClient);
-    private toastrService = inject(DialogService);
+    private readonly toastrService = inject(DialogService);
 
 
     public readonly url = input<string>(undefined);

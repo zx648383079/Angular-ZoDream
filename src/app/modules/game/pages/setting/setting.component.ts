@@ -8,7 +8,7 @@ import { GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
   styleUrls: ['./setting.component.scss']
 })
 export class SettingComponent implements IGameScene {
-    private router = inject<IGameRouter>(GameRouterInjectorToken);
+    private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
     public tapBack() {

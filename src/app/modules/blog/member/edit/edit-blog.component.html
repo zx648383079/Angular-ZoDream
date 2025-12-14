@@ -15,7 +15,7 @@
                 }
             </div>
             <div class="tool-right">
-                <app-toggle-bar [items]="localizes" [(ngModel)]="data.language" (ngModelChange)="onLocalizeChange()" />
+                <app-toggle-bar [items]="localizes" [field]="dataForm.language" (valueChange)="onLocalizeChange()" />
                 <app-action-button class="tool-item btn-primary" (tapped)="tapSubmit($event)">
                     <i class="iconfont icon-floppy-o"></i>
                 </app-action-button>
@@ -28,11 +28,11 @@
             </div>
         </div>
     </div>
-    <form class="editor-body" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="editor-body" (submit)="tapSubmit()">
         <app-blog-add-panel [visible]="addToggle" (toolTapped)="tapTool($event)" (command)="tapCommand($event)" />
         <div class="editor-area">
             <div class="editor-input-wrapper">
-                <input type="text" class="title-input" formControlName="title" placeholder="Title">
+                <input type="text" class="title-input" [field]="dataForm.title" placeholder="Title">
                 <textarea #editorArea spellcheck="false" placeholder="Content"></textarea>
             </div>
             <ng-container #modalVC />
@@ -52,22 +52,22 @@
                 <app-expand-card i18n-header header="Summary" [toggle]="true">
                     <div class="list-row-item">
                         <label for="" class="item-label">Open Type</label>
-                        <a class="item-body" (click)="tapOpen($event)">{{ openTypeLabel }}</a>
+                        <a class="item-body" (click)="tapOpen($event)">{{ openTypeLabel() }}</a>
                     </div>
                     <div class="list-row-item">
                         <label for="" class="item-label">Publish At</label>
-                        <div class="item-body">{{ data ? data.created_at : '-' }}</div>
+                        <div class="item-body">{{ dataModel().created_at ?? '-' }}</div>
                     </div>
                     <div class="list-row-item">
                         <label for="" class="item-label">Publish Status</label>
-                        <a class="item-body" (click)="tapStatus($event)">{{ statusLabel }}</a>
+                        <a class="item-body" (click)="tapStatus($event)">{{ statusLabel() }}</a>
                     </div>
                 </app-expand-card>
                 <app-expand-card i18n-header header="Advanced">
                     <div class="input-group-control">
                         <label for="term_id" i18n>Term</label>
                         <div>
-                            <select id="term_id" class="form-control" formControlName="term_id">
+                            <select id="term_id" class="form-control" [field]="dataForm.term_id">
                                 @for (item of categories; track $index) {
                                     <option [value]="item.id">{{ item.name }}</option>
                                 }
@@ -77,7 +77,7 @@
                     <div class="input-group-control">
                         <label for="programming_language" i18n>Programming Language</label>
                         <div>
-                            <select id="programming_language" class="form-control" formControlName="programming_language">
+                            <select id="programming_language" class="form-control" [field]="dataForm.programming_language">
                                 <option value="" i18n>Select...</option>
                                 @for (item of languages; track $index) {
                                     <option [value]="item">{{ item }}</option>
@@ -88,95 +88,95 @@
                     <div class="input-group-control">
                         <label for="type" i18n>Type</label>
                         <div>
-                            <select id="type" class="form-control" formControlName="type">
+                            <select id="type" class="form-control" [field]="dataForm.type">
                                 <option value="0" i18n>Original</option>
                                 <option value="1" i18n>Reprinted</option>
                             </select>
                         </div>
                     </div>
-                   
+
                     <div class="input-group-control">
                         <label for="thumb" i18n>Image</label>
                         <div>
-                            <app-image-input formControlName="thumb" />
+                            <app-image-input [field]="dataForm.thumb" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="edit_type" i18n>Editor</label>
                         <div>
-                            <select id="edit_type" class="form-control" formControlName="edit_type">
+                            <select id="edit_type" class="form-control" [field]="dataForm.edit_type">
                                 <option value="0">Ueditor</option>
                                 <option value="1">MarkDown</option>
                             </select>
-        
+
                         </div>
                     </div>
-                    
+
                     <div class="input-group-control">
                         <label for="keywords" i18n>Keywords</label>
                         <div>
-                            <app-words-input id="keywords" formControlName="keywords" />
+                            <app-words-input id="keywords" [field]="dataForm.keywords" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="description" i18n>Description</label>
                         <div>
-                            <app-text-editor formControlName="description" [height]="120" />
+                            <app-text-editor [field]="dataForm.description" [height]="120" />
                         </div>
                     </div>
-                    
+
                     <div class="input-group-control">
                         <label i18n>Tags</label>
                         <div>
-                            <ng-select [multiple]="true" [items]="tagItems" bindLabel="name" [(ngModel)]="tags" [ngModelOptions]="{standalone: true}" [addTag]="addTagFn" i18n placeholder="Select tags" />
+                            <ng-select [multiple]="true" [items]="tagItems" bindLabel="name" [field]="dataForm.tags" [addTag]="addTagFn" i18n placeholder="Select tags" />
                         </div>
                     </div>
                 </app-expand-card>
                 <app-expand-card i18n-header header="Additional">
-                    @if (typeValue > 0) {
+                    @if (typeValue() > 0) {
                     <div class="input-group-control">
                         <label for="meta_source_author" i18n>Original's author</label>
                         <div>
-                            <input type="text" id="meta_source_author" class="form-control" formControlName="source_author">
-                    
+                            <input type="text" id="meta_source_author" class="form-control" [field]="dataForm.source_author">
+
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="source_url" i18n>Original's link</label>
                         <div>
-                            <input type="text" id="source_url" class="form-control" formControlName="source_url">
+                            <input type="text" id="source_url" class="form-control" [field]="dataForm.source_url">
                         </div>
                     </div>
                     }
-                    
+
                     <div class="input-group-control">
                         <label for="weather" i18n>Weather</label>
                         <div>
-                            <select id="weather" class="form-control" formControlName="weather">
+                            <select id="weather" class="form-control" [field]="dataForm.weather">
                                 <option value="" i18n>Select...</option>
                                 @for (item of weathers; track $index) {
                                     <option [value]="item.value">{{ item.name }}</option>
                                 }
                             </select>
-        
+
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="audio_url" i18n>Audio</label>
                         <div class="file-input">
-                            <app-file-input formControlName="audio_url" accept="audio/*" />
+                            <app-file-input [field]="dataForm.audio_url" accept="audio/*" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="video_url" i18n>Video</label>
                         <div>
-                            <app-file-input formControlName="video_url" accept="video/*" />
+                            <app-file-input [field]="dataForm.video_url" accept="video/*" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="meta_cc_license" i18n>Copyright License</label>
                         <div>
-                            <select id="meta_cc_license" class="form-control" formControlName="cc_license">
+                            <select id="meta_cc_license" class="form-control" [field]="dataForm.cc_license">
                                 <option value="" i18n>Select...</option>
                                 @for (item of licenses; track $index) {
                                     <option [value]="item.value">{{ item.name }}</option>
@@ -187,40 +187,40 @@
                     <div class="input-group-control">
                         <label for="comment_status" i18n>Comment Status</label>
                         <div>
-                            <app-switch id="comment_status" formControlName="comment_status" />
+                            <app-switch id="comment_status" [field]="dataForm.comment_status" />
                         </div>
                     </div>
                 </app-expand-card>
                 <app-expand-card i18n-header header="SEO Optimization">
-                    @if (typeValue > 0) {
+                    @if (typeValue() > 0) {
                     <div class="input-group-control">
                         <label for="meta_is_hide" i18n>Whether to hide</label>
                         <div>
-                            <app-switch id="meta_is_hide" formControlName="is_hide" />
+                            <app-switch id="meta_is_hide" [field]="dataForm.is_hide" />
                         </div>
                     </div>
                     }
-                    
+
                     <div class="input-group-control">
                         <label for="meta_seo_title" i18n>SEO Title</label>
                         <div>
-                            <input type="text" id="meta_seo_title" class="form-control" formControlName="seo_title">
+                            <input type="text" id="meta_seo_title" class="form-control" [field]="dataForm.seo_title">
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="meta_seo_description" i18n>SEO Description</label>
                         <div>
-                            <app-text-editor id="meta_seo_description" formControlName="seo_description" [height]="120" />
+                            <app-text-editor id="meta_seo_description" [field]="dataForm.seo_description" [height]="120" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="meta_seo_link" i18n>Link Alias</label>
                         <div>
-                            <input type="text" id="meta_seo_link" class="form-control" formControlName="seo_link">
+                            <input type="text" id="meta_seo_link" class="form-control" [field]="dataForm.seo_link">
                             <div class="input-tip">
                                 <ng-container i18n>Please use the numeric letter -_ to form, please do not enter spaces, /.</ng-container>
-                                
-                                <p>{{ pageLink | asset }}</p>
+
+                                <p>{{ pageLink() | asset }}</p>
                             </div>
                         </div>
                     </div>
@@ -244,7 +244,7 @@
         @for (item of openItems; track $index) {
         <div class="option-item" (click)="changeOpenType(item.value)">
             <div class="item-icon">
-                <i class="iconfont" [ngClass]="{'icon-check-square-o': openType == item.value, 'icon-square-o': openType != item.value}"></i>
+                <i class="iconfont" [ngClass]="{'icon-check-square-o': openType() == item.value, 'icon-square-o': openType() != item.value}"></i>
             </div>
             <div class="item-body">
                 <div class="item-label">{{ item.name }}</div>
@@ -252,15 +252,15 @@
             </div>
         </div>
         }
-        @if (openType > 4) {
+        @if (openType() > 4) {
         <div class="input-group-control">
-            <label for="open_rule">{{ ruleLabel }}</label>
+            <label for="open_rule">{{ ruleLabel() }}</label>
             <div>
-                <input type="text" id="open_rule" class="form-control" [(ngModel)]="openRule">
+                <input type="text" id="open_rule" class="form-control" [field]="dataForm.open_rule">
             </div>
         </div>
         }
-        
+
     </div>
 </div>
 <div class="editor-modal" [ngStyle]="statusStyle">
@@ -279,7 +279,7 @@
         @for (item of statusItems; track $index) {
         <div class="option-item" (click)="changePublishStatus(item.value)">
             <div class="item-icon">
-                <i class="iconfont" [ngClass]="{'icon-check-square-o': publishStatus == item.value, 'icon-square-o': publishStatus != item.value}"></i>
+                <i class="iconfont" [class]="{'icon-check-square-o': dataForm.publish_status().value() == item.value, 'icon-square-o': dataForm.publish_status().value() != item.value}"></i>
             </div>
             <div class="item-body">
                 <div class="item-label">{{ item.name }}</div>
@@ -287,6 +287,6 @@
             </div>
         </div>
         }
-        
+
     </div>
 </div>

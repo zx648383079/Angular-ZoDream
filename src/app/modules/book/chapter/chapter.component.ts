@@ -18,9 +18,9 @@ import {
     styleUrls: ['./chapter.component.scss']
 })
 export class ChapterComponent implements OnInit {
-    private service = inject(BookService);
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
+    private readonly service = inject(BookService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
 
 
     public data: IBook;

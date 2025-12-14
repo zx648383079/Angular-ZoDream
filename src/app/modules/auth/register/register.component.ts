@@ -24,11 +24,11 @@ import { email, form, minLength, required, validate } from '@angular/forms/signa
     styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnDestroy {
-    private toastrService = inject(DialogService);
-    private authService = inject(AuthService);
-    private themeService = inject(ThemeService);
+    private readonly toastrService = inject(DialogService);
+    private readonly authService = inject(AuthService);
+    private readonly themeService = inject(ThemeService);
     private encryptor = inject(EncryptorService);
-    private store = inject<Store<AppState>>(Store);
+    private readonly store = inject<Store<AppState>>(Store);
 
 
     public isObserve = false;

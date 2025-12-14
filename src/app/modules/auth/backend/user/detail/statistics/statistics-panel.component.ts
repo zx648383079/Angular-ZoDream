@@ -11,8 +11,8 @@ import { IStatisticsItem } from '../../../../../../theme/models/seo';
     styleUrls: ['./statistics-panel.component.scss']
 })
 export class StatisticsPanelComponent {
-    private service = inject(AuthService);
-    private router = inject(Router);
+    private readonly service = inject(AuthService);
+    private readonly router = inject(Router);
 
 
     public readonly itemId = input(0);

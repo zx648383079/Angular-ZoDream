@@ -13,9 +13,9 @@ import { VideoService } from '../video.service';
   styleUrls: ['./music.component.scss']
 })
 export class MusicComponent implements OnInit {
-    private service = inject(VideoService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(VideoService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

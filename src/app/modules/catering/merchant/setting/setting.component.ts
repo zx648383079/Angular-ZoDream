@@ -10,8 +10,8 @@ import { ICateringStore } from '../../model';
     styleUrls: ['./setting.component.scss']
 })
 export class SettingComponent implements OnInit, OnDestroy {
-    private service = inject(CateringService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(CateringService);
+    private readonly toastrService = inject(DialogService);
 
 
     public data: ICateringStore;

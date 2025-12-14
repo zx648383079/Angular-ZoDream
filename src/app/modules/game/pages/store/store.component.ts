@@ -9,7 +9,7 @@ import { GameCommand, GameRouterInjectorToken, IGameItem, IGameRouter, IGameScen
     styleUrls: ['./store.component.scss']
 })
 export class StoreComponent implements IGameScene, OnInit {
-    private router = inject<IGameRouter>(GameRouterInjectorToken);
+    private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
     public items: IGameItem[] = [];

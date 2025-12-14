@@ -13,11 +13,11 @@ import { emptyValidate } from '../../../theme/validators';
     styleUrls: ['./find.component.scss']
 })
 export class FindComponent {
-    private service = inject(AuthService);
-    private toastrService = inject(DialogService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(AuthService);
+    private readonly toastrService = inject(DialogService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+    private readonly themeService = inject(ThemeService);
 
 
     public sended = false;

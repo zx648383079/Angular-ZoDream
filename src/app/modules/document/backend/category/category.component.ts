@@ -12,8 +12,8 @@ import { filterTree, toggleTreeItem } from '../../../../theme/utils';
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
-    private service = inject(DocumentService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(DocumentService);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: ICategory[] = [];

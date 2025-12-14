@@ -11,7 +11,7 @@ import { SearchService } from '../../../../../../theme/services';
     styleUrls: ['./action-panel.component.scss']
 })
 export class ActionPanelComponent {
-    private service = inject(AuthService);
+    private readonly service = inject(AuthService);
     private searchService = inject(SearchService);
 
 

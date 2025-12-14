@@ -13,9 +13,9 @@ import { SearchService } from '../../../../../theme/services';
   styleUrls: ['./action-log.component.scss']
 })
 export class ActionLogComponent implements OnInit {
-    private service = inject(AuthService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(AuthService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
 

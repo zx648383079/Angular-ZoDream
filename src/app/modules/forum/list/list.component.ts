@@ -1,8 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { IForum, IForumClassify, IThread } from '../model';
 import { ForumService } from '../forum.service';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from '../../../components/dialog';
 import { IErrorResult, IPageQueries } from '../../../theme/models/page';
 import { AppState } from '../../../theme/interfaces';
@@ -12,6 +11,7 @@ import { IUser } from '../../../theme/models/user';
 import { ISortItem } from '../../../theme/models/seo';
 import { ButtonEvent } from '../../../components/form';
 import { SearchService, ThemeService } from '../../../theme/services';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -20,13 +20,12 @@ import { SearchService, ThemeService } from '../../../theme/services';
     styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(ForumService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
-    private store = inject<Store<AppState>>(Store);
+    private readonly service = inject(ForumService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
+    private readonly store = inject<Store<AppState>>(Store);
     private searchService = inject(SearchService);
-    private themeService = inject(ThemeService);
+    private readonly themeService = inject(ThemeService);
 
 
     public forum: IForum;
@@ -41,10 +40,14 @@ export class ListComponent implements OnInit {
         classify: 0,
         type: 0,
     };
-    public form = this.fb.group({
-        title: ['', Validators.required],
-        classify: [0],
-        content: ['', Validators.required], 
+    public readonly dataModel = signal({
+        title: '',
+        classify: '',
+        content: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.title);
+        required(schemaPath.content);
     });
     public user: IUser;
     public sortKey = 'updated_at';
@@ -102,24 +105,25 @@ export class ListComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `The content is not filled in completely`);
             return;
         }
-        const data = {...this.form.value, forum: this.forum.id};
+        const data = {...this.dataForm().value(), forum: this.forum.id};
         e?.enter();
         this.service.threadSave(data).subscribe({
             next: res => {
                 e?.reset();
                 this.toastrService.success($localize `Published successfully`);
-                this.form.patchValue({
-                    title: '',
-                    content: '',
+                this.dataModel.update(v => {
+                    v.title = '';
+                    v.content = '';
+                    return v;
                 });
                 if (this.queries.page < 2) {
                     this.tapRefresh();
                 }
-            }, 
+            },
             error: (err: IErrorResult) => {
                 e?.reset();
                 if (err.error.code === 401) {
@@ -159,7 +163,7 @@ export class ListComponent implements OnInit {
                 this.items = this.formatItems(res.data);
                 this.total = res.paging.total;
                 this.searchService.applyHistory(this.queries = queries);
-            }, 
+            },
             error: () => {
                 this.isLoading = false;
             }

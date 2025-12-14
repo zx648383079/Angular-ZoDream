@@ -13,9 +13,9 @@ import { CmsService } from '../cms.service';
   styleUrls: ['./site.component.scss']
 })
 export class SiteComponent implements OnInit {
-    private service = inject(CmsService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(CmsService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
 

@@ -7,13 +7,11 @@ import { FileExplorerService } from './file-explorer.service';
 import { FileExplorerCatalogComponent } from './catalog/file-explorer-catalog.component';
 import { FileExplorerImageEditorComponent } from './tools';
 import { DesktopModule } from '../desktop';
-import { FormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
         CommonModule,
         DesktopModule,
-        FormsModule,
     ],
     declarations: [
         FileExplorerPanelComponent, 

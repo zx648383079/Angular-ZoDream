@@ -11,8 +11,8 @@ import { EChartsCoreOption } from 'echarts/core';
     styleUrls: ['./review.component.scss']
 })
 export class ReviewComponent implements OnInit {
-    private service = inject(TaskService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(TaskService);
+    private readonly route = inject(ActivatedRoute);
 
 
     public date = '';

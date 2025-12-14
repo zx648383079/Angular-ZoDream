@@ -18,11 +18,11 @@ import { IBotAccount, IBotMenuItem } from '../model';
   styleUrls: ['./emulate.component.scss']
 })
 export class EmulateComponent implements OnInit {
-    private service = inject(BotService);
-    private route = inject(ActivatedRoute);
-    private themeService = inject(ThemeService);
-    private toastrService = inject(DialogService);
-    private store = inject<Store<AppState>>(Store);
+    private readonly service = inject(BotService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly themeService = inject(ThemeService);
+    private readonly toastrService = inject(DialogService);
+    private readonly store = inject<Store<AppState>>(Store);
 
 
     public readonly messageBody = viewChild(MessageContainerComponent);

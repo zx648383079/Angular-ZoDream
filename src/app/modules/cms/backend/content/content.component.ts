@@ -14,9 +14,9 @@ import { SearchService } from '../../../../theme/services';
   styleUrls: ['./content.component.scss']
 })
 export class ContentComponent implements OnInit {
-    private service = inject(CmsService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(CmsService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
 

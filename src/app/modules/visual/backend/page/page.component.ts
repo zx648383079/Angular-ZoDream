@@ -13,9 +13,9 @@ import { SearchService } from '../../../../theme/services';
   styleUrls: ['./page.component.scss']
 })
 export class PageComponent implements OnInit {
-    private service = inject(VisualService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(VisualService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

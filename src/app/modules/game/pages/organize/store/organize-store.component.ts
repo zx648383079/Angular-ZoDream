@@ -9,7 +9,7 @@ import { IPageQueries, IPage } from '../../../../../theme/models/page';
   styleUrls: ['./organize-store.component.scss']
 })
 export class OrganizeStoreComponent implements IGameScene, OnInit {
-    private router = inject<IGameRouter>(GameRouterInjectorToken);
+    private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
     public items: IGameItem[] = [];

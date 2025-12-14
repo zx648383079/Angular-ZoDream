@@ -1,38 +1,38 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑分类' : '新增分类'" (submited)="tapSubmit()" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑分类' : '新增分类'" (submited)="tapSubmit()" [disabled]="dataForm().invalid()" />
 
 <div class="container-fluid">
-    <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control" (submit)="tapSubmit()">
         <div class="row">
             <div class="col-md-6">
                 <div class="panel-container">
                     <div class="input-group-control">
                         <label for="name">分类</label>
                         <div>
-                            <input type="text" id="name" class="form-control" formControlName="name">
+                            <input type="text" id="name" class="form-control" [field]="dataForm.name">
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="keywords">关键字</label>
                         <div>
-                            <input type="text" id="keywords" class="form-control" formControlName="keywords">
+                            <input type="text" id="keywords" class="form-control" [field]="dataForm.keywords">
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="description">说明</label>
                         <div>
-                            <textarea id="description" class="form-control" formControlName="description"></textarea>
+                            <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="thumb">图片</label>
                         <div>
-                            <app-file-input formControlName="thumb" />
+                            <app-file-input [field]="dataForm.thumb" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="styles">样式</label>
                         <div>
-                            <select id="styles" class="form-control" formControlName="styles">
+                            <select id="styles" class="form-control" [field]="dataForm.styles">
                                 <option value="">无</option>
                                 <option value="daily">日记</option>
                             </select>
@@ -45,7 +45,7 @@
                     <div class="input-group-control">
                         <label for="en_name">名称(EN)</label>
                         <div>
-                            <input type="text" id="en_name" class="form-control" formControlName="en_name">
+                            <input type="text" id="en_name" class="form-control" [field]="dataForm.en_name">
                         </div>
                     </div>
                 </app-panel>

@@ -11,8 +11,8 @@ import { IAd } from '../../../ad-sense/model';
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-    private service = inject(ShopService);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(ShopService);
+    private readonly themeService = inject(ThemeService);
 
 
     public bannerItems: IAd[] = [];

@@ -13,10 +13,10 @@ import { OrderService } from '../order.service';
     styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
-    private service = inject(OrderService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(OrderService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
     public data: IOrder;

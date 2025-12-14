@@ -12,8 +12,8 @@ import { selectAuthUser } from '../../theme/reducers/auth.selectors';
     styleUrls: ['./trend-analysis.component.scss']
 })
 export class TrendAnalysisComponent {
-    private store = inject<Store<AppState>>(Store);
-    private themeService = inject(ThemeService);
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly themeService = inject(ThemeService);
 
 
     public navItems: INavLink[] = [

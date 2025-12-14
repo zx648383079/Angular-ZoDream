@@ -15,16 +15,16 @@
             </div>
             <div class="col-lg-9 col-md-8">
                 @if (data) {
-                <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
+                <form class="form-table-control" (submit)="tapSubmit()">
                     <div class="title-input">
                         <label for="name">名称*</label>
-                        <input type="text" id="name" class="form-control" formControlName="name">
+                        <input type="text" id="name" class="form-control" [field]="dataForm.name">
                     </div>
                     @if (data.type < 1) {
                     <div>
                         <div class="form-group">
                             <label for="method">请求类型*</label>
-                            <select class="form-control" formControlName="method" id="method">
+                            <select class="form-control" [field]="dataForm.method" id="method">
                                 @for (item of methodItems; track $index) {
                                 <option [value]="item">{{ item }}</option>
                                 }
@@ -33,11 +33,11 @@
                         <div class="form-group">
                             <label for="uri">接口路径*</label>
                             <input type="text"
-                            class="form-control" formControlName="uri" id="uri" placeholder="请输入接口路径">
+                            class="form-control" [field]="dataForm.uri" id="uri" placeholder="请输入接口路径">
                         </div>
                         <div class="form-group">
                             <label for="description">接口描述</label>
-                            <textarea class="form-control" formControlName="description" id="description" rows="3"></textarea>
+                            <textarea class="form-control" [field]="dataForm.description" id="description" rows="3"></textarea>
                         </div>
                         <div class="panel">
                             <div class="panel-header">
@@ -70,8 +70,8 @@
                                             </td>
                                         </tr>
                                         }
-                                        
-                                    
+
+
                                     </tbody>
                                     <tfoot>
                                         <tr>
@@ -131,7 +131,7 @@
                         </div>
                     </div>
                     }
-                    
+
                     <div class="btn-group">
                         <app-action-button (tapped)="tapSubmit($event)" class="btn btn-success">确认保存</app-action-button>
                         @if (data.type < 1 && data.id > 0) {
@@ -142,7 +142,7 @@
                 }
             </div>
         </div>
-        
+
     </div>
 </div>
 

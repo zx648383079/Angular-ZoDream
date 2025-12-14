@@ -13,9 +13,9 @@ import { IBotAccount } from './model';
   styleUrls: ['./bot.component.scss']
 })
 export class BotComponent implements OnInit {
-    private service = inject(BotService);
-    private route = inject(ActivatedRoute);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(BotService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly themeService = inject(ThemeService);
     private searchService = inject(SearchService);
 
 

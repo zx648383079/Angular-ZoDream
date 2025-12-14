@@ -8,7 +8,7 @@ import { VideoService } from './video.service';
   styleUrls: ['./video.component.scss']
 })
 export class VideoComponent implements OnInit {
-    private service = inject(VideoService);
+    private readonly service = inject(VideoService);
 
 
     public isLoading = false;

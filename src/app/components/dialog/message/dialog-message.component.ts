@@ -20,7 +20,7 @@ interface IThemeGroup {
 })
 export class DialogMessageComponent implements OnDestroy {
     private data = inject<DialogPackage<DialogMessageOption>>(DialogPackage);
-    private service = inject(DialogService);
+    private readonly service = inject(DialogService);
 
 
     public icon = '';

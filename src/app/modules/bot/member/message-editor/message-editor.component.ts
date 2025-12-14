@@ -27,7 +27,7 @@ interface IEditorData {
     styleUrls: ['./message-editor.component.scss']
 })
 export class MessageEditorComponent {
-    private service = inject(BotService);
+    private readonly service = inject(BotService);
 
 
     public readonly other = input('');

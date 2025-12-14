@@ -13,11 +13,11 @@ import { ActivatedRoute } from '@angular/router';
     styleUrls: ['./game-list.component.scss']
 })
 export class GameListComponent implements OnInit {
-    private service = inject(GameMakerService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(GameMakerService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
-    private themeService = inject(ThemeService);
+    private readonly themeService = inject(ThemeService);
 
 
     public items: IGameProject[] = [];

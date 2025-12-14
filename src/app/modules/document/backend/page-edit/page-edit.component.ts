@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -16,15 +15,17 @@ import { treeRemoveId } from '../../shared';
     styleUrls: ['./page-edit.component.scss']
 })
 export class PageEditComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(DocumentService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(DocumentService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        content: [''],
+    public readonly dataModel = signal({
+        name: '',
+        content: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
     public data: IDocPage;
@@ -44,7 +45,7 @@ export class PageEditComponent implements OnInit {
                 this.project = res;
                 this.loadCatalog(res.id, params.id)
             });
-            
+
         });
     }
 
@@ -85,7 +86,8 @@ export class PageEditComponent implements OnInit {
             name: '',
             content: '',
         } as any;
-        this.form.patchValue({
+        this.dataModel.set({
+                        id: res.id,
             name: '',
             content: '',
         });
@@ -94,7 +96,8 @@ export class PageEditComponent implements OnInit {
     public tapEdit(item: IDocTreeItem) {
         this.service.page(item.id).subscribe(res => {
             this.data = res;
-            this.form.patchValue({
+            this.dataModel.set({
+                        id: res.id,
                 name: res.name,
                 content: res.content
             });

@@ -11,8 +11,8 @@ import { openLink } from '../../../theme/utils/deeplink';
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-    private service = inject(UserService);
-    private router = inject(Router);
+    private readonly service = inject(UserService);
+    private readonly router = inject(Router);
 
 
     public items: IStatisticsItem[] = [];

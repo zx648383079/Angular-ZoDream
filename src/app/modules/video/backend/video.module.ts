@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThemeModule } from '../../../theme/theme.module';
-import { ReactiveFormsModule } from '@angular/forms';
 import { videoRoutedComponents, VideoRoutingModule } from './video-routing.module';
 import { VideoService } from './video.service';
 import { DurationPipe } from './duration.pipe';
 import { DesktopModule } from '../../../components/desktop';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
+        Field,
         ThemeModule,
         DesktopModule,
-        ReactiveFormsModule,
         VideoRoutingModule,
     ],
     declarations: [...videoRoutedComponents, DurationPipe],

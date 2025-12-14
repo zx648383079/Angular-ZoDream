@@ -12,8 +12,8 @@ import { ExamService } from '../../exam.service';
     styleUrls: ['./material-panel.component.scss']
 })
 export class MaterialPanelComponent {
-    private service = inject(ExamService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ExamService);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
 

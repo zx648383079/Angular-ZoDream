@@ -8,7 +8,7 @@ import { ThemeService } from '../../theme/services';
     styleUrls: ['./visual.component.scss']
 })
 export class VisualComponent implements OnInit {
-    private themeService = inject(ThemeService);
+    private readonly themeService = inject(ThemeService);
 
 
     constructor() {

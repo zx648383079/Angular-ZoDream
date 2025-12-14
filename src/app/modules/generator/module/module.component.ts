@@ -14,9 +14,9 @@ import { IPreviewFile } from '../model';
   styleUrls: ['./module.component.scss']
 })
 export class ModuleComponent implements OnInit {
-    private service = inject(GenerateService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(GenerateService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
     public readonly modal = viewChild(DialogBoxComponent);

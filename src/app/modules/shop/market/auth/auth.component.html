@@ -9,14 +9,14 @@
                     </div>
                     <div class="box-tab">
                           <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
-                                <form [formGroup]="mobileForm" (ngSubmit)="tapSignIn()">
+                                <form (submit)="tapSignIn()">
                                     <div class="input-group-control">
-                                        <input type="text" i18n-placeholder placeholder="Please input phone number" formControlName="mobile" autocomplete="off">
+                                        <input type="text" i18n-placeholder placeholder="Please input phone number" [field]="mobileForm.mobile" autocomplete="off">
                                         <i class="iconfont icon-user" aria-hidden="true"></i>
                                     </div>
                                     <div class="input-hr"></div>
                                     <div class="input-group-control code-input">
-                                        <input type="text" formControlName="code" i18n-placeholder placeholder="SMS verification code">
+                                        <input type="text" [field]="mobileForm.code" i18n-placeholder placeholder="SMS verification code">
                                         <i class="iconfont icon-lock" aria-hidden="true"></i>
                                         <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)" />
                                     </div>
@@ -24,24 +24,24 @@
                                 </form>
                           </div>
                           <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
-                                <form [formGroup]="emailForm" (ngSubmit)="tapSignIn()">
+                                <form (submit)="tapSignIn()">
                                     <div class="input-group-control">
-                                        <input type="email" formControlName="email" i18n-placeholder placeholder="Please input username" autocomplete="off">
+                                        <input type="email" [field]="emailForm.email" i18n-placeholder placeholder="Please input username" autocomplete="off">
                                         <i class="iconfont icon-user" aria-hidden="true"></i>
                                     </div>
                                     <div class="input-hr"></div>
                                     <div class="input-group-control">
-                                        <input type="password" formControlName="password" i18n-placeholder placeholder="Please input the password" autocomplete="off">
+                                        <input type="password" [field]="emailForm.password" i18n-placeholder placeholder="Please input the password" autocomplete="off">
                                         <i class="iconfont icon-lock" aria-hidden="true" ></i>
                                     </div>
                                     <button class="btn" i18n>Sign in</button>
                                 </form>
                           </div>
                           <div class="tab-item" [ngClass]="{active: tabIndex == 2}">
-                              
+
                           </div>
                     </div>
-                  
+
               </div>
               <div class="box-footer">
                   <div class="login-oauth-box">

@@ -8,7 +8,7 @@ import { ShortLinkService } from './short-link.service';
   styleUrls: ['./short-link-backend.component.scss']
 })
 export class ShortLinkBackendComponent implements OnInit {
-    private service = inject(ShortLinkService);
+    private readonly service = inject(ShortLinkService);
 
 
     public isLoading = false;

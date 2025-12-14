@@ -14,12 +14,12 @@ import { NavigationDisplayMode } from '../../../theme/models/event';
     styleUrls: ['./reader.component.scss']
 })
 export class ReaderComponent implements OnInit, OnDestroy {
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
-    private service = inject(BookService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly service = inject(BookService);
     private renderer = inject(Renderer2);
     private searchService = inject(SearchService);
-    private themeService = inject(ThemeService);
+    private readonly themeService = inject(ThemeService);
 
 
     public readonly containerElement = viewChild<ElementRef<HTMLDivElement>>('container');

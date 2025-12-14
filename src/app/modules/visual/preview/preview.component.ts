@@ -13,8 +13,8 @@ import { assetUri, parseNumber, uriEncode } from '../../../theme/utils';
 })
 export class PreviewComponent implements OnInit, AfterViewInit {
     private http = inject(HttpClient);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
     private readonly frame = viewChild<ElementRef<HTMLIFrameElement>>('browser');

@@ -14,9 +14,9 @@ import { LegworkService } from '../legwork.service';
     styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
-    private service = inject(LegworkService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(LegworkService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

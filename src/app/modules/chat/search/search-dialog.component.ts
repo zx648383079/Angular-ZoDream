@@ -11,7 +11,7 @@ import { IUser } from '../../../theme/models/user';
     styleUrls: ['./search-dialog.component.scss']
 })
 export class SearchDialogComponent {
-    private service = inject(ChatService);
+    private readonly service = inject(ChatService);
 
 
     private readonly profileModal = viewChild(ProfileDialogComponent);

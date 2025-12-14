@@ -10,8 +10,8 @@ import { RoleService } from './role.service';
   styleUrls: ['./role.component.scss']
 })
 export class RoleComponent implements OnInit {
-    private service = inject(RoleService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(RoleService);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: IRole[] = [];

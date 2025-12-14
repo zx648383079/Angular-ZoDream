@@ -14,9 +14,9 @@ import { emptyValidate } from '../../../../../theme/validators';
     styleUrls: ['./page.component.scss']
 })
 export class SitePageComponent implements OnInit {
-    private service = inject(VisualService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(VisualService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

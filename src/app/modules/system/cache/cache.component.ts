@@ -11,8 +11,8 @@ import { ButtonEvent } from '../../../components/form';
     styleUrls: ['./cache.component.scss']
 })
 export class CacheComponent implements OnInit {
-    private service = inject(SystemService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(SystemService);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: IItem[] = [];

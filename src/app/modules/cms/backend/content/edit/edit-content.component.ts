@@ -8,14 +8,14 @@ import { CmsService } from '../../cms.service';
 
 @Component({
     standalone: false,
-  selector: 'app-edit-content',
-  templateUrl: './edit-content.component.html',
-  styleUrls: ['./edit-content.component.scss']
+    selector: 'app-edit-content',
+    templateUrl: './edit-content.component.html',
+    styleUrls: ['./edit-content.component.scss']
 })
 export class EditContentComponent implements OnInit {
-    private service = inject(CmsService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(CmsService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
 

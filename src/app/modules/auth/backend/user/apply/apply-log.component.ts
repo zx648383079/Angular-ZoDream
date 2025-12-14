@@ -13,8 +13,8 @@ import { SearchService } from '../../../../../theme/services';
   styleUrls: ['./apply-log.component.scss']
 })
 export class ApplyLogComponent implements OnInit {
-    private service = inject(AuthService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(AuthService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

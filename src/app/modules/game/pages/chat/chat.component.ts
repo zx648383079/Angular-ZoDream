@@ -10,7 +10,7 @@ import { GameCommand, GameRouterInjectorToken, IGameRouter, IGameScene } from '.
     styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements IGameScene, OnInit {
-    private router = inject<IGameRouter>(GameRouterInjectorToken);
+    private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
     public items: IMessageBase[] = [];

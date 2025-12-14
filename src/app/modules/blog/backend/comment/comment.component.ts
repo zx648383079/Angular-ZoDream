@@ -13,9 +13,9 @@ import { BlogService } from '../blog.service';
   styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent implements OnInit {
-    private service = inject(BlogService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(BlogService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
 

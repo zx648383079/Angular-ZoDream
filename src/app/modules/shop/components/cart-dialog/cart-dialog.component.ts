@@ -15,9 +15,9 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./cart-dialog.component.scss']
 })
 export class CartDialogComponent {
-    private store = inject<Store<ShopAppState>>(Store);
-    private service = inject(ShopService);
-    private router = inject(Router);
+    private readonly store = inject<Store<ShopAppState>>(Store);
+    private readonly service = inject(ShopService);
+    private readonly router = inject(Router);
 
 
     public cart: ICart;

@@ -13,10 +13,10 @@ import { ResourceService } from '../resource.service';
     styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
-    private service = inject(ResourceService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(ResourceService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
+    private readonly themeService = inject(ThemeService);
 
 
     public data: IResource;

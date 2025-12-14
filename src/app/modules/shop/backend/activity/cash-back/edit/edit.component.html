@@ -1,30 +1,30 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑返现' : '新增返现'" (submited)="tapSubmit()" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑返现' : '新增返现'" (submited)="tapSubmit()" [disabled]="dataForm().invalid()" />
 <div class="container-fluid">
-    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control panel-container" (submit)="tapSubmit()">
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" formControlName="name" >
+                <input type="text" id="name" class="form-control" [field]="dataForm.name" >
 
             </div>
         </div>
         <div class="input-group-control">
             <label for="thumb">图片</label>
             <div>
-                <app-file-input formControlName="thumb" />
+                <app-file-input [field]="dataForm.thumb" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">说明</label>
             <div>
-                <textarea id="description" class="form-control" formControlName="description"></textarea>
+                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
 
             </div>
         </div>
         <div class="input-group-control">
             <label for="scope_type">活动范围</label>
             <div>
-                <select id="scope_type" class="form-control" formControlName="scope_type">
+                <select id="scope_type" class="form-control" [field]="dataForm.scope_type">
                     @for (item of ruleItems; track $index) {
                     <option [value]="item.value">{{ item.name }}</option>
                     }
@@ -35,40 +35,40 @@
         <div class="input-group-control" [hidden]="scopeType < 1">
             <label for="scope">范围区间</label>
             <div>
-                <app-select-input [url]="selectUrl" formControlName="scope" [multiple]="true" />
+                <app-select-input [url]="selectUrl" [field]="dataForm.scope" [multiple]="true" />
             </div>
         </div>
         <div formGroupName="configure">
             <div class="input-group-control">
                 <label for="configure_order_amount">订单金额满</label>
                 <div>
-                    <input type="text" id="configure_order_amount" class="form-control" formControlName="order_amount"
+                    <input type="text" id="configure_order_amount" class="form-control" [field]="dataForm.order_amount"
                         placeholder="请输入 订单金额满">
-    
+
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="configure_money">返现金额</label>
                 <div>
-                    <input type="text" id="configure_money" class="form-control" formControlName="money"
+                    <input type="text" id="configure_money" class="form-control" [field]="dataForm.money"
                         placeholder="请输入 返现金额">
-    
+
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="configure_star">是否要求5星好评</label>
                 <div>
-                    <app-switch formControlName="star" />
+                    <app-switch [field]="dataForm.star" />
                 </div>
             </div>
-    
+
         </div>
         <div class="input-group-control">
             <label for="start_at">起止时间</label>
             <div>
-                <app-date-input formControlName="start_at" placeholder="请输入开始时间" />
+                <app-date-input [field]="dataForm.start_at" placeholder="请输入开始时间" />
                 ~
-                <app-date-input formControlName="end_at" placeholder="请输入结束时间" />
+                <app-date-input [field]="dataForm.end_at" placeholder="请输入结束时间" />
             </div>
         </div>
         <div class="btn-group">

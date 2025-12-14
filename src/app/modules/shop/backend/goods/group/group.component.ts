@@ -14,9 +14,9 @@ import { emptyValidate } from '../../../../../theme/validators';
   styleUrls: ['./group.component.scss']
 })
 export class GroupComponent implements OnInit {
-    private service = inject(AttributeService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(AttributeService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

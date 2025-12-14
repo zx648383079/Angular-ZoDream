@@ -4,11 +4,11 @@ import { backendRoutedComponents, BackendRoutingModule } from './backend-routing
 import { ThemeModule } from '../../../theme/theme.module';
 import { AppService } from './app.service';
 import { DialogModule } from '../../../components/dialog';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ZreEditorModule } from '../../../components/editor';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ZreFormModule } from '../../../components/form';
 import { DesktopModule } from '../../../components/desktop';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
@@ -17,8 +17,8 @@ import { DesktopModule } from '../../../components/desktop';
         DesktopModule,
         BackendRoutingModule,
         DialogModule,
-        ReactiveFormsModule,
         NgSelectModule,
+        Field,
         ZreEditorModule,
         ZreFormModule,
     ],

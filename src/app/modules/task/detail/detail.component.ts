@@ -17,10 +17,10 @@ import { NavigationDisplayMode } from '../../../theme/models/event';
     styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
-    private service = inject(TaskService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(TaskService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly themeService = inject(ThemeService);
 
 
     public readonly progressor = viewChild(CircleProgressComponent);

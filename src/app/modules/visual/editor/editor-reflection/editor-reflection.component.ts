@@ -17,7 +17,7 @@ enum EditMode {
   styleUrls: ['./editor-reflection.component.scss']
 })
 export class EditorReflectionComponent implements OnInit {
-    private service = inject(EditorService);
+    private readonly service = inject(EditorService);
 
 
     public mode = EditMode.NONE;

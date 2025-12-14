@@ -15,8 +15,8 @@ interface IPlusItem {
   styleUrls: ['./option.component.scss']
 })
 export class OptionComponent implements OnInit {
-    private service = inject(CheckinService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(CheckinService);
+    private readonly toastrService = inject(DialogService);
 
 
     public data: any = {

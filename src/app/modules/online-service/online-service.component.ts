@@ -13,8 +13,8 @@ const SESSION_KEY = 'session_token';
   styleUrls: ['./online-service.component.scss']
 })
 export class OnlineServiceComponent implements OnDestroy {
-    private service = inject(OnlineService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(OnlineService);
+    private readonly toastrService = inject(DialogService);
 
 
     public dialogOpen = false;

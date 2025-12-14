@@ -17,11 +17,11 @@ import { IAuthorProfile, IBook } from '../model';
   styleUrls: ['./book-member.component.scss']
 })
 export class BookMemberComponent implements OnInit {
-    private store = inject<Store<AppState>>(Store);
-    private service = inject(BookService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly service = inject(BookService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
     public user: IUser;

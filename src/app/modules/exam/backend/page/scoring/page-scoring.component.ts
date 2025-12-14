@@ -14,9 +14,9 @@ import { ExamService } from '../../exam.service';
   styleUrls: ['./page-scoring.component.scss']
 })
 export class PageScoringComponent implements OnInit {
-    private service = inject(ExamService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ExamService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
 
 
     public readonly modal = viewChild<DialogEvent>('modal');

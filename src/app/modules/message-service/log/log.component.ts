@@ -14,9 +14,9 @@ import { mapFormat } from '../../../theme/utils';
   styleUrls: ['./log.component.scss']
 })
 export class LogComponent implements OnInit {
-    private service = inject(MessageServiceService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(MessageServiceService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

@@ -13,8 +13,8 @@ import { mapFormat } from '../../theme/utils';
     styleUrls: ['./search.component.scss']
 })
 export class ExampleSearchComponent implements OnInit {
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

@@ -49,10 +49,10 @@ interface IMessagePing {
     styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, OnDestroy {
-    private service = inject(ChatService);
-    private toastrService = inject(DialogService);
-    private authService = inject(AuthService);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(ChatService);
+    private readonly toastrService = inject(DialogService);
+    private readonly authService = inject(AuthService);
+    private readonly themeService = inject(ThemeService);
     private injector = inject(Injector);
 
 

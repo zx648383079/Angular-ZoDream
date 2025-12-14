@@ -13,10 +13,10 @@ import { IOrderRefund } from '../../model';
   styleUrls: ['./refund.component.scss']
 })
 export class RefundComponent implements OnInit {
-    private service = inject(ShopService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ShopService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
     public title = '售后记录';

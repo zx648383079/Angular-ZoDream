@@ -12,9 +12,9 @@ import { DialogService } from '../../../components/dialog';
     styleUrls: ['./zone.component.scss']
 })
 export class ZoneComponent implements OnInit {
-    private themeService = inject(ThemeService);
-    private toastrService = inject(DialogService);
-    private service = inject(UserService);
+    private readonly themeService = inject(ThemeService);
+    private readonly toastrService = inject(DialogService);
+    private readonly service = inject(UserService);
 
 
 

@@ -13,8 +13,8 @@ import { NavigationService } from '../navigation.service';
     styleUrls: ['./report-dialog.component.scss'],
 })
 export class ReportDialogComponent {
-    private service = inject(NavigationService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(NavigationService);
+    private readonly toastrService = inject(DialogService);
 
 
     /**

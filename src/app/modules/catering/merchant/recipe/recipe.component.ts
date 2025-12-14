@@ -15,9 +15,9 @@ import { CustomDialogComponent } from '../goods/custom-dialog/custom-dialog.comp
     styleUrls: ['./recipe.component.scss']
 })
 export class RecipeComponent implements OnInit {
-    private service = inject(CateringService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(CateringService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

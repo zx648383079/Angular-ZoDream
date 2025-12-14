@@ -13,8 +13,8 @@ import { ISoftwareLog } from '../../model';
     styleUrls: ['./history.component.scss']
 })
 export class HistoryComponent implements OnInit {
-    private service = inject(AppStoreService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(AppStoreService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

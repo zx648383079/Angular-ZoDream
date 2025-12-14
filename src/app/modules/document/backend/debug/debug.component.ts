@@ -32,9 +32,9 @@ interface ICacheRequest {
   styleUrls: ['./debug.component.scss']
 })
 export class DebugComponent implements OnInit {
-    private service = inject(DocumentService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(DocumentService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
     public methodItems = ['GET', 'POST', 'PUT', 'DELETE', 'OPTION'];

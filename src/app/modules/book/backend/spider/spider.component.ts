@@ -12,8 +12,8 @@ import { BookService } from '../book.service';
     styleUrls: ['./spider.component.scss']
 })
 export class SpiderComponent implements OnDestroy {
-    private service = inject(BookService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(BookService);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
 

@@ -9,7 +9,7 @@ import { SuggestChangeEvent } from '../../components/form';
     providedIn: 'root'
 })
 export class ThemeService {
-    private router = inject(Router);
+    private readonly router = inject(Router);
     private document = inject<Document>(DOCUMENT);
 
 

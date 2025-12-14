@@ -9,7 +9,7 @@ import { alginOptions, WidgetType } from '../model';
   styleUrls: ['./editor-property.component.scss']
 })
 export class EditorPropertyComponent {
-    private service = inject(EditorService);
+    private readonly service = inject(EditorService);
 
 
     public panelToggle: any = {

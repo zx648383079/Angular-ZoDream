@@ -1,48 +1,48 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑任务' : '新增任务'" (submited)="tapSubmit($event)" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑任务' : '新增任务'" (submited)="tapSubmit($event)" [disabled]="dataForm().invalid()" />
 
 <div class="container-fluid">
-    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
-        @if (data && data.id > 0) {
+    <form class="form-table-control panel-container" (submit)="tapSubmit()">
+        @if (dataModel().id > 0) {
         <div class="share-icon">
             <i class="iconfont icon-paper-plane" title="分享" (click)="tapShare(shareModal)"></i>
         </div>
         }
-       
+
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" formControlName="name">
+                <input type="text" id="name" class="form-control" [field]="dataForm.name">
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">说明</label>
             <div>
-                <textarea id="description" class="form-control" formControlName="description"></textarea>
+                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
             </div>
         </div>
         <div class="input-group-control time-box">
             <label for="every_time">单次时间：</label>
             <div>
-                <input type="number" id="every_time" class="form-control" formControlName="every_time" placeholder="请输入单次时长（/分钟）">
+                <input type="number" id="every_time" class="form-control" [field]="dataForm.every_time" placeholder="请输入单次时长（/分钟）">
             </div>
         </div>
         <div class="input-group-control time-box">
             <label for="space_time">单次间隔：</label>
             <div>
-                <input type="number" id="space_time" class="form-control" formControlName="space_time" placeholder="请输入单次间隔（/分钟）">
+                <input type="number" id="space_time" class="form-control" [field]="dataForm.space_time" placeholder="请输入单次间隔（/分钟）">
             </div>
         </div>
         <div class="input-group-control time-box">
             <label for="duration">每日次数：</label>
             <div>
-                <input type="number" id="duration" class="form-control" formControlName="duration" placeholder="请输入每日次数">
+                <input type="number" id="duration" class="form-control" [field]="dataForm.duration" placeholder="请输入每日次数">
                 <div class="input-tip">大于0表示每天会自动增加</div>
             </div>
         </div>
         <div class="input-group-control time-box">
             <label for="start_at">开始时间：</label>
             <div>
-                <app-date-input id="start_at" formControlName="start_at" />
+                <app-date-input id="start_at" [field]="dataForm.start_at" />
                 <div class="input-tip">从哪一天开始自动增加次数</div>
             </div>
         </div>
@@ -107,15 +107,15 @@
             </div>
         </div>
         }
-        
+
     </div>
     }
-    
+
     @if (shareData.id > 0) {
     <div class="code-label">
         <p>分享链接：</p>
         <code>{{ shareUrl }}</code>
     </div>
     }
-    
+
 </app-dialog-box>

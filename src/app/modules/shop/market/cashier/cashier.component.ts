@@ -27,12 +27,12 @@ interface ICartData {
     styleUrls: ['./cashier.component.scss'],
 })
 export class CashierComponent implements OnInit {
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
-    private service = inject(ShopService);
-    private toastrService = inject(DialogService);
-    private store = inject<Store<ShopAppState>>(Store);
-    private themeService = inject(ThemeService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly service = inject(ShopService);
+    private readonly toastrService = inject(DialogService);
+    private readonly store = inject<Store<ShopAppState>>(Store);
+    private readonly themeService = inject(ThemeService);
 
 
     private readonly invoiceModal = viewChild(InvoiceDialogComponent);

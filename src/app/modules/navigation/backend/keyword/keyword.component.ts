@@ -15,9 +15,9 @@ import { NavigationService } from '../navigation.service';
   styleUrls: ['./keyword.component.scss']
 })
 export class KeywordComponent implements OnInit {
-    private service = inject(NavigationService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(NavigationService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

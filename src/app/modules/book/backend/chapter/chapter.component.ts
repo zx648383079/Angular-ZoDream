@@ -12,9 +12,9 @@ import { mapFormat } from '../../../../theme/utils';
   styleUrls: ['./chapter.component.scss']
 })
 export class ChapterComponent implements OnInit {
-    private service = inject(BookService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(BookService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
 
 
     public items: IChapter[] = [];

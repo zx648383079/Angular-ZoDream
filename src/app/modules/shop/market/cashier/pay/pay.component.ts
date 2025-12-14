@@ -12,11 +12,11 @@ import { ShopService } from '../../../shop.service';
   styleUrls: ['./pay.component.scss']
 })
 export class PayComponent implements OnInit {
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
-    private service = inject(ShopService);
-    private toastrService = inject(DialogService);
-    private themeService = inject(ThemeService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly service = inject(ShopService);
+    private readonly toastrService = inject(DialogService);
+    private readonly themeService = inject(ThemeService);
 
 
     public data: IOrder;

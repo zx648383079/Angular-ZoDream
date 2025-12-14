@@ -11,8 +11,8 @@ import { IConsumptionChannel } from '../../model';
     styleUrls: ['./channel.component.scss']
 })
 export class ChannelComponent implements OnInit {
-    private service = inject(FinanceService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(FinanceService);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: IConsumptionChannel[] = [];

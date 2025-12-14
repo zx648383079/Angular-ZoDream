@@ -35,7 +35,6 @@ import { DialogService } from '../../../components/dialog';
 import { ButtonEvent, CountdownEvent } from '../../../components/form';
 import { selectSystemConfig } from '../../../theme/reducers/system.selectors';
 import { EncryptorService } from '../../../theme/services/encryptor.service';
-import { passwordValidator } from '../../../components/desktop/directives';
 import { email, form, minLength } from '@angular/forms/signals';
 
 @Component({
@@ -45,12 +44,12 @@ import { email, form, minLength } from '@angular/forms/signals';
     styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-    private store = inject<Store<AppState>>(Store);
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
-    private toastrService = inject(DialogService);
-    private themeService = inject(ThemeService);
-    private authService = inject(AuthService);
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly toastrService = inject(DialogService);
+    private readonly themeService = inject(ThemeService);
+    private readonly authService = inject(AuthService);
     private encryptor = inject(EncryptorService);
     private webAuthn = inject(WebAuthn);
 

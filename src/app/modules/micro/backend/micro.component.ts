@@ -8,7 +8,7 @@ import { MicroService } from './micro.service';
   styleUrls: ['./micro.component.scss']
 })
 export class MicroComponent implements OnInit {
-    private service = inject(MicroService);
+    private readonly service = inject(MicroService);
 
 
     public isLoading = true;

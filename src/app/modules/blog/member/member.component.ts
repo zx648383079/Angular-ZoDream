@@ -14,11 +14,11 @@ import { IItem } from '../../../theme/models/seo';
     styleUrls: ['./member.component.scss']
 })
 export class MemberComponent implements OnInit {
-    private service = inject(BlogService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(BlogService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
-    private themeService = inject(ThemeService);
+    private readonly themeService = inject(ThemeService);
 
 
     public categories: ICategory[] = [];

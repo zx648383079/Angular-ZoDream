@@ -9,9 +9,9 @@ import { AffiliateService } from './affiliate.service';
     styleUrls: ['./affiliate.component.scss']
 })
 export class AffiliateComponent implements OnInit {
-    private service = inject(AffiliateService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(AffiliateService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
 
 
     public isInstalled = false;

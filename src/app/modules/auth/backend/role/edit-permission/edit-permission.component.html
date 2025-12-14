@@ -1,32 +1,32 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑权限' : '新增权限'" (submited)="tapSubmit()" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑权限' : '新增权限'" (submited)="tapSubmit()" [disabled]="dataForm().invalid()" />
 
 <div class="container-fluid">
-    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control panel-container" (submit)="tapSubmit()">
         <div class="input-group-control">
             <label for="name">权限名</label>
             <div>
-                <input type="text" id="name" class="form-control" formControlName="name" placeholder="例如:edit_user">
-                @if (name.invalid) {
+                <input type="text" id="name" class="form-control" [field]="dataForm.name" placeholder="例如:edit_user">
+                @if (dataForm.name().invalid()) {
                     <div class="input-tip">请输入权限名</div>
                 }
-                
+
             </div>
         </div>
         <div class="input-group-control">
             <label for="display_name">别名</label>
             <div>
-                <input type="text" id="display_name" class="form-control" formControlName="display_name"
+                <input type="text" id="display_name" class="form-control" [field]="dataForm.display_name"
                     placeholder="例如: 编辑用户">
-                @if (displayName.invalid) {
+                @if (dataForm.display_name().invalid()) {
                     <div class="input-tip">请输入别名</div>
                 }
-                
+
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">说明</label>
             <div>
-                <textarea id="description" class="form-control" formControlName="description"></textarea>
+                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
 
             </div>
         </div>

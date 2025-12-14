@@ -13,9 +13,9 @@ import { ActivityService } from '../activity.service';
   styleUrls: ['./wholesale.component.scss']
 })
 export class WholesaleComponent implements OnInit {
-    private service = inject(ActivityService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ActivityService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

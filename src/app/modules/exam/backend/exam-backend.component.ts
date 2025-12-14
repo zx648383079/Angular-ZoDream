@@ -8,7 +8,7 @@ import { ExamService } from './exam.service';
   styleUrls: ['./exam-backend.component.scss']
 })
 export class ExamBackendComponent implements OnInit {
-    private service = inject(ExamService);
+    private readonly service = inject(ExamService);
 
 
     public isLoading = true;

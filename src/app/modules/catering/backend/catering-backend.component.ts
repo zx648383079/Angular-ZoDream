@@ -8,7 +8,7 @@ import { CateringBackendService } from './catering.service';
   styleUrls: ['./catering-backend.component.scss']
 })
 export class CateringBackendComponent implements OnInit {
-    private service = inject(CateringBackendService);
+    private readonly service = inject(CateringBackendService);
 
 
     public isLoading = true;

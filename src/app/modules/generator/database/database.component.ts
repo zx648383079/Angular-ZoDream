@@ -12,8 +12,8 @@ import { ITableHeaderItem } from '../../../components/desktop/editable-table/mod
   styleUrls: ['./database.component.scss']
 })
 export class DatabaseComponent implements OnInit {
-    private service = inject(GenerateService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(GenerateService);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: any[] = [];

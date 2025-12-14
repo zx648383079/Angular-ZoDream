@@ -23,10 +23,10 @@ interface IDay {
     styleUrls: ['./checkin.component.scss']
 })
 export class CheckinComponent {
-    private service = inject(CheckinService);
+    private readonly service = inject(CheckinService);
     private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
-    private toastrService = inject(DialogService);
-    private themeService = inject(ThemeService);
+    private readonly toastrService = inject(DialogService);
+    private readonly themeService = inject(ThemeService);
 
 
     public panelVisible = false;

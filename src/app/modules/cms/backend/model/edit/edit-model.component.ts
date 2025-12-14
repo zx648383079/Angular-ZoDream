@@ -1,33 +1,33 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ICmsModel } from '../../../model';
 import { CmsService } from '../../cms.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-edit-model',
-  templateUrl: './edit-model.component.html',
-  styleUrls: ['./edit-model.component.scss']
+    selector: 'app-edit-model',
+    templateUrl: './edit-model.component.html',
+    styleUrls: ['./edit-model.component.scss']
 })
 export class EditModelComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(CmsService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(CmsService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        table: ['', Validators.required],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        table: '',
         type: 1,
         position: 99,
-        child_model: 0,
+        child_model: '',
         category_template: '',
         list_template: '',
         show_template: '',
-        setting: this.fb.group({
+        setting: {
             is_show: 1,
             is_only: 0,
             is_extend_auth: 0,
@@ -35,7 +35,11 @@ export class EditModelComponent implements OnInit {
             form_template: '',
             show_template: '',
             notify_mail: '',
-        }),
+        }
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.table);
     });
 
     public data: ICmsModel;
@@ -52,27 +56,20 @@ export class EditModelComponent implements OnInit {
             }
             this.service.model(params.id).subscribe(res => {
                 this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                    id: res.id,
                     name: res.name,
                     table: res.table,
                     type: res.type,
                     position: res.position,
-                    child_model: res.child_model,
+                    child_model: res.child_model as any,
                     category_template: res.category_template,
                     list_template: res.list_template,
                     show_template: res.show_template,
+                    setting: res.setting
                 });
-                if (res.setting) {
-                    this.form.patchValue({
-                        setting: this.fb.group(res.setting) as any
-                    });
-                }
             });
         });
-    }
-
-    get typeValue() {
-        return this.form.get('type').value;
     }
 
     public tapBack() {
@@ -80,14 +77,11 @@ export class EditModelComponent implements OnInit {
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: ICmsModel = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: ICmsModel = this.dataForm().value() as any;
         this.service.modelSave(data).subscribe(_ => {
             this.toastrService.success($localize `Save Successfully`);
             this.tapBack();

@@ -8,7 +8,7 @@ import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameRouter, IGame
     styleUrls: ['./organize.component.scss']
 })
 export class OrganizeComponent implements IGameScene, OnInit {
-    private router = inject<IGameRouter>(GameRouterInjectorToken);
+    private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
     public tabIndex = 0;

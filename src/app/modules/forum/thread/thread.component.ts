@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import {
     IThread, IThreadPost, IThreadUser
 } from '../model';
@@ -20,7 +20,6 @@ import {
 import {
     IUser
 } from '../../../theme/models/user';
-import { FormBuilder, Validators } from '@angular/forms';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IErrorResult, IPageQueries } from '../../../theme/models/page';
 import { ForumEditorComponent } from '../components/forum-editor/forum-editor.component';
@@ -29,6 +28,7 @@ import { openLink } from '../../../theme/utils/deeplink';
 import { eachObject, mapFormat } from '../../../theme/utils';
 import { emailValidate } from '../../../theme/validators';
 import { ButtonEvent } from '../../../components/form';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -37,15 +37,14 @@ import { ButtonEvent } from '../../../components/form';
     styleUrls: ['./thread.component.scss']
 })
 export class ThreadComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private toastrService = inject(DialogService);
-    private store = inject<Store<AppState>>(Store);
-    private service = inject(ForumService);
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
+    private readonly toastrService = inject(DialogService);
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly service = inject(ForumService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
     private downloadService = inject(DownloadService);
     private searchService = inject(SearchService);
-    private themeService = inject(ThemeService);
+    private readonly themeService = inject(ThemeService);
 
 
     public readonly editor = viewChild(ForumEditorComponent);
@@ -64,8 +63,11 @@ export class ThreadComponent implements OnInit {
     };
 
     public user: IUser;
-    public form = this.fb.group({
-        content: ['', Validators.required], 
+    public readonly dataModel = signal({
+        content: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.content);
     });
 
     public editData: any = {};
@@ -117,9 +119,9 @@ export class ThreadComponent implements OnInit {
 
     /**
      * 标记用户信息是否加载
-     * @param userId 
-     * @param loaded 
-     * @param info 
+     * @param userId
+     * @param loaded
+     * @param info
      */
     private markUser(userId: number, loaded: boolean, info?: IThreadUser) {
         for (const it of this.items) {
@@ -197,7 +199,7 @@ export class ThreadComponent implements OnInit {
                 next: res => {
                     item.content = res.data.content;
                     this.toastrService.success($localize `Successful Voting`);
-                }, 
+                },
                 error: (err: IErrorResult) => {
                     this.toastrService.warning(err.error.message);
                 }
@@ -214,7 +216,7 @@ export class ThreadComponent implements OnInit {
                         item.content = res.data.content;
                     }
                     this.toastrService.success($localize `Successful payment`);
-                }, 
+                },
                 error: (err: IErrorResult) => {
                     this.toastrService.warning(err.error.message);
                 }
@@ -315,7 +317,7 @@ export class ThreadComponent implements OnInit {
                 }
             });
         }, () => this.rewardData.amount > 0);
-        
+
     }
 
 
@@ -323,7 +325,7 @@ export class ThreadComponent implements OnInit {
         this.service.threadAction(this.thread.id, ['top_type']).subscribe({
             next: res => {
                 this.thread.top_type = res.top_type;
-            }, 
+            },
             error: (err: IErrorResult) => {
                 this.toastrService.warning(err.error.message);
             }
@@ -345,23 +347,23 @@ export class ThreadComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `The content is not filled out completely`);
             return;
         }
-        const data = {...this.form.value, thread: this.thread.id};
+        const data = {...this.dataForm().value(), thread: this.thread.id};
         e?.enter();
         this.service.postCreate(data).subscribe({
             next: res => {
                 e?.reset();
                 this.toastrService.success($localize `Reply successfully`);
-                this.form.patchValue({
+                this.dataModel.set({
                     content: '',
                 });
                 if (this.queries.page < 2) {
                     this.tapRefresh();
                 }
-            }, 
+            },
             error: (err: IErrorResult) => {
                 e?.reset();
                 if (err.error.code === 401) {
@@ -401,7 +403,7 @@ export class ThreadComponent implements OnInit {
                 this.items = res.data;
                 this.total = res.paging.total;
                 this.searchService.applyHistory(this.queries = queries);
-            }, 
+            },
             error: () => {
                 this.isLoading = false;
             }

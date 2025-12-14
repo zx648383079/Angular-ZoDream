@@ -13,8 +13,8 @@ import { ResourceService } from '../resource.service';
     styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
-    private service = inject(ResourceService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ResourceService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

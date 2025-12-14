@@ -11,8 +11,8 @@ import { ShopService } from '../../shop.service';
     styleUrls: ['./address.component.scss'],
 })
 export class AddressComponent implements OnInit {
-    private service = inject(ShopService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ShopService);
+    private readonly toastrService = inject(DialogService);
 
     public title = '地址管理';
     public items: IAddress[] = [];

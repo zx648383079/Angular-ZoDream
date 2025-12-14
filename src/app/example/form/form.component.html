@@ -1,23 +1,16 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑文章' : '新增文章'" (submited)="tapSubmit($event)" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑文章' : '新增文章'" (submited)="tapSubmit($event)" [disabled]="dataForm().invalid()" />
 
 
 <div class="container-fluid">
-    <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control" (submit)="tapSubmit()">
         <div class="panel-container">
-            @if (data && data.languages && data.languages.length > 1) {
-            <div class="language-toggle">
-                @for (item of data.languages; track $index) {
-                    <a [ngClass]="{active: item.value === data.language}">{{ item.name }}</a>
-                }
-            </div>
-            }
-            
+
             <div class="title-input">
                 <label for="title">标题</label>
-                <input type="text" id="title" class="form-control" formControlName="title">
+                <input type="text" id="title" class="form-control" [field]="dataForm.title">
             </div>
-            
-            <app-markdown-editor formControlName="content" (imageUpload)="editorImageUpload($event)" [height]="400" />
+
+            <app-markdown-editor [field]="dataForm.content" (imageUpload)="editorImageUpload($event)" [height]="400" />
         </div>
 
         <div class="row">
@@ -26,18 +19,18 @@
                     <div class="input-group-control">
                         <label for="term_id">分类</label>
                         <div>
-                            <select id="term_id" class="form-control" formControlName="term_id">
+                            <select id="term_id" class="form-control" [field]="dataForm.term_id">
                                 @for (item of categories; track $index) {
                                     <option [value]="item.id">{{ item.name }}</option>
                                 }
                             </select>
-        
+
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="programming_language">编程语言</label>
                         <div>
-                            <select id="programming_language" class="form-control" formControlName="programming_language">
+                            <select id="programming_language" class="form-control" [field]="dataForm.programming_language">
                                 <option value="">请选择</option>
                                 @for (item of languages; track $index) {
                                     <option [value]="item">{{ item }}</option>
@@ -48,67 +41,58 @@
                     <div class="input-group-control">
                         <label for="type">类型</label>
                         <div>
-                            <select id="type" class="form-control" formControlName="type">
+                            <select id="type" class="form-control" [field]="dataForm.type">
                                 <option value="0" >原创</option>
                                 <option value="1">转载</option>
                             </select>
-        
+
                         </div>
                     </div>
-                   
+
                     <div class="input-group-control">
                         <label for="thumb">图片</label>
                         <div>
-                            <app-file-input formControlName="thumb" />
+                            <app-file-input [field]="dataForm.thumb" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="open_type">公开类型</label>
                         <div>
-                            <select id="open_type" class="form-control" formControlName="open_type">
+                            <select id="open_type" class="form-control" [field]="dataForm.open_type">
                                 @for (item of openItems; track $index) {
                                     <option [value]="item.value">{{ item.name }}</option>
                                 }
                             </select>
                         </div>
                     </div>
-                    @if (openType > 4) {
-                    <div class="input-group-control">
-                        <label for="open_rule">{{ ruleLabel }}</label>
-                        <div>
-                            <input type="text" id="open_rule" class="form-control" formControlName="open_rule">
-        
-                        </div>
-                    </div>
-                    }
-                    
+
                     <div class="input-group-control">
                         <label for="edit_type">编辑器</label>
                         <div>
-                            <select id="edit_type" class="form-control" formControlName="edit_type">
+                            <select id="edit_type" class="form-control" [field]="dataForm.edit_type">
                                 <option value="0">Ueditor</option>
                                 <option value="1">MarkDown</option>
                             </select>
-        
+
                         </div>
                     </div>
-                    
+
                     <div class="input-group-control">
                         <label for="keywords">关键字</label>
                         <div>
-                            <app-words-input id="keywords" formControlName="keywords" />
+                            <app-words-input id="keywords" [field]="dataForm.keywords" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="description">说明</label>
                         <div>
-                            <textarea id="description" class="form-control" formControlName="description"></textarea>
+                            <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
                             <div class="edit-tip">
-                                已输入 {{ metaSize }} 个字符
+                                已输入 0 个字符
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="input-group-control">
                         <label>标签</label>
                         <div>
@@ -119,50 +103,35 @@
             </div>
             <div class="col-md-6">
                 <app-panel title="附加属性">
-                    @if (typeValue > 0) {
-                    <div class="input-group-control">
-                        <label for="meta_source_author">原文作者</label>
-                        <div>
-                            <input type="text" id="meta_source_author" class="form-control" formControlName="source_author">
-                    
-                        </div>
-                    </div>
-                    <div class="input-group-control">
-                        <label for="source_url">原文链接</label>
-                        <div>
-                            <input type="text" id="source_url" class="form-control" formControlName="source_url">
-                        </div>
-                    </div>
-                    }
-                    
+
                     <div class="input-group-control">
                         <label for="weather">天气</label>
                         <div>
-                            <select id="weather" class="form-control" formControlName="weather">
+                            <select id="weather" class="form-control" [field]="dataForm.weather">
                                 <option value="">请选择</option>
                                 @for (item of weathers; track $index) {
                                     <option [value]="item.value">{{ item.name }}</option>
                                 }
                             </select>
-        
+
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="audio_url">音频</label>
                         <div class="file-input">
-                            <app-file-input formControlName="audio_url" accept="audio/*" />
+                            <app-file-input [field]="dataForm.audio_url" accept="audio/*" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="video_url">视频</label>
                         <div>
-                            <app-file-input formControlName="video_url" accept="video/*" />
+                            <app-file-input [field]="dataForm.video_url" accept="video/*" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="meta_cc_license">版权协议</label>
                         <div>
-                            <select id="meta_cc_license" class="form-control" formControlName="cc_license">
+                            <select id="meta_cc_license" class="form-control" [field]="dataForm.cc_license">
                                 <option value="">请选择</option>
                                 @for (item of licenses; track $index) {
                                     <option [value]="item.value">{{ item.name }}</option>
@@ -170,52 +139,27 @@
                             </select>
                         </div>
                     </div>
-                    <div class="input-group-control">
-                        <label for="comment_status">评论状态</label>
-                        <div>
-                            <app-switch id="comment_status" formControlName="comment_status" />
-                        </div>
-                    </div>
-                    <div class="input-group-control">
-                        <label for="publish_status" i18n>Publish Status</label>
-                        <div>
-                            <select id="publish_status" class="form-control" formControlName="publish_status">
-                                @for (item of statusItems; track $index) {
-                                    <option [value]="item.value">{{ item.name }}</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
                 </app-panel>
                 <app-panel title="SEO优化" [min]="true">
-                    @if (typeValue > 0) {
-                    <div class="input-group-control">
-                        <label for="meta_is_hide">是否隐藏</label>
-                        <div>
-                            <app-switch id="meta_is_hide" formControlName="is_hide" />
-                        </div>
-                    </div>
-                    }
-                    
+
                     <div class="input-group-control">
                         <label for="meta_seo_title">SEO标题</label>
                         <div>
-                            <input type="text" id="meta_seo_title" class="form-control" formControlName="seo_title">
+                            <input type="text" id="meta_seo_title" class="form-control" [field]="dataForm.seo_title">
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="meta_seo_description">SEO描述</label>
                         <div>
-                            <textarea id="meta_seo_description" class="form-control" formControlName="seo_description"></textarea>
+                            <textarea id="meta_seo_description" class="form-control" [field]="dataForm.seo_description"></textarea>
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="meta_seo_link">链接别名</label>
                         <div>
-                            <input type="text" id="meta_seo_link" class="form-control" formControlName="seo_link">
+                            <input type="text" id="meta_seo_link" class="form-control" [field]="dataForm.seo_link">
                             <div class="input-tip">
-                                请使用数字字母-_组成，请不要输入空格、/，
-                                <p>{{ pageLink | asset }}</p>
+                                请使用数字字母-_组成，请不要输入空格、/
                             </div>
                         </div>
                     </div>
@@ -224,10 +168,8 @@
         </div>
 
         <div class="btn-group">
-            @if (publishStatus != 5) {
-                <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="form.invalid">保存</app-action-button>
-            }
-            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event, 5)" [disabled]="form.invalid">保存并发布</app-action-button>
+            <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="dataForm().invalid()">保存</app-action-button>
+            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event, 5)" [disabled]="dataForm().invalid()">保存并发布</app-action-button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
         </div>
     </form>

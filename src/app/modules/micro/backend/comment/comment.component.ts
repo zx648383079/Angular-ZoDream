@@ -13,9 +13,9 @@ import { MicroService } from '../micro.service';
   styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent implements OnInit {
-    private service = inject(MicroService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(MicroService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
 

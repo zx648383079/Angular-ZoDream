@@ -1,11 +1,12 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { IPlatform } from '../../../../theme/models/open';
 import { IItem } from '../../../../theme/models/seo';
 import { OpenService } from '../../open.service';
+import { form, required } from '@angular/forms/signals';
+import { parseNumber } from '../../../../theme/utils';
 
 @Component({
     standalone: false,
@@ -14,25 +15,31 @@ import { OpenService } from '../../open.service';
     styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(OpenService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(OpenService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        type: [0],
-        domain: [''],
-        description: [''],
-        sign_type: [0],
-        sign_key: [''],
-        encrypt_type: [0],
-        public_key: [''],
-        rules: [''],
-        allow_self: ['0'],
-        status: [0],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        type: '0',
+        domain: '',
+        description: '',
+        sign_type: '0',
+        sign_key: '',
+        encrypt_type: '0',
+        public_key: '',
+        rules: '',
+        allow_self: false,
+        status: '0',
     });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+    });
+
+    public readonly signType = computed(() => parseNumber(this.dataForm.sign_type().value()));
+    public readonly encryptType = computed(() => parseNumber(this.dataForm.encrypt_type().value()));
 
     public data: IPlatform;
     public typeItems = [
@@ -80,7 +87,8 @@ export class EditComponent implements OnInit {
             const cb = this.reviewable ? this.service.review : this.service.platform;
             cb.call(this.service, params.id).subscribe(res => {
                 this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                    id: res.id,
                     name: res.name,
                     type: res.type,
                     domain: res.domain,
@@ -97,31 +105,18 @@ export class EditComponent implements OnInit {
         });
     }
 
-    get name() {
-        return this.form.get('name');
-    }
 
-    get signType() {
-        return this.form.get('sign_type').value;
-    }
-
-    get encryptType() {
-        return this.form.get('encrypt_type').value;
-    }
 
     public tapBack() {
         history.back();
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IPlatform = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IPlatform = this.dataForm().value() as any;
         e?.enter();
         const cb = this.reviewable ? this.service.reviewSave : this.service.platformSave;
         cb.call(this.service, data).subscribe({

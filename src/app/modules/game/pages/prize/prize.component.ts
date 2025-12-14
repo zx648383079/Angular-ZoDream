@@ -8,7 +8,7 @@ import { GameCommand, GameRouterInjectorToken, IGameRouter, IGameScene } from '.
     styleUrls: ['./prize.component.scss']
 })
 export class PrizeComponent implements IGameScene {
-    private router = inject<IGameRouter>(GameRouterInjectorToken);
+    private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
     public items: any[] = [

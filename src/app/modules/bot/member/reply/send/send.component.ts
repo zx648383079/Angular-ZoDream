@@ -13,9 +13,9 @@ import { BotService } from '../../bot.service';
   styleUrls: ['./send.component.scss']
 })
 export class SendComponent implements OnInit {
-    private service = inject(BotService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(BotService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
 
 
     public toTypeItems = ['全部用户', '指定分组', '指定用户'];

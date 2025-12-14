@@ -28,7 +28,7 @@ export const TokenInterceptorFn: HttpInterceptorFn = (req, next) => {
         params: req.params
                 .set('appid', environment.appid)
                 .set('timestamp', timestamp)
-                .set('sign', sign + '')
+                .set('sign', sign)
     });
     return next(clonedRequest);
 };

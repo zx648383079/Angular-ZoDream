@@ -1,10 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AdService } from '../../ad.service';
 import { DialogService } from '../../../../components/dialog';
 import { IAdPosition } from '../../model';
 import { ButtonEvent } from '../../../../components/form';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -13,23 +13,26 @@ import { ButtonEvent } from '../../../../components/form';
     styleUrls: ['./edit-position.component.scss']
 })
 export class EditPositionComponent implements OnInit {
-    private service = inject(AdService);
-    private fb = inject(FormBuilder);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(AdService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        code: ['', Validators.required],
-        auto_size: [1],
-        source_type: [0],
-        width: ['100%'],
-        height: ['100%'],
-        template: [''],
-        status: [1],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        code: '',
+        auto_size: 1,
+        source_type: 0,
+        width: '100%',
+        height: '100%',
+        template: '',
+        status: 1,
     });
-    public data: IAdPosition;
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.code);
+    });
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -37,8 +40,8 @@ export class EditPositionComponent implements OnInit {
                 return;
             }
             this.service.position(params.id).subscribe(res => {
-                this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                    id: 0,
                     name: res.name,
                     code: res.code,
                     auto_size: res.auto_size,
@@ -57,14 +60,11 @@ export class EditPositionComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IAdPosition = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IAdPosition = this.dataForm().value() as any;
         e?.enter();
         this.service.positionSave(data).subscribe({
             next: _ => {

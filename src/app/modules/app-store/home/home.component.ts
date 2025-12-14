@@ -10,9 +10,9 @@ import { ICategory, ISoftware } from '../model';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
-    private service = inject(AppStoreService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+    private readonly service = inject(AppStoreService);
 
 
     public categories: ICategory[] = [];

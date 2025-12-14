@@ -13,9 +13,9 @@ import { VideoService } from '../video.service';
   styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent implements OnInit {
-    private service = inject(VideoService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(VideoService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

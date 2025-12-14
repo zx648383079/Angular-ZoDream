@@ -8,7 +8,7 @@ import { NavigationService } from './navigation.service';
   styleUrls: ['./navigation-backend.component.scss']
 })
 export class NavigationBackendComponent implements OnInit {
-    private service = inject(NavigationService);
+    private readonly service = inject(NavigationService);
 
 
     public isLoading = true;

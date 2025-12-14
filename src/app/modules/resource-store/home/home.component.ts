@@ -10,9 +10,9 @@ import { ResourceService } from '../resource.service';
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
-    private service = inject(ResourceService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+    private readonly service = inject(ResourceService);
 
 
     public categories: ICategory[] = [];

@@ -9,7 +9,7 @@ import { ButtonEvent } from '../../../components/form';
     styleUrls: ['./sitemap.component.scss']
 })
 export class SitemapComponent implements OnInit {
-    private service = inject(SystemService);
+    private readonly service = inject(SystemService);
 
 
     private readonly box = viewChild<ElementRef<HTMLDivElement>>('cmd');

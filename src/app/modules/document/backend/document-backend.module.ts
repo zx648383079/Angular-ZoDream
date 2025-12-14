@@ -8,9 +8,6 @@ import {
     ThemeModule
 } from '../../../theme/theme.module';
 import {
-    ReactiveFormsModule
-} from '@angular/forms';
-import {
     DocumentBackendRoutingModule,
     documentBackendRoutedComponents,
 } from './backend-routing.module';
@@ -27,7 +24,6 @@ import { DesktopModule } from '../../../components/desktop';
         DocumentBackendRoutingModule,
         ThemeModule,
         DesktopModule,
-        ReactiveFormsModule,
         ZreEditorModule,
         DocumentSharedModule,
         DialogModule,

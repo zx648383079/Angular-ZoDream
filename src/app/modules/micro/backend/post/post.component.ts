@@ -15,9 +15,9 @@ import { SwiperEvent } from '../../../../components/swiper';
     styleUrls: ['./post.component.scss']
 })
 export class PostComponent implements OnInit {
-    private service = inject(MicroService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(MicroService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
 

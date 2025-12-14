@@ -14,10 +14,10 @@ import { NavigationDisplayMode } from '../../theme/models/event';
     styleUrls: ['./agreement.component.scss']
 })
 export class AgreementComponent implements OnInit {
-    private service = inject(FrontendService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(FrontendService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
+    private readonly themeService = inject(ThemeService);
 
 
     public data: IAgreement;

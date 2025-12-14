@@ -20,7 +20,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="panel-container" [hidden]="tabIndex > 0">
-                        <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
+                        <form class="form-table-control" (submit)="tapSubmit()">
                             <div class="input-group-control">
                                 <label for="fileUpload">用户头像</label>
                                 <div>
@@ -34,7 +34,7 @@
                             <div class="input-group-control">
                                 <label for="name">昵　　称</label>
                                 <div>
-                                    <input type="text" id="name" class="form-control " formControlName="name">
+                                    <input type="text" id="name" class="form-control " [field]="dataForm.name">
                                 </div>
                             </div>
                             <div class="input-group-control">
@@ -46,7 +46,7 @@
                             <div class="input-group-control">
                                 <label for="性　　别">性　　别</label>
                                 <div>
-                                    <app-check-input [items]="sexItems" rangeKey="value" rangeLabel="name" formControlName="sex" />
+                                    <app-check-input [items]="sexItems" rangeKey="value" rangeLabel="name" [field]="dataForm.sex" />
                                 </div>
                             </div>
                             <div class="input-group-control">
@@ -58,7 +58,7 @@
                             <div class="input-group-control">
                                 <label for="birthday">出生日期</label>
                                 <div>
-                                    <app-date-input formControlName="birthday" />
+                                    <app-date-input [field]="dataForm.birthday" />
                                 </div>
                             </div>
                             <div class="offset-md-3">

@@ -10,8 +10,8 @@ import { ICourse, IQuestionCard, IQuestionFormat, IQuestionOption } from '../mod
   styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent implements OnInit {
-    private service = inject(ExamService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ExamService);
+    private readonly route = inject(ActivatedRoute);
 
 
     public course: ICourse;

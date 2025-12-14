@@ -1,12 +1,12 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑背景音乐' : '新增背景音乐'" (submited)="tapSubmit()" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑背景音乐' : '新增背景音乐'" (submited)="tapSubmit()" [disabled]="dataForm().invalid()" />
 
 <div class="container-fluid">
-    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control panel-container" (submit)="tapSubmit()">
         <div class="input-group-control">
             <label for="name">歌曲名称</label>
             <div>
-                <input type="text" id="name" class="form-control" formControlName="name">
-                @if (form.get('name').invalid) {
+                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                @if (dataForm.name().invalid()) {
                 <div class="input-tip">请输入名称</div>
                 }
             </div>
@@ -14,13 +14,13 @@
         <div class="input-group-control">
             <label for="singer">作者</label>
             <div>
-                <input type="text" id="singer" class="form-control" formControlName="singer">
+                <input type="text" id="singer" class="form-control" [field]="dataForm.singer">
             </div>
         </div>
         <div class="input-group-control">
             <label for="thumb">文件</label>
             <div class="file-input">
-                <input type="text" id="thumb" class="form-control" formControlName="path">
+                <input type="text" id="thumb" class="form-control" [field]="dataForm.path">
                 <label for="fileUpload" class="btn btn-primary">上传</label>
                 <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="audio/*"/>
             </div>
@@ -28,13 +28,13 @@
         <div class="input-group-control">
             <label for="thumb">时长</label>
             <div>
-                <span class="form-control">{{ form.get('duration').value | duration }}</span>
+                <span class="form-control">{{ dataForm.duration().value() | duration }}</span>
             </div>
         </div>
         <div class="btn-group">
-            <button type="submit" class="btn btn-success">确认保存</button>
+            <button type="submit" class="btn btn-success" [disabled]="dataForm().invalid()">确认保存</button>
             <a class="btn btn-danger" (click)="tapBack()">取消修改</a>
         </div>
-        
+
     </form>
 </div>

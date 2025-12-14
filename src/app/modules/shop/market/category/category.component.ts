@@ -13,8 +13,8 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
-    private route = inject(ActivatedRoute);
-    private service = inject(ShopService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly service = inject(ShopService);
     private searchService = inject(SearchService);
 
 

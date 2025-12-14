@@ -8,7 +8,7 @@ import { DialogService } from '../../../../components/dialog';
     styleUrls: ['./nav-bar.component.scss']
 })
 export class NavBarComponent {
-    private toastrService = inject(DialogService);
+    private readonly toastrService = inject(DialogService);
 
 
     public readonly items = input<any[]>([]);

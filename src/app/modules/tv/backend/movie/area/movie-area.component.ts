@@ -14,9 +14,9 @@ import { TVService } from '../../tv.service';
   styleUrls: ['./movie-area.component.scss']
 })
 export class MovieAreaComponent implements OnInit {
-    private service = inject(TVService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(TVService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

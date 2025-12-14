@@ -4,7 +4,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ShopBackendRoutingModule, shopBackendRoutedComponents } from './shop-routing.module';
 import { ThemeModule } from '../../../theme/theme.module';
 import { ShopService } from './shop.service';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ArticleService } from './article.service';
 import { RegionService } from './region.service';
 import { PaymentService } from './payment.service';
@@ -14,13 +13,14 @@ import { ZreEditorModule } from '../../../components/editor';
 import { OpenModule } from '../../open/open.module';
 import { DesktopModule } from '../../../components/desktop';
 import { ZreChartModule } from '../../../components/chart';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     declarations: [...shopBackendRoutedComponents],
     imports: [
         CommonModule,
-        ReactiveFormsModule,
         NgSelectModule,
+        Field,
         ThemeModule,
         DesktopModule,
         ShopBackendRoutingModule,

@@ -8,7 +8,7 @@ import { OpenService } from './open.service';
   styleUrls: ['./open.component.scss']
 })
 export class OpenComponent implements OnInit {
-    private service = inject(OpenService);
+    private readonly service = inject(OpenService);
 
 
     public isLoading = true;

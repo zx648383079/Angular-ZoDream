@@ -1,31 +1,34 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
 import { IItem } from '../../../../../theme/models/seo';
 import { ICourse } from '../../../model';
 import { ExamService } from '../../exam.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-edit-upgrade',
-  templateUrl: './edit-upgrade.component.html',
-  styleUrls: ['./edit-upgrade.component.scss']
+    selector: 'app-edit-upgrade',
+    templateUrl: './edit-upgrade.component.html',
+    styleUrls: ['./edit-upgrade.component.scss']
 })
 export class EditUpgradeComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(ExamService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ExamService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        course_id: [0],
-        course_grade: [1],
-        icon: [''],
-        description: ['']
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        course_id: '',
+        course_grade: '1',
+        icon: '',
+        description: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
     public data: any;
@@ -53,7 +56,8 @@ export class EditUpgradeComponent implements OnInit {
             }
             this.service.upgrade(params.id).subscribe(res => {
                 this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                    id: res.id,
                     name: res.name,
                     course_id: res.course_id,
                     course_grade: res.course_grade,
@@ -67,7 +71,7 @@ export class EditUpgradeComponent implements OnInit {
 
     public onCourseChange() {
         this.service.gradeAll({
-            course: this.form.get('course_id').value
+            course: this.dataForm.course_id().value()
         }).subscribe(res => {
             this.gradeItems = res.data;
         });
@@ -78,14 +82,11 @@ export class EditUpgradeComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: any = Object.assign({}, this.form.value);
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: any = this.dataForm().value();
         e?.enter();
         this.service.upgradeSave(data).subscribe({
             next: _ => {

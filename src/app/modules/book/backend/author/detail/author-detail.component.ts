@@ -1,32 +1,33 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IAuthor } from '../../../model';
 import { FileUploadService } from '../../../../../theme/services/file-upload.service';
 import { BookService } from '../../book.service';
 import { DialogService } from '../../../../../components/dialog';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-author-detail',
-  templateUrl: './author-detail.component.html',
-  styleUrls: ['./author-detail.component.scss']
+    selector: 'app-author-detail',
+    templateUrl: './author-detail.component.html',
+    styleUrls: ['./author-detail.component.scss']
 })
 export class AuthorDetailComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(BookService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(BookService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private uploadService = inject(FileUploadService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        avatar: [''],
-        description: [''],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        avatar: '',
+        description: '',
     });
-
-    public data: IAuthor;
+    public dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -34,8 +35,8 @@ export class AuthorDetailComponent implements OnInit {
                 return;
             }
             this.service.author(params.id).subscribe(res => {
-                this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                    id: res.id,
                     name: res.name,
                     avatar: res.avatar,
                     description: res.description,
@@ -49,14 +50,11 @@ export class AuthorDetailComponent implements OnInit {
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IAuthor = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IAuthor = this.dataForm().value() as any;
         this.service.authorSave(data).subscribe(_ => {
             this.toastrService.success($localize `Save Successfully`);
             this.tapBack();
@@ -66,12 +64,12 @@ export class AuthorDetailComponent implements OnInit {
     public uploadFile(event: any) {
         const files = event.target.files as FileList;
         this.uploadService.uploadImage(files[0]).subscribe(res => {
-            this.form.get('avatar').setValue(res.url);
+            this.dataForm.avatar().value.set(res.url);
         });
     }
 
     public tapPreview() {
-        window.open(this.form.get('avatar').value, '_blank');
+        window.open(this.dataForm.avatar().value(), '_blank');
     }
 
 }

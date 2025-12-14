@@ -16,9 +16,9 @@ import { TaskService } from '../task.service';
     styleUrls: ['./plan.component.scss'],
 })
 export class PlanComponent implements OnInit {
-    private service = inject(TaskService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(TaskService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

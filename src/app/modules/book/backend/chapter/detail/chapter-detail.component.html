@@ -1,21 +1,21 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑章节' : '新增章节'" (submited)="tapSubmit($event)" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑章节' : '新增章节'" (submited)="tapSubmit($event)" [disabled]="dataForm().invalid()" />
 
 <div class="container-fluid">
-    <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control" (submit)="tapSubmit()">
         <div class="panel-container">
             <div class="title-input">
                 <label for="title">标题</label>
-                <input type="text" id="title" class="form-control" formControlName="title">
+                <input type="text" id="title" class="form-control" [field]="dataForm.title">
             </div>
-            
-            <app-text-editor formControlName="content" />
+
+            <app-text-editor [field]="dataForm.content" />
         </div>
 
         <app-panel title="附加属性">
             <div class="input-group-control">
                 <label for="price">章节类型</label>
                 <div>
-                    <select class="form-control" [(ngModel)]="data.type">
+                    <select class="form-control" [field]="dataForm.type">
                         @for (item of typeItems; track $index) {
                             <option [value]="item.value">{{ item.name }}</option>
                         }
@@ -25,13 +25,13 @@
             <div class="input-group-control">
                 <label for="source">来源</label>
                 <div>
-                    <input type="text" id="source" class="form-control" formControlName="source">
+                    <input type="text" id="source" class="form-control" [field]="dataForm.source">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="position">排序</label>
                 <div>
-                    <input type="text" id="position" class="form-control" formControlName="position" size="4">
+                    <input type="number" id="position" class="form-control" [field]="dataForm.position" size="4">
                 </div>
             </div>
         </app-panel>

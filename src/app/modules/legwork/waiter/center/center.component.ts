@@ -13,9 +13,9 @@ import { IOrder } from '../../model';
   styleUrls: ['./center.component.scss']
 })
 export class CenterComponent implements OnInit {
-    private service = inject(LegworkService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(LegworkService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

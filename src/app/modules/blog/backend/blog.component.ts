@@ -8,7 +8,7 @@ import { BlogService } from './blog.service';
   styleUrls: ['./blog.component.scss']
 })
 export class BlogComponent implements OnInit {
-    private service = inject(BlogService);
+    private readonly service = inject(BlogService);
 
 
     public isLoading = true;

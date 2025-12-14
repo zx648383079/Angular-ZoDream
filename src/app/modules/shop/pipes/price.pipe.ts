@@ -9,7 +9,7 @@ import { selectSite } from '../shop.selectors';
     pure: false,
 })
 export class PricePipe implements PipeTransform {
-    private store = inject<Store<ShopAppState>>(Store);
+    private readonly store = inject<Store<ShopAppState>>(Store);
 
 
     private currency = '￥';

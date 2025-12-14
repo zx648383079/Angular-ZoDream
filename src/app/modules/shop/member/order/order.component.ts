@@ -14,10 +14,10 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit {
-    private service = inject(ShopService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ShopService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
     public title = '我的订单';

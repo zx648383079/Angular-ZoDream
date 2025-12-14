@@ -13,10 +13,10 @@ import { SearchService } from '../../../theme/services';
     styleUrls: ['./document-member.component.scss']
 })
 export class DocumentMemberComponent implements OnInit {
-    private service = inject(DocumentService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
+    private readonly service = inject(DocumentService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
     private searchService = inject(SearchService);
 
 

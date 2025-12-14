@@ -1,41 +1,41 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑支付方式' : '新增支付方式'" (submited)="tapSubmit($event)" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑支付方式' : '新增支付方式'" (submited)="tapSubmit($event)" [disabled]="dataForm().invalid()" />
 <div class="container-fluid">
-    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control panel-container" (submit)="tapSubmit()">
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" formControlName="name">
+                <input type="text" id="name" class="form-control" [field]="dataForm.name">
 
             </div>
         </div>
         <div class="input-group-control">
             <label for="icon">图标</label>
             <div>
-                <app-file-input id="icon" formControlName="icon" />
+                <app-file-input id="icon" [field]="dataForm.icon" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="code">Code</label>
             <div>
-                <ng-select [items]="items" bindValue="value" bindLabel="name" formControlName="code" />
+                <ng-select [items]="items" bindValue="value" bindLabel="name" [field]="dataForm.code" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="fee">Fee</label>
             <div>
-                <input type="text" id="fee" class="form-control" formControlName="fee">
+                <input type="text" id="fee" class="form-control" [field]="dataForm.fee">
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">介绍</label>
             <div>
-                <textarea id="description" class="form-control" formControlName="description"></textarea>
+                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
             </div>
         </div>
         <div class="input-group-control">
             <label>限定配送</label>
             <div>
-                <ng-select [multiple]="true" [items]="shippingItems" bindValue="id" bindLabel="name" formControlName="shipping" placeholder="选择配送" />
+                <ng-select [multiple]="true" [items]="shippingItems" bindValue="id" bindLabel="name" [field]="dataForm.shipping" placeholder="选择配送" />
             </div>
         </div>
     </form>

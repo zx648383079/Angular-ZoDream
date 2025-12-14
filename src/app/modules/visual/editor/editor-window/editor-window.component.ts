@@ -11,7 +11,7 @@ import { EditorService } from '../editor.service';
 })
 export class EditorWindowComponent implements OnInit {
     private readonly renderer = inject(Renderer2);
-    private service = inject(EditorService);
+    private readonly service = inject(EditorService);
 
 
     public readonly mainRef = viewChild<ElementRef<HTMLDivElement>>('mainBox');

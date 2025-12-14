@@ -7,12 +7,14 @@ import { SystemService } from './system.service';
 import { DialogModule } from '../../components/dialog';
 import { ZreFormModule } from '../../components/form';
 import { DesktopModule } from '../../components/desktop';
+import { Field } from '@angular/forms/signals';
 
 
 @NgModule({
     declarations: [...systemRoutedComponents],
     imports: [
         CommonModule,
+        Field,
         ThemeModule,
         DesktopModule,
         SystemRoutingModule,

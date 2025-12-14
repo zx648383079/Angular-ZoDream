@@ -8,7 +8,7 @@ import { DialogService } from '../dialog.service';
     styles: [''],
 })
 export class DialogContainerComponent {
-    private service = inject(DialogService);
+    private readonly service = inject(DialogService);
     private viewContainerRef = inject(ViewContainerRef);
 
 

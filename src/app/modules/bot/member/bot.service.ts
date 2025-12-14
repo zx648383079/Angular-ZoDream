@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class BotService {
     private http = inject(HttpClient);
-    private router = inject(Router);
+    private readonly router = inject(Router);
 
 
     public baseId = 0;

@@ -10,9 +10,9 @@ import { BookService } from '../book.service';
   styleUrls: ['./top.component.scss']
 })
 export class TopComponent implements OnInit {
-    private service = inject(BookService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(BookService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
 
 
     public categories ?: ICategory[] = [];

@@ -9,7 +9,7 @@ import { TvService } from '../tv.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-    private service = inject(TvService);
+    private readonly service = inject(TvService);
 
 
     public items: IMovie[] = [];

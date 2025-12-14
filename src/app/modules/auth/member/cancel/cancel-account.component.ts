@@ -12,10 +12,10 @@ import { Router } from '@angular/router';
     styleUrls: ['./cancel-account.component.scss']
 })
 export class CancelAccountComponent implements AfterViewInit {
-    private authService = inject(AuthService);
-    private router = inject(Router);
-    private service = inject(MemberService);
-    private toastrService = inject(DialogService);
+    private readonly authService = inject(AuthService);
+    private readonly router = inject(Router);
+    private readonly service = inject(MemberService);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: string[] = [

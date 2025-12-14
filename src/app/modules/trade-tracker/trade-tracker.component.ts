@@ -13,8 +13,8 @@ import { SuggestChangeEvent } from '../../components/form';
     styleUrls: ['./trade-tracker.component.scss']
 })
 export class TradeTrackerComponent implements OnInit {
-    private service = inject(TrackerService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(TrackerService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

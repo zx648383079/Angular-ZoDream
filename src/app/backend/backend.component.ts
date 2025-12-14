@@ -26,12 +26,12 @@ import { INavLink } from '../theme/models/seo';
     styleUrls: ['./backend.component.scss']
 })
 export class BackendComponent implements OnInit, OnDestroy {
-    private store = inject<Store<AppState>>(Store);
+    private readonly store = inject<Store<AppState>>(Store);
     private actions = inject(AuthActions);
-    private service = inject(BackendService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(BackendService);
+    private readonly toastrService = inject(DialogService);
     private menuService = inject(MenuService);
-    private themeService = inject(ThemeService);
+    private readonly themeService = inject(ThemeService);
 
 
     public navItems: INavLink[] = [];

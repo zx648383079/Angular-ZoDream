@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { AppState } from '../../../theme/interfaces';
 import { Store } from '@ngrx/store';
 import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
@@ -18,20 +17,24 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-    private fb = inject(FormBuilder);
-    private service = inject(UserService);
-    private store = inject<Store<AppState>>(Store);
-    private toastrService = inject(DialogService);
-    private authService = inject(AuthService);
-    private router = inject(Router);
+    private readonly service = inject(UserService);
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly toastrService = inject(DialogService);
+    private readonly authService = inject(AuthService);
+    private readonly router = inject(Router);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        email: ['', [Validators.email, Validators.required]],
-        sex: [0],
-        avatar: [''],
-        birthday: [''],
+    public readonly dataModel = signal({
+        name: '',
+        email: '',
+        sex: 0,
+        avatar: '',
+        birthday: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+        email(schemaPath.email);
+        required(schemaPath.email);
     });
 
     public data: IUser;
@@ -52,7 +55,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.minDate = new Date(this.maxDate.getFullYear() - 130, this.maxDate.getMonth(), this.maxDate.getDate());
         this.subItems.add(this.store.select(selectAuthUser).subscribe(user => {
             this.data = user;
-            this.form.patchValue({
+            this.dataModel.set({
+                        id: res.id,
                 name: user.name,
                 email: user.email,
                 sex: user.sex,
@@ -70,12 +74,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
         e?.enter();
-        const data: any = Object.assign({}, this.form.value);
+        const data: any = this.dataForm().value();
         this.service.uploadProfile(data).subscribe({
             next: _ => {
                 e?.reset();
@@ -106,7 +110,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         const files = event.target.files as FileList;
         this.service.uploadAvatar(files[0]).subscribe(res => {
             this.data = res;
-            this.form.get('avatar').setValue(res.avatar);
+            this.dataForm.avatar.setValue(res.avatar);
             this.toastrService.success('头像已更换');
         });
     }

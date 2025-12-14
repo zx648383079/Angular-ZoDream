@@ -11,8 +11,8 @@ import { TbkService } from '../tbk.service';
     styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
-    private service = inject(TbkService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(TbkService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

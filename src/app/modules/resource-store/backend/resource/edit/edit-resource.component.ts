@@ -1,5 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { DialogService } from '../../../../../components/dialog';
@@ -10,6 +9,7 @@ import { parseNumber } from '../../../../../theme/utils';
 import { FileTypeItems, ICategory, IResource, IResourceFile, ITag, MediaTypeItems } from '../../../model';
 import { ResourceService } from '../../resource.service';
 import { ReviewStatusItems } from '../../../../../theme/models/auth';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -18,28 +18,35 @@ import { ReviewStatusItems } from '../../../../../theme/models/auth';
     styleUrls: ['./edit-resource.component.scss']
 })
 export class EditResourceComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(ResourceService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ResourceService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private uploadService = inject(FileUploadService);
 
 
-    public form = this.fb.group({
-        title: ['', Validators.required],
-        thumb: [''],
-        keywords: [''],
-        content: ['', Validators.required],
-        description: [''],
-        cat_id: [0, Validators.required],
-        size: [0],
-        price: [0],
-        is_commercial: [0],
-        is_reprint: [0],
-        preview_type: [0],
-        preview_file: [''],
-        status: [0],
+    public readonly dataModel = signal({
+        id: 0,
+        title: '',
+        thumb: '',
+        keywords: '',
+        content: '',
+        description: '',
+        cat_id: '',
+        size: 0,
+        price: 0,
+        is_commercial: 0,
+        is_reprint: 0,
+        preview_type: '0',
+        preview_file: '',
+        status: '0',
     });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.title);
+        required(schemaPath.content);
+        required(schemaPath.cat_id);
+    });
+    public readonly previewType = computed(() => parseNumber(this.dataForm.preview_type().value()));
+
     public data: IResource;
     public fileItems: IResourceFile[] = [];
     public tags: ITag[] = [];
@@ -68,20 +75,21 @@ export class EditResourceComponent implements OnInit {
                     if (res.files) {
                         this.fileItems = res.files;
                     }
-                    this.form.patchValue({
+                    this.dataModel.set({
+                        id: res.id,
                         title: res.title,
                         thumb: res.thumb,
                         keywords: res.keywords,
                         content: res.content,
                         description: res.description,
-                        cat_id: res.cat_id,
+                        cat_id: res.cat_id as any,
                         size: res.size,
                         price: res.price,
                         is_commercial: res.is_commercial,
                         is_reprint: res.is_reprint,
-                        preview_type: res.preview_type,
+                        preview_type: res.preview_type as any,
                         preview_file: res.preview_file,
-                        status: res.status,
+                        status: res.status as any,
                     });
                 },
                 error: err => {
@@ -104,24 +112,16 @@ export class EditResourceComponent implements OnInit {
         );
     }
 
-    public get isOpenSource() {
-        return this.form.get('is_open_source').value;
-    }
-
-    public get previewType() {
-        return parseNumber(this.form.get('preview_type').value);
-    }
-
     public addTagFn(name: string) {
         return {name};
     }
 
     public onFileUpload(e: UploadCustomEvent, isPreview = false) {
-        const sizeInput = this.form.get('size');
+        const sizeInput = this.dataForm.size();
         this.service.upload(e.file).subscribe({
             next: res => {
-                if (!isPreview && !sizeInput.value) {
-                    sizeInput.setValue(res.size);
+                if (!isPreview && !sizeInput.value()) {
+                    sizeInput.value.set(res.size);
                 }
                 e.next(res);
             },
@@ -133,7 +133,7 @@ export class EditResourceComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
@@ -141,10 +141,8 @@ export class EditResourceComponent implements OnInit {
             this.toastrService.warning('请上传文件');
             return;
         }
-        const data: IResource = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IResource = this.dataForm().value() as any;
+
         data.tags = this.tags;
         data.files = this.fileItems;
         e?.enter();

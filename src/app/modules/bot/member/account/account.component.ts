@@ -16,10 +16,10 @@ import { BotService } from '../bot.service';
   styleUrls: ['./account.component.scss']
 })
 export class AccountComponent implements OnInit {
-    private service = inject(BotService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
+    private readonly service = inject(BotService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
     private menuService = inject(MenuService);
     private searchService = inject(SearchService);
 

@@ -1,30 +1,33 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { IActivity } from '../../../../model';
 import { ActivityService } from '../../activity.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-shop-skill-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+    selector: 'app-shop-skill-edit',
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.scss']
 })
 export class EditSeckillComponent implements OnInit {
-    private service = inject(ActivityService);
-    private fb = inject(FormBuilder);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ActivityService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        thumb: [''],
-        description: [''],
-        start_at: [''],
-        end_at: [],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        thumb: '',
+        description: '',
+        start_at: '',
+        end_at: '',
         status: 0,
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
     public data: IActivity<any>;
@@ -36,7 +39,8 @@ export class EditSeckillComponent implements OnInit {
             }
             this.service.seckill(params.id).subscribe(res => {
                 this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                        id: res.id,
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
@@ -53,14 +57,12 @@ export class EditSeckillComponent implements OnInit {
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IActivity<any> = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IActivity<any> = this.dataForm().value() as any;
+
         this.service.seckillSave(data).subscribe(_ => {
             this.toastrService.success($localize `Save Successfully`);
             this.tapBack();

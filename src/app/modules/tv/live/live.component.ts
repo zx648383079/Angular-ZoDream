@@ -10,7 +10,7 @@ import { TvService } from '../tv.service';
   styleUrls: ['./live.component.scss']
 })
 export class LiveComponent implements OnInit {
-    private service = inject(TvService);
+    private readonly service = inject(TvService);
 
 
     public readonly player = viewChild(MoviePlayerComponent);

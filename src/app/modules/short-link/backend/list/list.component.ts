@@ -16,9 +16,9 @@ import { ShortLinkService } from '../short-link.service';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-    private service = inject(ShortLinkService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ShortLinkService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

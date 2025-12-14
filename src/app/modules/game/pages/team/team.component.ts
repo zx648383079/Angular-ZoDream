@@ -8,7 +8,7 @@ import { GameRouterInjectorToken, IGameRouter, GameScenePath, GameCommand, IGame
   styleUrls: ['./team.component.scss']
 })
 export class TeamComponent implements OnInit {
-    private router = inject<IGameRouter>(GameRouterInjectorToken);
+    private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
     public data: IGameTeam;

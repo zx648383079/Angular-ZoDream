@@ -8,7 +8,7 @@ import { MemberService } from '../member.service';
     styleUrls: ['./authorize.component.scss']
 })
 export class AuthorizeComponent implements OnInit {
-    private service = inject(MemberService);
+    private readonly service = inject(MemberService);
 
 
     public items: any[] = [];

@@ -10,7 +10,7 @@ import { emptyValidate } from '../../../../../theme/validators';
     styleUrls: ['./organize-piazza.component.scss']
 })
 export class OrganizePiazzaComponent implements IGameScene, OnInit {
-    private router = inject<IGameRouter>(GameRouterInjectorToken);
+    private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
     public items: IGameOrganize[] = [];

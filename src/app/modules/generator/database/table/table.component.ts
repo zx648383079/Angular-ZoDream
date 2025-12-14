@@ -11,8 +11,8 @@ import { ITableHeaderItem } from '../../../../components/desktop/editable-table/
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit {
-    private service = inject(GenerateService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(GenerateService);
+    private readonly route = inject(ActivatedRoute);
 
 
     public items: ITable[] = [];

@@ -12,7 +12,7 @@ import { SearchService } from '../../../../../../theme/services';
     styleUrls: ['./account-panel.component.scss']
 })
 export class AccountPanelComponent {
-    private service = inject(AuthService);
+    private readonly service = inject(AuthService);
     private searchService = inject(SearchService);
 
 

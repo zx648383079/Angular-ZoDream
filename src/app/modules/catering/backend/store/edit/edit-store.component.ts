@@ -1,5 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ICateringStore } from '../../../model';
 import { CateringBackendService } from '../../catering.service';
 import { ButtonEvent } from '../../../../../components/form';
@@ -7,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { FileUploadService } from '../../../../../theme/services';
 import { IUser } from '../../../../../theme/models/user';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -15,19 +15,22 @@ import { IUser } from '../../../../../theme/models/user';
     styleUrls: ['./edit-store.component.scss']
 })
 export class EditStoreComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(CateringBackendService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(CateringBackendService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private uploadService = inject(FileUploadService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        keywords: [''],
-        description: [''],
-        logo: [''],
-        status: [0],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        keywords: '',
+        description: '',
+        logo: '',
+        status: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
     public data: ICateringStore;
     public user: IUser;
@@ -41,11 +44,13 @@ export class EditStoreComponent implements OnInit {
                 next: res => {
                     this.data = res;
                     this.user = res.user;
-                    this.form.patchValue({
+                    this.dataModel.set({
+                        id: res.id,
                         name: res.name,
                         keywords: res.keywords,
                         description: res.description,
-                        logo: res.logo
+                        logo: res.logo,
+                        status: '',
                     });
                 },
                 error: err => {
@@ -57,14 +62,11 @@ export class EditStoreComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: ICateringStore = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: ICateringStore = this.dataForm().value() as any;
         if (this.user) {
             data.user_id = this.user.id;
         }

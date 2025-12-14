@@ -13,9 +13,9 @@ import { SearchService } from '../../../theme/services';
     styleUrls: ['./subscribe.component.scss']
 })
 export class SubscribeComponent implements OnInit {
-    private service = inject(ContactService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ContactService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
 

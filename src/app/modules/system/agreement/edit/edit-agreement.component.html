@@ -1,11 +1,11 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑协议' : '新增协议'" (submited)="tapSubmit()" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑协议' : '新增协议'" (submited)="tapSubmit()" />
 
 <div class="container-fluid">
     <div class="form-table-control panel-container">
         @if (languageItems.length > 1) {
         <div class="language-toggle">
             @for (item of languageItems; track $index) {
-                <a (click)="loadDetail(item.id, item.value)" [ngClass]="{active: item.value === data.language}">{{ item.name }}</a>
+                <a (click)="loadDetail(item.id, item.value)" [ngClass]="{active: item.value === dataForm.language().value()}">{{ item.name }}</a>
             }
         </div>
         }
@@ -14,31 +14,31 @@
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" class="form-control" 
-                 [(ngModel)]="data.name" placeholder="例如: agreement">
+                 [field]="dataForm.name" placeholder="例如: agreement">
                 <div class="input-tip">格式为a-z_0-9</div>
             </div>
         </div>
         <div class="input-group-control">
                 <label for="title">标题</label>
                 <div>
-                    <input type="text" id="title" class="form-control" [(ngModel)]="data.title">
+                    <input type="text" id="title" class="form-control" [field]="dataForm.title">
                 </div>
         </div>
         <div class="input-group-control">
             <label for="description">介绍</label>
             <div>
-                <textarea id="description" class="form-control" [(ngModel)]="data.description"></textarea>
+                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
             </div>
         </div>
 
         <div class="input-group-control">
             <label for="content">内容</label>
         </div>
-        <app-agreement-editor id="content" [(ngModel)]="data.content" />
+        <app-agreement-editor id="content" [field]="dataForm.content" />
         <div class="input-group-control">
             <label for="status">状态</label>
             <div>
-                <app-switch id="status" [(ngModel)]="data.status" />
+                <app-switch id="status" [field]="dataForm.status" />
             </div>
         </div>
         

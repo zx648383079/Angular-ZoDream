@@ -13,9 +13,9 @@ import { ThemeService } from '../../theme/services';
   styleUrls: ['./friend-link.component.scss']
 })
 export class FriendLinkComponent implements OnInit {
-    private service = inject(FrontendService);
-    private toastrService = inject(DialogService);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(FrontendService);
+    private readonly toastrService = inject(DialogService);
+    private readonly themeService = inject(ThemeService);
 
 
     public friendLinks: ILink[] = [];

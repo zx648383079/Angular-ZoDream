@@ -9,9 +9,9 @@ import { TbkService } from './tbk.service';
   styleUrls: ['./tbk.component.scss']
 })
 export class TbkComponent implements OnInit {
-    private service = inject(TbkService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(TbkService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
 
 
     public isInstalled = false;

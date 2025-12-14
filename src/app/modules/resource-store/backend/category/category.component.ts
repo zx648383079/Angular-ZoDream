@@ -12,8 +12,8 @@ import { ResourceService } from '../resource.service';
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
-    private service = inject(ResourceService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ResourceService);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: ICategory[] = [];

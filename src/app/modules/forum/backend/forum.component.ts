@@ -8,7 +8,7 @@ import { ForumService } from './forum.service';
   styleUrls: ['./forum.component.scss']
 })
 export class ForumComponent implements OnInit {
-    private service = inject(ForumService);
+    private readonly service = inject(ForumService);
 
 
     public isLoading = true;

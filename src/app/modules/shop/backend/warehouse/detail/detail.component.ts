@@ -1,9 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IWarehouse } from '../../../model';
 import { WarehouseService } from '../warehouse.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -12,19 +12,25 @@ import { WarehouseService } from '../warehouse.service';
     styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
-    private service = inject(WarehouseService);
-    private fb = inject(FormBuilder);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(WarehouseService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        tel: ['', Validators.required],
-        link_user: ['', Validators.required],
-        address: ['', Validators.required],
-        remark: [''],
-        region: [[]],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        tel: '',
+        link_user: '',
+        address: '',
+        remark: '',
+        region: [],
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.tel);
+        required(schemaPath.link_user);
+        required(schemaPath.address);
     });
 
     public data: IWarehouse;
@@ -36,7 +42,8 @@ export class DetailComponent implements OnInit {
             }
             this.service.warehouse(params.id).subscribe(res => {
                 this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                        id: res.id,
                     name: res.name,
                     tel: res.tel,
                     link_user: res.link_user,
@@ -54,14 +61,11 @@ export class DetailComponent implements OnInit {
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IWarehouse = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IWarehouse = this.dataForm().value() as any;
         this.service.warehouseSave(data).subscribe(_ => {
             this.toastrService.success($localize `Save Successfully`);
             this.tapBack();

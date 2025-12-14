@@ -18,9 +18,9 @@ const NavSaveModekey = 'nsmk';
   styleUrls: ['./navigation-panel.component.scss']
 })
 export class NavigationPanelComponent {
-    private service = inject(NavigationService);
-    private toastrService = inject(DialogService);
-    private store = inject<Store<AppState>>(Store);
+    private readonly service = inject(NavigationService);
+    private readonly toastrService = inject(DialogService);
+    private readonly store = inject<Store<AppState>>(Store);
 
 
     public readonly modal = viewChild<DialogEvent>('modal');

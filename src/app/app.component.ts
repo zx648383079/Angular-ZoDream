@@ -14,9 +14,9 @@ import { AuthService, ThemeService } from './theme/services';
 })
 export class AppComponent implements OnInit {
     private auth = inject(AuthService);
-    private router = inject(Router);
-    private store = inject<Store<AppState>>(Store);
-    private themeService = inject(ThemeService);
+    private readonly router = inject(Router);
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly themeService = inject(ThemeService);
     private renderer = inject(Renderer2);
     private document = inject<Document>(DOCUMENT);
 

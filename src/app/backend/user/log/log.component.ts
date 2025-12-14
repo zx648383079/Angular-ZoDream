@@ -12,8 +12,8 @@ import { UserService } from '../user.service';
     styleUrls: ['./log.component.scss']
 })
 export class LogComponent implements OnInit {
-    private service = inject(UserService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(UserService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

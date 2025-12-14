@@ -14,11 +14,11 @@ import { BotService } from '../bot.service';
     styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-    private service = inject(BotService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(BotService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
-    private themeService = inject(ThemeService);
+    private readonly themeService = inject(ThemeService);
 
 
     public items: IBotUser[] = [];

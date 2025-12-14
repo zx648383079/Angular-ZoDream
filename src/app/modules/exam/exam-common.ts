@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { ZreFormModule } from '../../components/form';
 import { ExamEditorComponent, MathMarkComponent, QuestionEditorComponent, QuestionInputComponent, QuestionScoringComponent } from './components';
 import { BoolInputComponent } from './components/question-editor/bool-input/bool-input.component';
@@ -24,7 +23,6 @@ const COMPONENTS = [
     imports: [
         CommonModule,
         DesktopModule,
-        FormsModule,
         DialogModule,
         ZreFormModule,
         MediaPlayerModule,

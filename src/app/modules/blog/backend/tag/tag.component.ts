@@ -10,8 +10,8 @@ import { BlogService } from '../blog.service';
   styleUrls: ['./tag.component.scss']
 })
 export class TagComponent implements OnInit {
-    private service = inject(BlogService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(BlogService);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: ITag[] = [];

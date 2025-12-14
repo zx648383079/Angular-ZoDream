@@ -11,7 +11,7 @@ import { selectSite } from '../../shop.selectors';
   styleUrls: ['./bottom-bar.component.scss']
 })
 export class BottomBarComponent implements OnInit {
-    private store = inject<Store<ShopAppState>>(Store);
+    private readonly store = inject<Store<ShopAppState>>(Store);
 
 
     public site: ISite = {} as any;

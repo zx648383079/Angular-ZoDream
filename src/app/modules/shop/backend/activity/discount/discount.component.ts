@@ -13,9 +13,9 @@ import { ActivityService } from '../activity.service';
   styleUrls: ['./discount.component.scss']
 })
 export class DiscountComponent implements OnInit {
-    private service = inject(ActivityService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ActivityService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

@@ -1,5 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { IItem } from '../../../../../../theme/models/seo';
@@ -7,33 +6,37 @@ import { parseNumber } from '../../../../../../theme/utils';
 import { ICoupon } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 import { ActivityRuleItems } from '../../model';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-shop-coupon-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+    selector: 'app-shop-coupon-edit',
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.scss']
 })
 export class EditCouponComponent implements OnInit {
-    private service = inject(ActivityService);
-    private fb = inject(FormBuilder);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ActivityService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        thumb: [''],
-        type: [0],
-        rule: [0],
-        rule_value: [0],
-        min_money: [0],
-        money: [0],
-        send_type: [0],
-        send_value: [0],
-        every_amount: [0],
-        start_at: [''],
-        end_at: ['']
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        thumb: '',
+        type: 0,
+        rule: 0,
+        rule_value: 0,
+        min_money: 0,
+        money: 0,
+        send_type: 0,
+        send_value: 0,
+        every_amount: 0,
+        start_at: '',
+        end_at: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
     public data: ICoupon;
@@ -44,15 +47,15 @@ export class EditCouponComponent implements OnInit {
     public ruleItems: IItem[] = ActivityRuleItems;
 
     get typeValue() {
-        return this.form.get('type').value;
+        return this.dataForm.type.value;
     }
 
     get ruleType() {
-        return this.form.get('rule').value;
+        return this.dataForm.rule.value;
     }
 
     get sendType() {
-        return this.form.get('send_type').value;
+        return this.dataForm.send_type.value;
     }
 
     get selectUrl() {
@@ -75,7 +78,8 @@ export class EditCouponComponent implements OnInit {
             }
             this.service.coupon(params.id).subscribe(res => {
                 this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                        id: res.id,
                     name: res.name,
                     thumb: res.thumb,
                     type: res.type,
@@ -98,14 +102,11 @@ export class EditCouponComponent implements OnInit {
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: ICoupon = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: ICoupon = this.dataForm().value() as any;
         if (data.rule < 1) {
             data.rule_value =  '';
         } else if (typeof data.rule_value === 'object') {

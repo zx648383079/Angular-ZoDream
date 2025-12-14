@@ -1,7 +1,7 @@
 <app-edit-header [title]="'账户充值'" (submited)="tapSubmit($event)" />
 @if (data) {
 <div class="container-fluid">
-    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()" method="POST">
+    <form class="form-table-control panel-container" (submit)="tapSubmit()" method="POST">
         <div class="input-group-control">
             <label>账号</label>
             <div class="label-input">
@@ -16,17 +16,17 @@
         <div class="input-group-control">
             <label>金额</label>
             <div>
-                <select formControlName="type" class="form-control">
+                <select [field]="dataForm.type" class="form-control">
                     <option [value]="0">+</option>
                     <option [value]="1">-</option>
                 </select>
-                <input type="text" formControlName="money" class="form-control" placeholder="选择金额">
+                <input type="number" [field]="dataForm.money" class="form-control" placeholder="选择金额">
             </div>
         </div>
         <div class="input-group-control">
             <label>备注</label>
             <div>
-                <textarea rows="10" formControlName="remark" class="form-control"></textarea>
+                <textarea rows="10" [field]="dataForm.remark" class="form-control"></textarea>
             </div>
         </div>
         <div class="btn-group">

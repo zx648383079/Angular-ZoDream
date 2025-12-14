@@ -8,7 +8,7 @@ import { BookService } from '../book.service';
     styleUrls: ['./editor-preferences-panel.component.scss'],
 })
 export class EditorPreferencesPanelComponent {
-    private service = inject(BookService);
+    private readonly service = inject(BookService);
 
     public visible = false;
     public readonly targetId = input(0);

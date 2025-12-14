@@ -15,7 +15,7 @@ import { IBound, IPoint, ISize } from '../../../../theme/utils/canvas';
     styleUrls: ['./editor-work-body.component.scss']
 })
 export class EditorWorkBodyComponent extends CommandManager implements IWorkEditor {
-    private service = inject(EditorService);
+    private readonly service = inject(EditorService);
     elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
 

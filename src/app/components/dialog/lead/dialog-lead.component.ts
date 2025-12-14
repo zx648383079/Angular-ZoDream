@@ -34,7 +34,7 @@ import { scrollTop } from '../../../theme/utils/doc';
 })
 export class DialogLeadComponent {
     private data = inject<DialogPackage<DialogLeadTour>>(DialogPackage);
-    private service = inject(DialogService);
+    private readonly service = inject(DialogService);
 
 
     public overlayStyle = {};

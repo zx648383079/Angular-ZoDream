@@ -1,10 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { IActivity, IWholesaleConfigure } from '../../../../model';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { ActivityService } from '../../activity.service';
 import { ButtonEvent } from '../../../../../../components/form';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -13,27 +13,28 @@ import { ButtonEvent } from '../../../../../../components/form';
     styleUrls: ['./wholesale-edit.component.scss']
 })
 export class WholesaleEditComponent implements OnInit {
-    private service = inject(ActivityService);
-    private fb = inject(FormBuilder);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ActivityService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        thumb: [''],
-        description: [''],
-        scope: [[], Validators.required],
-        scope_type: [0],
-        start_at: [''],
-        end_at: [],
-        step: this.fb.array([]),
+    public readonly dataModel = signal({
+        name: '',
+        thumb: '',
+        description: '',
+        scope: [],
+        scope_type: 0,
+        start_at: '',
+        end_at: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
     public data: IActivity<IWholesaleConfigure>;
 
     get stepItems() {
-        return this.form.get('step') as FormArray<FormGroup>;
+        return this.dataForm.step as FormArray<FormGroup>;
     }
 
     ngOnInit() {
@@ -43,7 +44,8 @@ export class WholesaleEditComponent implements OnInit {
             }
             this.service.wholesale(params.id).subscribe(res => {
                 this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                        id: res.id,
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
@@ -52,9 +54,7 @@ export class WholesaleEditComponent implements OnInit {
                     start_at: res.start_at as string,
                     end_at: res.end_at,
                     step: this.fb.array(
-                        res.configure.items.map(i => {
-                            return this.fb.group(i);
-                        })
+                        //TODO
                     ) as any
                 });
             });
@@ -66,14 +66,11 @@ export class WholesaleEditComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: any = Object.assign({}, this.form.value);
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: any = this.dataForm().value();
         if (data.step) {
             data.configure.items = data.items;
         }
@@ -96,10 +93,15 @@ export class WholesaleEditComponent implements OnInit {
     }
 
     public tapAddStep() {
-        this.stepItems.push(this.fb.group({
+    public readonly dataModel = signal({
             amount: 0,
             price: 0,
-        }));
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+    });
     }
 
 }

@@ -11,7 +11,7 @@ import { DialogConfirmOption } from '../model';
 })
 export class DialogConfirmComponent {
     private data = inject<DialogPackage<DialogConfirmOption>>(DialogPackage);
-    private service = inject(DialogService);
+    private readonly service = inject(DialogService);
 
 
     public title = '';

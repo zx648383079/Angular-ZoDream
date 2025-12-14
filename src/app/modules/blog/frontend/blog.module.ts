@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { BlogRoutingModule, blogRoutingComponents } from './blog-routing.module';
 import { BlogService } from './blog.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../../../theme/theme.module';
 import { MediaPlayerModule } from '../../../components/media-player';
 import { ZreFormModule } from '../../../components/form';
@@ -18,8 +17,6 @@ import { TabletModule } from '../../../components/tablet';
     imports: [
         CommonModule,
         ThemeModule,
-        ReactiveFormsModule,
-        FormsModule,
         DesktopModule,
         TabletModule,
         BlogRoutingModule,

@@ -1,37 +1,37 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑拍卖活动' : '新增拍卖活动'" (submited)="tapSubmit()" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑拍卖活动' : '新增拍卖活动'" (submited)="tapSubmit()" [disabled]="dataForm().invalid()" />
 <div class="container-fluid">
-    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control panel-container" (submit)="tapSubmit()">
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" formControlName="name">
+                <input type="text" id="name" class="form-control" [field]="dataForm.name">
             </div>
         </div>
         <div class="input-group-control">
             <label for="thumb">图片</label>
             <div>
-                <app-file-input formControlName="thumb" />
+                <app-file-input [field]="dataForm.thumb" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">说明</label>
             <div>
-                <textarea id="description" class="form-control" formControlName="description"></textarea>
+                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
 
             </div>
         </div>
         <div class="input-group-control">
             <label for="scope">商品</label>
             <div>
-                <app-select-input url="shop/admin/goods/search" formControlName="scope" />
+                <app-select-input url="shop/admin/goods/search" [field]="dataForm.scope" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="start_at">起止时间</label>
             <div>
-                <app-date-input formControlName="start_at" placeholder="请输入开始时间" />
+                <app-date-input [field]="dataForm.start_at" placeholder="请输入开始时间" />
                 ~
-                <app-date-input formControlName="end_at" placeholder="请输入结束时间" />
+                <app-date-input [field]="dataForm.end_at" placeholder="请输入结束时间" />
             </div>
         </div>
 
@@ -40,10 +40,10 @@
                 <label for="configure_mode">拍卖模式</label>
                 <div>
                     <span class="radio-label">
-                        <input type="radio" id="configure_mode0" formControlName="mode" value="0">
+                        <input type="radio" id="configure_mode0" [field]="dataForm.mode" value="0">
                         <label for="configure_mode0">普通拍卖</label>
                     </span><span class="radio-label">
-                        <input type="radio" id="configure_mode1" formControlName="mode" value="1">
+                        <input type="radio" id="configure_mode1" [field]="dataForm.mode" value="1">
                         <label for="configure_mode1">荷兰式拍卖</label>
                     </span>
                     <div class="input-tip">普通拍卖为加价拍卖，荷兰式拍卖为先降价直到有人拍，如果两个同时拍则开始加价</div>
@@ -52,30 +52,30 @@
             <div class="input-group-control">
                 <label for="configure_begin_price">起拍价</label>
                 <div>
-                    <input type="text" id="configure_begin_price" class="form-control" formControlName="begin_price"
+                    <input type="text" id="configure_begin_price" class="form-control" [field]="dataForm.begin_price"
                         placeholder="请输入 起拍价">
-    
+
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="configure_fixed_price">一口价</label>
                 <div>
-                    <input type="text" id="configure_fixed_price" class="form-control" formControlName="fixed_price"
+                    <input type="text" id="configure_fixed_price" class="form-control" [field]="dataForm.fixed_price"
                         placeholder="请输入 一口价">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="configure_step_price">加价幅度</label>
                 <div>
-                    <input type="text" id="configure_step_price" class="form-control" formControlName="step_price"
+                    <input type="text" id="configure_step_price" class="form-control" [field]="dataForm.step_price"
                         placeholder="请输入 加价幅度">
-    
+
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="configure_deposit">保证金</label>
                 <div>
-                    <input type="text" id="configure_deposit" class="form-control" formControlName="deposit"
+                    <input type="text" id="configure_deposit" class="form-control" [field]="dataForm.deposit"
                         placeholder="请输入 保证金">
                 </div>
             </div>

@@ -11,8 +11,8 @@ import { ShopService } from '../../../shop.service';
   styleUrls: ['./help.component.scss']
 })
 export class HelpComponent implements OnInit {
-    private service = inject(ShopService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ShopService);
+    private readonly route = inject(ActivatedRoute);
     private sanitizer = inject(DomSanitizer);
 
 

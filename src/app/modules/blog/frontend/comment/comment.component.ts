@@ -23,10 +23,10 @@ const GuestUserKey = 'gu';
     styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent {
-    private service = inject(BlogService);
-    private toastrService = inject(DialogService);
-    private themeService = inject(ThemeService);
-    private store = inject<Store<AppState>>(Store);
+    private readonly service = inject(BlogService);
+    private readonly toastrService = inject(DialogService);
+    private readonly themeService = inject(ThemeService);
+    private readonly store = inject<Store<AppState>>(Store);
 
 
     public readonly itemId = input(0);

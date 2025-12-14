@@ -14,10 +14,10 @@ import { NavigationDisplayMode } from '../../../../../theme/models/event';
     styleUrls: ['./edit-news.component.scss']
 })
 export class EditNewsComponent implements OnInit, OnDestroy {
-    private route = inject(ActivatedRoute);
-    private service = inject(BotService);
-    private toastrService = inject(DialogService);
-    private themeService = inject(ThemeService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly service = inject(BotService);
+    private readonly toastrService = inject(DialogService);
+    private readonly themeService = inject(ThemeService);
 
 
     public data: any = {

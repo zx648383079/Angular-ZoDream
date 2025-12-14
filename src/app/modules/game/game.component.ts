@@ -18,11 +18,11 @@ import { DialogueComponent } from './pages/dialogue/dialogue.component';
     styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit, AfterViewInit, IGameRouter {
-    private service = inject(GameService);
-    private router = inject(Router);
-    private themeService = inject(ThemeService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(GameService);
+    private readonly router = inject(Router);
+    private readonly themeService = inject(ThemeService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
 
 
     private readonly modalViewContainer = viewChild('modalVC', { read: ViewContainerRef });

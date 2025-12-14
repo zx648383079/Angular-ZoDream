@@ -1,5 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../../../../environments/environment';
 import { DialogService } from '../../../../../components/dialog';
@@ -7,27 +6,31 @@ import { ButtonEvent } from '../../../../../components/form';
 import { IArticle, IArticleCategory } from '../../../model';
 import { FileUploadService } from '../../../../../theme/services/file-upload.service';
 import { ArticleService } from '../../article.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+    selector: 'app-edit',
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.scss']
 })
 export class EditArticleComponent implements OnInit {
-    private service = inject(ArticleService);
-    private fb = inject(FormBuilder);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ArticleService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        title: ['', Validators.required],
-        cat_id: [0],
-        thumb: [''],
-        keywords: [''],
-        description: [''],
-        content: ['']
+    public readonly dataModel = signal({
+        id: 0,
+        title: '',
+        cat_id: 0,
+        thumb: '',
+        keywords: '',
+        description: '',
+        content: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.title);
     });
 
     public data: IArticle;
@@ -46,7 +49,8 @@ export class EditArticleComponent implements OnInit {
             }
             this.service.article(params.id).subscribe(res => {
                 this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                        id: res.id,
                     title: res.title,
                     cat_id: res.cat_id,
                     thumb: res.thumb,
@@ -63,14 +67,11 @@ export class EditArticleComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IArticle = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IArticle = this.dataForm().value() as any;
         e?.enter();
         this.service.articleSave(data).subscribe({
             next: _ => {

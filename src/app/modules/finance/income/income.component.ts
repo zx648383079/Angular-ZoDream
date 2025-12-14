@@ -18,10 +18,10 @@ import { formatDate, mapFormat } from '../../../theme/utils';
     styleUrls: ['./income.component.scss'],
 })
 export class IncomeComponent implements OnInit {
-    private service = inject(FinanceService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(FinanceService);
+    private readonly toastrService = inject(DialogService);
     private downloadService = inject(DownloadService);
-    private route = inject(ActivatedRoute);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

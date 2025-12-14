@@ -12,9 +12,9 @@ import { SuggestChangeEvent } from '../components/form';
 })
 export class ExampleComponent {
     private searchService = inject(SearchService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
-    private themeService = inject(ThemeService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+    private readonly themeService = inject(ThemeService);
 
 
     public navItems: INavLink[] = [

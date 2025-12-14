@@ -10,8 +10,8 @@ import { ICategory } from '../../model';
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
-    private service = inject(VisualService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(VisualService);
+    private readonly route = inject(ActivatedRoute);
 
 
     

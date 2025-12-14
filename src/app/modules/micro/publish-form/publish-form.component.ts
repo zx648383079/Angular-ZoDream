@@ -18,10 +18,10 @@ import { ThemeService } from '../../../theme/services';
     styleUrls: ['./publish-form.component.scss']
 })
 export class PublishFormComponent {
-    private service = inject(MicroService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(MicroService);
+    private readonly toastrService = inject(DialogService);
     private uploadService = inject(FileUploadService);
-    private themeService = inject(ThemeService);
+    private readonly themeService = inject(ThemeService);
 
 
     public fileType = 0;

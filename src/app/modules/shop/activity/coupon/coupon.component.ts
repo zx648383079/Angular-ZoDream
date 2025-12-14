@@ -14,10 +14,10 @@ import { ActivityService } from '../activity.service';
   styleUrls: ['./coupon.component.scss']
 })
 export class CouponComponent implements OnInit {
-    private service = inject(ActivityService);
-    private toastrService = inject(DialogService);
-    private themeService = inject(ThemeService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ActivityService);
+    private readonly toastrService = inject(DialogService);
+    private readonly themeService = inject(ThemeService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

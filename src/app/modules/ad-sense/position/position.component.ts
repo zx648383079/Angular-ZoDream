@@ -8,14 +8,14 @@ import { IAdPosition } from '../model';
 
 @Component({
     standalone: false,
-  selector: 'app-ad-position',
-  templateUrl: './position.component.html',
-  styleUrls: ['./position.component.scss']
+    selector: 'app-ad-position',
+    templateUrl: './position.component.html',
+    styleUrls: ['./position.component.scss']
 })
 export class PositionComponent implements OnInit {
-    private service = inject(AdService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(AdService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

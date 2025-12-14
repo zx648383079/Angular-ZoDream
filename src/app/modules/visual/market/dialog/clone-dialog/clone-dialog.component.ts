@@ -16,10 +16,10 @@ import { emptyValidate } from '../../../../../theme/validators';
     styleUrls: ['./clone-dialog.component.scss']
 })
 export class CloneDialogComponent {
-    private service = inject(VisualService);
-    private themeService = inject(ThemeService);
-    private toastrService = inject(DialogService);
-    private store = inject<Store<AppState>>(Store);
+    private readonly service = inject(VisualService);
+    private readonly themeService = inject(ThemeService);
+    private readonly toastrService = inject(DialogService);
+    private readonly store = inject<Store<AppState>>(Store);
 
 
     public visible = false;

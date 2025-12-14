@@ -8,7 +8,7 @@ import { TVService } from './tv.service';
   styleUrls: ['./tv-backend.component.scss']
 })
 export class TvBackendComponent implements OnInit {
-    private service = inject(TVService);
+    private readonly service = inject(TVService);
 
 
     public isLoading = false;

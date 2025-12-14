@@ -11,9 +11,9 @@ import { DownloadService } from '../../../theme/services';
     styleUrls: ['./book-detail.component.scss']
 })
 export class BookDetailComponent implements OnInit {
-    private service = inject(BookService);
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
+    private readonly service = inject(BookService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
     private downloadService = inject(DownloadService);
 
 

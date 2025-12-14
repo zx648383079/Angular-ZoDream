@@ -10,8 +10,8 @@ import { IPreviewFile } from '../../model';
   styleUrls: ['./controller.component.scss']
 })
 export class ControllerComponent {
-    private service = inject(GenerateService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(GenerateService);
+    private readonly toastrService = inject(DialogService);
 
 
     public readonly modal = viewChild(DialogBoxComponent);

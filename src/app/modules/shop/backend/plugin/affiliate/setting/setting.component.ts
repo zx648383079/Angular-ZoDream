@@ -10,8 +10,8 @@ import { AffiliateService } from '../affiliate.service';
   styleUrls: ['./setting.component.scss']
 })
 export class SettingComponent implements OnInit {
-    private service = inject(AffiliateService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(AffiliateService);
+    private readonly toastrService = inject(DialogService);
 
 
     public data = {

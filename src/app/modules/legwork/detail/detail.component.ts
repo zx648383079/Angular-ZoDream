@@ -6,14 +6,14 @@ import { IService } from '../model';
 
 @Component({
     standalone: false,
-  selector: 'app-detail',
-  templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.scss']
+    selector: 'app-detail',
+    templateUrl: './detail.component.html',
+    styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
-    private service = inject(LegworkService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(LegworkService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
     public data: IService;
@@ -55,7 +55,7 @@ export class DetailComponent implements OnInit {
                 this.toastrService.warning($localize `${item.label} is required`);
                 return;
             }
-            remark[item.name] = item.value + '';
+            remark[item.name] = item.value as any;
         }
         this.service.orderCreate({
             service_id: this.data.id,

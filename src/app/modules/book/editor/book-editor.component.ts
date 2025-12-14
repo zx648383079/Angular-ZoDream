@@ -19,11 +19,11 @@ import { TextElement } from './text-editor';
     styleUrls: ['./book-editor.component.scss'],
 })
 export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
-    private service = inject(BookService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(BookService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private renderer = inject(Renderer2);
-    private themeService = inject(ThemeService);
+    private readonly themeService = inject(ThemeService);
     private editor = inject(EditorService);
 
 

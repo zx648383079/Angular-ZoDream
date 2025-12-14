@@ -8,7 +8,7 @@ import { BotService } from './bot.service';
   styleUrls: ['./bot-backend.component.scss']
 })
 export class BotBackendComponent implements OnInit {
-    private service = inject(BotService);
+    private readonly service = inject(BotService);
 
 
     public isLoading = false;

@@ -38,7 +38,6 @@ import {
     DragDropDirective
 } from './directives';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 import { MarkdownBlockComponent } from './markdown-block/markdown-block.component';
 import { MediaPlayerModule } from '../media-player';
 import { CodeBlockComponent } from './code-block/code-block.component';
@@ -90,7 +89,6 @@ const DIRECTIVES = [
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule,
         RouterModule,
         MediaPlayerModule
     ],

@@ -1,34 +1,40 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChapterTypeItems, IChapter } from '../../../model';
 import { wordLength } from '../../../../../theme/utils';
 import { BookService } from '../../book.service';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-chapter-detail',
-  templateUrl: './chapter-detail.component.html',
-  styleUrls: ['./chapter-detail.component.scss']
+    selector: 'app-chapter-detail',
+    templateUrl: './chapter-detail.component.html',
+    styleUrls: ['./chapter-detail.component.scss']
 })
 export class ChapterDetailComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(BookService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(BookService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        title: ['', Validators.required],
-        content: ['', Validators.required],
-        price: [0],
-        source: [''],
-        position: [99],
+    public readonly dataModel = signal({
+        id: 0,
+        title: '',
+        content: '',
+        type: '',
+        price: 0,
+        source: '',
+        position: 99,
+        book_id: 0,
+        size: 0,
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.title);
+        required(schemaPath.content);
     });
 
-    public data: IChapter;
     public typeItems = ChapterTypeItems;
 
     ngOnInit() {
@@ -37,18 +43,25 @@ export class ChapterDetailComponent implements OnInit {
                 history.back();
                 return;
             }
-            this.data = {book_id: params.book, size: 0} as any;
             if (!params.id) {
+                this.dataModel.update(v => {
+                    v.book_id = params.book,
+                    v.size = 0;
+                    return v;
+                })
                 return;
             }
             this.service.chapter(params.id).subscribe(res => {
-                this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                    id: res.id,
+                    type: res.type as any,
                     title: res.title,
                     content: res.content,
                     price: res.price,
                     source: res.source,
                     position: res.position,
+                    book_id: params.book,
+                    size: 0
                 });
             });
         });
@@ -59,15 +72,11 @@ export class ChapterDetailComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IChapter = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
-        data.book_id = this.data.book_id;
+        const data: IChapter = this.dataForm().value() as any;
         data.size = wordLength(data.content);
         e?.enter();
         this.service.chapterSave(data).subscribe({

@@ -15,23 +15,23 @@
             </div>
             <div class="col-md-8">
                 @if (data) {
-                <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
+                <form class="form-table-control" (submit)="tapSubmit()">
                     <div class="title-input">
                         <label for="name">名称</label>
-                        <input type="text" id="name" class="form-control" formControlName="name">
+                        <input type="text" id="name" class="form-control" [field]="dataForm.name">
                     </div>
                     @if (data.type < 1) {
                     <div>
-                        <app-markdown-editor formControlName="content" [height]="400" />
+                        <app-markdown-editor [field]="dataForm.content" [height]="400" />
                     </div>
                     }
-                    
+
                     <app-action-button (tapped)="tapSubmit($event)" class="btn btn-success">确认保存</app-action-button>
                 </form>
                 }
             </div>
         </div>
-        
+
     </div>
 </div>
 

@@ -1,37 +1,41 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { IActivity, IAuctionConfigure } from '../../../../model';
 import { ActivityService } from '../../activity.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-shop-auction-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+    selector: 'app-shop-auction-edit',
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.scss']
 })
 export class EditAuctionComponent implements OnInit {
-    private service = inject(ActivityService);
-    private fb = inject(FormBuilder);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ActivityService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        thumb: [''],
-        description: [''],
-        scope: [0, Validators.required],
-        start_at: [''],
-        end_at: [],
-        configure: this.fb.group({
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        thumb: '',
+        description: '',
+        scope: 0,
+        start_at: '',
+        end_at: '',
+        configure: {
             mode: '0',
             begin_price: 0,
             fixed_price: 0,
             step_price: 0,
             deposit: 0,
-        }),
+        }
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.scope);
     });
 
     public data: IActivity<IAuctionConfigure>;
@@ -43,7 +47,8 @@ export class EditAuctionComponent implements OnInit {
             }
             this.service.auction(params.id).subscribe(res => {
                 this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                        id: res.id,
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
@@ -51,7 +56,7 @@ export class EditAuctionComponent implements OnInit {
                     start_at: res.start_at as string,
                     end_at: res.end_at,
                 });
-                this.form.get('configure').patchValue(res.configure as any);
+                this.dataForm.configure.patchValue(res.configure as any);
             });
         });
     }
@@ -61,14 +66,11 @@ export class EditAuctionComponent implements OnInit {
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IActivity<IAuctionConfigure> = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IActivity<IAuctionConfigure> = this.dataForm().value() as any;
         this.service.auctionSave(data).subscribe(_ => {
             this.toastrService.success($localize `Save Successfully`);
             this.tapBack();

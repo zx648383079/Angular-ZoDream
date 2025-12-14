@@ -12,8 +12,8 @@ import { DiskService } from '../disk.service';
     styleUrls: ['./files.component.scss']
 })
 export class FilesComponent implements OnInit {
-    private service = inject(DiskService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(DiskService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

@@ -14,9 +14,9 @@ import { UploadButtonEvent } from '../../../components/form';
     styleUrls: ['./member.component.scss']
 })
 export class MemberComponent implements OnInit {
-    private service = inject(VisualService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(VisualService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

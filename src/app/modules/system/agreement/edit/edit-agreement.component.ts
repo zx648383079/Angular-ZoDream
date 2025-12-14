@@ -1,31 +1,37 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
-import { IAgreement, IItem } from '../../../../theme/models/seo';
-import { emptyValidate } from '../../../../theme/validators';
+import { IItem } from '../../../../theme/models/seo';
 import { SystemService } from '../../system.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-edit-agreement',
-  templateUrl: './edit-agreement.component.html',
-  styleUrls: ['./edit-agreement.component.scss']
+    selector: 'app-edit-agreement',
+    templateUrl: './edit-agreement.component.html',
+    styleUrls: ['./edit-agreement.component.scss']
 })
 export class EditAgreementComponent implements OnInit {
-    private service = inject(SystemService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(SystemService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public data: IAgreement = {
+    public readonly dataModel = signal({
         id: 0,
         name: '',
         title: '',
+        language: '',
         description: '',
         content: [],
         status: 0,
-    } as any;
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.title);
+        required(schemaPath.content);
+    });
 
     public languageItems: IItem[] = [];
 
@@ -42,26 +48,36 @@ export class EditAgreementComponent implements OnInit {
         if (id && id  > 0) {
             this.service.agreement(id).subscribe(res => {
                 this.languageItems = res.languages;
-                delete res.languages;
-                this.data = res;
+                this.dataModel.set({
+                    id: res.id,
+                    name: res.name,
+                    language: res.language,
+                    title: res.title,
+                    description: res.description,
+                    content: res.content,
+                    status: res.status,
+                });
             });
             return;
         }
         this.toastrService.confirm({
             content: '是否复制当前内容完成翻译？',
             onConfirm: () => {
-                this.data = {...this.data, id: 0, language: lang};
+                this.dataModel.update(v => {
+                    v.id = 0;
+                    v.language = lang;
+                    return v;
+                })
             },
             onCancel: () => {
-                this.data = {
-                    id: 0,
-                    name: this.data.name,
-                    language: lang,
-                    title: '',
-                    description: '',
-                    content: [],
-                    status: this.data.status,
-                } as any;
+                this.dataModel.update(v => {
+                    v.id = 0;
+                    v.language = lang;
+                    v.title = '';
+                    v.description = '';
+                    v.content = [];
+                    return v;
+                });
             }
         });
     }
@@ -71,12 +87,12 @@ export class EditAgreementComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (emptyValidate(this.data.name) || emptyValidate(this.data.title) || this.data.content.length < 1) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
         e?.enter();
-        this.service.agreementSave(this.data).subscribe({
+        this.service.agreementSave(this.dataForm().value()).subscribe({
             next: _ => {
                 e?.reset();
                 this.toastrService.success($localize `Save Successfully`);

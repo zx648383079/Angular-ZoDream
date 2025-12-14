@@ -3,18 +3,18 @@ import { CommonModule } from '@angular/common';
 import { warehouseRoutedComponents, WarehouseRoutingModule } from './warehouse-routing.routing';
 import { ThemeModule } from '../../../../theme/theme.module';
 import { WarehouseService } from './warehouse.service';
-import { ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from '../../../../components/dialog';
 import { ZreFormModule } from '../../../../components/form';
 import { ShopManageModule } from '../../components';
 import { DesktopModule } from '../../../../components/desktop';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        Field,
         DesktopModule,
-        ReactiveFormsModule,
         WarehouseRoutingModule,
         ShopManageModule,
         DialogModule,

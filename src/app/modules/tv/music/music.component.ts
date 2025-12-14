@@ -15,9 +15,9 @@ import { TvService } from '../tv.service';
     styleUrls: ['./music.component.scss']
 })
 export class MusicComponent implements OnInit {
-    private service = inject(TvService);
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
+    private readonly service = inject(TvService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
     private searchService = inject(SearchService);
 
 

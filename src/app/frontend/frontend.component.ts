@@ -33,12 +33,12 @@ interface IDropNavItem {
     styleUrls: ['./frontend.component.scss']
 })
 export class FrontendComponent implements OnDestroy {
-    private service = inject(FrontendService);
-    private router = inject(Router);
-    private store = inject<Store<AppState>>(Store);
-    private authService = inject(AuthService);
-    private toastrService = inject(DialogService);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(FrontendService);
+    private readonly router = inject(Router);
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly authService = inject(AuthService);
+    private readonly toastrService = inject(DialogService);
+    private readonly themeService = inject(ThemeService);
 
 
     private readonly loginModal = viewChild(LoginDialogComponent);

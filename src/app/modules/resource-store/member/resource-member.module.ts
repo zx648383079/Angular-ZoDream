@@ -5,18 +5,18 @@ import { ResourceService } from './resource.service';
 import { ThemeModule } from '../../../theme/theme.module';
 import { DesktopModule } from '../../../components/desktop';
 import { DialogModule } from '../../../components/dialog';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ZreFormModule } from '../../../components/form';
 import { ZreEditorModule } from '../../../components/editor';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        Field,
         DesktopModule,
         DialogModule,
-        ReactiveFormsModule,
         ZreFormModule,
         ZreEditorModule,
         NgSelectModule,

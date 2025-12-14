@@ -8,7 +8,7 @@ import { CheckinService } from './checkin.service';
   styleUrls: ['./checkin-backend.component.scss']
 })
 export class CheckinBackendComponent implements OnInit {
-    private service = inject(CheckinService);
+    private readonly service = inject(CheckinService);
 
 
     public isLoading = true;

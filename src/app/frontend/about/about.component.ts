@@ -12,9 +12,9 @@ import { FrontendService } from '../frontend.service';
     styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit {
-    private service = inject(FrontendService);
-    private toastrService = inject(DialogService);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(FrontendService);
+    private readonly toastrService = inject(DialogService);
+    private readonly themeService = inject(ThemeService);
 
 
     public data = {

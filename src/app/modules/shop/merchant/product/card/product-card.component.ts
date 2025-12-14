@@ -14,9 +14,9 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./product-card.component.scss']
 })
 export class ProductCardComponent implements OnInit {
-    private service = inject(ShopService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ShopService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private downloadService = inject(DownloadService);
     private searchService = inject(SearchService);
 

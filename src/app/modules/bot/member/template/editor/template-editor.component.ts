@@ -14,7 +14,7 @@ import { FormValueControl } from '@angular/forms/signals';
     styleUrls: ['./template-editor.component.scss'],
 })
 export class TemplateEditorComponent implements FormValueControl<string> {
-    private service = inject(BotService);
+    private readonly service = inject(BotService);
     private sanitizer = inject(DomSanitizer);
 
 

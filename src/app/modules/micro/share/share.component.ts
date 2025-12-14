@@ -12,10 +12,10 @@ import { MicroService } from '../micro.service';
   styleUrls: ['./share.component.scss']
 })
 export class ShareComponent implements OnInit {
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
-    private service = inject(MicroService);
-    private toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly service = inject(MicroService);
+    private readonly toastrService = inject(DialogService);
 
 
     public data = {

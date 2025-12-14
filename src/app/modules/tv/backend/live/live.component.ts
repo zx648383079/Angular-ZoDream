@@ -16,9 +16,9 @@ import { TVService } from '../tv.service';
   styleUrls: ['./live.component.scss']
 })
 export class LiveComponent implements OnInit {
-    private service = inject(TVService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(TVService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private downloadService = inject(DownloadService);
     private searchService = inject(SearchService);
 

@@ -13,10 +13,10 @@ import { BookService } from '../book.service';
     styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-    private service = inject(BookService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
-    private store = inject<Store<AppState>>(Store);
+    private readonly service = inject(BookService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+    private readonly store = inject<Store<AppState>>(Store);
 
 
     public items: IBookList[] = [];

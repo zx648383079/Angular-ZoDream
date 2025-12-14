@@ -15,10 +15,10 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./member.component.scss']
 })
 export class MemberComponent implements OnDestroy {
-    private service = inject(ShopService);
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
-    private store = inject<Store<ShopAppState>>(Store);
+    private readonly service = inject(ShopService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly store = inject<Store<ShopAppState>>(Store);
 
     public site: ISite = {} as any;
     public title = '个人中心';

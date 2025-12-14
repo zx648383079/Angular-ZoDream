@@ -12,8 +12,8 @@ import { MemberService } from '../member.service';
     styleUrls: ['./connect.component.scss']
 })
 export class ConnectComponent implements OnInit {
-    private service = inject(MemberService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(MemberService);
+    private readonly toastrService = inject(DialogService);
     private webAuthnn = inject(WebAuthn);
 
 

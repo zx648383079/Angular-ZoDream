@@ -14,9 +14,9 @@ import { SwiperEvent } from '../../../components/swiper';
     styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
-    private service = inject(ContactService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ContactService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

@@ -20,9 +20,9 @@ import {
     styleUrls: ['./region.component.scss']
 })
 export class RegionComponent implements OnInit {
-    private service = inject(RegionService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(RegionService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

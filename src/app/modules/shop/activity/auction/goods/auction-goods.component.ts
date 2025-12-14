@@ -13,11 +13,11 @@ import { ActivityService } from '../../activity.service';
   styleUrls: ['./auction-goods.component.scss']
 })
 export class AuctionGoodsComponent implements OnInit, OnDestroy {
-    private service = inject(ActivityService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ActivityService);
+    private readonly route = inject(ActivatedRoute);
     private sanitizer = inject(DomSanitizer);
-    private toastrService = inject(DialogService);
-    private themeService = inject(ThemeService);
+    private readonly toastrService = inject(DialogService);
+    private readonly themeService = inject(ThemeService);
 
 
     public data: IGoods;

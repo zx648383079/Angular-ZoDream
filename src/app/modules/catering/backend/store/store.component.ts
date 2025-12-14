@@ -13,9 +13,9 @@ import { ICateringStore } from '../../model';
     styleUrls: ['./store.component.scss']
 })
 export class StoreComponent implements OnInit {
-    private service = inject(CateringBackendService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(CateringBackendService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

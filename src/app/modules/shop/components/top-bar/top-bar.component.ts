@@ -14,9 +14,9 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./top-bar.component.scss']
 })
 export class TopBarComponent implements OnInit {
-    private service = inject(ShopService);
-    private store = inject<Store<ShopAppState>>(Store);
-    private authService = inject(AuthService);
+    private readonly service = inject(ShopService);
+    private readonly store = inject<Store<ShopAppState>>(Store);
+    private readonly authService = inject(AuthService);
 
 
     public noticeItems: IArticle[] = [];

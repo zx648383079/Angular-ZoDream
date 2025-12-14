@@ -11,8 +11,8 @@ import { TaskService } from '../task.service';
     styleUrls: ['./comment-panel.component.scss'],
 })
 export class CommentPanelComponent {
-    private service = inject(TaskService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(TaskService);
+    private readonly toastrService = inject(DialogService);
 
 
     public readonly itemId = input(0);

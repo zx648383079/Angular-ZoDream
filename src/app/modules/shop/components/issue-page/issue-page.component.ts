@@ -13,8 +13,8 @@ import { DialogService } from '../../../../components/dialog';
     styleUrls: ['./issue-page.component.scss']
 })
 export class IssuePageComponent {
-    private service = inject(ShopService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ShopService);
+    private readonly toastrService = inject(DialogService);
 
 
     public readonly itemId = input(0);

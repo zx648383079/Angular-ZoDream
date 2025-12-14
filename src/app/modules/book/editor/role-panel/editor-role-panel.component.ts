@@ -12,7 +12,7 @@ import { BookService } from '../book.service';
     styleUrls: ['./editor-role-panel.component.scss'],
 })
 export class EditorRolePanelComponent {
-    private service = inject(BookService);
+    private readonly service = inject(BookService);
 
 
     public visible = false;

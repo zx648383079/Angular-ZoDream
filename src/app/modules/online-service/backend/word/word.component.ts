@@ -14,9 +14,9 @@ import { OnlineBackendService } from '../online.service';
   styleUrls: ['./word.component.scss']
 })
 export class WordComponent implements OnInit {
-    private service = inject(OnlineBackendService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(OnlineBackendService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

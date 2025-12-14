@@ -12,8 +12,8 @@ import { IBudget } from '../../model';
     styleUrls: ['./budget-container.component.scss']
 })
 export class BudgetContainerComponent implements OnInit {
-    private service = inject(FinanceService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(FinanceService);
+    private readonly route = inject(ActivatedRoute);
 
 
     public isLoading = true;

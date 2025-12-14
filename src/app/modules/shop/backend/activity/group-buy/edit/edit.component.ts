@@ -1,9 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { IActivity, IGroupBuyConfigure } from '../../../../model';
 import { ActivityService } from '../../activity.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -12,34 +12,37 @@ import { ActivityService } from '../../activity.service';
   styleUrls: ['./edit.component.scss']
 })
 export class EditGroupBuyComponent implements OnInit {
-    private service = inject(ActivityService);
-    private fb = inject(FormBuilder);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ActivityService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        thumb: [''],
-        description: [''],
-        scope: [[], Validators.required],
-        scope_type: [0],
-        start_at: [''],
-        end_at: [],
-        configure: this.fb.group({
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        thumb: '',
+        description: '',
+        scope: [],
+        scope_type: 0,
+        start_at: '',
+        end_at: '',
+        configure: {
             deposit: 0,
             amount: 0,
             send_point: 0,
             min_users: 2,
             max_users: 0,
-        }),
-        step: this.fb.array([]),
+            step: []
+        }
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
     public data: IActivity<IGroupBuyConfigure>;
 
     get stepItems() {
-        return this.form.get('step') as FormArray<FormGroup>;
+        return this.dataForm.step as FormArray<FormGroup>;
     }
 
     ngOnInit() {
@@ -49,7 +52,8 @@ export class EditGroupBuyComponent implements OnInit {
             }
             this.service.groupBuy(params.id).subscribe(res => {
                 this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                        id: res.id,
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
@@ -58,12 +62,10 @@ export class EditGroupBuyComponent implements OnInit {
                     start_at: res.start_at as string,
                     end_at: res.end_at,
                     step: this.fb.array(
-                        res.configure.step.map(i => {
-                            return this.fb.group(i);
-                        })
+                        // TODO
                     ) as any
                 });
-                this.form.get('configure').patchValue(res.configure);
+                this.dataForm.configure.patchValue(res.configure);
             });
         });
     }
@@ -73,14 +75,11 @@ export class EditGroupBuyComponent implements OnInit {
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: any = Object.assign({}, this.form.value);
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: any = this.dataForm().value();
         if (data.step) {
             data.configure.step = data.step;
         }
@@ -95,10 +94,15 @@ export class EditGroupBuyComponent implements OnInit {
     }
 
     public tapAddStep() {
-        this.stepItems.push(this.fb.group({
+    public readonly dataModel = signal({
             amount: 0,
             price: 0,
-        }));
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+    });
     }
 
 }

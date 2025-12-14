@@ -1,34 +1,37 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { IActivity, IFreeTrialConfigure } from '../../../../model';
 import { ActivityService } from '../../activity.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-shop-free-trial-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+    selector: 'app-shop-free-trial-edit',
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.scss']
 })
 export class EditFreeTrialComponent implements OnInit {
-    private service = inject(ActivityService);
-    private fb = inject(FormBuilder);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ActivityService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        thumb: [''],
-        description: [''],
-        scope: [[], Validators.required],
-        scope_type: [0],
-        start_at: [''],
-        end_at: [],
-        configure: this.fb.group({
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        thumb: '',
+        description: '',
+        scope: [],
+        scope_type: 0,
+        start_at: '',
+        end_at: '',
+        configure: {
             amount: 0
-        }),
+        }
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
     public data: IActivity<IFreeTrialConfigure>;
@@ -40,7 +43,8 @@ export class EditFreeTrialComponent implements OnInit {
             }
             this.service.freeTrial(params.id).subscribe(res => {
                 this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                        id: res.id,
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
@@ -49,7 +53,7 @@ export class EditFreeTrialComponent implements OnInit {
                     start_at: res.start_at as string,
                     end_at: res.end_at,
                 });
-                this.form.get('configure').patchValue(res.configure);
+                this.dataForm.configure.patchValue(res.configure);
             });
         });
     }
@@ -59,14 +63,11 @@ export class EditFreeTrialComponent implements OnInit {
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IActivity<any> = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IActivity<any> = this.dataForm().value() as any;
         this.service.freeTrialSave(data).subscribe(_ => {
             this.toastrService.success($localize `Save Successfully`);
             this.tapBack();

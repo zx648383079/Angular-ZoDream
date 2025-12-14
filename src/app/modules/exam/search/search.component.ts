@@ -14,9 +14,9 @@ import { ICourse, IExamPage } from '../model';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-    private service = inject(ExamService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ExamService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

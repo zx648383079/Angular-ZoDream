@@ -12,8 +12,8 @@ import { AffiliateService } from '../affiliate.service';
     styleUrls: ['./log.component.scss']
 })
 export class LogComponent implements OnInit {
-    private service = inject(AffiliateService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(AffiliateService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

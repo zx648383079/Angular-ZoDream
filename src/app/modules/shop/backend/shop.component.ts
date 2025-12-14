@@ -18,7 +18,7 @@ import {
     styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent implements OnInit {
-    private service = inject(ShopService);
+    private readonly service = inject(ShopService);
 
 
     public items: ISubtotal[];

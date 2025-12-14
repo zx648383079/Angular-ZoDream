@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { cateringRoutingComponents, CateringRoutingModule } from './catering-routing.module';
 import { ThemeModule } from '../../theme/theme.module';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ContextMenuModule } from '../../components/context-menu';
 import { ZreFormModule } from '../../components/form';
 import { AuthSharedModule } from '../auth/auth-shared.module';
@@ -15,7 +14,6 @@ import { DesktopModule } from '../../components/desktop';
         CommonModule,
         ThemeModule,
         DesktopModule,
-        ReactiveFormsModule,
         CateringRoutingModule,
         ContextMenuModule,
         ZreFormModule,

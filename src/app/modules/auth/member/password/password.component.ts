@@ -15,9 +15,9 @@ import { MemberService } from '../member.service';
     styleUrls: ['./password.component.scss']
 })
 export class PasswordComponent {
-    private store = inject<Store<AppState>>(Store);
-    private service = inject(MemberService);
-    private toastrService = inject(DialogService);
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly service = inject(MemberService);
+    private readonly toastrService = inject(DialogService);
 
 
     public tabIndex = 0;

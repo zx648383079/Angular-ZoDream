@@ -11,9 +11,9 @@ import { TvService } from '../tv.service';
   styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
-    private service = inject(TvService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(TvService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
 
 
     public data: IMovie;

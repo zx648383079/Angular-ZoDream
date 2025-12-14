@@ -10,8 +10,8 @@ import { ThemeService } from '../../../../theme/services';
     styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
-    private service = inject(BlogService);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(BlogService);
+    private readonly themeService = inject(ThemeService);
 
 
     public items: ICategory[] = [];

@@ -12,9 +12,9 @@ import { ISoftware, ISoftwarePackage } from '../model';
     styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
-    private service = inject(AppStoreService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(AppStoreService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private themeSerive = inject(ThemeService);
 
 

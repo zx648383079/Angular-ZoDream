@@ -22,13 +22,13 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./micro.component.scss']
 })
 export class MicroComponent implements OnInit, OnDestroy {
-    private service = inject(MicroService);
-    private toastrService = inject(DialogService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
-    private store = inject<Store<AppState>>(Store);
+    private readonly service = inject(MicroService);
+    private readonly toastrService = inject(DialogService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+    private readonly store = inject<Store<AppState>>(Store);
     private searchService = inject(SearchService);
-    private themeService = inject(ThemeService);
+    private readonly themeService = inject(ThemeService);
 
 
     public items: IMicro[] = [];

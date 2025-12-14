@@ -30,12 +30,12 @@ interface IMessageGroup {
     styleUrls: ['./message.component.scss']
 })
 export class MessageComponent implements OnInit, OnDestroy {
-    private store = inject<Store<AppState>>(Store);
-    private service = inject(UserService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
-    private themeService = inject(ThemeService);
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly service = inject(UserService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
+    private readonly themeService = inject(ThemeService);
 
 
     public navItems: IMessageGroup[] = [];

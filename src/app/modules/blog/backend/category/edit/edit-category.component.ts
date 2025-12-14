@@ -1,9 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ICategory } from '../../../model';
 import { BlogService } from '../../blog.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -12,19 +12,22 @@ import { BlogService } from '../../blog.service';
   styleUrls: ['./edit-category.component.scss']
 })
 export class EditCategoryComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(BlogService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(BlogService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        thumb: [''],
-        keywords: [''],
-        description: [''],
-        styles: [''],
-        en_name: [''],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        thumb: '',
+        keywords: '',
+        description: '',
+        styles: '',
+        en_name: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
     public data: ICategory;
@@ -36,7 +39,8 @@ export class EditCategoryComponent implements OnInit {
             }
             this.service.category(params.id).subscribe(res => {
                 this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                        id: res.id,
                     name: res.name,
                     thumb: res.thumb,
                     keywords: res.keywords,
@@ -47,24 +51,16 @@ export class EditCategoryComponent implements OnInit {
             });
         });
     }
-
-    get name() {
-        return this.form.get('name');
-    }
-
     public tapBack() {
         history.back();
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: ICategory = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: ICategory = this.dataForm().value() as any;
         this.service.categorySave(data).subscribe(_ => {
             this.toastrService.success($localize `Save Successfully`);
             this.tapBack();

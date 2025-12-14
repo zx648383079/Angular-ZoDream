@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { ZreFormModule } from '../../components/form';
@@ -28,7 +27,6 @@ const PIPES = [
     imports: [
         CommonModule,
         RouterModule,
-        FormsModule,
         ZreFormModule,
         DesktopModule,
     ],

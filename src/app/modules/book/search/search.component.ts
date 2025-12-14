@@ -17,9 +17,9 @@ import {
     styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-    private service = inject(BookService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(BookService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
 
 
     public items: IBook[] = [];

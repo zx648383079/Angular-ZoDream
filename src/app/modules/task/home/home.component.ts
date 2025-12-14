@@ -15,10 +15,10 @@ import { TaskService } from '../task.service';
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-    private service = inject(TaskService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(TaskService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
 

@@ -18,9 +18,9 @@ const posMap = ['north_id', 'east_id', 'south_id', 'west_id'];
 })
 export class MapEditorComponent implements OnInit, AfterViewInit {
     private boxRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
-    private service = inject(GameMakerService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(GameMakerService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
 
 
     private readonly lineCanvasRef = viewChild<ElementRef<HTMLCanvasElement>>('lineCanvas');

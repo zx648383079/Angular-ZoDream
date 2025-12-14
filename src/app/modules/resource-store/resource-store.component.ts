@@ -16,11 +16,11 @@ import { ThemeService } from '../../theme/services';
     styleUrls: ['./resource-store.component.scss']
 })
 export class ResourceStoreComponent implements OnInit, OnDestroy {
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
-    private store = inject<Store<AppState>>(Store);
-    private service = inject(ResourceService);
-    private themeService = inject(ThemeService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly service = inject(ResourceService);
+    private readonly themeService = inject(ThemeService);
 
 
     public navItems: ICategory[] = [

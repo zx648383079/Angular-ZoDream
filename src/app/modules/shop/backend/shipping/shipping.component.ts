@@ -13,9 +13,9 @@ import { PaymentService } from '../payment.service';
   styleUrls: ['./shipping.component.scss']
 })
 export class ShippingComponent implements OnInit {
-    private service = inject(PaymentService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(PaymentService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

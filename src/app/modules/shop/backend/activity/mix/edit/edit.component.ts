@@ -1,9 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { IActivity, IGoodsResult, IMixConfigure, IMixGoods } from '../../../../model';
 import { ActivityService } from '../../activity.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -12,22 +12,25 @@ import { ActivityService } from '../../activity.service';
     styleUrls: ['./edit.component.scss'],
 })
 export class EditMixComponent implements OnInit {
-    private service = inject(ActivityService);
-    private fb = inject(FormBuilder);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ActivityService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        thumb: [''],
-        description: [''],
-        scope_type: [0],
-        start_at: [''],
-        end_at: [],
-        configure: this.fb.group({
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        thumb: '',
+        description: '',
+        scope_type: 0,
+        start_at: '',
+        end_at: '',
+        configure: {
             price: 0
-        }),
+        }
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
     public data: IActivity<IMixConfigure>;
@@ -36,7 +39,7 @@ export class EditMixComponent implements OnInit {
 
 
     public get configure() {
-        return this.form.get('configure');
+        return this.dataForm.configure;
     }
 
     ngOnInit() {
@@ -47,7 +50,8 @@ export class EditMixComponent implements OnInit {
             this.service.mix(params.id).subscribe(res => {
                 this.data = res;
                 this.goodsItems = res.configure.goods;
-                this.form.patchValue({
+                this.dataModel.set({
+                        id: res.id,
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
@@ -65,14 +69,11 @@ export class EditMixComponent implements OnInit {
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IActivity<any> = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IActivity<any> = this.dataForm().value() as any;
         let total = 0;
         data.configure.goods = this.goodsItems.map(i => {
             total += i.amount * i.price;

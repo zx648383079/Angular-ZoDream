@@ -8,7 +8,7 @@ import { IGameScene, InvestTabItems, GameRouterInjectorToken, IGameRouter, GameC
     styleUrls: ['./bank.component.scss']
 })
 export class BankComponent implements IGameScene, OnInit {
-    private router = inject<IGameRouter>(GameRouterInjectorToken);
+    private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
     public items: any[] = [];

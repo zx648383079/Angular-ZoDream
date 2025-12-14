@@ -1,37 +1,40 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ICmsSite, ICMSTheme } from '../../../model';
 import { CmsService } from '../../cms.service';
 import { IItem } from '../../../../../theme/models/seo';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-edit-site',
-  templateUrl: './edit-site.component.html',
-  styleUrls: ['./edit-site.component.scss']
+    selector: 'app-edit-site',
+    templateUrl: './edit-site.component.html',
+    styleUrls: ['./edit-site.component.scss']
 })
 export class EditSiteComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(CmsService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(CmsService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        title: ['', Validators.required],
-        theme: ['', Validators.required],
-        match_type: 0,
+    public readonly dataModel = signal({
+        id: 0,
+        title: '',
+        theme: '',
+        match_type: '',
         match_rule: '',
         logo: '',
         keywords: '',
         description: '',
         language: '',
-        status: 5,
+        status: '5',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.title);
+        required(schemaPath.theme);
     });
 
-    public data: ICmsSite;
     public themeItems: ICMSTheme[] = [];
     public statusItems: IItem[] = [
         {name: '下线', value: 0},
@@ -43,9 +46,10 @@ export class EditSiteComponent implements OnInit {
             theme: {}
         }).subscribe(res => {
             this.themeItems = res.theme;
-            if (!this.data && this.themeItems.length > 0) {
-                this.form.patchValue({
-                    theme: this.themeItems[0].name
+            if (this.dataModel().id  == 0 && this.themeItems.length > 0) {
+                this.dataModel.update(v => {
+                    v.theme = this.themeItems[0].name;
+                    return v;
                 });
             }
         });
@@ -54,16 +58,16 @@ export class EditSiteComponent implements OnInit {
                 return;
             }
             this.service.site(params.id).subscribe(res => {
-                this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                    id: res.id,
                     title: res.title,
                     theme: res.theme,
-                    match_type: res.match_type,
+                    match_type: res.match_type as any,
                     match_rule: res.match_rule,
                     logo: res.logo,
                     keywords: res.keywords,
                     description: res.description,
-                    status: res.status,
+                    status: res.status as any,
                     language: res.language
                 });
             });
@@ -75,14 +79,11 @@ export class EditSiteComponent implements OnInit {
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: ICmsSite = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: ICmsSite = this.dataForm().value() as any;
         this.service.siteSave(data).subscribe(_ => {
             this.toastrService.success($localize `Save Successfully`);
             this.tapBack();

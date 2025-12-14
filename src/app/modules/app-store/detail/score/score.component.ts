@@ -12,7 +12,7 @@ import { AppStoreService } from '../../app-store.service';
 })
 export class ScoreComponent {
     service = inject(AppStoreService);
-    private toastrService = inject(DialogService);
+    private readonly toastrService = inject(DialogService);
 
 
     public readonly itemId = input(0);

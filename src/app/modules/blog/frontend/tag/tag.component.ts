@@ -11,8 +11,8 @@ import { ThemeService } from '../../../../theme/services';
     styleUrls: ['./tag.component.scss']
 })
 export class TagComponent {
-    private service = inject(BlogService);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(BlogService);
+    private readonly themeService = inject(ThemeService);
 
 
     public tagItems: ITag[] = [];

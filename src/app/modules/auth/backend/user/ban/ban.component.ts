@@ -17,10 +17,10 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./ban.component.scss']
 })
 export class BanComponent implements OnInit, OnDestroy {
-    private service = inject(AuthService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
-    private store = inject<Store<AppState>>(Store);
+    private readonly service = inject(AuthService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
+    private readonly store = inject<Store<AppState>>(Store);
     private searchService = inject(SearchService);
 
     public items: IBanAccount[] = [];

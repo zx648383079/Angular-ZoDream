@@ -5,7 +5,6 @@ import { ThemeModule } from '../../theme/theme.module';
 import { UserService } from './user.service';
 import { ZreFormModule } from '../../components/form';
 import { LinkRuleModule } from '../../components/link-rule';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MenuService } from './menu.service';
 import { DialogModule } from '../../components/dialog';
 import { MessageContainerModule } from '../../components/message-container';
@@ -18,9 +17,7 @@ import { DesktopModule } from '../../components/desktop';
         ZreFormModule,
         LinkRuleModule,
         DesktopModule,
-        ReactiveFormsModule,
         DialogModule,
-        FormsModule,
         MessageContainerModule,
         UserRoutingModule
     ],

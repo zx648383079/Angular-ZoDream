@@ -1,5 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import {
@@ -7,6 +6,7 @@ import {
 } from '../../../../model';
 import { FileUploadService } from '../../../../../../theme/services/file-upload.service';
 import { GoodsService } from '../../goods.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -15,19 +15,22 @@ import { GoodsService } from '../../goods.service';
     styleUrls: ['./edit-brand.component.scss']
 })
 export class EditBrandComponent implements OnInit {
-    private service = inject(GoodsService);
-    private fb = inject(FormBuilder);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(GoodsService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private uploadService = inject(FileUploadService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        keywords: [''],
-        description: [''],
-        logo: [''],
-        app_logo: [''],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        keywords: '',
+        description: '',
+        logo: '',
+        app_logo: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
     public data: IBrand;
@@ -39,7 +42,8 @@ export class EditBrandComponent implements OnInit {
             }
             this.service.brand(params.id).subscribe(res => {
                 this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                        id: res.id,
                     name: res.name,
                     keywords: res.keywords,
                     description: res.description,
@@ -55,14 +59,11 @@ export class EditBrandComponent implements OnInit {
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IBrand = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IBrand = this.dataForm().value() as any;
         this.service.categorySave(data).subscribe(_ => {
             this.toastrService.success($localize `Save Successfully`);
             this.tapBack();
@@ -72,12 +73,12 @@ export class EditBrandComponent implements OnInit {
     public uploadFile(event: any, name: string = 'logo') {
         const files = event.target.files as FileList;
         this.uploadService.uploadImage(files[0]).subscribe(res => {
-            this.form.get(name).setValue(res.url);
+            this.dataForm[name]().value.set(res.url);
         });
     }
 
     public tapPreview(name: string) {
-        window.open(this.form.get(name).value, '_blank');
+        window.open(this.dataForm[name]().value(), '_blank');
     }
 
 }

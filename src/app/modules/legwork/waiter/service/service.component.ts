@@ -12,8 +12,8 @@ import { IService } from '../../model';
   styleUrls: ['./service.component.scss']
 })
 export class ServiceComponent implements OnInit {
-    private service = inject(LegworkService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(LegworkService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

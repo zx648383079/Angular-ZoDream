@@ -8,7 +8,7 @@ import { AppService } from './app.service';
   styleUrls: ['./app-backend.component.scss']
 })
 export class AppBackendComponent implements OnInit {
-    private service = inject(AppService);
+    private readonly service = inject(AppService);
 
 
     public isLoading = false;

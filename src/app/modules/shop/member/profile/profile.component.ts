@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IErrorResponse } from '../../../../theme/models/page';
@@ -15,10 +14,9 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-    private service = inject(ShopService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ShopService);
+    private readonly toastrService = inject(DialogService);
     route = inject(ActivatedRoute);
-    private fb = inject(FormBuilder);
 
 
     public sexItems: IItem[] = [
@@ -37,10 +35,13 @@ export class ProfileComponent implements OnInit {
     ];
 
     public user: IUser;
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        sex: [0],
-        birthday: [''],
+    public readonly dataModel = signal({
+        name: '',
+        sex: 0,
+        birthday: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
     public tabIndex = 0;
     public stepData = {
@@ -51,7 +52,8 @@ export class ProfileComponent implements OnInit {
         this.service.profile().subscribe({
             next: user => {
                 this.user = user;
-                this.form.patchValue({
+                this.dataModel.set({
+                        id: res.id,
                     name: user.name,
                     sex: user.sex,
                     birthday: user.birthday,
@@ -72,15 +74,15 @@ export class ProfileComponent implements OnInit {
     public tapSex(item: IItem) {
         this.user.sex = item.value as number;
         this.user.sex_label = item.name;
-        this.form.get('sex').setValue(parseNumber(item.value));
+        this.dataForm.sex.setValue(parseNumber(item.value));
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: any = Object.assign({}, this.form.value);
+        const data: any = this.dataForm().value();
         this.service.updateProfile(data).subscribe({
             next: _ => {
                 this.toastrService.success($localize `Save Successfully`);

@@ -12,9 +12,9 @@ import { SearchService } from '../../../../theme/services';
     styleUrls: ['./real-time.component.scss']
 })
 export class RealTimeComponent implements OnInit {
-    private service = inject(TrendService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(TrendService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

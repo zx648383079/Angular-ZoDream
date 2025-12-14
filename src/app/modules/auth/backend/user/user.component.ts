@@ -20,11 +20,11 @@ import { AccountStatusItems } from '../../../../theme/models/auth';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit, OnDestroy {
-    private service = inject(AuthService);
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
-    private toastrService = inject(DialogService);
-    private store = inject<Store<AppState>>(Store);
+    private readonly service = inject(AuthService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly toastrService = inject(DialogService);
+    private readonly store = inject<Store<AppState>>(Store);
     private searchService = inject(SearchService);
 
 

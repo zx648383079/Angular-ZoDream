@@ -22,11 +22,11 @@ import { selectSystemConfig } from '../../theme/reducers/system.selectors';
     styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit, OnDestroy {
-    private service = inject(NavigationService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
-    private store = inject<Store<AppState>>(Store);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(NavigationService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly themeService = inject(ThemeService);
     private searchService = inject(SearchService);
 
 

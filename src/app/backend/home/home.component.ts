@@ -8,7 +8,7 @@ import { BackendService } from '../backend.service';
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-    private service = inject(BackendService);
+    private readonly service = inject(BackendService);
 
 
     public isLoading = true;

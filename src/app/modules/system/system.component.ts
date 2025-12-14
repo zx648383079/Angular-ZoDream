@@ -13,8 +13,8 @@ import { SystemService } from './system.service';
   styleUrls: ['./system.component.scss']
 })
 export class SystemComponent {
-    private service = inject(SystemService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(SystemService);
+    private readonly toastrService = inject(DialogService);
 
 
     public groups: IOption[] = [];

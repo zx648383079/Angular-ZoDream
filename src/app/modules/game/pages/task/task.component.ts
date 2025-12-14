@@ -9,7 +9,7 @@ import { IPage, IPageQueries } from '../../../../theme/models/page';
     styleUrls: ['./task.component.scss']
 })
 export class TaskComponent implements IGameScene, OnInit {
-    private router = inject<IGameRouter>(GameRouterInjectorToken);
+    private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
     public items: IGameTask[] = [];

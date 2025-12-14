@@ -9,7 +9,7 @@ import { SuggestChangeEvent } from '../../../components/form';
     styleUrls: ['./search-input.component.scss']
 })
 export class SearchInputComponent implements SuggestChangeEvent {
-    private themeService = inject(ThemeService);
+    private readonly themeService = inject(ThemeService);
 
 
     public panelVisible = false;

@@ -15,10 +15,10 @@ import { ICategory } from './model';
   styleUrls: ['./app-store.component.scss']
 })
 export class AppStoreComponent implements OnInit {
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
-    private store = inject<Store<AppState>>(Store);
-    private service = inject(AppStoreService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly service = inject(AppStoreService);
 
 
     public navItems: ICategory[] = [

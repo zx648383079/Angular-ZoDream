@@ -18,8 +18,8 @@ export interface IFilterTag {
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-    private service = inject(AppStoreService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(AppStoreService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

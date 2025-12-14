@@ -1,11 +1,11 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑分类' : '新增分类'" (submited)="tapSubmit()" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑分类' : '新增分类'" (submited)="tapSubmit()" [disabled]="dataForm().invalid()" />
 <div class="container-fluid">
-    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control panel-container" (submit)="tapSubmit()">
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" formControlName="name">
-                @if (form.get('name').invalid) {
+                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                @if (dataForm.name().invalid()) {
                 <div class="input-tip">请输入名称</div>
                 }
             </div>
@@ -13,7 +13,7 @@
         <div class="input-group-control">
             <label for="parent_id">上级</label>
             <div>
-                <select id="parent_id" class="form-control" formControlName="parent_id">
+                <select id="parent_id" class="form-control" [field]="dataForm.parent_id">
                     <option value="0">-- 无上级分类 --</option>
                     @for (item of categories; track $index) {
                     <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
@@ -25,25 +25,25 @@
         <div class="input-group-control">
             <label for="thumb">Thumb</label>
             <div>
-                <app-file-input id="thumb" formControlName="thumb" />
+                <app-file-input id="thumb" [field]="dataForm.thumb" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="keywords">关键字</label>
             <div>
-                <input type="text" id="keywords" class="form-control" formControlName="keywords">
+                <input type="text" id="keywords" class="form-control" [field]="dataForm.keywords">
 
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">说明</label>
             <div>
-                <textarea id="description" class="form-control" formControlName="description"></textarea>
+                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
 
             </div>
         </div>
         <div class="btn-group">
-            <button type="submit" class="btn btn-success">确认保存</button>
+            <button type="submit" class="btn btn-success" [disabled]="dataForm().invalid()" >确认保存</button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
         </div>
     </form>

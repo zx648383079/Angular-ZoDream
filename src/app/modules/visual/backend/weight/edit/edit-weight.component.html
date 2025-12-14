@@ -1,18 +1,18 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑组件' : '新增组件'" (submited)="tapSubmit($event)" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑组件' : '新增组件'" (submited)="tapSubmit($event)" [disabled]="dataForm().invalid()" />
 
 <div class="container-fluid">
-    <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control" (submit)="tapSubmit()">
         <div class="panel-container">
             <div class="input-group-control">
                 <label for="title">名称</label>
                 <div>
-                    <input type="text" id="title" class="form-control" formControlName="name">
+                    <input type="text" id="title" class="form-control" [field]="dataForm.name">
                 </div>
             </div>
             <div class="input-group-control">
                 <label>类型*</label>
                 <div>
-                    <select class="form-control" formControlName="type">
+                    <select class="form-control" [field]="dataForm.type">
                         @for (item of typeItems; track $index) {
                             <option [value]="item.value">{{ item.name }}</option>
                         }
@@ -22,8 +22,8 @@
             <div class="input-group-control">
                 <label for="cat_id">分类</label>
                 <div>
-                    <select id="cat_id" class="form-control" formControlName="cat_id">
-                        @for (item of filterCategories; track $index) {
+                    <select id="cat_id" class="form-control" [field]="dataForm.cat_id">
+                        @for (item of filterCategories(); track $index) {
                             <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                         }
                     </select>
@@ -32,45 +32,45 @@
             <div class="input-group-control">
                 <label for="thumb">图片</label>
                 <div>
-                    <app-file-input formControlName="thumb" />
+                    <app-file-input [field]="dataForm.thumb" />
                 </div>
             </div>
-            
+
             <div class="input-group-control">
                 <label for="keywords">关键字</label>
                 <div>
-                    <app-words-input id="keywords" formControlName="keywords" />
+                    <app-words-input id="keywords" [field]="dataForm.keywords" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="description">说明</label>
                 <div>
-                    <app-text-editor formControlName="description" height="100" />
+                    <app-text-editor [field]="dataForm.description" height="100" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label>价格</label>
                 <div>
-                    <app-number-input formControlName="price" />
+                    <app-number-input [field]="dataForm.price" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label>是否审核</label>
                 <div>
-                    <app-switch formControlName="status" />
+                    <app-switch [field]="dataForm.status" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="official_website">文件</label>
                 <div>
-                    <app-file-input formControlName="path" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)" />
+                    <app-file-input [field]="dataForm.path" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)" />
                 </div>
             </div>
         </div>
 
 
         <div class="btn-group">
-            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)" [disabled]="form.invalid">确认保存</app-action-button>
+            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)" [disabled]="dataForm().invalid()">确认保存</app-action-button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
         </div>
     </form>

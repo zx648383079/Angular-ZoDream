@@ -15,9 +15,9 @@ import { emptyValidate } from '../../../../../theme/validators';
     styleUrls: ['./delivery.component.scss']
 })
 export class DeliveryComponent implements OnInit {
-    private service = inject(OrderService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(OrderService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

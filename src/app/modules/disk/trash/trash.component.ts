@@ -13,7 +13,7 @@ import {
     styleUrls: ['./trash.component.scss']
 })
 export class TrashComponent implements OnInit {
-    private service = inject(DiskService);
+    private readonly service = inject(DiskService);
 
 
     public checkedAll = false;

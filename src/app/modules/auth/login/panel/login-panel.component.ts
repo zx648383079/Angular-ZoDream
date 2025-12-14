@@ -21,9 +21,9 @@ import { EncryptorService } from '../../../../theme/services/encryptor.service';
     styleUrls: ['./login-panel.component.scss']
 })
 export class LoginPanelComponent implements OnDestroy {
-    private store = inject<Store<AppState>>(Store);
-    private toastrService = inject(DialogService);
-    private authService = inject(AuthService);
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly toastrService = inject(DialogService);
+    private readonly authService = inject(AuthService);
     private encryptor = inject(EncryptorService);
     private webAuthn = inject(WebAuthn);
 

@@ -15,10 +15,10 @@ import { BlogService } from '../../blog.service';
     styleUrls: ['./comment-item.component.scss']
 })
 export class CommentItemComponent {
-    private service = inject(BlogService);
-    private toastrService = inject(DialogService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(BlogService);
+    private readonly toastrService = inject(DialogService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
 
 
     public readonly value = input<IComment>(undefined);

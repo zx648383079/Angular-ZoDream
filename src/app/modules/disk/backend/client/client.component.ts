@@ -13,10 +13,10 @@ import { DialogService } from '../../../../components/dialog';
   styleUrls: ['./client.component.scss']
 })
 export class ClientComponent implements OnInit {
-    private service = inject(DiskService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(DiskService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
-    private toastrService = inject(DialogService);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: IDiskServerFile[] = [];

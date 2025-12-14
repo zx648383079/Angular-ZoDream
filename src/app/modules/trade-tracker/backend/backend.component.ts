@@ -8,7 +8,7 @@ import { TrackerBackendService } from './tracker.service';
     styleUrls: ['./backend.component.scss']
 })
 export class TradeTrackerBackendComponent implements OnInit {
-    private service = inject(TrackerBackendService);
+    private readonly service = inject(TrackerBackendService);
 
 
     public isLoading = true;

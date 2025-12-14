@@ -1,11 +1,11 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ICategory, IThemeComponent, ComponentTypeItems } from '../../../model';
 import { VisualService } from '../../visual.service';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent, UploadCustomEvent } from '../../../../../components/form';
 import { parseNumber } from '../../../../../theme/utils';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -14,24 +14,31 @@ import { parseNumber } from '../../../../../theme/utils';
     styleUrls: ['./edit-weight.component.scss']
 })
 export class EditWeightComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(VisualService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(VisualService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        thumb: [''],
-        keywords: [''],
-        description: [''],
-        cat_id: [0, Validators.required],
-        price: [0],
-        type: [0],
-        path: [''],
-        status: [0],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        thumb: '',
+        keywords: '',
+        description: '',
+        cat_id: '',
+        price: 0,
+        type: '',
+        path: '',
+        status: 0,
     });
-    public data: IThemeComponent;
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.cat_id);
+    });
+    public readonly filterCategories = computed(() => {
+        const type = parseNumber(this.dataForm.type().value()) + 1;
+        return this.categories.filter(i => i.id === type || i.parent_id === type);
+    });
     private categories: ICategory[] = [];
     public typeItems = ComponentTypeItems;
 
@@ -45,15 +52,15 @@ export class EditWeightComponent implements OnInit {
             }
             this.service.component(params.id).subscribe({
                 next: res => {
-                    this.data = res;
-                    this.form.patchValue({
+                    this.dataModel.set({
+                        id: res.id,
                         name: res.name,
                         thumb: res.thumb,
                         keywords: res.keywords,
                         description: res.description,
-                        cat_id: res.cat_id,
+                        cat_id: res.cat_id as any,
                         price: res.price,
-                        type: res.type,
+                        type: res.type as any,
                         status: res.status,
                         path: res.path
                     });
@@ -64,15 +71,6 @@ export class EditWeightComponent implements OnInit {
                 }
             });
         });
-    }
-
-    public get typeValue() {
-        return this.form.get('type').value;
-    }
-
-    public get filterCategories(): ICategory[] {
-        const type = parseNumber(this.typeValue) + 1;
-        return this.categories.filter(i => i.id === type || i.parent_id === type);
     }
 
     public onFileUpload(e: UploadCustomEvent) {
@@ -88,14 +86,11 @@ export class EditWeightComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IThemeComponent = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IThemeComponent = this.dataForm().value() as any;
         e?.enter();
         this.service.componentSave(data).subscribe({
             next: _ => {

@@ -1,10 +1,10 @@
 import { Component, OnInit, inject, viewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { IActivity, IGoods, ILotteryConfigure, ILotteryGift } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 import { SearchDialogComponent } from '../../../../components';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -13,29 +13,32 @@ import { SearchDialogComponent } from '../../../../components';
     styleUrls: ['./edit.component.scss'],
 })
 export class EditLotteryComponent implements OnInit {
-    private service = inject(ActivityService);
-    private fb = inject(FormBuilder);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ActivityService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
     private readonly modal = viewChild(SearchDialogComponent);
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        thumb: [''],
-        description: [''],
-        scope: [[], Validators.required],
-        scope_type: [0],
-        start_at: [''],
-        end_at: [],
-        configure: this.fb.group({
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        thumb: '',
+        description: '',
+        scope: [],
+        scope_type: 0,
+        start_at: '',
+        end_at: '',
+        configure: {
             time_price: 0,
             buy_times: 0,
             start_times: 0,
             btn_text: '',
             over_text: ''
-        }),
+        }
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
     public data: IActivity<ILotteryConfigure>;
@@ -49,7 +52,7 @@ export class EditLotteryComponent implements OnInit {
     ];
 
     get scopeType() {
-        const val = this.form.get('scope_type').value;
+        const val = this.dataForm.scope_type.value;
         return typeof val === 'number' ? val : parseInt(val, 10);
     }
 
@@ -61,7 +64,8 @@ export class EditLotteryComponent implements OnInit {
             this.service.lottery(params.id).subscribe(res => {
                 this.data = res;
                 this.giftItems = res.configure.items;
-                this.form.patchValue({
+                this.dataModel.set({
+                        id: res.id,
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
@@ -69,7 +73,7 @@ export class EditLotteryComponent implements OnInit {
                     start_at: res.start_at as string,
                     end_at: res.end_at,
                 });
-                this.form.get('configure').patchValue(res.configure);
+                this.dataForm.configure.patchValue(res.configure);
             });
         });
     }
@@ -79,14 +83,11 @@ export class EditLotteryComponent implements OnInit {
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IActivity<any> = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IActivity<any> = this.dataForm().value() as any;
         data.configure.items = this.giftItems.map(i => {
             return {
                 goods_id: i.goods_id,

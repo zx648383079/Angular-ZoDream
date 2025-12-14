@@ -11,7 +11,7 @@ import { FormValueControl } from '@angular/forms/signals';
     styleUrls: ['./address-picker.component.scss'],
 })
 export class AddressPickerComponent implements FormValueControl<IAddress> {
-    private service = inject(OrderService);
+    private readonly service = inject(OrderService);
 
 
     public readonly user = input(0);

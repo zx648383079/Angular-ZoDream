@@ -13,8 +13,8 @@ import { ISite } from '../../model';
     styleUrls: ['./site.component.scss']
 })
 export class SiteComponent implements OnInit {
-    private route = inject(ActivatedRoute);
-    private service = inject(VisualService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly service = inject(VisualService);
     private searchService = inject(SearchService);
 
 

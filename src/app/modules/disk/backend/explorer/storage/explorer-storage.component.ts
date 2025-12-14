@@ -16,10 +16,10 @@ import { ButtonEvent } from '../../../../../components/form';
   styleUrls: ['./explorer-storage.component.scss']
 })
 export class ExplorerStorageComponent implements OnInit {
-    private service = inject(DiskService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(DiskService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
-    private toastrService = inject(DialogService);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: IStorageFile[] = [];

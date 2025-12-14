@@ -13,8 +13,8 @@ import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
     styleUrls: ['./game-profiler.component.scss']
 })
 export class GameProfilerComponent implements OnDestroy {
-private store = inject<Store<AppState>>(Store);
-private themeService = inject(ThemeService);
+private readonly store = inject<Store<AppState>>(Store);
+private readonly themeService = inject(ThemeService);
 
 
 public navItems: INavLink[] = [

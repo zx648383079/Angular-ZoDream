@@ -14,9 +14,9 @@ import { BotService } from '../bot.service';
     styleUrls: ['./qrcode.component.scss']
 })
 export class QrcodeComponent implements OnInit {
-    private service = inject(BotService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(BotService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

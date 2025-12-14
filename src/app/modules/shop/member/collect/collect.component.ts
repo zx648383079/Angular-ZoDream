@@ -9,9 +9,9 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./collect.component.scss']
 })
 export class CollectComponent implements OnInit {
-    private service = inject(ShopService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ShopService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
 
     public title = '我的收藏';
     public items: any[] = [];

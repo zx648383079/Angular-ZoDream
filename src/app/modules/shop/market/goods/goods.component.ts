@@ -17,13 +17,13 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./goods.component.scss']
 })
 export class GoodsComponent implements OnInit {
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
-    private service = inject(ShopService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly service = inject(ShopService);
     private sanitizer = inject(DomSanitizer);
-    private toastrService = inject(DialogService);
-    private store = inject<Store<ShopAppState>>(Store);
-    private themeService = inject(ThemeService);
+    private readonly toastrService = inject(DialogService);
+    private readonly store = inject<Store<ShopAppState>>(Store);
+    private readonly themeService = inject(ThemeService);
 
 
     public data: IGoods;
@@ -121,7 +121,7 @@ export class GoodsComponent implements OnInit {
         const product = this.selectedProduct;
         const data: ICartGroup[] = [
             {
-                name: this.data.shop + '',
+                name: this.data.shop as any,
                 goods_list: [
                     {
                         goods_id: this.data.id,

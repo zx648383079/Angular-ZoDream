@@ -1,13 +1,13 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑店铺' : '新增店铺'" (submited)="tapSubmit($event)" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑店铺' : '新增店铺'" (submited)="tapSubmit($event)" [disabled]="dataForm().invalid()" />
 
 
 <div class="container-fluid">
-    <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control" (submit)="tapSubmit()">
         <div class="panel-container">
             <div class="input-group-control">
                 <label for="title">店铺名</label>
                 <div>
-                    <input type="text" id="title" class="form-control" formControlName="name">
+                    <input type="text" id="title" class="form-control" [field]="dataForm.name">
                 </div>
             </div>
             <div class="input-group-control">
@@ -19,25 +19,25 @@
             <div class="input-group-control">
                 <label for="logo">图标</label>
                 <div>
-                    <app-file-input formControlName="logo" />
+                    <app-file-input [field]="dataForm.logo" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="keywords">关键字</label>
                 <div>
-                    <app-words-input id="keywords" formControlName="keywords" />
+                    <app-words-input id="keywords" [field]="dataForm.keywords" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="description">说明</label>
                 <div>
-                    <app-text-editor formControlName="description" height="100" />
+                    <app-text-editor [field]="dataForm.description" height="100" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="status">状态</label>
                 <div>
-                    <select formControlName="status" class="form-control">
+                    <select [field]="dataForm.status" class="form-control">
                         <option value="0">上线</option>
                         <option value="1">关店</option>
                     </select>
@@ -46,7 +46,7 @@
         </div>
 
         <div class="btn-group">
-            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)" [disabled]="form.invalid">确认保存</app-action-button>
+            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)" [disabled]="dataForm().invalid()">确认保存</app-action-button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
         </div>
     </form>

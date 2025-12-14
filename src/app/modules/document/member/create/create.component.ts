@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { IProject } from '../../model';
@@ -12,16 +11,18 @@ import { DocumentService } from '../document.service';
   styleUrls: ['./create.component.scss']
 })
 export class CreateComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(DocumentService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(DocumentService);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        cover: [''],
-        description: [''],
-        status: [0],
+    public readonly dataModel = signal({
+        name: '',
+        cover: '',
+        description: '',
+        status: 0,
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
     public data: IProject = {
@@ -51,7 +52,7 @@ export class CreateComponent implements OnInit {
         if (!this.form.valid) {
             return;
         }
-        const data = Object.assign({}, this.form.value) as any;
+        const data = this.dataForm().value() as any;
         data.type = this.data.type;
         if (data.type > 0) {
             data.environment = this.data.environment.filter(i => {

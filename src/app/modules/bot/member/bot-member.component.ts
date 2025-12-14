@@ -11,10 +11,10 @@ import { ThemeService } from '../../../theme/services';
     styleUrls: ['./bot-member.component.scss']
 })
 export class BotMemberComponent implements OnInit {
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
-    private service = inject(BotService);
-    private themeService = inject(ThemeService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+    private readonly service = inject(BotService);
+    private readonly themeService = inject(ThemeService);
 
 
     public items: INavLink[] = [

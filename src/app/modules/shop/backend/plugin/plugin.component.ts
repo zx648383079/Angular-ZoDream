@@ -22,7 +22,7 @@ interface IPluginItem {
 })
 export class PluginComponent implements OnInit {
     private http = inject(HttpClient);
-    private toastrService = inject(DialogService);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: IPluginItem[] = [

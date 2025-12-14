@@ -10,9 +10,9 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./coupon.component.scss']
 })
 export class CouponComponent implements OnInit {
-    private service = inject(ShopService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ShopService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
 
     public title = '我的优惠券';
     public items: ICoupon[] = [];

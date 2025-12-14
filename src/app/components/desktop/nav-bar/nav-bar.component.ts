@@ -14,7 +14,7 @@ import { NavigationDisplayMode } from '../../../theme/models/event';
     styleUrls: ['./nav-bar.component.scss']
 })
 export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
-    private themeService = inject(ThemeService);
+    private readonly themeService = inject(ThemeService);
 
 
     public displayMode: NavigationDisplayMode = 0; // 0 为展开 1 为 一条线 2 为 一个点 3 为不显示

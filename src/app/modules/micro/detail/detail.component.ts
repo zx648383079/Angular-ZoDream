@@ -20,11 +20,11 @@ import { IBlockItem } from '../../../components/link-rule';
     styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
-    private service = inject(MicroService);
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
-    private toastrService = inject(DialogService);
-    private store = inject<Store<AppState>>(Store);
+    private readonly service = inject(MicroService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly toastrService = inject(DialogService);
+    private readonly store = inject<Store<AppState>>(Store);
 
 
     public data: IMicro;

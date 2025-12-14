@@ -11,7 +11,7 @@
             <a [routerLink]="'../../' + item.id">{{ item.name }}</a>
             </li>
         }
-        
+
         <li class="breadcrumb-item active">{{ thread.title }}
         </li>
     </ul>
@@ -38,12 +38,12 @@
                     [<a>{{ thread.classify.name }}</a>]
                 </em>
                 }
-                
+
                 <span class="title-text">{{ thread.title }} </span>
                 @if (thread.is_digest) {
                     <i class="iconfont icon-fire"></i>
                 }
-                
+
                 @if (thread.is_new) {
                     <a class="new-tag">New</a>
                 }
@@ -62,7 +62,7 @@
             </div>
         </div>
         }
-        
+
         <div class="post-list">
             @for (item of items; track $index) {
                 @if (item.grade < 1) {
@@ -80,8 +80,8 @@
                             } @else {
                                 <a (click)="tapSeeUser(0)" i18n>Back to all</a>
                             }
-                            
-                            
+
+
                             <div class="action">
                             </div>
                         </div>
@@ -166,7 +166,7 @@
                 </div>
                 }
             }
-            
+
         </div>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
         <div class="paging-box">
@@ -181,16 +181,16 @@
                 </div>
             </div>
             <div id="post-editor" class="item-body">
-                <form [formGroup]="form" (ngSubmit)="tapSubmit()">
-                    <app-forum-editor formControlName="content" i18n-placeholder placeholder="Please input content" />
+                <form (submit)="tapSubmit()">
+                    <app-forum-editor [field]="dataForm.content" i18n-placeholder placeholder="Please input content" />
                     <div class="item-footer">
-                        <app-action-button class="btn btn-primary" [disabled]="form.invalid" (tapped)="tapSubmit($event)" i18n>Post Reply</app-action-button>
+                        <app-action-button class="btn btn-primary" [disabled]="dataForm().invalid()" (tapped)="tapSubmit($event)" i18n>Post Reply</app-action-button>
                     </div>
                 </form>
             </div>
         </div>
         }
-        
+
     </div>
 </div>
 
@@ -245,7 +245,7 @@
             </div>
         </div>
         }
-        
+
         @if (thread.digestable) {
         <div class="link-item">
             <div class="label" i18n>Digest</div>
@@ -254,7 +254,7 @@
             </div>
         </div>
         }
-        
+
         @if (thread.highlightable) {
         <div class="link-item">
             <div class="label" i18n>Highlight</div>
@@ -263,7 +263,7 @@
             </div>
         </div>
         }
-        
+
         @if (thread.closeable) {
         <div class="link-item">
             <div class="label" i18n>Close</div>
@@ -272,7 +272,7 @@
             </div>
         </div>
         }
-        
+
         <div class="form-group">
           <label for="remark" i18n>Operating Instructions*</label>
           <textarea class="form-control" id="remark" [(ngModel)]="editData.remark"></textarea>

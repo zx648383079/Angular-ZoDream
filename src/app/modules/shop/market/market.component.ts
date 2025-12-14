@@ -16,11 +16,11 @@ import { ICategory } from '../model';
   styleUrls: ['./market.component.scss']
 })
 export class MarketComponent implements OnInit {
-    private service = inject(ShopService);
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
-    private toastrService = inject(DialogService);
-    private store = inject<Store<ShopAppState>>(Store);
+    private readonly service = inject(ShopService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly toastrService = inject(DialogService);
+    private readonly store = inject<Store<ShopAppState>>(Store);
 
 
     public categories: ICategory[] = [];

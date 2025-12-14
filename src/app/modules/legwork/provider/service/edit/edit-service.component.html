@@ -1,17 +1,17 @@
 <div class="title-bar">
     <span i18n>Edit Service</span>
 </div>
-<form class="panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+<form class="panel-container" (submit)="tapSubmit()">
     <div class="form-group row">
         <label for="name" class="col-md-3 col-form-label" i18n>Name</label>
         <div class="col-md-9">
-            <input type="text" class="form-control" formControlName="name" id="name" i18n-placeholder placeholder="Please input name">
+            <input type="text" class="form-control" [field]="dataForm.name" id="name" i18n-placeholder placeholder="Please input name">
         </div>
     </div>
     <div class="form-group row">
         <label for="cat_id" class="col-md-3 col-form-label" i18n>Category</label>
         <div class="col-md-9">
-            <select class="form-control" formControlName="cat_id" id="cat_id">
+            <select class="form-control" [field]="dataForm.cat_id" id="cat_id">
                 @for (item of categories; track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
                 }
@@ -21,25 +21,25 @@
     <div class="form-group row">
         <label for="price" class="col-md-3 col-form-label" i18n>Price</label>
         <div class="col-md-9">
-            <input type="text" class="form-control" formControlName="price" id="price" i18n-placeholder placeholder="Please input price">
+            <input type="number" class="form-control" [field]="dataForm.price" id="price" i18n-placeholder placeholder="Please input price">
         </div>
     </div>
     <div class="form-group row">
         <label for="thumb" class="col-md-3 col-form-label" i18n>Image</label>
         <div class="col-md-9">
-            <app-file-input formControlName="thumb" />
+            <app-file-input [field]="dataForm.thumb" />
         </div>
     </div>
     <div class="form-group row">
         <label for="brief" class="col-md-3 col-form-label" i18n>Description</label>
         <div class="col-md-9">
-            <textarea class="form-control" formControlName="brief" id="brief" i18n-placeholder placeholder="Please input description"></textarea>
+            <textarea class="form-control" [field]="dataForm.brief" id="brief" i18n-placeholder placeholder="Please input description"></textarea>
         </div>
     </div>
     <div class="form-group row">
         <label for="content" class="col-md-3 col-form-label" i18n>Detail</label>
         <div class="col-md-9">
-            <textarea class="form-control" formControlName="content" id="content" i18n-placeholder placeholder="Please input detail"></textarea>
+            <textarea class="form-control" [field]="dataForm.content" id="content" i18n-placeholder placeholder="Please input detail"></textarea>
         </div>
     </div>
     <table class="table table-hover">
@@ -53,19 +53,19 @@
             </tr>
         </thead>
         <tbody>
-            @for (item of formItems.controls; track $index; let i = $index) {
-                <tr [formGroup]="item">
+            @for (item of dataForm.form; track $index; let i = $index) {
+                <tr>
                     <td>
-                        <input type="text" formControlName="name" class="form-control">
+                        <input type="text" [field]="item.name" class="form-control">
                     </td>
                     <td>
-                        <input type="text" formControlName="label" class="form-control">
+                        <input type="text" [field]="item.label" class="form-control">
                     </td>
                     <td>
-                        <input type="checkbox" formControlName="required" value="1"  >
+                        <input type="checkbox" [field]="item.required">
                     </td>
                     <td>
-                        <input type="checkbox" formControlName="only" value="1" >
+                        <input type="checkbox" [field]="item.only">
                     </td>
                     <td>
                         <i class="iconfont icon-close" (click)="removeForm(i)"></i>

@@ -11,7 +11,7 @@ import { SearchService } from '../../../../../../theme/services';
     styleUrls: ['./login-panel.component.scss']
 })
 export class LoginPanelComponent {
-    private service = inject(AuthService);
+    private readonly service = inject(AuthService);
     private searchService = inject(SearchService);
 
 

@@ -8,7 +8,7 @@ import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameMapDungeon, I
     styleUrls: ['./map-level.component.scss']
 })
 export class MapLevelComponent implements IGameScene, OnInit {
-    private router = inject<IGameRouter>(GameRouterInjectorToken);
+    private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
     public items: IGameMapDungeon[] = [];

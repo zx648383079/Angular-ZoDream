@@ -12,9 +12,9 @@ import { ActivityService } from '../../activity.service';
     styleUrls: ['./time.component.scss']
 })
 export class TimeComponent implements OnInit {
-    private service = inject(ActivityService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ActivityService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
 
 
     public items: IActivityTime[] = [];

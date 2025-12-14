@@ -8,7 +8,7 @@ import { ThemeService } from '../../../theme/services';
   styleUrls: ['./activity.component.scss']
 })
 export class ActivityComponent implements OnInit {
-    private themeService = inject(ThemeService);
+    private readonly themeService = inject(ThemeService);
 
 
     constructor() {

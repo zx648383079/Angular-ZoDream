@@ -10,8 +10,8 @@ import { ThemeService } from '../../../theme/services';
     styleUrls: ['./piazza.component.scss']
 })
 export class PiazzaComponent implements OnInit {
-    private service = inject(GameService);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(GameService);
+    private readonly themeService = inject(ThemeService);
 
 
     public items: IGameProject[] = [

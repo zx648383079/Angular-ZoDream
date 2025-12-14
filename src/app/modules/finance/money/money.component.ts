@@ -11,8 +11,8 @@ import { IAccount } from '../model';
     styleUrls: ['./money.component.scss']
 })
 export class MoneyComponent implements OnInit {
-    private service = inject(FinanceService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(FinanceService);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: IAccount[] = [];

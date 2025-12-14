@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from '../../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../../components/form';
 import { TbkService } from '../tbk.service';
@@ -11,19 +10,23 @@ import { TbkService } from '../tbk.service';
   styleUrls: ['./setting.component.scss']
 })
 export class SettingComponent implements OnInit {
-    private service = inject(TbkService);
-    private fb = inject(FormBuilder);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(TbkService);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        app_key: ['', Validators.required],
-        secret: ['', Validators.required],
+    public readonly dataModel = signal({
+        app_key: '',
+        secret: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.app_key);
+        required(schemaPath.secret);
     });
 
     ngOnInit() {
         this.service.option().subscribe(res => {
-            this.form.patchValue({
+            this.dataModel.set({
+                        id: res.id,
                 app_key: res.data.app_key,
                 secret: res.data.secret
             });
@@ -35,11 +38,11 @@ export class SettingComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: any = Object.assign({}, this.form.value);
+        const data: any = this.dataForm().value();
         e?.enter();
         this.service.optionSave(data).subscribe({
             next: _ => {

@@ -13,7 +13,7 @@ import { DialogService } from '../../../components/dialog';
 })
 export class SubscribePanelComponent {
     private http = inject(HttpClient);
-    private toastrService = inject(DialogService);
+    private readonly toastrService = inject(DialogService);
 
 
     public name = '';

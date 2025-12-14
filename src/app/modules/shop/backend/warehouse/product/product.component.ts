@@ -13,9 +13,9 @@ import { WarehouseService } from '../warehouse.service';
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
-    private service = inject(WarehouseService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(WarehouseService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

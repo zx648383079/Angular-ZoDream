@@ -18,10 +18,10 @@ import { questionNeedOption } from '../util';
     styleUrls: ['./page-editor.component.scss']
 })
 export class PageEditorComponent implements OnInit {
-    private service = inject(ExamService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(ExamService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
+    private readonly themeService = inject(ThemeService);
 
 
     public readonly contextMenu = viewChild(ContextMenuComponent);

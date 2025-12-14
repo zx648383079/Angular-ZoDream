@@ -12,8 +12,8 @@ import { IOrder } from '../../model';
   styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit {
-    private service = inject(LegworkService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(LegworkService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

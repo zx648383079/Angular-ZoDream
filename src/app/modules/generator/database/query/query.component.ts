@@ -10,9 +10,9 @@ import { GenerateService } from '../../generate.service';
   styleUrls: ['./query.component.scss']
 })
 export class QueryComponent implements OnInit {
-    private service = inject(GenerateService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(GenerateService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: any[] = [];

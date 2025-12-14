@@ -19,9 +19,9 @@ const LOOP_SESSION_TIME = 120;
   styleUrls: ['./service-backend.component.scss']
 })
 export class ServiceBackendComponent implements OnInit, OnDestroy {
-    private store = inject<Store<AppState>>(Store);
-    private service = inject(OnlineBackendService);
-    private toastrService = inject(DialogService);
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly service = inject(OnlineBackendService);
+    private readonly toastrService = inject(DialogService);
 
 
     public tabIndex = 0;

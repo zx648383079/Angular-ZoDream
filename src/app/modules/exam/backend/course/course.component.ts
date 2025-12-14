@@ -12,8 +12,8 @@ import { ExamService } from '../exam.service';
   styleUrls: ['./course.component.scss']
 })
 export class CourseComponent implements OnInit {
-    private service = inject(ExamService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ExamService);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: ICourse[] = [];

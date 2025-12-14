@@ -10,8 +10,8 @@ import { LegworkService } from './legwork.service';
   styleUrls: ['./legwork.component.scss']
 })
 export class LegworkComponent implements OnInit {
-    private service = inject(LegworkService);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(LegworkService);
+    private readonly themeService = inject(ThemeService);
 
 
     public items: INavLink[] = this.renderNav();

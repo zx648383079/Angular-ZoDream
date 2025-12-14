@@ -9,7 +9,7 @@ import { UserService } from '../user.service';
     styleUrls: ['./connect.component.scss']
 })
 export class ConnectComponent implements OnInit {
-    private service = inject(UserService);
+    private readonly service = inject(UserService);
 
 
     public items: IConnect[] = [];

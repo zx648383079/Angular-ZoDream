@@ -1,11 +1,11 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { ICategory } from '../../../../model';
 import { FileUploadService } from '../../../../../../theme/services/file-upload.service';
 import { filterTree } from '../../../../../../theme/utils';
 import { GoodsService } from '../../goods.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -14,21 +14,24 @@ import { GoodsService } from '../../goods.service';
     styleUrls: ['./edit-category.component.scss']
 })
 export class EditCategoryComponent implements OnInit {
-    private service = inject(GoodsService);
-    private fb = inject(FormBuilder);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(GoodsService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        parent_id: [0],
-        keywords: [''],
-        description: [''],
-        icon: [''],
-        banner: [''],
-        app_banner: [''],
-        position: [99],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        parent_id: 0,
+        keywords: '',
+        description: '',
+        icon: '',
+        banner: '',
+        app_banner: '',
+        position: 99,
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
     public data: ICategory;
@@ -48,7 +51,8 @@ export class EditCategoryComponent implements OnInit {
             this.service.category(params.id).subscribe(res => {
                 this.data = res;
                 this.categories = filterTree(this.categories, res.id);
-                this.form.patchValue({
+                this.dataModel.set({
+                        id: res.id,
                     name: res.name,
                     parent_id: res.parent_id,
                     keywords: res.keywords,
@@ -67,14 +71,11 @@ export class EditCategoryComponent implements OnInit {
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: ICategory = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: ICategory = this.dataForm().value() as any;
         this.service.categorySave(data).subscribe(_ => {
             this.toastrService.success($localize `Save Successfully`);
             this.tapBack();

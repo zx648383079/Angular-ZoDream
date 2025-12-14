@@ -15,10 +15,10 @@ import { UserService } from '../user.service';
     styleUrls: ['./bulletin.component.scss']
 })
 export class BulletinComponent implements OnInit {
-    private service = inject(UserService);
-    private toastrService = inject(DialogService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(UserService);
+    private readonly toastrService = inject(DialogService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

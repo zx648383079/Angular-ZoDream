@@ -14,9 +14,9 @@ import { GameMakerService } from '../../game-maker.service';
   styleUrls: ['./rule-store.component.scss']
 })
 export class RuleStoreComponent implements OnInit {
-    private service = inject(GameMakerService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(GameMakerService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

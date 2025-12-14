@@ -1,31 +1,31 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑抽奖' : '新增抽奖'" (submited)="tapSubmit()"
-    [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑抽奖' : '新增抽奖'" (submited)="tapSubmit()"
+    [disabled]="dataForm().invalid()" />
 <div class="container-fluid">
-    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control panel-container" (submit)="tapSubmit()">
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" formControlName="name">
+                <input type="text" id="name" class="form-control" [field]="dataForm.name">
 
             </div>
         </div>
         <div class="input-group-control">
             <label for="thumb">图片</label>
             <div>
-                <app-file-input formControlName="thumb" />
+                <app-file-input [field]="dataForm.thumb" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">说明</label>
             <div>
-                <textarea id="description" class="form-control" formControlName="description"></textarea>
+                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
 
             </div>
         </div>
         <div class="input-group-control">
             <label for="scope_type">抽奖形式</label>
             <div>
-                <select id="scope_type" class="form-control" formControlName="scope_type">
+                <select id="scope_type" class="form-control" [field]="dataForm.scope_type">
                     <option [value]="0">刮刮乐</option>
                     <option [value]="1">转盘</option>
                 </select>
@@ -36,44 +36,44 @@
             <div class="input-group-control">
                 <label for="configure_over_text">覆盖区文字</label>
                 <div>
-                    <input type="text" id="configure_over_text" class="form-control" formControlName="over_text"
+                    <input type="text" id="configure_over_text" class="form-control" [field]="dataForm.over_text"
                         placeholder="请输入 覆盖区文字">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="configure_btn_text">按钮文字</label>
                 <div>
-                    <input type="text" id="configure_btn_text" class="form-control" formControlName="btn_text"
+                    <input type="text" id="configure_btn_text" class="form-control" [field]="dataForm.btn_text"
                         placeholder="请输入 按钮文字">
-    
+
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="configure_start_times">初始可抽次数</label>
                 <div>
-                    <input type="text" id="configure_start_times" class="form-control" formControlName="start_times"
+                    <input type="text" id="configure_start_times" class="form-control" [field]="dataForm.start_times"
                         placeholder="请输入 初始可抽次数">
-    
+
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="configure_buy_times">积分可抽次数</label>
                 <div>
-                    <input type="text" id="configure_buy_times" class="form-control" formControlName="buy_times"
+                    <input type="text" id="configure_buy_times" class="form-control" [field]="dataForm.buy_times"
                         placeholder="请输入 积分可抽次数">
-    
+
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="configure_time_price">兑换所需积分</label>
                 <div>
-                    <input type="text" id="configure_time_price" class="form-control" formControlName="time_price"
+                    <input type="text" id="configure_time_price" class="form-control" [field]="dataForm.time_price"
                         placeholder="请输入 兑换所需积分">
-    
+
                 </div>
             </div>
         </div>
-        
+
         <div class="items-table">
             <a class="btn btn-primary" (click)="tapAddItem()">添加奖项</a>
             <p>最少添加2项，最多添加8项，所有奖项概率之和需为100%</p>
@@ -107,9 +107,9 @@
         <div class="input-group-control">
             <label for="start_at">起止时间</label>
             <div>
-                <app-date-input formControlName="start_at" placeholder="请输入开始时间" />
+                <app-date-input [field]="dataForm.start_at" placeholder="请输入开始时间" />
                 ~
-                <app-date-input formControlName="end_at" placeholder="请输入结束时间" />
+                <app-date-input [field]="dataForm.end_at" placeholder="请输入结束时间" />
             </div>
         </div>
         <div class="btn-group">

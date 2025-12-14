@@ -8,7 +8,7 @@ import { GameCommand, GameRouterInjectorToken, IGameBagItem, IGameCharacter, IGa
   styleUrls: ['./character-panel.component.scss']
 })
 export class CharacterPanelComponent implements IGameScene, OnInit {
-    private router = inject<IGameRouter>(GameRouterInjectorToken);
+    private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
     public data: IGameCharacter;

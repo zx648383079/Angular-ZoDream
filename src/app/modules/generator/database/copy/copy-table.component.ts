@@ -43,8 +43,8 @@ interface IColumnValue {
   styleUrls: ['./copy-table.component.scss']
 })
 export class CopyTableComponent implements OnInit {
-    private service = inject(GenerateService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(GenerateService);
+    private readonly toastrService = inject(DialogService);
 
 
     public readonly previewModal = viewChild<DialogBoxComponent>('previewModal');

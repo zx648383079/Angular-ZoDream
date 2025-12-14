@@ -10,7 +10,7 @@
 </div>
 @if (user) {
 <div class="container">
-    <form class="form-table-control" [hidden]="tabIndex > 0" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control" [hidden]="tabIndex > 0" (submit)="tapSubmit()">
         <div class="input-group-control">
             <label for="fileUpload" i18n>Avatar</label>
             <div>
@@ -24,7 +24,7 @@
         <div class="input-group-control">
             <label for="name" i18n>Nickname</label>
             <div>
-                <input type="text" id="name" class="form-control " formControlName="name">
+                <input type="text" id="name" class="form-control " [field]="dataForm.name">
             </div>
         </div>
         <div class="input-group-control">
@@ -36,7 +36,7 @@
         <div class="input-group-control">
             <label for="sex" i18n>Sex</label>
             <div>
-                <app-check-input [items]="sexItems" rangeKey="value" formControlName="sex" />
+                <app-check-input [items]="sexItems" rangeKey="value" [field]="dataForm.sex" />
             </div>
         </div>
         <div class="input-group-control">
@@ -48,7 +48,7 @@
         <div class="input-group-control">
             <label for="birthday" i18n>Birthday</label>
             <div>
-                <app-date-input formControlName="birthday" />
+                <app-date-input [field]="dataForm.birthday" />
             </div>
         </div>
         <div class="offset-md-3">

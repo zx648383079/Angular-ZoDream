@@ -1,5 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../../../../environments/environment';
 import { DialogService } from '../../../../../components/dialog';
@@ -7,27 +6,28 @@ import { FileUploadService } from '../../../../../theme/services';
 import { filterTree } from '../../../../../theme/utils';
 import { ICmsCategory, ICmsGroup, ICmsModel } from '../../../model';
 import { CmsService } from '../../cms.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-edit-category',
-  templateUrl: './edit-category.component.html',
-  styleUrls: ['./edit-category.component.scss']
+    selector: 'app-edit-category',
+    templateUrl: './edit-category.component.html',
+    styleUrls: ['./edit-category.component.scss']
 })
 export class EditCategoryComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(CmsService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(CmsService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        title: ['', Validators.required],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        title: '',
         type: 1,
         position: 99,
-        model_id: 0,
-        parent_id: 0,
+        model_id: '',
+        parent_id: '',
         keywords: '',
         description: '',
         thumb: '',
@@ -38,12 +38,15 @@ export class EditCategoryComponent implements OnInit {
         category_template: '',
         list_template: '',
         show_template: '',
-        setting: this.fb.group({
+        setting: {
             open_comment: 0,
-        }),
+        },
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.title);
     });
 
-    public data: ICmsCategory;
     public categories: ICmsCategory[] = [];
     public typeItems = ['内容', '单页', '外链'];
     public modelItems: ICmsModel[] = [];
@@ -66,15 +69,15 @@ export class EditCategoryComponent implements OnInit {
                 return;
             }
             this.service.category(this.site, params.id).subscribe(res => {
-                this.data = res;
                 this.categories = filterTree(this.categories, res.id);
-                this.form.patchValue({
-                    title: res.title, 
+                this.dataModel.set({
+                    id: res.id,
+                    title: res.title,
                     name: res.name,
                     type: res.type,
                     position: res.position,
-                    model_id: res.model_id,
-                    parent_id: res.parent_id,
+                    model_id: res.model_id as any,
+                    parent_id: res.parent_id as any,
                     keywords: res.keywords,
                     description: res.description,
                     thumb: res.thumb,
@@ -85,18 +88,12 @@ export class EditCategoryComponent implements OnInit {
                     category_template: res.category_template,
                     list_template: res.list_template,
                     show_template: res.show_template,
+                    setting: {
+                        open_comment: res.setting?.open_comment,
+                    }
                 });
-                if (res.setting) {
-                    this.form.patchValue({
-                        setting: this.fb.group(res.setting) as any
-                    });
-                }
             });
         });
-    }
-
-    get typeValue() {
-        return this.form.get('type').value;
     }
 
     public tapBack() {
@@ -104,18 +101,15 @@ export class EditCategoryComponent implements OnInit {
     }
 
     public onTitleChange() {
-        
+
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: any = Object.assign({}, this.form.value);
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: any = this.dataForm().value();
         data.site = this.site;
         this.service.categorySave(data).subscribe(_ => {
             this.toastrService.success($localize `Save Successfully`);

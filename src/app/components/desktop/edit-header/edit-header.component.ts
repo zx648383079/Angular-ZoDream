@@ -9,7 +9,7 @@ import { ThemeService } from '../../../theme/services';
     styleUrls: ['./edit-header.component.scss']
 })
 export class EditHeaderComponent implements ButtonEvent {
-    private themeService = inject(ThemeService);
+    private readonly themeService = inject(ThemeService);
 
 
     public readonly title = input('');

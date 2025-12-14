@@ -13,9 +13,9 @@ import { BookService } from '../book.service';
   styleUrls: ['./author.component.scss']
 })
 export class AuthorComponent implements OnInit {
-    private service = inject(BookService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(BookService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
 

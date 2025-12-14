@@ -10,7 +10,7 @@ import { parseNumber } from '../../../theme/utils';
     styleUrls: ['./file-explorer-panel.component.scss']
 })
 export class FileExplorerPanelComponent implements IFileDataSource {
-    private service = inject<IFileProvider>(FILE_PROVIDER);
+    private readonly service = inject<IFileProvider>(FILE_PROVIDER);
 
 
     public readonly editable = input(true);

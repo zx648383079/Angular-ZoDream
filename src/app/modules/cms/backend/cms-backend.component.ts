@@ -8,7 +8,7 @@ import { CmsService } from './cms.service';
   styleUrls: ['./cms-backend.component.scss']
 })
 export class CmsBackendComponent implements OnInit {
-    private service = inject(CmsService);
+    private readonly service = inject(CmsService);
 
 
 

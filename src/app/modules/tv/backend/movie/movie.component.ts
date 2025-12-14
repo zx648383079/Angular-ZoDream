@@ -13,9 +13,9 @@ import { TVService } from '../tv.service';
   styleUrls: ['./movie.component.scss']
 })
 export class MovieComponent implements OnInit {
-    private service = inject(TVService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(TVService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

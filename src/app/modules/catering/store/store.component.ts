@@ -10,7 +10,7 @@ import { IPageQueries } from '../../../theme/models/page';
   styleUrls: ['./store.component.scss']
 })
 export class StoreComponent implements OnInit {
-    private service = inject(CateringService);
+    private readonly service = inject(CateringService);
 
 
     public categories: ICateringCategory[] = [];

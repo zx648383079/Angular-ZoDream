@@ -16,8 +16,8 @@ interface IMetaLink {
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements AfterViewInit {
-    private themeService = inject(ThemeService);
-    private toastrService = inject(DialogService);
+    private readonly themeService = inject(ThemeService);
+    private readonly toastrService = inject(DialogService);
 
 
     public linkItems: IMetaLink[] = [

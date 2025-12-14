@@ -11,8 +11,8 @@ import { VideoService } from '../video.service';
   styleUrls: ['./video-detail.component.scss']
 })
 export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
-    private service = inject(VideoService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(VideoService);
+    private readonly toastrService = inject(DialogService);
 
 
     private readonly videoPlayer = viewChild(MoviePlayerComponent);

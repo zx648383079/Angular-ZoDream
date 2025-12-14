@@ -16,9 +16,9 @@ import { IItem } from '../../../theme/models/seo';
     styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
-    private service = inject(TrackerService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(TrackerService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
     public data: IProduct;

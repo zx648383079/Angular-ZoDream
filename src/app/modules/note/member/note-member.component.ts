@@ -14,9 +14,9 @@ import { emptyValidate } from '../../../theme/validators';
     styleUrls: ['./note-member.component.scss']
 })
 export class NoteMemberComponent implements OnInit {
-    private service = inject(NoteService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(NoteService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

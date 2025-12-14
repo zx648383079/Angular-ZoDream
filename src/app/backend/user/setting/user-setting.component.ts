@@ -18,8 +18,8 @@ interface IGroupHeader {
     styleUrls: ['./user-setting.component.scss']
 })
 export class UserSettingComponent implements OnInit {
-    private service = inject(UserService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(UserService);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
 

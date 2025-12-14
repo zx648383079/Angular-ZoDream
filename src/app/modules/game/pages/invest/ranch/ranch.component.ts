@@ -8,7 +8,7 @@ import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameFarmPlot, IGa
     styleUrls: ['./ranch.component.scss']
 })
 export class RanchComponent implements IGameScene, OnInit {
-    private router = inject<IGameRouter>(GameRouterInjectorToken);
+    private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
     public items: IGameFarmPlot[] = [];

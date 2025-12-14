@@ -10,8 +10,8 @@ import { GoodsService } from '../goods.service';
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
-    private service = inject(GoodsService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(GoodsService);
+    private readonly toastrService = inject(DialogService);
 
 
     public categories: ICategory[] = [];

@@ -8,7 +8,7 @@ import { IGameScene, GameRouterInjectorToken, IGameRouter } from '../../model';
     styleUrls: ['./skill.component.scss']
 })
 export class SkillComponent implements IGameScene {
-    private router = inject<IGameRouter>(GameRouterInjectorToken);
+    private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
     public tapBack() {

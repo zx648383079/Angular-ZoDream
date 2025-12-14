@@ -1,8 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import {
-    FormBuilder,
-    Validators
-} from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import {
     ActivatedRoute
 } from '@angular/router';
@@ -16,6 +12,7 @@ import {
 } from '../task.service';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -24,19 +21,22 @@ import { ButtonEvent } from '../../../components/form';
     styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(TaskService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(TaskService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        description: [''],
-        every_time: [25],
-        space_time: [5],
-        duration: [0],
-        start_at: [''],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        description: '',
+        every_time: 25,
+        space_time: 5,
+        duration: 0,
+        start_at: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
     public data: ITask;
@@ -51,7 +51,8 @@ export class EditComponent implements OnInit {
             }
             this.service.task(params.id).subscribe(res => {
                 this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                        id: res.id,
                     name: res.name,
                     description: res.description,
                     every_time: res.every_time,
@@ -75,14 +76,11 @@ export class EditComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: any = Object.assign({}, this.form.value);
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: any = this.dataForm().value();
         e?.enter();
         this.service.taskSave(data).subscribe({
             next: _ => {

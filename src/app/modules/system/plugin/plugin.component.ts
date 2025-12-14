@@ -14,9 +14,9 @@ import { ButtonEvent, FormPanelComponent, IFormInput } from '../../../components
     styleUrls: ['./plugin.component.scss']
 })
 export class PluginComponent implements OnInit {
-    private service = inject(SystemService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(SystemService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

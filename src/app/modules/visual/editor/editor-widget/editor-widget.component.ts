@@ -10,7 +10,7 @@ import { boundFromScale, elementBound } from '../util';
     styleUrls: ['./editor-widget.component.scss']
 })
 export class EditorWidgetComponent implements AfterViewInit {
-    private service = inject(EditorService);
+    private readonly service = inject(EditorService);
     private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
 

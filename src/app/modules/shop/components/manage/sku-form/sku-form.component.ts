@@ -21,7 +21,7 @@ interface ISkuSpec {
     styleUrls: ['./sku-form.component.scss']
 })
 export class SkuFormComponent {
-    private toastrService = inject(DialogService);
+    private readonly toastrService = inject(DialogService);
 
 
     public readonly attrItems = input<IAttribute[]>([]);

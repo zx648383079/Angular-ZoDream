@@ -1,8 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import {
-    FormBuilder,
-    Validators
-} from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import {
     ActivatedRoute
 } from '@angular/router';
@@ -10,10 +6,10 @@ import {
     AdService
 } from '../../ad.service';
 import { DialogService } from '../../../../components/dialog';
-import { parseNumber } from '../../../../theme/utils';
 import { IAd, IAdPosition } from '../../model';
 import { ButtonEvent } from '../../../../components/form';
 import { DEEPLINK_SCHEMA } from '../../../../theme/utils/deeplink';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -22,24 +18,26 @@ import { DEEPLINK_SCHEMA } from '../../../../theme/utils/deeplink';
     styleUrls: ['./edit.component.scss']
 })
 export class EditAdComponent implements OnInit {
-    private service = inject(AdService);
-    private fb = inject(FormBuilder);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(AdService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        position_id: [0],
-        type: [0],
-        url: [''],
-        content: [''],
-        start_at: [''],
-        end_at: [''],
-        status: [1]
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        position_id: '',
+        type: '0',
+        url: '',
+        content: '',
+        start_at: '',
+        end_at: '',
+        status: true,
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
-    public data: IAd;
     public positionItems: IAdPosition[] = [];
 
     public deepSchame = DEEPLINK_SCHEMA;
@@ -56,16 +54,16 @@ export class EditAdComponent implements OnInit {
                 return;
             }
             this.service.ad(params.id).subscribe(res => {
-                this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                    id: res.id,
                     name: res.name,
-                    position_id: res.position_id,
-                    type: res.type,
+                    position_id: res.position_id as any,
+                    type: res.type as any,
                     url: res.url,
                     content: res.content,
                     start_at: res.start_at,
                     end_at: res.start_at,
-                    status: res.status,
+                    status: res.status > 0,
                 });
             });
         });
@@ -73,25 +71,8 @@ export class EditAdComponent implements OnInit {
             if (!params.position) {
                 return;
             }
-            this.form.patchValue({
-                position_id: parseNumber(params.position)
-            });
+            this.dataForm.position_id().value.set(params.position);
         });
-    }
-
-    get typeInput() {
-        return this.form.get('type');
-    }
-
-    get uploadType() {
-        const val = parseNumber(this.typeInput.value);
-        if (val < 1 || val === 2) {
-            return 0;
-        }
-        if (val < 2) {
-            return 1;
-        }
-        return 2;
     }
 
     public tapBack() {
@@ -99,14 +80,11 @@ export class EditAdComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IAd = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IAd = this.dataForm().value() as any;
         e?.enter();
         this.service.adSave(data).subscribe({
             next: _ => {

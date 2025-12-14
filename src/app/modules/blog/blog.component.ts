@@ -24,9 +24,9 @@ import { PullToRefreshComponent } from '../../components/tablet';
     styleUrls: ['./blog.component.scss']
 })
 export class BlogComponent implements OnInit {
-    private service = inject(BlogService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(BlogService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
 

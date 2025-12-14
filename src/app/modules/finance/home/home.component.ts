@@ -11,7 +11,7 @@ import { FinanceService } from '../finance.service';
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-    private service = inject(FinanceService);
+    private readonly service = inject(FinanceService);
 
 
     public isLoading = true;

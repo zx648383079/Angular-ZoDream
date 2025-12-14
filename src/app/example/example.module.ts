@@ -7,13 +7,13 @@ import { ZreFormModule } from '../components/form';
 import { DialogModule } from '../components/dialog';
 import { AuthSharedModule } from '../modules/auth/auth-shared.module';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { ReactiveFormsModule } from '@angular/forms';
 import { FileExplorerModule } from '../components/file-explorer';
 import { MediaPlayerModule } from '../components/media-player';
 import { ZreSwiperModule } from '../components/swiper';
 import { DesktopModule } from '../components/desktop';
 import { TabletModule } from '../components/tablet';
 import { ZreChartModule } from '../components/chart';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
@@ -27,7 +27,7 @@ import { ZreChartModule } from '../components/chart';
         FileExplorerModule,
         NgSelectModule,
         MediaPlayerModule,
-        ReactiveFormsModule,
+        Field,
         AuthSharedModule,
         ExampleRoutingModule,
         ZreSwiperModule,

@@ -14,8 +14,8 @@ interface IPlusItem {
   styleUrls: ['./rule-checkin.component.scss']
 })
 export class RuleCheckinComponent implements OnInit {
-    private service = inject(GameMakerService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(GameMakerService);
+    private readonly toastrService = inject(DialogService);
 
 
     public data: any = {

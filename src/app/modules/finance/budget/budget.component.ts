@@ -15,10 +15,10 @@ import { mapFormat } from '../../../theme/utils';
     styleUrls: ['./budget.component.scss']
 })
 export class BudgetComponent implements OnInit {
-    private service = inject(FinanceService);
-    private toastrService = inject(DialogService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(FinanceService);
+    private readonly toastrService = inject(DialogService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

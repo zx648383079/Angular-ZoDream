@@ -11,8 +11,8 @@ import { ShopService } from './shop.service';
   styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent implements OnInit {
-    private store = inject<Store<ShopAppState>>(Store);
-    private service = inject(ShopService);
+    private readonly store = inject<Store<ShopAppState>>(Store);
+    private readonly service = inject(ShopService);
 
 
     ngOnInit(): void {

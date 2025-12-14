@@ -30,7 +30,7 @@ export interface IRequestEvent {
     styleUrls: ['./flip-pager.component.scss']
 })
 export class FlipPagerComponent {
-    private toastrService = inject(DialogService);
+    private readonly toastrService = inject(DialogService);
 
 
     public readonly pageItems = viewChildren<ElementRef<HTMLDivElement>>('filpPage');

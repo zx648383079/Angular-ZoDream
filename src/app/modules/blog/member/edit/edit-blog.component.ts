@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewContainerRef, inject, viewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewContainerRef, computed, inject, signal, viewChild } from '@angular/core';
 import { IBlog, ICategory, ITag } from '../../model';
 import { BlogService } from '../blog.service';
 import { ActivatedRoute } from '@angular/router';
@@ -10,6 +9,7 @@ import { EDITOR_EVENT_CLOSE_TOOL, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITO
 import { IItem } from '../../../../theme/models/seo';
 import { FileUploadService, ThemeService } from '../../../../theme/services';
 import { NavigationDisplayMode } from '../../../../theme/models/event';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -18,50 +18,62 @@ import { NavigationDisplayMode } from '../../../../theme/models/event';
     styleUrls: ['./edit-blog.component.scss']
 })
 export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
-    private fb = inject(FormBuilder);
-    private service = inject(BlogService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(BlogService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private uploadService = inject(FileUploadService);
-    private themeService = inject(ThemeService);
+    private readonly themeService = inject(ThemeService);
     private editor = inject(EditorService);
+
+    private cacheItems: IItem[] = [];
 
 
     private readonly areaElement = viewChild<ElementRef<HTMLTextAreaElement>>('editorArea');
     private readonly modalViewContainer = viewChild('modalVC', { read: ViewContainerRef });
-    public form = this.fb.group({
-        title: ['', Validators.required],
-        keywords: [''],
-        description: [''],
-        term_id: [0, Validators.required],
-        programming_language: [''],
-        type: ['0'],
-        thumb: [''],
-        open_type: ['0'],
-        open_rule: [''],
-        edit_type: ['1'],
-        source_url: [''],
-        source_author: [''],
-        is_hide: [0],
-        weather: [''],
-        audio_url: [''],
-        video_url: [''],
-        cc_license: [''],
-        comment_status: [''],
-        publish_status: [0],
-        seo_title: [''],
-        seo_description: [''],
-        seo_link: [''],
+    public readonly dataModel = signal({
+        id: 0,
+        title: '',
+        parent_id: 0,
+        language: 'zh',
+        keywords: '',
+        description: '',
+        term_id: '',
+        programming_language: '',
+        type: '0',
+        thumb: '',
+        open_type: '0',
+        open_rule: '',
+        edit_type: '1',
+        source_url: '',
+        source_author: '',
+        is_hide: 0,
+        weather: '',
+        audio_url: '',
+        video_url: '',
+        cc_license: '',
+        comment_status: 0,
+        publish_status: 0,
+        seo_title: '',
+        seo_description: '',
+        seo_link: '',
+        created_at: '-',
+        tags: []
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.title);
+        required(schemaPath.term_id);
     });
 
-    public data: IBlog = {id: 0, language: 'zh'} as any;
+    public readonly pageLink = computed(() => '/blog/' + this.dataForm.seo_link().value());
+
+    public readonly metaSize = computed(() => this.dataForm.description().value().length);
+
     public tagItems: ITag[] = [];
     public categories: ICategory[] = [];
     public languages: string[] = [];
     public localizes: IItem[] = [];
     public weathers: IItem[] = [];
     public licenses: IItem[] = [];
-    public tags: ITag[] = [];
     public statusItems: IItem[] = [];
     public openItems: IItem[] = [];
     public toolItems: IEditorTool[] = [];
@@ -78,6 +90,25 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
         display: 'none'
     };
 
+    public readonly openType = computed(() => parseNumber(this.dataForm.open_type().value()));
+    public readonly openTypeLabel = computed(() => mapFormat(this.dataForm.open_type().value(), this.openItems));
+    public readonly statusLabel = computed(() => mapFormat(this.dataForm.publish_status().value(), this.statusItems));
+    public readonly typeValue = computed(() => parseNumber(this.dataForm.type().value()));
+
+    public readonly ruleLabel = computed(() => {
+        const val = parseNumber(this.dataForm.open_type().value());
+        if (val < 5) {
+            return '';
+        }
+        if (val === 5) {
+            return $localize `Password for read`;
+        }
+        if (val === 6) {
+            return $localize `Price for buy`;
+        }
+        return $localize `Rule`;
+    });
+
     constructor() {
         this.service.editOption().subscribe(res => {
             this.tagItems = res.tags;
@@ -88,7 +119,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
             this.statusItems = res.publish_status;
             this.openItems = res.open_types;
             this.localizes = res.localizes;
-            this.data.language = res.localizes[0].value;
+            this.dataForm.language().value.set(res.localizes[0].value);
         });
         this.editor.option.merge({
             toolbar: {
@@ -137,57 +168,52 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
         this.editor.destroy();
     }
 
-    get pageLink() {
-        return '/blog/' + this.form.get('seo_link').value;
-    }
 
-    get metaSize() {
-        return this.form.get('description').value.length;
-    }
-
-    get publishStatus() {
-        return this.form.get('publish_status').value;
-    }
 
     public onLocalizeChange() {
-        if (!this.data.languages) {
-            this.loadDetail(0, this.data.language);
+        const current = this.dataForm.language().value();
+        if (this.cacheItems.length == 0) {
+            this.loadDetail(0, current);
             return;
         }
-        for (const item of this.data.languages) {
-            if (item.value === this.data.language) {
+        for (const item of this.cacheItems) {
+            if (item.value === current) {
                 this.loadDetail(item.id, item.value);
                 return;
             }
         }
-        this.loadDetail(0, this.data.language);
+        this.loadDetail(0, current);
     }
 
     public loadDetail(id: number, language?: string) {
         id = parseNumber(id);
-        if (this.data && this.data.id === id) {
+        if (this.dataModel().id === id) {
             return;
         }
         if (id < 1) {
-            this.data.parent_id = this.data.parent_id > 0 ? this.data.parent_id : this.data.id;
-            this.data.id = 0;
-            this.data.language = language as any;
             this.setContent('');
-            this.form.patchValue({
-                title: '',
+            this.dataModel.update(v => {
+                v.id = 0;
+                v.title = '';
+                v.parent_id = v.parent_id > 0 ? v.parent_id : v.id;
+                v.language = language;
+                v.created_at = '-'
+                return v;
             });
             return;
         }
         this.service.blog(id).subscribe(res => {
-            this.data = res;
-            this.tags = res.tags || [];
+            this.cacheItems = res.languages ?? [];
             this.openRule = res.open_rule;
             this.setContent(res.content);
-            this.form.patchValue({
+            this.dataModel.set({
+                id: res.id,
                 title: res.title,
+                parent_id: res.id,
+                language: res.language,
                 keywords: res.keywords,
                 description: res.description,
-                term_id: res.term_id,
+                term_id: res.term_id as any,
                 programming_language: res.programming_language,
                 type: res.type as any,
                 thumb: res.thumb,
@@ -206,39 +232,13 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
                 seo_title: res.seo_title,
                 seo_description: res.seo_description,
                 seo_link: res.seo_link,
+                created_at: res.created_at,
+                tags: res.tags || []
             });
         });
     }
 
-    public get typeValue() {
-        return parseNumber(this.form.get('type').value);
-    }
 
-    public get openType() {
-        return parseNumber(this.form.get('open_type').value);
-    }
-
-    public get openTypeLabel() {
-        return mapFormat(this.openType, this.openItems);
-    }
-
-    public get statusLabel() {
-        return mapFormat(this.publishStatus, this.statusItems);
-    }
-
-    public get ruleLabel() {
-        const val = this.openType;
-        if (val < 5) {
-            return '';
-        }
-        if (val === 5) {
-            return $localize `Password for read`;
-        }
-        if (val === 6) {
-            return $localize `Price for buy`;
-        }
-        return $localize `Rule`;
-    }
 
     public addTagFn(name: string) {
         return {name};
@@ -269,10 +269,8 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
         };
     }
 
-    public changeOpenType(v: any) {
-        this.form.patchValue({
-            open_type: v
-        });
+    public changeOpenType(val: any) {
+        this.dataForm.open_type().value.set(val);
     }
 
     public tapStatus(e: MouseEvent) {
@@ -284,9 +282,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public changePublishStatus(v: any) {
-        this.form.patchValue({
-            publish_status: v
-        });
+        this.dataForm.publish_status().value.set(v);
     }
 
     public closeModal() {
@@ -294,26 +290,16 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public tapSubmit(e?: ButtonEvent, status?: number) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IBlog = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
-        if (this.data && this.data.parent_id) {
-            data.parent_id = this.data.parent_id;
-        }
-        if (this.data && this.data.language) {
-            data.language = this.data.language;
-        }
+        const data: IBlog = this.dataForm().value() as any;
         if (typeof status === 'number') {
             data.publish_status = status;
         }
         data.content = this.editor.value;
         data.open_rule = data.open_type > 4 ? this.openRule : '';
-        data.tags = this.tags;
         e?.enter();
         this.service.blogSave(data).subscribe({
             next: _ => {

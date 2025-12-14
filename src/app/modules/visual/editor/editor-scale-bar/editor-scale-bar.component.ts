@@ -9,7 +9,7 @@ import { EditorService } from '../editor.service';
     styleUrls: ['./editor-scale-bar.component.scss']
 })
 export class EditorScaleBarComponent {
-    private service = inject(EditorService);
+    private readonly service = inject(EditorService);
 
 
     public readonly orientation = input(false);

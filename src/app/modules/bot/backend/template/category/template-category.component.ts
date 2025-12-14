@@ -12,8 +12,8 @@ import { BotService } from '../../bot.service';
   styleUrls: ['./template-category.component.scss']
 })
 export class TemplateCategoryComponent implements OnInit {
-    private service = inject(BotService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(BotService);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: IBotTemplateCategory[] = [];

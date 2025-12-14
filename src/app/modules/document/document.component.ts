@@ -14,10 +14,10 @@ import { IProject } from './model';
     styleUrls: ['./document.component.scss']
 })
 export class DocumentComponent implements OnInit {
-    private service = inject(DocumentService);
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(DocumentService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly themeService = inject(ThemeService);
     private searchService = inject(SearchService);
 
 

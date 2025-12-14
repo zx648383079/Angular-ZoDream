@@ -14,9 +14,9 @@ import { emptyValidate } from '../../../theme/validators';
     styleUrls: ['./short-member.component.scss']
 })
 export class ShortMemberComponent implements OnInit {
-    private service = inject(ShortLinkService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ShortLinkService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

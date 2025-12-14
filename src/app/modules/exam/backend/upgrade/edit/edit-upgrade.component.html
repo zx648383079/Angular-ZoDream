@@ -1,23 +1,23 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑等级' : '新增等级'" (submited)="tapSubmit()" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑等级' : '新增等级'" (submited)="tapSubmit()" [disabled]="dataForm().invalid()" />
 
 <div class="container-fluid">
-    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control panel-container" (submit)="tapSubmit()">
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" formControlName="name">
+                <input type="text" id="name" class="form-control" [field]="dataForm.name">
             </div>
         </div>
         <div class="input-group-control">
             <label for="course_id">科目</label>
             <div class="flat-group">
-                <select id="course_id" formControlName="course_id" class="form-control" (change)="onCourseChange()">
+                <select id="course_id" [field]="dataForm.course_id" class="form-control" (change)="onCourseChange()">
                     <option [value]="0">请选择</option>
                     @for (item of courseItems; track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                     }
                 </select>
-                <select formControlName="course_grade" class="form-control">
+                <select [field]="dataForm.course_grade" class="form-control">
                     @for (item of gradeItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
                     }
@@ -27,13 +27,13 @@
         <div class="input-group-control">
             <label for="icon">图标</label>
             <div>
-                <app-file-input formControlName="icon"  />
+                <app-file-input [field]="dataForm.icon"  />
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">简介</label>
             <div>
-                <textarea id="description" formControlName="description" class="form-control"></textarea>
+                <textarea id="description" [field]="dataForm.description" class="form-control"></textarea>
             </div>
         </div>
         <div class="btn-group">

@@ -3,18 +3,18 @@ import { CommonModule } from '@angular/common';
 import { ThemeModule } from '../../../theme/theme.module';
 import { cmsBackendRoutedComponents, CMSBackendRoutingModule } from './backend-routing.module';
 import { CmsService } from './cms.service';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ZreEditorModule } from '../../../components/editor';
 import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
 import { DesktopModule } from '../../../components/desktop';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        Field,
         DesktopModule,
-        ReactiveFormsModule,
         CMSBackendRoutingModule,
         ZreEditorModule,
         DialogModule,

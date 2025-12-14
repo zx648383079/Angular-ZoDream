@@ -1,19 +1,19 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑板块' : '新增板块'" (submited)="tapSubmit($event)" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑板块' : '新增板块'" (submited)="tapSubmit($event)" [disabled]="dataForm().invalid()" />
 <div class="container-fluid">
     <div class="form-table-control">
-        <form class="panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <form class="panel-container" (submit)="tapSubmit()">
             <div class="input-group-control">
                 <label for="name">名称</label>
                 <div>
-                    <input type="text" id="name" class="form-control" formControlName="name">
-                    @if (form.get('name').invalid) {
+                    <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                    @if (dataForm.name().invalid()) {
                         <div class="input-tip">请输入名称</div>
                     }
                 </div>
             </div>
             <div class="input-group-control">
                 <label>上级</label>
-                <select id="parent_id" class="form-control" formControlName="parent_id">
+                <select id="parent_id" class="form-control" [field]="dataForm.parent_id">
                     <option value="0">-- 无上级板块 --</option>
                     @for (item of categories; track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
@@ -23,19 +23,19 @@
             <div class="input-group-control">
                 <label for="thumb">图标</label>
                 <div>
-                    <app-file-input formControlName="thumb" />
+                    <app-file-input [field]="dataForm.thumb" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="description">简介</label>
                 <div>
-                    <textarea id="description" class="form-control" formControlName="description"></textarea>
+                    <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="position">排序</label>
                 <div>
-                    <input type="text" id="position" class="form-control" formControlName="position">
+                    <input type="number" id="position" class="form-control" [field]="dataForm.position">
                 </div>
             </div>
         </form>
@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     }
-                    
+
                     <div class="add-item" (click)="editClassify(classifyModal)">
                         <i class="iconfont icon-plus"></i>
                     </div>
@@ -82,7 +82,7 @@
                         </div>
                     </div>
                     }
-                    
+
                     <div class="add-item" (click)="addUser(userModal)">
                         <i class="iconfont icon-plus"></i>
                     </div>

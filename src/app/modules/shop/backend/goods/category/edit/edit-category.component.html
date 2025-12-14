@@ -1,18 +1,18 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑分类' : '新增分类'" (submited)="tapSubmit()" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑分类' : '新增分类'" (submited)="tapSubmit()" [disabled]="dataForm().invalid()" />
 <div class="container-fluid">
-    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control panel-container" (submit)="tapSubmit()">
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" formControlName="name">
-                @if (form.get('name').invalid) {
+                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                @if (dataForm.name().invalid()) {
                 <div class="input-tip">请输入名称</div>
                 }
             </div>
         </div>
         <div class="input-group-control">
             <label>上级</label>
-            <select id="parent_id" class="form-control" formControlName="parent_id">
+            <select id="parent_id" class="form-control" [field]="dataForm.parent_id">
                 <option value="0">-- 无上级分类 --</option>
                 @for (item of categories; track $index) {
                 <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
@@ -22,37 +22,37 @@
         <div class="input-group-control">
             <label for="thumb">Banner</label>
             <div>
-                <app-file-input id="thumb" formControlName="banner" />
+                <app-file-input id="thumb" [field]="dataForm.banner" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="app_thumb">App Banner</label>
             <div>
-                <app-file-input id="app_thumb" formControlName="app_banner" />
+                <app-file-input id="app_thumb" [field]="dataForm.app_banner" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="icon">图标</label>
             <div>
-                <app-file-input id="icon" formControlName="icon" />
+                <app-file-input id="icon" [field]="dataForm.icon" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="keywords">关键字</label>
             <div>
-                <input type="text" id="keywords" class="form-control" formControlName="keywords">
+                <input type="text" id="keywords" class="form-control" [field]="dataForm.keywords">
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">简介</label>
             <div>
-                <textarea id="description" class="form-control" formControlName="description"></textarea>
+                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
             </div>
         </div>
         <div class="input-group-control">
             <label for="position">排序</label>
             <div>
-                <input type="text" id="position" class="form-control" formControlName="position">
+                <input type="text" id="position" class="form-control" [field]="dataForm.position">
             </div>
         </div>
         <div class="btn-group">

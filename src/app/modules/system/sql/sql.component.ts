@@ -9,8 +9,8 @@ import { SystemService } from '../system.service';
   styleUrls: ['./sql.component.scss']
 })
 export class SqlComponent implements OnInit {
-    private service = inject(SystemService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(SystemService);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: any[] = [];

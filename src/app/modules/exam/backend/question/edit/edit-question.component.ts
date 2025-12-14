@@ -1,5 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -7,36 +6,49 @@ import { IItem } from '../../../../../theme/models/seo';
 import { emptyValidate } from '../../../../../theme/validators';
 import { ICourse, IQuestion, IQuestionAnalysis, IQuestionMaterial, QuestionTypeItems } from '../../../model';
 import { ExamService } from '../../exam.service';
+import { applyEach, form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-edit-question',
-  templateUrl: './edit-question.component.html',
-  styleUrls: ['./edit-question.component.scss']
+    selector: 'app-edit-question',
+    templateUrl: './edit-question.component.html',
+    styleUrls: ['./edit-question.component.scss']
 })
 export class EditQuestionComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(ExamService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ExamService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        title: ['', Validators.required],
-        course_id: [0, Validators.required],
-        course_grade: [1],
-        image: [''],
-        parent_id: [0],
-        type: [0],
-        easiness: [0],
-        content: [''],
-        dynamic: [''],
-        answer: [''],
-        analysis: [''],
-        option_items: this.fb.array([]),
+    public readonly dataModel = signal({
+        id: 0,
+        title: '',
+        course_id: '',
+        course_grade: '1',
+        image: '',
+        parent_id: 0,
+        type: '',
+        easiness: 0,
+        content: '',
+        dynamic: '',
+        answer: '',
+        analysis: '',
+        option_items: [
+            {
+                type: '0',
+                content: '',
+                is_right: '0'
+            }
+        ]
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.title);
+        required(schemaPath.course_id);
+        applyEach(schemaPath.option_items, item => {
+            required(item.content);
+        });
     });
 
-    public data: IQuestion;
     public courseItems: ICourse[] = [];
     public gradeItems: IItem[] = [];
     public typeItems = QuestionTypeItems;
@@ -59,26 +71,35 @@ export class EditQuestionComponent implements OnInit {
                 return;
             }
             this.service.question(params.id).subscribe(res => {
-                this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                    id: res.id,
                     title: res.title,
-                    course_id: res.course_id,
-                    course_grade: res.course_grade,
+                    course_id: res.course_id as any,
+                    course_grade: res.course_grade as any,
                     image: res.image,
                     parent_id: res.parent_id,
-                    type: res.type,
+                    type: res.type as any,
                     easiness: res.easiness,
                     content: res.content,
                     dynamic: res.dynamic,
                     answer: res.answer,
+                    analysis: res.analysis,
+                    option_items: res.option_items?.length > 0 ? res.option_items.map(i => {
+                        return {
+                            type: i.type,
+                            content: i.content,
+                            is_right: i.is_right,
+                        };
+                    }) : [
+                        {
+                            type: '0',
+                            content: '',
+                            is_right: '0'
+                        }
+                    ] as any,
                 });
                 if (res.material) {
                     this.material = res.material;
-                }
-                if (res.option_items) {
-                    res.option_items.forEach(i => {
-                        this.optionItems.push(this.fb.group(i));
-                    });
                 }
                 if (res.analysis_items) {
                     this.analysisItems = res.analysis_items;
@@ -90,12 +111,8 @@ export class EditQuestionComponent implements OnInit {
         });
     }
 
-    get easiness() {
-        return this.form.get('easiness').value;
-    }
-
-    get easinessLabel() {
-        const val = this.easiness;
+    public readonly easinessLabel = computed(() => {
+        const val = this.dataForm.easiness().value();
         if (val < 4) {
             return '简单';
         }
@@ -103,19 +120,11 @@ export class EditQuestionComponent implements OnInit {
             return '一般';
         }
         return '困难';
-    }
-
-    get typeValue() {
-        return this.form.get('type').value;
-    }
-
-    get optionItems() {
-        return this.form.get('option_items') as FormArray<FormGroup>;
-    }
+    });
 
     public onCourseChange() {
         this.service.gradeAll({
-            course: this.form.get('course_id').value
+            course: this.dataForm.course_id().value()
         }).subscribe(res => {
             this.gradeItems = res.data;
         });
@@ -123,28 +132,28 @@ export class EditQuestionComponent implements OnInit {
 
     public onTitleChange() {
         this.sameItems = [];
-        const title = this.form.get('title').value;
+        const title = this.dataForm.title().value();
         if (emptyValidate(title)) {
             return;
         }
         this.service.questionCheck({
             title,
-            id: this.data?.id
+            id: this.dataModel().id
         }).subscribe(res => {
             this.sameItems = res.data;
         });
     }
 
     public openPreview(modal: DialogEvent, name: string) {
-        this.previewData = this.form.get(name).value;
+        this.previewData = this.dataModel()[name];
         modal.open();
     }
 
     public onTypeChange() {
-        if (this.typeValue != 4) {
+        if (this.dataForm.type().value() != '4') {
             return;
         }
-        const content = this.form.get('content').value as string;
+        const content = this.dataForm.content().value() as string;
         if (!content) {
             return;
         }
@@ -152,7 +161,7 @@ export class EditQuestionComponent implements OnInit {
         if (!matches || matches.length < 1) {
             return;
         }
-        let diff = matches.length - this.optionItems.length;
+        let diff = matches.length - this.dataForm.option_items().value().length;
         if (diff < 1) {
             return;
         }
@@ -177,14 +186,12 @@ export class EditQuestionComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IQuestion = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IQuestion = this.dataForm().value() as any;
+
         data.analysis_items = this.analysisItems;
         data.material_id = this.material ? this.material.id : 0;
         data.material = data.material_id > 0 ? undefined : this.material;
@@ -205,14 +212,20 @@ export class EditQuestionComponent implements OnInit {
     }
 
     public tapRemoveItem(i: number) {
-        this.optionItems.removeAt(i);
+        this.dataForm.option_items().value.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
     }
 
     public tapAddItem() {
-        this.optionItems.push(this.fb.group({
-            content: '',
-            type: 0,
-            is_right: 0,
-        }));
+        this.dataForm.option_items().value.update(v => {
+            v.push({
+                content: '',
+                type: '0',
+                is_right: '0',
+            });
+            return v;
+        });
     }
 }

@@ -14,9 +14,9 @@ import { IService } from '../../../model';
   styleUrls: ['./waiter.component.scss']
 })
 export class WaiterComponent implements OnInit {
-    private service = inject(LegworkService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(LegworkService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
 

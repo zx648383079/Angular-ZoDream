@@ -1,11 +1,11 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑品牌' : '新增品牌'" (submited)="tapSubmit()" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑品牌' : '新增品牌'" (submited)="tapSubmit()" [disabled]="dataForm().invalid()" />
 <div class="container-fluid">
-    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control panel-container" (submit)="tapSubmit()">
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" formControlName="name">
-                @if (form.get('name').invalid) {
+                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                @if (dataForm.name().invalid()) {
                 <div class="input-tip">请输入名称</div>
                 }
             </div>
@@ -13,26 +13,26 @@
         <div class="input-group-control">
             <label for="logo">Logo</label>
             <div>
-                <app-file-input id="logo" formControlName="logo" />
+                <app-file-input id="logo" [field]="dataForm.logo" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="app_logo">APP Logo</label>
             <div>
-                <app-file-input id="app_logo" formControlName="app_logo" />
+                <app-file-input id="app_logo" [field]="dataForm.app_logo" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="keywords">关键字</label>
             <div>
-                <input type="text" id="keywords" class="form-control" formControlName="keywords">
+                <input type="text" id="keywords" class="form-control" [field]="dataForm.keywords">
 
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">简介</label>
             <div>
-                <textarea id="description" class="form-control" formControlName="description"></textarea>
+                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
             </div>
         </div>
         <div class="btn-group">

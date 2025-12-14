@@ -11,7 +11,7 @@ import { TaskService } from '../task.service';
     styleUrls: ['./task-select.component.scss'],
 })
 export class TaskSelectComponent {
-    private service = inject(TaskService);
+    private readonly service = inject(TaskService);
     private searchService = inject(SearchService);
 
 

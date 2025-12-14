@@ -13,8 +13,8 @@ import { ShopService } from '../../shop.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-    private service = inject(ShopService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ShopService);
+    private readonly toastrService = inject(DialogService);
     route = inject(ActivatedRoute);
 
 

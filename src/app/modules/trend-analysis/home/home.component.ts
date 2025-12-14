@@ -10,7 +10,7 @@ import { ITrendStatistics, TimeTabItems } from '../model';
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-    private service = inject(TrendService);
+    private readonly service = inject(TrendService);
 
 
     public trendToggle = false;

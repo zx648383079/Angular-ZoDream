@@ -1,26 +1,24 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑用户' : '新增用户'" (submited)="tapSubmit()" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑用户' : '新增用户'" (submited)="tapSubmit()" [disabled]="dataForm().invalid()" />
 <div class="container-fluid">
-    <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control" (submit)="tapSubmit()">
         <div class="row">
             <div class="col-md-6">
                 <app-panel title="基本信息">
-                    @if (data) {
                     <div class="input-group-control avatar-input" >
                         <label for="avatar">头像</label>
                         <div>
                             <div class="avatar">
-                                <img [src]="data.avatar">
+                                <img [src]="dataModel().avatar">
                             </div>
                             <label for="fileUpload" class="btn btn-light">更改头像</label>
                             <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*"/>
                         </div>
                     </div>
-                    }
                     <div class="input-group-control">
                         <label for="name">昵称</label>
                         <div>
-                            <input type="text" id="name" class="form-control" formControlName="name" placeholder="例如:zodream">
-                            @if (name.invalid) {
+                            <input type="text" id="name" class="form-control" [field]="dataForm.name" placeholder="例如:zodream">
+                            @if (dataForm.name().invalid()) {
                             <div class="input-tip" >请输入昵称</div>
                             }
                         </div>
@@ -28,8 +26,8 @@
                     <div class="input-group-control">
                         <label for="email">邮箱</label>
                         <div>
-                            <input type="email" id="email" class="form-control" formControlName="email">
-                            @if (email.invalid) {
+                            <input type="email" id="email" class="form-control" [field]="dataForm.email">
+                            @if (dataForm.email().invalid()) {
                             <div class="input-tip" >请输入邮箱</div>
                             }
                         </div>
@@ -37,25 +35,25 @@
                     <div class="input-group-control">
                         <label for="sex">性别</label>
                         <div>
-                            <app-check-input formControlName="sex" rangeKey="value" [items]="sexItems" />
+                            <app-check-input [field]="dataForm.sex" rangeKey="value" [items]="sexItems" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="birthday">生日</label>
                         <div class="calendar-input">
-                            <app-date-input formControlName="birthday" />
+                            <app-date-input [field]="dataForm.birthday" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label>角色</label>
                         <div>
-                            <ng-select [multiple]="true" [items]="roleItems" bindValue="id" bindLabel="display_name" formControlName="roles" placeholder="选择角色" />
+                            <ng-select [multiple]="true" [items]="roleItems" bindValue="id" bindLabel="display_name" [field]="dataForm.roles" placeholder="选择角色" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label>分区</label>
                         <div>
-                            <ng-select [items]="zoneItems" bindValue="id" bindLabel="name" formControlName="zone_id" placeholder="选择分区" />
+                            <ng-select [items]="zoneItems" bindValue="id" bindLabel="name" [field]="dataForm.zone_id" placeholder="选择分区" />
                         </div>
                     </div>
                 </app-panel>
@@ -65,7 +63,7 @@
                     <div class="input-group-control">
                         <label for="password">密码</label>
                         <div>
-                            <input type="password" id="password" class="form-control" formControlName="password"
+                            <input type="password" id="password" class="form-control" [field]="dataForm.password"
                                 placeholder="输入密码">
 
                         </div>
@@ -73,10 +71,10 @@
                     <div class="input-group-control">
                         <label for="confirm_password">确认密码</label>
                         <div>
-                            <input type="password" id="confirm_password" class="form-control" formControlName="confirm_password"
+                            <input type="password" id="confirm_password" class="form-control" [field]="dataForm.confirm_password"
                                 placeholder="输入确认密码">
-                            @if (form.getError('confirm')) {
-                            <div class="input-tip" >两次密码不一致</div>
+                            @if (dataForm.confirm_password().invalid()) {
+                                <div class="input-tip" >两次密码不一致</div>
                             }
                         </div>
                     </div>
@@ -84,11 +82,11 @@
             </div>
         </div>
 
-        @if (data) {
+        @if (dataModel().id > 0) {
         <div class="btn-group" >
             <button type="submit" class="btn btn-success">确认保存</button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
-            <a class="btn btn-info" [routerLink]="['../../', data.id]">查看账号明细</a>
+            <a class="btn btn-info" [routerLink]="['../../', dataModel().id]">查看账号明细</a>
         </div>
         }
     </form>

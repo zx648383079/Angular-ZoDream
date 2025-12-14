@@ -23,11 +23,11 @@ import { IErrorResult } from '../../../../theme/models/page';
     styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
-    private service = inject(BlogService);
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
-    private toastrService = inject(DialogService);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(BlogService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly toastrService = inject(DialogService);
+    private readonly themeService = inject(ThemeService);
     private searchService = inject(SearchService);
     private ngZoon = inject(NgZone);
 

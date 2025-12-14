@@ -1,15 +1,15 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑资源' : '新增资源'" (submited)="tapSubmit($event)" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑资源' : '新增资源'" (submited)="tapSubmit($event)" [disabled]="dataForm().invalid()" />
 
 
 <div class="container-fluid">
-    <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control" (submit)="tapSubmit()">
         <div class="panel-container">
             <div class="title-input">
                 <label for="title">标题</label>
-                <input type="text" id="title" class="form-control" formControlName="title">
+                <input type="text" id="title" class="form-control" [field]="dataForm.title">
             </div>
-            
-            <app-markdown-editor formControlName="content" (imageUpload)="editorImageUpload($event)" [height]="400" placeholder="资源描述" />
+
+            <app-markdown-editor [field]="dataForm.content" (imageUpload)="editorImageUpload($event)" [height]="400" placeholder="资源描述" />
         </div>
 
         <div class="row">
@@ -18,34 +18,34 @@
                     <div class="input-group-control">
                         <label for="cat_id">分类</label>
                         <div>
-                            <select id="cat_id" class="form-control" formControlName="cat_id">
+                            <select id="cat_id" class="form-control" [field]="dataForm.cat_id">
                                 @for (item of categories; track $index) {
                                     <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                                 }
                             </select>
-        
+
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="thumb">图片</label>
                         <div>
-                            <app-file-input formControlName="thumb" />
+                            <app-file-input [field]="dataForm.thumb" />
                         </div>
                     </div>
-                    
+
                     <div class="input-group-control">
                         <label for="keywords">关键字</label>
                         <div>
-                            <app-words-input id="keywords" formControlName="keywords" />
+                            <app-words-input id="keywords" [field]="dataForm.keywords" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="description">说明</label>
                         <div>
-                            <app-text-editor formControlName="description" height="100" />
+                            <app-text-editor [field]="dataForm.description" height="100" />
                         </div>
                     </div>
-                    
+
                     <div class="input-group-control">
                         <label>标签</label>
                         <div>
@@ -59,42 +59,42 @@
                     <div class="input-group-control">
                         <label>价格</label>
                         <div>
-                            <app-number-input formControlName="price" />
+                            <app-number-input [field]="dataForm.price" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="is_open_source">允许商用</label>
                         <div>
-                            <app-switch formControlName="is_commercial" />
+                            <app-switch [field]="dataForm.is_commercial" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="is_open_source">允许转载</label>
                         <div>
-                            <app-switch formControlName="is_reprint" />
+                            <app-switch [field]="dataForm.is_reprint" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="official_website">文件大小</label>
                         <div>
-                            <app-data-size formControlName="size" />
+                            <app-data-size [field]="dataForm.size" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label>预览类型</label>
                         <div>
-                            <select class="form-control" formControlName="preview_type">
+                            <select class="form-control" [field]="dataForm.preview_type">
                                 @for (item of previewTypeItems; track $index; let i = $index) {
                                     <option [value]="i">{{ item }}</option>
                                 }
                             </select>
                         </div>
                     </div>
-                    @if (previewType > 0) {
+                    @if (previewType() > 0) {
                     <div class="input-group-control">
                         <label for="official_website">预览文件</label>
                         <div>
-                            <app-file-input formControlName="preview_file" [accept]="previewType == 1 ? 'image/*' : '*/*'" [custom]="true" (customUpload)="onFileUpload($event, true)" />
+                            <app-file-input [field]="dataForm.preview_file" [accept]="previewType() == 1 ? 'image/*' : '*/*'" [custom]="true" (customUpload)="onFileUpload($event, true)" />
                         </div>
                     </div>
                     }
@@ -102,7 +102,7 @@
                     <div class="input-group-control">
                         <label for="status">审核状态</label>
                         <div>
-                            <select class="form-control" formControlName="status">
+                            <select class="form-control" [field]="dataForm.status">
                                 @for (item of reviewItems; track $index) {
                                     <option [value]="item.value">{{ item.name }}</option>
                                 }
@@ -158,7 +158,7 @@
         </app-panel>
 
         <div class="btn-group">
-            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)" [disabled]="form.invalid">确认保存</app-action-button>
+            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)" [disabled]="dataForm().invalid()">确认保存</app-action-button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
         </div>
     </form>

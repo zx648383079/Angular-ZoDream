@@ -1,32 +1,45 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { LegworkService } from '../../../legwork.service';
 import { ICategory, IService } from '../../../model';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-edit-service',
-  templateUrl: './edit-service.component.html',
-  styleUrls: ['./edit-service.component.scss']
+    selector: 'app-edit-service',
+    templateUrl: './edit-service.component.html',
+    styleUrls: ['./edit-service.component.scss']
 })
 export class EditServiceComponent implements OnInit {
-    private service = inject(LegworkService);
-    private route = inject(ActivatedRoute);
-    private fb = inject(FormBuilder);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(LegworkService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
     public data: IService;
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        thumb: ['', Validators.required],
-        cat_id: [0, Validators.required],
-        price: [0, Validators.required],
-        brief: [''],
-        content: [''],
-        form: this.fb.array([])
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        thumb: '',
+        cat_id: '',
+        price: 0,
+        brief: '',
+        content: '',
+        form: [
+            {
+                name: '',
+                label: '',
+                required: false,
+                only: false,
+            }
+        ]
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.thumb);
+        required(schemaPath.cat_id);
+        required(schemaPath.price);
     });
     public categories: ICategory[] = [];
 
@@ -46,47 +59,58 @@ export class EditServiceComponent implements OnInit {
         });
     }
 
-    get formItems() {
-        return this.form.get('form') as FormArray<FormGroup>;
-    }
-
     public addForm() {
-        this.formItems.push(this.fb.group({
-            name: ['', Validators.required],
-            label: ['', Validators.required],
-            required: [false],
-            only: [false],
-        }));
+        this.dataForm.form().value.update(v => {
+            v.push({
+                name: '',
+                label: '',
+                required: false,
+                only: false,
+            });
+            return v;
+        });
     }
 
     public removeForm(i: number) {
-        this.formItems.removeAt(i);
+        this.dataForm.form().value.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
     }
 
     private loadService(id: any) {
         this.service.providerService(id).subscribe(res => {
             this.data = res;
-            this.form.patchValue({
+            this.dataModel.set({
+                id: res.id,
                 name: res.name,
                 thumb: res.thumb,
-                cat_id: res.cat_id,
+                cat_id: res.cat_id as any,
                 price: res.price,
                 brief: res.brief,
                 content: res.content,
+                form: res.form?.length > 0 ? res.form.map(v => {
+                    return {
+                        name: v.name,
+                        label: v.label,
+                        required: v.required,
+                        only: v.only, 
+                    };
+                }) : [{
+                    name: '',
+                    label: '',
+                    required: false,
+                    only: false,
+                }] as any
             });
-            if (res.form) {
-                for (const item of res.form) {
-                    this.formItems.push(this.fb.group(item));
-                }
-            }
         });
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             return;
         }
-        const data: IService = Object.assign({}, this.form.value) as any;
+        const data: IService = this.dataForm().value() as any;
         if (this.data) {
             data.id = this.data.id;
         }

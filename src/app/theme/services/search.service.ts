@@ -10,7 +10,7 @@ const HistoryTitle = $localize `Query results`;
     providedIn: 'root',
 })
 export class SearchService {
-    private router = inject(Router);
+    private readonly router = inject(Router);
 
 
 

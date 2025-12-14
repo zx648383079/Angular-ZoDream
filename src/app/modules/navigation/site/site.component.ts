@@ -10,7 +10,7 @@ import { NavigationService } from '../navigation.service';
     styleUrls: ['./site.component.scss']
 })
 export class SiteComponent {
-    private service = inject(NavigationService);
+    private readonly service = inject(NavigationService);
 
 
     public readonly visible = input(false);

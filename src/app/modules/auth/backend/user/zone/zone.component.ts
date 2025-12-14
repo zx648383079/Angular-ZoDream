@@ -14,9 +14,9 @@ import { emptyValidate } from '../../../../../theme/validators';
     styleUrls: ['./zone.component.scss']
 })
 export class ZoneComponent implements OnInit {
-    private service = inject(AuthService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(AuthService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
 

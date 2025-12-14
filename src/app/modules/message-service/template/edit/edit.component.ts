@@ -1,10 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ISignature, ITemplate } from '../../model';
 import { MessageServiceService } from '../../ms.service';
 import { ButtonEvent } from '../../../../components/form';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -13,18 +13,23 @@ import { ButtonEvent } from '../../../../components/form';
     styleUrls: ['./edit.component.scss']
 })
 export class EditTemplateComponent implements OnInit {
-    private service = inject(MessageServiceService);
-    private fb = inject(FormBuilder);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(MessageServiceService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        title: ['', Validators.required],
-        content: ['', Validators.required],
-        target_no: [''],
-        type: [0],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        title: '',
+        content: '',
+        target_no: '',
+        type: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.title);
+        required(schemaPath.content);
     });
 
     public data: ITemplate;
@@ -49,12 +54,13 @@ export class EditTemplateComponent implements OnInit {
                 } else if (res.data instanceof Array) {
                     this.keyItems = res.data;
                 }
-                this.form.patchValue({
+                this.dataModel.set({
+                    id: res.id,
                     name: res.name,
                     title: res.title,
                     content: res.content,
                     target_no: res.target_no,
-                    type: res.type,
+                    type: res.type as any,
                 });
             });
         });
@@ -65,7 +71,7 @@ export class EditTemplateComponent implements OnInit {
     }
 
     public onContentChange() {
-        const val = this.form.get('content').value;
+        const val = this.dataForm.content().value();
         this.keyItems = [];
         if (!val) {
             return;
@@ -85,14 +91,12 @@ export class EditTemplateComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: ITemplate = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: ITemplate = this.dataForm().value() as any;
+
         data.data = this.keyItems;
         e?.enter();
         this.service.templateSave(data).subscribe({

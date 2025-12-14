@@ -1,26 +1,30 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { LegworkService } from '../../legwork.service';
 import { IWaiter } from '../../model';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+    selector: 'app-profile',
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-    private service = inject(LegworkService);
-    private fb = inject(FormBuilder);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(LegworkService);
+    private readonly toastrService = inject(DialogService);
 
 
     public data: IWaiter;
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        tel: ['', Validators.required],
-        address: ['', Validators.required],
+    public readonly dataModel = signal({
+        name: '',
+        tel: '',
+        address: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.tel);
+        required(schemaPath.address);
     });
 
     ngOnInit() {
@@ -29,7 +33,7 @@ export class ProfileComponent implements OnInit {
             if (!res.name) {
                 return;
             }
-            this.form.patchValue({
+            this.dataModel.set({
                 name: res.name,
                 tel: res.tel,
                 address: res.address
@@ -38,13 +42,13 @@ export class ProfileComponent implements OnInit {
     }
 
     public tapSubmit() {
-        if (!this.form.valid) {
+        if (this.dataForm().invalid()) {
             return;
         }
         if (this.data.status === 1 && !confirm($localize `Will continue to save will need to be reviewed again?`)) {
             return;
         }
-        const data = Object.assign({}, this.form.value);
+        const data = this.dataForm().value();
         this.service.waiterSave(data).subscribe({
             next: res => {
                 this.data = res;

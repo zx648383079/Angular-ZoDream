@@ -8,7 +8,7 @@ import { EditorService } from './editor.service';
   styleUrls: ['./visual-editor.component.scss']
 })
 export class VisualEditorComponent implements OnInit, AfterViewInit {
-    private service = inject(EditorService);
+    private readonly service = inject(EditorService);
     private readonly renderer = inject(Renderer2);
 
 

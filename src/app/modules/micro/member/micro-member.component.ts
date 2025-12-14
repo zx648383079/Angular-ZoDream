@@ -13,9 +13,9 @@ import { SearchService } from '../../../theme/services';
   styleUrls: ['./micro-member.component.scss']
 })
 export class MicroMemberComponent implements OnInit {
-    private service = inject(MicroService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(MicroService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

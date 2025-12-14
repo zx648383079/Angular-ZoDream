@@ -15,9 +15,9 @@ import { SearchService } from '../../../theme/services';
     styleUrls: ['./emoji.component.scss']
 })
 export class EmojiComponent implements OnInit {
-    private service = inject(SystemService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(SystemService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

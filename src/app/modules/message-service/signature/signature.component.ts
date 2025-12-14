@@ -14,9 +14,9 @@ import { MessageServiceService } from '../ms.service';
     styleUrls: ['./signature.component.scss']
 })
 export class SignatureComponent implements OnInit {
-    private service = inject(MessageServiceService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(MessageServiceService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
 

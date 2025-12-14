@@ -11,8 +11,8 @@ import { IAccount, IFinancialProduct, IFinancialProject } from '../../model';
     styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
-    private service = inject(FinanceService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(FinanceService);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: IFinancialProject[] = [];

@@ -11,8 +11,8 @@ import { IPreviewFile } from '../../model';
   styleUrls: ['./crud.component.scss']
 })
 export class CrudComponent implements OnInit {
-    private service = inject(GenerateService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(GenerateService);
+    private readonly toastrService = inject(DialogService);
 
 
     public readonly modal = viewChild(DialogBoxComponent);

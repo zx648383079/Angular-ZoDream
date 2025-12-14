@@ -8,7 +8,7 @@ import { AdService } from './ad.service';
     styleUrls: ['./ad-sense.component.scss']
 })
 export class AdSenseComponent implements OnInit {
-    private service = inject(AdService);
+    private readonly service = inject(AdService);
 
 
     public isLoading = false;

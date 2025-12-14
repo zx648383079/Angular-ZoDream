@@ -11,10 +11,10 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./blog.component.scss']
 })
 export class BlogComponent implements OnInit, OnDestroy {
-    private service = inject(BlogService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(BlogService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+    private readonly themeService = inject(ThemeService);
 
 
     private subItems = new Subscription();

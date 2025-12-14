@@ -14,9 +14,9 @@ import { emailValidate, emptyValidate } from '../../../theme/validators';
   styleUrls: ['./friend-link.component.scss']
 })
 export class FriendLinkComponent implements OnInit {
-    private service = inject(ContactService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ContactService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

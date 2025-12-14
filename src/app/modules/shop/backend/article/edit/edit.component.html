@@ -1,12 +1,12 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑文章' : '新增文章'"(submited)="tapSubmit($event)" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑文章' : '新增文章'"(submited)="tapSubmit($event)" [disabled]="dataForm().invalid()" />
 <div class="container-fluid">
-    <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control" (submit)="tapSubmit()">
         <app-panel title="基本信息">
             <div class="input-group-control">
                 <label for="title">标题</label>
                 <div>
-                    <input type="text" id="title" class="form-control" formControlName="title">
-                    @if (form.get('title').invalid) {
+                    <input type="text" id="title" class="form-control" [field]="dataForm.title">
+                    @if (dataForm.title().invalid()) {
                     <div class="input-tip">请输入标题</div>
                     }
                 </div>
@@ -14,7 +14,7 @@
             <div class="input-group-control">
                 <label for="cat_id">分类</label>
                 <div>
-                    <select id="cat_id" formControlName="cat_id" class="form-control" >
+                    <select id="cat_id" [field]="dataForm.cat_id" class="form-control" >
                         @for (item of categories; track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                         }
@@ -25,26 +25,26 @@
             <div class="input-group-control">
                 <label for="thumb">主图</label>
                 <div>
-                    <app-file-input id="thumb" formControlName="thumb" />
+                    <app-file-input id="thumb" [field]="dataForm.thumb" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="keywords">关键字</label>
                 <div>
-                    <app-words-input id="keywords" formControlName="keywords" />
+                    <app-words-input id="keywords" [field]="dataForm.keywords" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="description">说明</label>
                 <div>
-                    <textarea id="description" class="form-control" formControlName="description"></textarea>
+                    <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
 
                 </div>
             </div>
         </app-panel>
 
         <div class="panel-container">
-            <app-zre-editor formControlName="content" />
+            <app-zre-editor [field]="dataForm.content" />
         </div>
         <div class="btn-group">
             <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)">确认保存</app-action-button>

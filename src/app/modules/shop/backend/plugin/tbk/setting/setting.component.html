@@ -1,16 +1,16 @@
-<app-edit-header title="淘宝客设置" (submited)="tapSubmit($event)" [disabled]="form.invalid" />
+<app-edit-header title="淘宝客设置" (submited)="tapSubmit($event)" [disabled]="dataForm().invalid()" />
 <div class="container-fluid">
-    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control panel-container" (submit)="tapSubmit()">
         <div class="input-group-control">
             <label for="option_taobaoke_app_key">APP KEY</label>
             <div>
-                <input type="text" id="option_taobaoke_app_key"class="form-control"  formControlName="app_key">
+                <input type="text" id="option_taobaoke_app_key"class="form-control"  [field]="dataForm.app_key">
             </div>
         </div>
         <div class="input-group-control">
             <label for="option_taobaoke_secret">Secret</label>
             <div>
-                <input type="text" id="option_taobaoke_secret" class="form-control" formControlName="secret">
+                <input type="text" id="option_taobaoke_secret" class="form-control" [field]="dataForm.secret">
             </div>
         </div>
         <div class="btn-group">

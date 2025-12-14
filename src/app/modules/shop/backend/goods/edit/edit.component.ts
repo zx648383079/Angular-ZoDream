@@ -1,5 +1,4 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -8,6 +7,7 @@ import { FileUploadService } from '../../../../../theme/services/file-upload.ser
 import { AttributeService } from '../attribute.service';
 import { GoodsService } from '../goods.service';
 import { SkuFormComponent } from '../../../components';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -16,10 +16,9 @@ import { SkuFormComponent } from '../../../components';
   styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
-    private service = inject(GoodsService);
-    private fb = inject(FormBuilder);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(GoodsService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private uploadService = inject(FileUploadService);
     private attrService = inject(AttributeService);
 
@@ -28,33 +27,37 @@ export class EditComponent implements OnInit {
 
     public data: IGoods;
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        cat_id: [0],
-        brand_id: [0],
-        series_number: [''],
-        keywords: [''],
-        thumb: [''],
-        picture: [''],
-        description: [''],
-        brief: [''],
-        content: [''],
-        price: [0],
-        market_price: [0],
-        stock: [1],
-        attribute_group_id: [0],
-        weight: [0],
-        shipping_id: [0],
-        is_best: [0],
-        is_hot: [0],
-        is_new: [0],
-        status: [10],
-        admin_note: [''],
-        type: [0],
-        position: [99],
-        seo_title: [''],
-        seo_description: [''],
-        seo_link: [''],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        cat_id: 0,
+        brand_id: 0,
+        series_number: '',
+        keywords: '',
+        thumb: '',
+        picture: '',
+        description: '',
+        brief: '',
+        content: '',
+        price: 0,
+        market_price: 0,
+        stock: 1,
+        attribute_group_id: 0,
+        weight: 0,
+        shipping_id: 0,
+        is_best: 0,
+        is_hot: 0,
+        is_new: 0,
+        status: 10,
+        admin_note: '',
+        type: 0,
+        position: 99,
+        seo_title: '',
+        seo_description: '',
+        seo_link: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
     public categories: ICategory[] = [];
@@ -83,7 +86,8 @@ export class EditComponent implements OnInit {
             }
             this.service.goods(params.id).subscribe(res => {
                 this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                        id: res.id,
                     cat_id: res.cat_id,
                     brand_id: res.brand_id,
                     name: res.name,
@@ -123,19 +127,16 @@ export class EditComponent implements OnInit {
 
     public tapCreateSn() {
         this.service.createSn().subscribe(res => {
-            this.form.get('series_number').setValue(res.data);
+            this.dataForm.series_number.setValue(res.data);
         });
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: any = Object.assign({}, this.form.value);
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: any = this.dataForm().value();
         data.attr = this.skuForm().attrFormData();
         data.products = this.skuForm().productFormData();
         data.gallery = this.gallaryItems;
@@ -154,7 +155,7 @@ export class EditComponent implements OnInit {
     }
 
     public tapGroupChange() {
-        const groupId = this.form.get('attribute_group_id').value;
+        const groupId = this.dataForm.attribute_group_id.value;
         if (groupId < 1) {
             this.attrItems = [];
             this.productItems = [];
@@ -169,13 +170,13 @@ export class EditComponent implements OnInit {
     public uploadFile(event: any, name: string = 'thumb') {
         const files = event.target.files as FileList;
         this.uploadService.uploadImage(files[0]).subscribe(res => {
-            this.form.get(name).setValue(res.url);
+            this.dataForm[name]().value.set(res.url);
         });
     }
 
     public tapPreview(name: string) {
-        window.open(this.form.get(name).value, '_blank');
+        window.open(this.dataForm[name]().value(), '_blank');
     }
 
-    
+
 }

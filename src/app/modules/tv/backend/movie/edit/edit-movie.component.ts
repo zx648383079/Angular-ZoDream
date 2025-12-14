@@ -1,5 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ICategory, IMovie, IMovieArea, ITag } from '../../../model';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { TVService } from '../../tv.service';
@@ -8,40 +7,46 @@ import { DialogService } from '../../../../../components/dialog';
 import { FileUploadService } from '../../../../../theme/services';
 import { ButtonEvent } from '../../../../../components/form';
 import { EditorBlockType, IEditorFileBlock, IImageUploadEvent } from '../../../../../components/editor';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-edit-movie',
-  templateUrl: './edit-movie.component.html',
-  styleUrls: ['./edit-movie.component.scss']
+    selector: 'app-edit-movie',
+    templateUrl: './edit-movie.component.html',
+    styleUrls: ['./edit-movie.component.scss']
 })
 export class EditMovieComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(TVService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(TVService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private uploadService = inject(FileUploadService);
 
 
-    public form = this.fb.group({
-        title: ['', Validators.required],
-        cover: [''],
-        content: ['', Validators.required],
-        description: [''],
-        cat_id: [0, Validators.required],
-        film_title: [''],
-        translation_title: [''],
-        director: [''],
-        leader:  [''],
-        area_id: [0, Validators.required],
-        age: [''],
-        language:  [''],
-        release_date: [''],
-        duration: [''],
-        series_count: [0],
-        status: [0],
+    public readonly dataModel = signal({
+        id: 0,
+        title: '',
+        cover: '',
+        content: '',
+        description: '',
+        cat_id: '',
+        film_title: '',
+        translation_title: '',
+        director: '',
+        leader: '',
+        area_id: '',
+        age: '',
+        language: '',
+        release_date: '',
+        duration: '',
+        series_count: 0,
+        status: 0,
     });
-    public data: IMovie;
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.title);
+        required(schemaPath.content);
+        required(schemaPath.cat_id);
+        required(schemaPath.area_id);
+    });
     public tags: ITag[] = [];
     public categories: ICategory[] = [];
     public areaItems: IMovieArea[] = [];
@@ -63,19 +68,19 @@ export class EditMovieComponent implements OnInit {
             }
             this.service.movie(params.id).subscribe({
                 next: res => {
-                    this.data = res;
                     if (res.tags) {
                         this.tags = res.tags;
                     }
-                    this.form.patchValue({
+                    this.dataModel.set({
+                        id: res.id,
                         title: res.title,
                         film_title: res.film_title,
                         translation_title: res.translation_title,
                         cover: res.cover,
                         director: res.director,
                         leader: res.leader,
-                        cat_id: res.cat_id,
-                        area_id: res.area_id,
+                        cat_id: res.cat_id as any,
+                        area_id: res.area_id as any,
                         age: res.age,
                         language: res.language,
                         release_date: res.release_date,
@@ -106,23 +111,16 @@ export class EditMovieComponent implements OnInit {
         );
     }
 
-    public get isOpenSource() {
-        return this.form.get('is_open_source').value;
-    }
-
     public addTagFn(name: string) {
         return {name};
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IMovie = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IMovie = this.dataForm().value() as any;
         data.tags = this.tags;
         e?.enter();
         this.service.movieSave(data).subscribe({

@@ -8,7 +8,7 @@ import { NoteService } from './note.service';
   styleUrls: ['./note-backend.component.scss']
 })
 export class NoteBackendComponent implements OnInit {
-    private service = inject(NoteService);
+    private readonly service = inject(NoteService);
 
 
     public isLoading = true;

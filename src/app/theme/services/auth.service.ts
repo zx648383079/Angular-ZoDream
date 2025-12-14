@@ -46,9 +46,9 @@ export class AuthService {
 
     private http = inject(HttpClient);
     private actions = inject(AuthActions);
-    private store = inject(Store<AppState>);
-    private router = inject(Router);
-    private toastrService = inject(DialogService);
+    private readonly store = inject(Store<AppState>);
+    private readonly router = inject(Router);
+    private readonly toastrService = inject(DialogService);
     private cookieService = inject(CookieService);
     private platformId = inject(PLATFORM_ID);
     

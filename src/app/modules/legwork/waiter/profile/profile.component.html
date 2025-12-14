@@ -1,23 +1,23 @@
 <div class="title-bar">
     <span i18n>My profile(Taker)</span>
 </div>
-<form class="panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+<form class="panel-container" (submit)="tapSubmit()">
     <div class="form-group row">
         <label for="name" class="col-md-3 col-form-label" i18n>Nickname</label>
         <div class="col-md-9">
-            <input type="text" class="form-control" formControlName="name" id="name" i18n-placeholder placeholder="Please input nickname">
+            <input type="text" class="form-control" [field]="dataForm.name" id="name" i18n-placeholder placeholder="Please input nickname">
         </div>
     </div>
     <div class="form-group row">
         <label for="tel" class="col-md-3 col-form-label" i18n>Tel</label>
         <div class="col-md-9">
-            <input type="text" class="form-control" formControlName="tel" id="tel" i18n-placeholder placeholder="Please input your tel">
+            <input type="text" class="form-control" [field]="dataForm.tel" id="tel" i18n-placeholder placeholder="Please input your tel">
         </div>
     </div>
     <div class="form-group row">
         <label for="address" class="col-md-3 col-form-label" i18n>Address</label>
         <div class="col-md-9">
-            <textarea class="form-control" formControlName="address" id="address" i18n-placeholder placeholder="Please input your address"></textarea>
+            <textarea class="form-control" [field]="dataForm.address" id="address" i18n-placeholder placeholder="Please input your address"></textarea>
         </div>
     </div>
     <div class="row">

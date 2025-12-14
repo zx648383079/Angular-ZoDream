@@ -1,44 +1,47 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { IActivity, ICashBackConfigure } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 import { ActivityRuleItems } from '../../model';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-shop-cash-back-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+    selector: 'app-shop-cash-back-edit',
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.scss']
 })
 export class EditCashBackComponent implements OnInit {
-    private service = inject(ActivityService);
-    private fb = inject(FormBuilder);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ActivityService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        thumb: [''],
-        description: [''],
-        scope: [[], Validators.required],
-        scope_type: [0],
-        start_at: [''],
-        end_at: [],
-        configure: this.fb.group({
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        thumb: '',
+        description: '',
+        scope: [],
+        scope_type: 0,
+        start_at: '',
+        end_at: '',
+        configure: {
             money: 0,
             star: 0,
             order_amount: 0
-        }),
+        }
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
     public data: IActivity<ICashBackConfigure>;
     public ruleItems = ActivityRuleItems;
 
     get scopeType() {
-        const val = this.form.get('scope_type').value;
+        const val = this.dataForm.scope_type.value;
         return typeof val === 'number' ? val : parseInt(val, 10);
     }
 
@@ -62,7 +65,8 @@ export class EditCashBackComponent implements OnInit {
             }
             this.service.cashBack(params.id).subscribe(res => {
                 this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                        id: res.id,
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
@@ -71,7 +75,7 @@ export class EditCashBackComponent implements OnInit {
                     start_at: res.start_at as string,
                     end_at: res.end_at,
                 });
-                this.form.get('configure').patchValue(res.configure);
+                this.dataForm.configure.patchValue(res.configure);
             });
         });
     }
@@ -81,14 +85,12 @@ export class EditCashBackComponent implements OnInit {
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IActivity<any> = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IActivity<any> = this.dataForm().value() as any;
+
         if (data.scope_type < 1) {
             data.scope =  '';
         } else if (typeof data.scope === 'object') {

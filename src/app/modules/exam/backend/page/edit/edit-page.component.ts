@@ -1,36 +1,41 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
 import { IItem } from '../../../../../theme/models/seo';
 import { ICourse, IExamPage } from '../../../model';
 import { ExamService } from '../../exam.service';
+import { form, required } from '@angular/forms/signals';
+import { parseNumber } from '../../../../../theme/utils';
 
 @Component({
     standalone: false,
-  selector: 'app-edit-page',
-  templateUrl: './edit-page.component.html',
-  styleUrls: ['./edit-page.component.scss']
+    selector: 'app-edit-page',
+    templateUrl: './edit-page.component.html',
+    styleUrls: ['./edit-page.component.scss']
 })
 export class EditPageComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(ExamService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ExamService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        course_id: [0],
-        course_grade: [1],
-        rule_type: [0],
-        limit_time: [120],
-        start_at: [''],
-        end_at: [''],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        course_id: '',
+        course_grade: '1',
+        rule_type: '',
+        limit_time: 120,
+        start_at: '',
+        end_at: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
-    public data: IExamPage;
+    public readonly ruleType = computed(() => parseNumber(this.dataForm.rule_type().value()));
+
     public courseItems: ICourse[] = [];
     public typeItems = ['单选题', '多选题', '判断题', '简答题', '填空题'];
     public optionItems: any[] = [];
@@ -55,12 +60,12 @@ export class EditPageComponent implements OnInit {
                 return;
             }
             this.service.page(params.id).subscribe(res => {
-                this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                    id: res.id,
                     name: res.name,
-                    course_id: res.course_id,
-                    course_grade: res.course_grade,
-                    rule_type: res.rule_type,
+                    course_id: res.course_id as any,
+                    course_grade: res.course_grade as any,
+                    rule_type: res.rule_type as any,
                     limit_time: res.limit_time,
                     start_at: res.start_at,
                     end_at: res.end_at,
@@ -70,13 +75,9 @@ export class EditPageComponent implements OnInit {
         });
     }
 
-    get ruleType() {
-        return this.form.get('rule_type').value;
-    }
-
     public onCourseChange() {
         this.service.gradeAll({
-            course: this.form.get('course_id').value
+            course: this.dataForm.course_id().value()
         }).subscribe(res => {
             this.gradeItems = res.data;
         });
@@ -87,14 +88,11 @@ export class EditPageComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IExamPage = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IExamPage = this.dataForm().value() as any;
         data.rule_value = this.optionItems;
         e?.enter();
         this.service.pageSave(data).subscribe({
@@ -170,6 +168,6 @@ export class EditPageComponent implements OnInit {
             }
         }
         return -1;
-    } 
+    }
 
 }

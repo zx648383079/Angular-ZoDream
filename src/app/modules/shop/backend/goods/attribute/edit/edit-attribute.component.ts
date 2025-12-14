@@ -1,34 +1,37 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../../components/form';
 import { parseNumber } from '../../../../../../theme/utils';
 import { IAttribute, IAttributeGroup } from '../../../../model';
 import { AttributeService } from '../../attribute.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-edit-attribute',
-  templateUrl: './edit-attribute.component.html',
-  styleUrls: ['./edit-attribute.component.scss']
+    selector: 'app-edit-attribute',
+    templateUrl: './edit-attribute.component.html',
+    styleUrls: ['./edit-attribute.component.scss']
 })
 export class EditAttributeComponent implements OnInit {
-    private service = inject(AttributeService);
-    private fb = inject(FormBuilder);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(AttributeService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        property_group: [''],
-        group_id: [0],
-        search_type: ['0'],
-        input_type: ['0'],
-        default_value: [''],
-        position: [99],
-        type: ['0'],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        property_group: '',
+        group_id: 0,
+        search_type: '0',
+        input_type: '0',
+        default_value: '',
+        position: 99,
+        type: '0',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
     public data: IAttribute;
@@ -45,12 +48,13 @@ export class EditAttributeComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             if (!params.id) {
-                this.form.get('group_id').setValue(params.group);
+                this.dataForm.group_id.setValue(params.group);
                 return;
             }
             this.service.attr(params.id).subscribe(res => {
                 this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                        id: res.id,
                     name: res.name,
                     property_group: res.property_group,
                     search_type: res.search_type.toString(),
@@ -65,11 +69,11 @@ export class EditAttributeComponent implements OnInit {
     }
 
     get isInput() {
-        return parseNumber(this.form.get('input_type').value) > 0;
+        return parseNumber(this.dataForm.input_type.value) > 0;
     }
 
     public onGroupChange() {
-        const group = this.form.get('group_id').value;
+        const group = this.dataForm.group_id.value;
         this.propertyGroups = [];
         for (const item of this.groupItems) {
             if (item.id == group) {
@@ -84,14 +88,11 @@ export class EditAttributeComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IAttribute = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IAttribute = this.dataForm().value() as any;
         e?.enter();
         this.service.attrSave(data).subscribe({
             next: _ => {

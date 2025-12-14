@@ -13,8 +13,8 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./game-maker.component.scss']
 })
 export class GameMakerComponent implements OnDestroy {
-    private store = inject<Store<AppState>>(Store);
-    private themeService = inject(ThemeService);
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly themeService = inject(ThemeService);
 
 
     public navItems: INavLink[] = [

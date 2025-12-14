@@ -1,5 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { DialogService } from '../../../../../components/dialog';
@@ -8,6 +7,7 @@ import { ButtonEvent } from '../../../../../components/form';
 import { FileUploadService } from '../../../../../theme/services';
 import { ICategory, ISoftware, ITag } from '../../../model';
 import { AppService } from '../../app.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -16,27 +16,31 @@ import { AppService } from '../../app.service';
     styleUrls: ['./edit-software.component.scss']
 })
 export class EditSoftwareComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(AppService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(AppService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private uploadService = inject(FileUploadService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        keywords: [''],
-        content: ['', Validators.required],
-        description: [''],
-        cat_id: [0, Validators.required],
-        icon: [''],
-        is_free: [1],
-        is_open_source: [0],
-        official_website: [''],
-        git_url: [''],
-        score: [10],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        keywords: '',
+        content: '',
+        description: '',
+        cat_id: '',
+        icon: '',
+        is_free: true,
+        is_open_source: false,
+        official_website: '',
+        git_url: '',
+        score: 10,
     });
-    public data: ISoftware;
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.content);
+        required(schemaPath.cat_id);
+    });
     public tags: ITag[] = [];
     public categories: ICategory[] = [];
     public tagItems$: Observable<ITag[]>;
@@ -53,19 +57,19 @@ export class EditSoftwareComponent implements OnInit {
             }
             this.service.software(params.id).subscribe({
                 next: res => {
-                    this.data = res;
                     if (res.tags) {
                         this.tags = res.tags;
                     }
-                    this.form.patchValue({
+                    this.dataModel.set({
+                        id: res.id,
                         name: res.name,
                         keywords: res.keywords,
                         content: res.content,
                         description: res.description,
-                        cat_id: res.cat_id,
+                        cat_id: res.cat_id as any,
                         icon: res.icon,
-                        is_free: res.is_free,
-                        is_open_source: res.is_open_source,
+                        is_free: res.is_free > 0,
+                        is_open_source: res.is_open_source > 0,
                         official_website: res.official_website,
                         git_url: res.git_url,
                         score: res.score,
@@ -91,23 +95,16 @@ export class EditSoftwareComponent implements OnInit {
         );
     }
 
-    public get isOpenSource() {
-        return this.form.get('is_open_source').value;
-    }
-
     public addTagFn(name: string) {
         return {name};
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: ISoftware = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: ISoftware = this.dataForm().value() as any;
         data.tags = this.tags;
         e?.enter();
         this.service.softwareSave(data).subscribe({

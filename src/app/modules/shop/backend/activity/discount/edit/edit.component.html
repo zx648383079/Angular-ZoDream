@@ -1,29 +1,29 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑满减/满送' : '新增满减/满送'" (submited)="tapSubmit()" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑满减/满送' : '新增满减/满送'" (submited)="tapSubmit()" [disabled]="dataForm().invalid()" />
 <div class="container-fluid">
-    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control panel-container" (submit)="tapSubmit()">
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" formControlName="name" >
+                <input type="text" id="name" class="form-control" [field]="dataForm.name" >
             </div>
         </div>
         <div class="input-group-control">
             <label for="thumb">图片</label>
             <div>
-                <app-file-input formControlName="thumb" />
+                <app-file-input [field]="dataForm.thumb" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">说明</label>
             <div>
-                <textarea id="description" class="form-control" formControlName="description"></textarea>
+                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
 
             </div>
         </div>
         <div class="input-group-control">
             <label for="scope_type">活动范围</label>
             <div>
-                <select id="scope_type" class="form-control" formControlName="scope_type" (change)="onScopeChange()">
+                <select id="scope_type" class="form-control" [field]="dataForm.scope_type" (change)="onScopeChange()">
                     @for (item of ruleItems; track $index) {
                     <option [value]="item.value">{{ item.name }}</option>
                     }
@@ -33,31 +33,31 @@
         <div class="input-group-control" [hidden]="scopeType < 1">
             <label for="scope">范围区间</label>
             <div>
-                <app-select-input [url]="selectUrl" formControlName="scope" [multiple]="true" />
+                <app-select-input [url]="selectUrl" [field]="dataForm.scope" [multiple]="true" />
             </div>
         </div>
         <div class="input-group-control" formGroupName="configure">
             <label for="">优惠内容</label>
             <div>
                 <span class="radio-label">
-                    <input type="radio" id="configure_type0" [value]="0" formControlName="type">
+                    <input type="radio" id="configure_type0" [value]="0" [field]="dataForm.type">
                     <label for="configure_type0">满_元优惠</label>
                 </span><span class="radio-label">
-                    <input type="radio" id="configure_type1" [value]="1" formControlName="type">
+                    <input type="radio" id="configure_type1" [value]="1" [field]="dataForm.type">
                     <label for="configure_type1">满_件优惠</label>
                 </span>
                 <div class="discount-line">
-                    <p>订单满 <input type="text" formControlName="amount" class="form-control"><span class="unit">{{ configureType < 1 ? '元' : '件' }}</span> </p>
+                    <p>订单满 <input type="text" [field]="dataForm.amount" class="form-control"><span class="unit">{{ configureType < 1 ? '元' : '件' }}</span> </p>
                     <p>
-                        <input type="checkbox" formControlName="check_discount" [value]="1">
+                        <input type="checkbox" [field]="dataForm.check_discount" [value]="1">
                         打<input type="text"
-                        formControlName="discount_value" size="10" class="form-control">折</p>
-                    <p><input type="checkbox"  formControlName="check_money" [value]="1">减<input type="text"
-                        formControlName="discount_money" size="10" class="form-control">元</p>
-                    <p><input type="checkbox"  formControlName="check_gift" [value]="1">送赠品 
-                        <app-select-input url="shop/admin/goods/search" formControlName="discount_goods" />
+                        [field]="dataForm.discount_value" size="10" class="form-control">折</p>
+                    <p><input type="checkbox"  [field]="dataForm.check_money" [value]="1">减<input type="text"
+                        [field]="dataForm.discount_money" size="10" class="form-control">元</p>
+                    <p><input type="checkbox"  [field]="dataForm.check_gift" [value]="1">送赠品
+                        <app-select-input url="shop/admin/goods/search" [field]="dataForm.discount_goods" />
                     </p>
-                    <p><input type="checkbox" formControlName="check_shipping" [value]="1">包邮</p>
+                    <p><input type="checkbox" [field]="dataForm.check_shipping" [value]="1">包邮</p>
                 </div>
             </div>
 
@@ -67,9 +67,9 @@
         <div class="input-group-control">
             <label for="start_at">起止时间</label>
             <div>
-                <app-date-input formControlName="start_at" placeholder="请输入开始时间" />
+                <app-date-input [field]="dataForm.start_at" placeholder="请输入开始时间" />
                 ~
-                <app-date-input formControlName="end_at" placeholder="请输入结束时间" />
+                <app-date-input [field]="dataForm.end_at" placeholder="请输入结束时间" />
             </div>
         </div>
         <div class="btn-group">

@@ -14,9 +14,9 @@ import { CmsService } from '../cms.service';
     styleUrls: ['./linkage.component.scss']
 })
 export class LinkageComponent implements OnInit {
-    private service = inject(CmsService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(CmsService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
     public items: ICmsLinkage[] = [];

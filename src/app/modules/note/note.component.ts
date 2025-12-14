@@ -21,12 +21,12 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./note.component.scss']
 })
 export class NoteComponent implements OnInit, OnDestroy {
-    private service = inject(NoteService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
-    private store = inject<Store<AppState>>(Store);
+    private readonly service = inject(NoteService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly store = inject<Store<AppState>>(Store);
     private searchService = inject(SearchService);
-    private themeService = inject(ThemeService);
+    private readonly themeService = inject(ThemeService);
     private sanitizer = inject(DomSanitizer);
 
 

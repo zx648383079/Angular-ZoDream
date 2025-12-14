@@ -16,11 +16,11 @@ import { ButtonEvent } from '../../../../../components/form';
     styleUrls: ['./add-dialog.component.scss']
 })
 export class AddDialogComponent {
-    private service = inject(VisualService);
+    private readonly service = inject(VisualService);
     private searchService = inject(SearchService);
-    private themeService = inject(ThemeService);
-    private store = inject<Store<AppState>>(Store);
-    private toastrService = inject(DialogService);
+    private readonly themeService = inject(ThemeService);
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly toastrService = inject(DialogService);
 
     public readonly multiple = input(false);
     public visible = false;

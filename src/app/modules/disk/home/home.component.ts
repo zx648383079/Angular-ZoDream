@@ -13,7 +13,7 @@ import {
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-    private service = inject(DiskService);
+    private readonly service = inject(DiskService);
 
 
     public items: IShare[] = [];

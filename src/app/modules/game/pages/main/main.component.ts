@@ -8,7 +8,7 @@ import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameCharacter, IG
     styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements IGameScene, OnInit {
-    private router = inject<IGameRouter>(GameRouterInjectorToken);
+    private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
     public topItems: IGmeRoute[] = [

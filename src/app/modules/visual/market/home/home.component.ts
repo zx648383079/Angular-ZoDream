@@ -9,7 +9,7 @@ import { VisualService } from '../visual.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-    private service = inject(VisualService);
+    private readonly service = inject(VisualService);
 
 
     public pageItems: IThemeComponent[] = [];

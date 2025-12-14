@@ -14,7 +14,7 @@ import { FormValueControl } from '@angular/forms/signals';
 })
 export class ExamEditorComponent implements AfterViewInit, FormValueControl<string>, IEditor, OnInit {
     private uploadService = inject(FileUploadService);
-    private toastrService = inject(DialogService);
+    private readonly toastrService = inject(DialogService);
     private container = inject(EditorService);
 
 

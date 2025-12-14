@@ -10,8 +10,8 @@ import { GenerateService } from '../../generate.service';
   styleUrls: ['./import.component.scss']
 })
 export class ImportComponent implements OnInit {
-    private service = inject(GenerateService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(GenerateService);
+    private readonly toastrService = inject(DialogService);
 
     public schemaItems: IItem[] = [];
     public schema = '';

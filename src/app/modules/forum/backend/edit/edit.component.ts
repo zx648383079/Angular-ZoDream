@@ -1,5 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IForum, IForumClassify } from '../../model';
 import { IUser } from '../../../../theme/models/user';
@@ -8,6 +7,7 @@ import { emptyValidate } from '../../../../theme/validators';
 import { ForumService } from '../forum.service';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -16,19 +16,22 @@ import { ButtonEvent } from '../../../../components/form';
     styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(ForumService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ForumService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        thumb: [''],
-        parent_id: [0],
-        description: [''],
-        type: [0],
-        position: [99],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        thumb: '',
+        parent_id: '0',
+        description: '',
+        type: 0,
+        position: 99,
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
     public data: IForum;
@@ -52,7 +55,7 @@ export class EditComponent implements OnInit {
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
             if (params.parent) {
-                this.form.get('parent_id').setValue(parseInt(params.parent, 10));
+                this.dataForm.parent_id().value.set(parseInt(params.parent, 10) as any);
             }
         });
         this.route.params.subscribe(params => {
@@ -68,9 +71,10 @@ export class EditComponent implements OnInit {
                 if (res.moderators) {
                     this.userItems = res.moderators;
                 }
-                this.form.patchValue({
+                this.dataModel.set({
+                    id: res.id,
                     name: res.name,
-                    parent_id: res.parent_id,
+                    parent_id: res.parent_id as any,
                     thumb: res.thumb,
                     description: res.description,
                     type: res.type,
@@ -85,14 +89,11 @@ export class EditComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IForum = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IForum = this.dataForm().value() as any;
         data.classifies = this.classifyItems;
         data.moderators = this.userItems;
         e?.enter();

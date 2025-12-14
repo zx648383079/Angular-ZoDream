@@ -8,7 +8,7 @@ import { BookService } from './book.service';
   styleUrls: ['./backend.component.scss']
 })
 export class BackendComponent implements OnInit {
-    private service = inject(BookService);
+    private readonly service = inject(BookService);
 
 
     public isLoading = true;

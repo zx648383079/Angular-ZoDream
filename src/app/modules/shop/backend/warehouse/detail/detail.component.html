@@ -1,11 +1,11 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑仓库' : '新增仓库'" (submited)="tapSubmit()" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑仓库' : '新增仓库'" (submited)="tapSubmit()" [disabled]="dataForm().invalid()" />
 <div class="container-fluid">
-    <form class="form-table-control panel-container" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control panel-container" (submit)="tapSubmit()">
         <div class="input-group-control">
             <label for="name">仓库名</label>
             <div>
-                <input type="text" id="name" class="form-control" formControlName="name">
-                @if (form.get('name').invalid) {
+                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                @if (dataForm.name().invalid()) {
                 <div class="input-tip">请输入仓库名</div>
                 }
             </div>
@@ -13,34 +13,34 @@
         <div class="input-group-control">
             <label for="tel">联系电话</label>
             <div>
-                <input type="text" id="tel" class="form-control" formControlName="tel">
+                <input type="text" id="tel" class="form-control" [field]="dataForm.tel">
             </div>
         </div>
         <div class="input-group-control">
             <label for="link_user">联系人</label>
             <div>
-                <input type="text" id="link_user" class="form-control" formControlName="link_user">
+                <input type="text" id="link_user" class="form-control" [field]="dataForm.link_user">
             </div>
         </div>
         <div class="input-group-control">
             <label for="address">地址</label>
             <div>
-                <textarea id="address" class="form-control" formControlName="address"></textarea>
+                <textarea id="address" class="form-control" [field]="dataForm.address"></textarea>
             </div>
         </div>
         <div class="input-group-control">
             <label for="remark">备注</label>
             <div>
-                <textarea id="remark" class="form-control" formControlName="remark"></textarea>
+                <textarea id="remark" class="form-control" [field]="dataForm.remark"></textarea>
             </div>
         </div>
         <div class="input-group-control">
             <label for="region">支持地区</label>
             <div>
-                <app-select-input url="shop/region/search" formControlName="region" [multiple]="true" />
+                <app-select-input url="shop/region/search" [field]="dataForm.region" [multiple]="true" />
             </div>
         </div>
-        
+
         <div class="btn-group">
             <button type="submit" class="btn btn-success">确认保存</button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>

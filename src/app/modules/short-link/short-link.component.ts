@@ -12,8 +12,8 @@ import { ShortLinkService } from './short-link.service';
   styleUrls: ['./short-link.component.scss']
 })
 export class ShortLinkComponent {
-    private toastrService = inject(DialogService);
-    private service = inject(ShortLinkService);
+    private readonly toastrService = inject(DialogService);
+    private readonly service = inject(ShortLinkService);
 
 
     public source = '';

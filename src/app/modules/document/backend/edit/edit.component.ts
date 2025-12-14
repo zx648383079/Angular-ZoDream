@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -13,18 +12,20 @@ import { DocumentService } from '../document.service';
   styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(DocumentService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(DocumentService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        cat_id: [0],
-        cover: [''],
-        description: [''],
-        status: [0],
+    public readonly dataModel = signal({
+        name: '',
+        cat_id: 0,
+        cover: '',
+        description: '',
+        status: 0,
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
     });
 
     public data: IProject;
@@ -42,7 +43,8 @@ export class EditComponent implements OnInit {
             }
             this.service.project(params.id).subscribe(res => {
                 this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                        id: res.id,
                     cat_id: res.cat_id,
                     name: res.name,
                     cover: res.cover,

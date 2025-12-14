@@ -12,8 +12,8 @@ import { AccountStatusItems } from '../../../../../theme/models/auth';
     styleUrls: ['./user-detail.component.scss']
 })
 export class UserDetailComponent implements OnInit {
-    private route = inject(ActivatedRoute);
-    private service = inject(AuthService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly service = inject(AuthService);
 
 
     public user: IUserStatus;

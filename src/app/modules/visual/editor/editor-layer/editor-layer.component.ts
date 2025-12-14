@@ -14,7 +14,7 @@ import { EditorLayer } from '../model/menu';
 })
 export class EditorLayerComponent implements OnInit {
     private dialogService = inject(DialogService);
-    private service = inject(EditorService);
+    private readonly service = inject(EditorService);
 
 
     public readonly catalogModal = viewChild<DialogBoxComponent>("catalogModal");

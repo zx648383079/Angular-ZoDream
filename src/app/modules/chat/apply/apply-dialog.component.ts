@@ -9,7 +9,7 @@ import { IApplyLog } from '../model';
     styleUrls: ['./apply-dialog.component.scss']
 })
 export class ApplyDialogComponent {
-    private service = inject(ChatService);
+    private readonly service = inject(ChatService);
 
 
     public items: IApplyLog[] = [];

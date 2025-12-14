@@ -13,8 +13,8 @@ import { IComment } from '../model';
     styleUrls: ['./comment-viewer.component.scss']
 })
 export class CommentViewerComponent {
-    private toastrService = inject(DialogService);
-    private service = inject(MicroService);
+    private readonly toastrService = inject(DialogService);
+    private readonly service = inject(MicroService);
 
 
     public readonly open = input(false);

@@ -17,10 +17,10 @@ import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
   styleUrls: ['./account.component.scss']
 })
 export class AccountComponent implements OnInit, OnDestroy {
-    private service = inject(ShopService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ShopService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
-    private store = inject<Store<ShopAppState>>(Store);
+    private readonly store = inject<Store<ShopAppState>>(Store);
 
 
     public title = '我的账户';

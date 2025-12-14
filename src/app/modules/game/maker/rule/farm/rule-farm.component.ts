@@ -12,9 +12,9 @@ import { parseNumber } from '../../../../../theme/utils';
     styleUrls: ['./rule-farm.component.scss']
 })
 export class RuleFarmComponent implements OnInit {
-    private service = inject(GameMakerService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(GameMakerService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
 
 
     public items: IGameFarmPlot[] = [];

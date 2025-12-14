@@ -12,8 +12,8 @@ import { SearchService } from '../../../../../theme/services';
   styleUrls: ['./invite-log.component.scss']
 })
 export class InviteLogComponent implements OnInit {
-    private service = inject(AuthService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(AuthService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

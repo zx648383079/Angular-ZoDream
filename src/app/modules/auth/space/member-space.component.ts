@@ -14,10 +14,10 @@ import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
     styleUrls: ['./member-space.component.scss']
 })
 export class MemberSpaceComponent implements OnInit {
-    private store = inject<Store<AppState>>(Store);
-    private service = inject(MemberSpaceService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly service = inject(MemberSpaceService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
     public isLoading = false;

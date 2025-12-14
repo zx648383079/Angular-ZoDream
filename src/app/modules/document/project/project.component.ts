@@ -10,9 +10,9 @@ import { IDocApi, IDocPage, IProject } from '../model';
   styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
-    private service = inject(DocumentService);
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
+    private readonly service = inject(DocumentService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
 
 
     public data: IProject;

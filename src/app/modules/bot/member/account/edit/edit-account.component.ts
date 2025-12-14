@@ -1,44 +1,47 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IErrorResult } from '../../../../../theme/models/page';
 import { IBotAccount, PlatformTypeItems } from '../../../model';
 import { BotService } from '../../bot.service';
 import { ButtonEvent } from '../../../../../components/form';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-bot-m-edit-account',
-  templateUrl: './edit-account.component.html',
-  styleUrls: ['./edit-account.component.scss']
+    selector: 'app-bot-m-edit-account',
+    templateUrl: './edit-account.component.html',
+    styleUrls: ['./edit-account.component.scss']
 })
 export class EditAccountComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(BotService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(BotService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        platform_type: [0],
-        token: ['', Validators.required],
-        account: [''],
-        original: [''],
-        type: [0],
-        appid: [''],
-        secret: [''],
-        aes_key: [''],
-        avatar: [''],
-        qrcode: [''],
-        address: [''],
-        description: [''],
-        username: [''],
-        password: [''],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        platform_type: '',
+        token: '',
+        account: '',
+        original: '',
+        type: '',
+        appid: '',
+        secret: '',
+        aes_key: '',
+        avatar: '',
+        qrcode: '',
+        address: '',
+        description: '',
+        username: '',
+        password: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.token);
     });
 
-    public data: IBotAccount;
     public typeItems = ['订阅号', '认证订阅号', '企业号', '认证服务号'];    public platformItems = PlatformTypeItems;
 
     ngOnInit() {
@@ -47,14 +50,14 @@ export class EditAccountComponent implements OnInit {
               return;
             }
             this.service.account(params.id).subscribe(res => {
-                this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                    id: res.id,
                     name: res.name,
-                    platform_type: res.platform_type,
+                    platform_type: res.platform_type as any,
                     token: res.token,
                     account: res.account,
                     original: res.original,
-                    type: res.type,
+                    type: res.type as any,
                     appid: res.appid,
                     secret: res.secret,
                     aes_key: res.aes_key,
@@ -74,14 +77,11 @@ export class EditAccountComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: any = Object.assign({}, this.form.value);
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: any = this.dataForm().value();
         e?.enter();
         this.service.accountSave(data).subscribe({
             next: _ => {

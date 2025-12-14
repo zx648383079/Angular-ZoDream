@@ -14,9 +14,9 @@ import { emptyValidate } from '../../../../theme/validators';
     styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
-    private service = inject(TrackerBackendService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(TrackerBackendService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
 

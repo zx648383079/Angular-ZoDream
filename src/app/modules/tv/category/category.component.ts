@@ -10,8 +10,8 @@ import { TvService } from '../tv.service';
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
-    private service = inject(TvService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(TvService);
+    private readonly route = inject(ActivatedRoute);
 
 
     public items: ICategory[] = [];

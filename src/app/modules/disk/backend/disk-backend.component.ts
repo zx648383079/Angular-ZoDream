@@ -8,7 +8,7 @@ import { DiskService } from './disk.service';
     styleUrls: ['./disk-backend.component.scss']
 })
 export class DiskBackendComponent implements OnInit {
-    private service = inject(DiskService);
+    private readonly service = inject(DiskService);
 
 
     public isLoading = true;

@@ -10,7 +10,7 @@ import { IBotAccount, IBotMedia, IBotMenuItem, IBotTemplate, IBotReply, IBotRepl
 })
 export class BotService {
     private http = inject(HttpClient);
-    private router = inject(Router);
+    private readonly router = inject(Router);
 
 
     public baseId = 0;

@@ -1,10 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IUser } from '../../../../../theme/models/user';
 import { AuthService } from '../../auth.service';
 import { ButtonEvent } from '../../../../../components/form';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -13,16 +13,20 @@ import { ButtonEvent } from '../../../../../components/form';
     styleUrls: ['./change-account.component.scss']
 })
 export class ChangeAccountComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(AuthService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(AuthService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        type: [0, Validators.required],
-        money: [0, Validators.required],
-        remark: [''],
+    public readonly dataModel = signal({
+        id: 0,
+        type: '',
+        money: 0,
+        remark: '',
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.type);
+        required(schemaPath.money);
     });
 
     public data: IUser;
@@ -44,14 +48,11 @@ export class ChangeAccountComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: any = Object.assign({}, this.form.value);
-        if (this.data && this.data.id > 0) {
-            data.user_id = this.data.id;
-        }
+        const data: any = this.dataForm().value();
         e?.enter();
         this.service.rechargeSave(data).subscribe({
             next: _ => {

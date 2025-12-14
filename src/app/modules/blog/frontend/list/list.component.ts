@@ -28,11 +28,11 @@ import { parseNumber } from '../../../../theme/utils';
     styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit, OnDestroy {
-    private service = inject(BlogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(BlogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
-    private themeService = inject(ThemeService);
-    private store = inject<Store<AppState>>(Store);
+    private readonly themeService = inject(ThemeService);
+    private readonly store = inject<Store<AppState>>(Store);
 
     public categories: ICategory[] = [];
     public newItems: IBlog[] = [];

@@ -2,18 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MessageServiceRoutedComponents, MessageServiceRoutingModule } from './ms-routing.module';
 import { ThemeModule } from '../../theme/theme.module';
-import { ReactiveFormsModule } from '@angular/forms';
 import { MessageServiceService } from './ms.service';
 import { DialogModule } from '../../components/dialog';
 import { ZreFormModule } from '../../components/form';
 import { DesktopModule } from '../../components/desktop';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        Field,
         DesktopModule,
-        ReactiveFormsModule,
         MessageServiceRoutingModule,
         ZreFormModule,
         DialogModule,

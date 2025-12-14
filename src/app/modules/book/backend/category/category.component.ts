@@ -11,8 +11,8 @@ import { DialogEvent, DialogService } from '../../../../components/dialog';
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
-    private service = inject(BookService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(BookService);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: ICategory[] = [];

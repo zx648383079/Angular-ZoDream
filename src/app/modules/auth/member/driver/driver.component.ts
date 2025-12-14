@@ -8,7 +8,7 @@ import { MemberService } from '../member.service';
     styleUrls: ['./driver.component.scss']
 })
 export class DriverComponent implements OnInit {
-    private service = inject(MemberService);
+    private readonly service = inject(MemberService);
 
 
     public items: any[] = [];

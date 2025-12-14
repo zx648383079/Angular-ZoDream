@@ -9,7 +9,7 @@ import { ForumService } from '../forum.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-    private service = inject(ForumService);
+    private readonly service = inject(ForumService);
 
 
     public items: IForum[] = [];

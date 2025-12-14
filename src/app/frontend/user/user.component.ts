@@ -17,10 +17,10 @@ import { debounceTime, Subscription } from 'rxjs';
     styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit, OnDestroy {
-    private store = inject<Store<AppState>>(Store);
-    private router = inject(Router);
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly router = inject(Router);
     private menuService = inject(MenuService);
-    private themeService = inject(ThemeService);
+    private readonly themeService = inject(ThemeService);
 
 
     public user: IUserStatus;

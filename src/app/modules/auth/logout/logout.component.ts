@@ -9,8 +9,8 @@ import { Router } from '@angular/router';
     styleUrls: ['./logout.component.scss']
 })
 export class LogoutComponent implements OnInit {
-    private authService = inject(AuthService);
-    private router = inject(Router);
+    private readonly authService = inject(AuthService);
+    private readonly router = inject(Router);
 
 
     constructor() {

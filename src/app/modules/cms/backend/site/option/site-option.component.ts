@@ -13,9 +13,9 @@ import { CmsService } from '../../cms.service';
   styleUrls: ['./site-option.component.scss']
 })
 export class SiteOptionComponent implements OnInit {
-    private service = inject(CmsService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(CmsService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: IOption[] = [];

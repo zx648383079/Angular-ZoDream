@@ -14,11 +14,11 @@ import { VideoService } from './video.service';
     styleUrls: ['./video.component.scss']
 })
 export class VideoComponent implements OnInit {
-    private service = inject(VideoService);
-    private toastrService = inject(DialogService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(VideoService);
+    private readonly toastrService = inject(DialogService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+    private readonly themeService = inject(ThemeService);
     private searchService = inject(SearchService);
 
 

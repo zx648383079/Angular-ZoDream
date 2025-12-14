@@ -13,9 +13,9 @@ import { GoodsService } from '../goods.service';
   styleUrls: ['./trash.component.scss']
 })
 export class TrashComponent implements OnInit {
-    private service = inject(GoodsService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(GoodsService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
     public items: IGoods[] = [];

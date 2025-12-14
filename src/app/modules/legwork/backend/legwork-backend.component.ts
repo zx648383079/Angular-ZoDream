@@ -8,7 +8,7 @@ import { LegworkService } from './legwork.service';
   styleUrls: ['./legwork-backend.component.scss']
 })
 export class LegworkBackendComponent implements OnInit {
-    private service = inject(LegworkService);
+    private readonly service = inject(LegworkService);
 
 
     public isLoading = true;

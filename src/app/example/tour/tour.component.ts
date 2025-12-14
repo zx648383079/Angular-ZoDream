@@ -8,7 +8,7 @@ import { DialogService } from '../../components/dialog';
     styleUrls: ['./tour.component.scss']
 })
 export class ExampleTourComponent  {
-    private toastrService = inject(DialogService);
+    private readonly toastrService = inject(DialogService);
 
 
     public tapPlay() {

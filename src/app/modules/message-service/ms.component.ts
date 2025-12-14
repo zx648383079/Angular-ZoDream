@@ -8,7 +8,7 @@ import { MessageServiceService } from './ms.service';
     styleUrls: ['./ms.component.scss']
 })
 export class MessageServiceComponent implements OnInit {
-    private service = inject(MessageServiceService);
+    private readonly service = inject(MessageServiceService);
 
 
     public isLoading = true;

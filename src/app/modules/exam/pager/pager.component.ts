@@ -14,9 +14,9 @@ import { formatPager } from '../util';
   styleUrls: ['./pager.component.scss']
 })
 export class PagerComponent implements OnInit {
-    private service = inject(ExamService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ExamService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
     public data: IExamPager;

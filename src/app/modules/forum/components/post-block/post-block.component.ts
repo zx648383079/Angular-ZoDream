@@ -9,7 +9,7 @@ import { IBlockItem, IExtraRule, formatLinkRule } from '../../../../components/l
     styleUrls: ['./post-block.component.scss']
 })
 export class PostBlockComponent {
-    private toastrService = inject(DialogService);
+    private readonly toastrService = inject(DialogService);
 
 
     public readonly value = input<any>(undefined);

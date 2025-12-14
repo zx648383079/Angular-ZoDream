@@ -11,10 +11,10 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./forum.component.scss']
 })
 export class ForumComponent implements OnInit, OnDestroy {
-    private themeService = inject(ThemeService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
-    private service = inject(ForumService);
+    private readonly themeService = inject(ThemeService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+    private readonly service = inject(ForumService);
 
 
     private subItems = new Subscription();

@@ -1,34 +1,36 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IErrorResponse, IErrorResult } from '../../../../../theme/models/page';
 import { FileUploadService } from '../../../../../theme/services/file-upload.service';
 import { IMusic } from '../../../model';
 import { VideoService } from '../../video.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-edit-music',
-  templateUrl: './edit-music.component.html',
-  styleUrls: ['./edit-music.component.scss']
+    selector: 'app-edit-music',
+    templateUrl: './edit-music.component.html',
+    styleUrls: ['./edit-music.component.scss']
 })
 export class EditMusicComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(VideoService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(VideoService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private uploadService = inject(FileUploadService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        singer: [''],
-        path: ['', Validators.required],
-        duration: [0],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        singer: '',
+        path: '',
+        duration: 0,
     });
-
-    public data: IMusic;
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.path);
+    });
 
     private audioElement: HTMLAudioElement;
 
@@ -38,8 +40,8 @@ export class EditMusicComponent implements OnInit {
               return;
             }
             this.service.music(params.id).subscribe(res => {
-                this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                    id: res.id,
                     name: res.name,
                     singer: res.singer,
                     path: res.path,
@@ -49,7 +51,7 @@ export class EditMusicComponent implements OnInit {
         });
     }
 
-    get audio(): HTMLAudioElement {
+    private get audio(): HTMLAudioElement {
         if (!this.audioElement) {
             this.audioElement = document.createElement('audio');
         }
@@ -61,14 +63,11 @@ export class EditMusicComponent implements OnInit {
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: any = Object.assign({}, this.form.value);
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: any = this.dataForm().value();
         this.service.musicSave(data).subscribe({
             next: _ => {
                 this.toastrService.success($localize `Save Successfully`);
@@ -84,7 +83,7 @@ export class EditMusicComponent implements OnInit {
         const files = event.target.files as FileList;
         this.uploadService.uploadAudio(files[0]).subscribe({
             next: res => {
-                this.form.get(name).setValue(res.url);
+                this.dataForm[name]().value.set(res.url);
                 this.loadDuration(res);
                 this.loadName(res);
             }, error: err => {
@@ -95,11 +94,11 @@ export class EditMusicComponent implements OnInit {
     }
 
     private loadName(res: any) {
-        const name = this.form.get('name');
-        if (name.valid) {
+        const name = this.dataForm.name();
+        if (name.valid()) {
             return;
         }
-        name.setValue(res.original);
+        name.value.set(res.original);
     }
 
     private loadDuration(res: any) {
@@ -109,7 +108,7 @@ export class EditMusicComponent implements OnInit {
             if (!this.audio.duration) {
                 return;
             }
-            this.form.get('duration').setValue(Math.floor(this.audio.duration));
+            this.dataForm.duration().value.set(Math.floor(this.audio.duration));
         };
     }
 

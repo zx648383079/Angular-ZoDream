@@ -8,7 +8,7 @@ import { GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
   styleUrls: ['./recharge.component.scss']
 })
 export class RechargeComponent implements IGameScene {
-    private router = inject<IGameRouter>(GameRouterInjectorToken);
+    private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
     public tabIndex = 0;

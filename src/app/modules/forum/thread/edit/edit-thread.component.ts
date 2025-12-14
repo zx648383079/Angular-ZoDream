@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IForum, IThread } from '../../model';
@@ -14,17 +13,20 @@ import { ButtonEvent } from '../../../../components/form';
   styleUrls: ['./edit-thread.component.scss']
 })
 export class EditThreadComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(ForumService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ForumService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        title: ['', Validators.required],
-        classify: [0],
-        content: ['', Validators.required], 
-        is_private_post: [0],
+    public readonly dataModel = signal({
+        title: '',
+        classify: 0,
+        content: '',
+        is_private_post: 0,
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.title);
+        required(schemaPath.content);
     });
     public data: IThread = {} as any;
     public forum: IForum;
@@ -40,7 +42,8 @@ export class EditThreadComponent implements OnInit {
             }
             this.service.threadEdit(params.id).subscribe(res => {
                 this.data = res;
-                this.form.patchValue({
+                this.dataModel.set({
+                        id: res.id,
                     title: res.title,
                     classify: res.classify_id,
                     content: res.content,
@@ -51,7 +54,7 @@ export class EditThreadComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `The content is not filled out completely`);
             return;
         }
@@ -65,7 +68,7 @@ export class EditThreadComponent implements OnInit {
                 e?.reset();
                 this.toastrService.success($localize `Published successfully`);
                 history.back();
-            }, 
+            },
             error: (err: IErrorResult) => {
                 e?.reset();
                 this.toastrService.warning(err.error.message);

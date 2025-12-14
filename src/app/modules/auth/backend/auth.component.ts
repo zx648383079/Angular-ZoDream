@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
-    private service = inject(AuthService);
+    private readonly service = inject(AuthService);
 
 
     public isLoading = true;

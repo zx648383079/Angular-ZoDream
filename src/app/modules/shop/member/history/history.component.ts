@@ -10,9 +10,9 @@ import { IGoodsHistory } from '../../model';
   styleUrls: ['./history.component.scss']
 })
 export class HistoryComponent implements OnInit {
-    private service = inject(ShopService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ShopService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
 
     public items: IGoodsHistory[] = [];
     public hasMore = true;

@@ -14,9 +14,9 @@ import { SearchService } from '../../../../../theme/services';
   styleUrls: ['./user-card.component.scss']
 })
 export class UserCardComponent implements OnInit {
-    private service = inject(AuthService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(AuthService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private searchService = inject(SearchService);
 
     public items: IUserCard[] = [];

@@ -12,8 +12,8 @@ import { ISoftwareDownload } from '../../model';
   styleUrls: ['./download.component.scss']
 })
 export class DownloadComponent implements OnInit {
-    private service = inject(AppStoreService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(AppStoreService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

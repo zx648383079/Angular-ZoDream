@@ -18,12 +18,12 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./catering.component.scss'],
 })
 export class CateringComponent implements OnDestroy {
-    private service = inject(CateringService);
-    private store = inject<Store<AppState>>(Store);
-    private authService = inject(AuthService);
-    private themeService = inject(ThemeService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(CateringService);
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly authService = inject(AuthService);
+    private readonly themeService = inject(ThemeService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
 
 
     public readonly loginModal = viewChild(LoginDialogComponent);

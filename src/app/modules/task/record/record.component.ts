@@ -10,8 +10,8 @@ import { TaskService } from '../task.service';
     styleUrls: ['./record.component.scss']
 })
 export class RecordComponent implements OnInit {
-    private service = inject(TaskService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(TaskService);
+    private readonly route = inject(ActivatedRoute);
 
 
     public date = '';

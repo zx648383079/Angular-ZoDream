@@ -1,34 +1,34 @@
-<app-edit-header [title]="data && data.id > 0 ? '编辑分类' : '新增分类'" (submited)="tapSubmit()" [disabled]="form.invalid" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑分类' : '新增分类'" (submited)="tapSubmit()" [disabled]="dataForm().invalid()" />
 
 <div class="container-fluid">
-    <form class="form-table-control" [formGroup]="form" (ngSubmit)="tapSubmit()">
+    <form class="form-table-control" (submit)="tapSubmit()">
         <div class="row">
             <div class="col-md-6">
                 <app-panel title="基本">
                     <div class="input-group-control">
                         <label for="title">名称</label>
                         <div>
-                            <input type="text" id="title" class="form-control" formControlName="title" (blur)="onTitleChange()">
+                            <input type="text" id="title" class="form-control" [field]="dataForm.title" (blur)="onTitleChange()">
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="name">目录名</label>
                         <div>
-                            <input type="text" id="name" class="form-control" formControlName="name" >
+                            <input type="text" id="name" class="form-control" [field]="dataForm.name" >
 
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="type">类型</label>
                         <div>
-                            <app-check-input [items]="typeItems" [rangeKey]="1" formControlName="type" />
+                            <app-check-input [items]="typeItems" [rangeKey]="1" [field]="dataForm.type" />
                         </div>
                     </div>
-                    @if (typeValue < 1) {
+                    @if (dataForm.type().value() < 1) {
                     <div class="input-group-control">
                         <label for="model_id">模型</label>
                         <div>
-                            <select id="model_id" class="form-control" formControlName="model_id">
+                            <select id="model_id" class="form-control" [field]="dataForm.model_id">
                                 <option [value]="0">-- 无 --</option>
                                 @for (item of modelItems; track $index) {
                                 <option [value]="item.id">{{ item.name }}</option>
@@ -40,7 +40,7 @@
                     }
                     <div class="input-group-control">
                         <label>上级</label>
-                        <select class="form-control" formControlName="parent_id">
+                        <select class="form-control" [field]="dataForm.parent_id">
                             <option [value]="0">-- 无上级分类 --</option>
                             @for (item of categories; track $index) {
                             <option [value]="item.id">{{ item.level | treeLevel }}{{ item.title }}</option>
@@ -50,39 +50,39 @@
                     <div class="input-group-control">
                         <label for="thumb">缩略图</label>
                         <div>
-                            <app-file-input formControlName="thumb" />
+                            <app-file-input [field]="dataForm.thumb" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="image">主图</label>
                         <div>
-                            <app-file-input formControlName="image" />
+                            <app-file-input [field]="dataForm.image" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="keywords">关键词</label>
                         <div>
-                            <input type="text" id="keywords" class="form-control" formControlName="keywords" >
+                            <input type="text" id="keywords" class="form-control" [field]="dataForm.keywords" >
 
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="description">简介</label>
                         <div>
-                            <textarea id="description" class="form-control"  formControlName="description"
+                            <textarea id="description" class="form-control"  [field]="dataForm.description"
                                 ></textarea>
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="groups">分组</label>
                         <div>
-                            <app-check-input [items]="groupItems" rangeKey="name" rangeLabel="name" formControlName="groups" />
+                            <app-check-input [items]="groupItems" rangeKey="name" rangeLabel="name" [field]="dataForm.groups" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="position">排序</label>
                         <div>
-                            <input type="text" id="position" class="form-control" formControlName="position">
+                            <input type="number" id="position" class="form-control" [field]="dataForm.position">
 
                         </div>
                     </div>
@@ -93,47 +93,47 @@
                     <div class="input-group-control">
                         <label for="category_template">分类模板</label>
                         <div>
-                            <input type="text" id="category_template" class="form-control" formControlName="category_template">
+                            <input type="text" id="category_template" class="form-control" [field]="dataForm.category_template">
 
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="list_template">列表模板</label>
                         <div>
-                            <input type="text" id="list_template" class="form-control" formControlName="list_template" >
+                            <input type="text" id="list_template" class="form-control" [field]="dataForm.list_template" >
 
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="show_template">详情模板</label>
                         <div>
-                            <input type="text" id="show_template" class="form-control" formControlName="show_template" >
+                            <input type="text" id="show_template" class="form-control" [field]="dataForm.show_template" >
 
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="setting_open_comment">开启评论</label>
-                        <div formGroupName="setting">
-                            <app-switch formControlName="open_comment" />
+                        <div >
+                            <app-switch [field]="dataForm.setting.open_comment" />
                         </div>
                     </div>
                 </app-panel>
             </div>
-            @if (typeValue > 0) {
+            @if (dataForm.type().value() > 0) {
             <div class="col-md-12">
                 <app-panel title="详情">
-                    @if (typeValue > 1) {
+                    @if (dataForm.type().value() > 1) {
                     <div class="input-group-control">
                         <label for="url">链接</label>
                         <div>
-                            <input type="text" id="url" class="form-control" formControlName="url" >
+                            <input type="text" id="url" class="form-control" [field]="dataForm.url" >
                         </div>
                     </div>
                     }
-                    @if (typeValue == 1) {
-                        <app-html-editor formControlName="content" />
+                    @if (dataForm.type().value() == 1) {
+                        <app-html-editor [field]="dataForm.content" />
                     }
-                    
+
                 </app-panel>
             </div>
             }

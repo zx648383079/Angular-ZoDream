@@ -9,21 +9,20 @@ import {
     LegworkRoutingModule
 } from './legwork-routing.module';
 import { LegworkService } from './legwork.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ThemeModule } from '../../theme/theme.module';
 import { ZreFormModule } from '../../components/form';
 import { DesktopModule } from '../../components/desktop';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         DesktopModule,
+        Field,
         LegworkRoutingModule,
         ThemeModule,
-        FormsModule,
         NgSelectModule,
-        ReactiveFormsModule,
         ZreFormModule,
     ],
     declarations: [...legworkRoutingComponents],

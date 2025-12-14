@@ -11,8 +11,8 @@ import { IFinancialProduct } from '../../model';
     styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
-    private service = inject(FinanceService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(FinanceService);
+    private readonly toastrService = inject(DialogService);
 
 
     public items: IFinancialProduct[] = [];

@@ -1,27 +1,27 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { IItem } from '../../../../../../theme/models/seo';
-import { ICmsFormGroup, ICmsFormInput, ICmsModelField } from '../../../../model';
+import { ICmsFormInput, ICmsModelField } from '../../../../model';
 import { CmsService } from '../../../cms.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-edit-field',
-  templateUrl: './edit-field.component.html',
-  styleUrls: ['./edit-field.component.scss']
+    selector: 'app-edit-field',
+    templateUrl: './edit-field.component.html',
+    styleUrls: ['./edit-field.component.scss']
 })
 export class EditFieldComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private service = inject(CmsService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(CmsService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        name: ['', Validators.required],
-        field: ['', Validators.required],
+    public readonly dataModel = signal({
+        id: 0,
+        name: '',
+        field: '',
         is_main: 0,
         position: 99,
         type: 'text',
@@ -32,26 +32,31 @@ export class EditFieldComponent implements OnInit {
         tip_message: '',
         error_message: '',
         tab_name: '',
-        setting: this.fb.group({}),
+        model_id: 0
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.field);
     });
 
     public data: ICmsModelField;
     public typeItems: IItem[] = [];
     public tabItems: string[] = [];
     public optionItems: ICmsFormInput[] = [];
-    private model = 0;
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.model = parseInt(params.model, 10);
+            const model = parseInt(params.model, 10);
             this.service.batch({
                 field_type: {},
-                model_tab: {model: this.model}
+                model_tab: {model: model}
             }).subscribe(res => {
                 this.tabItems = res.model_tab;
                 this.typeItems = res.field_type;
-                this.form.patchValue({
-                    tab_name: this.tabItems[1]
+                this.dataModel.update(v => {
+                    v.tab_name = this.tabItems[1];
+                    v.model_id = model;
+                    return v;
                 });
             });
             if (!params.id) {
@@ -63,7 +68,8 @@ export class EditFieldComponent implements OnInit {
                 if (!res.tab_name) {
                     res.tab_name = this.tabItems[res.is_main > 0 ? 1 : 0];
                 }
-                this.form.patchValue({
+                this.dataModel.set({
+                    id: res.id,
                     name: res.name,
                     field: res.field,
                     type: res.type,
@@ -76,18 +82,13 @@ export class EditFieldComponent implements OnInit {
                     tip_message: res.tip_message,
                     error_message: res.error_message,
                     tab_name: res.tab_name,
+                    model_id: model
                 });
                 if (res.setting) {
-                    this.form.patchValue({
-                        setting: this.fb.group(res.setting)
-                    });
+                    // TODO
                 }
             });
         });
-    }
-
-    get typeValue() {
-        return this.form.get('type').value;
     }
 
     public tapBack() {
@@ -95,22 +96,17 @@ export class EditFieldComponent implements OnInit {
     }
 
     public onTypeChange() {
-        this.service.fieldOption(this.typeValue, this.data ? this.data.id : 0).subscribe(res => {
+        this.service.fieldOption(this.dataForm.type().value(), this.data ? this.data.id : 0).subscribe(res => {
             this.optionItems = res.data ? res.data : [];
         });
     }
 
     public tapSubmit() {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: ICmsModelField = Object.assign({
-            model_id: this.model,
-        }, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: ICmsModelField = this.dataForm().value() as any;
         const option: any = {};
         this.optionItems.forEach(i => {
             option[i.name] = i.value;

@@ -12,7 +12,7 @@ import { SearchService } from '../../../../theme/services';
     styleUrls: ['./search-dialog.component.scss']
 })
 export class SearchDialogComponent implements SearchDialogEvent {
-    private service = inject(VisualService);
+    private readonly service = inject(VisualService);
     private searchService = inject(SearchService);
 
 

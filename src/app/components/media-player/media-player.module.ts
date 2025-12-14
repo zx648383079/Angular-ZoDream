@@ -11,7 +11,6 @@ import { DurationPipe } from './duration.pipe';
 import { PlayerService } from './fixed/player.service';
 import { ImagePlayerComponent } from './fixed/image-player/image-player.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
-import { FormsModule } from '@angular/forms';
 
 const COMPONENTS = [
     AudioPlayerComponent,
@@ -25,7 +24,6 @@ const COMPONENTS = [
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule,
     ],
     declarations: [	
         ... COMPONENTS,

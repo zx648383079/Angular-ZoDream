@@ -12,8 +12,8 @@ import { MemberService } from '../../member.service';
     styleUrls: ['./bind-step.component.scss']
 })
 export class BindStepComponent {
-    private toastrService = inject(DialogService);
-    private service = inject(MemberService);
+    private readonly toastrService = inject(DialogService);
+    private readonly service = inject(MemberService);
 
 
     public readonly name = input('email');

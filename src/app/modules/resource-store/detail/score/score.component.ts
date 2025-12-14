@@ -12,7 +12,7 @@ import { ResourceService } from '../../resource.service';
 })
 export class ScoreComponent {
     service = inject(ResourceService);
-    private toastrService = inject(DialogService);
+    private readonly toastrService = inject(DialogService);
 
 
     public readonly itemId = input(0);

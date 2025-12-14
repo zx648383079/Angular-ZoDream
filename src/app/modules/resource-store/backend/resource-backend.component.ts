@@ -8,7 +8,7 @@ import { ResourceService } from './resource.service';
   styleUrls: ['./resource-backend.component.scss']
 })
 export class ResourceBackendComponent implements OnInit {
-    private service = inject(ResourceService);
+    private readonly service = inject(ResourceService);
 
 
     public isLoading = false;

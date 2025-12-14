@@ -1,49 +1,50 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
 import { Md5 } from 'ts-md5';
 import { environment } from '../../../../../environments/environment';
-import { CountdownEvent } from '../../../../components/form';
 import { IErrorResponse } from '../../../../theme/models/page';
 import { selectAuthStatus } from '../../../../theme/reducers/auth.selectors';
 import { AuthService } from '../../../../theme/services';
 import { assetUri, getCurrentTime, uriEncode } from '../../../../theme/utils';
 import { ShopAppState } from '../../shop.reducer';
-import { mobileValidator, passwordValidator } from '../../../../components/desktop/directives';
+import { email, form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-auth',
-  templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss']
+    selector: 'app-auth',
+    templateUrl: './auth.component.html',
+    styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
-    private fb = inject(FormBuilder);
-    private router = inject(Router);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
-    private authService = inject(AuthService);
-    private store = inject<Store<ShopAppState>>(Store);
+    private readonly router = inject(Router);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly authService = inject(AuthService);
+    private readonly store = inject<Store<ShopAppState>>(Store);
 
 
     public tabIndex = 0;
     private redirectUri: string;
     public isObserve = false;
 
-    public emailForm = this.fb.group({
-        email: ['', [Validators.email, Validators.required]],
-        password: ['', [passwordValidator, Validators.required]],
-        remember: [false],
-        captcha: [''],
+    public emailModel = signal({
+        email: '',
+        password: '',
+        remember: false,
+        captcha: '',
+    });
+    public emailForm = form(this.emailModel, schemaPath => {
+        email(schemaPath.email);
+        required(schemaPath.email);
+        required(schemaPath.password);
     });
 
-    public mobileForm = this.fb.group({
-        mobile: ['', [mobileValidator, Validators.required]],
-        code: ['', [Validators.required, Validators.minLength(4)]],
-        remember: [false],
-        captcha: [''],
+    public mobileModel = signal({
+        mobile: '',
+        remember: false,
+        captcha: '',
     });
 
     public get boxStyle() {

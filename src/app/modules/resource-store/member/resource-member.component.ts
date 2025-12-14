@@ -13,9 +13,9 @@ import { SearchService } from '../../../theme/services';
     styleUrls: ['./resource-member.component.scss']
 })
 export class ResourceMemberComponent implements OnInit {
-private service = inject(ResourceService);
-private toastrService = inject(DialogService);
-private route = inject(ActivatedRoute);
+private readonly service = inject(ResourceService);
+private readonly toastrService = inject(DialogService);
+private readonly route = inject(ActivatedRoute);
 private searchService = inject(SearchService);
 
 

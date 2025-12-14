@@ -1,9 +1,8 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { UserService } from '../user.service';
-import { confirmValidator } from '../../../components/desktop/directives';
+import { form, required, validate } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -12,17 +11,28 @@ import { confirmValidator } from '../../../components/desktop/directives';
     styleUrls: ['./password.component.scss']
 })
 export class PasswordComponent {
-    private fb = inject(FormBuilder);
-    private service = inject(UserService);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(UserService);
+    private readonly toastrService = inject(DialogService);
 
 
-    public form = this.fb.group({
-        old_password: ['', Validators.required],
-        password: ['', Validators.required],
-        confirm_password: ['', Validators.required],
+    public readonly dataModel = signal({
+        old_password: '',
+        password: '',
+        confirm_password: '',
     }, {
-        validators: confirmValidator()
+    });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.old_password);
+        required(schemaPath.password);
+        validate(schemaPath.confirm_password, ({value, valueOf}) => {
+            if (value() !== valueOf(schemaPath.password)) {
+                return {
+                    kind: 'sameOf',
+                    message: '两次秘密比一致'
+                }
+            }
+            return null;
+        });
     });
 
     public tapBack() {
@@ -30,11 +40,11 @@ export class PasswordComponent {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: any = Object.assign({}, this.form.value);
+        const data: any = this.dataForm().value();
         e?.enter();
         this.service.passwordUpdate(data).subscribe({
             next: _ => {

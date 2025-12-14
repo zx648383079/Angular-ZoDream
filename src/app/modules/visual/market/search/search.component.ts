@@ -13,8 +13,8 @@ import { IThemeComponent } from '../../model';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-    private route = inject(ActivatedRoute);
-    private service = inject(VisualService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly service = inject(VisualService);
     private searchService = inject(SearchService);
 
 

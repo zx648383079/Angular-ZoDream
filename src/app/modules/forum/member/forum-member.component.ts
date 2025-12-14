@@ -13,9 +13,9 @@ import { SearchService } from '../../../theme/services';
   styleUrls: ['./forum-member.component.scss']
 })
 export class ForumMemberComponent implements OnInit {
-    private service = inject(ForumService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
+    private readonly service = inject(ForumService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
     private searchService = inject(SearchService);
 
 

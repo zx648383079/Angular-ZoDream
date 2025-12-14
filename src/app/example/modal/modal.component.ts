@@ -8,7 +8,7 @@ import { DialogService } from '../../components/dialog';
     styleUrls: ['./modal.component.scss'],
 })
 export class ExampleModalComponent {
-    private toastrService = inject(DialogService);
+    private readonly toastrService = inject(DialogService);
 
 
     public customModal = {

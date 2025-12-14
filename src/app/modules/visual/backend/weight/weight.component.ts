@@ -13,10 +13,10 @@ import { SearchService } from '../../../../theme/services';
   styleUrls: ['./weight.component.scss']
 })
 export class WeightComponent implements OnInit {
-    private service = inject(VisualService);
-    private toastrService = inject(DialogService);
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
+    private readonly service = inject(VisualService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
     private searchService = inject(SearchService);
 
 

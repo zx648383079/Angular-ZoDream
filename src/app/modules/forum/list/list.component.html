@@ -36,7 +36,7 @@
                 }
             </p>
             }
-            
+
             <div>
                 {{ forum.description }}
             </div>
@@ -66,19 +66,19 @@
                                     {{ item.last_thread.created_at | ago }} {{ item.last_thread.user.name }}
                                 </div>
                                 }
-                                
+
                             </div>
                         </div>
                     </div>
                 }
             </div>
-            
+
         </div>
         }
-        
+
     </div>
     }
-    
+
     @if (forum && forum.classifies && forum.classifies.length > 0) {
     <div class="classify-bar">
         <div class="item" [ngClass]="{active: 0 === queries.classify}" (click)="tapClassify()" i18n>
@@ -91,7 +91,7 @@
         }
     </div>
     }
-    
+
 
     <div class="thread-list">
         <div class="thread-item-header">
@@ -127,8 +127,8 @@
             </a>
         </div>
         }
-        
-        
+
+
         @for (item of items; track $index) {
             <app-thread-list-item [value]="item" (classifyChanged)="tapClassify($event)" />
         }
@@ -143,31 +143,31 @@
     <div class="thread-new-box">
         <div class="header">
             <ng-container i18n>Quickly post</ng-container>
-            
+
 
             <a class="pull-right" routerLink="create" i18n>Full mode&gt;</a>
         </div>
-        <form [formGroup]="form" (ngSubmit)="tapSubmit()">
+        <form (submit)="tapSubmit()">
             <div class="title">
                 @if (forum.classifies && forum.classifies.length > 0) {
-                <select formControlName="classify" class="form-control">
+                <select [field]="dataForm.classify" class="form-control">
                     <option [value]="0" i18n>Select classify</option>
                     @for (item of forum.classifies; track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                     }
                 </select>
                 }
-                
-                <input type="text" class="form-control" formControlName="title" i18n-placeholder placeholder="Please input title">
+
+                <input type="text" class="form-control" [field]="dataForm.title" i18n-placeholder placeholder="Please input title">
             </div>
 
-            <app-forum-editor formControlName="content" i18n-placeholder placeholder="Please input content" />
-            
+            <app-forum-editor [field]="dataForm.content" i18n-placeholder placeholder="Please input content" />
+
             <div class="footer">
-                <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="form.invalid" i18n>Publish</app-action-button>
+                <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="dataForm().invalid()" i18n>Publish</app-action-button>
             </div>
         </form>
     </div>
     }
-    
+
 </div>

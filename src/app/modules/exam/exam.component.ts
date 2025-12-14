@@ -12,10 +12,10 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./exam.component.scss']
 })
 export class ExamComponent implements OnInit, OnDestroy {
-    private service = inject(ExamService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
-    private themeService = inject(ThemeService);
+    private readonly service = inject(ExamService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
+    private readonly themeService = inject(ThemeService);
 
 
     public items: ICourse[] = [];

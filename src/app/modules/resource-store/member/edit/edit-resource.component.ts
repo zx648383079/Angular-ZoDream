@@ -1,6 +1,5 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
 import { EditorBlockType, IEditorFileBlock, IImageUploadEvent } from '../../../../components/editor';
-import { FormBuilder, Validators } from '@angular/forms';
 import { FileTypeItems, ICategory, IResource, IResourceFile, ITag, MediaTypeItems } from '../../model';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { ResourceService } from '../resource.service';
@@ -10,6 +9,7 @@ import { FileUploadService, ThemeService } from '../../../../theme/services';
 import { parseNumber } from '../../../../theme/utils';
 import { ButtonEvent, UploadCustomEvent } from '../../../../components/form';
 import { NavigationDisplayMode } from '../../../../theme/models/event';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -18,28 +18,36 @@ import { NavigationDisplayMode } from '../../../../theme/models/event';
     styleUrls: ['./edit-resource.component.scss']
 })
 export class EditResourceComponent implements OnInit, OnDestroy {
-    private fb = inject(FormBuilder);
-    private service = inject(ResourceService);
-    private route = inject(ActivatedRoute);
-    private toastrService = inject(DialogService);
+    private readonly service = inject(ResourceService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly toastrService = inject(DialogService);
     private uploadService = inject(FileUploadService);
-    private themeService = inject(ThemeService);
+    private readonly themeService = inject(ThemeService);
 
 
-    public form = this.fb.group({
-        title: ['', Validators.required],
-        thumb: [''],
-        keywords: [''],
-        content: ['', Validators.required],
-        description: [''],
-        cat_id: [0, Validators.required],
-        size: [0],
-        price: [0],
-        is_commercial: [0],
-        is_reprint: [0],
-        preview_type: [0],
-        preview_file: [''],
+    public readonly dataModel = signal({
+        id: 0,
+        title: '',
+        thumb: '',
+        keywords: '',
+        content: '',
+        description: '',
+        cat_id: '',
+        size: 0,
+        price: 0,
+        is_commercial: 0,
+        is_reprint: 0,
+        preview_type: '0',
+        preview_file: '',
     });
+    public readonly dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.title);
+        required(schemaPath.content);
+        required(schemaPath.cat_id);
+    });
+
+    public readonly previewType = computed(() => parseNumber(this.dataForm.preview_type().value()));
+
     public data: IResource;
     public fileItems: IResourceFile[] = [];
     public tags: ITag[] = [];
@@ -68,18 +76,19 @@ export class EditResourceComponent implements OnInit, OnDestroy {
                     if (res.files) {
                         this.fileItems = res.files;
                     }
-                    this.form.patchValue({
+                    this.dataModel.set({
+                        id: res.id,
                         title: res.title,
                         thumb: res.thumb,
                         keywords: res.keywords,
                         content: res.content,
                         description: res.description,
-                        cat_id: res.cat_id,
+                        cat_id: res.cat_id as any,
                         size: res.size,
                         price: res.price,
                         is_commercial: res.is_commercial,
                         is_reprint: res.is_reprint,
-                        preview_type: res.preview_type,
+                        preview_type: res.preview_type as any,
                         preview_file: res.preview_file
                     });
                 },
@@ -107,24 +116,18 @@ export class EditResourceComponent implements OnInit, OnDestroy {
         this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
     }
 
-    public get isOpenSource() {
-        return this.form.get('is_open_source').value;
-    }
 
-    public get previewType() {
-        return parseNumber(this.form.get('preview_type').value);
-    }
 
     public addTagFn(name: string) {
         return {name};
     }
 
     public onFileUpload(e: UploadCustomEvent, isPreview = false) {
-        const sizeInput = this.form.get('size');
+        const sizeInput = this.dataForm.size();
         this.service.upload(e.file).subscribe({
             next: res => {
-                if (!isPreview && !sizeInput.value) {
-                    sizeInput.setValue(res.size);
+                if (!isPreview && !sizeInput.value()) {
+                    sizeInput.value.set(res.size);
                 }
                 e.next(res);
             },
@@ -140,7 +143,7 @@ export class EditResourceComponent implements OnInit, OnDestroy {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.form.invalid) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
@@ -148,10 +151,7 @@ export class EditResourceComponent implements OnInit, OnDestroy {
             this.toastrService.warning('请上传文件');
             return;
         }
-        const data: IResource = Object.assign({}, this.form.value) as any;
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
-        }
+        const data: IResource = this.dataForm().value() as any;
         data.tags = this.tags;
         data.files = this.fileItems;
         e?.enter();

@@ -18,8 +18,8 @@ import { ResourceService } from '../../resource.service';
 })
 export class CommentComponent {
     service = inject(ResourceService);
-    private store = inject<Store<AppState>>(Store);
-    private toastrService = inject(DialogService);
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly toastrService = inject(DialogService);
 
     public readonly itemId = input(0);
     public readonly init = input(false);
