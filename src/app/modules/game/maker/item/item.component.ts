@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -17,19 +18,19 @@ export class ItemComponent implements OnInit {
     private readonly service = inject(GameMakerService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public items: IGameItem[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
         keywords: '',
         project: 0
-    };
+    }));
     public typeItems = ItemTypeItems;
     public editData: IGameItem = {} as any;
 
@@ -38,7 +39,7 @@ export class ItemComponent implements OnInit {
             this.queries.project = parseNumber(params.game);
         });
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -64,11 +65,11 @@ export class ItemComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     /**
@@ -79,7 +80,7 @@ export class ItemComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.itemList(queries).subscribe({
             next: res => {
                 this.isLoading = false;
@@ -94,8 +95,8 @@ export class ItemComponent implements OnInit {
         });
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tapRefresh();
     }
 

@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { IPageQueries } from '../../../theme/models/page';
 import { TrendService } from '../trend.service';
 import { DialogService } from '../../../components/dialog';
@@ -22,20 +23,20 @@ export class TrendComponent implements OnInit {
     private readonly service = inject(TrendService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public items: ILogGroup[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
-        start_at: '',        
+        start_at: '',
         end_at: '',
         page: 1,
         per_page: 20
-    };
+    }));
     public tabItems = TimeTabItems;
     public tabIndex = -1;
     public moreOpen = false;
@@ -43,7 +44,7 @@ export class TrendComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -52,7 +53,7 @@ export class TrendComponent implements OnInit {
         if (time) {
             this.queries = {
                 keywords: '',
-                start_at: '',        
+                start_at: '',
                 end_at: '',
                 page: 1,
                 per_page: 20,
@@ -68,7 +69,7 @@ export class TrendComponent implements OnInit {
     public tapReset() {
         this.queries = {
             keywords: '',
-            start_at: '',        
+            start_at: '',
             end_at: '',
             page: 1,
             per_page: 20,
@@ -126,11 +127,11 @@ export class TrendComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     /**
@@ -141,7 +142,7 @@ export class TrendComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries: any = {...this.queries, page};
+        const queries: any = {...this.queries().value(), page};
         this.service.logList(queries).subscribe({
             next: res => {
                 this.items = this.formatGroup(res.data.reverse());
@@ -153,8 +154,9 @@ export class TrendComponent implements OnInit {
                     queries.per_page = res.paging.limit;
                     delete queries['goto'];
                 }
-                this.searchService.applyHistory(this.queries = queries);
-                
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
+
             },
             error: () => {
                 this.isLoading = false;
@@ -162,8 +164,8 @@ export class TrendComponent implements OnInit {
         });
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tabIndex = -1;
         this.tapRefresh();
     }
@@ -174,7 +176,7 @@ export class TrendComponent implements OnInit {
         let last: ILogGroup = null;
         for (const item of items) {
             const current = formatDate(item.created_at, 'yyyy-mm-dd');
-            if (current !== last?.name) 
+            if (current !== last?.name)
             {
                 res.push(last = {
                     name: current,

@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -18,7 +19,7 @@ export class ReplyComponent implements OnInit {
     private readonly service = inject(BotService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public items: IBotReply[] = [];
@@ -31,17 +32,17 @@ export class ReplyComponent implements OnInit {
         {name: '收到消息回复', value: 'default'},
         {name: '被关注回复', value: 'subscribe'},
     ];
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         event: this.tabItems[0].value,
         keywords: '',
         page: 1,
         per_page: 20
-    };
+    }));
     public editData: any = {};
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -66,9 +67,9 @@ export class ReplyComponent implements OnInit {
             }
         });
     }
-    
+
     public tapTab(i: any = '') {
-        this.queries.event = i;
+        this.queries.event().value.set(i);
         this.tapRefresh();
     }
 
@@ -77,11 +78,11 @@ export class ReplyComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public goPage(page: number) {
@@ -89,14 +90,15 @@ export class ReplyComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.replyList(queries).subscribe({
             next: res => {
                 this.isLoading = false;
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries);
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
             },
             error: _ => {
                 this.isLoading = false;
@@ -104,8 +106,8 @@ export class ReplyComponent implements OnInit {
         });
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tapRefresh();
     }
 

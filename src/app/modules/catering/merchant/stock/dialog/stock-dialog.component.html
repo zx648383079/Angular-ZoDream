@@ -23,7 +23,7 @@
                     </div>
                     <label>{{ item.name }}</label>
                     <span class="price-bar" [hidden]="multipleEditable"><em>￥</em>{{ item.price }}<em class="unit">/{{ item.unit }}</em></span>
-                    <app-number-input [only]="false" [(ngModel)]="item.amount" />
+                    <app-number-input [only]="false" [field]="item.amount" />
                 </div>
                 }
             </div>
@@ -35,15 +35,15 @@
         <app-flip-item header="新增物品">
             <div class="input-label">物品名</div>
             <div class="item-name">
-                <input type="text" class="form-control" [(ngModel)]="nextData.name">
+                <input type="text" class="form-control" [field]="nextData.name">
             </div>
             <div class="input-flex">
                 <label for="">单位</label>
-                <input type="text" class="form-control" [(ngModel)]="nextData.unit">
+                <input type="text" class="form-control" [field]="nextData.unit">
             </div>
             <div class="input-flex">
                 <label for="">单价</label>
-                <app-number-input [only]="false" [(ngModel)]="nextData.price" />
+                <app-number-input [only]="false" [field]="nextData.price" />
             </div>
         </app-flip-item>
     </app-flip-container>

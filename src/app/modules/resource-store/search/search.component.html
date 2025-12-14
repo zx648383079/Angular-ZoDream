@@ -1,8 +1,8 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <form class="search-input" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-                <input type="text" class="form-control" name="keywords" [(ngModel)]="keywords">
+            <form class="search-input" (submit)="tapSearch()">
+                <input type="text" class="form-control" name="keywords" [field]="keywords">
                 @if (keywords) {
                     <i class="iconfont icon-close" (click)="tapClearQuery()"></i>
                 }
@@ -90,8 +90,8 @@
                     
                     @if (item.name == 'price') {
                     <div class="price-input">
-                        <input type="text" class="form-control" [(ngModel)]="item.min">-
-                        <input type="text" class="form-control" [(ngModel)]="item.max">
+                        <input type="text" class="form-control" [field]="item.min">-
+                        <input type="text" class="form-control" [field]="item.max">
                         <div class="btn btn-primary" (click)="tapPrice(item)">
                             <i class="iconfont icon-chevron-right"></i>
                         </div>
@@ -206,7 +206,7 @@
 
 
             <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-            <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+            <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
         </div>
     </div>
 </div>

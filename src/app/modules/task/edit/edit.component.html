@@ -78,13 +78,13 @@
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [field]="editData.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="description-input">说明</label>
         <div class="input-group-control">
-            <textarea class="form-control" id="description-input" [(ngModel)]="editData.description" placeholder="请输入说明"></textarea>
+            <textarea class="form-control" id="description-input" [field]="editData.description" placeholder="请输入说明"></textarea>
         </div>
     </div>
 </app-dialog-box>
@@ -94,7 +94,7 @@
     <div class="form-group">
         <label for="share-type-input">分享类型</label>
         <div class="input-group-control">
-            <select class="form-control" id="share-type-input" [(ngModel)]="shareData.share_type">
+            <select class="form-control" id="share-type-input" [field]="shareData.share_type">
                 <option [value]="0">公开分享</option>
                 <option [value]="1">密码分享</option>
             </select>
@@ -103,7 +103,7 @@
         <div>
             <label for="pwd-input">分享密码</label>
             <div class="input-group-control">
-                <input type="text" class="form-control" id="pwd-input" [(ngModel)]="shareData.share_rule">
+                <input type="text" class="form-control" id="pwd-input" [field]="shareData.share_rule">
             </div>
         </div>
         }

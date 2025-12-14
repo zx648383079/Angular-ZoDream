@@ -116,7 +116,7 @@ export class ProductComponent implements OnInit {
     private loadChart(id: number, channel: number) {
         this.isLoading = true;
         this.service.productChart({
-            ...this.queries,
+            ...this.queries().value(),
             id,
             channel,
         }).subscribe(res => {

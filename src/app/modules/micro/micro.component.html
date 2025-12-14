@@ -138,10 +138,10 @@
         }
         
         <div class="input">
-            <textarea class="form-control" [(ngModel)]="editData.content" i18n-placeholder placeholder="Please enter the reason for forwarding"></textarea>
+            <textarea class="form-control" [field]="editData.content" i18n-placeholder placeholder="Please enter the reason for forwarding"></textarea>
         </div>
         <div class="actions">
-            <app-switch [(ngModel)]="editData.is_comment" />
+            <app-switch [field]="editData.is_comment" />
             <ng-container i18n>
                 Also comment to {{ forwardItem ? forwardItem.user.name : '' }}
             </ng-container>

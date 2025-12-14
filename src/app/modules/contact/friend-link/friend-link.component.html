@@ -6,10 +6,10 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="搜索关键字">
+                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="搜索关键字">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
@@ -76,7 +76,7 @@
             </tfoot>
         </table>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>
 
@@ -87,7 +87,7 @@
                 <ng-container i18n>Site Name:</ng-container>
             </label>
             <div>
-                <input type="text" [(ngModel)]="editData.name" class="form-control" id="name" i18n-placeholder placeholder="Your Site Name" >
+                <input type="text" [field]="editData.name" class="form-control" id="name" i18n-placeholder placeholder="Your Site Name" >
             </div>
         </div>
         <div class="input-group-control">
@@ -95,25 +95,25 @@
                 <ng-container i18n>Site Link:</ng-container>
             </label>
             <div>
-                <input type="text" [(ngModel)]="editData.url" class="form-control" id="url" i18n-placeholder placeholder="Your Site Link, Like:https://zodream.cn" >
+                <input type="text" [field]="editData.url" class="form-control" id="url" i18n-placeholder placeholder="Your Site Link, Like:https://zodream.cn" >
             </div>
         </div>
         <div class="input-group-control">
             <label for="logo" i18n>Site Logo:</label>
             <div>
-                <app-file-input [(ngModel)]="editData.logo" />
+                <app-file-input [field]="editData.logo" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="url" i18n>Site Description:</label>
             <div>
-                <textarea [(ngModel)]="editData.brief" class="form-control" id="brief" i18n-placeholder placeholder="Site Description"></textarea>
+                <textarea [field]="editData.brief" class="form-control" id="brief" i18n-placeholder placeholder="Site Description"></textarea>
             </div>
         </div>
         <div class="input-group-control">
             <label for="email" i18n>Email:</label>
             <div>
-                <input type="email" [(ngModel)]="editData.email" class="form-control" id="email" i18n-placeholder placeholder="Will send the result to your email">
+                <input type="email" [field]="editData.email" class="form-control" id="email" i18n-placeholder placeholder="Will send the result to your email">
             </div>
         </div>
     </div>

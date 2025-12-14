@@ -14,7 +14,7 @@
         </a>
         <div class="search-input" [ngClass]="{'on-edit': isInput}">
             <i class="iconfont icon-search"></i>
-            <input type="text" placeholder="搜索联系人" [(ngModel)]="queries.keywords" (focus)="tapSearchInput()" (keypress)="onSearchKeyDown($event)">
+            <input type="text" placeholder="搜索联系人" id="keywords" [field]="queries.keywords" (focus)="tapSearchInput()" (keypress)="onSearchKeyDown($event)">
             <i class="iconfont icon-close" (click)="tapSearchClear()"></i>
         </div>
         <a class="route-icon" [ngClass]="{disabled: !hasMore}" title="下一页" (click)="tapNext()">

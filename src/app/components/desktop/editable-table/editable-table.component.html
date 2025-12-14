@@ -39,17 +39,17 @@
                         @if (item.searchable) {
                             @switch (item.inputType) {
                                 @case ('switch') {
-                                    <app-switch [(ngModel)]="item.value" />
+                                    <app-switch [field]="item.value" />
                                 }
                                 @case ('select') {
-                                    <select class="form-control" [(ngModel)]="item.value">
+                                    <select class="form-control" [field]="item.value">
                                         @for (option of item.optionItems; track option.value) {
                                             <option [value]="option.value">{{ option.name }}</option>
                                         }
                                     </select>
                                 }
                                 @default {
-                                    <input type="text" class="form-control" [(ngModel)]="item.value" i18n-placeholder placeholder="Please input keywords">
+                                    <input type="text" class="form-control" [field]="item.value" i18n-placeholder placeholder="Please input keywords">
                                 }
                             }
                         }
@@ -72,7 +72,7 @@
                                 <img [ngClass]="'img-' + name.name" [src]="item[name.name] | asset">
                             }
                             @case ('switch') {
-                                <app-switch [(ngModel)]="item[name.name]" />
+                                <app-switch [field]="item[name.name]" />
                             }
                             @case ('size') {
                                 {{ item[name.name] | size }}
@@ -117,7 +117,7 @@
         
     </table>
     @if (total() >= 0) {
-        <app-pagination [page]="page()" [total]="total()" [perPage]="perPage()" (pageChange)="tapPage($event)" />
+        <app-pagination [page]="page()" [total]="total()" [perPage]="perPage()" (valueChange)="tapPage($event)" />
     }
 } @else {
     <div class="loading-box">

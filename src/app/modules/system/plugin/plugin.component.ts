@@ -1,4 +1,5 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, viewChild, signal } from '@angular/core';
 import { IPageEditItem, IPageQueries } from '../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
@@ -17,7 +18,7 @@ export class PluginComponent implements OnInit {
     private readonly service = inject(SystemService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     private readonly modal = viewChild(DialogBoxComponent);
@@ -27,15 +28,15 @@ export class PluginComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 120;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         page: 1,
         keywords: '',
         per_page: 20,
-    };
+    }));
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -138,11 +139,11 @@ export class PluginComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public goPage(page: number) {
@@ -150,7 +151,7 @@ export class PluginComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.pluginList(queries).subscribe({
             next: res => {
                 this.isLoading = false;
@@ -158,7 +159,8 @@ export class PluginComponent implements OnInit {
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
                 this.isChecked = false;
-                this.searchService.applyHistory(this.queries = queries);
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
             },
             error: _ => {
                 this.isLoading = false;

@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShopService } from '../../shop.service';
 import { IAccountLog } from '../../../../theme/models/auth';
@@ -19,18 +20,18 @@ import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
 export class AccountComponent implements OnInit, OnDestroy {
     private readonly service = inject(ShopService);
     private readonly route = inject(ActivatedRoute);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
     private readonly store = inject<Store<ShopAppState>>(Store);
 
 
     public title = '我的账户';
     public items: IAccountLog[] = [];
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
         per_page: 20,
         type: 0,
-    };
+    }));
     public hasMore = true;
     public isLoading = false;
     public total = 0;
@@ -40,14 +41,14 @@ export class AccountComponent implements OnInit, OnDestroy {
     constructor() {
         this.subItems.add(
             this.store.select(selectAuthUser).subscribe(res => {
-                this.user = res;  
+                this.user = res;
             })
         );
     }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -64,8 +65,8 @@ export class AccountComponent implements OnInit, OnDestroy {
         this.tapRefresh();
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tapRefresh();
     }
 
@@ -74,11 +75,11 @@ export class AccountComponent implements OnInit, OnDestroy {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public goPage(page: number) {
@@ -86,7 +87,7 @@ export class AccountComponent implements OnInit, OnDestroy {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.accountLog(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;

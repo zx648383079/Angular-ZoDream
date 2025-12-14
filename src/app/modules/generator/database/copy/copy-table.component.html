@@ -48,26 +48,26 @@
         <div class="input-group-control">
             <label for="">数据库</label>
             <div>
-                <ng-select [(ngModel)]="tableData.schema" [items]="schemaItems" bindLabel="name" bindValue="value" (ngModelChange)="onSchemaChange()" />
+                <ng-select [field]="tableData.schema" [items]="schemaItems" bindLabel="name" bindValue="value" (ngModelChange)="onSchemaChange()" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="">表</label>
             <div>
-                <ng-select [(ngModel)]="tableData.table" [items]="tableItems" bindLabel="name" bindValue="value" (ngModelChange)="onTableChange()" />
+                <ng-select [field]="tableData.table" [items]="tableItems" bindLabel="name" bindValue="value" (ngModelChange)="onTableChange()" />
             </div>
         </div>
         @if (tableData.type > 1) {
         <div class="input-group-control">
             <label for="">列</label>
             <div>
-                <ng-select [(ngModel)]="tableData.column" [items]="columnItems" bindLabel="label" bindValue="value" />
+                <ng-select [field]="tableData.column" [items]="columnItems" bindLabel="label" bindValue="value" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="">外接列</label>
             <div>
-                <ng-select [(ngModel)]="tableData.foreign" [items]="srcColumnItems" bindLabel="label" />
+                <ng-select [field]="tableData.foreign" [items]="srcColumnItems" bindLabel="label" />
             </div>
         </div>
         }
@@ -85,7 +85,7 @@
                 <div class="input-group-control">
                     <label for="">类型</label>
                     <div>
-                        <select class="form-control" [(ngModel)]="columnData.valueType">
+                        <select class="form-control" [field]="columnData.valueType">
                             @for (item of typeItems; track $index) {
                             <option [value]="item.value">{{ item.name }}</option>
                             }
@@ -95,7 +95,7 @@
                 <div class="input-group-control">
                     <label for="">值</label>
                     <div>
-                        <textarea class="form-control"  [(ngModel)]="columnData.value"></textarea>
+                        <textarea class="form-control"  [field]="columnData.value"></textarea>
                     </div>
                 </div>
             </div>
@@ -103,13 +103,13 @@
                 <div class="input-group-control">
                     <label for="">列</label>
                     <div>
-                        <ng-select [(ngModel)]="columnData.column" [items]="srcColumnItems" bindLabel="label" />
+                        <ng-select [field]="columnData.column" [items]="srcColumnItems" bindLabel="label" />
                     </div>
                 </div>
                 <div class="input-group-control">
                     <label for="">附加类型</label>
                     <div>
-                        <select class="form-control" [(ngModel)]="columnData.appendType">
+                        <select class="form-control" [field]="columnData.appendType">
                             @for (item of typeItems; track $index) {
                             <option [value]="item.value">{{ item.name }}</option>
                             }
@@ -119,7 +119,7 @@
                 <div class="input-group-control">
                     <label for="">附加值</label>
                     <div>
-                        <textarea class="form-control" [(ngModel)]="columnData.append"></textarea>
+                        <textarea class="form-control" [field]="columnData.append"></textarea>
                     </div>
                 </div>
             </div>

@@ -21,13 +21,13 @@
                         <div class="input-group-control">
                             <label for="name">店铺名</label>
                             <div>
-                                <input type="text" id="name" class="form-control" placeholder="请输入店铺名" [(ngModel)]="data.name" (ngModelChange)="onValueChange()">
+                                <input type="text" id="name" class="form-control" placeholder="请输入店铺名" [field]="data.name" (ngModelChange)="onValueChange()">
                             </div>
                         </div>
                         <div class="input-group-control">
                             <label for="address">店铺地址</label>
                             <div>
-                                <textarea id="address" class="form-control" placeholder="请输入店铺地址" [(ngModel)]="data.address" (ngModelChange)="onValueChange()"></textarea>
+                                <textarea id="address" class="form-control" placeholder="请输入店铺地址" [field]="data.address" (ngModelChange)="onValueChange()"></textarea>
                             </div>
                         </div>
                         <div class="input-group-control">
@@ -64,7 +64,7 @@
                 <div class="item-meta">是否支持到店点餐</div>
             </div>
             <div class="item-action">
-                <app-switch [(ngModel)]="data.is_open_live" (ngModelChange)="onValueChange()" />
+                <app-switch [field]="data.is_open_live" (ngModelChange)="onValueChange()" />
             </div>
         </div>
         <div class="input-item">
@@ -76,7 +76,7 @@
                 <div class="item-meta">是否支持外送</div>
             </div>
             <div class="item-action">
-                <app-switch [(ngModel)]="data.is_open_ship" (ngModelChange)="onValueChange()" />
+                <app-switch [field]="data.is_open_ship" (ngModelChange)="onValueChange()" />
             </div>
         </div>
         @if (data.is_open_ship) {
@@ -89,7 +89,7 @@
                 <div class="item-meta">是否支持外卖订单上门自取</div>
             </div>
             <div class="item-action">
-                <app-switch [(ngModel)]="data.is_ship_self" (ngModelChange)="onValueChange()" />
+                <app-switch [field]="data.is_ship_self" (ngModelChange)="onValueChange()" />
             </div>
         </div>
         }
@@ -102,7 +102,7 @@
                 <div class="item-meta">是否支持提前预定</div>
             </div>
             <div class="item-action">
-                <app-switch [(ngModel)]="data.is_open_reserve" (ngModelChange)="onValueChange()" />
+                <app-switch [field]="data.is_open_reserve" (ngModelChange)="onValueChange()" />
             </div>
         </div>
         @if (data.is_open_reserve) {
@@ -115,7 +115,7 @@
                 <div class="item-meta">支持提前多久预定</div>
             </div>
             <div class="item-action">
-                <app-number-input [(ngModel)]="data.reserve_time" (ngModelChange)="onValueChange()" /> 小时
+                <app-number-input [field]="data.reserve_time" (ngModelChange)="onValueChange()" /> 小时
             </div>
         </div>
         }

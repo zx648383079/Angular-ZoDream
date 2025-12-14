@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnDestroy, OnInit, inject, viewChild, signal } from '@angular/core';
 import {
     DiskService
 } from '../disk.service';
@@ -36,7 +37,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
     private uploadService = inject(FileUploadService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
 
 
@@ -51,12 +52,12 @@ export class CatalogComponent implements OnInit, OnDestroy {
     public editMode = false;
     public checkedAll = false;
     public items: IDisk[] = [];
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         type: '',
         page: 1,
         per_page: 20,
-    };
+    }));
     public hasMore = true;
     public isLoading = false;
     public crumbs: ICrumb[] = [
@@ -74,7 +75,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapRefresh();
         });
         this.subItems.add(
@@ -227,7 +228,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
                     name: i.name,
                     source: i.url,
                     cover: i.thumb,
-                    lyrics 
+                    lyrics
                 };
             });
             player.push(...formatItems);
@@ -411,7 +412,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public goPage(page: number) {
@@ -439,7 +440,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
                 });
                 this.items = page < 2 ? items : [].concat(this.items, items);
                 this.pullBox()?.endLoad();
-            }, 
+            },
             error: () => {
                 this.isLoading = false;
                 this.pullBox()?.endLoad();

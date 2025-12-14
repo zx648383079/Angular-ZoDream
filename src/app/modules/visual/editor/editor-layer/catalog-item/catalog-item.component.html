@@ -13,7 +13,7 @@
                 <i class="iconfont icon-trash" (click)="tapTrash()"></i>
             </div>
         } @else {
-            <input type="text" #input class="form-control" (click)="$event.stopPropagation()" [(ngModel)]="value().name" (keydown)="onKeyDown($event)" (blur)="tapFinish()">
+            <input type="text" #input class="form-control" (click)="$event.stopPropagation()" [field]="value().name" (keydown)="onKeyDown($event)" (blur)="tapFinish()">
         }
         @if (value().canExpand) {
             <i class="iconfont" [ngClass]="{'icon-chevron-up': value().expand, 'icon-chevron-down': !value().expand}"></i>

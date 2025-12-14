@@ -3,41 +3,41 @@
     <div class="input-group-control">
         <label for="title">素材标题</label>
         <div>
-            <input type="text" id="title" class="form-control" [(ngModel)]="data.title">
+            <input type="text" id="title" class="form-control" [field]="data.title">
         </div>
     </div>
     <div class="input-group-control">
         <label for="parent_id">主素材</label>
         <div>
-            <app-select-input id="parent_id" rangeKey="id" rangeLabel="title" [url]="requestUrl" [(ngModel)]="data.parent_id"  />
+            <app-select-input id="parent_id" rangeKey="id" rangeLabel="title" [url]="requestUrl" [field]="data.parent_id"  />
         </div>
     </div>
     <div class="input-group-control">
         <label for="thumb">封面</label>
         <div>
-            <app-file-input id="thumb" [(ngModel)]="data.thumb" />
+            <app-file-input id="thumb" [field]="data.thumb" />
         </div>
     </div>
     <div class="input-group-control">
         <label for="show_cover">显示封面</label>
         <div>
-            <app-switch name="show_cover" [(ngModel)]="data.show_cover" />
+            <app-switch name="show_cover" [field]="data.show_cover" />
         </div>
     </div>
     <div class="input-group-control">
         <label for="open_comment">开启评论</label>
         <div>
-            <app-switch name="open_comment" [(ngModel)]="data.open_comment" />
+            <app-switch name="open_comment" [field]="data.open_comment" />
         </div>
     </div>
     @if (data.open_comment > 0) {
     <div class="input-group-control">
         <label for="only_comment">评论人</label>
         <div>
-            <app-check-input [items]="onlyItems" [(ngModel)]="data.only_comment" />
+            <app-check-input [items]="onlyItems" [field]="data.only_comment" />
         </div>
     </div>
     }
     
-    <app-template-editor [(ngModel)]="data.content" />
+    <app-template-editor [field]="data.content" />
 </div>

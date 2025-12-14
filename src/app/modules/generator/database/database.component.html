@@ -9,10 +9,10 @@
         <div class="page-search-bar">
             <div class="row">
                 <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="数据库名" [(ngModel)]="editData.name">
+                    <input type="text" class="form-control" placeholder="数据库名" [field]="editData.name">
                 </div>
                 <div class="col-md-4">
-                    <ng-select [(ngModel)]="editData.collation" [items]="collationItems" bindValue="value" bindLabel="name" placeholder="排序规则" />
+                    <ng-select [field]="editData.collation" [items]="collationItems" bindValue="value" bindLabel="name" placeholder="排序规则" />
                 </div>
                 <div class="col-md-4">
                     <div class="btn btn-primary" (click)="tapSubmit()">新建</div>

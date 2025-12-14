@@ -27,7 +27,7 @@
 
     <div class="panel-container comment-box">
         <div class="comment-search">
-            <input type="text" [(ngModel)]="comment" (keypress)="commentEnter($event)">
+            <input type="text" [field]="comment" (keypress)="commentEnter($event)">
             <i class="iconfont icon-paper-plane" (click)="tapComment()"></i>
             <label for="file-upload" class="file-btn">
                 <i class="iconfont icon-upload"></i>
@@ -57,7 +57,7 @@
         }
         
 
-        <app-pagination [total]="total" [(page)]="page" [perPage]="perPage" (pageChange)="tapPage()" />
+        <app-pagination [total]="total" [(page)]="page" [perPage]="perPage" (valueChange)="tapPage()" />
     </div>
 </div>
 }
@@ -68,7 +68,7 @@
         <i class="iconfont icon-close" (click)="panelOpen = false"></i>
     </div>
     <div class="panel-search">
-        <input type="text" [(ngModel)]="userKeywords">
+        <input type="text" [field]="userKeywords">
     </div>
     <div class="panel-body">
         @for (item of userFilterItems; track $index) {

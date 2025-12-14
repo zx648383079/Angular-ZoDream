@@ -11,10 +11,10 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 @if (software && software.version) {
@@ -62,7 +62,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>
 
@@ -70,13 +70,13 @@
     <div class="form-group">
         <label>目标系统</label>
         <div class="form-control-group">
-            <select class="form-control" [(ngModel)]="editData.os">
+            <select class="form-control" [field]="editData.os">
                 @for (item of osItems; track $index) {
                     <option [value]="item">{{ item }}</option>
                 }
                 
             </select>
-            <select class="form-control" [(ngModel)]="editData.framework">
+            <select class="form-control" [field]="editData.framework">
                 @for (item of frameworkItems; track $index) {
                     <option [value]="item">{{ item }}</option>
                 }
@@ -87,19 +87,19 @@
     <div class="form-group">
         <label for="name-input">文件名</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入文件名">
+            <input class="form-control" id="name-input" [field]="editData.name" placeholder="请输入文件名">
         </div>
     </div>
     <div class="form-group">
         <label>文件大小</label>
         <div>
-            <app-data-size [(ngModel)]="editData.size" />
+            <app-data-size [field]="editData.size" />
         </div>
     </div>
     <div class="form-group">
         <label>文件类型</label>
         <div class="input-group-control">
-            <select class="form-control" [(ngModel)]="editData.url_type">
+            <select class="form-control" [field]="editData.url_type">
                 @for (item of urlTypeItems; track $index) {
                     <option [value]="item.value">{{ item.name }}</option>
                 }
@@ -111,14 +111,14 @@
     <div class="form-group" >
         <label>文件</label>
         <div class="input-group-control">
-            <app-file-input [(ngModel)]="editData.url" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)" />
+            <app-file-input [field]="editData.url" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)" />
         </div>
     </div>
     } @else {
     <div class="form-group">
         <label>{{ editData.url_type > 2 ? '内容' : '网址' }}</label>
         <div>
-            <app-text-editor [(ngModel)]="editData.url" height="100" />
+            <app-text-editor [field]="editData.url" height="100" />
         </div>
     </div>
     }

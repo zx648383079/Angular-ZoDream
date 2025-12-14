@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -16,24 +17,24 @@ export class SubscribeComponent implements OnInit {
     private readonly service = inject(ContactService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public items: ISubscribe[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         page: 1,
         keywords: '',
         per_page: 20,
-    };
+    }));
     public isMultiple = false;
     public isChecked = false;
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapPage();
         })
     }
@@ -107,11 +108,11 @@ export class SubscribeComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     /**
@@ -122,18 +123,19 @@ export class SubscribeComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.subscribeList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
-            this.searchService.applyHistory(this.queries = queries);
+            this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
         });
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tapRefresh();
     }
 

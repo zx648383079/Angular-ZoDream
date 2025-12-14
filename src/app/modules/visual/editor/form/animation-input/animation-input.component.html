@@ -2,7 +2,7 @@
     <div class="effect-show" [ngStyle]="boxStyle">效果展示</div>
     <div class="control-inline-group">
         <label for="">动效</label>
-        <select class="form-control" [(ngModel)]="value().name">
+        <select class="form-control" [field]="value().name">
             @for (item of items; track $index) {
                 <option [value]="item.value">{{ item.name }}</option>
             }
@@ -10,7 +10,7 @@
     </div>
     <div class="control-inline-group">
         <label for="">延时</label>
-        <select class="form-control" [(ngModel)]="value().delay">
+        <select class="form-control" [field]="value().delay">
             @for (item of delayItems; track $index) {
             <option [value]="item.value">{{ item.name }}</option>
             }
@@ -18,7 +18,7 @@
     </div>
     <div class="control-inline-group">
         <label for="">时长</label>
-        <select class="form-control" [(ngModel)]="value().duration">
+        <select class="form-control" [field]="value().duration">
             @for (item of durationItems; track $index) {
             <option [value]="item.value">{{ item.name }}</option>
             }
@@ -26,7 +26,7 @@
     </div>
     <div class="control-inline-group">
         <label for="">重复</label>
-        <select class="form-control" [(ngModel)]="value().loop">
+        <select class="form-control" [field]="value().loop">
             @for (item of loopItems; track $index) {
             <option [value]="item.value">{{ item.name }}</option>
             }

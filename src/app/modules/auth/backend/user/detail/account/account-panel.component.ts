@@ -1,4 +1,5 @@
-import { Component, effect, inject, input } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { IAccountLog } from '../../../../../../theme/models/auth';
 import { IPageQueries } from '../../../../../../theme/models/page';
 import { AuthService } from '../../../auth.service';
@@ -13,7 +14,7 @@ import { SearchService } from '../../../../../../theme/services';
 })
 export class AccountPanelComponent {
     private readonly service = inject(AuthService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public readonly itemId = input(0);
@@ -22,15 +23,15 @@ export class AccountPanelComponent {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
         per_page: 20,
-    };
+    }));
     private booted = 0;
     public editData: IAccountLog = {} as any;
 
-    
+
 
     constructor() {
         effect(() => {
@@ -53,8 +54,8 @@ export class AccountPanelComponent {
         this.tapRefresh();
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tapRefresh();
     }
 
@@ -66,11 +67,11 @@ export class AccountPanelComponent {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public goPage(page: number) {
@@ -78,7 +79,7 @@ export class AccountPanelComponent {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.accountLogList({...queries, user: this.itemId()}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
@@ -86,7 +87,7 @@ export class AccountPanelComponent {
                 this.total = res.paging.total;
                 this.items = res.data;
                 this.queries = queries;
-            }, 
+            },
             error: () => {
                 this.isLoading = false;
             }

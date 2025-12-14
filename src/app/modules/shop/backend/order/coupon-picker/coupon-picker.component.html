@@ -34,7 +34,7 @@
             </div>
             <div class="tab-item" [ngClass]="{active: couponIndex == 1}">
                 <div class="flat-input">
-                    <input type="text" class="form-control" [(ngModel)]="couponCode">
+                    <input type="text" class="form-control" [field]="couponCode">
                     <button class="btn btn-primary" (click)="tapExchange()">兑换</button>
                 </div>
             </div>

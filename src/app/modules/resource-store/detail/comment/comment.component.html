@@ -7,7 +7,7 @@
     </div>
     
     <div class="comment-form">
-        <app-text-editor [(ngModel)]="commentData.content" [disabled]="!user" height="200" i18n-placeholder placeholder="Leave a Comment" />
+        <app-text-editor [field]="commentData.content" [disabled]="!user" height="200" i18n-placeholder placeholder="Leave a Comment" />
         <div class="form-group">
             <app-action-button class="btn btn-primary" [disabled]="!user" (tapped)="tapComment($event)" i18n>Post Comment</app-action-button>
         </div>
@@ -73,6 +73,6 @@
 
 
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>

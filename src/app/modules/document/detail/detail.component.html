@@ -3,14 +3,14 @@
         <i class="iconfont icon-bars nav-toggle-icon" (click)="navToggle = !navToggle"></i>
         <div class="bar-version">
             <label for="version" i18n>Version</label>
-            <select id="version" [(ngModel)]="version" (ngModelChange)="onVersionChange()">
+            <select id="version" [field]="version" (ngModelChange)="onVersionChange()">
                 @for (item of versionItems; track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
                 }
             </select>
         </div>
         <div class="bar-search">
-            <input type="text" i18n-placeholder placeholder="Please input a keywods..." [(ngModel)]="keywords">
+            <input type="text" i18n-placeholder placeholder="Please input a keywods..." [field]="keywords">
             <i class="iconfont" [ngClass]="{'icon-search': this.keywords.length < 1, 'icon-close': this.keywords.length > 0}" (click)="this.keywords = ''"></i>
         </div>
         <div class="bar-top">
@@ -218,7 +218,7 @@
 </div>
 
 <app-dialog-box #codeModal i18n-title title="Code generation" [footerVisible]="false">
-    <form class="search-bar" (ngSubmit)="tapGenerate(searchForm.value)" #searchForm="ngForm">
+    <form class="search-bar" (submit)="tapGenerate()">
         <select name="kind" ngModel class="form-control">
             @for (item of kindItems; track $index;let i = $index) {
                 <option [value]="i">{{ item }}</option>

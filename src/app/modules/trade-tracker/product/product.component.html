@@ -35,11 +35,11 @@
         <div class="col-12">
             <div class="page-search-bar">
                 <div class="form-horizontal-control">
-                    <app-toggle-bar [items]="typeItems" [(ngModel)]="queries.type" (ngModelChange)="onQueriesChange()" />
+                    <app-toggle-bar [items]="typeItems" [field]="queries.type" (ngModelChange)="onQueriesChange()" />
                     
-                    <app-date-input [(ngModel)]="queries.start_at" (ngModelChange)="onQueriesChange()" />
+                    <app-date-input [field]="queries.start_at" (ngModelChange)="onQueriesChange()" />
                     ~
-                    <app-date-input [(ngModel)]="queries.end_at" (ngModelChange)="onQueriesChange()" />
+                    <app-date-input [field]="queries.end_at" (ngModelChange)="onQueriesChange()" />
                 </div>
             </div>
             

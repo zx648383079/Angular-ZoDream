@@ -61,7 +61,7 @@
                                 出价
                             </div>
                             <div class="group-body">
-                                <app-number-input [(ngModel)]="bid" [min]="minBid" [max]="activity.configure.fixed_price" [step]="activity.configure.step_price" />
+                                <app-number-input [field]="bid" [min]="minBid" [max]="activity.configure.fixed_price" [step]="activity.configure.step_price" />
                                 <div class="label-item">
                                     最低加价
                                     {{ minBid | price }}

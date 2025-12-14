@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { DialogBoxComponent } from '../../../components/dialog';
@@ -22,14 +23,14 @@ export class IncomeComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
     private downloadService = inject(DownloadService);
     private readonly route = inject(ActivatedRoute);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public items: ILog[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         type: 0,
         account: 0,
@@ -40,7 +41,7 @@ export class IncomeComponent implements OnInit {
         end_at: '',
         page: 1,
         per_page: 20,
-    };
+    }));
 
     public typeItems = ['全部', '支出', '收入', '借出', '借入'];
     public accountItems: IAccount[] = [];
@@ -77,19 +78,19 @@ export class IncomeComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
 
- 
+
 
     public formatGroup(): ILogGroup[] {
         const items: ILogGroup[] = [];
         let last: ILogGroup = null;
         for (const item of this.items) {
             const current = formatDate(item.happened_at, 'yyyy-mm-dd');
-            if (current !== last?.name) 
+            if (current !== last?.name)
             {
                 items.push(last = {
                     name: current,
@@ -121,11 +122,11 @@ export class IncomeComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     /**
@@ -136,7 +137,7 @@ export class IncomeComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.logList(queries).subscribe({
             next: res => {
                 this.items = res.data;
@@ -144,7 +145,8 @@ export class IncomeComponent implements OnInit {
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
                 this.isLoading = false;
-                this.searchService.applyHistory(this.queries = queries);
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
             },
             error: () => {
                 this.isLoading = false;
@@ -152,8 +154,8 @@ export class IncomeComponent implements OnInit {
         });
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.panelOpen = false;
         this.tapRefresh();
     }

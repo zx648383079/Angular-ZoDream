@@ -19,7 +19,7 @@
     } @else if (tabIndex == 1) {
     <div>
         <div class="input-header-block" [ngClass]="{'input-not-empty': !!url}">
-            <input type="text" [(ngModel)]="url">
+            <input type="text" [field]="url">
             <label for="">链接</label>
         </div>
         <div class="modal-action">

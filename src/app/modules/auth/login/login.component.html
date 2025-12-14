@@ -63,7 +63,7 @@
 <div class="form-icon-control auth-panel">
     <div class="title-bar" i18n>Two-factor authentication</div>
     <div class="input-group-control">
-        <input type="text" i18n-placeholder placeholder="Authentication code" [(ngModel)]="twoFaCode">
+        <input type="text" i18n-placeholder placeholder="Authentication code" [field]="twoFaCode">
         <i class="iconfont icon-shield" aria-hidden="true"></i>
     </div>
 
@@ -81,7 +81,7 @@
 <div class="form-icon-control auth-panel">
     <div class="title-bar" i18n>Use a Recovery Code</div>
     <div class="input-group-control">
-        <input type="text" i18n-placeholder placeholder="Recovery Code" [(ngModel)]="recoveryCode">
+        <input type="text" i18n-placeholder placeholder="Recovery Code" [field]="recoveryCode">
         <i class="iconfont icon-shield" aria-hidden="true"></i>
     </div>
 

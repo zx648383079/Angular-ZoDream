@@ -7,10 +7,10 @@
 
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
             </form>
@@ -56,7 +56,7 @@
             }
         </div>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>
 <app-dialog-box #logisticsModal title="物流信息" [footerVisible]="false">
@@ -103,7 +103,7 @@
     <div class="input-group-control">
         <label for="">状态</label>
         <div>
-            <select  class="form-control" [(ngModel)]="logisticsData.status">
+            <select  class="form-control" [field]="logisticsData.status">
                 @for (item of statusItems; track $index; let i = $index) {
                 <option [value]="i">{{ item }}</option>
                 }
@@ -113,13 +113,13 @@
     <div class="input-group-control">
         <label for="">物流内容</label>
         <div>
-            <textarea class="form-control" [(ngModel)]="logisticsData.content"></textarea>
+            <textarea class="form-control" [field]="logisticsData.content"></textarea>
         </div>
     </div>
     <div class="input-group-control">
         <label for="">发生时间</label>
         <div>
-            <app-date-input format="yyyy-mm-dd hh:ii:ss" [(ngModel)]="logisticsData.time" />
+            <app-date-input format="yyyy-mm-dd hh:ii:ss" [field]="logisticsData.time" />
         </div>
     </div>
     <div class="btn-group">

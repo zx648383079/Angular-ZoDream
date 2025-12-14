@@ -6,15 +6,15 @@
         <div class="form-table-control">
             <div class="form-group">
                 <label i18n>Nickname</label>
-                <input type="text" class="form-control" [(ngModel)]="guestUser.name" i18n-placeholder placeholder="Please input your nickname">
+                <input type="text" class="form-control" [field]="guestUser.name" i18n-placeholder placeholder="Please input your nickname">
             </div>
             <div class="form-group">
                 <label i18n>Email</label>
-                <input type="email" class="form-control" [(ngModel)]="guestUser.email" i18n-placeholder placeholder="Please input your email" (ngModelChange)="onEmailChange()">
+                <input type="email" class="form-control" [field]="guestUser.email" i18n-placeholder placeholder="Please input your email" (ngModelChange)="onEmailChange()">
             </div>
             <div class="form-group">
                 <label i18n>Link</label>
-                <input type="url" class="form-control" [(ngModel)]="guestUser.url" i18n-placeholder placeholder="Please input your link">
+                <input type="url" class="form-control" [field]="guestUser.url" i18n-placeholder placeholder="Please input your link">
             </div>
         </div>
         }
@@ -26,7 +26,7 @@
                 first.
             </div>
         } @else if (user) {
-            <textarea class="form-control" [(ngModel)]="commentData.content" i18n-placeholder placeholder="Please input content"></textarea>
+            <textarea class="form-control" [field]="commentData.content" i18n-placeholder placeholder="Please input content"></textarea>
         }
         
         <app-action-button class="btn btn-primary" (tapped)="tapComment($event)" i18n>Comment</app-action-button>

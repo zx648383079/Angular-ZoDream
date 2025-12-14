@@ -56,19 +56,19 @@
         <div class="input-group-control">
             <label for="name" i18n>Name</label>
             <div>
-                <input type="text" id="name" [(ngModel)]="bookData.name" class="form-control">
+                <input type="text" id="name" [field]="bookData.name" class="form-control">
             </div>
         </div>
         <div class="input-group-control">
             <label for="cover" i18n>Cover</label>
             <div>
-                <app-file-input [(ngModel)]="bookData.cover" />
+                <app-file-input [field]="bookData.cover" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="description" i18n>Summary</label>
             <div>
-                <textarea id="description"  [(ngModel)]="bookData.description" class="form-control"></textarea>
+                <textarea id="description"  [field]="bookData.description" class="form-control"></textarea>
             </div>
         </div>
     </div>

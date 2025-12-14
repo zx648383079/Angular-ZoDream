@@ -68,13 +68,13 @@
                                 @for (item of data.environment; track $index; let i = $index) {
                                 <tr>
                                     <td>
-                                        <input type="text" class="form-control" [(ngModel)]="item.name" [ngModelOptions]="{standalone: true}" placeholder="例如：dev">
+                                        <input type="text" class="form-control" [field]="item.name" [ngModelOptions]="{standalone: true}" placeholder="例如：dev">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" [(ngModel)]="item.title" [ngModelOptions]="{standalone: true}" placeholder="例如：测试环境">
+                                        <input type="text" class="form-control" [field]="item.title" [ngModelOptions]="{standalone: true}" placeholder="例如：测试环境">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" [(ngModel)]="item.domain" [ngModelOptions]="{standalone: true}" placeholder="例如：http://zodream.cn">
+                                        <input type="text" class="form-control" [field]="item.domain" [ngModelOptions]="{standalone: true}" placeholder="例如：http://zodream.cn">
                                     </td>
                                     <td>
                                         <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>

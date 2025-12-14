@@ -17,7 +17,7 @@ export class MovieAreaComponent implements OnInit {
     private readonly service = inject(TVService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public items: IMovieArea[] = [];

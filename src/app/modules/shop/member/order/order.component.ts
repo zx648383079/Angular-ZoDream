@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -18,7 +19,7 @@ export class OrderComponent implements OnInit {
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
     public title = '我的订单';
     public items: IOrder[] = [];
@@ -47,16 +48,16 @@ export class OrderComponent implements OnInit {
             value: 60,
         },
     ];
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         status: 0,
         page: 1,
         per_page: 20,
-    };
+    }));
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -75,8 +76,8 @@ export class OrderComponent implements OnInit {
         this.router.navigate(['../../market/cashier/pay', item.id], {relativeTo: this.route});
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tapRefresh();
     }
 
@@ -122,11 +123,11 @@ export class OrderComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     /**
@@ -137,13 +138,14 @@ export class OrderComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {... this.queries, page};
+        const queries = {... this.queries().value(), page};
         this.service.orderList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
-            this.searchService.applyHistory(this.queries = queries);
+            this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
         });
     }
 

@@ -41,6 +41,7 @@ import { RouterModule } from '@angular/router';
 import { MarkdownBlockComponent } from './markdown-block/markdown-block.component';
 import { MediaPlayerModule } from '../media-player';
 import { CodeBlockComponent } from './code-block/code-block.component';
+import { Field } from '@angular/forms/signals';
 
 
 const COMPONENTS = [
@@ -89,6 +90,7 @@ const DIRECTIVES = [
 @NgModule({
     imports: [
         CommonModule,
+        Field,
         RouterModule,
         MediaPlayerModule
     ],

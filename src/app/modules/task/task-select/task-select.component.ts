@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, inject, signal } from '@angular/core';
 import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
 import { ITask } from '../model';
@@ -12,7 +13,7 @@ import { TaskService } from '../task.service';
 })
 export class TaskSelectComponent {
     private readonly service = inject(TaskService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public visible = false;
@@ -21,13 +22,13 @@ export class TaskSelectComponent {
     public isLoading = false;
     public total = 0;
     public keywords = '';
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
         per_page: 20,
         parent_id: 0,
         status: 1,
-    };
+    }));
 
     private confirmFn: (data: ITask) => void;
 
@@ -55,12 +56,12 @@ export class TaskSelectComponent {
     }
 
     public tapSearch(form: any = {keywords: this.keywords}) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+
         this.tapRefresh();
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapRefresh() {
@@ -71,7 +72,7 @@ export class TaskSelectComponent {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public goPage(page: number) {
@@ -79,14 +80,14 @@ export class TaskSelectComponent {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.taskList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 this.items = res.data;
                 this.total = res.paging.total;
-            }, 
+            },
             error: () => {
                 this.isLoading = false;
             }

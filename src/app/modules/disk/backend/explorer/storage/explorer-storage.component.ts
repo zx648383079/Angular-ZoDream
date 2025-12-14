@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { IStorageFile } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
@@ -18,7 +19,7 @@ import { ButtonEvent } from '../../../../../components/form';
 export class ExplorerStorageComponent implements OnInit {
     private readonly service = inject(DiskService);
     private readonly route = inject(ActivatedRoute);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
     private readonly toastrService = inject(DialogService);
 
 
@@ -29,24 +30,24 @@ export class ExplorerStorageComponent implements OnInit {
     public tagItems: IItem[] = [
         {name: '公共', value: 1},
         {name: '内部', value: 2},
-    ] 
-    public queries: IPageQueries = {
+    ]
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         tag: 0,
         page: 1,
         per_page: 20,
-    };
+    }));
     public isMultiple = false;
     public isChecked = false;
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
 
-    
+
     public get checkedItems() {
         return this.items.filter(i => i.checked);
     }
@@ -119,8 +120,8 @@ export class ExplorerStorageComponent implements OnInit {
         });
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tapRefresh();
     }
 
@@ -129,11 +130,11 @@ export class ExplorerStorageComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public goPage(page: number) {
@@ -141,13 +142,14 @@ export class ExplorerStorageComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.storageSearch(queries).subscribe({
             next: res => {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries);
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
                 this.isLoading = false;
             },
             error: () => {

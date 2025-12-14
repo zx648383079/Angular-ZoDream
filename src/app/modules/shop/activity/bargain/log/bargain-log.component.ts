@@ -1,4 +1,5 @@
-import { Component, effect, inject, input } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { ActivityService } from '../../activity.service';
 
@@ -20,11 +21,11 @@ export class BargainLogComponent {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
         per_page: 20,
-    };
+    }));
     private booted = 0;
 
     constructor() {
@@ -51,11 +52,11 @@ export class BargainLogComponent {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public goPage(page: number) {
@@ -63,7 +64,7 @@ export class BargainLogComponent {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.bargainLogList({...queries, activity: this.activity(), log: this.log()}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
@@ -71,7 +72,7 @@ export class BargainLogComponent {
                 this.total = res.paging.total;
                 this.items = res.data;
                 this.queries = queries;
-            }, 
+            },
             error: () => {
                 this.isLoading = false;
             }

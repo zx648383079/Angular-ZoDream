@@ -73,9 +73,9 @@
     <div class="form-group">
         <label for="">得分</label>
         <div class="score-input">
-            <input type="number" class="form-control" [(ngModel)]="editData.score">
+            <input type="number" class="form-control" [field]="editData.score">
             / <span title="本题分值">{{ value().score || 0 }}</span>
         </div>
     </div>
-    <app-exam-editor label="点评" [(ngModel)]="editData.remark" />
+    <app-exam-editor label="点评" [field]="editData.remark" />
 </app-dialog-box>

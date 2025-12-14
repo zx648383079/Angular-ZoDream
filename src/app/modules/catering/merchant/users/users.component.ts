@@ -1,4 +1,5 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, viewChild, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -17,7 +18,7 @@ export class UsersComponent implements OnInit {
     private readonly service = inject(CateringService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
     private readonly customModal = viewChild(CustomDialogComponent);
 
@@ -25,12 +26,12 @@ export class UsersComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         group: 0,
         keywords: '',
         page: 1,
         per_page: 20
-    };
+    }));
     public categoryItems: ICateringPatronGroup[] = [];
     public editGroupData: any = {
         name: '',
@@ -42,7 +43,7 @@ export class UsersComponent implements OnInit {
             this.categoryItems = res.data;
         });
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -76,8 +77,8 @@ export class UsersComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tapRefresh();
     }
 
@@ -86,26 +87,27 @@ export class UsersComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
-    
+
     public goPage(page: number) {
         if (this.isLoading) {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.merchantPatronList(queries).subscribe({
             next: res => {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries);
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
                 this.isLoading = false;
             },
             error: () => {

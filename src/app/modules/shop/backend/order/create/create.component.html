@@ -38,12 +38,12 @@
     </div>
 
     <div class="step-body min-body" [hidden]="stepIndex > 0">
-        <app-user-picker [(ngModel)]="user" />
+        <app-user-picker [field]="user" />
 
         <button class="btn btn-primary" [disabled]="invalid" (click)="tapNext()">下一步</button>
     </div>
     <div class="step-body" [hidden]="stepIndex != 1">
-        <app-address-picker [(ngModel)]="address" [user]="user?.id" />
+        <app-address-picker [field]="address" [user]="user?.id" />
 
         <div class="btn-group">
             <div class="btn btn-info" (click)="tapPrevious()">上一步</div>
@@ -77,7 +77,7 @@
                             <span class="text-red">{{ item.price }}</span>
                         </td>
                         <td>
-                            <app-number-input [(ngModel)]="item.amount" (ngModelChange)="onAmountChange()" />
+                            <app-number-input [field]="item.amount" (ngModelChange)="onAmountChange()" />
                         </td>
                         <td>
                             <span class="text-red">{{ item.price * item.amount }}</span>
@@ -97,7 +97,7 @@
         </div>
     </div>
     <div class="step-body" [hidden]="stepIndex != 3">
-        <app-coupon-picker [(ngModel)]="coupon" [user]="user?.id" />
+        <app-coupon-picker [field]="coupon" [user]="user?.id" />
 
         <div class="btn-group">
             <div class="btn btn-info" (click)="tapPrevious()">上一步</div>

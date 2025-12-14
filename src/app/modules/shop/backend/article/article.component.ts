@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import {
     ActivatedRoute
 } from '@angular/router';
@@ -23,7 +24,7 @@ export class ArticleComponent implements OnInit {
     private readonly service = inject(ArticleService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public items: IArticle[] = [];
@@ -31,12 +32,12 @@ export class ArticleComponent implements OnInit {
     public isLoading = false;
     public total = 0;
     public categories: IArticleCategory[] = [];
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
         keywords: '',
         cat_id: 0,
-    };
+    }));
 
     constructor() {
         this.service.categoryTree().subscribe(res => {
@@ -51,7 +52,7 @@ export class ArticleComponent implements OnInit {
             }
         });
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -65,11 +66,11 @@ export class ArticleComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     /**
@@ -80,18 +81,19 @@ export class ArticleComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.articleList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
-            this.searchService.applyHistory(this.queries = queries);
+            this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
         });
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tapRefresh();
     }
 

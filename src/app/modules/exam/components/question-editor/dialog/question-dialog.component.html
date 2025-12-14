@@ -6,7 +6,7 @@
             <i class="iconfont icon-close"></i>
         </div>
         <div class="tool-item btn-info" title="分数">
-            <input type="text" class="form-control btn-info" placeholder="分数" maxLength="2" [(ngModel)]="value().score">
+            <input type="text" class="form-control btn-info" placeholder="分数" maxLength="2" [field]="value().score">
         </div>
         <div class="tool-item btn-primary" [ngClass]="{active: extendOpen}" title="添加附加内容" (click)="extendOpen = !extendOpen">
             <i class="iconfont icon-plus"></i>
@@ -30,11 +30,11 @@
     </div>
     <div class="dialog-body">
         <div class="editor-header">
-            <textarea class="form-control" placeholder="请输入题目内容" [(ngModel)]="value().title"></textarea>
+            <textarea class="form-control" placeholder="请输入题目内容" [field]="value().title"></textarea>
         </div>
         <div class="editor-body">
             <div class="content" [hidden]="!extendOpen">
-                <app-exam-editor label="附加内容：" placeholder="请输入附加内容" [(ngModel)]="value().content" (ngModelChange)="onExtendChange()" />
+                <app-exam-editor label="附加内容：" placeholder="请输入附加内容" [field]="value().content" (ngModelChange)="onExtendChange()" />
             </div>
             <div class="editor-option">
                 @if (value().type == 2) {
@@ -43,11 +43,11 @@
                     <app-option-input [multiple]="value().type > 0"  [(value)]="optionItems" />
                 
                 } @else if (value().type == 3) {
-                    <app-exam-editor label="答案：" placeholder="请输入答案" [(ngModel)]="value().answer" />
+                    <app-exam-editor label="答案：" placeholder="请输入答案" [field]="value().answer" />
                 }
              </div>
              @if (analysisOpen) {
-                <app-exam-editor label="解析：" placeholder="请输入题目解析" [(ngModel)]="analysisData.content" />
+                <app-exam-editor label="解析：" placeholder="请输入题目解析" [field]="analysisData.content" />
              }
         </div>
     </div>

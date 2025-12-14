@@ -51,19 +51,19 @@
         <div class="address-body">
             <div>*所在地区:</div>
             <div class="region-input">
-                <app-region url="shop/region/tree" [(ngModel)]="editData.region_id" />
+                <app-region url="shop/region/tree" [field]="editData.region_id" />
             </div>
             <div>*详细地址:</div>
             <div>
-                <textarea [(ngModel)]="editData.address" cols="30" rows="10"></textarea>
+                <textarea [field]="editData.address" cols="30" rows="10"></textarea>
             </div>
             <div>*收货人:</div>
             <div>
-                <input type="text" [(ngModel)]="editData.name">
+                <input type="text" [field]="editData.name">
             </div>
             <div>*手机号码:</div>
             <div>
-                <input type="text" [(ngModel)]="editData.tel">
+                <input type="text" [field]="editData.tel">
             </div>
         </div>
     </div>

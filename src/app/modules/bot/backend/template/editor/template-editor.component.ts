@@ -1,4 +1,5 @@
-import { Component, inject, input, model, viewChild } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, inject, input, model, viewChild, signal } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { IItem } from '../../../../../theme/models/seo';
@@ -26,12 +27,12 @@ export class TemplateEditorComponent implements FormValueControl<string> {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         type: 0,
         keywords: '',
         page: 1,
         per_page: 20
-    };
+    }));
 
     constructor() {
         this.service.batch({template_type: {}}).subscribe(res => {
@@ -59,11 +60,11 @@ export class TemplateEditorComponent implements FormValueControl<string> {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public goPage(page: number) {
@@ -71,7 +72,7 @@ export class TemplateEditorComponent implements FormValueControl<string> {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.templateList(queries).subscribe({
             next: res => {
                 const items = res.data.map(i => {

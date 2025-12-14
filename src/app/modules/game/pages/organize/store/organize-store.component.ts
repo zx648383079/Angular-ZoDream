@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, IGameItem, IGameRouter, IGameScene, ItemTypeItems } from '../../../model';
 import { IPageQueries, IPage } from '../../../../../theme/models/page';
 
@@ -16,12 +17,12 @@ export class OrganizeStoreComponent implements IGameScene, OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
         keywords: '',
         type: 0,
-    };
+    }));
     public modalVisible = false;
     public typeItems = ItemTypeItems;
 
@@ -43,7 +44,7 @@ export class OrganizeStoreComponent implements IGameScene, OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public goPage(page: number) {
@@ -51,7 +52,7 @@ export class OrganizeStoreComponent implements IGameScene, OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.router.request(GameCommand.OrganizeStoreQuery, queries).subscribe({
             next: res => {
                 const data = res.data as IPage<IGameItem>;

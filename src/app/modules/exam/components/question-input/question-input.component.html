@@ -31,11 +31,11 @@
         </div>
         } @else if (value().type == 2) {
         <div class="option-list">
-            <app-check-input [items]="['错', '对']" [rangeKey]="1" [(ngModel)]="value().answer" (ngModelChange)="onAnswerChange()" />
+            <app-check-input [items]="['错', '对']" [rangeKey]="1" [field]="value().answer" (ngModelChange)="onAnswerChange()" />
         </div>
         } @else if (value().type == 3) {
         <div>
-            <textarea rows="4" class="form-control" [(ngModel)]="value().answer"  (ngModelChange)="onAnswerChange()"></textarea>
+            <textarea rows="4" class="form-control" [field]="value().answer"  (ngModelChange)="onAnswerChange()"></textarea>
         </div>
         }
     } @else {

@@ -14,7 +14,7 @@
         <div class="panel-header">
             <a routerLink="{{ group.id }}">{{ group.name }}</a>
             <div class="pull-right">
-                <app-switch [(ngModel)]="group.min" />
+                <app-switch [field]="group.min" />
             </div>
         </div>
         <div class="panel-body">

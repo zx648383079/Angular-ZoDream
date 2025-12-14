@@ -22,15 +22,15 @@
 <app-dialog-box #analysisModal>
     <div class="form-group">
         <label>内容类型</label>
-        <select class="form-control" [(ngModel)]="analysisData.type">
+        <select class="form-control" [field]="analysisData.type">
             @for (item of analysisTypeItems; track $index; let i = $index) {
                 <option [value]="i">{{ item }}</option>
             }
         </select>
     </div>
     @if (analysisData.type < 1) {
-        <app-exam-editor [(ngModel)]="analysisData.content" />
+        <app-exam-editor [field]="analysisData.content" />
     } @else {
-        <app-file-input [(ngModel)]="analysisData.content" accept="*/*" />
+        <app-file-input [field]="analysisData.content" accept="*/*" />
     }
 </app-dialog-box>

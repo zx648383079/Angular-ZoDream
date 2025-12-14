@@ -1,4 +1,5 @@
-import { Component, effect, inject, input, model } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, effect, inject, input, model, signal } from '@angular/core';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { IAddress } from '../../../model';
 import { OrderService } from '../order.service';
@@ -20,11 +21,11 @@ export class AddressPickerComponent implements FormValueControl<IAddress> {
     public isFocus = false;
     public editable = false;
 
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
         per_page: 20
-    };
+    }));
     public items: IAddress[] = [];
     public hasMore = false;
     public isLoading = false;
@@ -68,7 +69,7 @@ export class AddressPickerComponent implements FormValueControl<IAddress> {
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public goPage(page: number) {
@@ -76,7 +77,7 @@ export class AddressPickerComponent implements FormValueControl<IAddress> {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page, user: this.user()};
+        const queries = {...this.queries().value(), page, user: this.user()};
         this.service.addressSearch(queries).subscribe({
             next: res => {
                 this.isLoading = false;

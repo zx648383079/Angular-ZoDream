@@ -1,4 +1,5 @@
-import { Component, effect, inject, input } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { mapFormat } from '../../../../theme/utils';
 import { AppStoreService } from '../../app-store.service';
@@ -6,12 +7,12 @@ import { FileTypeItems, ISoftwareVersion } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-version',
-  templateUrl: './version.component.html',
-  styleUrls: ['./version.component.scss']
+    selector: 'app-version',
+    templateUrl: './version.component.html',
+    styleUrls: ['./version.component.scss']
 })
 export class VersionComponent {
-    service = inject(AppStoreService);
+    private readonly service = inject(AppStoreService);
 
 
     public readonly itemId = input(0);
@@ -21,13 +22,13 @@ export class VersionComponent {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
         per_page: 20,
         sort: 'created_at',
         order: 'desc',
-    };
+    }));
     private booted = 0;
 
     constructor() {
@@ -49,9 +50,9 @@ export class VersionComponent {
     public formatType(val: number) {
         return mapFormat(val, FileTypeItems);
     }
-    
+
     public tapSort(sort: string) {
-        this.queries.order = sort;
+        this.queries.order().value.set(sort);
         this.tapRefresh();
     }
 
@@ -63,11 +64,11 @@ export class VersionComponent {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public goPage(page: number) {
@@ -75,15 +76,15 @@ export class VersionComponent {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.versionList({...queries, software: this.itemId()}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 this.total = res.paging.total;
                 this.items = res.data;
-                this.queries = queries;
-            }, 
+                this.queries().value.set(queries);
+            },
             error: () => {
                 this.isLoading = false;
             }

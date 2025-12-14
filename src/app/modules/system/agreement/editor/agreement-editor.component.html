@@ -20,11 +20,11 @@
                 <div class="form-group">
                     <label for="name">简称</label>
                     <i class="iconfont icon-close" (click)="tapRemoveGroup()" title="删除当前组"></i>
-                    <input type="text" class="form-control" [(ngModel)]="data.name" id="name" placeholder="例如：service">
+                    <input type="text" class="form-control" [field]="data.name" id="name" placeholder="例如：service">
                 </div>
                 <div class="form-group">
                     <label for="title">标题</label>
-                    <input type="text" class="form-control" [(ngModel)]="data.title" id="title" placeholder="例如：服务条款">
+                    <input type="text" class="form-control" [field]="data.title" id="title" placeholder="例如：服务条款">
                 </div>
             </div>
             <div class="form-group">
@@ -37,7 +37,7 @@
                             <i title="加粗" [ngClass]="{checked: item.b}" (click)="item.b = !item.b">b</i>
                             <i class="iconfont icon-close" (click)="tapRemoveItem(i)" title="删除"></i>
                         </div>
-                        <textarea class="form-control" [(ngModel)]="item.content"></textarea>
+                        <textarea class="form-control" [field]="item.content"></textarea>
                     </div>
                     }
                 </div>

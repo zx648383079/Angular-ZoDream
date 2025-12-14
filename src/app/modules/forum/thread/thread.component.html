@@ -53,7 +53,7 @@
                     } @else {
                         <i class="iconfont icon-sort-alpha-asc" i18n-title title="Browse in order" (click)="tapSortOrder()"></i>
                     }
-                    <select [(ngModel)]="queries.status" class="form-control" (ngModelChange)="onStatusChange()">
+                    <select [field]="queries.status" class="form-control" (ngModelChange)="onStatusChange()">
                         @for (item of statusData.items; track $index; let i = $index) {
                         <option [value]="i">{{ item }}</option>
                         }
@@ -170,7 +170,7 @@
         </div>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
         <div class="paging-box">
-            <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+            <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
         </div>
         @if (user && thread && !thread.is_closed) {
         <div class="post-item --with-new">
@@ -241,7 +241,7 @@
         <div class="link-item">
             <div class="label" i18n>Topest</div>
             <div class="value">
-                <app-switch [(ngModel)]="editData.top_type" />
+                <app-switch [field]="editData.top_type" />
             </div>
         </div>
         }
@@ -250,7 +250,7 @@
         <div class="link-item">
             <div class="label" i18n>Digest</div>
             <div class="value">
-                <app-switch [(ngModel)]="editData.is_digest" />
+                <app-switch [field]="editData.is_digest" />
             </div>
         </div>
         }
@@ -259,7 +259,7 @@
         <div class="link-item">
             <div class="label" i18n>Highlight</div>
             <div class="value">
-                <app-switch [(ngModel)]="editData.is_highlight" />
+                <app-switch [field]="editData.is_highlight" />
             </div>
         </div>
         }
@@ -268,14 +268,14 @@
         <div class="link-item">
             <div class="label" i18n>Close</div>
             <div class="value">
-                <app-switch [(ngModel)]="editData.is_closed" />
+                <app-switch [field]="editData.is_closed" />
             </div>
         </div>
         }
 
         <div class="form-group">
           <label for="remark" i18n>Operating Instructions*</label>
-          <textarea class="form-control" id="remark" [(ngModel)]="editData.remark"></textarea>
+          <textarea class="form-control" id="remark" [field]="editData.remark"></textarea>
         </div>
     }
 </app-dialog-box>
@@ -284,11 +284,11 @@
     <div class="link-item">
         <div class="label" i18n>Amount</div>
         <div class="value">
-            <input type="number" class="form-control" [(ngModel)]="rewardData.amount">
+            <input type="number" class="form-control" [field]="rewardData.amount">
         </div>
     </div>
 </app-dialog-box>
 
 <app-dialog-box #statusModal [scrollable]="false" i18n-title title="Modify Status">
-    <app-check-input [items]="statusData.items" [rangeKey]="1"[(ngModel)]="statusData.selected" />
+    <app-check-input [items]="statusData.items" [rangeKey]="1"[field]="statusData.selected" />
 </app-dialog-box>

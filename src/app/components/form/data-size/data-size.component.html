@@ -1,6 +1,6 @@
 <div class="data-size-input">
-    <input type="number" class="form-control" [(ngModel)]="unitValue" [disabled]="disabled()" (ngModelChange)="onValueChange()" [placeholder]="placeholder()">
-    <select class="form-control" [(ngModel)]="unitIndex" (ngModelChange)="onUnitChange()" [disabled]="disabled()">
+    <input type="number" class="form-control" [field]="unitValue" [disabled]="disabled()" (ngModelChange)="onValueChange()" [placeholder]="placeholder()">
+    <select class="form-control" [field]="unitIndex" (ngModelChange)="onUnitChange()" [disabled]="disabled()">
         @for (item of unitItems(); track $index;let i = $index) {
             <option [value]="i">{{ item }}</option>
         }

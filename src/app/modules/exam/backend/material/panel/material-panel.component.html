@@ -2,11 +2,11 @@
     <div class="form-horizontal-control">
         <div class="input-group-control">
             <label for="keywords">关键字</label>
-            <input type="text" class="form-control" [(ngModel)]="queries.keywords" id="keywords" placeholder="关键词">
+            <input type="text" class="form-control" id="keywords" [field]="queries.keywords" id="keywords" placeholder="关键词">
         </div>
         <div class="input-group-control">
             <label >科目</label>
-            <select [(ngModel)]="queries.course" class="form-control">
+            <select [field]="queries.course" class="form-control">
                 <option [value]="0">请选择</option>
                 @for (item of courseItems(); track $index) {
                     <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
@@ -33,7 +33,7 @@
             </div>
         </div>
     </div>
-    <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+    <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
 </div>
 <div class="add-panel" [hidden]="!tabIndex">
     <app-material-form [(value)]="editData" [courseItems]="courseItems()" (valueChange)="tapSelected($event)" />

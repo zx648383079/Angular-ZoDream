@@ -6,7 +6,7 @@
         <div class="select-option-bar">
             @if (item.searchable) {
             <div class="search-option-item">
-                <input type="search" placeholder="Enter搜索" [(ngModel)]="item.keywords" (keydown)="onKeydown($event, item)">
+                <input type="search" placeholder="Enter搜索" [field]="item.keywords" (keydown)="onKeydown($event, item)">
                 <i class="iconfont icon-search"></i>
             </div>
             }

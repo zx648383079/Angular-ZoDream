@@ -50,7 +50,7 @@
     </div>
     @if (step == 4) {
     <div class="flat-input">
-        <input type="text" class="form-control" name="name" [(ngModel)]="data.name" placeholder="请输入称呼">
+        <input type="text" class="form-control" name="name" [field]="data.name" placeholder="请输入称呼">
         <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)">确认</app-action-button>
     </div>
     }

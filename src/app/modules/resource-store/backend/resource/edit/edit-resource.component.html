@@ -49,7 +49,7 @@
                     <div class="input-group-control">
                         <label>标签</label>
                         <div>
-                            <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [(ngModel)]="tags" [ngModelOptions]="{standalone: true}" [addTag]="addTagFn" placeholder="选择标签" />
+                            <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [field]="tags" [ngModelOptions]="{standalone: true}" [addTag]="addTagFn" placeholder="选择标签" />
                         </div>
                     </div>
                 </app-panel>
@@ -126,7 +126,7 @@
                     @for (item of fileItems; track $index; let i = $index) {
                     <tr>
                         <td>
-                            <select class="form-control" [(ngModel)]="item.file_type" [ngModelOptions]="{standalone: true}">
+                            <select class="form-control" [field]="item.file_type" [ngModelOptions]="{standalone: true}">
                                 @for (type of fileTypeItems; track $index) {
                                 <option [value]="type.value">{{ type.name }}</option>
                                 }
@@ -134,9 +134,9 @@
                         </td>
                         <td>
                             @if (item.file_type > 0) {
-                                <input type="text" class="form-control" [(ngModel)]="item.file" [ngModelOptions]="{standalone: true}">
+                                <input type="text" class="form-control" [field]="item.file" [ngModelOptions]="{standalone: true}">
                             } @else {
-                                <app-file-input [(ngModel)]="item.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)" [ngModelOptions]="{standalone: true}" />
+                                <app-file-input [field]="item.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)" [ngModelOptions]="{standalone: true}" />
                             }
                         </td>
                         <td>

@@ -11,15 +11,15 @@
 </div>
 
 <div class="page-search-bar">
-    <form class="flat-input" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-        <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" i18n-placeholder placeholder="Please input a keyword">
-        <select name="term" [ngModel]="queries.term" class="form-control">
+    <form class="flat-input" (submit)="tapSearch()">
+        <input type="text" class="form-control" id="keywords" [field]="queries.keywords" i18n-placeholder placeholder="Please input a keyword">
+        <select name="term" [field]="queries.term" class="form-control">
             <option [value]="0" i18n>Select...</option>
             @for (item of categories; track $index) {
                 <option [value]="item.id">{{ item.name }}</option>
             }
         </select>
-        <select name="term" [ngModel]="queries.status" class="form-control tablet-collapse">
+        <select name="term" [field]="queries.status" class="form-control tablet-collapse">
             <option [value]="0" i18n>Select...</option>
             @for (item of statusItems; track $index) {
                 <option [value]="item.value + 1">{{ item.name }}</option>
@@ -80,4 +80,4 @@
 
 
 <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-<app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+<app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />

@@ -12,7 +12,7 @@ import { EditorBlockType, IEditorBlock } from '../../../../../components/editor'
 })
 export class AddPanelComponent {
     private uploadService = inject(FileUploadService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public readonly visible = input(false);
@@ -124,7 +124,7 @@ export class AddPanelComponent {
         });
     }
 
-    public tapSearch(form: any) {
+    public tapSearch() {
         this.mediaQueries = this.searchService.getQueries(form, this.mediaQueries);
         this.tapRefresh();
     }

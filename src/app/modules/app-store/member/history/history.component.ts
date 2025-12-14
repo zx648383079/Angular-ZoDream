@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IButton } from '../../../../components/form';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -15,7 +16,7 @@ import { ISoftwareLog } from '../../model';
 export class HistoryComponent implements OnInit {
     private readonly service = inject(AppStoreService);
     private readonly route = inject(ActivatedRoute);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public buttonItems: IButton[] = [
@@ -25,11 +26,11 @@ export class HistoryComponent implements OnInit {
         {name: 'Write a comment', icon: 'icon-edit'},
         {name: 'Uninstall', icon: 'icon-trash'},
     ];
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
         per_page: 20,
-    };
+    }));
     public items: ISoftwareLog[] = [];
     public hasMore = true;
     public isLoading = false;
@@ -37,7 +38,7 @@ export class HistoryComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -47,11 +48,11 @@ export class HistoryComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     /**
@@ -62,13 +63,14 @@ export class HistoryComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.logList(queries).subscribe({
             next: res => {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries);
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
                 this.isLoading = false;
             },
             error: () => {

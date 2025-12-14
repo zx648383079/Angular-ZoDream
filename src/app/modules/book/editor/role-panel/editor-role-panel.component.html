@@ -80,26 +80,26 @@
         <div class="input-group-control">
             <label for="">角色名</label>
             <div>
-                <input type="text" class="form-control" [(ngModel)]="roleData.name">
+                <input type="text" class="form-control" [field]="roleData.name">
             </div>
         </div>
         @if (roleData.type != 'link') {
             <div class="input-group-control">
                 <label for="">头像</label>
                 <div>
-                    <app-file-input [(ngModel)]="roleData.avatar" />
+                    <app-file-input [field]="roleData.avatar" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">简介</label>
                 <div>
-                    <textarea type="text" class="form-control" [(ngModel)]="roleData.description"></textarea>
+                    <textarea type="text" class="form-control" [field]="roleData.description"></textarea>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">角色身份</label>
                 <div>
-                    <input type="text" class="form-control" [(ngModel)]="roleData.character" placeholder="主角/配角">
+                    <input type="text" class="form-control" [field]="roleData.character" placeholder="主角/配角">
                 </div>
             </div>
         }
@@ -107,7 +107,7 @@
         <div class="input-group-control" [hidden]="roleData.type == 'new'">
             <label for="">与“{{ roleData.from }}”的关系</label>
             <div>
-                <input type="text" class="form-control" [(ngModel)]="roleData.link">
+                <input type="text" class="form-control" [field]="roleData.link">
             </div>
         </div>
     </div>
@@ -118,13 +118,13 @@
             <div class="input-group-control">
                 <label for="">物品</label>
                 <div>
-                    <input type="text" class="form-control" [(ngModel)]="goodsData.name">
+                    <input type="text" class="form-control" [field]="goodsData.name">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">物品数量</label>
                 <div>
-                    <input type="text" class="form-control" [(ngModel)]="goodsData.amount">
+                    <input type="text" class="form-control" [field]="goodsData.amount">
                 </div>
             </div>
         </div>
@@ -134,13 +134,13 @@
             <div class="input-group-control">
                 <label for="">技能名</label>
                 <div>
-                    <input type="text" class="form-control" [(ngModel)]="skillData.name">
+                    <input type="text" class="form-control" [field]="skillData.name">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">技能等级</label>
                 <div>
-                    <input type="text" class="form-control" [(ngModel)]="skillData.level">
+                    <input type="text" class="form-control" [field]="skillData.level">
                 </div>
             </div>
         </div>

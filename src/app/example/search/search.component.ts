@@ -1,10 +1,11 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService, DialogEvent } from '../../components/dialog';
 import { IPageQueries } from '../../theme/models/page';
 import { IFeedback } from '../../theme/models/seo';
 import { SearchService } from '../../theme/services';
 import { mapFormat } from '../../theme/utils';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -15,27 +16,27 @@ import { mapFormat } from '../../theme/utils';
 export class ExampleSearchComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public items: IFeedback[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         page: 1,
         keywords: '',
         per_page: 20,
         sort: 'id',
         order: 'desc',
-    };
+    }));
     public editData: IFeedback = {} as any;
     public isMultiple = false;
     public isChecked = false;
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -82,11 +83,11 @@ export class ExampleSearchComponent implements OnInit {
     }
 
     public tapSort(key: string) {
-        if (this.queries.sort === key) {
-            this.queries.order = this.queries.order == 'desc' ? 'asc' : 'desc';
+        if (this.queries.sort().value() === key) {
+            this.queries.order().value.update(v => v == 'desc' ? 'asc' : 'desc');
         } else {
-            this.queries.sort = key;
-            this.queries.order = 'desc';
+            this.queries.sort().value.set(key);
+            this.queries.order().value.set('desc');
         }
         this.tapRefresh();
     }
@@ -96,11 +97,11 @@ export class ExampleSearchComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     /**
@@ -111,7 +112,7 @@ export class ExampleSearchComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         setTimeout(() => {
             this.isLoading = false;
             this.items = [];
@@ -129,12 +130,13 @@ export class ExampleSearchComponent implements OnInit {
             this.hasMore = page < 10;
             this.total = 190;
             this.isChecked = false;
-            this.searchService.applyHistory(this.queries = queries);
+            this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
         }, 2000);
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tapRefresh();
     }
 

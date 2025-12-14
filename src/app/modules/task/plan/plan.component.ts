@@ -1,4 +1,5 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, viewChild, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -19,22 +20,22 @@ export class PlanComponent implements OnInit {
     private readonly service = inject(TaskService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     private readonly taskModal = viewChild(TaskSelectComponent);
-    private readonly addModal = viewChild<DialogEvent>('addModal'); 
-    
+    private readonly addModal = viewChild<DialogEvent>('addModal');
+
     public items: ITaskPlan[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
         per_page: 20,
         type: 0,
-    };
+    }));
     public typeItems = ['一天', '每周', '每月'];
     public weekNameItems: IItem[] = [];
     public monthNameItems: IItem[] = [];
@@ -57,7 +58,7 @@ export class PlanComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -137,11 +138,11 @@ export class PlanComponent implements OnInit {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public goPage(page: number) {
@@ -149,15 +150,16 @@ export class PlanComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.planList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 this.items = res.data;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries);
-            }, 
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
+            },
             error: () => {
                 this.isLoading = false;
             }

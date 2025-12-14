@@ -17,12 +17,12 @@
     @for (item of remark; track $index) {
     <div class="line-item">
         <label [for]="'form_' + item.name">{{ item.label }}</label>
-        <input type="text" class="form-control" [id]="'form_' + item.name" [required]="item.required" [(ngModel)]="item.value">
+        <input type="text" class="form-control" [id]="'form_' + item.name" [required]="item.required" [field]="item.value">
     </div>
     }
     <div class="line-item">
         <span i18n>Amount</span>
-        <app-number-input [(ngModel)]="amount" [min]="1" (ngModelChange)="onAmountChange()" />
+        <app-number-input [field]="amount" [min]="1" (ngModelChange)="onAmountChange()" />
     </div>
     <div class="line-item">
         <span i18n>Service charge</span>

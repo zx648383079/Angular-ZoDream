@@ -32,7 +32,7 @@
                 <a [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2" i18n>Download</a>
                 <a [ngClass]="{active: tabIndex == 3}" (click)="tabIndex = 3">
                     <ng-container i18n>Reviews</ng-container>
-                    <app-star [ngModel]="data.score" />
+                    <app-star [value]="data.score" />
                     <div class="count-label">{{ data.download_count | numberFormat }}</div>
                 </a>
                 <a [ngClass]="{active: tabIndex == 4}" (click)="tabIndex = 4">

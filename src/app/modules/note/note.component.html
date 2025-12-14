@@ -5,7 +5,7 @@
             <div class="col-md-4">
                 <div class="note-form">
                     <div class="item-body">
-                        <textarea class="form-control" [(ngModel)]="editData.content" placeholder="请输入内容"></textarea>
+                        <textarea class="form-control" [field]="editData.content" placeholder="请输入内容"></textarea>
                     </div>
                     <div class="item-action">
                         <span class="length-box">{{ size }}/255</span>

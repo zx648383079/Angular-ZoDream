@@ -1,4 +1,5 @@
-import { Component, OnInit, inject, input, model, output } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, input, model, output, signal } from '@angular/core';
 import { DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
@@ -14,19 +15,19 @@ import { ExamService } from '../../exam.service';
 export class MaterialPanelComponent {
     private readonly service = inject(ExamService);
     private readonly toastrService = inject(DialogService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public items: IQuestionMaterial[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
         keywords: '',
         course: 0,
-    };
+    }));
     public readonly courseItems = input<ICourse[]>([]);
     public typeItems = ['文本', '音频', '视频'];
     public tabIndex = false;
@@ -53,11 +54,11 @@ export class MaterialPanelComponent {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     /**
@@ -68,7 +69,7 @@ export class MaterialPanelComponent {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.materialList(queries).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
@@ -77,8 +78,8 @@ export class MaterialPanelComponent {
         });
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tapRefresh();
         this.tabIndex = false;
     }

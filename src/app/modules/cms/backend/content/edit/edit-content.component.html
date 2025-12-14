@@ -20,17 +20,17 @@
                                 @switch (item.type) {
                                     @case ('password') {
                                         <div>
-                                            <input type="password" class="form-control" [(ngModel)]="item.value">
+                                            <input type="password" class="form-control" [field]="item.value">
                                         </div>
                                     }
                                     @case ('textarea') {
                                         <div>
-                                            <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+                                            <textarea class="form-control"  [field]="item.value"></textarea>
                                         </div>
                                     }
                                     @case ('select') {
                                         <div>
-                                            <select class="form-control"  [(ngModel)]="item.value">
+                                            <select class="form-control"  [field]="item.value">
                                                 @for (val of item.items; track $index) {
                                                     <option [value]="val">{{ val }}</option>
                                                 }
@@ -39,57 +39,57 @@
                                     }
                                     @case ('radio') {
                                         <div>
-                                            <app-check-input [items]="item.items" [(ngModel)]="item.value" />
+                                            <app-check-input [items]="item.items" [field]="item.value" />
                                         </div>
                                     }
                                     @case ('checkbox') {
                                         <div>
-                                            <app-check-input [items]="item.items" [(ngModel)]="item.value" [multiple]="true" />
+                                            <app-check-input [items]="item.items" [field]="item.value" [multiple]="true" />
                                         </div>
                                     }
                                     @case ('switch') {
                                         <div>
-                                            <app-switch [(ngModel)]="item.value" />
+                                            <app-switch [field]="item.value" />
                                         </div>
                                     }
                                     @case ('image') {
                                         <div>
-                                            <app-file-input [(ngModel)]="item.value" />
+                                            <app-file-input [field]="item.value" />
                                         </div>
                                     }
                                     @case ('images') {
                                         <div>
-                                            <app-file-input [(ngModel)]="item.value" />
+                                            <app-file-input [field]="item.value" />
                                         </div>
                                     }
                                     @case ('file') {
                                         <div>
-                                            <app-file-input [(ngModel)]="item.value" accept="*" />
+                                            <app-file-input [field]="item.value" accept="*" />
                                         </div>
                                     }
                                     @case ('files') {
                                         <div>
-                                            <app-file-input [(ngModel)]="item.value" accept="*" />
+                                            <app-file-input [field]="item.value" accept="*" />
                                         </div>
                                     }
                                     @case ('editor') {
                                         <div>
-                                            <app-zre-editor [(ngModel)]="item.value" />
+                                            <app-zre-editor [field]="item.value" />
                                         </div>
                                     } 
                                     @case ('basic_editor') {
                                         <div>
-                                            <app-zre-editor [(ngModel)]="item.value" />
+                                            <app-zre-editor [field]="item.value" />
                                         </div>
                                     }
                                     @case ('markdown') {
                                         <div>
-                                            <app-markdown-editor [(ngModel)]="item.value" />
+                                            <app-markdown-editor [field]="item.value" />
                                         </div>
                                     }
                                     @default {
                                         <div>
-                                            <input type="text" class="form-control" [(ngModel)]="item.value">
+                                            <input type="text" class="form-control" [field]="item.value">
                                         </div>
                                     }
                                 }

@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { ISortItem } from '../../../../theme/models/seo';
 import { ActivatedRoute } from '@angular/router';
@@ -15,18 +16,18 @@ import { ISite } from '../../model';
 export class SiteComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly service = inject(VisualService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public items: ISite[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
         keywords: '',
-    };
+    }));
     public sortItems: ISortItem[] = [
         {name: $localize `Default`, value: ''},
         {name: $localize `Price`, value: 'price', asc: true},
@@ -38,7 +39,7 @@ export class SiteComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -60,11 +61,11 @@ export class SiteComponent implements OnInit {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public goPage(page: number) {
@@ -72,15 +73,16 @@ export class SiteComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.searchSite({...queries}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 this.total = res.paging.total;
                 this.items = res.data;
-                this.searchService.applyHistory(this.queries = queries);
-            }, 
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
+            },
             error: () => {
                 this.isLoading = false;
             }

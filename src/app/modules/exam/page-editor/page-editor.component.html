@@ -7,8 +7,8 @@
             <div class="tool-item" title="题库搜索" (click)="tapFind(searchModal)">
                 <i class="iconfont icon-search"></i>
             </div>
-            <input type="text" [(ngModel)]="data.name" class="form-control" placeholder="请输入试卷标题">
-            <input type="number" class="form-control time-input" placeholder="限时/分" [(ngModel)]="data.limit_time">
+            <input type="text" [field]="data.name" class="form-control" placeholder="请输入试卷标题">
+            <input type="number" class="form-control time-input" placeholder="限时/分" [field]="data.limit_time">
             <div class="tool-item" title="展开完整" (click)="tapEditFull(modal)">
                 <i class="iconfont icon-chevron-down"></i>
             </div>
@@ -43,19 +43,19 @@
         <div class="input-group-control">
             <label for="name">试卷名</label>
             <div>
-                <input type="text" id="name" class="form-control" [(ngModel)]="data.name">
+                <input type="text" id="name" class="form-control" [field]="data.name">
             </div>
         </div>
         <div class="input-group-control">
             <label for="course_id">科目</label>
             <div class="flat-group">
-                <select id="course_id" [(ngModel)]="data.course_id" class="form-control" (ngModelChange)="onCourseChange()">
+                <select id="course_id" [field]="data.course_id" class="form-control" (ngModelChange)="onCourseChange()">
                     <option [value]="0">请选择</option>
                     @for (item of courseItems; track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                     }
                 </select>
-                <select [(ngModel)]="data.course_grade" class="form-control">
+                <select [field]="data.course_grade" class="form-control">
                     @for (item of gradeItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
                     }
@@ -65,19 +65,19 @@
         <div class="input-group-control">
             <label for="limit_time">限时/分钟</label>
             <div>
-                <input type="number" id="limit_time" class="form-control" [(ngModel)]="data.limit_time" >
+                <input type="number" id="limit_time" class="form-control" [field]="data.limit_time" >
             </div>
         </div>
         <div class="input-group-control">
             <label for="start_at">开始时间</label>
             <div>
-                <app-date-input id="start_at" [(ngModel)]="data.start_at" />
+                <app-date-input id="start_at" [field]="data.start_at" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="end_at">结束时间</label>
             <div>
-                <app-date-input id="end_at" [(ngModel)]="data.end_at" />
+                <app-date-input id="end_at" [field]="data.end_at" />
             </div>
         </div>
     </div>
@@ -86,14 +86,14 @@
 <app-dialog-box class="dialog-search-box" #searchModal>
     <i class="iconfont icon-close dialog-close" (click)="searchModal.close(false)"></i>
     <div class="search-bar">
-        <form class="form-horizontal-control" (ngSubmit)="tapDialogSearch(searchForm.value)" #searchForm="ngForm">
+        <form class="form-horizontal-control" (submit)="tapDialogSearch()">
             <div class="input-group-control">
                 <label for="keywords">关键字</label>
-                <input type="text" class="form-control" [ngModel]="dialogData.keywords" name="keywords" id="keywords" placeholder="关键词">
+                <input type="text" class="form-control" [value]="dialogData.keywords" placeholder="关键词">
             </div>
             <div class="input-group-control">
                 <label for="course">科目</label>
-                <select id="course" name="course" [ngModel]="dialogData.course" class="form-control">
+                <select id="course" name="course" [value]="dialogData.course" class="form-control">
                     <option [value]="0">请选择</option>
                     @for (item of courseItems; track $index) {
                     <option [value]="item.id">{{ item.name }}</option>

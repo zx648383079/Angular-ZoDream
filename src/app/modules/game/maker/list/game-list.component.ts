@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { SearchService, ThemeService } from '../../../../theme/services';
 import { IGameProject } from '../../model';
@@ -16,7 +17,7 @@ export class GameListComponent implements OnInit {
     private readonly service = inject(GameMakerService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
 
 
@@ -24,11 +25,11 @@ export class GameListComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
         keywords: '',
-    };
+    }));
     public editData: IGameProject = {} as any;
 
     constructor() {
@@ -37,7 +38,7 @@ export class GameListComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -72,11 +73,11 @@ export class GameListComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     /**
@@ -87,14 +88,15 @@ export class GameListComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.projectList(queries).subscribe({
             next: res => {
                 this.isLoading = false;
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries);
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
             },
             error: () => {
                 this.isLoading = false;
@@ -102,9 +104,9 @@ export class GameListComponent implements OnInit {
         });
     }
 
-    
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+
+    public tapSearch() {
+
         this.tapRefresh();
     }
 

@@ -6,13 +6,13 @@
             <div class="input-group-control">
                 <label for="option_checkin_basic">基本奖励</label>
                 <div>
-                    <input type="text" id="option_checkin_basic" class="form-control" [(ngModel)]="data.basic">
+                    <input type="text" id="option_checkin_basic" class="form-control" [field]="data.basic">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="option_checkin_loop">几天循环</label>
                 <div>
-                    <input type="text" id="option_checkin_loop" class="form-control" [(ngModel)]="data.loop">
+                    <input type="text" id="option_checkin_loop" class="form-control" [field]="data.loop">
                 </div>
             </div>
             <div class="input-group-control">
@@ -30,10 +30,10 @@
                             @for (item of plusItems; track $index;let i = $index) {
                             <tr>
                                 <td>
-                                    <input type="text" class="form-control" placeholder="天" [(ngModel)]="item.day">
+                                    <input type="text" class="form-control" placeholder="天" [field]="item.day">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" placeholder="奖励" [(ngModel)]="item.plus">
+                                    <input type="text" class="form-control" placeholder="奖励" [field]="item.plus">
                                 </td>
                                 <td>
                                     <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>

@@ -7,8 +7,8 @@
     </div>
 </div>
 <div class="page-search-bar">
-    <form class="flat-input" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-        <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" i18n-placeholder placeholder="Please input a keyword">
+    <form class="flat-input" (submit)="tapSearch()">
+        <input type="text" class="form-control" id="keywords" [field]="queries.keywords" i18n-placeholder placeholder="Please input a keyword">
         <button type="submit" class="btn btn-primary" i18n>Search</button>
     </form>
 </div>
@@ -36,4 +36,4 @@
 
 
 <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-<app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+<app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />

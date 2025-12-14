@@ -55,7 +55,7 @@ export class ReviewComponent implements OnInit {
         });
     }
 
-    public tapSearch(form: any) {
+    public tapSearch() {
         this.date = form.date || '';
         this.type = parseInt(form.type, 10) || 0;
         this.ignore = !!form.ignore;

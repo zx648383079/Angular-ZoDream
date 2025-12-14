@@ -1,4 +1,5 @@
-import { Component, effect, inject, input, model } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, effect, inject, input, model, signal } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { ITaskComment } from '../model';
@@ -22,11 +23,11 @@ export class CommentPanelComponent {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
         per_page: 20,
-    };
+    }));
 
     private booted = 0;
 
@@ -45,7 +46,7 @@ export class CommentPanelComponent {
         }
     }
 
-    
+
     public commentEnter(event: KeyboardEvent) {
         if (event.key !== 'Enter') {
             return;
@@ -105,11 +106,11 @@ export class CommentPanelComponent {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public goPage(page: number) {
@@ -117,7 +118,7 @@ export class CommentPanelComponent {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.commentList({...queries, task_id: this.itemId()}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
@@ -125,7 +126,7 @@ export class CommentPanelComponent {
                 this.total = res.paging.total;
                 this.items = res.data;
                 this.queries = queries;
-            }, 
+            },
             error: () => {
                 this.isLoading = false;
             }

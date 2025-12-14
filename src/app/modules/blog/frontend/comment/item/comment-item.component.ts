@@ -139,7 +139,7 @@ export class CommentItemComponent {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public goPage(page: number) {
@@ -147,7 +147,7 @@ export class CommentItemComponent {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.commentList({...queries}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;

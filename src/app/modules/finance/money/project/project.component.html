@@ -6,10 +6,10 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label for="keywords">项目名</label>
-                    <input type="text" class="form-control" [ngModel]="keywords" name="keywords" id="keywords" placeholder="项目名">
+                    <input type="text" class="form-control" [value]="keywords" placeholder="项目名">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <a (click)="open(modal)" class="pull-right btn btn-primary">新增项目</a>
@@ -110,25 +110,25 @@
     <div class="form-group">
         <label for="name">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name" [(ngModel)]="editData.name" placeholder="请输入名称">
+            <input class="form-control" id="name" [field]="editData.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="alias">别名</label>
         <div class="input-group-control">
-            <input class="form-control" id="alias" [(ngModel)]="editData.alias" placeholder="请输入别名">
+            <input class="form-control" id="alias" [field]="editData.alias" placeholder="请输入别名">
         </div>
     </div>
     <div class="form-group">
         <label for="money">金额</label>
         <div class="input-group-control">
-            <input class="form-control" id="money" [(ngModel)]="editData.money" placeholder="请输入金额">
+            <input class="form-control" id="money" [field]="editData.money" placeholder="请输入金额">
         </div>
     </div>
     <div class="form-group">
         <label for="account">账户</label>
         <div class="input-group-control">
-            <select class="form-control" [(ngModel)]="editData.account_id" id="account">
+            <select class="form-control" [field]="editData.account_id" id="account">
                 @for (item of accountItems; track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
                 }
@@ -139,7 +139,7 @@
     <div class="form-group">
         <label for="product">产品</label>
         <div class="input-group-control">
-            <select class="form-control" [(ngModel)]="editData.product_id" id="product">
+            <select class="form-control" [field]="editData.product_id" id="product">
                 @for (item of productItems; track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
                 }
@@ -150,26 +150,26 @@
     <div class="form-group">
         <label for="earnings">(预估)收益率</label>
         <div class="input-group-control">
-            <input class="form-control" id="earnings" [(ngModel)]="editData.earnings" placeholder="请输入收益率">
+            <input class="form-control" id="earnings" [field]="editData.earnings" placeholder="请输入收益率">
         </div>
     </div>
 
     <div class="form-group">
         <label for="start_at">开始日期</label>
         <div>
-            <app-date-input id="start_at" [(ngModel)]="editData.start_at" placeholder="请选择开始日期" />
+            <app-date-input id="start_at" [field]="editData.start_at" placeholder="请选择开始日期" />
         </div>
     </div>
     <div class="form-group">
         <label for="end_at">到期日期</label>
         <div>
-            <app-date-input id="end_at" [(ngModel)]="editData.end_at" placeholder="请选择到期日期" />
+            <app-date-input id="end_at" [field]="editData.end_at" placeholder="请选择到期日期" />
         </div>
     </div>
     <div class="form-group">
         <label for="remark">备注</label>
         <div class="input-group-control">
-            <textarea class="form-control" id="remark" [(ngModel)]="editData.remark" placeholder="请输入备注"></textarea>
+            <textarea class="form-control" id="remark" [field]="editData.remark" placeholder="请输入备注"></textarea>
         </div>
     </div>
 </app-dialog-box>
@@ -190,7 +190,7 @@
     <div class="form-group">
         <label for="earnings">实现收益</label>
         <div class="input-group-control">
-            <input class="form-control" id="earnings" [(ngModel)]="editData.earnings" placeholder="请输入实现收益">
+            <input class="form-control" id="earnings" [field]="editData.earnings" placeholder="请输入实现收益">
         </div>
     </div>
 </app-dialog-box>

@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnDestroy, OnInit, inject, viewChild, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../components/dialog';
@@ -27,7 +28,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     private readonly route = inject(ActivatedRoute);
     private readonly store = inject<Store<AppState>>(Store);
     private readonly themeService = inject(ThemeService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     private readonly reportModal = viewChild(ReportDialogComponent);
@@ -38,11 +39,11 @@ export class NavigationComponent implements OnInit, OnDestroy {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         page: 1,
         keywords: '',
         per_page: 20,
-    };
+    }));
     public user: IUser;
 
     constructor() {
@@ -55,12 +56,12 @@ export class NavigationComponent implements OnInit, OnDestroy {
             }
         });
         this.themeService.titleChanged.next('ZoDream Search');
-        
+
     }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             if (!this.queries.keywords) {
                 return;
             }
@@ -102,7 +103,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
             this.openType = 1;
         } else if (this.openType === 1) {
             this.openType = 0;
-        } 
+        }
     }
 
     public tapSearch(v: string) {
@@ -122,11 +123,11 @@ export class NavigationComponent implements OnInit, OnDestroy {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     /**
@@ -138,14 +139,15 @@ export class NavigationComponent implements OnInit, OnDestroy {
         }
         this.isLoading = true;
         this.openType = 2;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.search(queries).subscribe({
             next: res => {
                 this.isLoading = false;
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries);
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
             },
             error: err => {
                 this.isLoading = false;

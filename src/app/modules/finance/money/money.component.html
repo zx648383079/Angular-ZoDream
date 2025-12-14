@@ -6,10 +6,10 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label for="keywords">账户</label>
-                    <input type="text" class="form-control" [ngModel]="keywords" name="keywords" id="keywords" placeholder="账户">
+                    <input type="text" class="form-control" [value]="keywords" placeholder="账户">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <a (click)="open(modal)" class="pull-right btn btn-primary">新增账户</a>
@@ -36,7 +36,7 @@
                     <td>{{ item.money }}</td>
                     <td>{{ item.frozen_money }}</td>
                     <td>
-                        <app-switch [(ngModel)]="item.status" (ngModelChange)="onStatusChange(item)" />
+                        <app-switch [field]="item.status" (ngModelChange)="onStatusChange(item)" />
                     </td>
                     <td>{{ item.remark }}</td>
                     <td>
@@ -105,31 +105,31 @@
     <div class="form-group">
         <label for="name">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name" [(ngModel)]="editData.name" placeholder="请输入名称">
+            <input class="form-control" id="name" [field]="editData.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="money">金额</label>
         <div class="input-group-control">
-            <input class="form-control" id="money" [(ngModel)]="editData.money" placeholder="请输入金额">
+            <input class="form-control" id="money" [field]="editData.money" placeholder="请输入金额">
         </div>
     </div>
     <div class="form-group">
         <label for="frozen_money">冻结资金</label>
         <div class="input-group-control">
-            <input class="form-control" id="frozen_money" [(ngModel)]="editData.frozen_money" placeholder="请输入冻结资金">
+            <input class="form-control" id="frozen_money" [field]="editData.frozen_money" placeholder="请输入冻结资金">
         </div>
     </div>
     <div class="form-group">
         <label for="remark">备注</label>
         <div class="input-group-control">
-            <textarea class="form-control" id="remark" [(ngModel)]="editData.remark" placeholder="请输入备注"></textarea>
+            <textarea class="form-control" id="remark" [field]="editData.remark" placeholder="请输入备注"></textarea>
         </div>
     </div>
     <div class="form-group">
         <label for="status">是否开启</label>
         <div class="input-group-control">
-            <app-switch id="status" [(ngModel)]="editData.status" />
+            <app-switch id="status" [field]="editData.status" />
         </div>
     </div>
 </app-dialog-box>

@@ -18,9 +18,9 @@
             </div>
         }
     </div>
-    <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+    <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     <div class="issue-form">
-        <textarea name="content" rows="4" class="form-control" i18n-placeholder placeholder="Please input the question" [(ngModel)]="editData.content"></textarea>
+        <textarea name="content" rows="4" class="form-control" i18n-placeholder placeholder="Please input the question" [field]="editData.content"></textarea>
         <div class="form-action">
             <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" i18n>Submit</app-action-button>
         </div>

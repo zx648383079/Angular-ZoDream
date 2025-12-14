@@ -14,7 +14,7 @@
             <div class="item-name">开启分销</div>
         </div>
         <div class="item-action">
-            <app-switch onLabel="开" offLabel="关" [(ngModel)]="isInstalled" (ngModelChange)="onInstallChange()" />
+            <app-switch onLabel="开" offLabel="关" [field]="isInstalled" (ngModelChange)="onInstallChange()" />
         </div>
     </div>
 

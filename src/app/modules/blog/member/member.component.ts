@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { IPageQueries } from '../../../theme/models/page';
 import { DialogService } from '../../../components/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -17,7 +18,7 @@ export class MemberComponent implements OnInit {
     private readonly service = inject(BlogService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
 
 
@@ -25,13 +26,13 @@ export class MemberComponent implements OnInit {
     public statusItems: IItem[] = [];
 
     public items: IBlog[] = [];
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         term: 0,
         status: 0,
         page: 1,
         per_page: 20,
-    };
+    }));
     public hasMore = true;
     public isLoading = false;
     public total = 0;
@@ -46,7 +47,7 @@ export class MemberComponent implements OnInit {
     ngOnInit() {
         this.themeService.titleChanged.next($localize `My Blog`);
         this.route.queryParams.subscribe(res => {
-            this.queries = this.searchService.getQueries(res, this.queries);
+            this.searchService.getQueries(res, this.queries);
             this.tapPage();
         });
     }
@@ -63,7 +64,7 @@ export class MemberComponent implements OnInit {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public goPage(page: number) {
@@ -71,14 +72,15 @@ export class MemberComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.blogList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 this.items = res.data;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries);
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
             },
             error: () => {
                 this.isLoading = false;
@@ -86,13 +88,13 @@ export class MemberComponent implements OnInit {
         });
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tapRefresh();
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapRemove(item: IBlog) {

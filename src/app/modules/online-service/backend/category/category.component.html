@@ -6,10 +6,10 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label for="keywords">名称</label>
-                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords"
+                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords"
                         placeholder="名称">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
@@ -42,8 +42,8 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" 
-            (pageChange)="tapPage()" />
+        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" 
+            (valueChange)="tapPage()" />
     </div>
 </div>
 
@@ -51,7 +51,7 @@
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [field]="editData.name" placeholder="请输入名称">
         </div>
     </div>
 </app-dialog-box>

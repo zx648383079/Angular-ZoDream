@@ -5,19 +5,19 @@
             <div class="input-group-control">
                 <label for="name2" i18n>Name</label>
                 <div>
-                    <input type="text" id="name2" [(ngModel)]="book.name" class="form-control">
+                    <input type="text" id="name2" [field]="book.name" class="form-control">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="cover" i18n>Cover</label>
                 <div>
-                    <app-file-input [(ngModel)]="book.cover" />
+                    <app-file-input [field]="book.cover" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="description2" i18n>Summary</label>
                 <div>
-                    <textarea id="description2" [(ngModel)]="book.description" class="form-control"></textarea>
+                    <textarea id="description2" [field]="book.description" class="form-control"></textarea>
                 </div>
             </div>
         </div>
@@ -109,7 +109,7 @@
             </div>
             <div class="editor-input-wrapper">
                 @if (data) {
-                    <input type="text" id="name"  class="title-input" [(ngModel)]="data.title" [placeholder]="data.type > 0 ? '请输入卷名' : '请输入章节名'">
+                    <input type="text" id="name"  class="title-input" [field]="data.title" [placeholder]="data.type > 0 ? '请输入卷名' : '请输入章节名'">
                 }
                 <div #editorArea class="editor-area" [contentEditable]="true" spellcheck="false"></div>
                 <ng-container #modalVC />
@@ -130,19 +130,19 @@
         <div class="input-group-control">
             <label for="">发布章节</label>
             <div>
-                <input type="text" class="form-control" [ngModel]="data.title" readonly>
+                <input type="text" class="form-control" [value]="data.title" readonly>
             </div>
         </div>
         <div class="input-group-control">
             <label for="">字数统计</label>
             <div>
-                <input type="text" class="form-control" [ngModel]="data.size" readonly>
+                <input type="text" class="form-control" [value]="data.size" readonly>
             </div>
         </div>
         <div class="input-group-control">
             <label for="price">章节类型</label>
             <div>
-                <select class="form-control" [(ngModel)]="data.type">
+                <select class="form-control" [field]="data.type">
                     @for (item of typeItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
                     }
@@ -152,11 +152,11 @@
         <div class="input-group-control">
             <label for="">设置发布时间</label>
             <div>
-                <app-check-input [(ngModel)]="publishData.publish_type" [items]="['立即发布', '定时发布']" [rangeKey]="1" />
+                <app-check-input [field]="publishData.publish_type" [items]="['立即发布', '定时发布']" [rangeKey]="1" />
                 @if (publishData.publish_type > 0) {
                 <p>
-                    <input type="date" class="form-control" [(ngModel)]="publishData.publish_date">
-                    <input type="time" class="form-control" [(ngModel)]="publishData.publish_time">
+                    <input type="date" class="form-control" [field]="publishData.publish_date">
+                    <input type="time" class="form-control" [field]="publishData.publish_time">
                 </p>
                 }
             </div>
@@ -170,7 +170,7 @@
         <div class="input-group-control">
             <label for="">移动到章节</label>
             <div>
-                <select [(ngModel)]="moveData.target" class="form-control">
+                <select [field]="moveData.target" class="form-control">
                     @for (item of catalog; track $index) {
                         <option [value]="item.id">{{ item.title }}</option>
                         @for (it of item.children; track $index) {
@@ -183,7 +183,7 @@
         <div class="input-group-control">
             <label for=""></label>
             <div>
-                <app-check-input [items]="['之前', '之后']" [(ngModel)]="moveData.type" [rangeKey]="1" />
+                <app-check-input [items]="['之前', '之后']" [field]="moveData.type" [rangeKey]="1" />
             </div>
         </div>
     </div>

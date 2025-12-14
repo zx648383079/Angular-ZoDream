@@ -1,3 +1,4 @@
+import { form } from '@angular/forms/signals';
 import { Component, effect, inject, input, model, signal, viewChild } from '@angular/core';
 import { IPage, IPageQueries } from '../../../../../theme/models/page';
 import { IBrand, ICategory, IGoods, IGoodsResult } from '../../../model';
@@ -13,7 +14,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SearchDialogComponent {
     private http = inject(HttpClient);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     private readonly modal = viewChild(ProductDialogComponent);
@@ -26,13 +27,13 @@ export class SearchDialogComponent {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         category: 0,
         brand: 0,
         page: 1,
         per_page: 20,
-    };
+    }));
     public categories: ICategory[] = [];
     public brandItems: IBrand[] = [];
     public selectedItems: IGoodsResult[] = [];
@@ -57,7 +58,7 @@ export class SearchDialogComponent {
 
     /**
      * 显示
-     * @param confirm 
+     * @param confirm
      */
     public open();
     public open(confirm: (items: IGoodsResult|IGoodsResult[]) => void);
@@ -99,7 +100,7 @@ export class SearchDialogComponent {
         this.selectProduct(item, data => {
             this.selectedItems.push(data);
         });
-        
+
     }
 
     private selectProduct(item: IGoods, cb: (item: IGoodsResult) => void) {
@@ -151,11 +152,11 @@ export class SearchDialogComponent {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     /**
@@ -166,7 +167,7 @@ export class SearchDialogComponent {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.search(queries).subscribe({
             next: res => {
                 this.isLoading = false;
@@ -174,15 +175,15 @@ export class SearchDialogComponent {
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
                 this.queries = queries
-            }, 
+            },
             error: _ => {
                 this.isLoading = false;
             }
         });
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tapRefresh();
     }
 

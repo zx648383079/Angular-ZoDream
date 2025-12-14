@@ -1,9 +1,10 @@
-import { Component, effect, inject, input } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { IUploadFile } from '../../../theme/models/open';
 import { IPageQueries } from '../../../theme/models/page';
 import { FileUploadService, SearchService } from '../../../theme/services';
 import { SearchDialogEvent } from '../../dialog';
 import { IItem } from '../../../theme/models/seo';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -13,7 +14,7 @@ import { IItem } from '../../../theme/models/seo';
 })
 export class FileOnlineComponent implements SearchDialogEvent {
     private uploadService = inject(FileUploadService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
     public readonly accept = input('image/*');
     public readonly multiple = input(false);
@@ -27,12 +28,12 @@ export class FileOnlineComponent implements SearchDialogEvent {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         accept: '*/*',
         page: 1,
         per_page: 20,
-    };
+    }));
     public typeItems: IItem[] = [];
     public selectedItems: IUploadFile[] = [];
     public onlySelected = false;
@@ -44,8 +45,8 @@ export class FileOnlineComponent implements SearchDialogEvent {
             const accept = this.accept();
             this.items = [];
             this.selectedItems = [];
-            this.queries.page = 0;
-            this.queries.accept = accept;
+            this.queries.page().value.set(0);
+            this.queries.accept().value.set(accept);
             this.typeItems = accept === '*/*' || !accept ? [
                 {name: $localize `All files`, value: '*/*'},
                 {name: $localize `Image`, value: 'image/*'},
@@ -139,11 +140,11 @@ export class FileOnlineComponent implements SearchDialogEvent {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     /**
@@ -154,7 +155,7 @@ export class FileOnlineComponent implements SearchDialogEvent {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         const cb = this.accept().indexOf('image') >= 0 ? this.uploadService.images : this.uploadService.files;
         cb.call(this.uploadService, queries).subscribe({
             next: res => {
@@ -162,16 +163,16 @@ export class FileOnlineComponent implements SearchDialogEvent {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.queries = queries
-            }, 
+                this.queries().value.set(queries)
+            },
             error: _ => {
                 this.isLoading = false;
             }
         });
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tapRefresh();
     }
 

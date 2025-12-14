@@ -19,7 +19,7 @@ export class DetailComponent implements OnInit {
     private readonly service = inject(DocumentService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public navToggle = false;

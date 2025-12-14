@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
         })
     }
 
-    public tapSearch(form: any) {
+    public tapSearch() {
         this.router.navigate(['search'], {relativeTo: this.route, queryParams: form});
     }
 

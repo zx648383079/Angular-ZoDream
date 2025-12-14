@@ -18,7 +18,7 @@ export class ReaderComponent implements OnInit, OnDestroy {
     private readonly router = inject(Router);
     private readonly service = inject(BookService);
     private renderer = inject(Renderer2);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
 
 

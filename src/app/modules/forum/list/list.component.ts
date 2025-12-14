@@ -1,3 +1,4 @@
+import { form } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { IForum, IForumClassify, IThread } from '../model';
 import { ForumService } from '../forum.service';
@@ -24,7 +25,7 @@ export class ListComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
     private readonly store = inject<Store<AppState>>(Store);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
 
 
@@ -33,13 +34,13 @@ export class ListComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
         per_page: 20,
         classify: 0,
         type: 0,
-    };
+    }));
     public readonly dataModel = signal({
         title: '',
         classify: '',
@@ -69,7 +70,7 @@ export class ListComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
         });
         this.route.params.subscribe(params => {
             this.forum = {id: params.id} as any;
@@ -95,7 +96,7 @@ export class ListComponent implements OnInit {
     }
 
     public tapSearch(params: any) {
-        this.queries = this.searchService.getQueries(params, this.queries);
+        this.searchService.getQueries(params, this.queries);
         this.tapRefresh();
     }
 
@@ -140,14 +141,14 @@ export class ListComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public goPage(page: number) {
@@ -155,14 +156,15 @@ export class ListComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.getThreadList({...queries, forum: this.forum.id, sort: this.sortKey, order: this.orderAsc ? 'asc' : 'desc'}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 this.items = this.formatItems(res.data);
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries);
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
             },
             error: () => {
                 this.isLoading = false;

@@ -3,7 +3,7 @@
         @switch (item.type) {
             @case ('input') {
                 @if (editable()) {
-                    <input type="text" class="form-control" [(ngModel)]="item.value" (ngModelChange)="onInputChange()" [size]="item.size">
+                    <input type="text" class="form-control" [field]="item.value" (ngModelChange)="onInputChange()" [size]="item.size">
                 } @else {
                     <div class="input-bar">
                         <p class="success-color">正确答案：

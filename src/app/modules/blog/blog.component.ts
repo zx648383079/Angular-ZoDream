@@ -27,7 +27,7 @@ export class BlogComponent implements OnInit {
     private readonly service = inject(BlogService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public readonly pullBox = viewChild(PullToRefreshComponent);

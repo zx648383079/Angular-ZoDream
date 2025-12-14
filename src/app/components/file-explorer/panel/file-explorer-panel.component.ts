@@ -159,7 +159,7 @@ export class FileExplorerPanelComponent implements IFileDataSource {
         }
         this.isLoading = true;
         this.service.searchFile({
-            ...this.queries,
+            ...this.queries().value(),
             page,
         }).subscribe({
             next: (res: IPage<IFileItem>) => {

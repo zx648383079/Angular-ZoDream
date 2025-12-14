@@ -1,3 +1,4 @@
+import { form } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import {
     IThread, IThreadPost, IThreadUser
@@ -43,7 +44,7 @@ export class ThreadComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private downloadService = inject(DownloadService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
 
 
@@ -54,13 +55,13 @@ export class ThreadComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
         user: 0,
         order: '',
         status: 0,
-    };
+    }));
 
     public user: IUser;
     public readonly dataModel = signal({
@@ -87,7 +88,7 @@ export class ThreadComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
         });
         this.route.params.subscribe(params => {
             this.service.getThread(params.id).subscribe(res => {
@@ -380,14 +381,14 @@ export class ThreadComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public goPage(page: number) {
@@ -395,14 +396,15 @@ export class ThreadComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.getPostList({...queries, thread: this.thread.id}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 this.items = res.data;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries);
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
             },
             error: () => {
                 this.isLoading = false;

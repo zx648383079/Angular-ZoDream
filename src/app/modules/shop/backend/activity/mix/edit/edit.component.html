@@ -44,8 +44,8 @@
                             <td>
                                 <span>{{ item.goods.name }}</span>
                             </td>
-                            <td><input type="text" class="form-control" [(ngModel)]="item.amount" [ngModelOptions]="{standalone: true}"></td>
-                            <td><input type="text" class="form-control" [(ngModel)]="item.price" [ngModelOptions]="{standalone: true}"></td>
+                            <td><input type="text" class="form-control" [field]="item.amount" [ngModelOptions]="{standalone: true}"></td>
+                            <td><input type="text" class="form-control" [field]="item.price" [ngModelOptions]="{standalone: true}"></td>
                             <td>{{ item.goods.price }}</td>
                             <td class="subtotal">{{ item.amount * item.price }}</td>
                             <td>

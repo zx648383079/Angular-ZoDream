@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { MicroService } from './micro.service';
 import { DialogEvent, DialogService } from '../../components/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -27,14 +28,14 @@ export class MicroComponent implements OnInit, OnDestroy {
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
     private readonly store = inject<Store<AppState>>(Store);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
 
 
     public items: IMicro[] = [];
     public hasMore = true;
     public isLoading = false;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
         keywords: '',
@@ -47,7 +48,7 @@ export class MicroComponent implements OnInit, OnDestroy {
         content: '',
         is_comment: false,
         id: 0,
-    };
+    }));
 
     public user: any;
     public topic: ITopic;
@@ -94,7 +95,7 @@ export class MicroComponent implements OnInit, OnDestroy {
             this.tapRefresh();
         });
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             if (this.queries.user > 0) {
                 this.loadUser(this.queries.user);
             }
@@ -130,7 +131,7 @@ export class MicroComponent implements OnInit, OnDestroy {
         this.service.topic(topic).subscribe({
             next: res => {
                 this.topic = res;
-            }, 
+            },
             error: err => {
                 this.toastrService.warning(err.error.message);
             }
@@ -194,7 +195,7 @@ export class MicroComponent implements OnInit, OnDestroy {
             next: res => {
                 item.is_collected = res.is_collected;
                 item.collect_count = res.collect_count;
-            }, 
+            },
             error: (err: IErrorResult) => {
                 this.toastrService.warning(err.error.message);
             }
@@ -206,7 +207,7 @@ export class MicroComponent implements OnInit, OnDestroy {
             next: res => {
                 item.is_recommended = res.is_recommended;
                 item.recommend_count = res.recommend_count;
-            }, 
+            },
             error: (err: IErrorResult) => {
                 this.toastrService.warning(err.error.message);
             }
@@ -242,7 +243,7 @@ export class MicroComponent implements OnInit, OnDestroy {
                     this.items = this.items.filter(it => {
                         return it.id !== item.id;
                     });
-                }, 
+                },
                 error: err => {
                     this.toastrService.warning(err);
                 }
@@ -258,11 +259,11 @@ export class MicroComponent implements OnInit, OnDestroy {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public goPage(page: number) {
@@ -270,7 +271,7 @@ export class MicroComponent implements OnInit, OnDestroy {
             return;
         }
         this.isLoading = true;
-        const params: any = {...this.queries, page};
+        const params: any = {...this.queries().value(), page};
         this.service.getList(params).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
@@ -281,7 +282,7 @@ export class MicroComponent implements OnInit, OnDestroy {
                 })
                 this.items = page < 2 ? res.data : [].concat(this.items, res.data);
                 this.searchService.applyHistory(this.queries = params, false);
-            }, 
+            },
             error: () => {
                 this.isLoading = false;
             }

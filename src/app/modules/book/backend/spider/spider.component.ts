@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit, inject, input } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnDestroy, OnInit, inject, input, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
@@ -14,7 +15,7 @@ import { BookService } from '../book.service';
 export class SpiderComponent implements OnDestroy {
     private readonly service = inject(BookService);
     private readonly toastrService = inject(DialogService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public visible = false;
@@ -22,11 +23,11 @@ export class SpiderComponent implements OnDestroy {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
         per_page: 20,
-    };
+    }));
 
     public isAsync = false;
     public loadProgress = 0;
@@ -102,11 +103,11 @@ export class SpiderComponent implements OnDestroy {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     /**
@@ -117,7 +118,7 @@ export class SpiderComponent implements OnDestroy {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.spiderSearch(queries).subscribe({
             next: res => {
                 this.isLoading = false;
@@ -125,15 +126,15 @@ export class SpiderComponent implements OnDestroy {
                 // this.hasMore = res.paging.more;
                 // this.total = res.paging.total;
                 this.queries = queries
-            }, 
+            },
             error: _ => {
                 this.isLoading = false;
             }
         });
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tapRefresh();
     }
 }

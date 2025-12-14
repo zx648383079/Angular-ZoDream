@@ -6,10 +6,10 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label for="keywords">名称</label>
-                    <input type="text" class="form-control" [ngModel]="keywords" name="keywords" id="keywords" placeholder="名称">
+                    <input type="text" class="form-control" [value]="keywords" placeholder="名称">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <a (click)="open(modal)" class="pull-right btn btn-primary">新增渠道</a>
@@ -78,7 +78,7 @@
     <div class="form-group">
         <label for="name">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name" [(ngModel)]="editData.name" placeholder="请输入名称">
+            <input class="form-control" id="name" [field]="editData.name" placeholder="请输入名称">
         </div>
     </div>
 </app-dialog-box>

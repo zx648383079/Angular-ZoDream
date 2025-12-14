@@ -5,7 +5,7 @@
         <app-flip-item>
             <div class="input-label">食谱名</div>
             <div class="item-name">
-                <input type="text" class="form-control" [(ngModel)]="data.name">
+                <input type="text" class="form-control" [field]="data.name">
             </div>
             <div class="multiple-panel-header">
                 <span>食材配料</span>
@@ -24,21 +24,21 @@
                     <label>{{ item.name }}
                         <em class="unit">/{{ item.unit }}</em>
                     </label>
-                    <app-number-input [only]="false" [(ngModel)]="item.amount" />
+                    <app-number-input [only]="false" [field]="item.amount" />
                 </div>
                 }
             </div>
             <div class="input-label">制作步骤</div>
-            <textarea class="form-control" [(ngModel)]="data.remark"></textarea>
+            <textarea class="form-control" [field]="data.remark"></textarea>
         </app-flip-item>
         <app-flip-item header="新增配料">
             <div class="input-label">配料名</div>
             <div class="item-name">
-                <input type="text" class="form-control" [(ngModel)]="nextData.name">
+                <input type="text" class="form-control" [field]="nextData.name">
             </div>
             <div class="input-flex">
                 <label for="">单位</label>
-                <input type="text" class="form-control" size="5" [(ngModel)]="nextData.unit">
+                <input type="text" class="form-control" size="5" [field]="nextData.unit">
             </div>
         </app-flip-item>
     </app-flip-container>

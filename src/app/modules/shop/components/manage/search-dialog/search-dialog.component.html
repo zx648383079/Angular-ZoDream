@@ -2,16 +2,16 @@
 <div class="dialog-mask"></div>
 <div class="search-dialog-container">
     <div class="search-bar">
-        <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+        <form class="form-horizontal-control" (submit)="tapSearch()">
             <div class="flat-input">
-                <input type="text" class="form-control" name="keywords" [ngModel]="queries.keywords" id="keywords" placeholder="请输入关键词搜索" >
-                <select name="category" class="form-control" [ngModel]="queries.category" class="form-control">
+                <input type="text" class="form-control" name="keywords" id="keywords" [field]="queries.keywords" id="keywords" placeholder="请输入关键词搜索" >
+                <select name="category" class="form-control" [field]="queries.category" class="form-control">
                     <option [value]="0">--请选择分类--</option>
                     @for (item of categories; track $index) {
                     <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                     }
                 </select>
-                <select name="brand" class="form-control" [ngModel]="queries.brand" class="form-control">
+                <select name="brand" class="form-control" [field]="queries.brand" class="form-control">
                     <option [value]="0">--请选择品牌--</option>
                     @for (item of brandItems; track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
@@ -37,7 +37,7 @@
         }
     </div>
     <div class="footer-container">
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
         <div class="btn-group">
             <div class="btn btn-primary" (click)="tapYes()">确定</div>
             <div class="btn btn-danger" (click)="tapCancel()">重置</div>

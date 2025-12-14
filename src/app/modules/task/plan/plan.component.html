@@ -105,33 +105,33 @@
         <div class="input-group-control">
             <label>数量</label>
             <div>
-                <app-number-input [(ngModel)]="editData.amount" [min]="1" [max]="20" />
+                <app-number-input [field]="editData.amount" [min]="1" [max]="20" />
             </div>
         </div>
         <div class="input-group-control">
             <label>优先级</label>
             <div>
-                <app-number-input [(ngModel)]="editData.priority" [min]="1"  [max]="99" />
+                <app-number-input [field]="editData.priority" [min]="1"  [max]="99" />
             </div>
         </div>
         <div class="input-group-control">
             <label>类型</label>
             <div>
-                <app-check-input [items]="typeItems" [rangeKey]="1" [(ngModel)]="editData.plan_type" />
+                <app-check-input [items]="typeItems" [rangeKey]="1" [field]="editData.plan_type" />
             </div>
         </div>
         @if (editData.plan_type < 0) {
         <div class="input-group-control">
             <label>时间</label>
             <div>
-                <app-date-input [(ngModel)]="editData.plan_time" />
+                <app-date-input [field]="editData.plan_time" />
             </div>
         </div>
         } @else if (editData.plan_type == 1) {
         <div class="input-group-control">
             <label>星期</label>
             <div>
-                <select class="form-control" [(ngModel)]="editData.plan_time">
+                <select class="form-control" [field]="editData.plan_time">
                     @for (item of weekNameItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
                     }
@@ -142,7 +142,7 @@
         <div class="input-group-control">
             <label>天数</label>
             <div>
-                <select class="form-control" [(ngModel)]="editData.plan_time">
+                <select class="form-control" [field]="editData.plan_time">
                     @for (item of monthNameItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
                     }

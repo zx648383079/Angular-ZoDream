@@ -28,7 +28,7 @@ export class DetailComponent implements OnInit {
     private readonly router = inject(Router);
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
     private ngZoon = inject(NgZone);
 
 

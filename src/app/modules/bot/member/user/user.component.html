@@ -6,10 +6,10 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
@@ -47,7 +47,7 @@
                     </td>
                     <td>{{ item.status >= 0 ? '已关注' : '未关注' }}</td>
                     <td>
-                        <app-switch [(ngModel)]="item.is_black" (ngModelChange)="onBlackChange(item)" />
+                        <app-switch [field]="item.is_black" (ngModelChange)="onBlackChange(item)" />
                     </td>
                     <td>
                         <div class="btn-group  btn-group-xs">
@@ -61,7 +61,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>
 <app-dialog-box #modal>
@@ -69,25 +69,25 @@
         <div class="input-group-control">
             <label for="">备注名</label>
             <div>
-                <input type="text" class="form-control" [(ngModel)]="editData.note_name">
+                <input type="text" class="form-control" [field]="editData.note_name">
             </div>
         </div>
         <div class="input-group-control">
             <label for="">分组</label>
             <div>
-                <app-select-input [url]="selectUrl" [(ngModel)]="editData.group_id" />
+                <app-select-input [url]="selectUrl" [field]="editData.group_id" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="">是否拉黑</label>
             <div>
-                <app-switch [(ngModel)]="editData.is_black" />
+                <app-switch [field]="editData.is_black" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="">备注</label>
             <div>
-                <textarea class="form-control" [(ngModel)]="editData.remark"></textarea>
+                <textarea class="form-control" [field]="editData.remark"></textarea>
             </div>
         </div>
     </div>

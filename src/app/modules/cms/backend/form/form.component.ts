@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -17,14 +18,14 @@ export class FormComponent implements OnInit {
     private readonly service = inject(CmsService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public items: ICmsContent[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
         keywords: '',
@@ -32,16 +33,16 @@ export class FormComponent implements OnInit {
         parent: 0,
         site: 0,
         category: 0
-    };
+    }));
     public columnItems: ICmsColumn[] = [];
     public model: ICmsModel;
-  
+
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
         });
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapPage();
         })
     }
@@ -65,11 +66,11 @@ export class FormComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     /**
@@ -80,28 +81,29 @@ export class FormComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.contentList({...queries}).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
-            this.searchService.applyHistory(this.queries = queries);
+            this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
             this.columnItems = (res as any).column;
             this.model = (res as any).model;
         });
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tapRefresh();
     }
-  
+
     public tapRemove(item: ICmsContent) {
         if (!confirm('确定删除“' + item.title + '”表单？')) {
             return;
         }
-        this.service.contentRemove({...this.queries, id: item.id}).subscribe(res => {
+        this.service.contentRemove({...this.queries().value(), id: item.id}).subscribe(res => {
             if (!res.data) {
                 return;
             }

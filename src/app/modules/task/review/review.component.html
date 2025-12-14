@@ -7,14 +7,14 @@
 
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label for="keywords">日期</label>
-                    <app-date-input id="date" name="date" placeholder="选择日期" [ngModel]="date" />
+                    <app-date-input id="date" name="date" placeholder="选择日期" [value]="date" />
                 </div>
                 <div class="input-group-control">
                     <label>区间</label>
-                    <select name="type" [ngModel]="type" class="form-control">
+                    <select name="type" [value]="type" class="form-control">
                         @for (item of typeItems; track $index;let i = $index) {
                             <option [value]="i" >{{ item }}</option>
                         }
@@ -24,7 +24,7 @@
                 <div class="input-group-control">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input type="checkbox" name="ignore" id="ignore" [value]="1" [ngModel]="ignore">
+                        <input type="checkbox" name="ignore" id="ignore" [value]="1" [value]="ignore">
                         忽略无效
                       </label>
                     </div>

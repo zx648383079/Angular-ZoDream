@@ -1,4 +1,5 @@
-import { Component, effect, inject, input } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -38,13 +39,13 @@ export class CommentComponent {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
         per_page: 20,
         sort: 'created_at',
         order: 'desc',
-    };
+    }));
     private booted = 0;
     public user: IUser;
 
@@ -123,14 +124,14 @@ export class CommentComponent {
                 this.toastrService.success($localize `Comment successful`);
                 this.saveGuestUser();
                 data.next();
-            }, 
+            },
             error: err => {
                 this.toastrService.warning(err);
                 data.error();
             }
         });
     }
-    
+
     public tapComment(e?: ButtonEvent) {
         if (this.status() === 2 && !this.user) {
             this.tapLogin();
@@ -154,7 +155,7 @@ export class CommentComponent {
                 this.commentData.content = '';
                 this.commentData.parent_id = 0;
                 this.saveGuestUser();
-            }, 
+            },
             error: err => {
                 e?.reset();
                 this.toastrService.warning(err);
@@ -175,11 +176,11 @@ export class CommentComponent {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public goPage(page: number) {
@@ -187,7 +188,7 @@ export class CommentComponent {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.commentList({...queries, blog_id: this.itemId()}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
@@ -195,7 +196,7 @@ export class CommentComponent {
                 this.total = res.paging.total;
                 this.items = res.data;
                 this.queries = queries;
-            }, 
+            },
             error: () => {
                 this.isLoading = false;
             }

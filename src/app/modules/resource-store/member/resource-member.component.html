@@ -1,7 +1,7 @@
 <div class="page-search-bar">
-    <form class="flat-input" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
-        <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" i18n-placeholder placeholder="Please input a keyword">
-        <select name="category" [ngModel]="queries.category" class="form-control">
+    <form class="flat-input" (submit)="tapSearch()">
+        <input type="text" class="form-control" id="keywords" [field]="queries.keywords" i18n-placeholder placeholder="Please input a keyword">
+        <select name="category" [field]="queries.category" class="form-control">
             <option [value]="0" i18n>Select...</option>
             @for (item of categories; track $index) {
                 <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
@@ -53,4 +53,4 @@
 
 
 <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-<app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+<app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />

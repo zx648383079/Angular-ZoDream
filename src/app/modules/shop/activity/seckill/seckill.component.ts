@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit, inject, viewChildren } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnDestroy, OnInit, inject, viewChildren, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IActivityTime, ISeckillGoods } from '../../model';
@@ -18,7 +19,7 @@ export class SeckillComponent implements OnInit, OnDestroy {
     private readonly service = inject(ActivityService);
     private readonly themeService = inject(ThemeService);
     private readonly route = inject(ActivatedRoute);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public readonly countItems = viewChildren(CountdownComponent);
@@ -28,11 +29,11 @@ export class SeckillComponent implements OnInit, OnDestroy {
     public isLoading = false;
     public tabIndex = 0;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
         keywords: '',
-    };
+    }));
     private timerHandle: any;
 
     constructor() {
@@ -41,7 +42,7 @@ export class SeckillComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
         });
         this.service.seckillTime().subscribe(res => {
             this.timeItems = res.data;
@@ -77,11 +78,11 @@ export class SeckillComponent implements OnInit, OnDestroy {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public goPage(page: number) {
@@ -89,14 +90,15 @@ export class SeckillComponent implements OnInit, OnDestroy {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.seckillList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 this.items = res.data;
-                this.searchService.applyHistory(this.queries = queries);
-            }, 
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
+            },
             error: () => {
                 this.isLoading = false;
             }

@@ -2,7 +2,7 @@
     <div class="input-group-control">
         <label for="platform_id">应用</label>
         <div>
-            <select id="platform_id" class="form-control" name="platform_id" [(ngModel)]="platformId" (ngModelChange)="tapPlatformChange()">
+            <select id="platform_id" class="form-control" name="platform_id" [field]="platformId" (ngModelChange)="tapPlatformChange()">
                 @for (item of platformItems; track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
                 }
@@ -21,7 +21,7 @@
                     <div class="input-group-control">
                         <label [for]="'option_' + group.name + item.name ">{{ item.label }}</label>
                         <div>
-                            <input type="text" [id]="'option_' + group.name + item.name " class="form-control" [(ngModel)]="item.value">
+                            <input type="text" [id]="'option_' + group.name + item.name " class="form-control" [field]="item.value">
                             @if (item.tip) {
                                 <div class="tip">{{ item.tip }}</div>
                             }

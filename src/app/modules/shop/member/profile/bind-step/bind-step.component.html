@@ -22,7 +22,7 @@
         <input type="text" [value]="verify_value" readonly>
     </div>
     <div class="code-input">
-        <input type="text" [(ngModel)]="data.verify">
+        <input type="text" [field]="data.verify">
         <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)" />
     </div>
 
@@ -32,10 +32,10 @@
 <div class="step-body min-body">
     <div class="inline-input">
         <label for="">新{{ nameLabel }}</label>
-        <input type="text" [(ngModel)]="data.value">
+        <input type="text" [field]="data.value">
     </div>
     <div class="code-input">
-        <input type="text" [(ngModel)]="data.code">
+        <input type="text" [field]="data.code">
         <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)" />
     </div>
 

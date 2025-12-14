@@ -21,7 +21,7 @@
             <div class="line-item">
                 <span i18n>Foreground</span>
                 <div class="color-box">
-                    <app-color-picker [(ngModel)]="configs.color">
+                    <app-color-picker [field]="configs.color">
                         <span class="color" [ngStyle]="{'background-color': configs.color}"></span>
                     </app-color-picker>
                 </div>
@@ -29,7 +29,7 @@
             <div class="line-item">
                 <span i18n>Background</span>
                 <div class="color-box">
-                    <app-color-picker [(ngModel)]="configs.background" (ngModelChange)="onBackgroundChange()">
+                    <app-color-picker [field]="configs.background" (ngModelChange)="onBackgroundChange()">
                         <span class="color" [ngStyle]="{'background-color': configs.background}"></span>
                     </app-color-picker>
                     <span class="add-img" (click)="tapBackgroundImg()">

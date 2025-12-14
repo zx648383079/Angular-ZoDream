@@ -33,20 +33,20 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>内容类型</label>
-                <app-check-input [items]="optionTypeItems" [(ngModel)]="optionData.type" [rangeKey]="1" />
+                <app-check-input [items]="optionTypeItems" [field]="optionData.type" [rangeKey]="1" />
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label>是否正确</label>
-                <app-switch [(ngModel)]="optionData.is_right" />
+                <app-switch [field]="optionData.is_right" />
             </div>
         </div>
     </div>
     @if (optionData.type < 1) {
-        <app-exam-editor [(ngModel)]="optionData.content" />
+        <app-exam-editor [field]="optionData.content" />
     } @else {
-        <app-file-input [(ngModel)]="optionData.content" />
+        <app-file-input [field]="optionData.content" />
     }
     <ng-container name="footer"> 
         <button type="button" class="btn btn-outline-dark" (click)="optionModal.close('next')">保存并下一个</button>

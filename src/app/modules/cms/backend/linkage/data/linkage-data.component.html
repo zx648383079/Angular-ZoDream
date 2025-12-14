@@ -15,10 +15,10 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
@@ -56,26 +56,26 @@
             </tbody>
         </table>
   
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>
 <app-dialog-box #modal [title]="editData.id > 0 ? '编辑联动项' : '新增联动项'">
     <div class="form-group">
         <label for="name">名称</label>
-        <input type="text" class="form-control" [(ngModel)]="editData.name" id="name" placeholder="请输入名称">
+        <input type="text" class="form-control" [field]="editData.name" id="name" placeholder="请输入名称">
     </div>
     <div class="form-group">
         <label for="thumb">缩略图</label>
         <div>
-            <app-file-input [(ngModel)]="editData.thumb" />
+            <app-file-input [field]="editData.thumb" />
         </div>
     </div>
     <div class="form-group">
         <label for="description">描述</label>
-        <input type="text" class="form-control" [(ngModel)]="editData.description" id="description" placeholder="请输入描述">
+        <input type="text" class="form-control" [field]="editData.description" id="description" placeholder="请输入描述">
     </div>
     <div class="form-group">
         <label for="position">排序</label>
-        <input type="number" class="form-control" [(ngModel)]="editData.position" id="position" placeholder="请输入排序">
+        <input type="number" class="form-control" [field]="editData.position" id="position" placeholder="请输入排序">
     </div>
 </app-dialog-box>

@@ -9,10 +9,10 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label for="keywords">标题</label>
-                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="标题">
+                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="标题">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 @if (data) {
@@ -64,7 +64,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>
 
@@ -80,13 +80,13 @@
     <div class="form-group">
         <label for="region-input">数量</label>
         <div class="input-group-control">
-            <input type="number" class="form-control" [(ngModel)]="editData.amount">
+            <input type="number" class="form-control" [field]="editData.amount">
         </div>
     </div>
     <div class="form-group">
         <label for="region-input">备注</label>
         <div class="input-group-control">
-            <textarea class="form-control" [(ngModel)]="editData.remark"></textarea>
+            <textarea class="form-control" [field]="editData.remark"></textarea>
         </div>
     </div>
 </app-dialog-box>

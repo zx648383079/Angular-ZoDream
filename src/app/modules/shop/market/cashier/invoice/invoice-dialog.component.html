@@ -24,9 +24,9 @@
             </div>
         </div>
         <div class="input-group-control">
-            <input type="text" placeholder="抬头" [(ngModel)]="editData.title">
+            <input type="text" placeholder="抬头" [field]="editData.title">
             @if (editData.title_type > 0) {
-                <input type="text" placeholder="税号" [(ngModel)]="editData.tax_no">
+                <input type="text" placeholder="税号" [field]="editData.tax_no">
             }
         </div>
         <div class="input-line">

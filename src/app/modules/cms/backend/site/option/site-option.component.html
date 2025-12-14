@@ -8,17 +8,17 @@
             @switch (item.type) {
                 @case ('text') {
                     <div>
-                        <input type="text" class="form-control"  [(ngModel)]="item.value">
+                        <input type="text" class="form-control"  [field]="item.value">
                     </div>
                 }
                 @case ('textarea') {
                     <div>
-                        <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+                        <textarea class="form-control"  [field]="item.value"></textarea>
                     </div>
                 }
                 @case ('select') {
                     <div>
-                        <select class="form-control"  [(ngModel)]="item.value">
+                        <select class="form-control"  [field]="item.value">
                             @for (val of item.items; track $index) {
                             <option [value]="val">{{ val }}</option>
                             }
@@ -27,42 +27,42 @@
                 }
                 @case ('radio') {
                     <div>
-                        <app-check-input [items]="item.items" [(ngModel)]="item.value" />
+                        <app-check-input [items]="item.items" [field]="item.value" />
                     </div>
                 }
                 @case ('checkbox') {
                     <div>
-                        <app-check-input [items]="item.items" [(ngModel)]="item.value" [multiple]="true" />
+                        <app-check-input [items]="item.items" [field]="item.value" [multiple]="true" />
                     </div>
                 }
                 @case ('switch') {
                     <div>
-                        <app-switch [(ngModel)]="item.value" />
+                        <app-switch [field]="item.value" />
                     </div>
                 }
                 @case ('image') {
                     <div>
-                        <app-file-input [(ngModel)]="item.value" />
+                        <app-file-input [field]="item.value" />
                     </div>
                 }
                 @case ('file') {
                     <div>
-                        <app-file-input [(ngModel)]="item.value" accept="*" />
+                        <app-file-input [field]="item.value" accept="*" />
                     </div>
                 }
                 @case ('editor') {
                     <div>
-                        <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+                        <textarea class="form-control"  [field]="item.value"></textarea>
                     </div>
                 }
                 @case ('basic_editor') {
                     <div>
-                        <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+                        <textarea class="form-control"  [field]="item.value"></textarea>
                     </div>
                 }
                 @case ('json') {
                     <div>
-                       <textarea class="form-control"  [(ngModel)]="item.value"></textarea>
+                       <textarea class="form-control"  [field]="item.value"></textarea>
                     </div>
                 }
             }
@@ -84,14 +84,14 @@
         <div class="input-group-control">
             <label for="field_name">名称(必填)</label>
             <div>
-                <input type="text" id="field_name" class="form-control" [(ngModel)]="editData.name" placeholder="后台管理用">
+                <input type="text" id="field_name" class="form-control" [field]="editData.name" placeholder="后台管理用">
                 <div class="input-tip">后台管理使用，方便理解用意</div>
             </div>
         </div>
         <div class="input-group-control">
             <label for="field_type">类型</label>
             <div>
-                <select id="field_type" class="form-control" [(ngModel)]="editData.type">
+                <select id="field_type" class="form-control" [field]="editData.type">
                     
                     @for (item of typeItems; track $index) {
                     <option [value]="item.value">{{ item.name }}</option>
@@ -104,20 +104,20 @@
             <div class="input-group-control">
                 <label for="field_code">别名(必填)</label>
                 <div>
-                    <input type="text" id="field_code" class="form-control" [(ngModel)]="editData.code" placeholder="模板中调取使用">
+                    <input type="text" id="field_code" class="form-control" [field]="editData.code" placeholder="模板中调取使用">
                     <div class="input-tip">模板中调取使用,最好是a-z0-9_</div>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="field_default_value">默认值</label>
                 <div>
-                    <textarea id="field_default_value" class="form-control" [(ngModel)]="editData.default_value"></textarea>
+                    <textarea id="field_default_value" class="form-control" [field]="editData.default_value"></textarea>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="field_value">值</label>
                 <div>
-                    <textarea id="field_value" class="form-control" [(ngModel)]="editData.value"></textarea>
+                    <textarea id="field_value" class="form-control" [field]="editData.value"></textarea>
                 </div>
             </div>
         </div>

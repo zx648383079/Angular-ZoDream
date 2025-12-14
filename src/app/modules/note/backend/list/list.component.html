@@ -6,10 +6,10 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label class="sr-only" for="keywords">内容</label>
-                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="标题" [ngModel]="queries.keywords">
+                    <input type="text" class="form-control" placeholder="标题" id="keywords" [field]="queries.keywords">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
 
@@ -47,7 +47,7 @@
                     </td>
                     <td>{{ item.content }}</td>
                     <td>
-                        <app-switch [ngModel]="item.is_notice" (ngModelChange)="onNoticeToggle(item)" />
+                        <app-switch [value]="item.is_notice" (ngModelChange)="onNoticeToggle(item)" />
                     </td>
                     <td [title]="item.created_at">{{ item.created_at | ago }}</td>
                     <td>
@@ -71,14 +71,14 @@
             </tfoot>
         </table>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>
 
 <app-dialog-box #modal [title]="editData.id > 0 ? '编辑便签' : '新增便签'" [scrollable]="false">
-    <app-text-editor [(ngModel)]="editData.content" placeholder="请输入内容" [height]="200" />
+    <app-text-editor [field]="editData.content" placeholder="请输入内容" [height]="200" />
     <div>
         <label for="notice-input">是否为公告</label>
-        <app-toggle-bar [items]="['No', '中', 'EN']" [(ngModel)]="editData.is_notice" />
+        <app-toggle-bar [items]="['No', '中', 'EN']" [field]="editData.is_notice" />
     </div>
 </app-dialog-box>

@@ -7,15 +7,15 @@
 
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label for="keywords">标题</label>
-                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题"
-                        [ngModel]="queries.keywords">
+                    <input type="text" class="form-control" placeholder="搜索标题"
+                        id="keywords" [field]="queries.keywords">
                 </div>
                 <div class="input-group-control">
                     <label>状态</label>
-                    <select name="status" [ngModel]="queries.status" class="form-control">
+                    <select name="status" [field]="queries.status" class="form-control">
                         <option [value]="0">请选择</option>
                         @for (item of statusItems; track $index) {
                             <option [value]="item.value">{{ item.name }}</option>
@@ -48,7 +48,7 @@
 
     <div class="panel-container">
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [(page)]="queries.page"
-            (pageChange)="tapPage()" [perPage]="queries.per_page" />
+        <app-pagination [total]="total" [field]="queries.page"
+            (valueChange)="tapPage()" [perPage]="queries.per_page().value()" />
     </div>
 </div>

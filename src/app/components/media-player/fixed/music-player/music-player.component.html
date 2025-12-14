@@ -13,7 +13,7 @@
                 <i class="iconfont icon-bar-chart"></i>
             </span>
             <div class="item-body">
-                <app-switch [(ngModel)]="spectrumVisible" onLabel="显示" offLabel="关闭" />
+                <app-switch [field]="spectrumVisible" onLabel="显示" offLabel="关闭" />
             </div>
         </div>
         <div class="group-item" title="歌词显示">
@@ -21,7 +21,7 @@
                 <i class="iconfont icon-file-text-o"></i>
             </span>
             <div class="item-body">
-                <app-switch [(ngModel)]="lyricsVisible"  onLabel="显示" offLabel="关闭" />
+                <app-switch [field]="lyricsVisible"  onLabel="显示" offLabel="关闭" />
             </div>
         </div>
         <div class="group-item" title="播放列表">
@@ -29,7 +29,7 @@
                 <i class="iconfont icon-th-list"></i>
             </span>
             <div class="item-body">
-                <app-switch [(ngModel)]="catalogVisible" onLabel="显示" offLabel="关闭" />
+                <app-switch [field]="catalogVisible" onLabel="显示" offLabel="关闭" />
             </div>
         </div>
         <div class="group-item" title="音量调节">

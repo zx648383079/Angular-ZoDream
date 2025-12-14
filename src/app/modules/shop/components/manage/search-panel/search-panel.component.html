@@ -1,6 +1,6 @@
 <div class="search-panel">
     <div class="search-input">
-        <input type="text" [(ngModel)]="keywords" (keypress)="onKeyDown($event)" placeholder="请输入关键词或货号">
+        <input type="text" [field]="keywords" (keypress)="onKeyDown($event)" placeholder="请输入关键词或货号">
         <i class="iconfont icon-search" (click)="tapSearch()"></i>
     </div>
     <div class="search-body">

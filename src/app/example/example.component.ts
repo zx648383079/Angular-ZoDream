@@ -11,7 +11,7 @@ import { SuggestChangeEvent } from '../components/form';
     styleUrls: ['./example.component.scss']
 })
 export class ExampleComponent {
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
     private readonly themeService = inject(ThemeService);

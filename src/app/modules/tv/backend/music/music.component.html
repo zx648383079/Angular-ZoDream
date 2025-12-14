@@ -6,10 +6,10 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <a class="btn btn-success pull-right" (click)="open(modal)">新增歌曲</a>
@@ -55,7 +55,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>
 
@@ -63,31 +63,31 @@
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [field]="editData.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">封面</label>
         <div class="input-group-control">
-            <app-file-input [(ngModel)]="editData.cover" />
+            <app-file-input [field]="editData.cover" />
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">专辑</label>
         <div class="input-group-control">
-            <input class="form-control" [(ngModel)]="editData.album">
+            <input class="form-control" [field]="editData.album">
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">演唱</label>
         <div class="input-group-control">
-            <input class="form-control" [(ngModel)]="editData.artist">
+            <input class="form-control" [field]="editData.artist">
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">时长</label>
         <div class="input-group-control">
-            <input class="form-control" [(ngModel)]="editData.duration">
+            <input class="form-control" [field]="editData.duration">
         </div>
     </div>
     <table class="table">
@@ -102,14 +102,14 @@
             @for (item of editData.files; track $index;let i = $index) {
             <tr>
                 <td>
-                    <select class="form-control" [(ngModel)]="item.file_type" [ngModelOptions]="{standalone: true}">
+                    <select class="form-control" [field]="item.file_type" [ngModelOptions]="{standalone: true}">
                         @for (type of fileTypeItems; track $index) {
                             <option [value]="type.value">{{ type.name }}</option>
                         }
                     </select>
                 </td>
                 <td>
-                    <app-file-input [(ngModel)]="item.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)" [ngModelOptions]="{standalone: true}" />
+                    <app-file-input [field]="item.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)" [ngModelOptions]="{standalone: true}" />
                 </td>
                 <td>
                     <i class="iconfont icon-close" (click)="tapRemoveFile(i)"></i>

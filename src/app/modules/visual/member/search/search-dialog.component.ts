@@ -1,4 +1,5 @@
-import { Component, inject, input } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, inject, input, signal } from '@angular/core';
 import { SearchDialogEvent } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { ComponentTypeItems, ICategory, IThemeComponent } from '../../model';
@@ -13,7 +14,7 @@ import { SearchService } from '../../../../theme/services';
 })
 export class SearchDialogComponent implements SearchDialogEvent {
     private readonly service = inject(VisualService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public readonly multiple = input(false);
@@ -22,13 +23,13 @@ export class SearchDialogComponent implements SearchDialogEvent {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         category: 0,
         type: 0,
         page: 1,
         per_page: 20,
-    };
+    }));
     public categories: ICategory[] = [];
     public typeItems = ComponentTypeItems;
     public selectedItems: IThemeComponent[] = [];
@@ -127,11 +128,11 @@ export class SearchDialogComponent implements SearchDialogEvent {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     /**
@@ -142,7 +143,7 @@ export class SearchDialogComponent implements SearchDialogEvent {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.search(queries).subscribe({
             next: res => {
                 this.isLoading = false;
@@ -150,15 +151,15 @@ export class SearchDialogComponent implements SearchDialogEvent {
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
                 this.queries = queries
-            }, 
+            },
             error: _ => {
                 this.isLoading = false;
             }
         });
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tapRefresh();
     }
 

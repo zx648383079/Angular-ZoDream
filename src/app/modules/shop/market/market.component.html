@@ -48,7 +48,7 @@
                 }
             </ul>
             <div class="header-search">
-                <input type="text" i18n-placeholder placeholder="Search ..." [(ngModel)]="keywords" (ngModelChange)="onKeywordsChange()" (keypress)="onSearchKeyDown($event)">
+                <input type="text" i18n-placeholder placeholder="Search ..." [field]="keywords" (ngModelChange)="onKeywordsChange()" (keypress)="onSearchKeyDown($event)">
                 <i class="iconfont icon-search" (click)="tapSearch()"></i>
                 @if (hotItems.length > 0) {
                 <div class="search-hot">

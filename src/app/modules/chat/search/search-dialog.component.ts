@@ -1,4 +1,5 @@
-import { Component, inject, viewChild } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, inject, viewChild, signal } from '@angular/core';
 import { ChatService } from '../chat.service';
 import { IPageQueries } from '../../../theme/models/page';
 import { ProfileDialogComponent } from '../profile/profile-dialog.component';
@@ -17,11 +18,11 @@ export class SearchDialogComponent {
     private readonly profileModal = viewChild(ProfileDialogComponent);
 
     public isInput = false;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
         per_page: 10
-    };
+    }));
     public hasMore = false;
     public items: IUser[] = [];
     public tabIndex = 0;
@@ -90,11 +91,11 @@ export class SearchDialogComponent {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     private goPage(page: number) {
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.search(queries).subscribe(res => {
             this.items = res.data;
             this.queries = queries;

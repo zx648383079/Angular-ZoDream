@@ -21,7 +21,7 @@ interface IGroupHeader {
 export class SettingComponent implements OnInit {
     private readonly service = inject(MemberService);
     private readonly toastrService = inject(DialogService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public data: any = {

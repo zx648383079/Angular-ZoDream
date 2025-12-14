@@ -5,7 +5,7 @@
         </a>
     </div>
     <div class="input-header-block" [ngClass]="{'input-not-empty': !!value}">
-        <input type="text" [(ngModel)]="value">
+        <input type="text" [field]="value">
         <label for="">{{ label }}</label>
     </div>
     <div class="modal-action">

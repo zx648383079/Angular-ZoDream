@@ -84,7 +84,7 @@ export class AddressComponent implements OnInit {
         });
     }
 
-    public tapSearch(form: any) {
+    public tapSearch() {
         this.tapRefresh();
     }
 

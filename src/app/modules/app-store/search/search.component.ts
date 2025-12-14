@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IFilter, IFilterOptionItem, IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
@@ -13,17 +14,17 @@ export interface IFilterTag {
 
 @Component({
     standalone: false,
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+    selector: 'app-search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
     private readonly service = inject(AppStoreService);
     private readonly route = inject(ActivatedRoute);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
         per_page: 20,
@@ -33,7 +34,7 @@ export class SearchComponent implements OnInit {
         price: '',
         sort: '',
         order: '',
-    };
+    }));
     public keywords = '';
     public items: ISoftware[] = [];
     public hasMore = true;
@@ -44,15 +45,15 @@ export class SearchComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
-            this.keywords = this.queries.keywords;
+            this.searchService.getQueries(params, this.queries);
+            this.keywords = this.queries.keywords().value();
             this.tapPage();
         });
     }
 
     public get selectedFilters() {
         const items: IFilterTag[] = [];
-        if (!emptyValidate(this.queries.keywords)) {
+        if (!emptyValidate(this.queries.keywords().value())) {
             items.push({
                 name: 'keywords',
                 label: `${this.queries.keywords}`
@@ -174,11 +175,11 @@ export class SearchComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     /**
@@ -189,13 +190,14 @@ export class SearchComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.appList({...queries, filter: this.filterItems.length < 1}).subscribe({
             next: res => {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries);
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
                 this.isLoading = false;
                 if (res.filter) {
                     this.filterItems = res.filter;
@@ -207,8 +209,8 @@ export class SearchComponent implements OnInit {
         });
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tapRefresh();
     }
 

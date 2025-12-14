@@ -1,4 +1,5 @@
-import { Component, HostListener, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, HostListener, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../components/dialog';
 import { IPageQueries } from '../../theme/models/page';
@@ -19,7 +20,7 @@ export class VideoComponent implements OnInit {
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
     private readonly themeService = inject(ThemeService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public items: IVideo[] = [];
@@ -27,11 +28,11 @@ export class VideoComponent implements OnInit {
     public isLoading = false;
     public total = 0;
     public isFixed = false;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         per_page: 20,
         page: 1,
-    };
+    }));
 
     constructor() {
         this.themeService.titleChanged.next($localize `Short video`);
@@ -49,7 +50,7 @@ export class VideoComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -71,11 +72,11 @@ export class VideoComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     /**
@@ -86,15 +87,16 @@ export class VideoComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.videoList(queries).subscribe({
             next: res => {
                 this.isLoading = false;
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries);
-            }, 
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
+            },
             error: () => {
                 this.isLoading = false;
             }

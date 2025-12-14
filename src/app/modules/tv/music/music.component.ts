@@ -1,4 +1,5 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, viewChild, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SuggestChangeEvent } from '../../../components/form';
 import { MusicPlayerComponent } from '../../../components/media-player';
@@ -18,7 +19,7 @@ export class MusicComponent implements OnInit {
     private readonly service = inject(TvService);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public readonly player = viewChild(MusicPlayerComponent);
@@ -27,22 +28,22 @@ export class MusicComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
         keywords: ''
-    };
+    }));
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             if (!this.queries.keywords) {
                 this.tapRefresh();
                 return;
             }
             this.tapPage();
         });
-        
+
     }
 
     public formatTime(v: number) {
@@ -66,7 +67,7 @@ export class MusicComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public onSuggestChange(e: SuggestChangeEvent) {
@@ -88,13 +89,14 @@ export class MusicComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.musicList(queries).subscribe({
             next: res => {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries);
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
                 this.isLoading = false;
             },
             error: () => {

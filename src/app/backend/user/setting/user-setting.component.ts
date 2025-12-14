@@ -20,7 +20,7 @@ interface IGroupHeader {
 export class UserSettingComponent implements OnInit {
     private readonly service = inject(UserService);
     private readonly toastrService = inject(DialogService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public data: any = {

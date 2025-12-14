@@ -6,14 +6,14 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键词">
                 </div>
                 <div class="input-group-control">
                     <label>分类</label>
-                    <select name="category" [ngModel]="queries.category" class="form-control">
+                    <select name="category" [field]="queries.category" class="form-control">
                         <option [value]="0">请选择</option>
                         @for (item of categories; track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
@@ -68,7 +68,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>
 
@@ -76,13 +76,13 @@
     <div class="form-group">
         <label>分数%</label>
         <div class="input-group-control">
-            <input type="number" class="form-control" [(ngModel)]="scoringData.score" placeholder="请输入分数">
+            <input type="number" class="form-control" [field]="scoringData.score" placeholder="请输入分数">
         </div>
     </div>
     <div class="form-group">
         <label>本次评分理由</label>
         <div class="input-group-control">
-            <textarea class="form-control" [(ngModel)]="scoringData.change_reason" placeholder="请输入评分理由"></textarea>
+            <textarea class="form-control" [field]="scoringData.change_reason" placeholder="请输入评分理由"></textarea>
         </div>
     </div>
 </app-dialog-box>
@@ -91,25 +91,25 @@
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [(ngModel)]="editData.name" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [field]="editData.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label>LOGO</label>
         <div class="input-group-control">
-            <app-file-input [(ngModel)]="editData.logo" />
+            <app-file-input [field]="editData.logo" />
         </div>
     </div>
     <div class="form-group">
         <label for="name-input1">Schema</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input1" [(ngModel)]="editData.schema" placeholder="请输入Schema: http/https">
+            <input class="form-control" id="name-input1" [field]="editData.schema" placeholder="请输入Schema: http/https">
         </div>
     </div>
     <div class="form-group">
         <label for="name-input2">域名</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input2" [(ngModel)]="editData.domain" placeholder="请输入域名" (blur)="onLinkBlur()">
+            <input class="form-control" id="name-input2" [field]="editData.domain" placeholder="请输入域名" (blur)="onLinkBlur()">
         </div>
         @if (editExistData) {
         <div class="input-tip" title="已存在相同站点">
@@ -121,12 +121,12 @@
     <div class="form-group">
         <label for="name-input3">简介</label>
         <div class="input-group-control">
-            <textarea class="form-control" id="name-input3" [(ngModel)]="editData.description" placeholder="请输入简介"></textarea>
+            <textarea class="form-control" id="name-input3" [field]="editData.description" placeholder="请输入简介"></textarea>
         </div>
     </div>
     <div class="form-group">
         <label>分类</label>
-        <select class="form-control" [(ngModel)]="editData.cat_id">
+        <select class="form-control" [field]="editData.cat_id">
             @for (item of categories; track $index) {
             <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
             }
@@ -134,7 +134,7 @@
     </div>
     <div class="form-group">
         <label>推荐</label>
-        <select class="form-control" [(ngModel)]="editData.top_type">
+        <select class="form-control" [field]="editData.top_type">
             @for (item of topItems; track $index; let i = $index) {
             <option [value]="i">{{ item }}</option>
             }
@@ -142,18 +142,18 @@
     </div>
     <div class="form-group">
         <label>标签</label>
-        <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [(ngModel)]="editData.tags" [addTag]="addTagFn" placeholder="选择标签" />
+        <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [field]="editData.tags" [addTag]="addTagFn" placeholder="选择标签" />
     </div>
     @if (!editData.id) {
     <div class="form-group">
         <label>同时收录到页面</label>
-        <app-switch [(ngModel)]="editData.also_page" />
+        <app-switch [field]="editData.also_page" />
     </div>
     }
     @if (!editData.id && editData.also_page) {
     <div class="form-group">
         <label>关键词</label>
-        <app-words-input [(ngModel)]="editData.keywords" />
+        <app-words-input [field]="editData.keywords" />
     </div>
     }
 </app-dialog-box>

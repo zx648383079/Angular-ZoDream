@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IErrorResult, IPageQueries } from '../../../../theme/models/page';
@@ -16,27 +17,27 @@ export class OrderComponent implements OnInit {
     private readonly service = inject(LegworkService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public items: IOrder[] = [];
     public hasMore = true;
     public isLoading = false;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
         per_page: 20
-    };
+    }));
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tapRefresh();
     }
 
@@ -46,7 +47,7 @@ export class OrderComponent implements OnInit {
                 next: _ => {
                     this.toastrService.success($localize `Taken successfully`);
                     this.tapRefresh();
-                }, 
+                },
                 error: (err: IErrorResult) => {
                     this.toastrService.warning(err.error.message);
                 }
@@ -59,14 +60,14 @@ export class OrderComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public goPage(page: number) {
@@ -74,14 +75,15 @@ export class OrderComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.waiterOrderList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 this.items = page < 2 ? res.data : [].concat(this.items, res.data);
-                this.searchService.applyHistory(this.queries = queries);
-            }, 
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
+            },
             error: () => {
                 this.isLoading = false;
             }

@@ -75,7 +75,7 @@
                     <div class="flex-group">
                         <div class="group-header">配送
                         </div>
-                        <div class="group-body">至<app-region url="shop/region/tree" [(ngModel)]="regionId" (ngModelChange)="onRegionChange()" /></div>
+                        <div class="group-body">至<app-region url="shop/region/tree" [field]="regionId" (ngModelChange)="onRegionChange()" /></div>
                     </div>
                    
                     <hr>
@@ -106,7 +106,7 @@
                           Amount
                         </div>
                         <div class="group-body">
-                          <app-number-input [(ngModel)]="amount" [min]="1" [max]="stock" [disabled]="stock < 1" />
+                          <app-number-input [field]="amount" [min]="1" [max]="stock" [disabled]="stock < 1" />
                         </div>
                     </div>
                 </div>

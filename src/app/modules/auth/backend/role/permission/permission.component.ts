@@ -49,7 +49,7 @@ export class PermissionComponent implements OnInit {
         this.goPage(this.page + 1);
     }
 
-    public tapSearch(form: any) {
+    public tapSearch() {
         this.keywords = form.keywords;
         this.tapRefresh();
     }

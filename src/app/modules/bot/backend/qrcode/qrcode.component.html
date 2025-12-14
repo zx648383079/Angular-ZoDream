@@ -7,10 +7,10 @@
 
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="关键词">
+                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
@@ -60,7 +60,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>
 
@@ -69,13 +69,13 @@
         <div class="input-group-control">
             <label for="">标记</label>
             <div>
-                <input type="text" class="form-control" [(ngModel)]="editData.name">
+                <input type="text" class="form-control" [field]="editData.name">
             </div>
         </div>
         <div class="input-group-control">
             <label for="">二维码类型</label>
             <div>
-                <app-switch [(ngModel)]="editData.type" offLabel="临时" onLabel="永久" />
+                <app-switch [field]="editData.type" offLabel="临时" onLabel="永久" />
                 <div class="input-tip">
                     注意永久二维码上限10万个
                 </div>
@@ -84,21 +84,21 @@
         <div class="input-group-control">
             <label for="">场景值类型</label>
             <div>
-                <app-check-input [items]="['字符串', '数字']" [rangeKey]="1" [(ngModel)]="editData.scene_type" />
+                <app-check-input [items]="['字符串', '数字']" [rangeKey]="1" [field]="editData.scene_type" />
             </div>
         </div>
         @if (editData.scene_type < 1) {
         <div class="input-group-control">
             <label for="">场景值</label>
             <div>
-                <input type="text" class="form-control" [(ngModel)]="editData.scene_str">
+                <input type="text" class="form-control" [field]="editData.scene_str">
             </div>
         </div>
         } @else if (editData.scene_type == 1) {
         <div class="input-group-control">
             <label for="">场景值</label>
             <div>
-                <input type="number" class="form-control" [(ngModel)]="editData.scene_id">
+                <input type="number" class="form-control" [field]="editData.scene_id">
                 @if (editData.type) {
                 <div class="input-tip">
                     区间为1~100000
@@ -111,7 +111,7 @@
         <div class="input-group-control">
             <label for="">有效期</label>
             <div>
-                <input type="number" class="form-control" [(ngModel)]="editData.expire_time" placeholder="单位：秒，最大2592000（30天）">
+                <input type="number" class="form-control" [field]="editData.expire_time" placeholder="单位：秒，最大2592000（30天）">
                 <div class="input-tip">
                     最大30天，当前设置：{{editData.expire_time/(24*3600)}}天
                 </div>

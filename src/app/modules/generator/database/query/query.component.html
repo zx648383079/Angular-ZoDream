@@ -12,7 +12,7 @@
     </app-page-tip>
 
     <div class="panel-container">
-        <textarea class="form-control" [(ngModel)]="sql"></textarea>
+        <textarea class="form-control" [field]="sql"></textarea>
         <div class="btn-group">
             <div class="btn btn-danger" (click)="tapRun()">执行</div>
             <div class="btn btn-info" (click)="tapReset()">重置</div>

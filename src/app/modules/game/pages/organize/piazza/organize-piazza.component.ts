@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameOrganize, IGameRouter, IGameScene } from '../../../model';
 import { IPage, IPageQueries } from '../../../../../theme/models/page';
 import { emptyValidate } from '../../../../../theme/validators';
@@ -17,11 +18,11 @@ export class OrganizePiazzaComponent implements IGameScene, OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
         keywords: '',
-    };
+    }));
     public modalVisible = false;
     public input = {
         name: '',
@@ -51,7 +52,7 @@ export class OrganizePiazzaComponent implements IGameScene, OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public goPage(page: number) {
@@ -59,7 +60,7 @@ export class OrganizePiazzaComponent implements IGameScene, OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.router.request(GameCommand.OrganizeQuery, queries).subscribe({
             next: res => {
                 const data = res.data as IPage<IGameOrganize>;

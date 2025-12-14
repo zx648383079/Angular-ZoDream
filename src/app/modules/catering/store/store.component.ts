@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CateringService } from '../catering.service';
 import { ICateringCategory, ICateringProduct } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
@@ -18,12 +19,12 @@ export class StoreComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         category: 0,
         page: 1,
         per_page: 20
-    };
+    }));
 
     ngOnInit() {
         this.service.categoryList().subscribe(res => {
@@ -44,20 +45,20 @@ export class StoreComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
-    
+
     public goPage(page: number) {
         if (this.isLoading) {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.service.productList(queries).subscribe({
             next: res => {
                 this.items = page > 1 ? [].concat(this.items, res.data) : res.data;

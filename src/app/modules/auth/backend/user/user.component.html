@@ -6,10 +6,10 @@
   </app-page-tip>
   <div class="panel-container">
       <div class="page-search-bar">
-          <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+          <form class="form-horizontal-control" (submit)="tapSearch()">
               <div class="input-group-control">
                   <label for="keywords">昵称</label>
-                  <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索昵称" [ngModel]="queries.keywords">
+                  <input type="text" class="form-control" placeholder="搜索昵称" id="keywords" [field]="queries.keywords">
               </div>
               <button type="submit" class="btn btn-primary">搜索</button>
               <div class="btn-group pull-right">
@@ -57,7 +57,7 @@
                   <td>{{ item.money }}</td>
                   @if (editable) {
                   <td>
-                        <app-switch [(ngModel)]="item.is_verified" (ngModelChange)="onVerify(item, modal)" />
+                        <app-switch [field]="item.is_verified" (ngModelChange)="onVerify(item, modal)" />
                   </td>
                   <td>{{ formatStatus(item.status) }}</td>
                   }
@@ -72,20 +72,20 @@
               </tbody>
       </table>
       <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
   </div>
 </div>
 <app-dialog-box #modal [scrollable]="false">
     <div class="form-group">
         <label for="">真实姓名</label>
         <div>
-            <input type="text" class="form-control" [(ngModel)]="editData.name">
+            <input type="text" class="form-control" [field]="editData.name">
         </div>
     </div>
     <div class="form-group">
         <label for="">身份证</label>
         <div>
-            <input type="text" class="form-control" [(ngModel)]="editData.id_card">
+            <input type="text" class="form-control" [field]="editData.id_card">
         </div>
     </div>
 </app-dialog-box>

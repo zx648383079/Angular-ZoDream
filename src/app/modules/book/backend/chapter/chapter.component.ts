@@ -79,7 +79,7 @@ export class ChapterComponent implements OnInit {
         this.goPage(this.page);
     }
 
-    public tapSearch(form: any) {
+    public tapSearch() {
         this.keywords = form.keywords;
         this.tapRefresh();
     }

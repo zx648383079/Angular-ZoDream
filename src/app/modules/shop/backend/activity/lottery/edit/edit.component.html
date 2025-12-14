@@ -82,14 +82,14 @@
                    @for (item of giftItems; track $index; let i = $index) {
                     <tr>
                         <td>{{ item.goods_id > 0 ? item.goods.name : '未中奖' }}
-                            <input type="text" class="form-control" [(ngModel)]="item.name" [ngModelOptions]="{standalone: true}">
+                            <input type="text" class="form-control" [field]="item.name" [ngModelOptions]="{standalone: true}">
                         </td>
                         <td>
                             获奖概率
-                            <input type="text" class="form-control"  [(ngModel)]="item.chance" [ngModelOptions]="{standalone: true}" size="10">%
+                            <input type="text" class="form-control"  [field]="item.chance" [ngModelOptions]="{standalone: true}" size="10">%
                         </td>
                         <td>
-                            <input type="color" [(ngModel)]="item.color" [ngModelOptions]="{standalone: true}">
+                            <input type="color" [field]="item.color" [ngModelOptions]="{standalone: true}">
                         </td>
                         <td>
                             <i class="iconfont icon-arrow-up" (click)="tapUpItem(i)"></i>

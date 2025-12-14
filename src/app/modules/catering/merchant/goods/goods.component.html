@@ -5,10 +5,10 @@
     <div class="flex-body">
         <div class="panel-container">
             <div class="page-search-bar">
-                <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+                <form class="form-horizontal-control" (submit)="tapSearch()">
                     <div class="input-group-control">
                         <label for="keywords">标题</label>
-                        <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题" [ngModel]="queries.keywords">
+                        <input type="text" class="form-control" placeholder="搜索标题" id="keywords" [field]="queries.keywords">
                     </div>
                     <button type="submit" class="btn btn-primary">搜索</button>
 

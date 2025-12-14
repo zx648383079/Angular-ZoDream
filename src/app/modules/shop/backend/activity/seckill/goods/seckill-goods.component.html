@@ -6,10 +6,10 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label for="keywords">标题</label>
-                    <input type="text" class="form-control" [ngModel]="queries.keywords" name="keywords" id="keywords" placeholder="标题">
+                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="标题">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <a class="btn btn-success pull-right" (click)="open(modal)">新增秒杀商品</a>
@@ -47,7 +47,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>
 
@@ -56,26 +56,26 @@
     <div class="form-group">
         <label for="goods">选择商品</label>
         <div class="input-group-control">
-            <app-select-input url="shop/admin/goods/search" [(ngModel)]="editData.goods_id" />
+            <app-select-input url="shop/admin/goods/search" [field]="editData.goods_id" />
         </div>
     </div>
     }
     <div class="form-group">
         <label for="price">秒杀价格</label>
         <div class="input-group-control">
-            <input class="form-control" id="price" [(ngModel)]="editData.price" placeholder="请输入价格">
+            <input class="form-control" id="price" [field]="editData.price" placeholder="请输入价格">
         </div>
     </div>
     <div class="form-group">
         <label for="amount">秒杀数量</label>
         <div class="input-group-control">
-            <input class="form-control" id="amount" [(ngModel)]="editData.amount" placeholder="请输入数量">
+            <input class="form-control" id="amount" [field]="editData.amount" placeholder="请输入数量">
         </div>
     </div>
     <div class="form-group">
         <label for="every_amount">限购数量</label>
         <div class="input-group-control">
-            <input class="form-control" id="every_amount" [(ngModel)]="editData.every_amount" placeholder="请输入数量">
+            <input class="form-control" id="every_amount" [field]="editData.every_amount" placeholder="请输入数量">
         </div>
     </div>
 </app-dialog-box>

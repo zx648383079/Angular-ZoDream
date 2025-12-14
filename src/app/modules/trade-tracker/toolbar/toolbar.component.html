@@ -8,15 +8,15 @@
         <div class="dialog-body">
             <div class="input-flex-group">
                 <div class="input-header-block" [ngClass]="{'input-not-empty': !!data.buyPrice}">
-                    <input type="number" class="form-control" [(ngModel)]="data.buyPrice" (ngModelChange)="onPriceChange('buyPrice')">
+                    <input type="number" class="form-control" [field]="data.buyPrice" (ngModelChange)="onPriceChange('buyPrice')">
                     <label for="">交易平台价</label>
                 </div>
                 <div class="input-header-block" [ngClass]="{'input-not-empty': !!data.discount}">
-                    <input type="number" class="form-control" [(ngModel)]="data.discount" (ngModelChange)="onPriceChange('discount')">
+                    <input type="number" class="form-control" [field]="data.discount" (ngModelChange)="onPriceChange('discount')">
                     <label for="">折扣</label>
                 </div>
                 <div class="input-header-block" [ngClass]="{'input-not-empty': !!data.sellPrice}">
-                    <input type="number" class="form-control" [(ngModel)]="data.sellPrice" (ngModelChange)="onPriceChange('sellPrice')">
+                    <input type="number" class="form-control" [field]="data.sellPrice" (ngModelChange)="onPriceChange('sellPrice')">
                     <label for="">Steam价</label>
                 </div>
                 <button class="btn btn-primary" (click)="tapReset()">

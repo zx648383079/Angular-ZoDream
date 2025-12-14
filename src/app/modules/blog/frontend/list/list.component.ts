@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import {
     BlogService
 } from '../blog.service';
@@ -30,7 +31,7 @@ import { parseNumber } from '../../../../theme/utils';
 export class ListComponent implements OnInit, OnDestroy {
     private readonly service = inject(BlogService);
     private readonly route = inject(ActivatedRoute);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
     private readonly store = inject<Store<AppState>>(Store);
 
@@ -56,7 +57,7 @@ export class ListComponent implements OnInit, OnDestroy {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
         keywords: '',
@@ -66,7 +67,7 @@ export class ListComponent implements OnInit, OnDestroy {
         category: 0,
         language: '',
         programming_language: '',
-    };
+    }));
     public listView = 0;
 
     private subItems = new Subscription();
@@ -109,7 +110,7 @@ export class ListComponent implements OnInit, OnDestroy {
             this.themeService.suggestQuerySubmitted.subscribe(this.searchFn)
         );
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             if (this.queries.tag) {
                 this.header = this.queries.tag;
             }
@@ -129,7 +130,7 @@ export class ListComponent implements OnInit, OnDestroy {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public goPage(page: number) {
@@ -137,14 +138,15 @@ export class ListComponent implements OnInit, OnDestroy {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.items = [];
         this.service.getPage(queries as any).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.items = res.data;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries);
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
                 this.isLoading = false;
             },
             error: () => {
@@ -154,7 +156,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapSort(item: any) {

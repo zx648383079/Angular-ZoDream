@@ -1,6 +1,6 @@
 @if (visible && data && data.type === 'code') {
 <div class="code-input">
-    <input type="text" [(ngModel)]="value">
+    <input type="text" [field]="value">
     <a (click)="tapRefresh()" i18n-title title="Click refresh">
         <img [src]="data.image" i18n-alt alt="Refresh and retry">
         <i class="iconfont icon-refresh code-refresh-btn"></i>

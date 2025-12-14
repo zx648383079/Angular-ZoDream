@@ -208,6 +208,6 @@
     </table>
 </app-dialog-box>
 <app-dialog-box #previewModal title="预览" [footerVisible]="false">
-    <textarea class="form-control" [(ngModel)]="previewData"></textarea>
+    <textarea class="form-control" [field]="previewData"></textarea>
     <app-math-mark [content]="previewData" [editable]="true" [allowInput]="true" />
 </app-dialog-box>

@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -16,25 +17,25 @@ export class EnterComponent implements OnInit {
     private readonly service = inject(TrendService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public items: any[] = [];
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
-        start_at: '',        
+    public readonly queries = form(signal<IPageQueries>({
+        start_at: '',
         end_at: '',
         page: 1,
         per_page: 20
-    };
+    }));
     public tabItems = TimeTabItems;
     public tabIndex = '';
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.tapPage();
         });
     }
@@ -49,11 +50,11 @@ export class EnterComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.queries.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     /**
@@ -64,7 +65,7 @@ export class EnterComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries: any = {...this.queries, page};
+        const queries: any = {...this.queries().value(), page};
         if (this.tabIndex != '') {
             queries.start_at = this.tabIndex;
             queries.end_at = '';
@@ -76,7 +77,8 @@ export class EnterComponent implements OnInit {
                     this.hasMore = res.paging.more;
                     this.total = res.paging.total;
                 }
-                this.searchService.applyHistory(this.queries = queries);
+                this.searchService.applyHistory(queries);
+                this.queries().value.set(queries);
                 this.isLoading = false;
             },
             error: () => {
@@ -85,8 +87,8 @@ export class EnterComponent implements OnInit {
         });
     }
 
-    public tapSearch(form: any) {
-        this.queries = this.searchService.getQueries(form, this.queries);
+    public tapSearch() {
+
         this.tabIndex = '';
         this.tapRefresh();
     }

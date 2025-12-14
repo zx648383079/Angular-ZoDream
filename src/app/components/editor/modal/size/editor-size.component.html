@@ -6,11 +6,11 @@
     </div>
     <div class="input-flex-group">
         <div class="input-header-block" [ngClass]="{'input-not-empty': !!width}">
-            <input type="text" [(ngModel)]="width">
+            <input type="text" [field]="width">
             <label for="">宽</label>
         </div>
         <div class="input-header-block" [ngClass]="{'input-not-empty': !!height}">
-            <input type="text" [(ngModel)]="height">
+            <input type="text" [field]="height">
             <label for="">高</label>
         </div>
     </div>

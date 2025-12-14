@@ -7,14 +7,14 @@
 
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (ngSubmit)="tapSearch(searchForm.value)" #searchForm="ngForm">
+            <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label for="keywords">标题</label>
-                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="搜索标题" [ngModel]="queries.keywords">
+                    <input type="text" class="form-control" placeholder="搜索标题" id="keywords" [field]="queries.keywords">
                 </div>
                 <div class="input-group-control">
                     <label>分类</label>
-                    <select name="term" [ngModel]="queries.term" class="form-control">
+                    <select name="term" [field]="queries.term" class="form-control">
                         <option [value]="0">请选择</option>
                         @for (item of categories; track $index) {
                             <option [value]="item.id">{{ item.name }}</option>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="input-group-control">
                     <label>状态</label>
-                    <select name="term" [ngModel]="queries.status" class="form-control">
+                    <select name="term" [field]="queries.status" class="form-control">
                         <option [value]="0">请选择</option>
                         @for (item of statusItems; track $index) {
                             <option [value]="item.value + 1">{{ item.name }}</option>
@@ -127,7 +127,7 @@
             }
         </app-stack-container>
         <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [(page)]="queries.page" [perPage]="queries.per_page" (pageChange)="tapPage()" />
+        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
     
 </div>

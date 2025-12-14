@@ -53,7 +53,7 @@ export class AppStoreComponent implements OnInit {
     }
 
 
-    public tapSearch(form: any) {
+    public tapSearch() {
         this.router.navigate(['search'], {relativeTo: this.route, queryParams: form});
     }
 

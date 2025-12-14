@@ -44,7 +44,7 @@ export class ChannelComponent implements OnInit {
         });
     }
 
-    public tapSearch(form: any) {
+    public tapSearch() {
         this.keywords = form.keywords;
         this.tapRefresh();
     }

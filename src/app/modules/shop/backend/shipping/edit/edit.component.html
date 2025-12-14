@@ -129,7 +129,7 @@
     }
     <div class="search-box">
         @if (!selectedAll) {
-        <input type="text" class="form-control" [(ngModel)]="regionKeywords">
+        <input type="text" class="form-control" [field]="regionKeywords">
         <button class="btn btn-primary" (click)="tapRegionSearch()">搜索</button>
         }
         <button class="btn btn-info" [ngClass]="{active: selectedAll}" (click)="tapSelectAll()">{{ selectedAll ? '取消' : '' }}全地区</button>

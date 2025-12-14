@@ -6,16 +6,16 @@
         </div>
     </div>
     <div class="input-box">
-        <textarea class="form-control" rows="4" [(ngModel)]="data.content"></textarea>
+        <textarea class="form-control" rows="4" [field]="data.content"></textarea>
     </div>
     <div class="title-input">
-        <input type="text" class="form-control" [(ngModel)]="data.title">
+        <input type="text" class="form-control" [field]="data.title">
     </div>
     <div class="input-row">
-        <input type="text" class="form-control" [(ngModel)]="data.url" disabled>
+        <input type="text" class="form-control" [field]="data.url" disabled>
     </div>
     <div class="summary-input">
-        <textarea class="form-control" rows="3" [(ngModel)]="data.summary"></textarea>
+        <textarea class="form-control" rows="3" [field]="data.summary"></textarea>
     </div>
     <div class="pic-box">
         @for (item of data.pics; track $index;let i = $index) {
@@ -27,7 +27,7 @@
         
     </div>
     <div class="actions">
-        <select class="form-control" [(ngModel)]="data.open_type">
+        <select class="form-control" [field]="data.open_type">
             @for (item of typeItems; track $index;let i = $index) {
                 <option [value]="i">{{ item }}</option>
             }

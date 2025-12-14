@@ -9,37 +9,37 @@
         <div class="input-group-control">
             <label for="">模块名</label>
             <div>
-                <input type="text" class="form-control" [(ngModel)]="module">
+                <input type="text" class="form-control" [field]="module">
             </div>
         </div>
         <div class="input-group-control">
             <label for="">数据表</label>
             <div>
-                <ng-select [(ngModel)]="selected" [items]="tableItems" bindLabel="name" bindValue="value" />
+                <ng-select [field]="selected" [items]="tableItems" bindLabel="name" bindValue="value" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="">文件名</label>
             <div>
-                <input type="text" class="form-control" [(ngModel)]="name">
+                <input type="text" class="form-control" [field]="name">
             </div>
         </div>
         <div class="input-group-control">
             <label for=""></label>
             <div>
-                <app-switch [(ngModel)]="hasController">生成控制器</app-switch>
+                <app-switch [field]="hasController">生成控制器</app-switch>
             </div>
         </div>
         <div class="input-group-control">
             <label for=""></label>
             <div>
-                <app-switch [(ngModel)]="hasModel">生成数据模型</app-switch>
+                <app-switch [field]="hasModel">生成数据模型</app-switch>
             </div>
         </div>
         <div class="input-group-control">
             <label for=""></label>
             <div>
-                <app-switch [(ngModel)]="hasView">生成视图</app-switch>
+                <app-switch [field]="hasView">生成视图</app-switch>
             </div>
         </div>
         <div class="btn-group">

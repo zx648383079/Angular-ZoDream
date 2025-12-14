@@ -23,7 +23,7 @@
                 <i class="iconfont icon-th-list"></i>
             </div>
             }
-            <textarea autocomplete="off" [(ngModel)]="content" (keydown)="onKeydown($event)"></textarea>
+            <textarea autocomplete="off" [field]="content" (keydown)="onKeydown($event)"></textarea>
             <div (click)="toggleMore()">
                 <i class="iconfont icon-ellipsis-h"></i>
             </div>

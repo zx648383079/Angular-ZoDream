@@ -16,7 +16,7 @@ export class FormDetailComponent implements OnInit {
     private readonly service = inject(CmsService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-    private searchService = inject(SearchService);
+    private readonly searchService = inject(SearchService);
 
 
     public data: ICmsContent;
@@ -31,7 +31,7 @@ export class FormDetailComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.queries = this.searchService.getQueries(params, this.queries);
+            this.searchService.getQueries(params, this.queries);
             this.service.content(this.queries).subscribe(res => {
                 this.data = res;
                 this.formItems = res.form_data;
@@ -48,7 +48,7 @@ export class FormDetailComponent implements OnInit {
 
     public tapSubmit() {
         const data: any = {};
-        eachObject(this.queries, (v, k) => {
+        eachObject(this.queries().value(), (v, k) => {
             if (k === 'id') {
                 return;
             }

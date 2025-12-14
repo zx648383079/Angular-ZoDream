@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, IGameRouter, IGameScene, IGameTask } from '../../model';
 import { IPage, IPageQueries } from '../../../../theme/models/page';
 
@@ -16,11 +17,11 @@ export class TaskComponent implements IGameScene, OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public queries: IPageQueries = {
+    public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
         keywords: '',
-    };
+    }));
 
     ngOnInit(): void {
         this.tapRefresh();
@@ -35,7 +36,7 @@ export class TaskComponent implements IGameScene, OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.queries.page);
+        this.goPage(this.queries.page().value());
     }
 
     public goPage(page: number) {
@@ -43,7 +44,7 @@ export class TaskComponent implements IGameScene, OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries, page};
+        const queries = {...this.queries().value(), page};
         this.router.request(GameCommand.TaskOwn, queries).subscribe({
             next: res => {
                 const data = res.data as IPage<IGameTask>;
