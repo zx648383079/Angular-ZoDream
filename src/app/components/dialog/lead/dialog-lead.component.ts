@@ -8,8 +8,8 @@ import { scrollTop } from '../../../theme/utils/doc';
     standalone: false,
     selector: 'app-dialog-lead-tour',
     template: `
-    <div class="lead-overlay-container" [ngStyle]="overlayStyle"></div>
-    <div class="dialog-box lead-dialog-box" [ngStyle]="dialogStyle">
+    <div class="lead-overlay-container" [style]="overlayStyle"></div>
+    <div class="dialog-box lead-dialog-box" [style]="dialogStyle">
         <div class="dialog-header">
             <div class="dialog-title">{{ title }}</div>
             <i class="iconfont icon-close dialog-close" (click)="close()"></i>
@@ -17,7 +17,7 @@ import { scrollTop } from '../../../theme/utils/doc';
         <div class="dialog-body">
             @if (icon) {
             <div class="message-icon">
-                <i class="iconfont" [ngClass]="icon"></i>
+                <i class="iconfont" [class]="icon"></i>
             </div>
             }
             <div class="message-body">

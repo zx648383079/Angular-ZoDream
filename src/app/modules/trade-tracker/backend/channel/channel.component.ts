@@ -1,11 +1,10 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { TrackerBackendService } from '../tracker.service';
-import { emptyValidate } from '../../../../theme/validators';
 import { IChannel } from '../../model';
 
 @Component({
@@ -30,7 +29,14 @@ export class ChannelComponent implements OnInit {
         page: 1,
         per_page: 20,
     }));
-    public editData: IChannel = {} as any;
+    public readonly editForm = form(signal<IChannel>({
+        id: 0,
+        name: '',
+        short_name: ''
+    }), schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.short_name);
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(res => {
@@ -40,18 +46,18 @@ export class ChannelComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item?: any) {
-        this.editData = item ? Object.assign({}, item) : {
-            id: 0,
-            name: '',
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.short_name = item?.short_name ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.channelSave(this.editData).subscribe(_ => {
+            this.service.channelSave(this.editForm().value()).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
-        }, () => {
-            return !emptyValidate(this.editData.name) && !emptyValidate(this.editData.short_name);
-        });
+        }, () => this.editForm().valid());
     }
 
     public tapRefresh() {

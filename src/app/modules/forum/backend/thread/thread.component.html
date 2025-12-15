@@ -17,10 +17,10 @@
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
                     @if (!isMultiple) {
-                        <a class="btn" [ngClass]="{'btn-success': isReview, 'btn-outline-success': !isReview}" (click)="isReview = !isReview">审核模式</a>
+                        <a class="btn" [class]="{'btn-success': isReview, 'btn-outline-success': !isReview}" (click)="isReview = !isReview">审核模式</a>
                     }
                     @if (!isReview) {
-                        <a class="btn" [ngClass]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
+                        <a class="btn" [class]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
                     }
                 </div>
             </form>
@@ -30,7 +30,7 @@
             <thead>
                 <tr>
                     <th [hidden]="!isMultiple">
-                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                        <i class="checkbox" [class]="{checked: isChecked}" (click)="toggleCheck()"></i>
                     </th>
                     <th>ID</th>
                     <th>标题</th>
@@ -44,7 +44,7 @@
                 @for (item of items; track $index) {
                     <tr>
                     <td [hidden]="!isMultiple">
-                        <i class="checkbox" [ngClass]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
+                        <i class="checkbox" [class]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
                     </td>
                     <td>{{ item.id }}</td>
                     <td>{{ item.title }}</td>
@@ -63,7 +63,7 @@
             <tfoot [hidden]="!isMultiple || items.length < 1">
                 <tr>
                     <td>
-                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                        <i class="checkbox" [class]="{checked: isChecked}" (click)="toggleCheck()"></i>
                     </td>
                     <td colspan="4">
                         <button class="btn btn-danger" [disabled]="checkedItems.length < 1" (click)="tapRemoveMultiple()">删除选中项（{{ checkedItems.length }}）</button>
@@ -83,7 +83,7 @@
                             <app-post-block [value]="item.content" />
                         }
 
-                        <div class="review-stamp" [ngClass]="{'btn-success': item.status == 1, 'btn-danger': item.status == 9}">
+                        <div class="review-stamp" [class]="{'btn-success': item.status == 1, 'btn-danger': item.status == 9}">
                             {{ formatStatus(item.status) }}
                         </div>
                     </div>

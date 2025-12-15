@@ -16,7 +16,7 @@
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="tab-bar pull-right --with-gray">
                     @for (item of tabItems; track $index) {
-                        <a class="item" [ngClass]="{active: tabIndex == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
+                        <a class="item" [class]="{active: tabIndex == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
                     }
                 </div>
             </form>

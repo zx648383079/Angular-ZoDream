@@ -1,6 +1,7 @@
-import { Component, model } from '@angular/core';
+import { Component, model, signal } from '@angular/core';
 import { DialogEvent } from '../../../../components/dialog';
 import { IQuestionFormat, IQuestionOption } from '../../model';
+import { form } from '@angular/forms/signals';
 
 /**
  * 题目评分
@@ -15,12 +16,10 @@ export class QuestionScoringComponent {
 
     public readonly value = model<IQuestionFormat>();
 
-    public editData = {
+    public readonly editForm = form(signal({
         score: 0,
         remark: '',
-    };
-
-    constructor() { }
+    }));
 
     public get yourAnswer() {
         const value = this.value();
@@ -49,14 +48,14 @@ export class QuestionScoringComponent {
         if (!value.log) {
             value.log = {} as any;
         }
-        this.editData = {
+        this.editForm().value.set({
             score: value.log.score || 0,
             remark: value.log.remark || '',
-        }
+        })
         modal.open(() => {
             this.value.update(v => {
-                v.log.score = this.editData.score;
-                v.log.remark = this.editData.remark;
+                v.log.score = this.editForm.score().value();
+                v.log.remark = this.editForm.remark().value();
                 return v;
             });
         });

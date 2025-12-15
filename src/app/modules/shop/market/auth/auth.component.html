@@ -1,14 +1,14 @@
-<div class="login-page" [ngStyle]="boxStyle">
+<div class="login-page" [style]="boxStyle">
   <div class="container">
       <div class="page-box">
           <div class="login-box">
               <div class="box-main">
                     <div class="box-header">
-                        <a [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0" i18n>Quick login</a>
-                        <a [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1" i18n>Account login</a>
+                        <a [class]="{active: tabIndex < 1}" (click)="tabIndex = 0" i18n>Quick login</a>
+                        <a [class]="{active: tabIndex == 1}" (click)="tabIndex = 1" i18n>Account login</a>
                     </div>
                     <div class="box-tab">
-                          <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
+                          <div class="tab-item" [class]="{active: tabIndex < 1}">
                                 <form (submit)="tapSignIn()">
                                     <div class="input-group-control">
                                         <input type="text" i18n-placeholder placeholder="Please input phone number" [field]="mobileForm.mobile" autocomplete="off">
@@ -23,7 +23,7 @@
                                     <button class="btn" i18n>Sign in</button>
                                 </form>
                           </div>
-                          <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
+                          <div class="tab-item" [class]="{active: tabIndex == 1}">
                                 <form (submit)="tapSignIn()">
                                     <div class="input-group-control">
                                         <input type="email" [field]="emailForm.email" i18n-placeholder placeholder="Please input username" autocomplete="off">
@@ -37,7 +37,7 @@
                                     <button class="btn" i18n>Sign in</button>
                                 </form>
                           </div>
-                          <div class="tab-item" [ngClass]="{active: tabIndex == 2}">
+                          <div class="tab-item" [class]="{active: tabIndex == 2}">
 
                           </div>
                     </div>

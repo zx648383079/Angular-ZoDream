@@ -7,7 +7,7 @@
 
     <div class="tab-bar">
         @for (item of tabItems; track $index) {
-            <a class="item" [ngClass]="{active: queries.type == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
+            <a class="item" [class]="{active: queries.type == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
         }
     </div>
 

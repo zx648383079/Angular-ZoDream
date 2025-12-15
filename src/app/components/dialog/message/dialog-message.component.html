@@ -1,9 +1,9 @@
 @if (visible) {
-    <div class="dialog-message-box" animate.enter="--fade-opened" animate.leave="--fade-closed" (transitionend)="animationDone()" [ngStyle]="boxStyle">
-        <div class="dialog-body" [ngClass]="[theme, offset > 0 ? 'is-offset' : '']">
+    <div class="dialog-message-box" animate.enter="--fade-opened" animate.leave="--fade-closed" (transitionend)="animationDone()" [style]="boxStyle">
+        <div class="dialog-body" [class]="[theme, offset > 0 ? 'is-offset' : '']">
             @if (icon) {
             <div class="message-icon">
-                <i class="iconfont" [ngClass]="icon"></i>
+                <i class="iconfont" [class]="icon"></i>
             </div>
             }
             

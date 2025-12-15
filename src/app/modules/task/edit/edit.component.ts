@@ -41,7 +41,14 @@ export class EditComponent implements OnInit {
 
     public data: ITask;
     public items: ITask[] = [];
-    public editData: ITask = {} as any;
+    public readonly editForm = form(signal<ITask>({
+        id: 0,
+        name: '',
+        description: '',
+        every_time: 0,
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
     public shareData: IShare = {} as any;
 
     ngOnInit() {
@@ -100,18 +107,19 @@ export class EditComponent implements OnInit {
             this.toastrService.warning('请先保存主任务');
             return;
         }
-        this.editData = item ? {...item} : {
-            id: undefined,
-            name: '',
-            description: '',
-            every_time: 0,
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.description = item?.description ?? '';
+            v.every_time = item?.every_time ?? 0;
+            return v;
+        });
         modal.open(() => {
             this.service.taskSave({
-                name: this.editData.name,
+                name: this.editForm.name,
                 parent_id: this.data?.id,
-                id: this.editData?.id,
-                description: this.editData.description,
+                id: this.editForm?.id,
+                description: this.editForm.description,
                 every_time: this.data?.every_time,
             }).subscribe({
                     next: res => {
@@ -121,7 +129,7 @@ export class EditComponent implements OnInit {
                     this.toastrService.warning(err.message);
                 }
             });
-        }, () => !emptyValidate(this.editData.name));
+        }, () => this.editForm().valid());
     }
 
     public tapRemove(item: ITask) {

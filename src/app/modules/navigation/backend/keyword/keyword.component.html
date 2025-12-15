@@ -52,17 +52,17 @@
         <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>
-<app-dialog-box #modal [title]="editData.id > 0 ? '编辑关键词' : '新增关键词'" [scrollable]="false">
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑关键词' : '新增关键词'" [scrollable]="false">
     <div class="form-group">
         <label for="name-input">关键词</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editData.word" placeholder="请输入关键词">
+            <input class="form-control" id="name-input" [field]="editForm.word" placeholder="请输入关键词">
         </div>
     </div>
     <div class="form-group">
         <label>类型</label>
         <div class="input-group-control">
-            <select class="form-control" [field]="editData.type">
+            <select class="form-control" [field]="editForm.type">
                 @for (item of typeItems; track $index; let i = $index) {
                 <option [value]="i">{{ item }}</option>
                 }

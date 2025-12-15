@@ -176,7 +176,7 @@
             </thead>
             <tbody>
                 @for (item of dialogData.items; track $index) {
-                <tr [ngClass]="{selected: item.selected}" (click)="item.selected = !item.selected">
+                <tr [class]="{selected: item.selected}" (click)="item.selected = !item.selected">
                     <td>{{ item.id }}</td>
                     <td>【{{ item.type | questionType }}】{{ item.title }}</td>
                     <td>{{ item.course?.name }}</td>

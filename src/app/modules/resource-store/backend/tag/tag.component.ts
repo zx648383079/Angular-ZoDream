@@ -29,11 +29,11 @@ export class TagComponent implements OnInit {
         per_page: 20,
         keywords: '',
     }));
-    public editData: ITag = {} as any;
+    public readonly editForm = form(signal<ITag>({}));
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }

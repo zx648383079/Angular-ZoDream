@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import {
     ActivatedRoute
@@ -32,7 +32,12 @@ export class RegionComponent implements OnInit {
     public isLoading = false;
     public total = 0;
     public parent: IRegion;
-    public editData: IRegion = {} as any;
+    public readonly editForm = form(signal<IRegion>({
+        id: 0,
+        name: ''
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
@@ -42,9 +47,9 @@ export class RegionComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
-            if (this.queries.parent < 1) {
+            if (this.queries.parent().value() < 1) {
                 return;
             }
             this.service.region(this.queries.parent).subscribe(data => {
@@ -108,8 +113,11 @@ export class RegionComponent implements OnInit {
 
     public tapViewRegion(item?: IRegion) {
         this.parent = item;
-        this.queries.parent = item?.id || 0;
-        this.queries.keywords = '';
+        this.queries().value.update(v => {
+            v.parent = item?.id || 0;
+            v.keywords = '';
+            return v;
+        });
         this.tapRefresh();
     }
 
@@ -125,20 +133,21 @@ export class RegionComponent implements OnInit {
     }
 
     open(modal: DialogEvent, item?: IRegion) {
-        this.editData = item ? {...item} : {
-            id: undefined,
-            name: ''
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            return v;
+        });
         modal.open(() => {
             this.service.regionSave({
-                name: this.editData.name,
+                name: this.editForm.name,
                 parent_id: this.parent?.id,
-                full_name: (this.parent ? this.parent.full_name + ' ' : '') + this.editData.name,
-                id: this.editData?.id
+                full_name: (this.parent ? this.parent.full_name + ' ' : '') + this.editForm.name,
+                id: this.editForm?.id
             }).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapPage();
             });
-        }, () => !emptyValidate(this.editData.name));
+        }, () => this.editForm().valid());
     }
 }

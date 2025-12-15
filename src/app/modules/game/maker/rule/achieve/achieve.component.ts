@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { IGameAchieve } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -31,22 +31,37 @@ export class AchieveComponent implements OnInit {
         keywords: '',
         project: 0
     }));
-    public editData: IGameAchieve = {} as any;
+    public readonly editForm = form(signal<IGameAchieve>({
+        id: 0,
+        name: '',
+        icon: '',
+        description: '',
+        demand: 0,
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.route.parent.params.subscribe(params => {
-            this.queries.project = parseNumber(params.game);
+            this.queries.project().value.set(parseNumber(params.game));
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item?: IGameAchieve) {
-        this.editData = item ? {...item} : {} as any;
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.icon = item?.icon ?? '';
+            v.description = item?.description ?? '';
+            v.demand = item?.demand ?? 0;
+            return v;
+        });
         modal.open(() => {
-            this.service.achieveSave({...this.editData, project_id: this.queries.project}).subscribe({
+            this.service.achieveSave({...this.editForm().value(), project_id: this.queries.project}).subscribe({
                 next: _ => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
@@ -55,7 +70,7 @@ export class AchieveComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        });
+        }, () => this.editForm().valid());
     }
 
 
@@ -86,7 +101,8 @@ export class AchieveComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries, ['project']);
+                this.queries().value.set(queries);
+            this.searchService.applyHistory(queries, ['project']);
             },
             error: () => {
                 this.isLoading = false;

@@ -57,7 +57,7 @@ export class NoteComponent implements OnInit, OnDestroy {
     }
 
     public get size() {
-        return wordLength(this.editData.content);
+        return wordLength(this.editForm.content);
     }
 
     ngOnInit() {
@@ -66,7 +66,7 @@ export class NoteComponent implements OnInit, OnDestroy {
             this.tapRefresh();
         }));
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -76,7 +76,7 @@ export class NoteComponent implements OnInit, OnDestroy {
     }
 
     public toggleVisible() {
-        this.editData.status = this.editData.status > 0 ? 0 : 1;
+        this.editForm.status = this.editForm.status > 0 ? 0 : 1;
     }
 
     public tapSubmit(e?: ButtonEvent) {
@@ -86,11 +86,11 @@ export class NoteComponent implements OnInit, OnDestroy {
         }
         e?.enter();
         this.service.save({
-            ...this.editData
+            ...this.editForm
         }).subscribe({
             next: _ => {
                 e?.reset();
-                this.editData.content = '';
+                this.editForm.content = '';
                 this.toastrService.success($localize `Successfully released!`);
                 this.tapRefresh();
             },
@@ -150,7 +150,8 @@ export class NoteComponent implements OnInit, OnDestroy {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 this.items = page < 2 ? data : [].concat(this.items, data);
-                this.searchService.applyHistory(this.queries = params, false);
+                this.queries().value.set(queries);
+            this.searchService.applyHistory(params, false);
             },
             error: () => {
                 this.isLoading = false;

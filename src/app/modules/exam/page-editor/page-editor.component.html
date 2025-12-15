@@ -23,7 +23,7 @@
         <div class="col-sm-3">
             <div class="preview-bar" #scrollBar>
                 @for (item of items; track $index; let i = $index) {
-                    <div class="preview-item" [ngClass]="{'active': i === editIndex}" (contextmenu)="tapContextMenu($event, i)" (click)="tapEdit(i)">
+                    <div class="preview-item" [class]="{'active': i === editIndex}" (contextmenu)="tapContextMenu($event, i)" (click)="tapEdit(i)">
                         <div class="item-name">{{ item.title }}</div>
                         <div class="item-no">{{ i + 1 }}</div>
                     </div>
@@ -105,7 +105,7 @@
     </div>
     <div class="search-body">
         @for (item of dialogData.items; track $index) {
-        <div class="question-option" [ngClass]="{selected: item.selected}" (click)="item.selected = !item.selected">
+        <div class="question-option" [class]="{selected: item.selected}" (click)="item.selected = !item.selected">
             <div class="item-title">【{{ item.course?.name }}●{{ formatQuestionType(item.type) }}】{{ item.title }}</div>
             <div class="item-body">{{ item.content }}</div>
         </div>

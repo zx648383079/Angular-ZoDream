@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ComponentTypeItems, ISiteComponent, ISitePage, IThemeComponent } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -25,22 +25,29 @@ export class SiteWeightComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
         site: 0,
-        type: 0,
+        type: '0',
         page: 1,
         per_page: 20
     }));
     public typeItems = ComponentTypeItems;
-    public pageData: ISitePage = {} as any;
+    public readonly pageForm = form(signal({
+        name: '',
+        title: '',
+        keywords: '',
+        description: ''
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -51,7 +58,7 @@ export class SiteWeightComponent implements OnInit {
 
     public tapCreate(modal: DialogEvent, item: ISiteComponent) {
         modal.open(() => {
-            const data = {...this.pageData, site_component_id: item.id, thumb: item.thumb, site_id: item.site_id};
+            const data = {...this.pageForm().value(), site_component_id: item.id, thumb: item.thumb, site_id: item.site_id};
             this.service.sitePageSave(data).subscribe({
                 next: res => {
                     this.toastrService.success($localize `Created page successfully, about to jump to edit`);
@@ -63,7 +70,7 @@ export class SiteWeightComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => !emptyValidate(this.pageData.name));
+        }, () => this.pageForm().valid());
     }
 
     public open(modal: SearchDialogEvent) {
@@ -109,7 +116,8 @@ export class SiteWeightComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries, ['site']);
+                this.queries().value.set(queries);
+            this.searchService.applyHistory(queries, ['site']);
                 this.isLoading = false;
             },
             error: () => {

@@ -39,7 +39,7 @@ export class PlanComponent implements OnInit {
     public typeItems = ['一天', '每周', '每月'];
     public weekNameItems: IItem[] = [];
     public monthNameItems: IItem[] = [];
-    public editData: ITaskPlan = {} as any;
+    public readonly editForm = form(signal<ITaskPlan>({}));
 
     constructor() {
         ['一', '二', '三', '四', '五', '六', '日'].forEach((i, j) => {
@@ -58,7 +58,7 @@ export class PlanComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -100,9 +100,9 @@ export class PlanComponent implements OnInit {
 
     public tapAdd() {
         this.taskModal().open(item => {
-            this.editData = {task: item, task_id: item.id, amount: 1, priority: 8, plan_type: this.queries.type, plan_time: ''};
+            this.editForm = {task: item, task_id: item.id, amount: 1, priority: 8, plan_type: this.queries.type, plan_time: ''};
             this.addModal().open(() => {
-                this.service.planSave({...this.editData, task: undefined}).subscribe({
+                this.service.planSave({...this.editForm().value(), task: undefined}).subscribe({
                     next: res => {
                         this.pushPlan(res);
                         this.toastrService.success('添加成功');
@@ -111,7 +111,7 @@ export class PlanComponent implements OnInit {
                         this.toastrService.error(err);
                     }
                 });
-            }, () => !!this.editData.plan_time);
+            }, () => !!this.editForm.plan_time);
         });
     }
 

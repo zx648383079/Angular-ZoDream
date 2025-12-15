@@ -1,4 +1,4 @@
-<div class="upload-dialog-box" [hidden]="!visible" [ngClass]="{'dialog-min': min}">
+<div class="upload-dialog-box" [hidden]="!visible" [class]="{'dialog-min': min}">
     <div class="dialog-header">
         <div class="header-title" (click)="min = false">{{ title() }}</div>
         <div class="header-action">
@@ -12,8 +12,8 @@
                 {{ group.name }}
             </div>
             @for (item of group.items; track $index) {
-            <div class="upload-item" [ngClass]="{'item-cancel': item.status == 9, 'item-running': item.status == 5, 'item-checked': item.checked}">
-                <div class="item-progress" [ngStyle]="item.style"></div>
+            <div class="upload-item" [class]="{'item-cancel': item.status == 9, 'item-running': item.status == 5, 'item-checked': item.checked}">
+                <div class="item-progress" [style]="item.style"></div>
                 <div class="item-body">
                     <div class="item-info">
                         <div class="item-name">{{ item.name }}</div>

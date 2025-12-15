@@ -1,4 +1,4 @@
-<div class="question-box" [ngClass]="{'item-right': value().right > 0, 'item-wrong': value().right < 0}">
+<div class="question-box" [class]="{'item-right': value().right > 0, 'item-wrong': value().right < 0}">
     <div class="title">
         <span class="order">{{ value().order }}.</span>
         <app-math-mark [content]="value().title" />
@@ -23,8 +23,8 @@
         <div class="option-list">
             @for (item of value().option; track $index) {
                 @if (optionChecked(item) || item.is_right) {
-                    <div class="option-item" [ngClass]="{'right': item.is_right, 'wrong': !item.is_right}">
-                        <i class="iconfont" [ngClass]="{'icon-check': item.is_right, 'icon-close': !item.is_right}"></i>
+                    <div class="option-item" [class]="{'right': item.is_right, 'wrong': !item.is_right}">
+                        <i class="iconfont" [class]="{'icon-check': item.is_right, 'icon-close': !item.is_right}"></i>
                         <span class="order">{{ item.order }}.</span>
                         <span class="option-label">
                             <app-math-mark [content]="item.content" />
@@ -57,7 +57,7 @@
         </div>
         } @else if (value().type == 3) {
         <div>
-            <div class="answer-text" [ngClass]="{'right': value().right > 0, 'wrong': value().right < 0}">
+            <div class="answer-text" [class]="{'right': value().right > 0, 'wrong': value().right < 0}">
                 <label>填写的答案:</label>
                 <textarea rows="4" class="form-control" readonly>{{ value().your_answer }}</textarea>
             </div>
@@ -73,9 +73,9 @@
     <div class="form-group">
         <label for="">得分</label>
         <div class="score-input">
-            <input type="number" class="form-control" [field]="editData.score">
+            <input type="number" class="form-control" [field]="editForm.score">
             / <span title="本题分值">{{ value().score || 0 }}</span>
         </div>
     </div>
-    <app-exam-editor label="点评" [field]="editData.remark" />
+    <app-exam-editor label="点评" [field]="editForm.remark" />
 </app-dialog-box>

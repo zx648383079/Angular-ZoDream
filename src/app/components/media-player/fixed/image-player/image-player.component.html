@@ -1,5 +1,5 @@
 @if (data && visible()) {
-<div class="image-player" [ngClass]="{'fixed-player': isFixed()}">
+<div class="image-player" [class]="{'fixed-player': isFixed()}">
     <div class="player-body">
         <img [src]="formatAsset(data.source)" [alt]="data.name">
     </div>

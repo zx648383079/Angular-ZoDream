@@ -1,15 +1,15 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { IItem } from '../../../theme/models/seo';
-import { emptyValidate } from '../../../theme/validators';
 import { GenerateService } from '../generate.service';
 import { ITableHeaderItem } from '../../../components/desktop/editable-table/model';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-database',
-  templateUrl: './database.component.html',
-  styleUrls: ['./database.component.scss']
+    selector: 'app-database',
+    templateUrl: './database.component.html',
+    styleUrls: ['./database.component.scss']
 })
 export class DatabaseComponent implements OnInit {
     private readonly service = inject(GenerateService);
@@ -27,10 +27,12 @@ export class DatabaseComponent implements OnInit {
         {name: 'UTF8M64编码', value: 'utf8mb4_general_ci'},
     ];
     public isLoading = false;
-    public editData = {
+    public readonly editForm = form(signal({
         name: '',
         collation: '',
-    };
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.isLoading = true;
@@ -45,14 +47,14 @@ export class DatabaseComponent implements OnInit {
     }
 
     public tapSubmit() {
-        if (emptyValidate(this.editData.name)) {
+        if (this.editForm().invalid()) {
             this.toastrService.warning('请输入数据库名');
             return;
         }
-        this.service.schemaCreate({...this.editData}).subscribe({
+        this.service.schemaCreate({...this.editForm}).subscribe({
             next: _ => {
                 this.toastrService.success('创建成功');
-                this.editData.name = '';
+                this.editForm.name().value.set('');
             },
             error: err => {
                 this.toastrService.error(err);

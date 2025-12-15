@@ -69,25 +69,25 @@
         <div class="input-group-control">
             <label for="">备注名</label>
             <div>
-                <input type="text" class="form-control" [field]="editData.note_name">
+                <input type="text" class="form-control" [field]="editForm.note_name">
             </div>
         </div>
         <div class="input-group-control">
             <label for="">分组</label>
             <div>
-                <app-select-input [url]="selectUrl" [field]="editData.group_id" />
+                <app-select-input [url]="selectUrl" [field]="editForm.group_id" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="">是否拉黑</label>
             <div>
-                <app-switch [field]="editData.is_black" />
+                <app-switch [field]="editForm.is_black" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="">备注</label>
             <div>
-                <textarea class="form-control" [field]="editData.remark"></textarea>
+                <textarea class="form-control" [field]="editForm.remark"></textarea>
             </div>
         </div>
     </div>

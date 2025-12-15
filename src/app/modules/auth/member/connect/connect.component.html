@@ -10,7 +10,7 @@
     @for (item of items; track $index) {
         <div class="connect-item">
         <div class="item-body">
-            <i class="iconfont" [ngClass]="item.icon | iconfont"></i>
+            <i class="iconfont" [class]="item.icon | iconfont"></i>
             {{ item.name }}
             @if (item.platform || item.nickname) {
                 (<span class="item-platform">{{ item.platform }}：</span>{{ item.nickname }})

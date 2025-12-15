@@ -58,13 +58,13 @@
     <div class="form-group">
         <label for="name-input">版本号</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editData.name" placeholder="请输入版本号">
+            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入版本号">
         </div>
     </div>
     <div class="form-group">
         <label>更新日志</label>
         <div>
-            <app-text-editor [field]="editData.description" height="200" />
+            <app-text-editor [field]="editForm.description" height="200" />
         </div>
     </div>
 </app-dialog-box>

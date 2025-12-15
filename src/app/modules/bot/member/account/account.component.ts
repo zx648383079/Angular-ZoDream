@@ -49,7 +49,7 @@ export class AccountComponent implements OnInit {
         });
         this.selected = this.menuService.get(BotInstanceKey, 0);
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
             if (params.redirect_uri) {
                 this.redirectUri = params.redirect_uri;

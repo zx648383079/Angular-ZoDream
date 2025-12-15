@@ -45,7 +45,7 @@ export class CategoryComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             if (!this.category || this.queries.category == this.category.id) {
                 return;
             }
@@ -55,7 +55,7 @@ export class CategoryComponent implements OnInit {
             });
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
             if (this.queries.category > 0) {
                 this.service.category(this.queries.category).subscribe(res => {
@@ -114,7 +114,8 @@ export class CategoryComponent implements OnInit {
                 this.isLoading = false;
                 this.total = res.paging.total;
                 this.items = res.data;
-                this.searchService.applyHistory(this.queries = queries, ['category']);
+                this.queries().value.set(queries);
+            this.searchService.applyHistory(queries, ['category']);
                 if (res.filter) {
                     this.filterItems = res.filter;
                 }

@@ -30,7 +30,7 @@ export class GameListComponent implements OnInit {
         per_page: 20,
         keywords: '',
     }));
-    public editData: IGameProject = {} as any;
+    public readonly editForm = form(signal<IGameProject>({}));
 
     constructor() {
         this.themeService.titleChanged.next($localize `Game Maker`);
@@ -38,15 +38,21 @@ export class GameListComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item?: IGameProject) {
-        this.editData = item ? {...item} : {} as any;
+        this.editForm().value.update(v => {
+            if (item) {
+                v.id = item.id;
+                return v;
+            }
+            return {};
+        });
         modal.open(() => {
-            this.service.projectSave({...this.editData}).subscribe({
+            this.service.projectSave({...this.editForm}).subscribe({
                 next: _ => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
@@ -55,7 +61,7 @@ export class GameListComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        });
+        }, () => this.editForm().valid());
     }
 
     public onStatusChange(item: IGameProject) {

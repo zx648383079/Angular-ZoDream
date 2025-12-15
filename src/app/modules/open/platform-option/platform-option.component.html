@@ -11,10 +11,10 @@
     </div>
     <div class="edit-view">
         @for (group of items; track $index) {
-            <div class="expand-box" [ngClass]="{min: group.expanded}">
+            <div class="expand-box" [class]="{min: group.expanded}">
                 <div class="expand-header" (click)="group.expanded = !group.expanded">
                     {{ group.label }}
-                    <i class="iconfont" [ngClass]="group.expanded ? 'icon-chevron-down' : 'icon-chevron-up'"></i>
+                    <i class="iconfont" [class]="group.expanded ? 'icon-chevron-down' : 'icon-chevron-up'"></i>
                 </div>
                 <div class="expand-body">
                     @for (item of group.children; track $index) {

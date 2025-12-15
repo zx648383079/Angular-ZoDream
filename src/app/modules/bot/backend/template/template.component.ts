@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -37,7 +37,11 @@ export class TemplateComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public editData: any = {};
+    public readonly editForm = form(signal({
+        content: ''
+    }), schemaPath => {
+        required(schemaPath.content);
+    });
     public previewData = {
         toggle: false,
         content: null,
@@ -47,7 +51,7 @@ export class TemplateComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
         this.service.batch({
@@ -64,9 +68,12 @@ export class TemplateComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item?: IBotTemplate) {
-        this.editData = item ? {...item} : {};
+        this.editForm().value.update(v => {
+            v.content = item?.content ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.templateSave(this.editData).subscribe({
+            this.service.templateSave(this.editForm().value()).subscribe({
                 next: _ => {
                     this.toastrService.success('添加成功');
                     this.tapPage();
@@ -75,7 +82,7 @@ export class TemplateComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             })
-        }, () => !emptyValidate(this.editData.content));
+        }, () => this.editForm().valid());
     }
 
     public tapPreview() {
@@ -83,7 +90,7 @@ export class TemplateComponent implements OnInit {
             this.previewData.toggle = false;
             return;
         }
-        this.previewData.content = this.sanitizer.bypassSecurityTrustHtml(this.editData.content || '');
+        this.previewData.content = this.sanitizer.bypassSecurityTrustHtml(this.editForm.content().value() || '');
         this.previewData.toggle = true;
     }
 

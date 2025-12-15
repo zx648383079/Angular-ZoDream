@@ -52,35 +52,35 @@
   </div>
 </div>
 
-<app-dialog-box #modal [buttonVisible]="false" [title]="'申请记录详情(' + editData.id + ')'">
+<app-dialog-box #modal [buttonVisible]="false" [title]="'申请记录详情(' + editForm.id + ')'">
     <div class="line-row-item">
         <span class="item-label">用户：</span>
-        <span class="item-body">{{ editData.user?.name }}</span>
+        <span class="item-body">{{ editForm.user?.name }}</span>
     </div>
-    @if (editData.user) {
+    @if (editForm.user) {
     <div class="line-row-item">
         <span class="item-label">账户余额：</span>
-        <span class="item-body">{{ editData.user.money }}</span>
+        <span class="item-body">{{ editForm.user.money }}</span>
     </div>
     }
     
     <div class="line-row-item">
         <span class="item-label">类型：</span>
-        <span class="item-body">{{ editData.type }}</span>
+        <span class="item-body">{{ editForm.type }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">金额：</span>
-        <span class="item-body">{{ editData.money }}</span>
+        <span class="item-body">{{ editForm.money }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">备注：</span>
-        <span class="item-body">{{ editData.remark }}</span>
+        <span class="item-body">{{ editForm.remark }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">状态：</span>
-        <span class="item-body">{{ editData.status }}</span>
+        <span class="item-body">{{ editForm.status }}</span>
     </div>
-    @if (editData.status < 1) {
+    @if (editForm.status < 1) {
     <ng-container name="footer">
         <button type="button" class="btn btn-success" (click)="modal.close(2)">处理申请</button>
         <button type="button" class="btn btn-danger" (click)="modal.close(9)">拒绝申请</button>

@@ -1,5 +1,5 @@
 <div class="reflect-container">
-    <div class="selection-container" [ngClass]="boxCls" [ngStyle]="boxStyle">
+    <div class="selection-container" [class]="boxCls" [style]="boxStyle">
         <div class="rotate-icon">
             <i class="iconfont icon-refresh"></i>
         </div>
@@ -17,7 +17,7 @@
         <div class="event-container">
             <div class="event-line"></div>
             <div class="event-icon" (click)="tapToggleGroup()">
-                <i class="iconfont" [ngClass]="{'icon-chain': canMerge, 'chain-broken': canSplit}"></i>
+                <i class="iconfont" [class]="{'icon-chain': canMerge, 'chain-broken': canSplit}"></i>
             </div>
         </div>
         }

@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
@@ -6,7 +6,6 @@ import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { SearchService } from '../../../../theme/services';
 import { TrackerBackendService } from '../tracker.service';
 import { IProduct } from '../../model';
-import { emptyValidate } from '../../../../theme/validators';
 
 @Component({
     standalone: false,
@@ -32,9 +31,15 @@ export class ProductComponent implements OnInit {
         page: 1,
         per_page: 20,
     }));
-    public editData = {
+    public readonly editForm = form(signal({
+        id: 0,
+        name: '',
+        unique_code: '',
         items: []
-    } as any;
+    }), schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.unique_code);
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(res => {
@@ -44,31 +49,36 @@ export class ProductComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item?: IProduct) {
-        this.editData = item ? Object.assign({items: []}, item) : {
-            id: 0,
-            name: '',
-            items: []
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.items = item?.items ?? [];
+            return v;
+        });
         modal.open(() => {
-            this.service.productSave(this.editData).subscribe(_ => {
+            this.service.productSave(this.editForm().value()).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
-        }, () => {
-            return !emptyValidate(this.editData.name) && !emptyValidate(this.editData.unique_code);
-        });
+        }, () => this.editForm().valid());
     }
 
     public tapAddChannel() {
-        this.editData.items.push({
-            channel: '',
-            platform_no: '',
-            extra_meta: ''
+        this.editForm.items().value.update(v => {
+            v.push({
+                channel: '',
+                platform_no: '',
+                extra_meta: ''
+            });
+            return v;
         });
     }
 
     public tapRemoveChannel(i: number) {
-        this.editData.items.splice(i, 1);
+        this.editForm.items().value.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
     }
 
     public tapImport() {

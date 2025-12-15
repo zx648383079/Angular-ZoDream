@@ -16,10 +16,10 @@
     </div>
 
     <div class="tab-bar">
-        <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tapTab(0)" i18n>
+        <div class="tab-item" [class]="{active: tabIndex < 1}" (click)="tapTab(0)" i18n>
             Summary
         </div>
-        <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tapTab(1)" i18n>
+        <div class="tab-item" [class]="{active: tabIndex == 1}" (click)="tapTab(1)" i18n>
             Catalog
         </div>
     </div>

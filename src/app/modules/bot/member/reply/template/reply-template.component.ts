@@ -1,11 +1,10 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
 import { IPage, IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
-import { emptyValidate } from '../../../../../theme/validators';
 import { IBotReplyTemplate, IBotUser } from '../../../model';
 import { formatTemplateField, renderTemplateField } from '../../../util';
 import { BotService } from '../../bot.service';
@@ -14,9 +13,9 @@ import { BotService } from '../../bot.service';
 
 @Component({
     standalone: false,
-  selector: 'app-reply-template',
-  templateUrl: './reply-template.component.html',
-  styleUrls: ['./reply-template.component.scss']
+    selector: 'app-reply-template',
+    templateUrl: './reply-template.component.html',
+    styleUrls: ['./reply-template.component.scss']
 })
 export class ReplyTemplateComponent implements OnInit {
     private readonly service = inject(BotService);
@@ -35,7 +34,14 @@ export class ReplyTemplateComponent implements OnInit {
         page: 1,
         per_page: 20,
     }));
-    public editData: any = {};
+    public readonly editForm = form(signal({
+        id: 0,
+        template_id: '',
+        content: ''
+    }), schemaPath => {
+        required(schemaPath.template_id);
+        required(schemaPath.content);
+    });
     public sendData: any = {};
 
     public formatUser = (res: IPage<IBotUser>) => {
@@ -60,15 +66,20 @@ export class ReplyTemplateComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public tapEdit(modal: DialogEvent, item?: IBotReplyTemplate) {
-        this.editData = item ? {...item} : {};
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.template_id = item?.template_id ?? '';
+            v.content = item?.content ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.wxTemplateSave(this.editData).subscribe({
+            this.service.wxTemplateSave(this.editForm().value()).subscribe({
                 next: _ => {
                     if (item) {
                         this.tapPage();
@@ -81,7 +92,7 @@ export class ReplyTemplateComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => !emptyValidate(this.editData.template_id) && !emptyValidate(this.editData.content));
+        }, () => this.editForm().valid());
     }
 
     public tapRemove(item: IBotReplyTemplate) {

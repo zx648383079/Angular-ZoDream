@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
@@ -30,13 +30,13 @@ export class IncomeComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
-        type: 0,
-        account: 0,
-        project: 0,
-        channel: 0,
-        budget: 0,
+        type: '0',
+        account: '0',
+        project: '0',
+        channel: '0',
+        budget: '0',
         start_at: '',
         end_at: '',
         page: 1,
@@ -51,14 +51,16 @@ export class IncomeComponent implements OnInit {
     public panelOpen = false;
 
     public previewData: ILog = {} as any;
-    public editData = {
+    public readonly editForm = form(signal({
         keywords: '',
-        account_id: 0,
-        channel_id: 0,
-        project_id: 0,
-        budget_id: 0,
+        account_id: '',
+        channel_id: '',
+        project_id: '',
+        budget_id: '',
         count: 0,
-    };
+    }), schemaPath => {
+        required(schemaPath.keywords);
+    });
 
     public groupItems: ILogGroup[] = [];
 
@@ -78,7 +80,7 @@ export class IncomeComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -155,7 +157,6 @@ export class IncomeComponent implements OnInit {
     }
 
     public tapSearch() {
-
         this.panelOpen = false;
         this.tapRefresh();
     }
@@ -196,9 +197,9 @@ export class IncomeComponent implements OnInit {
     }
 
     public tapBatch(modal: DialogBoxComponent) {
-        this.editData.keywords = '';
+        this.editForm.keywords().value.set('');
         modal.open(() => {
-            this.service.logBatchEdit(this.editData).subscribe({
+            this.service.logBatchEdit(this.editForm().value()).subscribe({
                 next: res => {
                     this.toastrService.success(res.message);
                 },
@@ -206,9 +207,7 @@ export class IncomeComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editData.keywords);
-        });
+        }, () => this.editForm().valid());
     }
 
     public tapPreview(modal: DialogBoxComponent, item: ILog) {
@@ -217,14 +216,15 @@ export class IncomeComponent implements OnInit {
     }
 
     public onEditKeywords() {
-        if (emptyValidate(this.editData.keywords)) {
-            this.editData.count = 0;
+        const keywords = this.editForm.keywords().value();
+        if (emptyValidate(keywords)) {
+            this.editForm.count().value.set(0);
             return;
         }
         this.service.logCount({
-            keywords: this.editData.keywords
+            keywords
         }).subscribe(res => {
-            this.editData.count = res.data;
+            this.editForm.count().value.set(res.data);
         });
     }
 

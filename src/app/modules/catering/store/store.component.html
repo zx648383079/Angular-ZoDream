@@ -1,7 +1,7 @@
 <div class="flex-2">
     <div class="flex-menu">
         @for (item of categories; track $index) {
-            <div class="menu-item" [ngClass]="{active: item.id == queries.category}" (click)="tapCategory(item)">
+            <div class="menu-item" [class]="{active: item.id == queries.category}" (click)="tapCategory(item)">
                 {{ item.name }}
             </div>
         }

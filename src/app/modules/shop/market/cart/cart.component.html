@@ -14,7 +14,7 @@
         } @else {
             <div class="cart-header">
                 <div class="chkbox" (click)="toggleCheckAll()">
-                    <i class="iconfont" [ngClass]="{'icon-check-square-o': checkedAll, 'icon-square-o': !checkedAll}"></i>
+                    <i class="iconfont" [class]="{'icon-check-square-o': checkedAll, 'icon-square-o': !checkedAll}"></i>
                     <span>全选</span>
                 </div>
                 <div>商品信息</div>
@@ -28,7 +28,7 @@
             <div class="cart-group-item">
                 <div class="group-header">
                     <div class="chk" (click)="toggleCheckGroup(group)">
-                        <i class="iconfont" [ngClass]="{'icon-check-square-o': group.checked, 'icon-square-o': !group.checked}"></i>
+                        <i class="iconfont" [class]="{'icon-check-square-o': group.checked, 'icon-square-o': !group.checked}"></i>
                     </div>
                     <div class="name">
                         {{ group.name }}
@@ -37,7 +37,7 @@
                 @for (item of group.goods_list; track $index) {
                 <div class="cart-item">
                     <div class="chk" (click)="toggleCheck(group, item)">
-                        <i class="iconfont" [ngClass]="{'icon-check-square-o': item.is_checked, 'icon-square-o': !item.is_checked}"></i>
+                        <i class="iconfont" [class]="{'icon-check-square-o': item.is_checked, 'icon-square-o': !item.is_checked}"></i>
                     </div>
                     <div class="thumb">
                         <img [src]="item.goods.thumb" alt="">
@@ -67,7 +67,7 @@
             }
             <div class="cart-footer">
                 <div class="chkbox">
-                    <i class="iconfont" [ngClass]="{'icon-check-square-o': checkedAll, 'icon-square-o': !checkedAll}" (click)="toggleCheckAll()"></i>
+                    <i class="iconfont" [class]="{'icon-check-square-o': checkedAll, 'icon-square-o': !checkedAll}" (click)="toggleCheckAll()"></i>
                     <span>
                         <span>已选（</span><span class="cart-checked-count">{{ checkedCount }}</span>
                         <span>）</span>

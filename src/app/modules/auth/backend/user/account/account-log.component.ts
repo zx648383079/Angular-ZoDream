@@ -31,11 +31,11 @@ export class AccountLogComponent implements OnInit {
         user: 0,
     }));
     public user: IUser;
-    public editData: IAccountLog = {} as any;
+    public readonly editForm = form(signal<IAccountLog>({}));
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
             if (!params.user) {
                 return;
@@ -91,7 +91,7 @@ export class AccountLogComponent implements OnInit {
     }
 
     public tapView(modal: DialogEvent, item: IAccountLog) {
-        this.editData = item;
+        this.editForm = item;
         modal.open();
     }
 

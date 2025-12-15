@@ -25,7 +25,7 @@
                 <div class="links">
                     @for (link of developer.links; track $index) {
                         <a [href]="link.url" target="_blank" [title]="link.title">
-                            <i class="iconfont" [ngClass]="link.icon  | iconfont"></i>
+                            <i class="iconfont" [class]="link.icon  | iconfont"></i>
                             {{ link.title }}
                         </a>
                     }
@@ -44,7 +44,7 @@
                         <span class="item-meta">{{ item.formatted_proficiency }}({{ item.duration }})</span>
                     </div>
                     <div class="progress-inner">
-                        <span class="inner-bar" [ngStyle]="{width: item.proficiency + '%'}"></span>
+                        <span class="inner-bar" [style]="{width: item.proficiency + '%'}"></span>
                     </div>
                     @if (item.links) {
                     <div class="skill-meta">

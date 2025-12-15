@@ -21,7 +21,7 @@
                     @for (attr of item.attr_items; track $index) {
                     <div class="check-label">
                         <i class="iconfont"
-                            [ngClass]="{'icon-square-o': !attr.checked, 'icon-check-square-o': attr.checked}"
+                            [class]="{'icon-square-o': !attr.checked, 'icon-check-square-o': attr.checked}"
                             (click)="tapAttrCheck(item, attr)"></i>
                         <input type="text" class="form-control" [field]="attr.value"
                             [readOnly]="item.input_type == 1" placeholder="属性值" [ngModelOptions]="{standalone: true}">

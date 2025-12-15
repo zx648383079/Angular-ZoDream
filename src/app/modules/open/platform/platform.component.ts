@@ -35,7 +35,7 @@ export class PlatformComponent implements OnInit {
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.reviewable = window.location.href.indexOf('review') > 0;
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }

@@ -1,9 +1,9 @@
-<div class="slider" [ngClass]="{'slider-goods': itemType < 1, 'slider-comment': itemType == 1}">
+<div class="slider" [class]="{'slider-goods': itemType < 1, 'slider-comment': itemType == 1}">
     <div class="slider-previous" (click)="tapPrevious()">
         <i class="iconfont icon-chevron-left"></i>
     </div>
-    <div class="slider-box" [ngStyle]="boxStyle">
-        <ul [ngStyle]="scrollStyle">
+    <div class="slider-box" [style]="boxStyle">
+        <ul [style]="scrollStyle">
             @for (item of items(); track $index) {
             <li #itemView class="goods-item item-hover fixed-item">
                 @if (itemType < 1) {

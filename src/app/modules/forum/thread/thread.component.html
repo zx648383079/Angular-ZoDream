@@ -22,7 +22,7 @@
 <div class="container">
     <div class="thread-box">
         @if (thread) {
-        <div class="thread-title-bar" [ngClass]="{'thread-highlight': thread.is_highlight}">
+        <div class="thread-title-bar" [class]="{'thread-highlight': thread.is_highlight}">
             <div class="item-count">
                 <span i18n>View: {{ thread.view_count | numberFormat }}</span>
                 <span i18n>Reply: {{ thread.post_count | numberFormat }}</span>
@@ -67,7 +67,7 @@
             @for (item of items; track $index) {
                 @if (item.grade < 1) {
                     <div class="post-item">
-                    <div class="item-user-header" (mouseover)="loadUser(item)" (mouseleave)="item.is_hover_user = false" [ngClass]="{'--with-open': item.is_hover_user}">
+                    <div class="item-user-header" (mouseover)="loadUser(item)" (mouseleave)="item.is_hover_user = false" [class]="{'--with-open': item.is_hover_user}">
                         <ng-container *ngTemplateOutlet="userTpl;context: {$implicit: item.user}" />
                     </div>
                     <div class="item-body">
@@ -99,7 +99,7 @@
                                     <i class="iconfont icon-thumbs-o-up"></i>
                                 </div>
                             }
-                            <div class="action-btn"  [ngClass]="{active: thread.is_reward}" i18n-title title="Reward" (click)="tapReward(rewardModal)" i18n>
+                            <div class="action-btn"  [class]="{active: thread.is_reward}" i18n-title title="Reward" (click)="tapReward(rewardModal)" i18n>
                                 {thread.is_reward, plural, =true {Rewarded} =false {Reward}}
                             </div>
                             @if (thread.is_collected) {
@@ -126,7 +126,7 @@
                 </div>
                 } @else {
                     <div class="post-item">
-                    <div class="item-user-header" (mouseover)="loadUser(item)" (mouseleave)="item.is_hover_user = false" [ngClass]="{'--with-open': item.is_hover_user}">
+                    <div class="item-user-header" (mouseover)="loadUser(item)" (mouseleave)="item.is_hover_user = false" [class]="{'--with-open': item.is_hover_user}">
                         <ng-container *ngTemplateOutlet="userTpl;context: {$implicit: item.user}" />
                     </div>
                     <div class="item-body">
@@ -241,7 +241,7 @@
         <div class="link-item">
             <div class="label" i18n>Topest</div>
             <div class="value">
-                <app-switch [field]="editData.top_type" />
+                <app-switch [field]="editForm.top_type" />
             </div>
         </div>
         }
@@ -250,7 +250,7 @@
         <div class="link-item">
             <div class="label" i18n>Digest</div>
             <div class="value">
-                <app-switch [field]="editData.is_digest" />
+                <app-switch [field]="editForm.is_digest" />
             </div>
         </div>
         }
@@ -259,7 +259,7 @@
         <div class="link-item">
             <div class="label" i18n>Highlight</div>
             <div class="value">
-                <app-switch [field]="editData.is_highlight" />
+                <app-switch [field]="editForm.is_highlight" />
             </div>
         </div>
         }
@@ -268,14 +268,14 @@
         <div class="link-item">
             <div class="label" i18n>Close</div>
             <div class="value">
-                <app-switch [field]="editData.is_closed" />
+                <app-switch [field]="editForm.is_closed" />
             </div>
         </div>
         }
 
         <div class="form-group">
           <label for="remark" i18n>Operating Instructions*</label>
-          <textarea class="form-control" id="remark" [field]="editData.remark"></textarea>
+          <textarea class="form-control" id="remark" [field]="editForm.remark"></textarea>
         </div>
     }
 </app-dialog-box>

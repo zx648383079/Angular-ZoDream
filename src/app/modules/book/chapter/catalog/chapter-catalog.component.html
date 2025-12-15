@@ -15,10 +15,10 @@
     <div class="row">
         @for (item of filterItems; track $index) {
             @if (item.type < 1) {
-                <div (click)="tapChapter(item)" class="col-lg-4 col-md-6 item" [ngClass]="{active: current && current.chapter_id == item.id}">
+                <div (click)="tapChapter(item)" class="col-lg-4 col-md-6 item" [class]="{active: current && current.chapter_id == item.id}">
                     <div class="title">
                         @if (item.type == 1) {
-                        <i class="iconfont" [ngClass]="{'icon-lock': !item.is_bought, 'icon-unlock': item.is_bought}"></i>
+                        <i class="iconfont" [class]="{'icon-lock': !item.is_bought, 'icon-unlock': item.is_bought}"></i>
                         }
                         {{ item.title }}</div>
                     <div class="time">{{ item.created_at | ago }}</div>
@@ -28,10 +28,10 @@
                     <div class="title">{{ item.title }}</div>
                 </div>
                 @for (it of item.children; track $index) {
-                    <div (click)="tapChapter(it)" class="col-lg-4 col-md-6 item" [ngClass]="{active: current && current.chapter_id == it.id}">
+                    <div (click)="tapChapter(it)" class="col-lg-4 col-md-6 item" [class]="{active: current && current.chapter_id == it.id}">
                         <div class="title">
                             @if (item.type == 1) {
-                            <i class="iconfont" [ngClass]="{'icon-lock': !it.is_bought, 'icon-unlock': it.is_bought}" i18n-title title="Fee chapter"></i>
+                            <i class="iconfont" [class]="{'icon-lock': !it.is_bought, 'icon-unlock': it.is_bought}" i18n-title title="Fee chapter"></i>
                             }
                             {{ it.title }}</div>
                         <div class="time">{{ it.created_at | ago }}</div>

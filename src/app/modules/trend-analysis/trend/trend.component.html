@@ -20,13 +20,13 @@
                 <div class="btn-group">
                     <button type="submit" class="btn btn-primary">搜索</button>
                     <a class="btn btn-light" title="跳转到指定时间页面" (click)="tapGoto()">GOTO</a>
-                    <a class="btn btn-info" [ngClass]="{active: moreOpen}" (click)="moreOpen = !moreOpen">
+                    <a class="btn btn-info" [class]="{active: moreOpen}" (click)="moreOpen = !moreOpen">
                         <i class="iconfont icon-cog"></i>
                     </a>
                 </div>
                 <div class="tab-bar pull-right --with-gray">
                     @for (item of tabItems; track $index) {
-                        <a class="item" [ngClass]="{active: tabIndex == item.value}" (click)="tapTime(item.value)">{{ item.name }}</a>
+                        <a class="item" [class]="{active: tabIndex == item.value}" (click)="tapTime(item.value)">{{ item.name }}</a>
                     }
                 </div>
             </form>
@@ -75,7 +75,7 @@
                     @for (item of group.items; track $index) {
                         <tr>
                             <td [title]="item.created_at|timestamp">{{ item.created_at | timestamp:'hh:ii:ss'}}</td>
-                            <td class="--with-tool" [ngClass]="{'is-mark': isMark('ip', item.ip)}">
+                            <td class="--with-tool" [class]="{'is-mark': isMark('ip', item.ip)}">
                                 <a (click)="toggleOpen(item)">{{ item.ip }}</a>
                                 <div class="tool-bar">
                                     @if (isMark('ip', item.ip)) {
@@ -93,7 +93,7 @@
                                 </div>
                             </td>
                             <td>
-                                <a class="btn" [ngClass]="{'btn-success': item.status_code <= 308, 'btn-danger': item.status_code >= 400}" [title]="item.status_code">
+                                <a class="btn" [class]="{'btn-success': item.status_code <= 308, 'btn-danger': item.status_code >= 400}" [title]="item.status_code">
                                     {{ item.method }}
                                 </a>
                             </td>

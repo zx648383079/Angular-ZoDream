@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -11,9 +11,9 @@ import { BotService } from '../bot.service';
 
 @Component({
     standalone: false,
-  selector: 'app-bot-m-reply',
-  templateUrl: './reply.component.html',
-  styleUrls: ['./reply.component.scss']
+    selector: 'app-bot-m-reply',
+    templateUrl: './reply.component.html',
+    styleUrls: ['./reply.component.scss']
 })
 export class ReplyComponent implements OnInit {
     private readonly service = inject(BotService);
@@ -38,11 +38,16 @@ export class ReplyComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public editData: any = {};
+    public readonly editForm = form(signal({
+        event: '', 
+        type: 0
+    }), schemaPath => {
+        required(schemaPath.event);
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -56,9 +61,13 @@ export class ReplyComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item?: any) {
-        this.editData = item ? {...item} : {event: this.queries.event, type: 0};
+        this.editForm().value.update(v => {
+            v.event = item?.event ?? '';
+            v.type = item?.type ?? 0;
+            return v;
+        });
         modal.open(() => {
-            this.service.replySave(this.editData).subscribe({
+            this.service.replySave(this.editForm().value()).subscribe({
                 next: _ => {
                     if (item) {
                         this.tapPage();
@@ -71,7 +80,7 @@ export class ReplyComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        });
+        }, () => this.editForm().valid());
     }
 
     public onStatusChange(item: IBotReply) {
@@ -88,7 +97,7 @@ export class ReplyComponent implements OnInit {
     }
 
     public tapTab(i: any = '') {
-        this.queries.event = i;
+        this.queries.event().value.set(i);
         this.tapRefresh();
     }
 

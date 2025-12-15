@@ -1,10 +1,9 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
-import { emptyValidate } from '../../../../theme/validators';
 import { ICmsGroup } from '../../model';
 import { CmsService } from '../cms.service';
 
@@ -31,29 +30,37 @@ export class GroupComponent implements OnInit {
         keywords: '',
         type: 0,
     }));
-    public editData: ICmsGroup = {} as any;
+    public readonly editForm = form(signal<ICmsGroup>({
+        id: 0,
+        name: '',
+        description: '',
+        type: 0,
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
     public typeItems = ['栏目', '内容'];
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item?: ICmsGroup) {
-        this.editData = item ? {...item} : {
-            id: 0,
-            name: '',
-            description: '',
-            type: 0,
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.description = item?.description ?? '';
+            v.type = item?.type ?? 0;
+            return v;
+        });
         modal.open(() => {
-            this.service.groupSave(this.editData).subscribe(_ => {
+            this.service.groupSave(this.editForm().value()).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
-        }, () => !emptyValidate(this.editData.name));
+        }, () => this.editForm().valid());
     }
 
     public tapRefresh() {

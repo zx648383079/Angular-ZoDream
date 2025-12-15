@@ -22,7 +22,7 @@ export class EditorLayerComponent implements OnInit {
     public tabIndex = 0;
     public catalogItems: ICatalogItem[] = [];
     public weightItems: Widget[] = [];
-    public editData: any = {};
+    public readonly editForm = form(signal<any>({}));
     public bodyStyle: any = {};
 
     ngOnInit() {
@@ -47,16 +47,16 @@ export class EditorLayerComponent implements OnInit {
     }
 
     public tapNewCatalog(group = false) {
-        this.editData =  {
+        this.editForm =  {
             name: '',
             isGroup: group,
         };
         this.catalogModal().open(() => {
             this.service.pushCatalog({
-                name: this.editData.name,
-                canExpand: this.editData.isGroup,
+                name: this.editForm.name,
+                canExpand: this.editForm.isGroup,
             });
-        }, () => !emptyValidate(this.editData.name), group ? '新增分组' : '新增页面');
+        }, () => !emptyValidate(this.editForm.name), group ? '新增分组' : '新增页面');
     }
 
     public onWidgetTap(e: TreeEvent) {

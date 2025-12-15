@@ -3,21 +3,21 @@
 <div class="dialog-box">
     <div class="dialog-header">
         <div class="tab-header">
-            <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tapSearchTab(0)">找人</div>
-            <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tapSearchTab(1)">找群</div>
+            <div class="tab-item" [class]="{active: tabIndex < 1}" (click)="tapSearchTab(0)">找人</div>
+            <div class="tab-item" [class]="{active: tabIndex == 1}" (click)="tapSearchTab(1)">找群</div>
         </div>
         <i class="iconfont icon-close dialog-close" (click)="close()"></i>
     </div>
     <div class="search-bar">
-        <a class="route-icon" [ngClass]="{disabled: queries.page < 2}" title="上一页" (click)="tapPrevious()">
+        <a class="route-icon" [class]="{disabled: queries.page < 2}" title="上一页" (click)="tapPrevious()">
             <i class="iconfont icon-chevron-left"></i>
         </a>
-        <div class="search-input" [ngClass]="{'on-edit': isInput}">
+        <div class="search-input" [class]="{'on-edit': isInput}">
             <i class="iconfont icon-search"></i>
             <input type="text" placeholder="搜索联系人" id="keywords" [field]="queries.keywords" (focus)="tapSearchInput()" (keypress)="onSearchKeyDown($event)">
             <i class="iconfont icon-close" (click)="tapSearchClear()"></i>
         </div>
-        <a class="route-icon" [ngClass]="{disabled: !hasMore}" title="下一页" (click)="tapNext()">
+        <a class="route-icon" [class]="{disabled: !hasMore}" title="下一页" (click)="tapNext()">
             <i class="iconfont icon-chevron-right"></i>
         </a>
     </div>

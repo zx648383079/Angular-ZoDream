@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { MicroService } from './micro.service';
 import { DialogEvent, DialogService } from '../../components/dialog';
@@ -42,13 +42,15 @@ export class MicroComponent implements OnInit, OnDestroy {
         user: 0,
         topic: 0,
         sort: 'new',
-    }
+    }));
     public forwardItem: IMicro;
-    public editData = {
+    public readonly editForm = form(signal({
         content: '',
         is_comment: false,
         id: 0,
-    }));
+    }), schemaPath => {
+        required(schemaPath.content);
+    });
 
     public user: any;
     public topic: ITopic;
@@ -87,20 +89,22 @@ export class MicroComponent implements OnInit, OnDestroy {
         this.themeService.suggestQuerySubmitted.subscribe(res => {
             if (typeof res === 'object') {
                 this.loadTopic(res.id);
-                this.queries.topic = res.id;
+                this.queries.topic().value.set(res.id);
                 this.tapRefresh();
                 return;
             }
-            this.queries.keywords = res;
+            this.queries.keywords().value.set(res);
             this.tapRefresh();
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
-            if (this.queries.user > 0) {
-                this.loadUser(this.queries.user);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
+            const user = this.queries.user().value() as number;
+            if (user > 0) {
+                this.loadUser(user);
             }
-            if (this.queries.topic > 0) {
-                this.loadTopic(this.queries.topic);
+            const topic = this.queries.topic().value() as number;
+            if (topic > 0) {
+                this.loadTopic(topic);
             }
             this.tapPage();
         });
@@ -153,7 +157,7 @@ export class MicroComponent implements OnInit, OnDestroy {
     }
 
     public tapTab(val: any) {
-        this.queries.sort = val;
+        this.queries.sort().value.set(val);
         this.tapRefresh();
     }
 
@@ -216,16 +220,17 @@ export class MicroComponent implements OnInit, OnDestroy {
 
     public tapForward(modal: DialogEvent, item: IMicro) {
         this.forwardItem = item;
-        this.editData = {
-            content: '',
-            is_comment: false,
-            id: item.id,
-        };
+        this.editForm().value.update(v => {
+            v.content = '';
+            v.id = item.id,
+            v.is_comment = false;
+            return v;
+        })
         modal.open(() => {
-            this.service.forward(this.editData).subscribe(res => {
+            this.service.forward(this.editForm).subscribe(res => {
                 this.toastrService.success($localize `Forwarded`);
             });
-        }, () => !emptyValidate(this.editData.content));
+        }, () => this.editForm().valid());
     }
 
     public onPublish(item: IMicro) {
@@ -271,8 +276,8 @@ export class MicroComponent implements OnInit, OnDestroy {
             return;
         }
         this.isLoading = true;
-        const params: any = {...this.queries().value(), page};
-        this.service.getList(params).subscribe({
+        const queries = {...this.queries().value(), page};
+        this.service.getList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
@@ -281,7 +286,8 @@ export class MicroComponent implements OnInit, OnDestroy {
                     return i;
                 })
                 this.items = page < 2 ? res.data : [].concat(this.items, res.data);
-                this.searchService.applyHistory(this.queries = params, false);
+                this.queries().value.set(queries);
+            this.searchService.applyHistory(queries, false);
             },
             error: () => {
                 this.isLoading = false;

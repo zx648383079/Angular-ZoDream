@@ -1,5 +1,5 @@
 <header class="tablet-collapse" [hidden]="diplayMode > 3">
-    <nav class="navbar navbar-expand-lg" [ngClass]="{'fixed-top': fixedTop, 'navbar-not': !navStyle && !navExpand, 'navbar-custom': navStyle || navExpand}">
+    <nav class="navbar navbar-expand-lg" [class]="{'fixed-top': fixedTop, 'navbar-not': !navStyle && !navExpand, 'navbar-custom': navStyle || navExpand}">
         <div class="container">
             <a class="navbar-brand" routerLink="./">ZoDream</a>
             <button class="navbar-toggler" type="button" (click)="navExpand = !navExpand" data-toggle="collapse"
@@ -8,10 +8,10 @@
                 <span class="navbar-toggler-icon iconfont icon-bars"></span>
             </button>
 
-            <div class="collapse navbar-collapse" [ngClass]="{show: navExpand}" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" [class]="{show: navExpand}" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     @for (item of menus; track $index) {
-                        <li class="nav-item" [ngClass]="{active: activeUri === item.url}">
+                        <li class="nav-item" [class]="{active: activeUri === item.url}">
                             <a class="nav-link" [routerLink]="item.url">{{ item.name }}
                                 @if (activeUri === item.url) {
                                     <span class="sr-only" i18n>(current)</span>
@@ -35,17 +35,17 @@
                     } @else {
                         <li class="nav-item">
                             <app-checkin (checkedChange)="onCheckedChange($event)">
-                                <a class="nav-link" [ngClass]="{disabled: todayChecked}" i18n>{todayChecked, plural, =true {Checked in} =false {Check in}}</a>
+                                <a class="nav-link" [class]="{disabled: todayChecked}" i18n>{todayChecked, plural, =true {Checked in} =false {Check in}}</a>
                             </app-checkin>
                         </li>
-                        <li class="nav-item dropdown" [ngClass]="{show: dropDownVisible}">
+                        <li class="nav-item dropdown" [class]="{show: dropDownVisible}">
                             <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown" role="button" (click)="toggleDropDown()">
                                 {{ user.name }}
                                 @if (user.bulletin_count > 0) {
                                     <em class="bubble-tip" title="There are unread messages" i18n-title></em>
                                 }
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown" [ngClass]="{show: dropDownVisible}">
+                            <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown" [class]="{show: dropDownVisible}">
                                 @for (item of dropNavItems; track $index) {
                                     @if (item.name && !item.hidden) {
                                         <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" [routerLink]="item.url">

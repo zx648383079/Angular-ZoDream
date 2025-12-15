@@ -1,7 +1,7 @@
 <app-edit-header title="分销设置" (submited)="tapSubmit($event)" />
 <div class="container-fluid">
     
-    <div class="input-panel" [ngClass]="{open: data.by_user}">
+    <div class="input-panel" [class]="{open: data.by_user}">
         <div class="input-item">
             <div class="item-icon">
                 <i class="iconfont icon-bookmark"></i>
@@ -57,7 +57,7 @@
     </div>
     
 
-    <div class="input-panel open" [ngClass]="{open: data.by_order}">
+    <div class="input-panel open" [class]="{open: data.by_order}">
         <div class="input-item">
             <div class="item-icon">
                 <i class="iconfont icon-bookmark"></i>

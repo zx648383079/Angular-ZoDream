@@ -12,6 +12,6 @@
 }
 <div class="select-option-bar">
     @for (item of unitItems; track $index) {
-        <div class="option-item" [ngClass]="{selected: unit == item}" (click)="tapSelectedUnit(item)">{{ item }}</div>
+        <div class="option-item" [class]="{selected: unit == item}" (click)="tapSelectedUnit(item)">{{ item }}</div>
     }
 </div>

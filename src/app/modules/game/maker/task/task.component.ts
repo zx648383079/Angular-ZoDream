@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -31,23 +31,38 @@ export class TaskComponent implements OnInit {
         keywords: '',
         project: 0
     }));
-    public editData: IGameTask = {} as any;
+    public readonly editForm = form(signal<IGameTask>({
+        id: 0,
+        title: '',
+        description: '',
+        gift: '',
+        before: ''
+    }), schemaPath => {
+        required(schemaPath.title);
+    });
     public typeItems = TaskTypeItems;
 
     ngOnInit() {
         this.route.parent.params.subscribe(params => {
-            this.queries.project = parseNumber(params.game);
+            this.queries.project().value.set(parseNumber(params.game));
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item?: IGameTask) {
-        this.editData = item ? {...item} : {} as any;
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.title = item?.title ?? '';
+            v.description = item?.description ?? '';
+            v.gift = item?.gift ?? '';
+            v.before = item?.before ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.taskSave({...this.editData, project_id: this.queries.project}).subscribe({
+            this.service.taskSave({...this.editForm().value(), project_id: this.queries.project}).subscribe({
                 next: _ => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
@@ -56,7 +71,7 @@ export class TaskComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        });
+        }, () => this.editForm().valid());
     }
 
     public tapRefresh() {
@@ -86,7 +101,8 @@ export class TaskComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries, ['project']);
+                this.queries().value.set(queries);
+            this.searchService.applyHistory(queries, ['project']);
             },
             error: () => {
                 this.isLoading = false;

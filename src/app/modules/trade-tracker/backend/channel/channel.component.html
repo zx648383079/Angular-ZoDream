@@ -51,23 +51,23 @@
         <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>
-<app-dialog-box #modal [title]="editData.id > 0 ? '编辑渠道' : '新增渠道'">
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑渠道' : '新增渠道'">
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editData.name" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="short_name-input">简称</label>
         <div class="input-group-control">
-            <input class="form-control" id="short_name-input" [field]="editData.short_name" placeholder="请输入简称">
+            <input class="form-control" id="short_name-input" [field]="editForm.short_name" placeholder="请输入简称">
         </div>
     </div>
     <div class="form-group">
         <label for="site_url-input">网址</label>
         <div class="input-group-control">
-            <input class="form-control" id="site_url-input" [field]="editData.site_url" placeholder="请输入网址">
+            <input class="form-control" id="site_url-input" [field]="editForm.site_url" placeholder="请输入网址">
         </div>
     </div>
 </app-dialog-box>

@@ -5,12 +5,12 @@
         </div>
         <div class="tool-bar-top">
             <div class="tool-left">
-                <div class="tool-item btn-info toggle-tool-item" (click)="tapAdd()" [ngClass]="{active: addToggle}">
+                <div class="tool-item btn-info toggle-tool-item" (click)="tapAdd()" [class]="{active: addToggle}">
                     <i class="iconfont icon-plus"></i>
                 </div>
                 @for (item of toolItems; track $index) {
-                    <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, $event)" [title]="item.label">
-                        <i class="iconfont" [ngClass]="item.icon"></i>
+                    <div class="tool-item" [class]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, $event)" [title]="item.label">
+                        <i class="iconfont" [class]="item.icon"></i>
                     </div>
                 }
             </div>
@@ -19,7 +19,7 @@
                 <app-action-button class="tool-item btn-primary" (tapped)="tapSubmit($event)">
                     <i class="iconfont icon-floppy-o"></i>
                 </app-action-button>
-                <div class="tool-item" [ngClass]="{active: propertyToggle}" (click)="propertyToggle = !propertyToggle">
+                <div class="tool-item" [class]="{active: propertyToggle}" (click)="propertyToggle = !propertyToggle">
                     <i class="iconfont icon-cog"></i>
                 </div>
                 <div class="tool-item">
@@ -41,7 +41,7 @@
             <div class="panel-header">
                 <div class="panel-tab-bar">
                     @for (item of propertyTabItems; track $index;let i = $index) {
-                        <a class="item" [ngClass]="{active: propertyTabIndex == i}" (click)="propertyTabIndex = i">{{ item }}</a>
+                        <a class="item" [class]="{active: propertyTabIndex == i}" (click)="propertyTabIndex = i">{{ item }}</a>
                     }
                 </div>
                 <div class="panel-action-btn" (click)="propertyToggle = false">
@@ -231,7 +231,7 @@
     <div class="editor-footer" i18n>{{ size }} words</div>
 </div>
 
-<div class="editor-modal" [ngStyle]="openStyle">
+<div class="editor-modal" [style]="openStyle">
     <div class="modal-header">
         <span>Open Type</span>
         <div class="modal-action-group">
@@ -244,7 +244,7 @@
         @for (item of openItems; track $index) {
         <div class="option-item" (click)="changeOpenType(item.value)">
             <div class="item-icon">
-                <i class="iconfont" [ngClass]="{'icon-check-square-o': openType() == item.value, 'icon-square-o': openType() != item.value}"></i>
+                <i class="iconfont" [class]="{'icon-check-square-o': openType() == item.value, 'icon-square-o': openType() != item.value}"></i>
             </div>
             <div class="item-body">
                 <div class="item-label">{{ item.name }}</div>
@@ -263,7 +263,7 @@
 
     </div>
 </div>
-<div class="editor-modal" [ngStyle]="statusStyle">
+<div class="editor-modal" [style]="statusStyle">
     <div class="modal-header">
         <span>Publish Status</span>
         <div class="modal-action-group">

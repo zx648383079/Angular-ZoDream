@@ -1,10 +1,9 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
-import { emptyValidate } from '../../../../../theme/validators';
 import { ICourse } from '../../../model';
 import { ExamService } from '../../exam.service';
 
@@ -31,7 +30,15 @@ export class CourseGradeComponent implements OnInit {
         keywords: '',
         course: 0,
     }));
-    public editData: any = {} as any;
+    public readonly editForm = form(signal({
+        id: 0,
+        name: '',
+        grade: 1,
+        course_id: 0,
+    }), schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.grade);
+    });
     public courseItems: ICourse[] = [];
 
     ngOnInit() {
@@ -39,24 +46,25 @@ export class CourseGradeComponent implements OnInit {
             this.courseItems = res.data;
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item?: any) {
-        this.editData = item ? {...item} : {
-            id: 0,
-            name: '',
-            grade: 1,
-            course_id: 0,
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.grade = item?.grade ?? 1;
+            v.course_id = item?.course_id ?? 0;
+            return v;
+        });
         modal.open(() => {
-            this.service.gradeSave(this.editData).subscribe(_ => {
+            this.service.gradeSave(this.editForm().value()).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
-        }, () => !emptyValidate(this.editData.name) && this.editData.grade > 0);
+        }, () => this.editForm().valid());
     }
 
     /**

@@ -9,7 +9,7 @@
                     </div>
                     <ul>
                         @for (item of group.children; track $index) {
-                            <li [ngClass]="{active: item.active}" (click)="tapNav(item)">
+                            <li [class]="{active: item.active}" (click)="tapNav(item)">
                                 <a [routerLink]="item.url">{{ item.name }}</a>
                             </li>
                         }

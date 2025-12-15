@@ -14,7 +14,7 @@
     </div>
     <div class="search-body">
         @for (item of items; track $index) {
-            <div class="icon-option-item" [ngClass]="{selected: item.checked}" (click)="tapSelect(item)">
+            <div class="icon-option-item" [class]="{selected: item.checked}" (click)="tapSelect(item)">
                 <i class="iconfont {{ item.value }}"></i>
                 <span>{{ item.name }}</span>
             </div>

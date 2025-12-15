@@ -1,17 +1,16 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
-import { IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
-import { emptyValidate } from '../../../../../theme/validators';
 import { IMovieArea } from '../../../model';
 import { TVService } from '../../tv.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-movie-area',
-  templateUrl: './movie-area.component.html',
-  styleUrls: ['./movie-area.component.scss']
+    selector: 'app-movie-area',
+    templateUrl: './movie-area.component.html',
+    styleUrls: ['./movie-area.component.scss']
 })
 export class MovieAreaComponent implements OnInit {
     private readonly service = inject(TVService);
@@ -22,7 +21,12 @@ export class MovieAreaComponent implements OnInit {
 
     public items: IMovieArea[] = [];
     public isLoading = false;
-    public editData: IMovieArea = {} as any;
+    public readonly editForm = form(signal<IMovieArea>({
+        id: 0,
+        name: '',
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.load()
@@ -45,12 +49,13 @@ export class MovieAreaComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item?: IMovieArea) {
-        this.editData = item ? Object.assign({}, item) : {
-            id: 0,
-            name: '',
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.areaSave(this.editData).subscribe({
+            this.service.areaSave(this.editForm().value()).subscribe({
                 next: () => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.load();
@@ -59,9 +64,7 @@ export class MovieAreaComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editData.name);
-        });
+        }, () => this.editForm().valid());
     }
 
     public tapRemove(item: IMovieArea) {

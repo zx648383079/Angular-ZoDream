@@ -1,13 +1,13 @@
 <ul class="tree-box" (contextmenu)="tapContextMenu($event)">
     @for (item of items(); track $index) {
-        <li class="tree-item" [ngClass]="{open: item.expanded, active: value() && item.id == value().id}">
+        <li class="tree-item" [class]="{open: item.expanded, active: value() && item.id == value().id}">
         <div class="tree-name" (click)="tapEdit(item)" (contextmenu)="tapContextMenu($event, item)">
-            <i class="iconfont" [ngClass]="{'icon-chevron-right': (item.children || item.type > 0) && !item.expanded, 'icon-chevron-down': (item.children || item.type > 0) && item.expanded}"></i>
+            <i class="iconfont" [class]="{'icon-chevron-right': (item.children || item.type > 0) && !item.expanded, 'icon-chevron-down': (item.children || item.type > 0) && item.expanded}"></i>
             {{ item.name }}
         </div>
         <ul class="tree-body">
             @for (it of item.children; track $index) {
-            <li class="tree-item" [ngClass]="{active: value() && it.id == value().id}">
+            <li class="tree-item" [class]="{active: value() && it.id == value().id}">
                 <div class="tree-name" (click)="tapEdit(it)" (contextmenu)="tapContextMenu($event, it)">{{ it.name }}</div>
             </li>
             }

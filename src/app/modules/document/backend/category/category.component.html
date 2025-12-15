@@ -21,7 +21,7 @@
             </thead>
             <tbody>
                 @for (item of items; track $index;let i = $index) {
-                <tr class="tree-item" [ngClass]="{'tree-item-open': item.toggled, 'tree-next-level': item.level > 0, 'treee-item-visible': item.level < 1 || item.visibled}">
+                <tr class="tree-item" [class]="{'tree-item-open': item.toggled, 'tree-next-level': item.level > 0, 'treee-item-visible': item.level < 1 || item.visibled}">
                     <td class="tree-arrow-td" (click)="toggleTree(i)">
                         <i class="tree-item-arrow"></i>
                     </td>
@@ -45,22 +45,22 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id > 0 ? '编辑分类' : '新增分类'" [scrollable]="false">
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑分类' : '新增分类'" [scrollable]="false">
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editData.name" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label>图标</label>
         <div class="input-group-control">
-            <app-file-input [field]="editData.icon" />
+            <app-file-input [field]="editForm.icon" />
         </div>
     </div>
     <div class="form-group">
         <label>上级</label>
-        <select id="parent_id" class="form-control" [field]="editData.parent_id">
+        <select id="parent_id" class="form-control" [field]="editForm.parent_id">
             <option [value]="0">-- 无上级分类 --</option>
             @for (item of categories; track $index) {
                 <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>

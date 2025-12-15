@@ -1,12 +1,12 @@
 <div class="work-container" (mousedown)="onSelectStart($event)" (wheel)="onMouseWhell($event)">
-    <div class="work-outer-panel" [ngStyle]="shellStyle">
+    <div class="work-outer-panel" [style]="shellStyle">
         <!-- 模拟样式 -->
         <div class="shell-box">
             <app-editor-shell (resizing)="onResizing($event)" />
         </div>
         <div class="work-body" (contextmenu)="onContext($event)">
             @for (item of widgetItems$ | async; track $index) {
-                <div class="widget-shell" [ngStyle]="item.outerStyle"  (contextmenu)="onContext($event, item)">
+                <div class="widget-shell" [style]="item.outerStyle"  (contextmenu)="onContext($event, item)">
                     <app-editor-widget [value]="item" />
                 </div>
             }
@@ -17,7 +17,7 @@
         </div>
     </div>
      <!-- 选中区域rect -->
-    <div class="selection-rect" [ngStyle]="selectionStyle"></div>
+    <div class="selection-rect" [style]="selectionStyle"></div>
 </div>
 <!-- 标尺 -->
 <div class="rule-box">

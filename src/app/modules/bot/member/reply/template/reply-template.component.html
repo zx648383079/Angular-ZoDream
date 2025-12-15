@@ -52,32 +52,32 @@
     </div>
 </div>
 
-<app-dialog-box #editModal [title]="editData.id ? '编辑模板' : '新增模板'">
+<app-dialog-box #editModal [title]="editForm.id ? '编辑模板' : '新增模板'">
     <div class="form-table-control">
         <div class="input-group-control">
             <label for="">模板名称</label>
             <div>
-                <input type="text" class="form-control" [field]="editData.title">
-                <app-switch offLabel="无效" onLabel="有效" [field]="editData.status" />
+                <input type="text" class="form-control" [field]="editForm.title">
+                <app-switch offLabel="无效" onLabel="有效" [field]="editForm.status" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="">模板ID</label>
             <div>
-                <input type="text" class="form-control" [field]="editData.template_id">
+                <input type="text" class="form-control" [field]="editForm.template_id">
             </div>
         </div>
         
         <div class="input-group-control">
             <label for="">内容</label>
             <div>
-                <textarea class="form-control" [field]="editData.content"></textarea>
+                <textarea class="form-control" [field]="editForm.content"></textarea>
             </div>
         </div>
         <div class="input-group-control">
             <label for="">示例</label>
             <div>
-                <textarea class="form-control" [field]="editData.example"></textarea>
+                <textarea class="form-control" [field]="editForm.example"></textarea>
             </div>
         </div>
     </div>

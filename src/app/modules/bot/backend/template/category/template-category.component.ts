@@ -1,15 +1,15 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { filterTree } from '../../../../../theme/utils';
-import { emptyValidate } from '../../../../../theme/validators';
 import { IBotTemplateCategory } from '../../../model';
 import { BotService } from '../../bot.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-bot-template-category',
-  templateUrl: './template-category.component.html',
-  styleUrls: ['./template-category.component.scss']
+    selector: 'app-bot-template-category',
+    templateUrl: './template-category.component.html',
+    styleUrls: ['./template-category.component.scss']
 })
 export class TemplateCategoryComponent implements OnInit {
     private readonly service = inject(BotService);
@@ -18,7 +18,13 @@ export class TemplateCategoryComponent implements OnInit {
 
     public items: IBotTemplateCategory[] = [];
     public isLoading = false;
-    public editData: any;
+    public readonly editForm = form(signal({
+        id: 0,
+        name: '',
+        parent_id: '0'
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
     public filterItems: IBotTemplateCategory[] = [];
 
     ngOnInit() {
@@ -41,10 +47,13 @@ export class TemplateCategoryComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item?: IBotTemplateCategory) {
-        this.editData = item ? {...item} : {};
+        this.editForm().value.update(v => {
+            v.name = item?.name ?? '';
+            return v;
+        });
         this.filterItems = item ? filterTree(this.items, item.id) : this.items;
         modal.open(() => {
-            this.service.categorySave(this.editData).subscribe({
+            this.service.categorySave(this.editForm().value()).subscribe({
                 next: _ => {
                     this.toastrService.success('添加成功');
                     this.tapRefresh();
@@ -53,7 +62,7 @@ export class TemplateCategoryComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             })
-        }, () => !emptyValidate(this.editData.name));
+        }, () => this.editForm().valid());
     }
 
     public tapRemove(item: IBotTemplateCategory) {

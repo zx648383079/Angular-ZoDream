@@ -9,7 +9,7 @@
                     </div>
                     <div class="group-body">
                         @for (it of item.items; track $index) {
-                            <a class="filter-line-item" [ngClass]="{active: it.selected}">
+                            <a class="filter-line-item" [class]="{active: it.selected}">
                                 <span class="item-body">
                                     {{ it.label }}
                                 </span>
@@ -36,9 +36,9 @@
                             </div>
                             <div class="filter-body">
                                 @for (item of sortItems; track $index) {
-                                    <a [ngClass]="{active: item.value == sortKey}" (click)="tapSort(item)">{{ item.name }}
+                                    <a [class]="{active: item.value == sortKey}" (click)="tapSort(item)">{{ item.name }}
                                         @if (item.value && sortKey == item.value) {
-                                        <i class="iconfont"  [ngClass]="{'icon-sort-alpha-asc': orderAsc, 'icon-sort-alpha-desc': !orderAsc}"></i>
+                                        <i class="iconfont"  [class]="{'icon-sort-alpha-asc': orderAsc, 'icon-sort-alpha-desc': !orderAsc}"></i>
                                         }
                                     </a>
                                 }

@@ -89,9 +89,9 @@
                         <td [title]="'峰值日: ' + todayData.dayMax.next_count.day ">{{ todayData.dayMax.next_count.value | numberFormat }}</td>
                     </tr>
                 }
-                <tr [ngClass]="{'table-light': trendToggle}">
+                <tr [class]="{'table-light': trendToggle}">
                     <td colspan="7" class="align-center">
-                        <i class="iconfont" [ngClass]="{'icon-angle-double-down': !trendToggle, 'icon-angle-double-up': trendToggle}" (click)="trendToggle = !trendToggle"></i>
+                        <i class="iconfont" [class]="{'icon-angle-double-down': !trendToggle, 'icon-angle-double-up': trendToggle}" (click)="trendToggle = !trendToggle"></i>
                     </td>
                 </tr>
             </tbody>
@@ -100,7 +100,7 @@
     </div>
     <div class="tab-bar --with-light">
         @for (item of tabItems; track $index) {
-            <a class="item" [ngClass]="{active: tabIndex == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
+            <a class="item" [class]="{active: tabIndex == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
         }
     </div>
 
@@ -111,15 +111,15 @@
                 <div class="panel-body">
                     <div class="flex-between">
                         <div class="tab-bar">
-                            <a class="item" [ngClass]="{active: trendIndex < 1}" (click)="tapTrendIndex(0)">浏览量(PV)</a>
-                            <a class="item" [ngClass]="{active: trendIndex == 1}" (click)="tapTrendIndex(1)">访客数(UV)</a>
+                            <a class="item" [class]="{active: trendIndex < 1}" (click)="tapTrendIndex(0)">浏览量(PV)</a>
+                            <a class="item" [class]="{active: trendIndex == 1}" (click)="tapTrendIndex(1)">访客数(UV)</a>
                         </div>
                         @if (tabIndex == 'today' || tabIndex == 'yesterday') {
                         <div class="radio-group">
                             <label for="">对比：</label>
-                            <i class="iconfont" [ngClass]="{'icon-check-square-o': trendCompare == 1, 'icon-square-o': trendCompare != 1}" (click)="tapTrendCompare(1)"></i>
+                            <i class="iconfont" [class]="{'icon-check-square-o': trendCompare == 1, 'icon-square-o': trendCompare != 1}" (click)="tapTrendCompare(1)"></i>
                             前一日
-                            <i class="iconfont" [ngClass]="{'icon-check-square-o': trendCompare == 2, 'icon-square-o': trendCompare != 2}" (click)="tapTrendCompare(2)"></i>上周同期
+                            <i class="iconfont" [class]="{'icon-check-square-o': trendCompare == 2, 'icon-square-o': trendCompare != 2}" (click)="tapTrendCompare(2)"></i>上周同期
                         </div>
                         }
                     </div>

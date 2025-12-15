@@ -9,9 +9,9 @@ import { SearchService } from '../../../../theme/services';
 
 @Component({
     standalone: false,
-  selector: 'app-admin-log',
-  templateUrl: './admin-log.component.html',
-  styleUrls: ['./admin-log.component.scss']
+    selector: 'app-admin-log',
+    templateUrl: './admin-log.component.html',
+    styleUrls: ['./admin-log.component.scss']
 })
 export class AdminLogComponent implements OnInit {
     private readonly service = inject(AuthService);
@@ -28,11 +28,11 @@ export class AdminLogComponent implements OnInit {
         keywords: '',
         per_page: 20,
     }));
-    public editData: IAdminLog = {} as any;
+    public readonly editModel = signal<IAdminLog>({} as any);
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -83,7 +83,7 @@ export class AdminLogComponent implements OnInit {
     }
 
     public tapView(modal: DialogBoxComponent, item: IAdminLog) {
-        this.editData = item;
+        this.editModel.set(item);
         modal.open();
     }
 }

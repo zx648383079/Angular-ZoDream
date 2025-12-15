@@ -37,7 +37,7 @@ export class BulletinComponent implements OnInit {
     ngOnInit() {
         this.themeService.titleChanged.next($localize `Bulletin`);
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }

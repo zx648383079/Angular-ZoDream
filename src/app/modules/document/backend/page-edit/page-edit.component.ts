@@ -33,7 +33,7 @@ export class PageEditComponent implements OnInit {
     public version = 0;
     public catalog: IDocPage[] = [];
     public versionItems: IProjectVersion[] = [];
-    public editData: any = {};
+    public readonly editForm = form(signal<any>({}));
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -170,16 +170,16 @@ export class PageEditComponent implements OnInit {
     }
 
     public openVersion(modal: DialogBoxComponent) {
-        this.editData = {
+        this.editForm = {
             name: ''
         };
         modal.open(() => {
-            this.service.versionNew(this.project.id, this.version, this.editData.name).subscribe(_ => {
+            this.service.versionNew(this.project.id, this.version, this.editForm.name).subscribe(_ => {
                 this.toastrService.success('创建版本成功');
                 this.refreshVersion();
             });
         }, () => {
-            return !emptyValidate(this.editData.name);
+            return !emptyValidate(this.editForm.name);
         });
     }
 

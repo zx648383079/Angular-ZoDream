@@ -11,7 +11,7 @@
                 @for (item of items; track $index) {
                     <div class="connect-item">
                     <div class="name">
-                        <i class="iconfont" [ngClass]="item.icon"></i>
+                        <i class="iconfont" [class]="item.icon"></i>
                         {{ item.name }}
                         @if (item.nickname) {
                             ({{ item.nickname }})

@@ -1,12 +1,12 @@
 @if (attachmentType > 0 && attachmentType < 3) {
-    <div class="attachment"  [ngClass]="{'media-slider': open}">
+    <div class="attachment"  [class]="{'media-slider': open}">
         <i class="iconfont icon-close" (click)="open = false"></i>
         <div class="media-large">
             <img [src]="largeImage">
             <div class="media-prev" (click)="tapPrevious()"></div>
             <div class="media-next" (click)="tapNext()"></div>
         </div>
-        <ul [ngClass]="{'media-min': attachmentType == 2}">
+        <ul [class]="{'media-min': attachmentType == 2}">
             @for (it of items(); track $index;let i = $index) {
             <li (click)="tapAttachment(i)">
                 <img [src]="it.thumb" alt="">

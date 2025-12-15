@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../../components/dialog';
@@ -11,9 +11,9 @@ import { ActivityService } from '../../activity.service';
 
 @Component({
     standalone: false,
-  selector: 'app-shop-coupon-code',
-  templateUrl: './coupon-code.component.html',
-  styleUrls: ['./coupon-code.component.scss']
+    selector: 'app-shop-coupon-code',
+    templateUrl: './coupon-code.component.html',
+    styleUrls: ['./coupon-code.component.scss']
 })
 export class CouponCodeComponent implements OnInit {
     private readonly service = inject(ActivityService);
@@ -33,18 +33,20 @@ export class CouponCodeComponent implements OnInit {
         page: 1,
         per_page: 20,
     }));
-    public editData = {
+    public readonly editForm = form(signal({
         amount: 1,
-    };
+    }), schemaPath => {
+        required(schemaPath.amount);
+    });
 
     ngOnInit() {
         this.route.params.subscribe(params => {
             if (params.coupon) {
-                this.queries.coupon = parseInt(params.coupon, 10);
+                this.queries.coupon().value.set(parseInt(params.coupon, 10));
             }
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -52,7 +54,7 @@ export class CouponCodeComponent implements OnInit {
     public tapGenerate(modal: DialogEvent) {
         modal.open(() => {
             this.service.couponCodeGenerate({
-                amount: this.editData.amount,
+                amount: this.editForm.amount,
                 coupon: this.queries.coupon
             }).subscribe({
                 next: _ => {
@@ -63,7 +65,7 @@ export class CouponCodeComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             })
-        }, () => this.editData.amount > 0);
+        }, () => this.editForm().valid());
     }
 
     public tapExport() {
@@ -75,7 +77,7 @@ export class CouponCodeComponent implements OnInit {
     public onUploadFile(event: UploadButtonEvent) {
         const form = new FormData();
         form.append('file', event.files[0]);
-        form.append('coupon', this.queries.coupon);
+        form.append('coupon', this.queries.coupon().value() as any);
         event.enter();
         this.service.couponCodeImport(form).subscribe({
             next: _ => {

@@ -7,7 +7,7 @@ import { rangeStep } from '../../../theme/utils';
     encapsulation: ViewEncapsulation.None,
     template: `
     @for (item of items; track $index) {
-        <span [ngClass]="{active: value() == item}" (click)="tapDot(item)"></span>
+        <span [class]="{active: value() == item}" (click)="tapDot(item)"></span>
     }
     `,
    styleUrls: ['./flip-dot.component.scss'],

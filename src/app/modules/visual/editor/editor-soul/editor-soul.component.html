@@ -1,18 +1,18 @@
 <div class="soul-main">
     <div class="tab-box">
         <div class="tab-header">
-            <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">组件</div>
-            <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">部件</div>
-            <div class="tab-item" [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2">动态容器</div>
+            <div class="tab-item" [class]="{active: tabIndex < 1}" (click)="tabIndex = 0">组件</div>
+            <div class="tab-item" [class]="{active: tabIndex == 1}" (click)="tabIndex = 1">部件</div>
+            <div class="tab-item" [class]="{active: tabIndex == 2}" (click)="tabIndex = 2">动态容器</div>
         </div>
-        <div class="tab-body" [ngStyle]="bodyStyle">
-            <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
+        <div class="tab-body" [style]="bodyStyle">
+            <div class="tab-item" [class]="{active: tabIndex < 1}">
                 <div class="row">
                     @for (item of controlItems; track $index) {
                     <div class="col-6">
                         <div class="weight-item" (dblclick)="tapWidget(item)" (mousedown)="moveWidget(item, $event)">
                             @if (item.icon) {
-                                <i class="iconfont" [ngClass]="item.icon"></i>
+                                <i class="iconfont" [class]="item.icon"></i>
                             }
                             @if (!item.icon && item.preview) {
                                 <img [src]="item.preview" [alt]="item.name">
@@ -23,12 +23,12 @@
                     }
                 </div>
             </div>
-            <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
+            <div class="tab-item" [class]="{active: tabIndex == 1}">
                 @for (item of panelItems; track $index) {
                 <div class="col-6">
                     <div class="weight-item">
                         @if (item.icon) {
-                            <i class="iconfont" [ngClass]="item.icon"></i>
+                            <i class="iconfont" [class]="item.icon"></i>
                         }
                         @if (!item.icon && item.preview) {
                             <img [src]="item.preview" [alt]="item.name">
@@ -38,7 +38,7 @@
                 </div>
                 }
             </div>
-            <div class="tab-item" [ngClass]="{active: tabIndex == 2}">
+            <div class="tab-item" [class]="{active: tabIndex == 2}">
                 <div class="add-btn" (click)="gridModal.open()">
                     <i class="iconfont icon-plus"></i>
                     新建

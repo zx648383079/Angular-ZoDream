@@ -1,7 +1,7 @@
 <div class="search-box has-search-icon">
     <form class="search-input" (submit)="tapConfirm()">
         <div class="search-icon" [title]="currentEngine.name" (click)="toggleEngine()">
-            <i class="iconfont" [ngClass]="currentEngine.icon"></i>
+            <i class="iconfont" [class]="currentEngine.icon"></i>
         </div>
         <input type="text" name="keywords" [value]="value()" (input)="value.set($event.target.value)" 
         [placeholder]="placeholder()" (ngModelChange)="onSuggestChange()" 
@@ -18,7 +18,7 @@
     <div class="suggest-body">
         <ul>
             @for (item of suggestItems; track $index; let i = $index) {
-            <li [ngClass]="{'active': i == dropIndex}" (click)="tapItem(item)">
+            <li [class]="{'active': i == dropIndex}" (click)="tapItem(item)">
                 <span class="item-no">{{ i + 1 }}</span>
                 <span class="item-text">{{ formatTitle(item) }}</span>
             </li>
@@ -29,7 +29,7 @@
     <div class="history-body">
         <ul>
             @for (item of histories; track $index; let i = $index) {
-            <li [ngClass]="{'active': i == dropIndex}" (click)="tapHistory(item)">
+            <li [class]="{'active': i == dropIndex}" (click)="tapHistory(item)">
                 <i class="iconfont icon-history"></i>
                 <span class="item-text">{{ item }}</span>
                 <i class="iconfont icon-close" (click)="tapRemoveHistory(i, $event)"></i>
@@ -50,7 +50,7 @@
         <ul class="search-engine-body">
             @for (item of engineItems; track $index; let i = $index) {
             <li (click)="tapEngine(i)">
-                <i class="iconfont" [ngClass]="item.icon"></i>
+                <i class="iconfont" [class]="item.icon"></i>
                 <span>{{ item.name }}</span>
             </li>
             }

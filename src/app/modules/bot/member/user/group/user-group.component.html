@@ -51,12 +51,12 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id ? '编辑分组' : '新增分组'" [scrollable]="false">
+<app-dialog-box #modal [title]="editForm.id ? '编辑分组' : '新增分组'" [scrollable]="false">
     <div class="form-table-control">
         <div class="input-group-control">
             <label for="">名称</label>
             <div>
-                <input type="text" class="form-control" [field]="editData.name">
+                <input type="text" class="form-control" [field]="editForm.name">
             </div>
         </div>
     </div>

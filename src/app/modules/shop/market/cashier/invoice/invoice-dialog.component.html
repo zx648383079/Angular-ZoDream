@@ -9,7 +9,7 @@
             <label>发票类型</label>
             <div class="radio-box">
                 @for (item of typeItems; track $index; let i = $index) {
-                 <span [ngClass]="{active: editData.type == i}" (click)="editData.type = i">{{ item }}</span>
+                 <span [class]="{active: editForm.type == i}" (click)="editForm.type = i">{{ item }}</span>
                 }
                 <span class="disable">增值税专用发票</span>
             </div>
@@ -19,14 +19,14 @@
             <label>发票抬头</label>
             <div class="radio-box">
                 @for (item of titleTypeItems; track $index; let i = $index) {
-                    <span [ngClass]="{active: editData.title_type == i}" (click)="editData.title_type = i">{{ item }}</span>
+                    <span [class]="{active: editForm.title_type == i}" (click)="editForm.title_type = i">{{ item }}</span>
                 }
             </div>
         </div>
         <div class="input-group-control">
-            <input type="text" placeholder="抬头" [field]="editData.title">
-            @if (editData.title_type > 0) {
-                <input type="text" placeholder="税号" [field]="editData.tax_no">
+            <input type="text" placeholder="抬头" [field]="editForm.title">
+            @if (editForm.title_type > 0) {
+                <input type="text" placeholder="税号" [field]="editForm.tax_no">
             }
         </div>
         <div class="input-line">
@@ -37,7 +37,7 @@
             <label>发票内容</label>
             <div class="radio-box">
                 @for (item of contentItems; track $index; let i = $index) {
-                    <span [ngClass]="{active: editData.content == i}" (click)="editData.content = i">{{ item }}</span>
+                    <span [class]="{active: editForm.content == i}" (click)="editForm.content = i">{{ item }}</span>
                 }
             </div>
         </div>

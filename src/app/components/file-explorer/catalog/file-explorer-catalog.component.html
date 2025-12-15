@@ -7,10 +7,10 @@
 <ng-template #fileItemTpl let-file>
     @if (file) {
         @if (file.expandable) {
-            <li class="tree-item" [ngClass]="{open: file.expanded, active: activePath == file.path}">
-                <div class="tree-item-header" [ngStyle]="getItemStyle(file)">
-                    <i class="iconfont" [ngClass]="{'icon-chevron-right': file.expandable && !file.expanded, 'icon-chevron-down': file.expanded}" (click)="toggleOpen(file)"></i>
-                    <i class="iconfont" [ngClass]="file.icon"></i>
+            <li class="tree-item" [class]="{open: file.expanded, active: activePath == file.path}">
+                <div class="tree-item-header" [style]="getItemStyle(file)">
+                    <i class="iconfont" [class]="{'icon-chevron-right': file.expandable && !file.expanded, 'icon-chevron-down': file.expanded}" (click)="toggleOpen(file)"></i>
+                    <i class="iconfont" [class]="file.icon"></i>
                     <span (click)="tapItem(file)">{{ file.name }}</span>
                 </div>
                 @if (file.children) {
@@ -23,10 +23,10 @@
                 
             </li>
         } @else {
-            <li class="tree-item" [ngClass]="{active: activePath == file.path}">
-                <div class="tree-item-header" (click)="tapItem(file)" [ngStyle]="getItemStyle(file)">
+            <li class="tree-item" [class]="{active: activePath == file.path}">
+                <div class="tree-item-header" (click)="tapItem(file)" [style]="getItemStyle(file)">
                     <i class="iconfont"></i>
-                    <i class="iconfont" [ngClass]="file.icon"></i>
+                    <i class="iconfont" [class]="file.icon"></i>
                     <span>{{ file.name }}</span>
                 </div>
             </li>

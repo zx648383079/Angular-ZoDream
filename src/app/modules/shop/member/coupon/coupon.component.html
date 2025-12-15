@@ -24,16 +24,16 @@
             </div>
             <div class="tab-box">
                 <div class="tab-header">
-                    <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tapTab(0)">可使用</div>
-                    <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tapTab(1)">已使用</div>
-                    <div class="tab-item" [ngClass]="{active: tabIndex > 1}" (click)="tapTab(2)">已失效</div>
+                    <div class="tab-item" [class]="{active: tabIndex < 1}" (click)="tapTab(0)">可使用</div>
+                    <div class="tab-item" [class]="{active: tabIndex == 1}" (click)="tapTab(1)">已使用</div>
+                    <div class="tab-item" [class]="{active: tabIndex > 1}" (click)="tapTab(2)">已失效</div>
                 </div>
                 <div class="tab-body">
                     <div class="tab-item active">
                         <div class="row">
                             @for (item of items; track $index) {
                                 <div class="col-md-4">
-                                <div class="coupon-item" [ngClass]="{open: item.open, expired: item.expired}">
+                                <div class="coupon-item" [class]="{open: item.open, expired: item.expired}">
                                     <div class="coupon-info">
                                         <div class="money">
                                             @if (item.type > 0) {
@@ -58,7 +58,7 @@
                                         <div class="tip-body">
                                             厨房配件专享；限时购、特价等特惠商品，处于新品期的商品及详情页标注不可用券的商品除外
                                         </div>
-                                        <i class="iconfont" [ngClass]="{'icon-chevron-down': !item.open, 'icon-chevron-up': item.open}" (click)="item.open = !item.open"></i>
+                                        <i class="iconfont" [class]="{'icon-chevron-down': !item.open, 'icon-chevron-up': item.open}" (click)="item.open = !item.open"></i>
                                     </div>
                                 </div>
                             </div>

@@ -1,4 +1,4 @@
-<div class="page-box" [ngClass]="navClass">
+<div class="page-box" [class]="navClass">
     <div class="nav-menu nav-pane-bar">
         <i class="iconfont icon-bars nav-toggle-icon" (click)="tapToggle()"></i>
         <ul class="bar-top">
@@ -11,7 +11,7 @@
                     @if (suggestItems() && suggestItems().length > 0) {
                     <ul class="search-suggestion">
                         @for (item of suggestItems(); track $index; let i = $index) {
-                            <li (click)="tapSuggestion(i)" [ngClass]="{active: i === suggestIndex}" >{{ formatTitle(item) }}</li>
+                            <li (click)="tapSuggestion(i)" [class]="{active: i === suggestIndex}" >{{ formatTitle(item) }}</li>
                         }
                     </ul>
                     }
@@ -19,33 +19,33 @@
                 </li>
             }
             @for (item of menu(); track $index) {
-                <li class="menu-item" [ngClass]="{'active': item.active, 'open': item.expand}"
+                <li class="menu-item" [class]="{'active': item.active, 'open': item.expand}"
                     (click)="tapItem(item, $event)">
                     @if (item.url) {
                         <a [routerLink]="item.url" [queryParams]="item.urlQuery || {}" [title]="item.name">
-                            <i class="iconfont" [ngClass]="item.icon || 'menu-icon'">{{ item.label }}</i>
+                            <i class="iconfont" [class]="item.icon || 'menu-icon'">{{ item.label }}</i>
                             <span class="menu-name">{{ item.name }}</span>
                         </a>
                     } @else {
                         <a [title]="item.name">
-                            <i class="iconfont" [ngClass]="item.icon || 'menu-icon'">{{ item.label }}</i>
+                            <i class="iconfont" [class]="item.icon || 'menu-icon'">{{ item.label }}</i>
                             <span class="menu-name">{{ item.name }}</span>
                         </a>
                     }
                     @if (item.children && item.children.length > 0) {
                     <ul class="menu-children">
                         @for (child of item.children; track child.name) {
-                            <li class="menu-item" [ngClass]="{'active': child.active, 'open': child.expand}"
+                            <li class="menu-item" [class]="{'active': child.active, 'open': child.expand}"
                                 (click)="tapItem(child, $event)">
                                 @if (child.url) {
                                     <a [routerLink]="child.url" [queryParams]="child.urlQuery || {}"
                                         [title]="child.name">
-                                        <i class="iconfont" [ngClass]="child.icon || 'menu-icon'">{{ child.label }}</i>
+                                        <i class="iconfont" [class]="child.icon || 'menu-icon'">{{ child.label }}</i>
                                         <span class="menu-name">{{ child.name }}</span>
                                     </a>
                                 } @else {
                                     <a [title]="child.name">
-                                        <i class="iconfont" [ngClass]="child.icon || 'menu-icon'">{{ child.label }}</i>
+                                        <i class="iconfont" [class]="child.icon || 'menu-icon'">{{ child.label }}</i>
                                         <span class="menu-name">{{ child.name }}</span>
                                     </a>
                                 }
@@ -59,16 +59,16 @@
         </ul>
         <ul class="bar-bottom">
             @for (item of bottomMenu(); track $index) {
-                <li class="menu-item" [ngClass]="{'active': item.active, 'open': item.expand}"
+                <li class="menu-item" [class]="{'active': item.active, 'open': item.expand}"
                     (click)="tapItem(item, $event)">
                     @if (item.url) {
                         <a [routerLink]="item.url" [queryParams]="item.urlQuery || {}">
-                            <i class="iconfont" [ngClass]="item.icon || 'menu-icon'">{{ item.label }}</i>
+                            <i class="iconfont" [class]="item.icon || 'menu-icon'">{{ item.label }}</i>
                             <span class="menu-name">{{ item.name }}</span>
                         </a>
                     } @else {
                         <a>
-                            <i class="iconfont" [ngClass]="item.icon || 'menu-icon'">{{ item.label }}</i>
+                            <i class="iconfont" [class]="item.icon || 'menu-icon'">{{ item.label }}</i>
                             <span class="menu-name">{{ item.name }}</span>
                         </a>
                     }
@@ -83,8 +83,8 @@
 
     <div class="tablet-tab-bar tablet-visible">
         @for (item of tabletItems; track $index) {
-            <a class="tab-item" [ngClass]="{'active': item.active}" [routerLink]="item.url" [queryParams]="item.urlQuery || {}">
-            <i class="iconfont item-icon" [ngClass]="item.icon"></i>
+            <a class="tab-item" [class]="{'active': item.active}" [routerLink]="item.url" [queryParams]="item.urlQuery || {}">
+            <i class="iconfont item-icon" [class]="item.icon"></i>
             <span class="item-body">{{ item.name }}</span>
         </a>
         }

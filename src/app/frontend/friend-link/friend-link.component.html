@@ -65,20 +65,20 @@
         <label for="name">*
             <ng-container i18n>Site Name:</ng-container>
         </label>
-        <input type="text" [field]="editData.name" class="form-control" id="name" i18n-placeholder placeholder="Your Site Name" >
+        <input type="text" [field]="editForm.name" class="form-control" id="name" i18n-placeholder placeholder="Your Site Name" >
     </div>
     <div class="form-group">
         <label for="url">*
             <ng-container i18n>Site Link:</ng-container>
         </label>
-        <input type="text" [field]="editData.url" class="form-control" id="url" i18n-placeholder placeholder="Your Site Link, Like:https://zodream.cn" >
+        <input type="text" [field]="editForm.url" class="form-control" id="url" i18n-placeholder placeholder="Your Site Link, Like:https://zodream.cn" >
     </div>
     <div class="form-group">
         <label for="url" i18n>Site Description:</label>
-        <input type="text" [field]="editData.brief" class="form-control" id="brief" i18n-placeholder placeholder="Site Description">
+        <input type="text" [field]="editForm.brief" class="form-control" id="brief" i18n-placeholder placeholder="Site Description">
     </div>
     <div class="form-group">
         <label for="email" i18n>Email:</label>
-        <input type="email" [field]="editData.email" class="form-control" id="email" i18n-placeholder placeholder="Will send the result to your email">
+        <input type="email" [field]="editForm.email" class="form-control" id="email" i18n-placeholder placeholder="Will send the result to your email">
     </div>
 </app-dialog-box>

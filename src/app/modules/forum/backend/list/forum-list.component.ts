@@ -34,7 +34,7 @@ export class ForumListComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             if (this.queries.parent < 1 || this.parent?.id === this.queries.parent) {
                 this.tapPage();
                 return;

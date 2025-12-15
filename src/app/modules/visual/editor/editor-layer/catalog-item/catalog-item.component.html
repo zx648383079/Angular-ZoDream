@@ -1,7 +1,7 @@
-<div class="catalog-item" [ngClass]="{active: value().active, expand: value().expand, default: value().isDefault}">
-    <div class="item-header" (click)="tapExpand($event)" [ngStyle]="headerStyle" (contextmenu)="tapContextMenu($event)">
+<div class="catalog-item" [class]="{active: value().active, expand: value().expand, default: value().isDefault}">
+    <div class="item-header" (click)="tapExpand($event)" [style]="headerStyle" (contextmenu)="tapContextMenu($event)">
         @if (!value().onEdit) {
-            <i class="iconfont" [ngClass]="value().icon"></i>
+            <i class="iconfont" [class]="value().icon"></i>
             <span (dblclick)="tapEdit($event)">{{ value().name }}</span>
             <div class="item-action">
                 @if (!value().canExpand && !isWidget) {
@@ -16,7 +16,7 @@
             <input type="text" #input class="form-control" (click)="$event.stopPropagation()" [field]="value().name" (keydown)="onKeyDown($event)" (blur)="tapFinish()">
         }
         @if (value().canExpand) {
-            <i class="iconfont" [ngClass]="{'icon-chevron-up': value().expand, 'icon-chevron-down': !value().expand}"></i>
+            <i class="iconfont" [class]="{'icon-chevron-up': value().expand, 'icon-chevron-down': !value().expand}"></i>
         }
     </div>
     @if (value().children && value().children.length > 0) {

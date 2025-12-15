@@ -42,7 +42,7 @@ export class UserComponent implements OnInit, OnDestroy {
     }));
 
     public editable = false;
-    public editData: any = {};
+    public readonly editForm = form(signal<any>({}));
     public buttonItems: IButton[] = [
         {
             name: '明细',
@@ -80,7 +80,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -224,7 +224,7 @@ export class UserComponent implements OnInit, OnDestroy {
         modal.open(() => {
             this.service.userVerify({
                 id: item.id,
-                id_card: this.editData.id_card
+                id_card: this.editForm.id_card
             }).subscribe({
                 next: _ => {
 

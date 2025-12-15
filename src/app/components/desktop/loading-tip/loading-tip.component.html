@@ -11,7 +11,7 @@
     } @else {
         <div class="page-empty-tip">
             @if (emptyIcon()) {
-                <i class="iconfont" [ngClass]="emptyIcon()"></i>
+                <i class="iconfont" [class]="emptyIcon()"></i>
             }
             
             <p>{{ emptyTip() }}</p>

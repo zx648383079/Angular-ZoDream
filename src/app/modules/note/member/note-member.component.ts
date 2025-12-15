@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { INote } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
@@ -6,7 +6,6 @@ import { NoteService } from './note.service';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../theme/services';
-import { emptyValidate } from '../../../theme/validators';
 
 @Component({
     standalone: false,
@@ -30,7 +29,12 @@ export class NoteMemberComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public editData: INote = {} as any;
+    public readonly editForm = form(signal({
+        id: 0,
+        content: ''
+    }), schemaPath => {
+        required(schemaPath.content);
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(res => {
@@ -44,12 +48,13 @@ export class NoteMemberComponent implements OnInit {
     }
 
     public tapEdit(modal: DialogEvent, item?: INote) {
-        this.editData = item ? Object.assign({}, item) : {
-            id: 0,
-            content: ''
-        } as any;
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.content = item?.content ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.noteSave(this.editData).subscribe({
+            this.service.noteSave(this.editForm().value()).subscribe({
                 next: () => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapPage();
@@ -58,9 +63,7 @@ export class NoteMemberComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editData.content);
-        });
+        }, () => this.editForm().valid());
     }
 
     public tapRefresh() {

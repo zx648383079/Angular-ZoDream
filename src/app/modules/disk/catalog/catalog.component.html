@@ -1,6 +1,6 @@
 <div class="nav-header">
     <div class="nav-left">
-        <a class="nav-item" [ngClass]="{disable: this.crumbs.length < 2}" (click)="tapBack()">
+        <a class="nav-item" [class]="{disable: this.crumbs.length < 2}" (click)="tapBack()">
             <i class="iconfont icon-chevron-left"></i>
         </a>
         <a class="nav-item disable" (click)="tapForward()">
@@ -17,9 +17,9 @@
 
     <div class="nav-crumbs">
         @for (item of crumbs; track $index) {
-            <a class="crumb-item" [ngClass]="{disable: item.disable}">
+            <a class="crumb-item" [class]="{disable: item.disable}">
                 @if (item.icon) {
-                <i class="iconfont" [ngClass]="item.icon"></i>
+                <i class="iconfont" [class]="item.icon"></i>
                 }
                 <span class="name">{{ item.name }}</span>
             </a>
@@ -52,10 +52,10 @@
         <a class="nav-item nav-hide" (click)="tapRefresh()">
             <i class="iconfont icon-refresh"></i>
         </a>
-        <a class="nav-item" [ngClass]="{active: viewMode}" (click)="viewMode = true">
+        <a class="nav-item" [class]="{active: viewMode}" (click)="viewMode = true">
             <i class="iconfont icon-th-large"></i>
         </a>
-        <a class="nav-item" [ngClass]="{active: !viewMode}" (click)="viewMode = false">
+        <a class="nav-item" [class]="{active: !viewMode}" (click)="viewMode = false">
             <i class="iconfont icon-th-list"></i>
         </a>
         <a class="nav-item nav-hide">
@@ -86,16 +86,16 @@
 </div>
 <app-pull-to-refresh class="items-box" (refreshChange)="tapRefresh()" (moreChange)="tapMore()" [more]="hasMore"
     [loading]="isLoading">
-    <div class="catalog-body" [ngClass]="{'file-view': viewMode, 'file-edit': editMode}">
+    <div class="catalog-body" [class]="{'file-view': viewMode, 'file-edit': editMode}">
         <div class="file-header">
-            <div class="check-box" [ngClass]="{checked: checkedAll}" (click)="tapCheckAll()"></div>
-            <div class="name" [ngClass]="{'sort-asc': sortKey == 'name' && orderAsc, 'sort-desc': sortKey == 'name' && !orderAsc}" (click)="tapSort('name')">文件名</div>
-            <div class="size" [ngClass]="{'sort-asc': sortKey == 'size' && orderAsc, 'sort-desc': sortKey == 'size' && !orderAsc}" (click)="tapSort('size')">大小</div>
-            <div class="time" [ngClass]="{'sort-asc': sortKey == 'updated_at' && orderAsc, 'sort-desc': sortKey == 'updated_at' && !orderAsc}" (click)="tapSort('updated_at')">修改日期</div>
+            <div class="check-box" [class]="{checked: checkedAll}" (click)="tapCheckAll()"></div>
+            <div class="name" [class]="{'sort-asc': sortKey == 'name' && orderAsc, 'sort-desc': sortKey == 'name' && !orderAsc}" (click)="tapSort('name')">文件名</div>
+            <div class="size" [class]="{'sort-asc': sortKey == 'size' && orderAsc, 'sort-desc': sortKey == 'size' && !orderAsc}" (click)="tapSort('size')">大小</div>
+            <div class="time" [class]="{'sort-asc': sortKey == 'updated_at' && orderAsc, 'sort-desc': sortKey == 'updated_at' && !orderAsc}" (click)="tapSort('updated_at')">修改日期</div>
         </div>
         @if (editMode) {
         <div class="file-edit-header">
-            <div class="check-box" [ngClass]="{checked: checkedAll}" (click)="tapCheckAll()"></div>
+            <div class="check-box" [class]="{checked: checkedAll}" (click)="tapCheckAll()"></div>
             <div class="check-count">
                 已选中 {{ checkCount }} 个文件/文件夹
             </div>
@@ -116,9 +116,9 @@
                 </div>
             } @else {
                 <div class="file-item" (click)="tapFile(item)" [title]="item.name">
-                    <div class="check-box" [ngClass]="{checked: item.checked}"></div>
+                    <div class="check-box" [class]="{checked: item.checked}"></div>
                     <div class="file-icon">
-                        <i class="iconfont" [ngClass]="item.icon"></i>
+                        <i class="iconfont" [class]="item.icon"></i>
                     </div>
                     <div class="file-name">{{ item.name }}</div>
                     <div class="file-info">
@@ -139,17 +139,17 @@
     </div>
 </app-pull-to-refresh>
 
-<app-dialog-box #editFile [title]="editData.id > 0 ? '编辑文件名' : '新增文件夹'">
+<app-dialog-box #editFile [title]="editForm.id().value() > 0 ? '编辑文件名' : '新增文件夹'">
     <div class="form-group">
         <label for="region-input">文件名</label>
         <div class="input-group-control">
-            <input class="form-control" id="region-input" [field]="editData.name" placeholder="请输入文件名">
+            <input class="form-control" id="region-input" [field]="editForm.name" placeholder="请输入文件名">
         </div>
     </div>
 </app-dialog-box>
 
 <app-uploader (uploading)="onUploading($event)" />
-<div class="player-box" [ngStyle]="playerStyle">
+<div class="player-box" [style]="playerStyle">
     <app-movie-player [hidden]="playerMode != 1" [isFixed]="false" />
     <app-music-player [hidden]="playerMode != 2" [isFixed]="false" />
     <app-image-player [visible]="playerMode == 3" />

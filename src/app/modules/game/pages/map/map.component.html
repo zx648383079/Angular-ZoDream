@@ -48,7 +48,7 @@
 
 <div class="menu-bar">
     @for (item of bottomItems; track $index) {
-        <a [ngClass]="{disabled: item.disabled}" (click)="tapRoute(item)">{{ item.name }}
+        <a [class]="{disabled: item.disabled}" (click)="tapRoute(item)">{{ item.name }}
             @if (item.count > 0) {
                 ({{ item.count }})
             }

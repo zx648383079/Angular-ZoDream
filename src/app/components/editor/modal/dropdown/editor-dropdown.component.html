@@ -1,7 +1,7 @@
-<div class="editor-modal-box" [ngClass]="{'modal-visible': visible}" [ngStyle]="modalStyle">
+<div class="editor-modal-box" [class]="{'modal-visible': visible}" [style]="modalStyle">
     <ul class="option-bar">
         @for (item of items; track $index) {
-            <li [ngClass]="{active: item.value == selected}" [ngStyle]="item.style" (click)="tapConfirm(item)">{{ item.name }}</li>
+            <li [class]="{active: item.value == selected}" [style]="item.style" (click)="tapConfirm(item)">{{ item.name }}</li>
         }
     </ul>
 </div>

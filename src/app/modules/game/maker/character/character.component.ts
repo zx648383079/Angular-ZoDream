@@ -37,7 +37,7 @@ export class CharacterComponent implements OnInit {
             this.queries.project = parseNumber(params.game);
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -73,7 +73,8 @@ export class CharacterComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries, ['project']);
+                this.queries().value.set(queries);
+            this.searchService.applyHistory(queries, ['project']);
             },
             error: () => {
                 this.isLoading = false;

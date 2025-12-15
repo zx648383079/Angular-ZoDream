@@ -3,8 +3,8 @@
         <i class="iconfont icon-arrow-left"></i>
     </div>
     <div class="title-tab-bar">
-        <a class="item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">充值</a>
-        <a class="item" [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">提现</a>
+        <a class="item" [class]="{active: tabIndex < 1}" (click)="tabIndex = 0">充值</a>
+        <a class="item" [class]="{active: tabIndex == 1}" (click)="tabIndex = 1">提现</a>
     </div>
     <a class="right-item" (click)="modalVisible = true">
         规则

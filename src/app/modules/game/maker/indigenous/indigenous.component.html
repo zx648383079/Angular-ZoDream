@@ -49,23 +49,23 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id ? '编辑' : '新建'">
+<app-dialog-box #modal [title]="editForm.id ? '编辑' : '新建'">
     <div class="form-group">
         <label for="name-input">土著名</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editData.name" placeholder="请输入土著名">
+            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入土著名">
         </div>
     </div>
     <div class="form-group">
         <label>头像</label>
         <div class="input-group-control">
-            <app-file-input [field]="editData.avatar" [online]="true" />
+            <app-file-input [field]="editForm.avatar" [online]="true" />
         </div>
     </div>
     <div class="form-group">
         <label>说明</label>
         <div class="input-group-control">
-            <textarea class="form-control" [field]="editData.description" placeholder="请输入简介"></textarea>
+            <textarea class="form-control" [field]="editForm.description" placeholder="请输入简介"></textarea>
         </div>
     </div>
     <div class="form-group">

@@ -1,7 +1,7 @@
 <div class="row editor-panel">
     <div class="col-sm-4">
         @for (item of items; track $index; let i = $index) {
-        <div class="line-item" [ngClass]="{active: data && item === data}">
+        <div class="line-item" [class]="{active: data && item === data}">
             <span (click)="tapEditItem(item)">{{ item.title }}</span>
             @if (i > 0) {
             <i class="iconfont icon-arrow-up" title="上移" (click)="tapMoveUp(i)"></i>
@@ -34,7 +34,7 @@
                     @for (item of data.children; track $index; let i = $index) {
                     <div class="mini-editor">
                         <div class="tool-bar">
-                            <i title="加粗" [ngClass]="{checked: item.b}" (click)="item.b = !item.b">b</i>
+                            <i title="加粗" [class]="{checked: item.b}" (click)="item.b = !item.b">b</i>
                             <i class="iconfont icon-close" (click)="tapRemoveItem(i)" title="删除"></i>
                         </div>
                         <textarea class="form-control" [field]="item.content"></textarea>

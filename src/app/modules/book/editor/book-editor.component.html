@@ -1,4 +1,4 @@
-<div class="editor-container" [ngClass]="{'top-open': topVisible}">
+<div class="editor-container" [class]="{'top-open': topVisible}">
     @if (book) {
     <div class="top-container">
         <div class="form-table-control">
@@ -68,14 +68,14 @@
             </div>
             <ul class="tree-box" (contextmenu)="tapContextMenu($event)">
                 @for (item of catalog; track $index) {
-                <li class="tree-item" [ngClass]="{open: item.expanded, active: data && item.id == data.id}" [appDragDrop]="item" draggable="true" (appDrog)="onDrog($event, item)">
+                <li class="tree-item" [class]="{open: item.expanded, active: data && item.id == data.id}" [appDragDrop]="item" draggable="true" (appDrog)="onDrog($event, item)">
                     <div class="tree-name" (click)="tapEdit(item)" (contextmenu)="tapContextMenu($event, item)">
-                        <i class="iconfont" [ngClass]="{'icon-file-text-o': item.type < 9, 'icon-chevron-right': item.type == 9 && item.children && !item.expanded, 'icon-chevron-down': item.type == 9 && item.children && item.expanded}"></i>
+                        <i class="iconfont" [class]="{'icon-file-text-o': item.type < 9, 'icon-chevron-right': item.type == 9 && item.children && !item.expanded, 'icon-chevron-down': item.type == 9 && item.children && item.expanded}"></i>
                         {{ item.title }}
                     </div>
                     <ul class="tree-body">
                         @for (it of item.children; track $index) {
-                        <li class="tree-item"  [ngClass]="{active: data && it.id == data.id}" [appDragDrop]="it"  draggable="true" (appDrog)="onDrog($event, it)">
+                        <li class="tree-item"  [class]="{active: data && it.id == data.id}" [appDragDrop]="it"  draggable="true" (appDrog)="onDrog($event, it)">
                             <div class="tree-name" (click)="tapEdit(it)" (contextmenu)="tapContextMenu($event, it)">
                                 <i class="iconfont icon-file-text-o"></i>
                                 {{ it.title }}</div>

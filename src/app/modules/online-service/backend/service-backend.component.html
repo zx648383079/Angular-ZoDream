@@ -10,7 +10,7 @@
                 <div class="search-bar">
                     <input type="text" class="form-control" placeholder="搜索" [field]="keywords">
                 </div>
-                <div class="expand-box open" [ngClass]="{open: expandIndex < 1}">
+                <div class="expand-box open" [class]="{open: expandIndex < 1}">
                     <div class="expand-header" (click)="expandIndex = 0">会话中（{{ sessionItems1.length }}）</div>
                     <div class="expand-body">
                         @for (item of sessionItems1; track $index) {
@@ -28,7 +28,7 @@
                         }
                     </div>
                 </div>
-                <div class="expand-box" [ngClass]="{open: expandIndex == 1}">
+                <div class="expand-box" [class]="{open: expandIndex == 1}">
                     <div class="expand-header" (click)="expandIndex = 1">排队中（{{ sessionItems2.length }}）</div>
                     <div class="expand-body">
                         @for (item of sessionItems2; track $index) {
@@ -46,7 +46,7 @@
                         }
                     </div>
                 </div>
-                <div class="expand-box" [ngClass]="{open: expandIndex == 2}">
+                <div class="expand-box" [class]="{open: expandIndex == 2}">
                     <div class="expand-header" (click)="expandIndex = 2">会话结束（{{ sessionItems3.length }}）</div>
                     <div class="expand-body">
                         @for (item of sessionItems3; track $index) {
@@ -107,11 +107,11 @@
             <div class="col-md-3">
                 <div class="tab-box">
                     <div class="tab-header">
-                        <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">用户信息</div>
-                        <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">常用语</div>
+                        <div class="tab-item" [class]="{active: tabIndex < 1}" (click)="tabIndex = 0">用户信息</div>
+                        <div class="tab-item" [class]="{active: tabIndex == 1}" (click)="tabIndex = 1">常用语</div>
                     </div>
                     <div class="tab-body">
-                        <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
+                        <div class="tab-item" [class]="{active: tabIndex < 1}">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -141,7 +141,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
+                        <div class="tab-item" [class]="{active: tabIndex == 1}">
                             <ul class="tree-box">
                                 @for (item of categories; track $index) {
                                 <li class="tree-item">
@@ -177,7 +177,7 @@
 <app-dialog-box #transferModal title="转接其他客服">
     <input type="text" class="form-control" placeholder="请输入客服昵称" [field]="userKeywords" (ngModelChange)="onSearchUser()">
         @for (item of users; track $index) {
-            <div class="line-item" [ngClass]="{active: userSelected == item.user_id}" (click)="userSelected = item.user_id">
+            <div class="line-item" [class]="{active: userSelected == item.user_id}" (click)="userSelected = item.user_id">
                 【{{ item.category.name }}】{{ item.user.name }}(ID: {{ item.user_id }})
             </div>
         }

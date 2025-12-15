@@ -1,7 +1,7 @@
 <div class="login-panel">
     <div class="tab-bar" [hidden]="tabIndex >= 8">
-        <a [ngClass]="{active: tabIndex < 2}" (click)="tapTab(0)" i18n>Quick login</a>
-        <a [ngClass]="{active: tabIndex == 2}" (click)="tapTab(2)" i18n>Account login</a>
+        <a [class]="{active: tabIndex < 2}" (click)="tapTab(0)" i18n>Quick login</a>
+        <a [class]="{active: tabIndex == 2}" (click)="tapTab(2)" i18n>Account login</a>
     </div>
     <div class="mobile-body" [hidden]="tabIndex > 0">
         <a class="mobile-toggle" (click)="tapTab(1)" i18n>Login with password</a>
@@ -26,7 +26,7 @@
         }
         <app-action-button class="btn btn-primary" (tapped)="tapSignIn($event)" i18n>Sign in</app-action-button>
         <div class="agree-bar">
-            <i class="iconfont" [ngClass]="{'icon-check-square-o': agree, 'icon-square-o': !agree}" (click)="tapToggleAgree()"></i>
+            <i class="iconfont" [class]="{'icon-check-square-o': agree, 'icon-square-o': !agree}" (click)="tapToggleAgree()"></i>
             <ng-container i18n>I agree to</ng-container>
             <a class="strong-link" routerLink="/frontend/agreement" target="_blank" i18n>terms of service</a>
         </div>
@@ -44,7 +44,7 @@
             <i class="iconfont icon-lock" aria-hidden="true"></i>
             <input [type]="passwordObserve ? 'text' : 'password'"  name="password" [field]="password" i18n-placeholder placeholder="Please input the password">
             @if (password.length > 0) {
-            <i class="iconfont" (click)="tapToggleObserve()" [ngClass]="{'icon-eye': passwordObserve, 'icon-eye-slash': !passwordObserve}"></i>
+            <i class="iconfont" (click)="tapToggleObserve()" [class]="{'icon-eye': passwordObserve, 'icon-eye-slash': !passwordObserve}"></i>
             }
         </div>
         @if (captchaImage) {
@@ -69,7 +69,7 @@
             <i class="iconfont icon-lock" aria-hidden="true"></i>
             <input [type]="passwordObserve ? 'text' : 'password'"  name="password" [field]="password" i18n-placeholder placeholder="Please input the password">
             @if (password.length > 0) {
-            <i class="iconfont" (click)="tapToggleObserve()" [ngClass]="{'icon-eye': passwordObserve, 'icon-eye-slash': !passwordObserve}"></i>
+            <i class="iconfont" (click)="tapToggleObserve()" [class]="{'icon-eye': passwordObserve, 'icon-eye-slash': !passwordObserve}"></i>
             }
         </div>
         @if (captchaImage) {

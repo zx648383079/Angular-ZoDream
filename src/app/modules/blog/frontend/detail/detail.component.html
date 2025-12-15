@@ -10,7 +10,7 @@
                 @if (data.languages && data.languages.length > 1) {
                 <div class="language-toggle">
                     @for (item of data.languages; track $index) {
-                        <a (click)="loadBlog(item.id)" [ngClass]="{active: item.id === data.id}">{{ item.name }}</a>
+                        <a (click)="loadBlog(item.id)" [class]="{active: item.id === data.id}">{{ item.name }}</a>
                     }
                 </div>
                 }
@@ -107,7 +107,7 @@
             <div class="tools">
                 <span class="comment"><i class="iconfont icon-comments"></i><b>{{ data.comment_count }}</b></span>
                 <span class="click"><i class="iconfont icon-eye"></i><b>{{ data.click_count }}</b></span>
-                <span class="agree recommend-blog" [ngClass]="{active: data.is_recommended}" (click)="tapRecommend()" i18n-title title="Your support is the author's motivation to create"><i
+                <span class="agree recommend-blog" [class]="{active: data.is_recommended}" (click)="tapRecommend()" i18n-title title="Your support is the author's motivation to create"><i
                         class="iconfont icon-thumbs-up"></i><b>{{ data.recommend_count }}</b></span>
             </div>
         </div>

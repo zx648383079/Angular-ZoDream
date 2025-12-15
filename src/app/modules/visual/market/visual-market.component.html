@@ -12,7 +12,7 @@
                 <div class="navbar-nav mr-auto">
                     <a class="nav-link" aria-current="page" routerLink="./" i18n>Home</a>
                     @for (item of navItems; track $index) {
-                        <a class="nav-link" [ngClass]="{active: item.active}" aria-current="page" [routerLink]="item.url">{{ item.name }}</a>
+                        <a class="nav-link" [class]="{active: item.active}" aria-current="page" [routerLink]="item.url">{{ item.name }}</a>
                     }
                     <a class="nav-link" aria-current="page" routerLink="site" i18n>Template</a>
                 </div>

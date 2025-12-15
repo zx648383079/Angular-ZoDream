@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -33,11 +33,19 @@ export class LiveComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public editData: ILive = {} as any;
+    public readonly editForm = form(signal<ILive>({
+        id: 0,
+        title: '',
+        thumb: '',
+        source: '',
+        status: 1,
+    }), schemaPath => {
+        required(schemaPath.title);
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -109,15 +117,16 @@ export class LiveComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item?: ILive) {
-        this.editData = item ? Object.assign({}, item) : {
-            id: 0,
-            title: '',
-            thumb: '',
-            source: '',
-            status: 1,
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.title = item?.title ?? '';
+            v.thumb = item?.thumb ?? '';
+            v.source = item?.source ?? '';
+            v.status = item?.status ?? 1;
+            return v;
+        });
         modal.open(() => {
-            this.service.liveSave(this.editData).subscribe({
+            this.service.liveSave(this.editForm().value()).subscribe({
                 next: () => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapPage();
@@ -126,9 +135,7 @@ export class LiveComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editData.title);
-        });
+        }, () => this.editForm().valid());
     }
 
     public tapRemove(item: ILive) {

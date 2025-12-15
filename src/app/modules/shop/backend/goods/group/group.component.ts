@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IAttributeGroup } from '../../../model';
@@ -6,7 +6,6 @@ import { AttributeService } from '../attribute.service';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../../../theme/services';
-import { emptyValidate } from '../../../../../theme/validators';
 
 @Component({
     standalone: false,
@@ -30,19 +29,30 @@ export class GroupComponent implements OnInit {
         page: 1,
         per_page: 20,
     }));
-    public editData: IAttributeGroup = {} as any;
+    public readonly editForm = form(signal<IAttributeGroup>({
+        id: 0,
+        name: '',
+        property_groups: ''
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item?: IAttributeGroup) {
-        this.editData = item ? {...item} : {} as any;
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.property_groups = item?.property_groups ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.groupSave({...this.editData}).subscribe({
+            this.service.groupSave({...this.editForm}).subscribe({
                 next: _ => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
@@ -51,7 +61,7 @@ export class GroupComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => !emptyValidate(this.editData.name));
+        }, () => this.editForm().valid());
     }
 
 

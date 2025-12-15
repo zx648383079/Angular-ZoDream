@@ -7,7 +7,7 @@
         </div>
         <div class="reply-input">
             <div class="input">
-                <textarea class="form-control" [field]="editData.content" (ngModelChange)="onCommentChange()"
+                <textarea class="form-control" [field]="editForm.content" (ngModelChange)="onCommentChange()"
                 placeholder="Say something." i18n-placeholder></textarea>
             </div>
             <div class="input-actions">
@@ -16,7 +16,7 @@
                         <i class="iconfont icon-smile-o"></i>
                     </app-emoji-picker>
                 </div>
-                <i class="iconfont" [ngClass]="{'icon-square-o': !editData.is_forward, 'icon-check-square-o': editData.is_forward}" (click)="editData.is_forward = !editData.is_forward"></i>
+                <i class="iconfont" [class]="{'icon-square-o': !editForm.is_forward, 'icon-check-square-o': editForm.is_forward}" (click)="editForm.is_forward = !editForm.is_forward"></i>
                 <ng-container i18n>At the same time forward to my posts</ng-container>
                 
                 <a class="btn btn-primary" (click)="tapComment()" i18n>Comment</a>
@@ -43,7 +43,7 @@
                             ({{ item.reply_count | numberFormat }})
                         }
                     </a>
-                    <a (click)="tapAgreeComment(item)" [ngClass]="{active: item.agree_type == 3}">
+                    <a (click)="tapAgreeComment(item)" [class]="{active: item.agree_type == 3}">
                         <ng-container i18n>Like</ng-container>
                         @if (item.agree > 0) {
                             ({{ item.agree | numberFormat }})
@@ -68,7 +68,7 @@
                                     ({{ it.reply_count | numberFormat }})
                                 }
                             </a>
-                            <a (click)="tapAgreeComment(it)" [ngClass]="{active: it.agree_type == 3}">
+                            <a (click)="tapAgreeComment(it)" [class]="{active: it.agree_type == 3}">
                                 <ng-container i18n>Like</ng-container>
                                 @if (it.agree > 0) {
                                     ({{ it.agree | numberFormat }})
@@ -85,7 +85,7 @@
         </div>
     </div>
    }
-    <div class="more-btn" [ngClass]="{disabled: !hasMore}" (click)="tapMore()" i18n>
+    <div class="more-btn" [class]="{disabled: !hasMore}" (click)="tapMore()" i18n>
         {hasMore, plural, =true {Read more} =false {No more~}}
     </div>
 </div>

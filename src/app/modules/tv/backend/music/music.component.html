@@ -59,35 +59,35 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id > 0 ? '编辑歌曲' : '新增歌曲'">
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑歌曲' : '新增歌曲'">
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editData.name" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">封面</label>
         <div class="input-group-control">
-            <app-file-input [field]="editData.cover" />
+            <app-file-input [field]="editForm.cover" />
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">专辑</label>
         <div class="input-group-control">
-            <input class="form-control" [field]="editData.album">
+            <input class="form-control" [field]="editForm.album">
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">演唱</label>
         <div class="input-group-control">
-            <input class="form-control" [field]="editData.artist">
+            <input class="form-control" [field]="editForm.artist">
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">时长</label>
         <div class="input-group-control">
-            <input class="form-control" [field]="editData.duration">
+            <input class="form-control" [field]="editForm.duration">
         </div>
     </div>
     <table class="table">
@@ -99,7 +99,7 @@
             </tr>
         </thead>
         <tbody>
-            @for (item of editData.files; track $index;let i = $index) {
+            @for (item of editForm.files; track $index;let i = $index) {
             <tr>
                 <td>
                     <select class="form-control" [field]="item.file_type" [ngModelOptions]="{standalone: true}">

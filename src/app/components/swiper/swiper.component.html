@@ -1,10 +1,10 @@
-<div class="swiper-body" [ngStyle]="bodyStyle">
+<div class="swiper-body" [style]="bodyStyle">
     <ng-content />
 </div>
 @if (navigationVisible) {
 <div class="swiper-footer swiper-navigation-dot">
     @for (item of items(); track $index;let i = $index) {
-        <span [ngClass]="{active: i == index}" (click)="navigate(i)"></span>
+        <span [class]="{active: i == index}" (click)="navigate(i)"></span>
     }
 </div>
 }

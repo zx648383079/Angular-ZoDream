@@ -18,7 +18,7 @@
                     <thead>
                         <tr>
                             @for (th of item.header; track $index) {
-                            <th [ngStyle]="{'text-align': th.align}">
+                            <th [style]="{'text-align': th.align}">
                                 @for (it of th.items; track $index) {
                                     @switch (it.type) {
                                         @case ('math') {
@@ -40,7 +40,7 @@
                         @for (tr of item.content; track $index) {
                         <tr>
                             @for (td of tr; track $index) {
-                            <td [ngStyle]="{'text-align': td.align}">
+                            <td [style]="{'text-align': td.align}">
                                 @for (it of td.items; track $index) {
                                     @switch (it.type) {
                                         @case ('math') {

@@ -1,6 +1,6 @@
-<div class="lattice-box" [ngStyle]="boxStyle">
+<div class="lattice-box" [style]="boxStyle">
     @for (item of formatItems; track $index; let i = $index) {
-        <div class="item" [ngClass]="{active: currentIndex == i}" [ngStyle]="item.style">
+        <div class="item" [class]="{active: currentIndex == i}" [style]="item.style">
             @if (item.image) {
             <div class="thumb">
                 <img [src]="item.image">
@@ -11,7 +11,7 @@
             }
         </div>
     }
-    <div class="btn btn-primary" [ngClass]="{disabled: isRunning}" [ngStyle]="buttonStyle" (click)="tapStart()">
+    <div class="btn btn-primary" [class]="{disabled: isRunning}" [style]="buttonStyle" (click)="tapStart()">
         {{ buttonText() }}
     </div>
 </div>

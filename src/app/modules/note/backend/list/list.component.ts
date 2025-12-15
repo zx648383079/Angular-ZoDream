@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -31,26 +31,33 @@ export class ListComponent implements OnInit {
         per_page: 20,
         user: 0,
     }));
-    public editData: INote = {} as any;
+    public readonly editForm = form(signal({
+        id: 0,
+        content: '',
+        is_notice: 1
+    }), schemaPath => {
+        required(schemaPath.content);
+    });
     public isMultiple = false;
     public isChecked = false;
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
 
     public open(modal: DialogEvent, item?: INote) {
-        this.editData = item ? Object.assign({}, item) : {
-            id: 0,
-            content: '',
-            is_notice: 1
-        } as any;
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.content = item?.content ?? '';
+            v.is_notice = item?.is_notice ?? 1;
+            return v;
+        });
         modal.open(() => {
-            this.service.noteSave(this.editData).subscribe({
+            this.service.noteSave(this.editForm().value()).subscribe({
                 next: () => {
                     this.toastrService.success($localize `Save Successfully`);
                     if (item) {
@@ -63,13 +70,11 @@ export class ListComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editData.content);
-        });
+        }, () => this.editForm().valid());
     }
 
     public tapUser(user: number) {
-        this.queries.user = user;
+        this.queries.user().value.set(user);
         this.tapRefresh();
     }
 

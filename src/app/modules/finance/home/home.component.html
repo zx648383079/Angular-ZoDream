@@ -13,7 +13,7 @@
 
             <div class="tab-bar">
                 @for (item of typeItems; track $index;let i = $index) {
-                    <div class="item" [ngClass]="{active: queries.type == i}" (click)="tapType(i)">
+                    <div class="item" [class]="{active: queries.type == i}" (click)="tapType(i)">
                         按{{ item }}
                     </div>
                 }
@@ -89,8 +89,8 @@
 <div class="tablet-large-header tablet-visible">
     <div class="container-fluid">
         <div class="align-tab-bar">
-            <a [ngClass]="{active: queries.type == 1}" (click)="tapType(1)">月账单</a>
-            <a [ngClass]="{active: queries.type == 3}" (click)="tapType(3)">年账单</a>
+            <a [class]="{active: queries.type == 1}" (click)="tapType(1)">月账单</a>
+            <a [class]="{active: queries.type == 3}" (click)="tapType(3)">年账单</a>
         </div>
         <div class="row">
             <div class="col-6">
@@ -104,7 +104,7 @@
             <div class="col-6">
                 <div class="tab-bar">
                     @for (item of logTypeItems; track $index;let i = $index) {
-                        <div class="item" [ngClass]="{active: queries.log_type == i}" (click)="tapLogType(i)">
+                        <div class="item" [class]="{active: queries.log_type == i}" (click)="tapLogType(i)">
                             {{ item }}
                         </div>
                     }

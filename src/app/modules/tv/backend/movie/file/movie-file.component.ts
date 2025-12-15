@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
@@ -32,7 +32,18 @@ export class MovieFileComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public editData: IMovieFile = {} as any;
+    public readonly editForm = form(signal<IMovieFile>({
+        id: 0,
+        movie_id: 0,
+        series_id: 0,
+        name: '',
+        file_type: 0,
+        definition: 0,
+        file: '',
+        size: 0,
+    }), schemaPath => {
+        required(schemaPath.file);
+    });
     public series: IMovieSeries = {} as any;
     public urlTypeItems = ['文件', '网址', '网盘', '种子', '字幕文件'];
     public definitionItems = ['标清', '高清', '蓝光'];
@@ -43,7 +54,7 @@ export class MovieFileComponent implements OnInit {
             this.series.id = parseNumber(params.series);
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -52,7 +63,7 @@ export class MovieFileComponent implements OnInit {
         this.service.movieUpload(e.file).subscribe({
             next: res => {
                 if (isFile) {
-                    this.editData.size = res.size;
+                    this.editForm.size().value.set(res.size);
                 }
                 e.next(res);
             },
@@ -102,18 +113,19 @@ export class MovieFileComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item?: IMovieFile) {
-        this.editData = item ? Object.assign({}, item) : {
-            id: 0,
-            movie_id: this.series.movie_id,
-            series_id: this.series.id,
-            name: '',
-            file_type: 0,
-            definition: 0,
-            file: '',
-            size: 0,
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.movie_id = this.series.movie_id;
+            v.series_id = this.series.id;
+            v.name = item?.name ?? '';
+            v.file_type = item?.file_type ?? 0;
+            v.definition = item?.definition ?? 0;
+            v.file = item?.file ?? '';
+            v.size = item?.size ?? 0;
+            return v;
+        });
         modal.open(() => {
-            this.service.movieFileSave(this.editData).subscribe({
+            this.service.movieFileSave(this.editForm().value()).subscribe({
                 next: () => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapPage();
@@ -122,9 +134,7 @@ export class MovieFileComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editData.file);
-        });
+        }, () => this.editForm().valid());
     }
 
     public tapRemove(item: IMovieFile) {

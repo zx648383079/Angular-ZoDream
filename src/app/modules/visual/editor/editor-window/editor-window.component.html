@@ -1,9 +1,9 @@
-<div class="visual-editor-container" [ngStyle]="editorStyle">
+<div class="visual-editor-container" [style]="editorStyle">
     <!-- 组件库 -->
     <div class="panel-soul">
         <app-editor-soul />
     </div>
-    <div class="panel-main" [ngStyle]="workStyle">
+    <div class="panel-main" [style]="workStyle">
         <app-editor-work-body />
         <!-- 属性编辑 -->
         <div class="property-box">
@@ -23,7 +23,7 @@
 <div class="await-widget-box">
     <!-- 待创建的组件 -->
     @if (tempWidget) {
-        <div class="await-widget" [ngStyle]="{left: tempWidget.x + 'px', top: tempWidget.y + 'px'}">
+        <div class="await-widget" [style]="{left: tempWidget.x + 'px', top: tempWidget.y + 'px'}">
             <app-editor-widget [value]="tempWidget" />
         </div>
     }

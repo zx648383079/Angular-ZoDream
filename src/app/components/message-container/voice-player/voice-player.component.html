@@ -5,7 +5,7 @@
 } @else {
     <div class="player-bar">
         <div class="icon" (click)="tapPlay()">
-            <i class="iconfont" [ngClass]="{'icon-play': paused, 'icon-stop': !paused}"></i>
+            <i class="iconfont" [class]="{'icon-play': paused, 'icon-stop': !paused}"></i>
         </div>
         <div class="slider">
             <app-progress-bar [value]="progress" [max]="duration" [label]="false" (valueChange)="onProgressChange($event)" />

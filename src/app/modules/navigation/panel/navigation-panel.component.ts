@@ -27,7 +27,7 @@ export class NavigationPanelComponent {
 
     public editMode = false;
     public items: ISiteCollectGroup[] = [];
-    public editData: ISiteCollect = {} as any;
+    public readonly editForm = form(signal<ISiteCollect>({}));
     public isGuest = true;
     private saveMode = 0;
     private isUpdated = false;
@@ -204,27 +204,27 @@ export class NavigationPanelComponent {
     }
 
     private open<T = ISiteCollect>(item: T|undefined, cb: (data: T) => void) {
-        this.editData = item ?  {...item} : {} as any;
-        if (!this.editData.group_id) {
-            this.editData.group_id = 0;
+        this.editForm = item ?  {...item} : {} as any;
+        if (!this.editForm.group_id) {
+            this.editForm.group_id = 0;
         }
         this.modal().open(() => {
-            if (this.editData.group_id > 0) {
-                if (emptyValidate(this.editData.link)) {
+            if (this.editForm.group_id > 0) {
+                if (emptyValidate(this.editForm.link)) {
                     this.toastrService.error($localize `Please input the Link`);
                     return;
                 }
-                if (this.isExist(this.editData.link, this.editData.id)) {
+                if (this.isExist(this.editForm.link, this.editForm.id)) {
                     this.toastrService.error($localize `This Link is exist`);
                     return;
                 }
             }
-            if (!this.editData.id)  {
-                this.editData.id = this.generateId(this.editData.group_id > 0);
+            if (!this.editForm.id)  {
+                this.editForm.id = this.generateId(this.editForm.group_id > 0);
             }
             this.isUpdated = true;
-            cb({...this.editData} as any);
-            // const pipe: Observable<any> = this.editData.group_id > 0 ? this.service.collectSave(this.editData) : this.service.groupSave(this.editData);
+            cb({...this.editForm} as any);
+            // const pipe: Observable<any> = this.editForm.group_id > 0 ? this.service.collectSave(this.editForm().value()) : this.service.groupSave(this.editForm().value());
             // pipe.subscribe({
             //     next: res => {
             //         cb(res);
@@ -233,7 +233,7 @@ export class NavigationPanelComponent {
             //         this.toastrService.error(err);
             //     }
             // });
-        }, () => !emptyValidate(this.editData.name), (item ? $localize `Edit` : $localize `New`));
+        }, () => !emptyValidate(this.editForm.name), (item ? $localize `Edit` : $localize `New`));
     }
 
     private generateId(isLink: boolean): number {

@@ -37,21 +37,21 @@ export class SitePageComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item: ISitePage) {
-        this.editData = Object.assign({}, item);
-        if (!this.editData.settings) {
-            this.editData.settings = {};
+        this.editForm = Object.assign({}, item);
+        if (!this.editForm.settings) {
+            this.editForm.settings = {};
         }
         modal.open(() => {
-            this.service.sitePageSave(this.editData).subscribe({
+            this.service.sitePageSave(this.editForm().value()).subscribe({
                 next: () => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapPage();
@@ -61,7 +61,7 @@ export class SitePageComponent implements OnInit {
                 }
             });
         }, () => {
-            return !emptyValidate(this.editData.name);
+            return !emptyValidate(this.editForm.name);
         });
     }
 
@@ -101,7 +101,8 @@ export class SitePageComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries, ['site']);
+                this.queries().value.set(queries);
+            this.searchService.applyHistory(queries, ['site']);
                 this.isLoading = false;
             },
             error: () => {

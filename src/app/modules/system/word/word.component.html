@@ -48,17 +48,17 @@
   </div>
   
 
-  <app-dialog-box #modal [title]="editData.id > 0 ? '编辑屏蔽词' : '新增屏蔽词'">
+  <app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑屏蔽词' : '新增屏蔽词'">
     <div class="form-group">
         <label for="name-input">关键词</label>
         <div class="input-group-control">
-          <input class="form-control" id="name-input" [field]="editData.words" placeholder="请输入关键词">
+          <input class="form-control" id="name-input" [field]="editForm.words" placeholder="请输入关键词">
         </div>
       </div>
       <div class="form-group">
         <label for="replace-input">替换词</label>
         <div class="input-group-control">
-          <input class="form-control" id="replace-input" [field]="editData.replace_words" placeholder="请输入替换词">
+          <input class="form-control" id="replace-input" [field]="editForm.replace_words" placeholder="请输入替换词">
         </div>
       </div>
   </app-dialog-box>

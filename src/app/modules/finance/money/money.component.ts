@@ -1,8 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../components/dialog';
-import { emptyValidate } from '../../../theme/validators';
 import { FinanceService } from '../finance.service';
 import { IAccount } from '../model';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -17,15 +17,19 @@ export class MoneyComponent implements OnInit {
 
     public items: IAccount[] = [];
     public isLoading = false;
-    public keywords = '';
-    public editData: IAccount = {
-        id: undefined,
+    public readonly queries = form(signal({
+        keywords: ''
+    }));
+    public readonly editForm = form(signal({
+        id: 0,
         name: '',
         money: 0,
         frozen_money: 0,
         status: 1,
         remark: '',
-    } as any;
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.tapRefresh();
@@ -40,32 +44,29 @@ export class MoneyComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.accountList({
-            keywords: this.keywords,
-        }).subscribe(res => {
+        this.service.accountList(this.queries().value()).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
         });
     }
 
     public tapSearch() {
-        this.keywords = form.keywords;
         this.tapRefresh();
     }
 
     public tapRemove(item: IAccount) {
-        if (!confirm('确定删除“' + item.name + '”资金账户？')) {
-            return;
-        }
-        this.service.accountRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success($localize `Delete Successfully`);
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.name + '”资金账户？', () => {
+            this.service.accountRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
+
     }
 
     public onStatusChange(item: IAccount) {
@@ -75,22 +76,21 @@ export class MoneyComponent implements OnInit {
     }
 
     open(modal: DialogEvent, item?: IAccount) {
-        this.editData = item ? {...item} : {
-            id: undefined,
-            name: '',
-            money: 0,
-            frozen_money: 0,
-            status: 1,
-            remark: '',
-        } as any;
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.money = item?.money ?? 0;
+            v.frozen_money = item?.frozen_money ?? 0;
+            v.status = item?.status as any ?? 1;
+            v.remark = item?.remark ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.accountSave({...this.editData}).subscribe(_ => {
+            this.service.accountSave({...this.editForm}).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
-        }, () => {
-            return !emptyValidate(this.editData.name)
-        });
+        }, () => this.editForm().valid());
     }
 
 }

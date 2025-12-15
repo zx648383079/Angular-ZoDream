@@ -3,7 +3,7 @@
         <div class="item-header">{{ item.name }}：</div>
         <div class="item-body">
             {{ item.count }}
-            <span class="item-tag iconfont" [ngClass]="{'icon-arrow-down': item.inc < 0, 'icon-arrow-up': item.inc > 0}"></span>
+            <span class="item-tag iconfont" [class]="{'icon-arrow-down': item.inc < 0, 'icon-arrow-up': item.inc > 0}"></span>
             @if (item.unit) {
                 <span class="item-unit">{{ item.unit }}</span>
             }

@@ -7,7 +7,7 @@
     </div>
 </div>
 @for (item of items; track $index) {
-    <div class="task-item" [ngClass]="{active: item.is_open}">
+    <div class="task-item" [class]="{active: item.is_open}">
     <div class="item-header" (click)="item.is_open = !item.is_open">
         <div class="item-name">{{ item.title }}</div>
         <div class="item-status">领取</div>

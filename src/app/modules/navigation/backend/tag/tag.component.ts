@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -10,9 +10,9 @@ import { NavigationService } from '../navigation.service';
 
 @Component({
     standalone: false,
-  selector: 'app-tag',
-  templateUrl: './tag.component.html',
-  styleUrls: ['./tag.component.scss']
+    selector: 'app-tag',
+    templateUrl: './tag.component.html',
+    styleUrls: ['./tag.component.scss']
 })
 export class TagComponent implements OnInit {
     private readonly service = inject(NavigationService);
@@ -30,22 +30,28 @@ export class TagComponent implements OnInit {
         per_page: 20,
         keywords: '',
     }));
-    public editData: ISiteTag = {} as any;
+    public readonly editForm = form(signal<ISiteTag>({
+        id: 0,
+        name: '',
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item?: ISiteTag) {
-        this.editData = item ? Object.assign({}, item) : {
-            id: 0,
-            name: '',
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.tagSave(this.editData).subscribe({
+            this.service.tagSave(this.editForm().value()).subscribe({
                 next: () => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
@@ -54,9 +60,7 @@ export class TagComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editData.name);
-        });
+        }, () => this.editForm().valid());
     }
 
 

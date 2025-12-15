@@ -52,20 +52,20 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id > 0 ? '编辑分组' : '新增分组'">
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑分组' : '新增分组'">
     <div class="form-group">
       <label for="name">名称</label>
       <input type="text"
-        class="form-control" [field]="editData.name" id="name" placeholder="请输入名称">
+        class="form-control" [field]="editForm.name" id="name" placeholder="请输入名称">
     </div>
     <div class="form-group">
         <label for="type">类型</label>
         <div>
-            <app-check-input [items]="typeItems" [rangeKey]="1" [field]="editData.type" id="type" />
+            <app-check-input [items]="typeItems" [rangeKey]="1" [field]="editForm.type" id="type" />
         </div>
     </div>
     <div class="form-group">
         <label for="description">描述</label>
-        <textarea class="form-control" [field]="editData.description" id="description" placeholder="请输入描述"></textarea>
+        <textarea class="form-control" [field]="editForm.description" id="description" placeholder="请输入描述"></textarea>
     </div>
 </app-dialog-box>

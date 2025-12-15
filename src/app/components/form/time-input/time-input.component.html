@@ -1,4 +1,4 @@
-<div class="time-input-container" [ngClass]="{'panel-open': panelVisible}">
+<div class="time-input-container" [class]="{'panel-open': panelVisible}">
     <div class="input-container">
         <input type="text" [value]="value()" (change)="onValueChange($event)" [disabled]="disabled()" [placeholder]="placeholder()" (focus)="onFocus()">
         <div class="input-arrow">
@@ -10,7 +10,7 @@
             <div class="scroll-column">
                 <ul>
                     @for (item of hourItems; track $index) {
-                        <li [ngClass]="{selected: item == currentHour}" (click)="tapHour(item)">{{ twoPad(item) }}</li>
+                        <li [class]="{selected: item == currentHour}" (click)="tapHour(item)">{{ twoPad(item) }}</li>
                     }
                     
                 </ul>
@@ -18,7 +18,7 @@
             <div class="scroll-column">
                 <ul>
                     @for (item of minuteItems; track $index) {
-                        <li [ngClass]="{selected: item == currentMinute}" (click)="tapMinute(item)">{{ twoPad(item) }}</li>
+                        <li [class]="{selected: item == currentMinute}" (click)="tapMinute(item)">{{ twoPad(item) }}</li>
                     }
                 </ul>
             </div>

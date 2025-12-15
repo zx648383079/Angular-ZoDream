@@ -60,35 +60,35 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id > 0 ? '编辑链接' : '新增链接'">
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑链接' : '新增链接'">
     <div class="form-group">
         <label for="name-input">标题</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editData.title" placeholder="请输入标题">
+            <input class="form-control" id="name-input" [field]="editForm.title" placeholder="请输入标题">
         </div>
     </div>
     <div class="form-group">
         <label>原链接</label>
         <div class="input-group-control">
-            <input class="form-control" [field]="editData.source_url" placeholder="请输入链接">
+            <input class="form-control" [field]="editForm.source_url" placeholder="请输入链接">
         </div>
     </div>
     <div class="form-group">
         <label>状态</label>
         <div class="input-group-control">
-            <select class="form-control" [field]="editData.status">
+            <select class="form-control" [field]="editForm.status">
                 @for (item of statusItems; track $index) {
                     <option [value]="item.value">{{ item.name }}</option>
                 }
             </select>
         </div>
     </div>
-    @if (editData.complete_short_url) {
+    @if (editForm.complete_short_url) {
     <div class="form-group">
         <label>完整短链接</label>
         <div class="flat-input">
-            <input class="form-control" [value]="editData.complete_short_url" readonly>
-            <a [href]="editData.complete_short_url" class="btn btn-danger" target="_blank" rel="noopener">预览</a>
+            <input class="form-control" [value]="editForm.complete_short_url" readonly>
+            <a [href]="editForm.complete_short_url" class="btn btn-danger" target="_blank" rel="noopener">预览</a>
         </div>
     </div>
     }

@@ -1,18 +1,17 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
-import { emptyValidate } from '../../../../../theme/validators';
 import { IBotUserGroup } from '../../../model';
 import { BotService } from '../../bot.service';
 import { SearchService } from '../../../../../theme/services';
 
 @Component({
     standalone: false,
-  selector: 'app-bot-m-user-group',
-  templateUrl: './user-group.component.html',
-  styleUrls: ['./user-group.component.scss']
+    selector: 'app-bot-m-user-group',
+    templateUrl: './user-group.component.html',
+    styleUrls: ['./user-group.component.scss']
 })
 export class UserGroupComponent implements OnInit {
     private readonly service = inject(BotService);
@@ -32,19 +31,28 @@ export class UserGroupComponent implements OnInit {
         per_page: 20
     }));
 
-    public editData: any = {};
+    public readonly editForm = form(signal({
+        id: 0,
+        name: '',
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public tapEdit(modal: DialogEvent, item?: IBotUserGroup) {
-        this.editData = item ? {...item} : {};
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.userGroupSave(this.editData).subscribe({
+            this.service.userGroupSave(this.editForm().value()).subscribe({
                 next: _ => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
@@ -53,7 +61,7 @@ export class UserGroupComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             })
-        }, () => !emptyValidate(this.editData.name));
+        }, () => this.editForm().valid());
     }
 
     public tapRefresh() {

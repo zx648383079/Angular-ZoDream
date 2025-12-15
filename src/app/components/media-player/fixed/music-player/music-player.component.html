@@ -1,4 +1,4 @@
-<div class="music-player" #playerBar [ngClass]="{'fixed-player': isFixed(), hidden: hidden()}">
+<div class="music-player" #playerBar [class]="{'fixed-player': isFixed(), hidden: hidden()}">
     <div class="player-body">
         <app-spectrum-panel [width]="lyricsWidth" [height]="lyricsHeight" [hidden]="!spectrumVisible" [value]="channelData" />
         <app-lyrics-viewer [width]="lyricsWidth" [height]="lyricsHeight" [src]="lyricsSrc" [hidden]="!lyricsVisible" [duration]="duration" [currentTime]="progress" />
@@ -34,7 +34,7 @@
         </div>
         <div class="group-item" title="音量调节">
             <span class="item-label">
-                <i class="iconfont" [ngClass]="{'icon-volume-off': volume <= 0, 'icon-volume-down': volume > 0 && volume <= 60, 'icon-volume-up': volume > 60}" (click)="tapVolume()"></i>
+                <i class="iconfont" [class]="{'icon-volume-off': volume <= 0, 'icon-volume-down': volume > 0 && volume <= 60, 'icon-volume-up': volume > 60}" (click)="tapVolume()"></i>
             </span>
             <div class="item-body">
                 <app-player-progress-bar [formatValue]="false" [value]="volume" (valueChange)="onVolumeChange($event)" />
@@ -45,10 +45,10 @@
     
     <div class="player-bar">
         <div class="bar-action">
-            <i class="iconfont icon-step-backward" [ngClass]="{disabled: canPrevious}" (click)="tapPrevious()"></i>
-            <i class="iconfont play-btn" [ngClass]="{'icon-play': paused, 'icon-pause': !paused}" (click)="togglePlay()"></i>
-            <i class="iconfont icon-stop" [ngClass]="{disabled: !data}" (click)="stop()"></i>
-            <i class="iconfont icon-step-forward" [ngClass]="{disabled: canNext}" (click)="tapNext()"></i>
+            <i class="iconfont icon-step-backward" [class]="{disabled: canPrevious}" (click)="tapPrevious()"></i>
+            <i class="iconfont play-btn" [class]="{'icon-play': paused, 'icon-pause': !paused}" (click)="togglePlay()"></i>
+            <i class="iconfont icon-stop" [class]="{disabled: !data}" (click)="stop()"></i>
+            <i class="iconfont icon-step-forward" [class]="{disabled: canNext}" (click)="tapNext()"></i>
         </div>
         <div class="bar-body">
             @if (data?.cover) {
@@ -73,8 +73,8 @@
             </div>
         </div>
         <div class="bar-footer">
-            <i class="iconfont" [hidden]="moreVisible" [ngClass]="{'icon-volume-off': volume <= 0, 'icon-volume-down': volume > 0 && volume <= 60, 'icon-volume-up': volume > 60}" (click)="tapVolume()"></i>
-            <i class="iconfont" [ngClass]="{'icon-random': loop == 2, 'icon-refresh': loop == 1, 'icon-sort-alpha-asc': loop < 1, 'icon-circle': loop == 3, 'icon-check-circle': loop == 4}" [title]="loopTip" (click)="toggleLoop()"></i>
+            <i class="iconfont" [hidden]="moreVisible" [class]="{'icon-volume-off': volume <= 0, 'icon-volume-down': volume > 0 && volume <= 60, 'icon-volume-up': volume > 60}" (click)="tapVolume()"></i>
+            <i class="iconfont" [class]="{'icon-random': loop == 2, 'icon-refresh': loop == 1, 'icon-sort-alpha-asc': loop < 1, 'icon-circle': loop == 3, 'icon-check-circle': loop == 4}" [title]="loopTip" (click)="toggleLoop()"></i>
             <i class="iconfont icon-th-list" (click)="catalogVisible = !catalogVisible" title="查看播放列表"></i>
             <i class="iconfont icon-bar-chart" [hidden]="moreVisible" title="频谱显示" (click)="toggleSpectrum()"></i>
             <i class="iconfont icon-file-text-o" [hidden]="moreVisible" title="歌词显示" (click)="toggleLyrics()"></i>

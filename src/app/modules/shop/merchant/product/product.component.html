@@ -82,9 +82,9 @@
                         {{ item.price }}
                     </td>
                     <td class="auto-hide">
-                          <div class="toggle-box" [ngClass]="{active: item.is_best}">精品<i class="iconfont"></i></div>
-                          <div class="toggle-box" [ngClass]="{active: item.is_hot}">热门<i class="iconfont"></i></div>
-                          <div class="toggle-box" [ngClass]="{active: item.is_new}">新品<i class="iconfont"></i></div>
+                          <div class="toggle-box" [class]="{active: item.is_best}">精品<i class="iconfont"></i></div>
+                          <div class="toggle-box" [class]="{active: item.is_hot}">热门<i class="iconfont"></i></div>
+                          <div class="toggle-box" [class]="{active: item.is_new}">新品<i class="iconfont"></i></div>
                     </td>
                     <td>
                         {{ item.stock }}

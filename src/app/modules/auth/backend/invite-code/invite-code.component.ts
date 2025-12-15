@@ -29,21 +29,21 @@ export class InviteCodeComponent implements OnInit {
         per_page: 20,
         keywords: ''
     }));
-    public editData = {
+    public readonly editForm = form(signal({
         amount: 0,
         expired_at: '',
-    };
+    }));
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent) {
         modal.open(() => {
-            this.service.inviteCodeCreate(this.editData).subscribe({
+            this.service.inviteCodeCreate(this.editForm).subscribe({
                 next: res => {
                     this.tapRefresh();
                 },

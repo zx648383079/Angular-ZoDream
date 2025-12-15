@@ -17,24 +17,30 @@ export class CategoryComponent implements OnInit {
 
     public items: ICategory[] = [];
     public isLoading = false;
-    public editData: ICategory = {} as any;
+    public readonly editForm = form(signal<ICategory>({}));
 
     ngOnInit() {
         this.tapRefresh();
     }
 
     public open(modal: DialogEvent, item?: ICategory) {
-        this.editData = item ? Object.assign({}, item) : {
+        this.editForm().value.update(v => {
+            if (item) {
+                v.id = item.id;
+                return v;
+            }
+            return {};
+        });{
             id: 0,
             name: '',
         };
         modal.open(() => {
-            this.service.categorySave(this.editData).subscribe(_ => {
+            this.service.categorySave(this.editForm().value()).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
         }, () => {
-            return !emptyValidate(this.editData.name);
+            return !emptyValidate(this.editForm.name);
         });
     }
 

@@ -1,10 +1,9 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
-import { emptyValidate } from '../../../theme/validators';
 import { FinanceService } from '../finance.service';
 import { IBudget } from '../model';
 import { mapFormat } from '../../../theme/utils';
@@ -32,17 +31,19 @@ export class BudgetComponent implements OnInit {
         page: 1,
         per_page: 20,
     }));
-    public editData: IBudget = {
+    public readonly editForm = form(signal({
         id: undefined,
         name: '',
         cycle: 0,
         budget: 0,
-    } as any;
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
     public cycleItems = ['一次', '每天', '每周', '每月', '每年'];
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -112,20 +113,19 @@ export class BudgetComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item?: IBudget) {
-        this.editData = item ? {...item} : {
-            id: undefined,
-            name: '',
-            cycle: 0,
-            budget: 0,
-        } as any;
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.cycle = item?.cycle ?? 0;
+            v.budget = item?.budget ?? 0;
+            return v;
+        });
         modal.open(() => {
-            this.service.budgetSave({...this.editData}).subscribe(_ => {
+            this.service.budgetSave({...this.editForm}).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapPage();
             });
-        }, () => {
-            return !emptyValidate(this.editData.name);
-        });
+        }, () => this.editForm().valid());
     }
 
 }

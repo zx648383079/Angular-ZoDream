@@ -7,7 +7,7 @@
         @if (lineVisible) {
         <div class="line-bar">
             @for (item of hLines; track $index; let i = $index) {
-                <div class="line line-h" [ngStyle]="{left: item.value + 'px'}">
+                <div class="line line-h" [style]="{left: item.value + 'px'}">
                     <div class="action">
                         <i class="iconfont icon-close" (click)="tapRemoveLine(i, true, $event)"></i>
                         <span>{{ item.label }}</span>
@@ -15,7 +15,7 @@
                 </div>
             }
             @if (tempLine && tempLine.horizontal) {
-                <div class="line line-h" [ngStyle]="{left: tempLine.value + 'px'}">
+                <div class="line line-h" [style]="{left: tempLine.value + 'px'}">
                     <div class="action">
                         <span>{{ tempLine.label }}</span>
                     </div>
@@ -29,7 +29,7 @@
         @if (lineVisible) {
         <div class="line-bar">
             @for (item of vLines; track $index; let i = $index) {
-                <div class="line line-v" [ngStyle]="{top: item.value + 'px'}">
+                <div class="line line-v" [style]="{top: item.value + 'px'}">
                     <div class="action">
                         <i class="iconfont icon-close" (click)="tapRemoveLine(i, true, $event)"></i>
                         <span>{{ item.label }}</span>
@@ -37,7 +37,7 @@
                 </div>
             }
             @if (tempLine && !tempLine.horizontal) {
-                <div class="line line-v" [ngStyle]="{top: tempLine.value + 'px'}">
+                <div class="line line-v" [style]="{top: tempLine.value + 'px'}">
                     <div class="action">
                         <span>{{ tempLine.label }}</span>
                     </div>

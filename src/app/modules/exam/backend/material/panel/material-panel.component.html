@@ -24,7 +24,7 @@
             <div class="row">
                 @for (item of items; track $index) {
                     <div class="col-md-4">
-                        <div class="option-item" [ngClass]="{selected: value() && value().id == item.id}" (click)="tapSelected(item)">
+                        <div class="option-item" [class]="{selected: value() && value().id == item.id}" (click)="tapSelected(item)">
                             <div class="title">【{{ item.type|materialType }}】{{ item.title }}</div>
                             <div class="desc">{{ item.description }}</div>
                         </div>

@@ -12,7 +12,7 @@
         </div>
         <div class="tab-bar">
             @for (item of typeItems; track $index; let i=$index) {
-                <div class="item" [ngClass]="{active: typeIndex == i}" (click)="typeIndex = i" [title]="item.label">{{ item.label }}</div>
+                <div class="item" [class]="{active: typeIndex == i}" (click)="typeIndex = i" [title]="item.label">{{ item.label }}</div>
             }
             
         </div>
@@ -20,7 +20,7 @@
             @for (item of typeOptionItems; track $index) {
             <div class="col-6">
                 <div class="check-input" (click)="item.checked = !item.checked">
-                    <i class="iconfont" [ngClass]="{'icon-check-square-o': item.checked, 'icon-square-o': !item.checked}"></i>
+                    <i class="iconfont" [class]="{'icon-check-square-o': item.checked, 'icon-square-o': !item.checked}"></i>
                     {{ item.name }}
                 </div>
             </div>

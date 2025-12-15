@@ -35,7 +35,7 @@ export class DocumentComponent implements OnInit {
     ngOnInit() {
         this.themeService.titleChanged.next($localize `Document`);
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             if (!this.queries.keywords) {
                 this.tapRefresh();
                 return;

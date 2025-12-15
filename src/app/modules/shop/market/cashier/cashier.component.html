@@ -11,30 +11,30 @@
                         <div class="edit-body">
                             <div>*所在地区:</div>
                             <div class="region-input">
-                                <app-region url="shop/region/tree" [field]="editData.region_id" />
+                                <app-region url="shop/region/tree" [field]="editForm.region_id" />
                             </div>
                             <div>*详细地址:</div>
                             <div>
-                                <textarea [field]="editData.address" cols="30" rows="10"></textarea>
+                                <textarea [field]="editForm.address" cols="30" rows="10"></textarea>
                             </div>
                             <div>*收货人:</div>
                             <div>
-                                <input type="text" [field]="editData.name">
+                                <input type="text" [field]="editForm.name">
                             </div>
                             <div>*手机号码:</div>
                             <div>
-                                <input type="text" [field]="editData.tel">
+                                <input type="text" [field]="editForm.tel">
                             </div>
                         </div>
                         <div class="edit-right">
-                            <div (click)="editData.is_default = !editData.is_default">
+                            <div (click)="editForm.is_default = !editForm.is_default">
                                 <div class="checkbox">
-                                    <i class="iconfont" [ngClass]="{'icon-check-square-o': editData.is_default, 'icon-square-o': !editData.is_default}"></i>
+                                    <i class="iconfont" [class]="{'icon-check-square-o': editForm.is_default, 'icon-square-o': !editForm.is_default}"></i>
                                 </div>
                                 设为默认
                             </div>
                             <button type="button" class="btn" (click)="tapEditSave()">保存地址</button>
-                            @if (editData.id > 0) {
+                            @if (editForm.id().value() > 0) {
                             <button type="button" class="btn btn-cancel" (click)="tapEditCancel()">取消</button>
                             }
                         </div>
@@ -109,8 +109,8 @@
                 <div class="shipping-box">
                     <h4>配送方式：</h4>
                     @for (item of shippingItems; track $index) {
-                        <span class="radio-label" [ngClass]="{checked: shipping && item.id == shipping.id}" (click)="shippingChanged(item)">
-                            <i class="iconfont" [ngClass]="{'icon-check': shipping && item.id == shipping.id, 'icon-circle': !shipping || item.id != shipping.id}"></i>
+                        <span class="radio-label" [class]="{checked: shipping && item.id == shipping.id}" (click)="shippingChanged(item)">
+                            <i class="iconfont" [class]="{'icon-check': shipping && item.id == shipping.id, 'icon-circle': !shipping || item.id != shipping.id}"></i>
                             {{ item.name }}
                         </span>
                     }
@@ -118,8 +118,8 @@
                 <div class="payment-box">
                     <h4>支付方式：</h4>
                     @for (item of paymentItems; track $index) {
-                        <span class="radio-label" [ngClass]="{checked: payment && item.id == payment.id}" (click)="paymentChanged(item)">
-                            <i class="iconfont" [ngClass]="{'icon-check': payment && item.id == payment.id, 'icon-circle': !payment || item.id != payment.id}"></i>
+                        <span class="radio-label" [class]="{checked: payment && item.id == payment.id}" (click)="paymentChanged(item)">
+                            <i class="iconfont" [class]="{'icon-check': payment && item.id == payment.id, 'icon-circle': !payment || item.id != payment.id}"></i>
                             {{ item.name }}
                         </span>
                     }
@@ -135,13 +135,13 @@
                     <h4>使用优惠券({{ couponItems.length }}张)</h4>
                     <div class="tab-box">
                         <div class="tab-header">
-                            <div class="tab-item" [ngClass]="{active: couponIndex < 1}" (click)="couponIndex = 0">商品优惠券</div>
-                            <div class="tab-item" [ngClass]="{active: couponIndex == 1}" (click)="couponIndex = 1">优惠码兑换</div>
+                            <div class="tab-item" [class]="{active: couponIndex < 1}" (click)="couponIndex = 0">商品优惠券</div>
+                            <div class="tab-item" [class]="{active: couponIndex == 1}" (click)="couponIndex = 1">优惠码兑换</div>
                         </div>
                         <div class="tab-body">
-                            <div class="tab-item" [ngClass]="{active: couponIndex < 1}">
+                            <div class="tab-item" [class]="{active: couponIndex < 1}">
                                 @for (item of couponItems; track $index) {
-                                    <div class="coupon-item" [ngClass]="{active: item.id == coupon?.id, expired: item.expired}" (click)="couponChanged(item)">
+                                    <div class="coupon-item" [class]="{active: item.id == coupon?.id, expired: item.expired}" (click)="couponChanged(item)">
                                         <div class="item-body">
                                             <div class="money">
                                                 @if (item.type > 0) {
@@ -165,7 +165,7 @@
                                     </div>
                                 }
                             </div>
-                            <div class="tab-item" [ngClass]="{active: couponIndex == 1}">
+                            <div class="tab-item" [class]="{active: couponIndex == 1}">
                                 <div class="flat-input">
                                     <input type="text" class="form-control" [field]="couponCode">
                                     <button class="btn btn-primary" (click)="tapExchange()">兑换</button>
@@ -211,7 +211,7 @@
     </div>
     <div class="dialog-body">
         @for (item of addressItems; track $index) {
-            <div class="address-item" [ngClass]="{active: dialogSelected && item.id == dialogSelected.id}" (click)="tapDialogSelect(item)">
+            <div class="address-item" [class]="{active: dialogSelected && item.id == dialogSelected.id}" (click)="tapDialogSelect(item)">
                 <div>收货人: {{ item.name }}</div>
                 <div>联系方式：{{ item.tel }}</div>
                 <div>收货地址：{{ item.region.full_name }} {{ item.address }}</div>

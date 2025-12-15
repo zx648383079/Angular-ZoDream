@@ -1,4 +1,4 @@
-<div class="edit-header" [ngClass]="{'--with-min': min()}">
+<div class="edit-header" [class]="{'--with-min': min()}">
     <a class="control-route-icon" (click)="tapBack()">
         <i class="iconfont icon-chevron-left"></i>
     </a>
@@ -9,7 +9,7 @@
         <ng-content />
     </div>
 
-    <div class="control-submit-btn" [ngClass]="{'btn-disabled': disabled(), 'btn-loading': loading()}" (click)="tapSubmit()">
+    <div class="control-submit-btn" [class]="{'btn-disabled': disabled(), 'btn-loading': loading()}" (click)="tapSubmit()">
         <i class="iconfont icon-check"></i>
         <div class="loading-ring">
             <span></span>

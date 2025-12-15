@@ -8,7 +8,7 @@
 
         <div class="timeline-bar">
             @for (item of timeItems; track $index; let i = $index) {
-            <div class="time-item" [ngClass]="{active: tabIndex == i}" (click)="tapTab(i)">
+            <div class="time-item" [class]="{active: tabIndex == i}" (click)="tapTab(i)">
                 <div class="time-body">
                     <div class="time">
                         {{  item.title }}

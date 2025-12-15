@@ -60,13 +60,13 @@
         <div class="input-group-control">
             <label for="">权益卡</label>
             <div>
-                <ng-select [items]="cardItems" bindValue="id" bindLabel="name" [field]="editData.card_id" placeholder="权益卡" />
+                <ng-select [items]="cardItems" bindValue="id" bindLabel="name" [field]="editForm.card_id" placeholder="权益卡" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="">到期日期</label>
             <div>
-                <app-date-input [field]="editData.expired_at" />
+                <app-date-input [field]="editForm.expired_at" />
             </div>
         </div>
     </div>

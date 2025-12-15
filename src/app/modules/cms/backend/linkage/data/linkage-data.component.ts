@@ -1,10 +1,9 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
-import { emptyValidate } from '../../../../../theme/validators';
 import { ICmsLinkageData } from '../../../model';
 import { CmsService } from '../../cms.service';
 
@@ -31,18 +30,28 @@ export class LinkageDataComponent implements OnInit {
         per_page: 20,
         keywords: ''
     }));
-    public editData: ICmsLinkageData = {} as any;
+    public readonly editForm = form(signal({
+        id: 0,
+        name: '',
+        description: '',
+        thumb: '',
+        position: 99,
+        parent_id: 0,
+        linkage_id: 0
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
     public typeItems = ['栏目', '内容'];
     public path: ICmsLinkageData[] = [];
 
     ngOnInit() {
         this.route.params.subscribe(params => {
             if (params.linkage) {
-                this.queries.linkage = parseInt(params.linkage, 10);
+                this.queries.linkage().value.set(parseInt(params.linkage, 10));
             }
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -57,21 +66,22 @@ export class LinkageDataComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item?: ICmsLinkageData) {
-        this.editData = item ? {...item} : {
-            id: 0,
-            name: '',
-            description: '',
-            thumb: '',
-            position: 99,
-            parent_id: this.parentId,
-            linkage_id: this.queries.linkage
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.description = item?.description ?? '';
+            v.thumb = item?.thumb ?? '';
+            v.position = item?.position ?? 99;
+            v.parent_id = item?.parent_id ?? this.parentId;
+            v.linkage_id = this.queries.linkage().value() as any;
+            return v;
+        });
         modal.open(() => {
-            this.service.linkageDataSave(this.editData).subscribe(_ => {
+            this.service.linkageDataSave(this.editForm().value()).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
-        }, () => !emptyValidate(this.editData.name));
+        }, () => this.editForm().valid());
     }
 
 

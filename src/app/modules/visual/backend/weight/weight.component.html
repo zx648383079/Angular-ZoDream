@@ -23,7 +23,7 @@
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
                     <a class="btn btn-info" routerLink="../category">管理分类</a>
-                    <a class="btn" [ngClass]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
+                    <a class="btn" [class]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
                     <a class="btn btn-success" (click)="tapCreate()">新增组件</a>
                 </div>
                 
@@ -34,7 +34,7 @@
             <thead>
                 <tr>
                     <th [hidden]="!isMultiple">
-                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                        <i class="checkbox" [class]="{checked: isChecked}" (click)="toggleCheck()"></i>
                     </th>
                     <th>ID</th>
                     <th>名称</th>
@@ -50,7 +50,7 @@
                 @for (item of items; track $index) {
                     <tr>
                     <td [hidden]="!isMultiple">
-                        <i class="checkbox" [ngClass]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
+                        <i class="checkbox" [class]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
                     </td>
                     <td>{{ item.id }}</td>
                     <td>
@@ -74,7 +74,7 @@
             <tfoot [hidden]="!isMultiple || items.length < 1">
                 <tr>
                     <td>
-                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                        <i class="checkbox" [class]="{checked: isChecked}" (click)="toggleCheck()"></i>
                     </td>
                     <td colspan="8">
                         <div class="btn-group">

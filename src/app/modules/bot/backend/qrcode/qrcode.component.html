@@ -69,13 +69,13 @@
         <div class="input-group-control">
             <label for="">标记</label>
             <div>
-                <input type="text" class="form-control" [field]="editData.name">
+                <input type="text" class="form-control" [field]="editForm.name">
             </div>
         </div>
         <div class="input-group-control">
             <label for="">二维码类型</label>
             <div>
-                <app-switch [field]="editData.type" offLabel="临时" onLabel="永久" />
+                <app-switch [field]="editForm.type" offLabel="临时" onLabel="永久" />
                 <div class="input-tip">
                     注意永久二维码上限10万个
                 </div>
@@ -84,22 +84,22 @@
         <div class="input-group-control">
             <label for="">场景值类型</label>
             <div>
-                <app-check-input [items]="['字符串', '数字']" [rangeKey]="1" [field]="editData.scene_type" />
+                <app-check-input [items]="['字符串', '数字']" [rangeKey]="1" [field]="editForm.scene_type" />
             </div>
         </div>
-        @if (editData.scene_type < 1) {
+        @if (editForm.scene_type < 1) {
         <div class="input-group-control">
             <label for="">场景值</label>
             <div>
-                <input type="text" class="form-control" [field]="editData.scene_str">
+                <input type="text" class="form-control" [field]="editForm.scene_str">
             </div>
         </div>
-        } @else if (editData.scene_type == 1) {
+        } @else if (editForm.scene_type == 1) {
         <div class="input-group-control">
             <label for="">场景值</label>
             <div>
-                <input type="number" class="form-control" [field]="editData.scene_id">
-                @if (editData.type) {
+                <input type="number" class="form-control" [field]="editForm.scene_id">
+                @if (editForm.type) {
                 <div class="input-tip">
                     区间为1~100000
                 </div>
@@ -107,13 +107,13 @@
             </div>
         </div>
         }
-        @if (!editData.type) {
+        @if (!editForm.type) {
         <div class="input-group-control">
             <label for="">有效期</label>
             <div>
-                <input type="number" class="form-control" [field]="editData.expire_time" placeholder="单位：秒，最大2592000（30天）">
+                <input type="number" class="form-control" [field]="editForm.expire_time" placeholder="单位：秒，最大2592000（30天）">
                 <div class="input-tip">
-                    最大30天，当前设置：{{editData.expire_time/(24*3600)}}天
+                    最大30天，当前设置：{{editForm.expire_time/(24*3600)}}天
                 </div>
             </div>
         </div>

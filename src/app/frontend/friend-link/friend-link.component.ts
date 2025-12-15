@@ -1,16 +1,16 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { FrontendService } from '../frontend.service';
 import { IFriendLink, ILink } from '../../theme/models/seo';
-import { emptyValidate } from '../../theme/validators';
 import { DialogService } from '../../components/dialog';
 import { DialogBoxComponent } from '../../components/dialog';
 import { ThemeService } from '../../theme/services';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-friend-link',
-  templateUrl: './friend-link.component.html',
-  styleUrls: ['./friend-link.component.scss']
+    selector: 'app-friend-link',
+    templateUrl: './friend-link.component.html',
+    styleUrls: ['./friend-link.component.scss']
 })
 export class FriendLinkComponent implements OnInit {
     private readonly service = inject(FrontendService);
@@ -19,12 +19,15 @@ export class FriendLinkComponent implements OnInit {
 
 
     public friendLinks: ILink[] = [];
-    public editData: IFriendLink = {
+    public readonly editForm = form(signal({
         name: '',
         url: '',
         brief: '',
         email: '',
-    } as any;
+    }), schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.url);
+    });
 
     constructor() {
         this.service.friendLinks().subscribe(res => {
@@ -38,12 +41,10 @@ export class FriendLinkComponent implements OnInit {
 
     public openApply(modal: DialogBoxComponent) {
         modal.open(() => {
-            this.service.linkApply(this.editData).subscribe(_ => {
+            this.service.linkApply(this.editForm).subscribe(_ => {
                 this.toastrService.success($localize `Submitted successfully, waiting for the administrator to process`);
             });
-        }, () => {
-            return !emptyValidate(this.editData.url) && !emptyValidate(this.editData.name)
-        });
+        }, () => this.editForm().valid());
     }
 
 }

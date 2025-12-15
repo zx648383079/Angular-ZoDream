@@ -9,7 +9,7 @@
             @for (item of items; track $index) {
                 <div class="panel-swiper-item">
                 <div class="swiper-header">
-                    <i class="checkbox" [ngClass]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
+                    <i class="checkbox" [class]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
                 </div>
                 <div class="swiper-body">
                     <div class="item-header">
@@ -41,7 +41,7 @@
         </div>
         <div class="panel-footer">
             <div class="panel-action">
-                <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                <i class="checkbox" [class]="{checked: isChecked}" (click)="toggleCheck()"></i>
                 <div class="btn-group">
                     <button class="btn btn-danger" [disabled]="checkedItems.length < 1" (click)="tapUninstall()">卸载选中项（{{ checkedItems.length }}）</button>
                     <app-action-button class="btn btn-success" (tapped)="tapSync($event)">更新</app-action-button>

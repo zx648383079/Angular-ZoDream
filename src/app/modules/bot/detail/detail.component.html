@@ -7,7 +7,7 @@
                 <a (click)="dropToggle = !dropToggle">
                     {{ data.account.name }}
                 </a>
-                <div class="drop-box" [ngClass]="{open: dropToggle}">
+                <div class="drop-box" [class]="{open: dropToggle}">
                     <div class="box-qr">
                         <img class="profile_avatar" [src]="data.account.qrcode | asset" [alt]="data.account.name">
                     </div>

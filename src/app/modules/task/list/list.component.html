@@ -28,8 +28,8 @@
     </div>
 
     @for (item of items; track $index) {
-    <div class="task-item" [ngClass]="{finished: item.status < 5}" [title]="item.tooltip">
-        <i class="checkbox" [ngClass]="{checked: item.checked}"></i>
+    <div class="task-item" [class]="{finished: item.status < 5}" [title]="item.tooltip">
+        <i class="checkbox" [class]="{checked: item.checked}"></i>
         <div class="name">{{ item.name }}</div>
         <div class="desc">{{ item.description }}</div>
         <div class="time">{{ item.formated_time }}</div>

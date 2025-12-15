@@ -38,11 +38,11 @@ export class ReplyComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public editData: any = {};
+    public readonly editForm = form(signal<any>({}));
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }

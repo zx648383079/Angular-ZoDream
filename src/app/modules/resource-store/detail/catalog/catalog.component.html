@@ -6,7 +6,7 @@
 <ng-template #fileItemTpl let-file>
     @if (file) {
         @if (file.type < 1) {
-            <li class="tree-parent" [ngClass]="{open: file.open}"><div class="name" (click)="toggleOpen(file)"> <i class="iconfont" [ngClass]="{'icon-folder-open-o': file.open, 'icon-folder-o': !file.open}"></i>{{ file.name }}</div>
+            <li class="tree-parent" [class]="{open: file.open}"><div class="name" (click)="toggleOpen(file)"> <i class="iconfont" [class]="{'icon-folder-open-o': file.open, 'icon-folder-o': !file.open}"></i>{{ file.name }}</div>
                 @if (file.children) {
                 <ul>
                     @for (it of file.children; track $index) {

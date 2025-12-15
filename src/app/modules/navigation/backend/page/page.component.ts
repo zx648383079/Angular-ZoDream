@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
@@ -34,7 +34,19 @@ export class PageComponent implements OnInit {
         site: 0,
         user: 0,
     }));
-    public editData: IWebPage = {} as any;
+    public readonly editForm = form(signal<IWebPage>({
+        id: 0,
+        title: '',
+        description: '',
+        link: '',
+        thumb: '',
+        site_id: 0,
+        score: 60,
+        keywords: [],
+    }), schemaPath => {
+        required(schemaPath.title);
+        required(schemaPath.link);
+    });
     public editExistData: IWebPage|undefined;
     public wordItems$: Observable<IWebPageKeywords[]>;
     public wordInput$ = new Subject<string>();
@@ -42,7 +54,7 @@ export class PageComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
         this.wordItems$ = concat(
@@ -68,28 +80,29 @@ export class PageComponent implements OnInit {
     }
 
     public onLinkBlur() {
-        if (!this.editData.link) {
+        if (!this.editForm.link) {
             return;
         }
-        this.service.pageCheck(this.editData).subscribe(res => {
+        this.service.pageCheck(this.editForm).subscribe(res => {
             this.editExistData = res.data;
         });
     }
 
     public open(modal: DialogEvent, item?: IWebPage) {
         this.editExistData = undefined;
-        this.editData = item ? Object.assign({}, item) : {
-            id: 0,
-            title: '',
-            description: '',
-            link: '',
-            thumb: '',
-            site_id: 0,
-            score: 60,
-            keywords: [],
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.title = item?.title ?? '';
+            v.description = item?.description ?? '';
+            v.link = item?.link ?? '';
+            v.thumb = item?.thumb ?? '';
+            v.site_id = item?.site_id ?? 0;
+            v.score = item?.score ?? 60;
+            v.keywords = item?.keywords ?? [];
+            return v;
+        });
         modal.open(() => {
-            this.service.pageSave(this.editData).subscribe({
+            this.service.pageSave(this.editForm().value()).subscribe({
                 next: () => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
@@ -98,9 +111,7 @@ export class PageComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editData.title) && !emptyValidate(this.editData.link);
-        });
+        }, () => this.editForm().valid());
     }
 
     /**

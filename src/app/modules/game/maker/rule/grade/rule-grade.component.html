@@ -50,23 +50,23 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id ? '编辑' : '新建'">
+<app-dialog-box #modal [title]="editForm.id ? '编辑' : '新建'">
     <div class="form-group">
         <label for="name-input">等级</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editData.grade" placeholder="请输入等级">
+            <input class="form-control" id="name-input" [field]="editForm.grade" placeholder="请输入等级">
         </div>
     </div>
     <div class="form-group">
         <label>等级别名</label>
         <div class="input-group-control">
-            <input class="form-control"[field]="editData.name" placeholder="请输入等级别名">
+            <input class="form-control"[field]="editForm.name" placeholder="请输入等级别名">
         </div>
     </div>
     <div class="form-group">
         <label>上级升级所需经验</label>
         <div class="input-group-control">
-            <app-number-input [field]="editData.exp" />
+            <app-number-input [field]="editForm.exp" />
         </div>
     </div>
 </app-dialog-box>

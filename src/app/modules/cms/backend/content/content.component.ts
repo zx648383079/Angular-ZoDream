@@ -39,10 +39,10 @@ export class ContentComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         })
     }
@@ -87,7 +87,8 @@ export class ContentComponent implements OnInit {
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
-            this.searchService.applyHistory(this.queries = queries, ['model', 'site', 'category', 'parent']);
+            this.queries().value.set(queries);
+            this.searchService.applyHistory(queries, ['model', 'site', 'category', 'parent']);
             this.columnItems = (res as any).column;
             this.model = (res as any).model;
         });

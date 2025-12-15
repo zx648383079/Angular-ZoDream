@@ -14,10 +14,10 @@
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
                     @if (!isMultiple) {
-                        <a class="btn" [ngClass]="{'btn-success': isReview, 'btn-outline-success': !isReview}" (click)="isReview = !isReview">审核模式</a>
+                        <a class="btn" [class]="{'btn-success': isReview, 'btn-outline-success': !isReview}" (click)="isReview = !isReview">审核模式</a>
                     }
                     @if (!isReview) {
-                        <a class="btn" [ngClass]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
+                        <a class="btn" [class]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
                     }
                 </div>
             </form>
@@ -26,7 +26,7 @@
             <thead>
                 <tr>
                     <th [hidden]="!isMultiple">
-                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                        <i class="checkbox" [class]="{checked: isChecked}" (click)="toggleCheck()"></i>
                     </th>
                     <th>ID</th>
                     <th>投诉人</th>
@@ -40,7 +40,7 @@
                 @for (item of items; track $index) {
                     <tr>
                         <td [hidden]="!isMultiple">
-                            <i class="checkbox" [ngClass]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
+                            <i class="checkbox" [class]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
                         </td>
                         <td>{{ item.id }}</td>
                         <td>
@@ -67,7 +67,7 @@
             <tfoot [hidden]="!isMultiple || items.length < 1">
                 <tr>
                     <td>
-                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                        <i class="checkbox" [class]="{checked: isChecked}" (click)="toggleCheck()"></i>
                     </td>
                     <td colspan="6">
                         <button class="btn btn-danger" [disabled]="checkedItems.length < 1" (click)="tapRemoveMultiple()">删除选中项（{{ checkedItems.length }}）</button>
@@ -84,7 +84,7 @@
                     <div class="review-body">
                         {{ item.content }}
 
-                        <div class="review-stamp" [ngClass]="{'btn-success': item.status == 2, 'btn-danger': item.status == 1 || item.status == 3}">
+                        <div class="review-stamp" [class]="{'btn-success': item.status == 2, 'btn-danger': item.status == 1 || item.status == 3}">
                             {{ item.status | status }}
                         </div>
                     </div>
@@ -130,32 +130,32 @@
 </div>
 
 
-<app-dialog-box #modal [buttonVisible]="false" [title]="'投诉详情(' + editData.id + ')'">
+<app-dialog-box #modal [buttonVisible]="false" [title]="'投诉详情(' + editForm.id + ')'">
     <div class="line-row-item">
         <span class="item-label">投诉人：</span>
-        <span class="item-body">{{ editData.user?.name }}</span>
+        <span class="item-body">{{ editForm.user?.name }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">联系方式：</span>
-        <span class="item-body">{{ editData.email }}</span>
+        <span class="item-body">{{ editForm.email }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">IP：</span>
-        <span class="item-body">{{ editData.ip }}</span>
+        <span class="item-body">{{ editForm.ip }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">投诉时间：</span>
-        <span class="item-body">{{ editData.created_at | ago }}</span>
+        <span class="item-body">{{ editForm.created_at | ago }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">投诉简介：</span>
-        <span class="item-body">{{ editData.title }}</span>
+        <span class="item-body">{{ editForm.title }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">投诉内容：</span>
-        <span class="item-body">{{ editData.content }}</span>
+        <span class="item-body">{{ editForm.content }}</span>
     </div>
-    @if (editData.status < 1) {
+    @if (editForm.status < 1) {
     <ng-container name="footer">
         <div class="btn-group">
             <button type="button" class="btn btn-primary" (click)="modal.close(1)">已阅</button>

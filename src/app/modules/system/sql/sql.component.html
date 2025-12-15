@@ -6,7 +6,7 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="btn-group">
-            <a (click)="tapBackup()" class="btn" [ngClass]="{'btn-primary': !isLoading, 'btn-dark': isLoading, 'disabled': isLoading}">{{ isLoading ? '备份中...' : '备份' }}</a>
+            <a (click)="tapBackup()" class="btn" [class]="{'btn-primary': !isLoading, 'btn-dark': isLoading, 'disabled': isLoading}">{{ isLoading ? '备份中...' : '备份' }}</a>
             <a (click)="tapClear()" class="btn btn-danger">清除备份</a>
         </div>
 

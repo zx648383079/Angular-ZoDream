@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
@@ -32,7 +32,14 @@ export class VersionComponent implements OnInit {
         per_page: 20
     }));
     public software: ISoftware;
-    public editData: ISoftwareVersion = {} as any;
+    public readonly editForm = form(signal<ISoftwareVersion>({
+        id: 0,
+        name: '',
+        description: '',
+        app_id: 0,
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -47,20 +54,21 @@ export class VersionComponent implements OnInit {
             });
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent) {
-        this.editData = {
-            id: 0,
-            name: '',
-            description: '',
-            app_id: this.software.id,
-        };
+        this.editForm().value.update(v => {
+            v.id = 0;
+            v.name = '';
+            v.description = '';
+            v.app_id = this.software.id;
+            return v;
+        });
         modal.open(() => {
-            this.service.versionSave(this.editData).subscribe({
+            this.service.versionSave(this.editForm().value()).subscribe({
                 next: () => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
@@ -69,9 +77,7 @@ export class VersionComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editData.name);
-        });
+        }, () => this.editForm().valid());
     }
 
     public tapRefresh() {

@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
@@ -10,9 +10,9 @@ import { SearchService } from '../../../../../theme/services';
 
 @Component({
     standalone: false,
-  selector: 'app-user-card',
-  templateUrl: './user-card.component.html',
-  styleUrls: ['./user-card.component.scss']
+    selector: 'app-user-card',
+    templateUrl: './user-card.component.html',
+    styleUrls: ['./user-card.component.scss']
 })
 export class UserCardComponent implements OnInit {
     private readonly service = inject(AuthService);
@@ -29,10 +29,12 @@ export class UserCardComponent implements OnInit {
         per_page: 20,
     }));
     public user: IUser;
-    public editData: any = {
+    public readonly editForm = form(signal({
         card_id: 0,
-        expired_at: ''
-    };
+        expired_at: '',
+    }), schemaPath => {
+        required(schemaPath.card_id);
+    });
     public cardItems: IEquityCard[] = [];
 
     ngOnInit() {
@@ -46,24 +48,23 @@ export class UserCardComponent implements OnInit {
             this.cardItems = res.data;
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item?: any) {
-        this.editData = item ? Object.assign({}, item) : {
-            card_id: 0,
-            expired_at: '',
-        };
+        this.editForm().value.update(v => {
+            v.card_id = item?.card_id ?? 0;
+            v.expired_at = item?.expired_at ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.userCardUpdate({...this.editData, user_id: this.user.id}).subscribe(_ => {
+            this.service.userCardUpdate({...this.editForm().value(), user_id: this.user.id}).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
-        }, () => {
-            return this.editData.card_id > 0;
-        });
+        }, () => this.editForm().valid());
     }
 
 

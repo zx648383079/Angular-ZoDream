@@ -50,17 +50,17 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id ? '编辑' : '新建'">
+<app-dialog-box #modal [title]="editForm.id ? '编辑' : '新建'">
     <div class="form-group">
         <label for="name-input">地图名</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editData.name" placeholder="请输入地图名">
+            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入地图名">
         </div>
     </div>
     <div class="form-group">
         <label for="">介绍</label>
         <div class="input-group-control">
-            <textarea class="form-control" [field]="editData.description" placeholder="请输入地图介绍">></textarea>
+            <textarea class="form-control" [field]="editForm.description" placeholder="请输入地图介绍">></textarea>
         </div>
     </div>
     <div class="form-group">

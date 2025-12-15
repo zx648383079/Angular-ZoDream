@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
@@ -30,11 +30,18 @@ export class SeriesComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public editData: IMovieSeries = {} as any;
+    public readonly editForm = form(signal<IMovieSeries>({
+        id: 0,
+        movie_id: 0,
+        title: '',
+        episode: 0,
+    }), schemaPath => {
+        required(schemaPath.title);
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -78,14 +85,15 @@ export class SeriesComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item?: IMovieSeries) {
-        this.editData = item ? Object.assign({}, item) : {
-            id: 0,
-            movie_id: 0,
-            title: '',
-            episode: 0,
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.movie_id = item?.movie_id ?? 0;
+            v.title = item?.title ?? '';
+            v.episode = item?.episode ?? 0;
+            return v;
+        });
         modal.open(() => {
-            this.service.seriesSave(this.editData).subscribe({
+            this.service.seriesSave(this.editForm().value()).subscribe({
                 next: () => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapPage();
@@ -94,9 +102,7 @@ export class SeriesComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editData.title);
-        });
+        }, () => this.editForm().valid());
     }
 
     public tapRemove(item: IMovieSeries) {

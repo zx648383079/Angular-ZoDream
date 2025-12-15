@@ -29,7 +29,7 @@ export class InvoiceDialogComponent {
     public open(invoice: IInvoiceTitle, cb: (data: IInvoiceTitle) => void) {
         this.confirmFn = cb;
         if (invoice) {
-            this.editData = {...invoice};
+            this.editForm = {...invoice};
         }
         this.visible = true;
     }
@@ -40,7 +40,7 @@ export class InvoiceDialogComponent {
             return;
         }
         if (this.confirmFn) {
-            this.confirmFn({...this.editData});
+            this.confirmFn({...this.editForm});
         }
     }
 }

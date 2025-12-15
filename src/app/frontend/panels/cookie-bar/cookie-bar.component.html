@@ -9,10 +9,10 @@
         <a href="" i18n>Learn more</a>
         @if (tabIndex > 1) {
             @for (group of items; track $index) {
-            <div class="expand-card"[ngClass]="{open: group.open}">
+            <div class="expand-card"[class]="{open: group.open}">
                 <div class="card-header" (click)="group.open = !group.open">
                     <div class="item-icon">
-                        <i class="iconfont" [ngClass]="{'icon-chevron-right': !group.open, 'icon-chevron-down': group.open}"></i>
+                        <i class="iconfont" [class]="{'icon-chevron-right': !group.open, 'icon-chevron-down': group.open}"></i>
                     </div>
                     <span class="item-body">{{ group.name }}</span>
                     <div class="item-action">

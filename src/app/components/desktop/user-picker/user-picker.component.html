@@ -1,4 +1,4 @@
-<div class="user-picker" [ngClass]="{'picker-open': isFocus && items.length > 0, 'picker-focus': isFocus}">
+<div class="user-picker" [class]="{'picker-open': isFocus && items.length > 0, 'picker-focus': isFocus}">
     <div class="picker-input" (click)="tapOpen()">
         @if (value()) {
         <div class="picker-input-avatar">
@@ -39,7 +39,7 @@
     <div class="picker-body">
         <ul>
             @for (item of items; track $index) {
-            <li class="option-item" [ngClass]="{active: value() && item.id == value().id}" (click)="tapItem(item)">
+            <li class="option-item" [class]="{active: value() && item.id == value().id}" (click)="tapItem(item)">
                 <div class="item-avatar">
                     <img [src]="item.avatar|asset" [alt]="item.name">
                 </div>

@@ -50,11 +50,11 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id > 0 ? '编辑快捷语' : '新增快捷语'">
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑快捷语' : '新增快捷语'">
     <div class="form-group">
         <label for="name-input">内容</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editData.content" placeholder="请输入内容">
+            <input class="form-control" id="name-input" [field]="editForm.content" placeholder="请输入内容">
         </div>
     </div>
 </app-dialog-box>

@@ -1,7 +1,7 @@
 <div class="container">
     @for (item of items; track $index) {
         <div class="download-item">
-        <div class="inner-progress" [ngStyle]="item.style"></div>
+        <div class="inner-progress" [style]="item.style"></div>
         <div class="inner-body">
             <div class="item-logo">
                 <img [src]="item.package.icon|asset" alt="">

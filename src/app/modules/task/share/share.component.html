@@ -28,7 +28,7 @@
     </div>
 
     @for (item of items; track $index) {
-    <div class="task-item" [ngClass]="{finished: item.task.status < 5}">
+    <div class="task-item" [class]="{finished: item.task.status < 5}">
         @if (item.user) {
         <div class="avatar">
             <img [src]="item.user.avatar">

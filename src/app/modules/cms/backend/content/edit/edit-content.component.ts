@@ -31,7 +31,7 @@ export class EditContentComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.service.content(this.queries).subscribe(res => {
                 this.data = res;
                 this.formItems = res.form_data;

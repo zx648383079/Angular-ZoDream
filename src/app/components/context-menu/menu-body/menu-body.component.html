@@ -1,8 +1,8 @@
 @for (item of items(); track $index) {
     @if (item.icon || item.name) {
-        <div class="menu-flyout-item" [ngClass]="{disabled: item.disable}">
+        <div class="menu-flyout-item" [class]="{disabled: item.disable}">
             <a class="menu-item-body" (click)="tapMenuItem(item)">
-                <i class="iconfont menu-item-icon" [ngClass]="item.icon"></i>
+                <i class="iconfont menu-item-icon" [class]="item.icon"></i>
                 <span class="menu-item-text">{{ item.name }}</span>
                 @if (item.children && item.children.length > 0) {
                     <i class="iconfont icon-chevron-right menu-item-arrow"></i>

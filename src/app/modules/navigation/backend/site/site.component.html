@@ -87,29 +87,29 @@
     </div>
 </app-dialog-box>
 
-<app-dialog-box #modal [title]="editData.id > 0 ? '编辑站点' : '新增站点'">
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑站点' : '新增站点'">
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editData.name" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label>LOGO</label>
         <div class="input-group-control">
-            <app-file-input [field]="editData.logo" />
+            <app-file-input [field]="editForm.logo" />
         </div>
     </div>
     <div class="form-group">
         <label for="name-input1">Schema</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input1" [field]="editData.schema" placeholder="请输入Schema: http/https">
+            <input class="form-control" id="name-input1" [field]="editForm.schema" placeholder="请输入Schema: http/https">
         </div>
     </div>
     <div class="form-group">
         <label for="name-input2">域名</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input2" [field]="editData.domain" placeholder="请输入域名" (blur)="onLinkBlur()">
+            <input class="form-control" id="name-input2" [field]="editForm.domain" placeholder="请输入域名" (blur)="onLinkBlur()">
         </div>
         @if (editExistData) {
         <div class="input-tip" title="已存在相同站点">
@@ -121,12 +121,12 @@
     <div class="form-group">
         <label for="name-input3">简介</label>
         <div class="input-group-control">
-            <textarea class="form-control" id="name-input3" [field]="editData.description" placeholder="请输入简介"></textarea>
+            <textarea class="form-control" id="name-input3" [field]="editForm.description" placeholder="请输入简介"></textarea>
         </div>
     </div>
     <div class="form-group">
         <label>分类</label>
-        <select class="form-control" [field]="editData.cat_id">
+        <select class="form-control" [field]="editForm.cat_id">
             @for (item of categories; track $index) {
             <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
             }
@@ -134,7 +134,7 @@
     </div>
     <div class="form-group">
         <label>推荐</label>
-        <select class="form-control" [field]="editData.top_type">
+        <select class="form-control" [field]="editForm.top_type">
             @for (item of topItems; track $index; let i = $index) {
             <option [value]="i">{{ item }}</option>
             }
@@ -142,18 +142,18 @@
     </div>
     <div class="form-group">
         <label>标签</label>
-        <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [field]="editData.tags" [addTag]="addTagFn" placeholder="选择标签" />
+        <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [field]="editForm.tags" [addTag]="addTagFn" placeholder="选择标签" />
     </div>
-    @if (!editData.id) {
+    @if (!editForm.id) {
     <div class="form-group">
         <label>同时收录到页面</label>
-        <app-switch [field]="editData.also_page" />
+        <app-switch [field]="editForm.also_page" />
     </div>
     }
-    @if (!editData.id && editData.also_page) {
+    @if (!editForm.id && editForm.also_page) {
     <div class="form-group">
         <label>关键词</label>
-        <app-words-input [field]="editData.keywords" />
+        <app-words-input [field]="editForm.keywords" />
     </div>
     }
 </app-dialog-box>

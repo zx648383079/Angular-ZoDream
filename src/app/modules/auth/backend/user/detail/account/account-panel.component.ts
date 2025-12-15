@@ -29,7 +29,7 @@ export class AccountPanelComponent {
         per_page: 20,
     }));
     private booted = 0;
-    public editData: IAccountLog = {} as any;
+    public readonly editForm = form(signal<IAccountLog>({}));
 
 
 
@@ -42,7 +42,7 @@ export class AccountPanelComponent {
     }
 
     public tapView(modal: DialogEvent, item: IAccountLog) {
-        this.editData = item;
+        this.editForm = item;
         modal.open();
     }
 

@@ -2,7 +2,7 @@
     <div class="editor-template-box">
         <ul class="template-menu">
             @for (item of typeItems; track $index) {
-                <li [ngClass]="{active: queries.type == item.value}" (click)="tapType(item.value)">
+                <li [class]="{active: queries.type == item.value}" (click)="tapType(item.value)">
                     {{ item.name }}
                 </li>
             }

@@ -51,8 +51,8 @@
             <ng-container i18n>All comments</ng-container>
             
              <div class="order-bar">
-                <span [ngClass]="{active: queries.order == 'desc'}" (click)="tapSort('desc')" i18n>Newest</span>
-                <span [ngClass]="{active: queries.order == 'asc'}" (click)="tapSort('asc')" i18n>Earliest</span>
+                <span [class]="{active: queries.order == 'desc'}" (click)="tapSort('desc')" i18n>Newest</span>
+                <span [class]="{active: queries.order == 'asc'}" (click)="tapSort('asc')" i18n>Earliest</span>
             </div>
         </div>
         <div id="comment-box">

@@ -1,7 +1,7 @@
 @if (visible) {
 <div class="dialog-panel" animate.enter="panel-opened" animate.leave="panel-closed">
     <div class="panel-header">
-        <i class="iconfont text-left" [ngClass]="{'icon-map-marker': !linkOpen, 'icon-chevron-right': linkOpen}" (click)="toggleLink()"></i>
+        <i class="iconfont text-left" [class]="{'icon-map-marker': !linkOpen, 'icon-chevron-right': linkOpen}" (click)="toggleLink()"></i>
         <i class="iconfont icon-close" (click)="close()"></i>
     </div>
     <div class="panel-search">

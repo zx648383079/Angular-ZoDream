@@ -35,7 +35,7 @@
                     
                 </ul>
             </div>
-            <div class="col-12" [ngClass]="{'col-md-9': navVisible}">
+            <div class="col-12" [class]="{'col-md-9': navVisible}">
                 @for (group of data.content; track group.name) {
                 <div class="nav-panel" [id]="group.name">
                     <div class="nav-header" >
@@ -43,7 +43,7 @@
                     </div>
                     <div class="nav-desc">
                         @for (item of group.children; track $index) {
-                            <p [ngClass]="{b: item.b}">{{ item.content }}</p>
+                            <p [class]="{b: item.b}">{{ item.content }}</p>
                         }
                         
                     </div>

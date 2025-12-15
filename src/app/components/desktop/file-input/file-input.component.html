@@ -1,4 +1,4 @@
-<div class="file-input" [ngClass]="{'file-input-failure': uploadFailure}">
+<div class="file-input" [class]="{'file-input-failure': uploadFailure}">
     <input type="text" class="form-control" 
     [value]="value()"
     (input)="value.set($event.target.value)" 

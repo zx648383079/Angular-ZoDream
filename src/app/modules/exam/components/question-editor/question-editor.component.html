@@ -3,7 +3,7 @@
         <div class="tool-item" title="编辑分数">
             <input type="text" class="form-control btn-info" [field]="value().score" placeholder="分数" maxLength="2" (ngModelChange)="onValueChange()">
         </div>
-        <div class="tool-item btn-primary" [ngClass]="{active: extendOpen}" title="添加附加内容" (click)="extendOpen = !extendOpen">
+        <div class="tool-item btn-primary" [class]="{active: extendOpen}" title="添加附加内容" (click)="extendOpen = !extendOpen">
             <i class="iconfont icon-plus"></i>
         </div>
         @if (canEdit) {
@@ -16,7 +16,7 @@
             </div>
             <ul class="drop-body" [hidden]="!typeOpen">
                 @for (item of typeItems; track $index; let i = $index) {
-                    <li [ngClass]="{active: i == value().type}" (click)="tapType(i)">{{ item }}</li>
+                    <li [class]="{active: i == value().type}" (click)="tapType(i)">{{ item }}</li>
                 }
             </ul>
         </div>

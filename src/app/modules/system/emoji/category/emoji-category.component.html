@@ -9,7 +9,7 @@
             <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label for="keywords">名称</label>
-                    <input type="text" class="form-control" [value]="keywords" ngModel
+                    <input type="text" class="form-control" [field]="queries.keywords"
                         placeholder="名称">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
@@ -49,17 +49,17 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id > 0 ? '编辑分组' : '新增分组'">
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑分组' : '新增分组'">
     <div class="form-group">
         <label for="region-input">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="region-input" [field]="editData.name" placeholder="请输入名称">
+            <input class="form-control" id="region-input" [field]="editForm.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="region-input">图标</label>
         <div class="input-group-control">
-            <app-file-input [field]="editData.icon" />
+            <app-file-input [field]="editForm.icon" />
         </div>
     </div>
 </app-dialog-box>

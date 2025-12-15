@@ -36,7 +36,7 @@ export class LogComponent implements OnInit {
             this.searchService.getQueries(params, this.queries)
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -72,7 +72,8 @@ export class LogComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries, ['warehouse']);
+                this.queries().value.set(queries);
+            this.searchService.applyHistory(queries, ['warehouse']);
             },
             error: err => {
                 this.toastrService.error(err);

@@ -1,4 +1,4 @@
-<div class="page-box" [ngClass]="{'--with-flip': detailMode}">
+<div class="page-box" [class]="{'--with-flip': detailMode}">
     <div class="master-box">
         <div class="search-box">
             <div class="search-input">
@@ -10,7 +10,7 @@
             <div class="filter-item">
                 <ul>
                     @for (item of categories; track $index) {
-                        <li [ngClass]="{active: item.id == category}" (click)="tapCategory(item)">
+                        <li [class]="{active: item.id == category}" (click)="tapCategory(item)">
                             {{ item.name }}
                         </li>
                     }
@@ -19,7 +19,7 @@
             <div class="filter-item">
                 <ul>
                     @for (item of sortItems; track $index) {
-                        <li [ngClass]="{active: item.value == sort}" (click)="tapSort(item)">
+                        <li [class]="{active: item.value == sort}" (click)="tapSort(item)">
                             {{ item.name }}
                         </li>
                     }

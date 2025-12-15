@@ -50,17 +50,17 @@
    </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id ? '编辑分组' : '新建分组'">
+<app-dialog-box #modal [title]="editForm.id ? '编辑分组' : '新建分组'">
     <div class="form-group">
         <label for="name">名称</label>
         <div  class="input-group-control">
-            <input type="text" id="name" class="form-control" [field]="editData.name">
+            <input type="text" id="name" class="form-control" [field]="editForm.name">
         </div>
     </div>
     <div class="form-group">
         <label for="attr_group">属性可选分组</label>
         <div  class="input-group-control">
-            <textarea id="attr_group" class="form-control"  [field]="editData.property_groups" placeholder="每行作为一个分组"></textarea>
+            <textarea id="attr_group" class="form-control"  [field]="editForm.property_groups" placeholder="每行作为一个分组"></textarea>
         </div>
     </div> 
 </app-dialog-box>

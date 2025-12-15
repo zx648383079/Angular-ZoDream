@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
@@ -30,11 +30,18 @@ export class MovieScoreComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public editData: IMovieScore = {} as any;
+    public readonly editForm = form(signal<IMovieScore>({
+        id: 0,
+        name: '',
+        score: 10,
+        url: '',
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -78,14 +85,15 @@ export class MovieScoreComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item?: IMovieScore) {
-        this.editData = item ? Object.assign({}, item) : {
-            id: 0,
-            name: '',
-            score: 10,
-            url: '',
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.score = item?.score ?? 10;
+            v.url = item?.url ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.scoreSave(this.editData).subscribe({
+            this.service.scoreSave(this.editForm().value()).subscribe({
                 next: () => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapPage();
@@ -94,9 +102,7 @@ export class MovieScoreComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editData.name);
-        });
+        }, () => this.editForm().valid());
     }
 
     public tapRemove(item: IMovieScore) {

@@ -6,32 +6,32 @@
 
 <div class="panel-container">
     <div class="step-header">
-        <a class="step-item" [ngClass]="{active: stepIndex < 1}">
+        <a class="step-item" [class]="{active: stepIndex < 1}">
             <span class="step-badge">1</span>
             <span class="step-title">选择账户</span>
             <i class="step-line"></i>
         </a>
-        <a class="step-item" [ngClass]="{active: stepIndex == 1}">
+        <a class="step-item" [class]="{active: stepIndex == 1}">
             <span class="step-badge">2</span>
             <span class="step-title">选择收货地址</span>
             <i class="step-line"></i>
         </a>
-        <a class="step-item" [ngClass]="{active: stepIndex == 2}">
+        <a class="step-item" [class]="{active: stepIndex == 2}">
             <span class="step-badge">3</span>
             <span class="step-title">选择商品</span>
             <i class="step-line"></i>
         </a>
-        <a class="step-item" [ngClass]="{active: stepIndex == 3}">
+        <a class="step-item" [class]="{active: stepIndex == 3}">
             <span class="step-badge">4</span>
             <span class="step-title">选择优惠</span>
             <i class="step-line"></i>
         </a>
-        <a class="step-item" [ngClass]="{active: stepIndex == 4}">
+        <a class="step-item" [class]="{active: stepIndex == 4}">
             <span class="step-badge">5</span>
             <span class="step-title">选择配送/支付方式</span>
             <i class="step-line"></i>
         </a>
-        <a class="step-item" [ngClass]="{active: stepIndex > 4}">
+        <a class="step-item" [class]="{active: stepIndex > 4}">
             <span class="step-badge">6</span>
             <span class="step-title">下单成功</span>
         </a>
@@ -108,8 +108,8 @@
         <div class="shipping-box">
             <h4>配送方式：</h4>
             @for (item of shippingItems; track $index) {
-                <span class="radio-label" [ngClass]="{checked: shipping && item.id == shipping.id}" (click)="shippingChanged(item)">
-                    <i class="iconfont" [ngClass]="{'icon-check': shipping && item.id == shipping.id, 'icon-circle': !shipping || item.id != shipping.id}"></i>
+                <span class="radio-label" [class]="{checked: shipping && item.id == shipping.id}" (click)="shippingChanged(item)">
+                    <i class="iconfont" [class]="{'icon-check': shipping && item.id == shipping.id, 'icon-circle': !shipping || item.id != shipping.id}"></i>
                     {{ item.name }}
                 </span>
             }
@@ -117,8 +117,8 @@
         <div class="payment-box">
             <h4>支付方式：</h4>
             @for (item of paymentItems; track $index) {
-                <span class="radio-label" [ngClass]="{checked: payment && item.id == payment.id}" (click)="paymentChanged(item)">
-                    <i class="iconfont" [ngClass]="{'icon-check': payment && item.id == payment.id, 'icon-circle': !payment || item.id != payment.id}"></i>
+                <span class="radio-label" [class]="{checked: payment && item.id == payment.id}" (click)="paymentChanged(item)">
+                    <i class="iconfont" [class]="{'icon-check': payment && item.id == payment.id, 'icon-circle': !payment || item.id != payment.id}"></i>
                     {{ item.name }}
                 </span>
             }

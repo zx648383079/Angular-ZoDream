@@ -25,7 +25,7 @@ export class ProductComponent implements OnInit {
     public isLoading = false;
     public total = 0;
     public data: IWarehouse;
-    public editData: IWarehouseLog = {} as any;
+    public readonly editForm = form(signal<IWarehouseLog>({}));
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
@@ -35,10 +35,10 @@ export class ProductComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
             if (this.queries.warehouse < 1) {
                 return;
@@ -50,12 +50,12 @@ export class ProductComponent implements OnInit {
     }
 
     public onProductChange(event: any) {
-        this.editData.goods_id = event.item.id,
-        this.editData.product_id = event.child ? event.child.id : 0;
+        this.editForm.goods_id = event.item.id,
+        this.editForm.product_id = event.child ? event.child.id : 0;
     }
 
     open(modal: DialogEvent, item?: IWarehouseGoods) {
-        this.editData = item ? {
+        this.editForm = item ? {
             id: 1,
             goods_id: item.goods_id,
             product_id: item.product_id,
@@ -64,10 +64,10 @@ export class ProductComponent implements OnInit {
         modal.open(() => {
             this.service.goodsChange({
                 warehouse_id: this.data.id,
-                goods_id: this.editData.goods_id,
-                product_id: this.editData.product_id,
-                amount: this.editData.amount,
-                remark: this.editData.remark,
+                goods_id: this.editForm.goods_id,
+                product_id: this.editForm.product_id,
+                amount: this.editForm.amount,
+                remark: this.editForm.remark,
             }).subscribe(_ => {
                 this.toastrService.success('库存调整成功');
                 this.tapPage();
@@ -104,7 +104,8 @@ export class ProductComponent implements OnInit {
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
-            this.searchService.applyHistory(this.queries = queries, ['warehouse']);
+            this.queries().value.set(queries);
+            this.searchService.applyHistory(queries, ['warehouse']);
         });
     }
 

@@ -41,11 +41,11 @@ export class MediaComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public editData: any = {};
+    public readonly editForm = form(signal<any>({}));
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -63,13 +63,13 @@ export class MediaComponent implements OnInit {
     }
 
     public open(modal: DialogEvent) {
-        this.editData = {
+        this.editForm = {
             title: '',
             type: 'image',
             material_type: 0
         };
         modal.open(() => {
-            this.service.mediaSave(this.editData).subscribe({
+            this.service.mediaSave(this.editForm().value()).subscribe({
                 next: _ => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
@@ -78,7 +78,7 @@ export class MediaComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             })
-        }, () => !emptyValidate(this.editData.content));
+        }, () => !emptyValidate(this.editForm.content));
     }
 
     public tapPull(e?: ButtonEvent) {

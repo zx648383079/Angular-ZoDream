@@ -34,7 +34,7 @@
                     <td>{{ item.name }}</td>
                     <td title="点击数/展示数">0/0</td>
                     <td>{{ item.source_type ? '第三方' : '本地' }}</td>
-                    <td [ngClass]="{'text-danger': item.status < 1, 'text-primary': item.status > 0}">
+                    <td [class]="{'text-danger': item.status < 1, 'text-primary': item.status > 0}">
                         {{ item.status > 0 ? '√' : '×' }}
                     </td>
                     <td>

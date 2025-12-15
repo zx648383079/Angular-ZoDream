@@ -1,15 +1,15 @@
 <div class="step-header">
-    <a class="step-item" [ngClass]="{active: stepIndex < 1}">
+    <a class="step-item" [class]="{active: stepIndex < 1}">
         <span class="step-badge">1</span>
         <span class="step-title">验证身份</span>
         <i class="step-line"></i>
     </a>
-    <a class="step-item" [ngClass]="{active: stepIndex == 1}">
+    <a class="step-item" [class]="{active: stepIndex == 1}">
         <span class="step-badge">2</span>
         <span class="step-title">绑定{{ nameLabel }}</span>
         <i class="step-line"></i>
     </a>
-    <a class="step-item" [ngClass]="{active: stepIndex > 1}">
+    <a class="step-item" [class]="{active: stepIndex > 1}">
         <span class="step-badge">3</span>
         <span class="step-title">绑定成功</span>
     </a>

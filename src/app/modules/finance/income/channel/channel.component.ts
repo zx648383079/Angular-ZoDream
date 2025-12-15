@@ -1,8 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
-import { emptyValidate } from '../../../../theme/validators';
 import { FinanceService } from '../../finance.service';
 import { IConsumptionChannel } from '../../model';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -17,11 +17,15 @@ export class ChannelComponent implements OnInit {
 
     public items: IConsumptionChannel[] = [];
     public isLoading = false;
-    public keywords = '';
-    public editData: IConsumptionChannel = {
-        id: undefined,
+    public readonly queries = form(signal({
+        keywords: ''
+    }));
+    public readonly editForm = form(signal({
+        id: 0,
         name: '',
-    } as any;
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.tapRefresh();
@@ -36,16 +40,13 @@ export class ChannelComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.channelList({
-            keywords: this.keywords,
-        }).subscribe(res => {
+        this.service.channelList(this.queries().value()).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
         });
     }
 
     public tapSearch() {
-        this.keywords = form.keywords;
         this.tapRefresh();
     }
 
@@ -65,17 +66,16 @@ export class ChannelComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item?: IConsumptionChannel) {
-        this.editData = item ? {...item} : {
-            id: undefined,
-            name: '',
-        } as any;
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.channelSave({...this.editData}).subscribe(_ => {
+            this.service.channelSave({...this.editForm}).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
-        }, () => {
-            return !emptyValidate(this.editData.name)
-        });
+        }, () => this.editForm().valid());
     }
 }

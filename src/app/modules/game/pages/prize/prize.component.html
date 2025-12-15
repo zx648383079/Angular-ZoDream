@@ -20,7 +20,7 @@
     @if (lotterying) {
     <div class="prize-panel">
         @for (item of items; track $index) {
-            <div class="prize-item" [ngClass]="{open: item.is_open}" (click)="item.is_open = true">
+            <div class="prize-item" [class]="{open: item.is_open}" (click)="item.is_open = true">
                 <div class="item-front"></div>
                 <div class="item-body">
                     中奖了

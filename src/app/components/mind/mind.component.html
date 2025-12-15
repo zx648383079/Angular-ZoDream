@@ -7,7 +7,7 @@
             </div>
         }
         @for (item of pointItems; track $index; let i = $index) {
-            <div class="mind-item" [ngStyle]="{left: item.x + 'px', top: item.y + 'px'}" (mouseup)="onLinkFinish($event, i)" (mousedown)="onMoveStart($event, i)" (contextmenu)="onContext($event, i)">
+            <div class="mind-item" [style]="{left: item.x + 'px', top: item.y + 'px'}" (mouseup)="onLinkFinish($event, i)" (mousedown)="onMoveStart($event, i)" (contextmenu)="onContext($event, i)">
                 {{ item.text }}
                 @if (!readonly()) {
                     <div class="mind-action" (mousedown)="onNewStart($event, i)">

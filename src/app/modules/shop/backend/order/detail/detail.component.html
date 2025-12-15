@@ -2,23 +2,23 @@
 <div class="container-fluid">
     <div class="progress-time-bar">
         <div>
-            <span [ngStyle]="timeBarStyle"></span>
+            <span [style]="timeBarStyle"></span>
         </div>
         @if (data.created_at) {
-        <span [ngClass]="{active: timeIndex > 0}">待付款 <i>{{ data.created_at }}</i>
+        <span [class]="{active: timeIndex > 0}">待付款 <i>{{ data.created_at }}</i>
         </span>
         }
         @if (data.pay_at) {
-        <span [ngClass]="{active: timeIndex > 1}">待发货<i>{{ data.pay_at }}</i></span>
+        <span [class]="{active: timeIndex > 1}">待发货<i>{{ data.pay_at }}</i></span>
         }
         @if (data.shipping_at) {
-        <span [ngClass]="{active: timeIndex > 2}">待收货<i>{{ data.shipping_at }}</i></span>
+        <span [class]="{active: timeIndex > 2}">待收货<i>{{ data.shipping_at }}</i></span>
         }
         @if (data.receive_at) {
-        <span [ngClass]="{active: timeIndex > 3}">待评价<i>{{ data.receive_at }}</i></span>
+        <span [class]="{active: timeIndex > 3}">待评价<i>{{ data.receive_at }}</i></span>
         }
         @if (data.finish_at) {
-        <span [ngClass]="{active: timeIndex > 4}">已完成<i>{{ data.finish_at }}</i></span>
+        <span [class]="{active: timeIndex > 4}">已完成<i>{{ data.finish_at }}</i></span>
         }
     </div>
 

@@ -1,13 +1,13 @@
 <div class="map-editor" (mousedown)="onBoxStart($event)">
     <canvas #lineCanvas></canvas>
     @for (item of areaItems; track $index) {
-    <div class="map-area" [ngStyle]="{left: item.x + 'px', top: item.y + 'px', width: item.width + 'px', height: item.height + 'px'}">
+    <div class="map-area" [style]="{left: item.x + 'px', top: item.y + 'px', width: item.width + 'px', height: item.height + 'px'}">
         {{ item.name }}
     </div>
     }
 
     @for (item of items; track $index) {
-        <div class="map-panel" [ngClass]="{'map-selected': item.is_selected}" [ngStyle]="{left: item.x + 'px', top: item.y + 'px'}">
+        <div class="map-panel" [class]="{'map-selected': item.is_selected}" [style]="{left: item.x + 'px', top: item.y + 'px'}">
             <div class="panel-header" (mousedown)="onMoveStart(item, $event)">
                 <span>{{ item.name }}</span>
                 <div class="panel-action">
@@ -41,14 +41,14 @@
         </div>
     }
 
-    <div class="selection-range" [ngStyle]="selectionStyle"></div>
+    <div class="selection-range" [style]="selectionStyle"></div>
 </div>
 
 <app-dialog-box #areaModal>
     <div class="form-group">
         <label>地区名</label>
         <div class="input-group-control">
-            <input class="form-control" placeholder="请输入地区名" [field]="editData.name">
+            <input class="form-control" placeholder="请输入地区名" [field]="editForm.name">
         </div>
     </div>
 </app-dialog-box>
@@ -66,13 +66,13 @@
     <div class="form-group">
         <label>地区名</label>
         <div class="input-group-control">
-            <input class="form-control"  [field]="editData.name" placeholder="请输入地区名">
+            <input class="form-control"  [field]="editForm.name" placeholder="请输入地区名">
         </div>
     </div>
     <div class="form-group">
         <label>说明</label>
         <div class="input-group-control">
-            <textarea class="form-control"  [field]="editData.description" placeholder="请输入说明"></textarea>
+            <textarea class="form-control"  [field]="editForm.description" placeholder="请输入说明"></textarea>
         </div>
     </div>
 </app-dialog-box>

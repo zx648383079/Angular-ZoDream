@@ -22,8 +22,8 @@
                 </div>
                 <div class="pannel-body payment-box">
                     @for (item of paymentItems; track $index) {
-                        <span class="radio-label" [ngClass]="{checked: payment && item.code == payment.code}" (click)="paymentChanged(item)">
-                            <i class="iconfont" [ngClass]="{'icon-check': payment && item.code == payment.code, 'icon-circle': !payment || item.code != payment.code}"></i>
+                        <span class="radio-label" [class]="{checked: payment && item.code == payment.code}" (click)="paymentChanged(item)">
+                            <i class="iconfont" [class]="{'icon-check': payment && item.code == payment.code, 'icon-circle': !payment || item.code != payment.code}"></i>
                             {{ item.name }}
                         </span>
                     }

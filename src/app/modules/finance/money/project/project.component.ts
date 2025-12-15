@@ -1,8 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
-import { emptyValidate } from '../../../../theme/validators';
 import { FinanceService } from '../../finance.service';
 import { IAccount, IFinancialProduct, IFinancialProject } from '../../model';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -17,19 +17,23 @@ export class ProjectComponent implements OnInit {
 
     public items: IFinancialProject[] = [];
     public isLoading = false;
-    public keywords = '';
-    public editData: IFinancialProject = {
+    public readonly queries = form(signal({
+        keywords: ''
+    }));
+    public readonly editForm = form(signal({
         id: undefined,
         name: '',
         alias: '',
         money: 0,
-        account_id: 0,
-        product_id: 0,
+        account_id: '',
+        product_id: '',
         earnings: 0,
         start_at: '',
         end_at: '',
         remark: '',
-    } as any;
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     public accountItems: IAccount[] = [];
     public productItems: IFinancialProduct[] = [];
@@ -58,73 +62,70 @@ export class ProjectComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.projectList({
-            keywords: this.keywords,
-        }).subscribe(res => {
+        this.service.projectList(this.queries().value()).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
         });
     }
 
     public tapSearch() {
-        this.keywords = form.keywords;
         this.tapRefresh();
     }
 
     public tapRemove(item: IFinancialProject) {
-        if (!confirm('确定删除“' + item.name + '”理财项目？')) {
-            return;
-        }
-        this.service.projectRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success($localize `Delete Successfully`);
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.name + '”理财项目？', () => {
+            this.service.projectRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.items = this.items.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
+
     }
 
     open(modal: DialogEvent, item?: IFinancialProject) {
-        this.editData = item ? {...item} : {
-            id: undefined,
-            name: '',
-            alias: '',
-            money: 0,
-            account_id: 0,
-            product_id: 0,
-            earnings: 0,
-            start_at: '',
-            end_at: '',
-            remark: '',
-        } as any;
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.alias = item?.alias ?? '';
+            v.money = item?.money ?? 0;
+            v.account_id = item?.account_id ?? 0;
+            v.product_id = item?.product_id ?? 0;
+            v.earnings = item?.earnings ?? 0;
+            v.start_at = item?.start_at ?? '';
+            v.end_at = item?.end_at ?? '';
+            v.remark = item?.remark ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.projectSave({...this.editData}).subscribe(_ => {
+            this.service.projectSave({...this.editForm}).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
-        }, () => {
-            return !emptyValidate(this.editData.name)
-        });
+        }, () => this.editForm().valid());
     }
 
     public tapConfirm(modal: DialogEvent, item: IFinancialProject) {
-        this.editData = {
-            id: item.id,
-            name: item.name,
-            money: item.money,
-            earnings: 0,
-        } as any;
+        this.editForm().value.update(v => {
+            v.id = item.id;
+            v.name = item.name;
+            v.money = item.money;
+            v.earnings = 0;
+            return v;
+        });
         modal.open(() => {
             this.service.projectEarnings({
                 id: item.id,
-                money: this.editData.earnings,
+                money: this.editForm.earnings().value(),
             }).subscribe(_ => {
                 this.toastrService.success('成功确认收益');
             });
         }, () => {
-            return this.editData.earnings > 0;
+            return this.editForm.earnings().value() > 0;
         });
     }
 

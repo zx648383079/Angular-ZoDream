@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -10,9 +10,9 @@ import { OnlineBackendService } from '../online.service';
 
 @Component({
     standalone: false,
-  selector: 'app-word',
-  templateUrl: './word.component.html',
-  styleUrls: ['./word.component.scss']
+    selector: 'app-word',
+    templateUrl: './word.component.html',
+    styleUrls: ['./word.component.scss']
 })
 export class WordComponent implements OnInit {
     private readonly service = inject(OnlineBackendService);
@@ -31,32 +31,39 @@ export class WordComponent implements OnInit {
         keywords: '',
         category: 0,
     }));
-    public editData: IWord;
+    public readonly editForm = form(signal({
+        id: 0,
+        content: '',
+        cat_id: 0,
+    }), schemaPath => {
+        required(schemaPath.content);
+    });
 
     ngOnInit() {
         this.route.params.subscribe(params => {
             if (params.category) {
-                this.queries.category = parseInt(params.category, 10);
+                this.queries.category().value.set(parseInt(params.category, 10));
             }
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item?: IWord) {
-        this.editData = item ? Object.assign({}, item) : {
-            id: 0,
-            content: '',
-            cat_id: this.queries.category,
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.content = item?.content ?? '';
+            v.cat_id = item?.cat_id ?? 0;
+            return v;
+        });
         modal.open(() => {
-            this.service.wordSave(this.editData).subscribe(_ => {
+            this.service.wordSave(this.editForm().value()).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapPage();
             });
-        }, () => !emptyValidate(this.editData.content));
+        }, () => this.editForm().valid());
     }
 
     public tapSearch() {

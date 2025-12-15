@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -11,9 +11,9 @@ import { NavigationService } from '../navigation.service';
 
 @Component({
     standalone: false,
-  selector: 'app-keyword',
-  templateUrl: './keyword.component.html',
-  styleUrls: ['./keyword.component.scss']
+    selector: 'app-keyword',
+    templateUrl: './keyword.component.html',
+    styleUrls: ['./keyword.component.scss']
 })
 export class KeywordComponent implements OnInit {
     private readonly service = inject(NavigationService);
@@ -32,11 +32,17 @@ export class KeywordComponent implements OnInit {
         keywords: '',
     }));
     public typeItems = ['词语', '长尾词'];
-    public editData: IWebPageKeywords = {} as any;
+    public readonly editForm = form(signal<IWebPageKeywords>({
+        id: 0,
+        word: '',
+        type: 0,
+    }), schemaPath => {
+        required(schemaPath.word);
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -46,13 +52,14 @@ export class KeywordComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item?: IWebPageKeywords) {
-        this.editData = item ? Object.assign({}, item) : {
-            id: 0,
-            word: '',
-            type: 0,
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.word = item?.word ?? '';
+            v.type = item?.type ?? 0;
+            return v;
+        });
         modal.open(() => {
-            this.service.keywordSave(this.editData).subscribe({
+            this.service.keywordSave(this.editForm().value()).subscribe({
                 next: () => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
@@ -61,9 +68,7 @@ export class KeywordComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editData.word);
-        });
+        }, () => this.editForm().valid());
     }
 
 

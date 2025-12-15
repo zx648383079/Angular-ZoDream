@@ -2,13 +2,13 @@
     <h4>使用优惠券({{ couponItems.length }}张)</h4>
     <div class="tab-box">
         <div class="tab-header">
-            <div class="tab-item" [ngClass]="{active: couponIndex < 1}" (click)="couponIndex = 0">商品优惠券</div>
-            <div class="tab-item" [ngClass]="{active: couponIndex == 1}" (click)="couponIndex = 1">优惠码兑换</div>
+            <div class="tab-item" [class]="{active: couponIndex < 1}" (click)="couponIndex = 0">商品优惠券</div>
+            <div class="tab-item" [class]="{active: couponIndex == 1}" (click)="couponIndex = 1">优惠码兑换</div>
         </div>
         <div class="tab-body">
-            <div class="tab-item" [ngClass]="{active: couponIndex < 1}">
+            <div class="tab-item" [class]="{active: couponIndex < 1}">
                 @for (item of couponItems; track $index) {
-                    <div class="coupon-item" [ngClass]="{active: item.id == value?.id, expired: item.expired}" (click)="couponChanged(item)">
+                    <div class="coupon-item" [class]="{active: item.id == value?.id, expired: item.expired}" (click)="couponChanged(item)">
                         <div class="item-body">
                             <div class="money">
                                 @if (item.type > 0) {
@@ -32,7 +32,7 @@
                     </div>
                 }
             </div>
-            <div class="tab-item" [ngClass]="{active: couponIndex == 1}">
+            <div class="tab-item" [class]="{active: couponIndex == 1}">
                 <div class="flat-input">
                     <input type="text" class="form-control" [field]="couponCode">
                     <button class="btn btn-primary" (click)="tapExchange()">兑换</button>

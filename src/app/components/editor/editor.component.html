@@ -3,39 +3,39 @@
         <div class="tool-bar-top">
             <div class="tool-left">
                 @for (item of topLeftItems; track $index) {
-                    <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, false, $event)" [title]="item.label">
-                        <i class="iconfont" [ngClass]="item.icon"></i>
+                    <div class="tool-item" [class]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, false, $event)" [title]="item.label">
+                        <i class="iconfont" [class]="item.icon"></i>
                     </div>
                 }
             </div>
             <div class="tool-right">
                 @for (item of topRightItems; track $index) {
-                    <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, true, $event)" [title]="item.label">
-                        <i class="iconfont" [ngClass]="item.icon"></i>
+                    <div class="tool-item" [class]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, true, $event)" [title]="item.label">
+                        <i class="iconfont" [class]="item.icon"></i>
                     </div>
                 }
             </div>
         </div>
         @if (subItems && subItems.length > 0) {
-        <div class="tool-bar-bottom" [ngClass]="{'tool-align-right': subIsRight}">
+        <div class="tool-bar-bottom" [class]="{'tool-align-right': subIsRight}">
             @for (item of subItems; track $index) {
-                <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, false, $event)" [title]="item.label">
-                    <i class="iconfont" [ngClass]="item.icon"></i>
+                <div class="tool-item" [class]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, false, $event)" [title]="item.label">
+                    <i class="iconfont" [class]="item.icon"></i>
                 </div>
             }
         </div>
         }
     </div>
     <div class="editor-body">
-        <div class="editor-area" [hidden]="isCodeMode" [ngStyle]="areaStyle">
+        <div class="editor-area" [hidden]="isCodeMode" [style]="areaStyle">
             <div #EditorView class="editor-view" [contentEditable]="!disabled()" spellcheck="false"></div>
         </div>
         <div class="editor-flow-area" [hidden]="isCodeMode">
             @if (flowItems.length > 0) {
-            <div class="flow-tool-bar" [ngClass]="{'flow-tool-one': flowItems.length == 1}" [ngStyle]="flowStyle">
+            <div class="flow-tool-bar" [class]="{'flow-tool-one': flowItems.length == 1}" [style]="flowStyle">
                 @for (item of flowItems; track $index) {
-                    <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapFlowTool(item, $event)" [title]="item.label">
-                        <i class="iconfont" [ngClass]="item.icon"></i>
+                    <div class="tool-item" [class]="{active: item.actived, disabled: item.disabled}" (click)="tapFlowTool(item, $event)" [title]="item.label">
+                        <i class="iconfont" [class]="item.icon"></i>
                     </div>
                 }
             </div>

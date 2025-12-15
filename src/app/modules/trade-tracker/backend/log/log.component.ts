@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
@@ -6,7 +6,6 @@ import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { SearchService } from '../../../../theme/services';
 import { TrackerBackendService } from '../tracker.service';
 import { ITradeLog } from '../../model';
-import { emptyValidate } from '../../../../theme/validators';
 
 @Component({
     standalone: false,
@@ -34,11 +33,19 @@ export class LogComponent implements OnInit {
     }));
     public isMultiple = false;
     public isChecked = false;
-    public editData = {} as any;
+    public readonly editForm = form(signal({
+        product: 0,
+        channel: 0,
+        price: 0
+    }), schemaPath => {
+        required(schemaPath.product);
+        required(schemaPath.channel);
+        required(schemaPath.price);
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         })
     }
@@ -50,13 +57,11 @@ export class LogComponent implements OnInit {
 
     public open(modal: DialogEvent) {
         modal.open(() => {
-            this.service.logAdd(this.editData).subscribe(_ => {
+            this.service.logAdd(this.editForm).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
-        }, () => {
-            return !emptyValidate(this.editData.product) && !emptyValidate(this.editData.channel) && !emptyValidate(this.editData.price);
-        });
+        }, () => this.editForm().valid());
     }
 
     public toggleCheck(item?: any) {

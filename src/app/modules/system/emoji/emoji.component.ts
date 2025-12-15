@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { IEmoji, IEmojiCategory } from '../../../theme/models/seo';
 import { IPageQueries } from '../../../theme/models/page';
@@ -33,7 +33,14 @@ export class EmojiComponent implements OnInit {
         cat_id: 0,
     }));
     public categories: IEmojiCategory[] = [];
-    public editData: IEmoji = {} as any;
+    public readonly editForm = form(signal({
+        id: 0,
+        name: '',
+        type: 0,
+        content: '',
+    }), schemaPath => {
+        required(schemaPath.content);
+    });
     public isMultiple = false;
     public isChecked = false;
 
@@ -45,7 +52,7 @@ export class EmojiComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -145,18 +152,19 @@ export class EmojiComponent implements OnInit {
     }
 
     public tapView(modal: DialogBoxComponent, item?: any) {
-        this.editData = item ? {...item} : {
-            id: 0,
-            name: '',
-            type: 0,
-            content: '',
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.type = item?.type ?? 0;
+            v.content = item?.content ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.emojiSave(this.editData).subscribe(res => {
+            this.service.emojiSave(this.editForm().value()).subscribe(res => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapPage();
             });
-        }, () => !emptyValidate(this.editData.content));
+        }, () => this.editForm().valid());
     }
 
     public tapImport(modal: DialogBoxComponent) {

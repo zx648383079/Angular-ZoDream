@@ -7,9 +7,9 @@
     </app-page-tip>
 
     @for (item of items; track $index) {
-        <div class="column-item" [ngClass]="{inactive: !item.is_actived}">
+        <div class="column-item" [class]="{inactive: !item.is_actived}">
         <div class="item-icon" (click)="tapToggle(item)" title="点击启用/卸载此插件">
-            <i class="iconfont" [ngClass]="item.is_actived ? item.icon : 'icon-close'"></i>
+            <i class="iconfont" [class]="item.is_actived ? item.icon : 'icon-close'"></i>
         </div>
         <a class="item-body" [routerLink]="item.url">
             <h3>{{ item.name }}</h3>

@@ -16,7 +16,7 @@
         <div class="col-12">
             <div class="tab-bar">
                 @for (item of children; track $index) {
-                    <a class="item" [ngClass]="{active: productSelected == item.id}" (click)="tapProduct(item.id)">{{ item.name }}</a>
+                    <a class="item" [class]="{active: productSelected == item.id}" (click)="tapProduct(item.id)">{{ item.name }}</a>
                 }
             </div>
         </div>
@@ -28,7 +28,7 @@
         <div class="col-12">
             <div class="tab-bar">
                 @for (item of channelItems; track $index) {
-                    <a class="item" [ngClass]="{active: channelSelected == item.id}" (click)="tapChannel(item.id)">{{ item.name }}</a>
+                    <a class="item" [class]="{active: channelSelected == item.id}" (click)="tapChannel(item.id)">{{ item.name }}</a>
                 }
             </div>
         </div>

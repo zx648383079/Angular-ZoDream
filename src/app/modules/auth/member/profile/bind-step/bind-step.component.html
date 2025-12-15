@@ -1,15 +1,15 @@
 <div class="step-header">
-    <a class="step-item" [ngClass]="{active: stepIndex < 1}">
+    <a class="step-item" [class]="{active: stepIndex < 1}">
         <span class="step-badge">1</span>
         <span class="step-title" i18n>Verify</span>
         <i class="step-line"></i>
     </a>
-    <a class="step-item" [ngClass]="{active: stepIndex == 1}">
+    <a class="step-item" [class]="{active: stepIndex == 1}">
         <span class="step-badge">2</span>
         <span class="step-title" i18n>Binding {{ nameLabel }}</span>
         <i class="step-line"></i>
     </a>
-    <a class="step-item" [ngClass]="{active: stepIndex > 1}">
+    <a class="step-item" [class]="{active: stepIndex > 1}">
         <span class="step-badge">3</span>
         <span class="step-title" i18n>Finish</span>
     </a>

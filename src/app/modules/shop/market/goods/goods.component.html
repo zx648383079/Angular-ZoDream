@@ -92,11 +92,11 @@
                 </div>
                 <div class="property-box">
                     @for (item of properties; track $index; let i = $index) {
-                      <div class="flex-group" [ngClass]="{'multi-group': item.type == 2}">
+                      <div class="flex-group" [class]="{'multi-group': item.type == 2}">
                           <div class="group-header">{{ item.name }}</div>
                           <div class="group-body">
                               @for (attr of item.attr_items; track $index; let j = $index) {
-                                  <span [ngClass]="{active: attr.checked, disable: attr.disabled}" (click)="toggleSelected(i, j)">{{ attr.value }}</span>
+                                  <span [class]="{active: attr.checked, disable: attr.disabled}" (click)="toggleSelected(i, j)">{{ attr.value }}</span>
                               }
                           </div>
                       </div>
@@ -124,8 +124,8 @@
                                 Insufficient inventory cannot be purchased 
                             </a>
                         }
-                        <a class="btn btn-collect" [ngClass]="{active: data.is_collect}" (click)="tapCollect()">
-                            <i class="iconfont" [ngClass]="{'icon-heart-o': !data.is_collect, 'icon-heart': data.is_collect}"></i>
+                        <a class="btn btn-collect" [class]="{active: data.is_collect}" (click)="tapCollect()">
+                            <i class="iconfont" [class]="{'icon-heart-o': !data.is_collect, 'icon-heart': data.is_collect}"></i>
                             <ng-container i18n>LIKE</ng-container>
                         </a>
                         <a class="btn btn-share" (click)="shareModal.open()">
@@ -154,25 +154,25 @@
           <div class="col-md-8">
             <div class="tab-box">
                 <div class="tab-header">
-                    <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0" i18n>
+                    <div class="tab-item" [class]="{active: tabIndex < 1}" (click)="tabIndex = 0" i18n>
                     Product details
                     </div>
-                    <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1" i18n>
+                    <div class="tab-item" [class]="{active: tabIndex == 1}" (click)="tabIndex = 1" i18n>
                         Specification
                     </div>
-                    <div class="tab-item" [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2" i18n>
+                    <div class="tab-item" [class]="{active: tabIndex == 2}" (click)="tabIndex = 2" i18n>
                     Comments
                     </div>
-                    <div class="tab-item" [ngClass]="{active: tabIndex == 3}" (click)="tabIndex = 3" i18n>
+                    <div class="tab-item" [class]="{active: tabIndex == 3}" (click)="tabIndex = 3" i18n>
                     Issues
                     </div>
                 </div>
                 <div class="tab-body bg-white">
-                    <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
+                    <div class="tab-item" [class]="{active: tabIndex < 1}">
                         <div class="content-box" [innerHTML]="content">
                         </div>
                     </div>
-                    <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
+                    <div class="tab-item" [class]="{active: tabIndex == 1}">
                         @for (group of data.static_properties; track $index) {
                         <div class="line-group">
                             @if (group.name) {
@@ -191,10 +191,10 @@
                         </div>
                         }
                     </div>
-                    <div id="comment-tab" class="tab-item" [ngClass]="{active: tabIndex == 2}">
+                    <div id="comment-tab" class="tab-item" [class]="{active: tabIndex == 2}">
                         <app-comment-page [itemId]="data.id" [init]="tabIndex == 2" />
                     </div>
-                    <div class="tab-item issue-box" [ngClass]="{active: tabIndex == 3}">
+                    <div class="tab-item issue-box" [class]="{active: tabIndex == 3}">
                         <app-issue-page [itemId]="data.id" [init]="tabIndex == 3" />
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
@@ -33,7 +33,19 @@ export class PackageComponent implements OnInit {
         per_page: 20
     }));
     public software: ISoftware;
-    public editData: ISoftwarePackage = {} as any;
+    public readonly editForm = form(signal<ISoftwarePackage>({
+        id: 0,
+        name: '',
+        app_id: 0,
+        version_id: 0,
+        os: '',
+        framework: '',
+        url_type: 0,
+        url: '',
+        size: 0,
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
     public osItems = ['windows', 'linux', 'android', 'ios'];
     public frameworkItems = ['any', 'x86', 'x64', 'ARM',];
     public urlTypeItems = FileTypeItems;
@@ -51,25 +63,26 @@ export class PackageComponent implements OnInit {
             });
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item?: ISoftwarePackage) {
-        this.editData = item ? {...item} : {
-            id: 0,
-            name: '',
-            app_id: this.software.id,
-            version_id: this.software.version.id,
-            os: '',
-            framework: '',
-            url_type: 0,
-            url: '',
-            size: 0,
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.app_id = this.software.id;
+            v.version_id = this.software.version.id;
+            v.os = item?.os ?? '';
+            v.framework = item?.framework ?? '';
+            v.url_type = item?.url_type ?? 0;
+            v.url = item?.url ?? '';
+            v.size = item?.size ?? 0;
+            return v;
+        });
         modal.open(() => {
-            this.service.packageSave(this.editData).subscribe({
+            this.service.packageSave(this.editForm().value()).subscribe({
                 next: () => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
@@ -78,16 +91,17 @@ export class PackageComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editData.name);
-        });
+        }, () => this.editForm().valid());
     }
 
     public onFileUpload(e: UploadCustomEvent) {
         this.service.upload(e.file).subscribe({
             next: res => {
-                this.editData.name = res.title;
-                this.editData.size = res.size;
+                this.editForm().value.update(v => {
+                    v.name = res.title;
+                    v.size = res.size;
+                    return v;
+                });
                 e.next(res);
             },
             error: err => {

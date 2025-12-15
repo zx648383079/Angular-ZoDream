@@ -24,7 +24,7 @@ export class CloneDialogComponent {
 
     public visible = false;
     public sourceData: ISite;
-    public editData: ISite = {} as any;
+    public readonly editForm = form(signal<ISite>({}));
     private isGuest = true;
 
     constructor() {
@@ -41,21 +41,21 @@ export class CloneDialogComponent {
             this.themeService.emitLogin(true);
             return;
         }
-        this.editData = {} as any;
+        this.editForm = {} as any;
         this.sourceData = item;
         this.visible = true;
     }
 
 
     public tapYes(e?: ButtonEvent) {
-        if (emptyValidate(this.editData.title) || emptyValidate(this.editData.name)) {
+        if (emptyValidate(this.editForm.title) || emptyValidate(this.editForm.name)) {
             this.toastrService.warning($localize `Please input site name`);
             return;
         }
         e?.enter();
         this.service.siteClone({
             source: this.sourceData.id,
-            ... this.editData
+            ... this.editForm
         }).subscribe({
             next: _ => {
                 e?.reset();

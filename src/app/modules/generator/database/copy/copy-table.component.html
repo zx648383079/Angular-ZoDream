@@ -77,11 +77,11 @@
 <app-dialog-box #columnModal [scrollable]="false">
     <div class="tab-box form-table-control">
         <div class="tab-header">
-            <div class="tab-item" [ngClass]="{active: columnData.type < 1}" (click)="columnData.type = 0">固定值</div>
-            <div class="tab-item" [ngClass]="{active: columnData.type == 1}" (click)="columnData.type = 1">关联列</div>
+            <div class="tab-item" [class]="{active: columnData.type < 1}" (click)="columnData.type = 0">固定值</div>
+            <div class="tab-item" [class]="{active: columnData.type == 1}" (click)="columnData.type = 1">关联列</div>
         </div>
         <div class="tab-body">
-            <div class="tab-item" [ngClass]="{active: columnData.type < 1}">
+            <div class="tab-item" [class]="{active: columnData.type < 1}">
                 <div class="input-group-control">
                     <label for="">类型</label>
                     <div>
@@ -99,7 +99,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-item" [ngClass]="{active: columnData.type == 1}">
+            <div class="tab-item" [class]="{active: columnData.type == 1}">
                 <div class="input-group-control">
                     <label for="">列</label>
                     <div>

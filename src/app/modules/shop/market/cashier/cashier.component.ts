@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
@@ -14,6 +14,7 @@ import { ShopAppState } from '../../shop.reducer';
 import { selectShopCheckout } from '../../shop.selectors';
 import { ShopService } from '../../shop.service';
 import { InvoiceDialogComponent } from './invoice/invoice-dialog.component';
+import { form } from '@angular/forms/signals';
 
 interface ICartData {
     type: number;
@@ -54,7 +55,13 @@ export class CashierComponent implements OnInit {
     public coupon: ICoupon;
     public couponCode = '';
     public addressIsEdit = true;
-    public editData: IAddress;
+    public readonly editForm = form(signal<IAddress>({
+        id: 0,
+        name: '',
+        tel: '',
+        region_id: 0,
+        address: ''
+    }));
     private cartData: ICartData;
     public dialogOpen = 0;
     public dialogSelected;
@@ -232,11 +239,18 @@ export class CashierComponent implements OnInit {
 
     public tapEditAddress(item?: IAddress) {
         this.addressIsEdit = true;
-        this.editData = item ? Object.assign({}, item) : {region_id: 0} as  any;
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.tel = item?.tel ?? '';
+            v.region_id = item?.region_id ?? 0;
+            v.address = item?.address ?? '';
+            return v;
+        });
     }
 
     public tapEditSave() {
-        const data = Object.assign({}, this.editData);
+        const data = Object.assign({}, this.editForm);
         if (!data.name || data.name.length < 1) {
             this.toastrService.warning('请输入收货人姓名');
             return;

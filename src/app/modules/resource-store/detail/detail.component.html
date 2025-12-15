@@ -27,19 +27,19 @@
             </div>
 
             <div class="tab-header-bar">
-                <a [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0" i18n>Item Details</a>
-                <a [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1" i18n>Catalog</a>
-                <a [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2" i18n>Download</a>
-                <a [ngClass]="{active: tabIndex == 3}" (click)="tabIndex = 3">
+                <a [class]="{active: tabIndex < 1}" (click)="tabIndex = 0" i18n>Item Details</a>
+                <a [class]="{active: tabIndex == 1}" (click)="tabIndex = 1" i18n>Catalog</a>
+                <a [class]="{active: tabIndex == 2}" (click)="tabIndex = 2" i18n>Download</a>
+                <a [class]="{active: tabIndex == 3}" (click)="tabIndex = 3">
                     <ng-container i18n>Reviews</ng-container>
                     <app-star [value]="data.score" />
                     <div class="count-label">{{ data.download_count | numberFormat }}</div>
                 </a>
-                <a [ngClass]="{active: tabIndex == 4}" (click)="tabIndex = 4">
+                <a [class]="{active: tabIndex == 4}" (click)="tabIndex = 4">
                     <ng-container i18n>Comments</ng-container>
                     <div class="count-label">{{ data.comment_count | numberFormat }}</div>
                 </a>
-                <a [ngClass]="{active: tabIndex == 5}" (click)="tabIndex = 5" i18n>Support</a>
+                <a [class]="{active: tabIndex == 5}" (click)="tabIndex = 5" i18n>Support</a>
             </div>
         </div>
     </div>
@@ -51,7 +51,7 @@
     <div class="row">
         <div class="col-md-8">
             <div class="tab-target-body">
-                <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
+                <div class="tab-item" [class]="{active: tabIndex < 1}">
                     <div class="group-box">
                         <div class="group-image">
                             <img [src]="data.thumb|asset" alt="">
@@ -70,7 +70,7 @@
                         <app-markdown-block [value]="data.content" />
                         <div class="body-memu-bar">
                             <a (click)="tapCollect()" i18n-title title="Collect this resource">
-                                <i class="iconfont" [ngClass]="{'icon-heart': data.is_collected, 'icon-heart-o': !data.is_collected}"></i>
+                                <i class="iconfont" [class]="{'icon-heart': data.is_collected, 'icon-heart-o': !data.is_collected}"></i>
                             </a>
                             <a>
                                 <i class="iconfont icon-qrcode"></i>
@@ -81,12 +81,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
+                <div class="tab-item" [class]="{active: tabIndex == 1}">
                     <div class="group-box">
                         <app-catalog [items]="catalogItems" />
                     </div>
                 </div>
-                <div class="tab-item" [ngClass]="{active: tabIndex == 2}">
+                <div class="tab-item" [class]="{active: tabIndex == 2}">
                     <div class="group-box">
                         <ul class="file-panel">
                             @for (item of data.files; track $index) {
@@ -104,10 +104,10 @@
                         </ul>
                     </div>
                 </div>
-                <div class="tab-item" [ngClass]="{active: tabIndex == 3}">
+                <div class="tab-item" [class]="{active: tabIndex == 3}">
                     <app-score [itemId]="data.id" [init]="tabIndex == 3" />
                 </div>
-                <div class="tab-item" [ngClass]="{active: tabIndex == 4}">
+                <div class="tab-item" [class]="{active: tabIndex == 4}">
                     <div class="group-box">
                         <app-comment [itemId]="data.id" [init]="tabIndex == 4" />
                     </div>

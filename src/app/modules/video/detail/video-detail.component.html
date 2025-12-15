@@ -23,7 +23,7 @@
                     <i class="iconfont icon-plus"></i>
                 </div>
             </div>
-            <div class="btn-item" [ngClass]="{active: data.is_liked}" (click)="tapToggleLike()">
+            <div class="btn-item" [class]="{active: data.is_liked}" (click)="tapToggleLike()">
                 <i class="iconfont icon-heart"></i>
                 <span class="label">{{ data.like_count }}</span>
             </div>

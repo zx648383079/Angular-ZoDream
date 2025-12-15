@@ -90,18 +90,18 @@
 
 </div>
 
-<app-dialog-box #optionModal [buttonVisible]="false" [title]="editData.id > 0 ? '编辑设置项' : '新增设置项'">
+<app-dialog-box #optionModal [buttonVisible]="false" [title]="editForm.id().value() > 0 ? '编辑设置项' : '新增设置项'">
     <div class="form-table-control">
         <div class="input-group-control">
             <label for="field_name">显示名称(必填)</label>
             <div>
-                <input type="text" id="field_name" class="form-control" [field]="editData.name">
+                <input type="text" id="field_name" class="form-control" [field]="editForm.name">
             </div>
         </div>
         <div class="input-group-control">
             <label for="field_type">类型</label>
             <div>
-                <select id="field_type" class="form-control" [field]="editData.type">
+                <select id="field_type" class="form-control" [field]="editForm.type">
                     
                     @for (item of typeItems; track $index) {
                     <option [value]="item.value">{{ item.name }}</option>
@@ -110,12 +110,12 @@
         
             </div>
         </div>
-        @if (editData.type !== 'group') {
+        @if (editForm.type !== 'group') {
         <div class="group-property">
             <div class="input-group-control">
                 <label for="field_parent_id">分组</label>
                 <div>
-                    <select id="field_parent_id" class="form-control" [field]="editData.parent_id">
+                    <select id="field_parent_id" class="form-control" [field]="editForm.parent_id">
                         @for (item of groups; track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                         }
@@ -125,13 +125,13 @@
             <div class="input-group-control">
                 <label for="field_code">别名(必填)</label>
                 <div>
-                    <input type="text" id="field_code" class="form-control" [field]="editData.code">
+                    <input type="text" id="field_code" class="form-control" [field]="editForm.code">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="field_visibility">公开</label>
                 <div>
-                    <select class="form-control" [field]="editData.visibility">
+                    <select class="form-control" [field]="editForm.visibility">
                         @for (item of visibleItems; track $index; let i = $index) {
                         <option [value]="i">{{ item }}</option>
                         }
@@ -141,7 +141,7 @@
             <div class="input-group-control">
                 <label for="field_default_value">默认值</label>
                 <div>
-                    <textarea id="field_default_value" class="form-control" [field]="editData.default_value"></textarea>
+                    <textarea id="field_default_value" class="form-control" [field]="editForm.default_value"></textarea>
                 </div>
             </div>
         </div>
@@ -149,13 +149,13 @@
         <div class="input-group-control">
             <label for="field_position">排序</label>
             <div>
-                <input type="text" id="field_position" class="form-control" [field]="editData.position">
+                <input type="text" id="field_position" class="form-control" [field]="editForm.position">
             </div>
         </div>
     </div>
     <ng-container name="footer">
         <button type="button" class="btn btn-outline-dark" (click)="optionModal.close('Save click')">确定</button>
-        @if (editData.id > 0) {
+        @if (editForm.id().value() > 0) {
             <button type="button" class="btn btn-danger" (click)="optionModal.close('remove')">删除</button>
         }
     </ng-container>

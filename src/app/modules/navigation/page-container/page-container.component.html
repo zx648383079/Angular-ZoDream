@@ -1,4 +1,4 @@
-<div class="page-container" [ngClass]="{'page-not-thumb': !value().thumb}">
+<div class="page-container" [class]="{'page-not-thumb': !value().thumb}">
     <div class="page-header">
         <a [href]="value().link" target="_blank" rel="noopener">
             <app-rule-block [value]="value().title" [rules]="rules" />
@@ -40,7 +40,7 @@
                     <div class="drop-icon" (click)="menuOpen = true">
                         <i class="iconfont icon-ellipsis-h"></i>
                     </div>
-                    <div class="drop-body" [ngClass]="{open: menuOpen}" (click)="menuOpen = false">
+                    <div class="drop-body" [class]="{open: menuOpen}" (click)="menuOpen = false">
                         <div class="menu-body" (click)="$event.stopPropagation()">
                             @for (item of menuItems; track $index; let i = $index) {
                             <div class="menu-item" (click)="tapMenu(i)">{{ item }}</div>

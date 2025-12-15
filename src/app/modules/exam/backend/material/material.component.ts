@@ -1,10 +1,9 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
-import { emptyValidate } from '../../../../theme/validators';
 import { ICourse, IQuestionMaterial } from '../../model';
 import { ExamService } from '../exam.service';
 
@@ -31,13 +30,16 @@ export class MaterialComponent implements OnInit {
         keywords: '',
         course: 0,
     }));
-    public editData: IQuestionMaterial = {
+    public editForm = form(signal({
         title: '',
         course_id: 0,
         description: '',
         type: 0,
         content: '',
-    };
+    }), schemaPath => {
+        required(schemaPath.title);
+        required(schemaPath.content);
+    });
     public courseItems: ICourse[] = [];
     public typeItems = ['文本', '音频', '视频'];
 
@@ -46,27 +48,26 @@ export class MaterialComponent implements OnInit {
             this.courseItems = res.data;
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item?: IQuestionMaterial) {
-        this.editData = item ? {...item} : {
-            title: '',
-            course_id: 0,
-            description: '',
-            type: 0,
-            content: '',
-        };
+        this.editForm().value.update(v => {
+            v.title = item?.title ?? '';
+            v.course_id = item?.course_id ?? 0;
+            v.description = item?.description ?? '';
+            v.type = item?.type ?? 0;
+            v.content = item?.content ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.materialSave({...this.editData}).subscribe(res => {
+            this.service.materialSave({...this.editForm}).subscribe(res => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapPage();
             });
-        }, () => {
-            return !emptyValidate(this.editData.title) && !emptyValidate(this.editData.content);
-        });
+        }, () => this.editForm().valid());
     }
 
 

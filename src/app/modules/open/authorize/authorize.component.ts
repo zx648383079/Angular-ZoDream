@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
@@ -9,9 +9,9 @@ import { SearchService } from '../../../theme/services';
 
 @Component({
     standalone: false,
-  selector: 'app-authorize',
-  templateUrl: './authorize.component.html',
-  styleUrls: ['./authorize.component.scss']
+    selector: 'app-authorize',
+    templateUrl: './authorize.component.html',
+    styleUrls: ['./authorize.component.scss']
 })
 export class AuthorizeComponent implements OnInit {
     private readonly service = inject(OpenService);
@@ -30,14 +30,16 @@ export class AuthorizeComponent implements OnInit {
         keywords: ''
     }));
     public platformItems: IPlatform[] = [];
-    public editData = {
+    public readonly editForm = form(signal({
         platform_id: 0,
         expired_at: '',
-    };
+    }), schemaPath => {
+        required(schemaPath.platform_id);
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
         this.service.authorizePlatform().subscribe(res => {
@@ -47,7 +49,7 @@ export class AuthorizeComponent implements OnInit {
 
     public open(modal: DialogEvent) {
         modal.open(() => {
-            this.service.authorizeCreate(this.editData).subscribe({
+            this.service.authorizeCreate(this.editForm).subscribe({
                 next: res => {
                     this.tapRefresh();
                 },
@@ -55,7 +57,7 @@ export class AuthorizeComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => this.editData.platform_id > 0);
+        }, () => this.editForm().valid());
     }
 
 

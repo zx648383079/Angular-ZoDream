@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../components/dialog';
@@ -8,10 +8,10 @@ import { IErrorResult } from '../../../theme/models/page';
 import { IUser } from '../../../theme/models/user';
 import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
 import { MicroService } from '../micro.service';
-import { emptyValidate } from '../../../theme/validators';
 import { openLink } from '../../../theme/utils/deeplink';
 import { DialogBoxComponent } from '../../../components/dialog';
 import { IBlockItem } from '../../../components/link-rule';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -29,11 +29,13 @@ export class DetailComponent implements OnInit {
 
     public data: IMicro;
     public authUser: IUser;
-    public editData = {
+    public readonly editForm = form(signal({
         content: '',
         is_comment: false,
         id: 0,
-    };
+    }), schemaPath => {
+        required(schemaPath.content);
+    });
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
@@ -108,16 +110,17 @@ export class DetailComponent implements OnInit {
         if (!this.data) {
             return;
         }
-        this.editData = {
-            content: '',
-            is_comment: false,
-            id: this.data.id,
-        };
+        this.editForm().value.update(v => {
+            v.id = this.data.id;
+            v.content = '';
+            v.is_comment = false;
+            return v;
+        });
         modal.open(() => {
-            this.service.forward(this.editData).subscribe(res => {
+            this.service.forward(this.editForm).subscribe(res => {
                 this.toastrService.success($localize `Forwarded`);
             });
-        }, () => !emptyValidate(this.editData.content));
+        }, () => this.editForm().valid());
     }
 
     public tapRemove(item: IMicro) {

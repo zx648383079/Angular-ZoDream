@@ -1,6 +1,6 @@
-<div class="lyrics-scroller" #scoller [ngStyle]="boxStyle">
+<div class="lyrics-scroller" #scoller [style]="boxStyle">
     @for (item of items; track $index) {
-        <div class="lyrics-item" #innerItem [ngClass]="{active: item.active}" [ngStyle]="item.style">
+        <div class="lyrics-item" #innerItem [class]="{active: item.active}" [style]="item.style">
             {{ item.text }}
         </div>
     }

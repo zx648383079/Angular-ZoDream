@@ -26,7 +26,7 @@
                     <a (click)="tapView(modal)" class="btn btn-primary">新增表情包</a>
                     <a routerLink="./category" class="btn btn-info">管理分组</a>
                     <a (click)="tapImport(importModal)" class="btn btn-success">导入表情包</a>
-                    <a class="btn" [ngClass]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
+                    <a class="btn" [class]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
                 </div>
             </form>
         </div>
@@ -35,7 +35,7 @@
             <thead>
                 <tr>
                     <th [hidden]="!isMultiple">
-                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                        <i class="checkbox" [class]="{checked: isChecked}" (click)="toggleCheck()"></i>
                     </th>
                    
                     <th>ID</th>
@@ -49,7 +49,7 @@
                 @for (item of items; track $index) {
                     <tr>
                     <td [hidden]="!isMultiple">
-                        <i class="checkbox" [ngClass]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
+                        <i class="checkbox" [class]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
                     </td>
                     <td>{{ item.id }}</td>
                     <td>{{ item.category?.name }}</td>
@@ -73,7 +73,7 @@
             <tfoot [hidden]="!isMultiple || items.length < 1">
                 <tr>
                     <td>
-                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                        <i class="checkbox" [class]="{checked: isChecked}" (click)="toggleCheck()"></i>
                     </td>
                     <td colspan="5">
                         <button class="btn btn-danger" [disabled]="checkedItems.length < 1" (click)="tapRemoveMultiple()">删除选中项（{{ checkedItems.length }}）</button>
@@ -86,17 +86,17 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id > 0 ? '编辑表情' : '新增表情'">
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑表情' : '新增表情'">
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editData.name" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="cat-input">分组</label>
         <div class="input-group-control">
-            <select [field]="editData.cat_id" id="cat-input" class="form-control">
+            <select [field]="editForm.cat_id" id="cat-input" class="form-control">
                 @for (item of categories; track $index) {
                 <option [value]="item.id">{{ item.name }}</option>
                 }
@@ -106,25 +106,25 @@
     <div class="form-group">
         <label for="type-input">类型</label>
         <div class="input-group-control">
-            <select [field]="editData.type" id="type-input" class="form-control">
+            <select [field]="editForm.type" id="type-input" class="form-control">
                 <option [value]="0">图片</option>
                 <option [value]="1">文字</option>
             </select>
         </div>
     </div>
-    @if (editData.type < 1) {
+    @if (editForm.type < 1) {
     <div class="form-group">
         <label for="content-input">图片</label>
         <div class="input-group-control">
-            <app-file-input [field]="editData.content" />
+            <app-file-input [field]="editForm.content" />
         </div>
     </div>
     }
-    @if (editData.type == 1) {
+    @if (editForm.type == 1) {
     <div class="form-group">
         <label for="con-input">内容</label>
         <div class="input-group-control">
-            <input class="form-control" id="con-input" [field]="editData.content" placeholder="请输入内容">
+            <input class="form-control" id="con-input" [field]="editForm.content" placeholder="请输入内容">
         </div>
     </div>
     }

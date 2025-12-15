@@ -1,5 +1,5 @@
 <div class="reflect-container">
-    <div class="selection-container" [ngStyle]="boxStyle">
+    <div class="selection-container" [style]="boxStyle">
         <div class="rotate-icon">
             <i class="iconfont icon-refresh"></i>
         </div>
@@ -14,6 +14,6 @@
             <div class="cursor l" (mousedown)="onMoveL($event)"></div>
         </div>
     </div>
-    <div class="horizontal-bar" [ngStyle]="horizontalStyle"></div>
-    <div class="vertical-bar" [ngStyle]="verticalStyle"></div>
+    <div class="horizontal-bar" [style]="horizontalStyle"></div>
+    <div class="vertical-bar" [style]="verticalStyle"></div>
 </div>

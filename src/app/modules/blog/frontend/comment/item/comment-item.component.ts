@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, output } from '@angular/core';
+import { Component, effect, inject, input, output, signal, untracked } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -7,6 +7,7 @@ import { openLink } from '../../../../../theme/utils/deeplink';
 import { IComment } from '../../../model';
 import { IUser } from '../../../../../theme/models/user';
 import { BlogService } from '../../blog.service';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -29,21 +30,21 @@ export class CommentItemComponent {
 
     public hasMore = true;
     public isLoading = false;
-    public queries = {
+    public queries = signal({
         page: 1,
         per_page: 5,
         parent_id: 0,
         blog_id: 0,
         sort: 'created_at',
         order: 'asc',
-    };
+    });
 
     public expanded = false;
-    public editData = {
+    public readonly editForm = form(signal({
         content: '',
         parent_id: 0,
         blog_id: 0,
-    };
+    }));
 
     constructor() {
         effect(() => {
@@ -52,9 +53,14 @@ export class CommentItemComponent {
                 value.replies = [];
             }
             this.hasMore = value.reply_count > value.replies?.length;
-            this.queries.blog_id = value.blog_id;
-            this.queries.parent_id = value.id;
-            this.queries.page = 1;
+            untracked(() => {
+                this.queries.update(v => {
+                    v.blog_id = value.blog_id;
+                    v.parent_id = value.id;
+                    v.page = 1;
+                    return v;
+                });
+            });
         });
     }
 
@@ -85,12 +91,15 @@ export class CommentItemComponent {
     public tapComment(e?: ButtonEvent) {
         e?.enter();
         this.commenting.emit({
-            ...this.editData,
+            ...this.editForm().value(),
             ...this.guestUser(),
             next: () => {
                 e?.reset();
-                this.editData.content = '';
-                this.editData.parent_id = 0;
+                this.editForm().value.update(v => {
+                    v.content = '';
+                    v.parent_id = 0;
+                    return v;
+                });
             },
             error: () => {
                 e?.reset();
@@ -99,13 +108,17 @@ export class CommentItemComponent {
     }
 
     public tapCommenting(item?: IComment) {
-        if (item) {
-            this.editData.blog_id = item.blog_id;
-            if (item.parent_id > 0) {
-                this.editData.content += `@${item.position}# `;
+        this.editForm().value.update(v => {
+             if (item) {
+                v.blog_id = item.blog_id;
+                if (item.parent_id > 0) {
+                    v.content += `@${item.position}# `;
+                }
             }
-        }
-        this.editData.parent_id = item?.id || 0;
+            v.parent_id = item?.id || 0;
+            return v;
+        });
+       
     }
 
     public tapReport(item: IComment) {
@@ -139,7 +152,7 @@ export class CommentItemComponent {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.queries.page().value() + 1);
+        this.goPage(this.queries().page + 1);
     }
 
     public goPage(page: number) {
@@ -147,13 +160,13 @@ export class CommentItemComponent {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries().value(), page};
+        const queries = {...this.queries(), page};
         this.service.commentList({...queries}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 this.value().replies = [].concat(this.value().replies, res.data);
-                this.queries = queries;
+                this.queries.set(queries);
             }, 
             error: () => {
                 this.isLoading = false;

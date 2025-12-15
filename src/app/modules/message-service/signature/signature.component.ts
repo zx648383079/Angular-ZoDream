@@ -1,11 +1,10 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { ISignature } from '../model';
 import { SearchService } from '../../../theme/services';
-import { emptyValidate } from '../../../theme/validators';
 import { MessageServiceService } from '../ms.service';
 
 @Component({
@@ -30,11 +29,17 @@ export class SignatureComponent implements OnInit {
         per_page: 20,
         keywords: ''
     }));
-    public editData: ISignature = {id: undefined, name: '', sign_no: ''};
+    public readonly editForm = form(signal<ISignature>({
+        id: 0, 
+        name: '', 
+        sign_no: ''
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit(): void {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -104,12 +109,17 @@ export class SignatureComponent implements OnInit {
     }
 
     open(modal: DialogEvent, item?: ISignature) {
-        this.editData = item ? {...item} : {id: undefined, name: '', sign_no: ''};
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.sign_no = item?.sign_no ?? '';
+            return v;
+        });
         modal.open(() => {
             this.service.signatureSave({
-                name: this.editData.name,
-                sign_no: this.editData.sign_no,
-                id: this.editData?.id
+                name: this.editForm.name,
+                sign_no: this.editForm.sign_no,
+                id: this.editForm?.id
             }).subscribe({
                 next: res => {
                     this.toastrService.success($localize `Save Successfully`);
@@ -119,9 +129,7 @@ export class SignatureComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editData.name);
-        });
+        }, () => this.editForm().valid());
     }
 
 }

@@ -33,14 +33,14 @@
             </div>
 
             <div class="tab-header-bar">
-                <a [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0" i18n>Item Details</a>
-                <a [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1" i18n>Version</a>
-                <a [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2">
+                <a [class]="{active: tabIndex < 1}" (click)="tabIndex = 0" i18n>Item Details</a>
+                <a [class]="{active: tabIndex == 1}" (click)="tabIndex = 1" i18n>Version</a>
+                <a [class]="{active: tabIndex == 2}" (click)="tabIndex = 2">
                     <ng-container i18n>Reviews</ng-container>
                     <app-star [value]="data.score" />
                     <div class="count-label">{{ data.download_count | numberFormat }}</div>
                 </a>
-                <a [ngClass]="{active: tabIndex == 3}" (click)="tabIndex = 3">
+                <a [class]="{active: tabIndex == 3}" (click)="tabIndex = 3">
                     <ng-container i18n>Comments</ng-container>
                     <div class="count-label">{{ data.comment_count | numberFormat }}</div>
                 </a>
@@ -56,7 +56,7 @@
     <div class="row">
         <div class="col-md-8">
             <div class="tab-target-body">
-                <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
+                <div class="tab-item" [class]="{active: tabIndex < 1}">
                     <div class="content-body">
                         <app-markdown-block [value]="data.content" />
                         <div class="body-memu-bar">
@@ -72,13 +72,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
+                <div class="tab-item" [class]="{active: tabIndex == 1}">
                     <app-version [itemId]="data.id" [init]="tabIndex == 1" />
                 </div>
-                <div class="tab-item" [ngClass]="{active: tabIndex == 2}">
+                <div class="tab-item" [class]="{active: tabIndex == 2}">
                     <app-score [itemId]="data.id" [init]="tabIndex == 2" />
                 </div>
-                <div class="tab-item" [ngClass]="{active: tabIndex == 3}">
+                <div class="tab-item" [class]="{active: tabIndex == 3}">
                     <div class="group-box">
                         <app-comment [itemId]="data.id" [init]="tabIndex == 3" />
                     </div>

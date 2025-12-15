@@ -29,19 +29,19 @@ export class ServiceComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public editData: IService = {} as any;
+    public readonly editForm = form(signal<IService>({}));
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item: IService) {
-        this.editData = item;
+        this.editForm = item;
         modal.openCustom(value => {
-            this.service.serviceChange(this.editData?.id, value).subscribe(res => {
+            this.service.serviceChange(this.editForm?.id, value).subscribe(res => {
                 this.toastrService.success('修改成功');
                 this.tapPage();
             });

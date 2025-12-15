@@ -38,7 +38,7 @@
           <i class="iconfont icon-qrcode" (click)="tapQr()"></i>
       </div>
   </div>
-  <div class="login-qr-box" [ngClass]="{'waiting_confirm': mode == 2, 'qr_expired': mode == 3, 'qr_reject': mode == 4, 'qr_success': mode == 5}">
+  <div class="login-qr-box" [class]="{'waiting_confirm': mode == 2, 'qr_expired': mode == 3, 'qr_reject': mode == 4, 'qr_success': mode == 5}">
       <div class="qr-box">
           <img [src]="qrImage" alt="">
           <i class="iconfont icon-refresh"></i>

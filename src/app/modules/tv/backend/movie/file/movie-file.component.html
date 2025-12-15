@@ -53,18 +53,18 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id > 0 ? '编辑文件' : '新增文件'" [scrollable]="false">
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑文件' : '新增文件'" [scrollable]="false">
     <div class="form-group">
         <label for="name-input">文件名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editData.name" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入名称">
         </div>
     </div>
     
     <div class="form-group">
         <label>文件类型</label>
         <div class="input-group-control">
-            <select class="form-control" [field]="editData.file_type">
+            <select class="form-control" [field]="editForm.file_type">
                 @for (item of urlTypeItems; track $index; let i = $index) {
                 <option [value]="i">{{ item }}</option>
                 }
@@ -74,7 +74,7 @@
     <div class="form-group">
         <label>清晰度</label>
         <div class="input-group-control">
-            <select class="form-control" [field]="editData.definition">
+            <select class="form-control" [field]="editForm.definition">
                 @for (item of definitionItems; track $index; let i = $index) {
                 <option [value]="i">{{ item }}</option>
                 }
@@ -84,21 +84,21 @@
     <div class="form-group">
         <label>文件大小</label>
         <div>
-            <app-data-size [field]="editData.size" />
+            <app-data-size [field]="editForm.size" />
         </div>
     </div>
-    @if (editData.file_type < 1 || editData.file_type == 4) {
+    @if (editForm.file_type < 1 || editForm.file_type == 4) {
         <div class="form-group">
             <label>文件</label>
             <div class="input-group-control">
-                <app-file-input [field]="editData.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event, true)" />
+                <app-file-input [field]="editForm.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event, true)" />
             </div>
         </div>
     } @else {
         <div class="form-group">
-            <label>{{ editData.file_type > 2 ? '内容' : '网址' }}</label>
+            <label>{{ editForm.file_type > 2 ? '内容' : '网址' }}</label>
             <div>
-                <app-text-editor [field]="editData.file" height="100" />
+                <app-text-editor [field]="editForm.file" height="100" />
             </div>
         </div>
     }

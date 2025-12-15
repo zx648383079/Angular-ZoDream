@@ -1,10 +1,10 @@
 <div class="container-fluid">
     <div class="scroll-nav">
-        <div class="item" [ngClass]="{active: category < 1}" (click)="tapCat()" i18n>
+        <div class="item" [class]="{active: category < 1}" (click)="tapCat()" i18n>
             All
         </div>
         @for (item of categories; track $index) {
-            <div class="item" [ngClass]="{active: category === item.id}" (click)="tapCat(item)">
+            <div class="item" [class]="{active: category === item.id}" (click)="tapCat(item)">
               {{ item.name }}
           </div>
         }
@@ -12,7 +12,7 @@
     <div class="bar-panel">
         <div class="bar-container">
             @for (item of barItems; track $index;let i = $index) {
-                <div class="item" [ngClass]="{active: barIndex === i}" (click)="tapBar(i)">
+                <div class="item" [class]="{active: barIndex === i}" (click)="tapBar(i)">
                     {{ item }}
                 </div>
             }

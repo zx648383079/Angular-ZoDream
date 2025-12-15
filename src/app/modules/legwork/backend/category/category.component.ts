@@ -1,10 +1,9 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
-import { emptyValidate } from '../../../../theme/validators';
 import { ICategory } from '../../model';
 import { LegworkService } from '../legwork.service';
 
@@ -30,28 +29,36 @@ export class CategoryComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public editData: ICategory = {} as any;
+    public readonly editForm = form(signal<ICategory>({
+        id: 0,
+        name: '',
+        icon: '',
+        description: '',
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item?: ICategory) {
-        this.editData = item ? Object.assign({}, item) : {
-            id: 0,
-            name: '',
-            icon: '',
-            description: '',
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.icon = item?.icon ?? '';
+            v.description = item?.description ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.categorySave(this.editData).subscribe(_ => {
+            this.service.categorySave(this.editForm().value()).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapPage();
             });
-        }, () => !emptyValidate(this.editData.name));
+        }, () => this.editForm().valid());
     }
 
     public tapSearch() {

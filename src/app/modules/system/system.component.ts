@@ -18,7 +18,7 @@ export class SystemComponent {
 
 
     public groups: IOption[] = [];
-    public editData: IOption = {} as any;
+    public readonly editForm = form(signal<IOption>({}));
     public typeItems = [
         {
             value: 'group',
@@ -136,7 +136,7 @@ export class SystemComponent {
 
 
     public tapAddGroup(modal: any) {
-        this.editData = {
+        this.editForm = {
             name: '',
             code: '',
             parent_id: 0,
@@ -150,7 +150,7 @@ export class SystemComponent {
     }
 
     public tapEditOption(modal: any, item: IOption) {
-        this.editData = item;
+        this.editForm = item;
         this.tapOpenModal(modal);
     }
 
@@ -161,28 +161,28 @@ export class SystemComponent {
             }
             if (value === 'remove') {
                 this.toastrService.confirm('确定删除此项', () => {
-                    this.service.optionRemove(this.editData.id).subscribe(res => {
+                    this.service.optionRemove(this.editForm.id).subscribe(res => {
                         this.toastrService.success($localize `Delete Successfully`);
-                        this.removeOption(this.editData);
+                        this.removeOption(this.editForm);
                     });
                 });
                 return;
             }
-            if (emptyValidate(this.editData.name)) {
+            if (emptyValidate(this.editForm.name)) {
                 this.toastrService.warning('显示名称必填');
                 return false;
             }
-            if (this.editData.type !== 'group') {
-                if (!this.editData.parent_id) {
+            if (this.editForm.type !== 'group') {
+                if (!this.editForm.parent_id) {
                     this.toastrService.warning('请选择分组');
                     return false;
                 }
-                if (emptyValidate(this.editData.code)) {
+                if (emptyValidate(this.editForm.code)) {
                     this.toastrService.warning('别名必填');
                     return false;
                 }
             }
-            this.service.optionSaveField(this.editData).subscribe({
+            this.service.optionSaveField(this.editForm).subscribe({
                 next: res => {
                     this.addOption(res);
                     this.toastrService.success($localize `Save Successfully`); 

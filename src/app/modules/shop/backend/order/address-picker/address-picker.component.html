@@ -2,7 +2,7 @@
     @if (!editable) {
     <div class="picker-body">
         @for (item of items; track $index) {
-            <div class="address-item" [ngClass]="{active: value && item.id == value().id}" (click)="tapItem(item)">
+            <div class="address-item" [class]="{active: value && item.id == value().id}" (click)="tapItem(item)">
                 <div>收货人: {{ item.name }}</div>
                 <div>联系方式：{{ item.tel }}</div>
                 <div>收货地址：{{ item.region.full_name }} {{ item.address }}</div>

@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -10,9 +10,9 @@ import { parseNumber } from '../../../../theme/utils';
 
 @Component({
     standalone: false,
-  selector: 'app-maker-item',
-  templateUrl: './item.component.html',
-  styleUrls: ['./item.component.scss']
+    selector: 'app-maker-item',
+    templateUrl: './item.component.html',
+    styleUrls: ['./item.component.scss']
 })
 export class ItemComponent implements OnInit {
     private readonly service = inject(GameMakerService);
@@ -32,23 +32,40 @@ export class ItemComponent implements OnInit {
         project: 0
     }));
     public typeItems = ItemTypeItems;
-    public editData: IGameItem = {} as any;
+    public readonly editForm = form(signal<IGameItem>({
+        id: 0,
+        name: '',
+        icon: '',
+        type: 0,
+        sub_type: 0,
+        description: '',
+    }, schemaPath => {
+        required(schemaPath.name);
+    }));
 
     ngOnInit() {
         this.route.parent.params.subscribe(params => {
-            this.queries.project = parseNumber(params.game);
+            this.queries.project().value.set(parseNumber(params.game));
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
 
     public open(modal: DialogEvent, item?: IGameItem) {
-        this.editData = item ? {...item} : {} as any;
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.icon = item?.icon ?? '';
+            v.type = item?.type ?? 0;
+            v.sub_type = item?.sub_type ?? 0;
+            v.description = item?.description ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.itemSave({...this.editData, project_id: this.queries.project}).subscribe({
+            this.service.itemSave({...this.editForm().value(), project_id: this.queries.project}).subscribe({
                 next: _ => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
@@ -57,7 +74,7 @@ export class ItemComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        });
+        }, () => this.editForm().valid());
     }
 
     public tapRefresh() {
@@ -87,7 +104,8 @@ export class ItemComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries, ['project']);
+                this.queries().value.set(queries);
+            this.searchService.applyHistory(queries, ['project']);
             },
             error: () => {
                 this.isLoading = false;

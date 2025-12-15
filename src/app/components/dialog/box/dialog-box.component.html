@@ -1,6 +1,6 @@
 @if (visible()) {
 <div class="dialog-mask" (click)="close()"></div>
-<div class="dialog-box" [ngClass]="{'dialog-not-header': !title() && !customHeader()}" animate.enter="dialog-opened" animate.leave="dialog-closed" [ngStyle]="boxStyle">
+<div class="dialog-box" [class]="{'dialog-not-header': !title() && !customHeader()}" animate.enter="dialog-opened" animate.leave="dialog-closed" [style]="boxStyle">
     @if (title() || customHeader()) {
     <div class="dialog-header">
         <div class="dialog-title">{{ title() }}</div>
@@ -12,7 +12,7 @@
     </div>
     }
     
-    <div class="dialog-body" [ngClass]="{scrollable: scrollable()}">
+    <div class="dialog-body" [class]="{scrollable: scrollable()}">
         <ng-content />
         @if (invalidTip) {
         <div class="dialog-invail-tip">

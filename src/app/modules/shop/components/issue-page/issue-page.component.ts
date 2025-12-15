@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, effect, inject, input, signal } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { ShopService } from '../../shop.service';
@@ -29,9 +29,11 @@ export class IssuePageComponent {
         page: 1,
         per_page: 20,
     }));
-    public editData = {
+    public readonly editForm = form(signal({
         content: ''
-    };
+    }), schemaPath => {
+        required(schemaPath.content);
+    });
     private booted = 0;
 
     constructor() {
@@ -51,14 +53,14 @@ export class IssuePageComponent {
     }
 
     public tapSubmit(e: ButtonEvent) {
-        if (emptyValidate(this.editData.content)) {
+        if (this.editForm().invalid()) {
             this.toastrService.warning($localize `Please input the question`);
             return;
         }
         e.enter();
-        this.service.issueAsk({...this.editData, item_id: this.itemId()}).subscribe({
+        this.service.issueAsk({...this.editForm().value(), item_id: this.itemId()}).subscribe({
             next: () => {
-                this.editData.content = '';
+                this.editForm.content().value.set('');
                 e.reset();
                 this.toastrService.success($localize `Ask Successfully`);
             },
@@ -96,7 +98,7 @@ export class IssuePageComponent {
                 this.isLoading = false;
                 this.total = res.paging.total;
                 this.items = res.data;
-                this.queries = queries;
+                this.queries().value.set(queries);
             },
             error: () => {
                 this.isLoading = false;

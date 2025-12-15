@@ -8,7 +8,7 @@
     @for (item of tabItems; track $index) {
     <div class="input-item" (click)="tapTab(item)">
         <div class="item-icon">
-            <i class="iconfont" [ngClass]="'icon-' + item.icon"></i>
+            <i class="iconfont" [class]="'icon-' + item.icon"></i>
         </div>
         <div class="item-body">
             <div class="item-name">{{ item.name }}</div>

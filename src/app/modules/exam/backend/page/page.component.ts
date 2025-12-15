@@ -38,7 +38,7 @@ export class PageComponent implements OnInit {
             this.courseItems = res.data;
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }

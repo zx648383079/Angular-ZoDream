@@ -117,35 +117,35 @@
             <div class="col-md-12">
                 <div class="tab-box">
                     <div class="tab-header">
-                        <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">
+                        <div class="tab-item" [class]="{active: tabIndex < 1}" (click)="tabIndex = 0">
                             Product details
                         </div>
-                        <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">
+                        <div class="tab-item" [class]="{active: tabIndex == 1}" (click)="tabIndex = 1">
                             Comments
                         </div>
-                        <div class="tab-item" [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2">
+                        <div class="tab-item" [class]="{active: tabIndex == 2}" (click)="tabIndex = 2">
                             Issues
                         </div>
                         @if (activity && activity.type == 1) {
-                        <div class="tab-item" [ngClass]="{active: tabIndex == 3}"
+                        <div class="tab-item" [class]="{active: tabIndex == 3}"
                             (click)="tabIndex = 3">
                             出价记录
                         </div>
                         }
                     </div>
                     <div class="tab-body bg-white">
-                        <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
+                        <div class="tab-item" [class]="{active: tabIndex < 1}">
                             <div class="content-box" [innerHTML]="content">
                             </div>
                         </div>
-                        <div id="comment-tab" class="tab-item" [ngClass]="{active: tabIndex == 1}">
+                        <div id="comment-tab" class="tab-item" [class]="{active: tabIndex == 1}">
                             <app-comment-page [itemId]="data.id" [init]="tabIndex == 1" />
                         </div>
-                        <div class="tab-item issue-box" [ngClass]="{active: tabIndex == 2}">
+                        <div class="tab-item issue-box" [class]="{active: tabIndex == 2}">
 
                         </div>
                         <div class="tab-item log-box"
-                            [ngClass]="{active: tabIndex == 3}">
+                            [class]="{active: tabIndex == 3}">
                             <app-auction-log [activity]="activity.id" [init]="tabIndex == 3" />
                         </div>
                     </div>

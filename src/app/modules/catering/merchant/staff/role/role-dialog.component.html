@@ -9,7 +9,7 @@
         <div class="panel-header">
             <span>权限</span>
             <div class="panel-action">
-                <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                <i class="checkbox" [class]="{checked: isChecked}" (click)="toggleCheck()"></i>
                 {{ isChecked ? '取消全选' : '全选' }}
             </div>
         </div>
@@ -17,12 +17,12 @@
             @for (item of items; track $index) {
                 <div class="role-group">
                 <div class="group-header">
-                    <i class="checkbox" [ngClass]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
+                    <i class="checkbox" [class]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
                     {{ item.name }}
                 </div>
                 @for (it of item.items; track $index) {
                 <div class="role-item">
-                    <i class="checkbox" [ngClass]="{checked: it.checked}" (click)="toggleCheck(item, it)"></i>
+                    <i class="checkbox" [class]="{checked: it.checked}" (click)="toggleCheck(item, it)"></i>
                     {{ it.name }}
                 </div>
                 }

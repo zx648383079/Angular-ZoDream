@@ -1,15 +1,15 @@
-<div class="editor-modal-box" [ngClass]="{'modal-visible': visible}">
+<div class="editor-modal-box" [class]="{'modal-visible': visible}">
     <div class="tab-bar">
         <a class="item" (click)="tapBack()">
             <i class="iconfont icon-back"></i>
         </a>
     </div>
     <div class="input-flex-group">
-        <div class="input-header-block" [ngClass]="{'input-not-empty': !!width}">
+        <div class="input-header-block" [class]="{'input-not-empty': !!width}">
             <input type="text" [field]="width">
             <label for="">宽</label>
         </div>
-        <div class="input-header-block" [ngClass]="{'input-not-empty': !!height}">
+        <div class="input-header-block" [class]="{'input-not-empty': !!height}">
             <input type="text" [field]="height">
             <label for="">高</label>
         </div>

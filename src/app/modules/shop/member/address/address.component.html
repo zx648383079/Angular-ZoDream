@@ -51,26 +51,26 @@
         <div class="address-body">
             <div>*所在地区:</div>
             <div class="region-input">
-                <app-region url="shop/region/tree" [field]="editData.region_id" />
+                <app-region url="shop/region/tree" [field]="editForm.region_id" />
             </div>
             <div>*详细地址:</div>
             <div>
-                <textarea [field]="editData.address" cols="30" rows="10"></textarea>
+                <textarea [field]="editForm.address" cols="30" rows="10"></textarea>
             </div>
             <div>*收货人:</div>
             <div>
-                <input type="text" [field]="editData.name">
+                <input type="text" [field]="editForm.name">
             </div>
             <div>*手机号码:</div>
             <div>
-                <input type="text" [field]="editData.tel">
+                <input type="text" [field]="editForm.tel">
             </div>
         </div>
     </div>
     <div class="dialog-footer">
-        <div class="pull-left" (click)="editData.is_default = !editData.is_default">
+        <div class="pull-left" (click)="editForm.is_default = !editForm.is_default">
             <div class="checkbox">
-                <i class="iconfont" [ngClass]="{'icon-check-square-o': editData.is_default, 'icon-square-o': !editData.is_default}"></i>
+                <i class="iconfont" [class]="{'icon-check-square-o': editForm.is_default, 'icon-square-o': !editForm.is_default}"></i>
             </div>
             设为默认
         </div>

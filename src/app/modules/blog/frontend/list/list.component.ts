@@ -110,7 +110,7 @@ export class ListComponent implements OnInit, OnDestroy {
             this.themeService.suggestQuerySubmitted.subscribe(this.searchFn)
         );
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             if (this.queries.tag) {
                 this.header = this.queries.tag;
             }

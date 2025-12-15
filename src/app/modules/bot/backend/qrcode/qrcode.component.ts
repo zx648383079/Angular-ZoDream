@@ -1,10 +1,9 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
-import { emptyValidate } from '../../../../theme/validators';
 import { IBotQr } from '../../model';
 import { BotService } from '../bot.service';
 
@@ -33,19 +32,28 @@ export class QrcodeComponent implements OnInit {
         per_page: 20
     }));
 
-    public editData: any = {};
+    public readonly editForm = form(signal({
+        scene_type: 0,
+        scene_str: ''
+    }), schemaPath => {
+        required(schemaPath.scene_str);
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item?: any) {
-        this.editData = item ? {...item} : {scene_type: 0};
+        this.editForm().value.update(v => {
+            v.scene_type = item?.scene_type ?? 0;
+            v.scene_str = item?.scene_str ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.qrcodeSave(this.editData).subscribe({
+            this.service.qrcodeSave(this.editForm().value()).subscribe({
                 next: _ => {
                     this.toastrService.success('添加成功');
                     this.tapPage();
@@ -54,7 +62,7 @@ export class QrcodeComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             })
-        }, () => !emptyValidate(this.editData.scene_str));
+        }, () => this.editForm().valid());
     }
 
     public tapRefresh() {

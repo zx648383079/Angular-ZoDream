@@ -69,13 +69,13 @@ export class CatalogComponent implements OnInit, OnDestroy {
     ];
     public sortKey = '';
     public orderAsc = true;
-    public editData: any = {};
+    public readonly editForm = form(signal<any>({}));
     public playerStyle: any = {};
     private subItems = new Subscription();
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapRefresh();
         });
         this.subItems.add(
@@ -271,10 +271,10 @@ export class CatalogComponent implements OnInit, OnDestroy {
     }
 
     public tapOpenEdit(modal: DialogBoxComponent) {
-        this.editData = {name: ''};
+        this.editForm = {name: ''};
         modal.open(() => {
             this.service.create({
-                name: this.editData.name,
+                name: this.editForm.name,
                 parent_id: this.lastFolder
             }).subscribe({
                 next: res => {
@@ -284,7 +284,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
                     this.toastrService.error(err);
                 }
             });
-        }, () => !emptyValidate(this.editData.name));
+        }, () => !emptyValidate(this.editForm.name));
     }
 
     public tapUpload(e: any) {

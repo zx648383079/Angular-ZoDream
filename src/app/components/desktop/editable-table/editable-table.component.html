@@ -5,24 +5,24 @@
             <tr>
                 @if (batchable()) {
                 <th width="40">
-                    <i class="iconfont" [ngClass]="{'icon-square-o': !checkAll, 'icon-check-square-o': checkAll}" (click)="toggleCheckAll()"></i>
+                    <i class="iconfont" [class]="{'icon-square-o': !checkAll, 'icon-check-square-o': checkAll}" (click)="toggleCheckAll()"></i>
                 </th>
                 }
                 @for (item of nameItems; track $index) {
                     <th (click)="tapSort(item.index)">
                         <span>{{ item.label }}</span>
                         @if (sortKey == item.index) {
-                            <i class="iconfont" [ngClass]="{'icon-sort-alpha-asc': orderAsc, 'icon-sort-alpha-desc': !orderAsc}"></i>
+                            <i class="iconfont" [class]="{'icon-sort-alpha-asc': orderAsc, 'icon-sort-alpha-desc': !orderAsc}"></i>
                         }
                     </th>
                 }
                 <th>
-                    <div class="drop-menu-btn" [ngClass]="{'open-drop': openDrop}">
+                    <div class="drop-menu-btn" [class]="{'open-drop': openDrop}">
                         <i class="iconfont icon-cog" (click)="openDrop = !openDrop"></i>
                         <div class="drop-menu-body">
                             @for (item of columnItems(); track $index; let i = $index) {
                             <div class="menu-item">
-                                <i class="iconfont" [ngClass]="{'icon-square-o': item.hidden, 'icon-check-square-o': !item.hidden}" (click)="toggleHidden(i)"></i>
+                                <i class="iconfont" [class]="{'icon-square-o': item.hidden, 'icon-check-square-o': !item.hidden}" (click)="toggleHidden(i)"></i>
                                 {{ item.label || item.name }}
                             </div>
                             }
@@ -63,13 +63,13 @@
             @for (item of filterItems; track $index) {
             <tr>
                 <td>
-                    <i class="iconfont" [ngClass]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}" (click)="toggleCheck(item)"></i>
+                    <i class="iconfont" [class]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}" (click)="toggleCheck(item)"></i>
                 </td>
                 @for (name of nameItems; track name.index) {
                     <th>
                         @switch (name.format) {
                             @case ('img') {
-                                <img [ngClass]="'img-' + name.name" [src]="item[name.name] | asset">
+                                <img [class]="'img-' + name.name" [src]="item[name.name] | asset">
                             }
                             @case ('switch') {
                                 <app-switch [field]="item[name.name]" />
@@ -101,7 +101,7 @@
         <tfoot>
             <tr>
                 <td>
-                    <i class="iconfont" [ngClass]="{'icon-square-o': !checkAll, 'icon-check-square-o': checkAll}" (click)="toggleCheckAll()"></i>
+                    <i class="iconfont" [class]="{'icon-square-o': !checkAll, 'icon-check-square-o': checkAll}" (click)="toggleCheckAll()"></i>
                 </td>
                 <td [attr.colspan]="nameItems.length - 1">
                     <div class="btn-group">

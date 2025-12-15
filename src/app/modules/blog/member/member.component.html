@@ -34,7 +34,7 @@
 
 <div class="list-table-control">
     @for (item of items; track $index) {
-        <div class="row-item" [ngClass]="{'colour-row-item': item.is_localization}">
+        <div class="row-item" [class]="{'colour-row-item': item.is_localization}">
             <div class="item-header">
                 <div class="tag-bar">
                     @if (item.open_type > 0) {

@@ -3,15 +3,15 @@
         <div class="tool-bar-top">
             <div class="tool-left">
                 @for (item of topLeftItems; track $index) {
-                    <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, $event)" [title]="item.label">
-                        <i class="iconfont" [ngClass]="item.icon"></i>
+                    <div class="tool-item" [class]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, $event)" [title]="item.label">
+                        <i class="iconfont" [class]="item.icon"></i>
                     </div>
                 }
             </div>
             <div class="tool-right">
                 @for (item of topRightItems; track $index) {
-                    <div class="tool-item" [ngClass]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, $event)" [title]="item.label">
-                        <i class="iconfont" [ngClass]="item.icon"></i>
+                    <div class="tool-item" [class]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, $event)" [title]="item.label">
+                        <i class="iconfont" [class]="item.icon"></i>
                     </div>
                 }
             </div>
@@ -20,7 +20,7 @@
     </div>
     <div class="editor-body">
         <div class="editor-area">
-            <textarea #editorArea [ngStyle]="areaStyle" [disabled]="disabled()"  spellcheck="false" [placeholder]="placeholder()"></textarea>
+            <textarea #editorArea [style]="areaStyle" [disabled]="disabled()"  spellcheck="false" [placeholder]="placeholder()"></textarea>
             <div class="editor-footer" i18n>{{ size }} words</div>
         </div>
         <ng-container #modalVC />

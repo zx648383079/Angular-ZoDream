@@ -68,18 +68,18 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id > 0 ? '编辑模板' : '新增模板'">
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑模板' : '新增模板'">
     <div class="form-table-control">
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" [field]="editData.name" class="form-control">
+                <input type="text" id="name" [field]="editForm.name" class="form-control">
             </div>
         </div>
         <div class="input-group-control">
             <label for="type">类型</label>
             <div>
-                <select id="type" [field]="editData.type" class="form-control">
+                <select id="type" [field]="editForm.type" class="form-control">
                     @for (item of typeItems; track $index) {
                     <option [value]="item.value">{{ item.name }}</option>
                     }
@@ -89,7 +89,7 @@
         <div class="input-group-control">
             <label for="category">分类</label>
             <div>
-                <select id="category" [field]="editData.cat_id" class="form-control">
+                <select id="category" [field]="editForm.cat_id" class="form-control">
                     <option [value]="0">请选择</option>
                     @for (item of categoryItems; track $index) {
                     <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
@@ -99,11 +99,11 @@
         </div>
         <div class="input-group-control">
             <label for="content">内容
-                <i class="iconfont" [ngClass]="{'icon-eye-slash': previewData.toggle, 'icon-eye': !previewData.toggle}" (click)="tapPreview()"></i>
+                <i class="iconfont" [class]="{'icon-eye-slash': previewData.toggle, 'icon-eye': !previewData.toggle}" (click)="tapPreview()"></i>
             </label>
             <div>
                 @if (!previewData.toggle) {
-                    <textarea id="content" class="form-control" [field]="editData.content"></textarea>
+                    <textarea id="content" class="form-control" [field]="editForm.content"></textarea>
                 } @else {
                     <div class="rich_media_content" [innerHTML]="previewData.content">
                     </div>

@@ -20,7 +20,7 @@ export class MenuComponent implements OnInit {
 
 
     public menuItems: IBotMenuItem[] = [];
-    public editData: any;
+    public readonly editForm = form(signal<an>({}));
     public editorData: any;
 
     ngOnInit() {
@@ -40,39 +40,39 @@ export class MenuComponent implements OnInit {
             newItem.chilren = [];
             items.push(newItem);
         }
-        this.editData = newItem;
+        this.editForm = newItem;
         this.editorData = {};
     }
 
     public tapEditMenu(item: any) {
-        this.editData = item;
+        this.editForm = item;
         this.editorData = {...item};
     }
 
     public onEditorChange() {
         eachObject(this.editorData, (v, k) => {
-            this.editData[k] = v;
+            this.editForm[k] = v;
         });
-        if (!this.editData.children && this.editData.type == 99) {
-            this.editData.children = [];
+        if (!this.editForm.children && this.editForm.type == 99) {
+            this.editForm.children = [];
         }
     }
 
     public tapClear() {
         this.menuItems = [];
-        this.editData = undefined;
+        this.editForm = undefined;
     }
 
     public tapRemoveItem() {
-        if (!this.editData) {
+        if (!this.editForm) {
             return;
         }
         this.toastrService.confirm('确定删除此菜单项？', () => {
             for (let i = 0; i < this.menuItems.length; i++) {
                 const element = this.menuItems[i];
-                if (element === this.editData) {
+                if (element === this.editForm) {
                     this.menuItems.splice(i, 1);
-                    this.editData = null;
+                    this.editForm = null;
                     return;
                 }
                 if (!element.children) {
@@ -80,9 +80,9 @@ export class MenuComponent implements OnInit {
                 }
                 for (let j = 0; j < element.children.length; j++) {
                     const it = element.children[j];
-                    if (it === this.editData) {
+                    if (it === this.editForm) {
                         element.children.splice(i, 1);
-                        this.editData = null;
+                        this.editForm = null;
                         return;
                     }
                 }

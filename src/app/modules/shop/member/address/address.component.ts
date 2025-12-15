@@ -1,8 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { IErrorResponse } from '../../../../theme/models/page';
 import { IAddress } from '../../model';
 import { ShopService } from '../../shop.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -22,7 +23,15 @@ export class AddressComponent implements OnInit {
     public isLoading = false;
     public total = 0;
     public dialogOpen = false;
-    public editData: IAddress = {region_id: 0} as any;
+    public readonly editForm = form(signal<IAddress>({
+        id: 0,
+        name: '',
+        tel: '',
+        region_id: 0,
+        address: ''
+    }), schemaPath => {
+        required(schemaPath.name, {message: '请输入收货人姓名'});
+    });
 
     constructor() {
         this.tapRefresh();
@@ -32,16 +41,24 @@ export class AddressComponent implements OnInit {
 
 
     public tapEdit(item?: IAddress) {
-        this.editData = item ? {...item} : {region_id: 0} as any;
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.tel = item?.tel ?? '';
+            v.region_id = item?.region_id ?? 0;
+            v.address = item?.address ?? '';
+            return v;
+        });
         this.dialogOpen = true;
     }
 
     public tapSave() {
-        const data = Object.assign({}, this.editData);
-        if (!data.name || data.name.length < 1) {
+        
+        if (this.editForm().invalid()) {
             this.toastrService.warning('请输入收货人姓名');
             return;
         }
+        const data = this.editForm().value();
         this.service.addressSave(data).subscribe({
             next: res => {
                 this.dialogOpen = false;
@@ -65,13 +82,13 @@ export class AddressComponent implements OnInit {
           return;
         }
         this.service.addressRemove(item.id).subscribe(res => {
-          if (!res.data) {
-            return;
-          }
-          this.toastrService.success($localize `Delete Successfully`);
-          this.items = this.items.filter(it => {
-            return it.id !== item.id;
-          });
+            if (!res.data) {
+                return;
+            }
+            this.toastrService.success($localize `Delete Successfully`);
+            this.items = this.items.filter(it => {
+                return it.id !== item.id;
+            });
         });
       }
 

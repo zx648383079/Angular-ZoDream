@@ -21,29 +21,29 @@
                         Price is in CN yuan and excludes tax
                     </div>
                     <div class="view-bar">
-                        <i class="iconfont icon-th-large" [ngClass]="{active: viewTable}" (click)="viewTable = true"></i>
-                        <i class="iconfont icon-th-list" [ngClass]="{active: !viewTable}" (click)="viewTable = false"></i>
+                        <i class="iconfont icon-th-large" [class]="{active: viewTable}" (click)="viewTable = true"></i>
+                        <i class="iconfont icon-th-list" [class]="{active: !viewTable}" (click)="viewTable = false"></i>
                     </div>
                 </div>
                 <div class="tab-bar">
-                    <div class="item" [ngClass]="{active: queries.sort == ''}" (click)="tapSort('')" i18n>
+                    <div class="item" [class]="{active: queries.sort == ''}" (click)="tapSort('')" i18n>
                         Best match
                     </div>
-                    <div class="item" [ngClass]="{active: queries.sort == 'hot'}" (click)="tapSort('hot')" i18n>
+                    <div class="item" [class]="{active: queries.sort == 'hot'}" (click)="tapSort('hot')" i18n>
                         Best sellers
                     </div>
-                    <div class="item" [ngClass]="{active: queries.sort == 'new'}" (click)="tapSort('new')" i18n>
+                    <div class="item" [class]="{active: queries.sort == 'new'}" (click)="tapSort('new')" i18n>
                         Newest
                     </div>
-                    <div class="item" [ngClass]="{active: queries.sort == 'score'}" (click)="tapSort('score')" i18n>
+                    <div class="item" [class]="{active: queries.sort == 'score'}" (click)="tapSort('score')" i18n>
                         Best rated
                     </div>
-                    <div class="item" [ngClass]="{active: queries.sort == 'trending'}" (click)="tapSort('trending')" i18n>
+                    <div class="item" [class]="{active: queries.sort == 'trending'}" (click)="tapSort('trending')" i18n>
                         Trending
                     </div>
-                    <div class="item" [ngClass]="{active: queries.sort == 'price'}" (click)="tapSort('price')">
+                    <div class="item" [class]="{active: queries.sort == 'price'}" (click)="tapSort('price')">
                         <ng-container i18n>Price</ng-container>
-                        <i class="iconfont" [ngClass]="{'icon-sort-desc': queries.sort == 'price' && queries.order != 'asc', 'icon-sort-asc': queries.sort == 'price' && queries.order == 'asc'}"></i>
+                        <i class="iconfont" [class]="{'icon-sort-desc': queries.sort == 'price' && queries.order != 'asc', 'icon-sort-asc': queries.sort == 'price' && queries.order == 'asc'}"></i>
                     </div>
                 </div>
             </div>
@@ -65,7 +65,7 @@
                     @if (item.items && item.items.length > 0) {
                     <ul>
                         @for (it of item.items; track $index) {
-                            <li [ngClass]="{active: it.selected}" (click)="tapFilterItem(item, it)">
+                            <li [class]="{active: it.selected}" (click)="tapFilterItem(item, it)">
                                 @if (item.multiple) {
                                 <div class="check-input">
                                     <i class="iconfont icon-check-square-o"></i>

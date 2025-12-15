@@ -55,35 +55,35 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id > 0 ? '编辑分区' : '新增分区'" [scrollable]="false">
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑分区' : '新增分区'" [scrollable]="false">
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editData.name" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="icon-input">图标</label>
         <div class="input-group-control">
-            <app-file-input [field]="editData.icon" />
+            <app-file-input [field]="editForm.icon" />
         </div>
     </div>
     <div class="form-group">
         <label for="desc-input">说明</label>
         <div class="input-group-control">
-            <textarea class="form-control" id="desc-input" [field]="editData.decsription"></textarea>
+            <textarea class="form-control" id="desc-input" [field]="editForm.decsription"></textarea>
         </div>
     </div>
     <div class="form-horizontal-group">
         <label class="col-2" for="open-input">公开</label>
         <div class="input-group-control">
-            <app-switch [field]="editData.is_open" />
+            <app-switch [field]="editForm.is_open" />
         </div>
     </div>
     <div class="form-horizontal-group">
         <label class="col-2" for="status-input">状态</label>
         <div class="input-group-control">
-            <app-switch [field]="editData.status" />
+            <app-switch [field]="editForm.status" />
         </div>
     </div>
 </app-dialog-box>

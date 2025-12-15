@@ -16,7 +16,7 @@
     </div>
     <ul>
         @for (item of items(); track $index; let i = $index) {
-        <li [ngClass]="{active: i == index}" (click)="tapItem(i)">
+        <li [class]="{active: i == index}" (click)="tapItem(i)">
             <img [src]="item.thumb" alt="">
         </li>
         }

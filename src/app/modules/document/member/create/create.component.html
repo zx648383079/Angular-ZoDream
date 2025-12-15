@@ -10,9 +10,9 @@
         <div class="col-md-4">
             <div class="panel-container">
                 @for (item of typeItems; track $index) {
-                <div class="column-item" (click)="tapType(item)" [ngClass]="{active: data.type == item.value}">
+                <div class="column-item" (click)="tapType(item)" [class]="{active: data.type == item.value}">
                     <div class="item-icon">
-                        <div class="iconfont" [ngClass]="item.icon"></div>
+                        <div class="iconfont" [class]="item.icon"></div>
                     </div>
                     <div class="item-body">
                         <h4>{{ item.name }}</h4>

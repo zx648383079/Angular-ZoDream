@@ -1,6 +1,6 @@
-<div class="editor-modal-box" [ngClass]="{'modal-visible': visible}">
+<div class="editor-modal-box" [class]="{'modal-visible': visible}">
     <app-color-layer [(value)]="color" />
-    <div class="input-header-block" [ngClass]="{'input-not-empty': !!color}">
+    <div class="input-header-block" [class]="{'input-not-empty': !!color}">
         <input type="text" [field]="color">
         <label for="">Hex</label>
     </div>

@@ -31,7 +31,7 @@
                     <tr>
                         <td (click)="item.toggled = !item.toggled">
                             {{ item.id }}
-                            <i class="iconfont" [ngClass]="{'icon-angle-double-down': !item.toggled, 'icon-angle-double-up': item.toggled}"></i>
+                            <i class="iconfont" [class]="{'icon-angle-double-down': !item.toggled, 'icon-angle-double-up': item.toggled}"></i>
                         </td>
                         <td>
                             @if (item.user_id) {

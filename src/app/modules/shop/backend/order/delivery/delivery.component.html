@@ -70,9 +70,9 @@
         }
     </div>
     @for (item of logisticsData.items; track $index; let i = $index) {
-        <div class="time-group" [ngClass]="{active: i < 1}">
+        <div class="time-group" [class]="{active: i < 1}">
             <div class="group-icon">
-                <i class="iconfont icon-check" [ngClass]="formatStatusIcon(item.status)"></i>
+                <i class="iconfont icon-check" [class]="formatStatusIcon(item.status)"></i>
             </div>
             <div class="group-header">
                 {{ formatStatus(item.status) }}

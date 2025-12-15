@@ -1,4 +1,4 @@
-<div class="member-container" [ngClass]="{container: diplayMode < 3, 'container-full': diplayMode >= 3}">
+<div class="member-container" [class]="{container: diplayMode < 3, 'container-full': diplayMode >= 3}">
     <div class="row">
         <div class="col-md-3" [hidden]="diplayMode >= 1">
             @if (user) {
@@ -52,11 +52,11 @@
             }
            
         </div>
-        <div class="col-12" [ngClass]="{'col-md-9': diplayMode < 1}">
-            <div class="tab-nav-bar" [ngClass]="{'nav-more-open': moreVisible}">
+        <div class="col-12" [class]="{'col-md-9': diplayMode < 1}">
+            <div class="tab-nav-bar" [class]="{'nav-more-open': moreVisible}">
                 <div class="tab-bar" (click)="moreVisible = false">
                     @for (item of tabItems; track $index) {
-                        <a class="item" [routerLink]="item.url" [ngClass]="{active: item.active}">{{ item.name }}</a>
+                        <a class="item" [routerLink]="item.url" [class]="{active: item.active}">{{ item.name }}</a>
                     }
                 </div>
                 @if (moreItems && moreItems.length > 0) {
@@ -66,8 +66,8 @@
                     </div>
                     <div class="more-pane" (click)="moreVisible = false">
                         @for (item of moreItems; track $index) {
-                            <a class="item" [routerLink]="item.url" [ngClass]="{active: item.active}">
-                                <i class="iconfont" [ngClass]="item.icon"></i>
+                            <a class="item" [routerLink]="item.url" [class]="{active: item.active}">
+                                <i class="iconfont" [class]="item.icon"></i>
                                 <span>{{ item.name }}</span>
                             </a>
                         }

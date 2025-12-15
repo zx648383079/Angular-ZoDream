@@ -1,15 +1,15 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { filterTree } from '../../../../theme/utils';
-import { emptyValidate } from '../../../../theme/validators';
 import { ICourse } from '../../model';
 import { ExamService } from '../exam.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-course',
-  templateUrl: './course.component.html',
-  styleUrls: ['./course.component.scss']
+    selector: 'app-course',
+    templateUrl: './course.component.html',
+    styleUrls: ['./course.component.scss']
 })
 export class CourseComponent implements OnInit {
     private readonly service = inject(ExamService);
@@ -18,7 +18,15 @@ export class CourseComponent implements OnInit {
 
     public items: ICourse[] = [];
     public isLoading = false;
-    public editData: ICourse = {} as any;
+    public readonly editForm = form(signal<ICourse>({
+        id: 0,
+        name: '',
+        thumb: '',
+        description: '',
+        parent_id: 0,
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
     public optionItems: ICourse[] = [];
 
     constructor() {
@@ -43,20 +51,21 @@ export class CourseComponent implements OnInit {
 
 
     public open(modal: DialogEvent, item?: ICourse) {
-        this.editData = item ? {...item} : {
-            id: 0,
-            name: '',
-            thumb: '',
-            description: '',
-            parent_id: 0,
-        };
-        this.optionItems = filterTree(this.items, this.editData.id);
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.thumb = item?.thumb ?? '';
+            v.description = item?.description ?? '';
+            v.parent_id = item?.parent_id ?? 0;
+            return v;
+        });
+        this.optionItems = filterTree(this.items, this.editForm.id().value());
         modal.open(() => {
-            this.service.courseSave(this.editData).subscribe(_ => {
+            this.service.courseSave(this.editForm().value()).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
-        }, () => !emptyValidate(this.editData.name));
+        }, () => this.editForm().valid());
     }
   
     public tapRemove(item: ICourse) {

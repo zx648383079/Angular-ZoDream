@@ -13,7 +13,7 @@
                 </select>
                 }
                 <button type="submit" class="btn btn-primary" i18n>Search</button>
-                <a class="btn" [ngClass]="{'btn-info': !onlySelected, 'btn-success': onlySelected}" (click)="tapToggleOnly()" i18n>Only selected({{ selectedCount }})</a>
+                <a class="btn" [class]="{'btn-info': !onlySelected, 'btn-success': onlySelected}" (click)="tapToggleOnly()" i18n>Only selected({{ selectedCount }})</a>
                 <div class="btn btn-danger" (click)="close()">
                     <i class="iconfont icon-close"></i>
                 </div>
@@ -22,7 +22,7 @@
     </div>
     <div class="body-container">
         @for (item of formatItems; track $index) {
-            <div class="option-item" [ngClass]="{selected: isSelected(item)}" (click)="tapSelected(item)">
+            <div class="option-item" [class]="{selected: isSelected(item)}" (click)="tapSelected(item)">
                 <div class="thumb">
                     <img [src]="item.thumb">
                 </div>

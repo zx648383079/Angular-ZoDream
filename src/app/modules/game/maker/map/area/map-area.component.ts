@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { IGameMapArea } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -6,14 +6,13 @@ import { GameMakerService } from '../../game-maker.service';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../../../theme/services';
-import { emptyValidate } from '../../../../../theme/validators';
 import { parseNumber } from '../../../../../theme/utils';
 
 @Component({
     standalone: false,
-  selector: 'app-maker-map-area',
-  templateUrl: './map-area.component.html',
-  styleUrls: ['./map-area.component.scss']
+    selector: 'app-maker-map-area',
+    templateUrl: './map-area.component.html',
+    styleUrls: ['./map-area.component.scss']
 })
 export class MapAreaComponent implements OnInit {
     private readonly service = inject(GameMakerService);
@@ -27,7 +26,12 @@ export class MapAreaComponent implements OnInit {
     public isLoading = false;
     public total = 0;
     public parent: IGameMapArea;
-    public editData: IGameMapArea = {} as any;
+    public readonly editForm = form(signal({
+        id: 0,
+        name: '',
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
@@ -38,15 +42,16 @@ export class MapAreaComponent implements OnInit {
 
     ngOnInit() {
         this.route.parent.params.subscribe(params => {
-            this.queries.project = parseNumber(params.game);
+            this.queries.project().value.set(parseNumber(params.game));
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
-            if (this.queries.parent < 1) {
+            const parent = this.queries.parent().value();
+            if (parent < 1) {
                 return;
             }
-            this.service.mapArea(this.queries.parent, this.queries.project).subscribe(data => {
+            this.service.mapArea(parent, this.queries.project().value()).subscribe(data => {
                 this.parent = data;
             });
         });
@@ -112,8 +117,11 @@ export class MapAreaComponent implements OnInit {
 
     public tapViewRegion(item?: IGameMapArea) {
         this.parent = item;
-        this.queries.parent = item?.id || 0;
-        this.queries.keywords = '';
+        this.queries().value.update(v => {
+            v.parent = item?.id || 0;
+            v.keywords = '';
+            return v;
+        });
         this.tapRefresh();
     }
 
@@ -129,15 +137,16 @@ export class MapAreaComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item?: IGameMapArea) {
-        this.editData = item ? {...item} : {
-            id: undefined,
-            name: ''
-        } as any;
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            return v;
+        });
         modal.open(() => {
             this.service.mapAreaSave({
-                name: this.editData.name,
+                name: this.editForm.name,
                 parent_id: this.parent?.id,
-                id: this.editData?.id,
+                id: this.editForm?.id,
                 project_id: this.queries.project
             }).subscribe({
                 next: _ => {
@@ -148,7 +157,7 @@ export class MapAreaComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => !emptyValidate(this.editData.name));
+        }, () => this.editForm().valid());
     }
 
 }

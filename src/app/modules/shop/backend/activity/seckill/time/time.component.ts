@@ -1,9 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../../components/dialog';
 import { IActivityTime } from '../../../../model';
 import { emptyValidate } from '../../../../../../theme/validators';
 import { ActivityService } from '../../activity.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -20,7 +21,14 @@ export class TimeComponent implements OnInit {
     public items: IActivityTime[] = [];
     public isLoading = false;
     public activity = 0;
-    public editData: IActivityTime = {} as any;
+    public readonly editForm = form(signal<IActivityTime>({
+        id: 0,
+        title: '',
+        start_at: '',
+        end_at: ''
+    }), schemaPath => {
+        required(schemaPath.title);
+    });
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -60,23 +68,24 @@ export class TimeComponent implements OnInit {
     }
 
     open(modal: DialogEvent, item?: IActivityTime) {
-        this.editData = item ? Object.assign({}, item) : {
-            id: undefined,
-            title: '',
-            start_at: '',
-            end_at: ''
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.title = item?.title ?? '';
+            v.start_at = item?.start_at ?? '';
+            v.end_at = item?.end_at ?? '';
+            return v;
+        });
         modal.open(() => {
             this.service.timeSave({
-                title: this.editData.title,
-                start_at: this.editData.start_at,
-                end_at: this.editData.end_at,
-                id: this.editData?.id
+                title: this.editForm.title,
+                start_at: this.editForm.start_at,
+                end_at: this.editForm.end_at,
+                id: this.editForm?.id
             }).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
-        }, () => !emptyValidate(this.editData.title));
+        }, () => this.editForm().valid());
     }
 
 }

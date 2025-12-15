@@ -2,7 +2,7 @@
 <div class="dialog-mask"></div>
 <div class="dialog-box">
     @for (item of items; track $index) {
-    <div class="line-item" [ngClass]="{active: item.id == selected}" (click)="selected = item.id">
+    <div class="line-item" [class]="{active: item.id == selected}" (click)="selected = item.id">
         {{ item.name }}
     </div>
     }

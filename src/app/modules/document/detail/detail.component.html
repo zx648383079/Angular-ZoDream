@@ -1,4 +1,4 @@
-<div class="page-box" [ngClass]="{'nav-toggle': navToggle}">
+<div class="page-box" [class]="{'nav-toggle': navToggle}">
     <div class="nav-bar">
         <i class="iconfont icon-bars nav-toggle-icon" (click)="navToggle = !navToggle"></i>
         <div class="bar-version">
@@ -11,19 +11,19 @@
         </div>
         <div class="bar-search">
             <input type="text" i18n-placeholder placeholder="Please input a keywods..." [field]="keywords">
-            <i class="iconfont" [ngClass]="{'icon-search': this.keywords.length < 1, 'icon-close': this.keywords.length > 0}" (click)="this.keywords = ''"></i>
+            <i class="iconfont" [class]="{'icon-search': this.keywords.length < 1, 'icon-close': this.keywords.length > 0}" (click)="this.keywords = ''"></i>
         </div>
         <div class="bar-top">
             <ul class="tree-box">
                 @for (item of formatCatalog; track $index) {
-                <li class="tree-item" [ngClass]="{open: item.expanded, active: data && item.id == data.id}">
+                <li class="tree-item" [class]="{open: item.expanded, active: data && item.id == data.id}">
                     <div class="tree-name" (click)="tapRead(item)">
-                        <i class="iconfont" [ngClass]="{'icon-chevron-right': item.children && !item.expanded, 'icon-chevron-down': item.children && item.expanded}"></i>
+                        <i class="iconfont" [class]="{'icon-chevron-right': item.children && !item.expanded, 'icon-chevron-down': item.children && item.expanded}"></i>
                         {{ item.name }}
                     </div>
                     <ul class="tree-body">
                         @for (it of item.children; track $index) {
-                        <li class="tree-item" [ngClass]="{active: data && it.id == data.id}">
+                        <li class="tree-item" [class]="{active: data && it.id == data.id}">
                             <div class="tree-name" (click)="tapRead(it)">{{ it.name }}</div>
                         </li>
                         }

@@ -1,11 +1,11 @@
-<div class="editor-modal-box" [ngClass]="{'modal-visible': visible}">
+<div class="editor-modal-box" [class]="{'modal-visible': visible}">
     <div class="modal-search-header">
         <input type="text">
         <i class="iconfont icon-search"></i>
     </div>
     <ul class="modal-search-body">
         @for (item of items; track $index) {
-            <li [ngClass]="{active: isSelected(item)}" (click)="tapSelect(item)">
+            <li [class]="{active: isSelected(item)}" (click)="tapSelect(item)">
                 <div class="item-action btn-primary">
                     <i class="iconfont icon-check"></i>
                 </div>

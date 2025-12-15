@@ -18,7 +18,7 @@
         </div>
 
         @for (item of items; track $index) {
-            <div class="bulletin-item" [ngClass]="{min: !item.open}">
+            <div class="bulletin-item" [class]="{min: !item.open}">
                 <div class="title" (click)="tapToggle(item)">
                     {{ item.bulletin.title }}
                 </div>

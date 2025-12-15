@@ -70,7 +70,7 @@ export class ListComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
         });
         this.route.params.subscribe(params => {
             this.forum = {id: params.id} as any;
@@ -96,7 +96,7 @@ export class ListComponent implements OnInit {
     }
 
     public tapSearch(params: any) {
-        this.searchService.getQueries(params, this.queries);
+        this.queries().value.update(v => this.searchService.getQueries(params, v));
         this.tapRefresh();
     }
 

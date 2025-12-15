@@ -1,6 +1,6 @@
 @if (user) {
-<div class="page-box" [ngClass]="{'room-mode': roomMode}">
-    <div class="chat-pane" [ngClass]="{'search-mode': searchMode}">
+<div class="page-box" [class]="{'room-mode': roomMode}">
+    <div class="chat-pane" [class]="{'search-mode': searchMode}">
         <div class="pane-nav-bar">
             <a class="nav-item" (click)="navOpen = !navOpen">
                 <i class="iconfont icon-ellipsis-h"></i>
@@ -40,21 +40,21 @@
         </div>
         <div class="tab-box">
             <div class="tab-header">
-                <a [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">
+                <a [class]="{active: tabIndex < 1}" (click)="tabIndex = 0">
                     <i class="iconfont icon-commenting"></i>
                     <span>聊天</span>
                 </a>
-                <a [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">
+                <a [class]="{active: tabIndex == 1}" (click)="tabIndex = 1">
                     <i class="iconfont icon-user"></i>
                     <span>联系人</span>
                 </a>
-                <a [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2">
+                <a [class]="{active: tabIndex == 2}" (click)="tabIndex = 2">
                     <i class="iconfont icon-group"></i>
                     <span>群组</span>
                 </a>
             </div>
             <div class="tab-body">
-                <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
+                <div class="tab-item" [class]="{active: tabIndex < 1}">
                     @for (item of histories; track $index) {
                         <div class="user-item" (click)="tapHistory(item)"  (contextmenu)="tapContextMenu($event, item.user)">
                             <div class="user-avatar">
@@ -80,9 +80,9 @@
                         </div>
                     }
                 </div>
-                <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (contextmenu)="tapContextMenu($event)">
+                <div class="tab-item" [class]="{active: tabIndex == 1}" (contextmenu)="tapContextMenu($event)">
                     @for (group of friends; track $index) {
-                        <div class="expand-box" [ngClass]="{open: group.expand}">
+                        <div class="expand-box" [class]="{open: group.expand}">
                             <div class="expand-header" (click)="group.expand = !group.expand">
                                 <i class="expand-icon"></i>
                                 <span>{{ group.name }} ({{ group.online }} / {{ group.count }})</span>
@@ -107,7 +107,7 @@
                         </div>
                     }
                 </div>
-                <div class="tab-item" [ngClass]="{active: tabIndex == 2}">
+                <div class="tab-item" [class]="{active: tabIndex == 2}">
 
                 </div>
             </div>
@@ -166,7 +166,7 @@
             <label class="tool-item">
                 <i class="iconfont icon-gift"></i>
             </label>
-            <label class="tool-item" [ngClass]="{active: recording}" (click)="tapVoice()" [title]="recording ? '正在录音...(点击结束录音)' : '点击开始录音'">
+            <label class="tool-item" [class]="{active: recording}" (click)="tapVoice()" [title]="recording ? '正在录音...(点击结束录音)' : '点击开始录音'">
                 <i class="iconfont icon-microphone"></i>
             </label>
         </div>

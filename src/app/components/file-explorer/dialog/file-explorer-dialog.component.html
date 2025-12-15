@@ -2,15 +2,15 @@
     <div class="dialog-mask"></div>
 }
 @if (visible()) {
-<div [ngClass]="{'file-explorer-window': mode() < 1, 'file-explorer-dailog': mode() > 0}">
+<div [class]="{'file-explorer-window': mode() < 1, 'file-explorer-dailog': mode() > 0}">
     <div class="explorer-header">
-        <div class="action-item" (click)="tapBack()" [ngClass]="{disabled: !canBack}">
+        <div class="action-item" (click)="tapBack()" [class]="{disabled: !canBack}">
             <i class="iconfont icon-arrow-left"></i>
         </div>
-        <div class="action-item" (click)="tapForward()" [ngClass]="{disabled: !canForward}">
+        <div class="action-item" (click)="tapForward()" [class]="{disabled: !canForward}">
             <i class="iconfont icon-arrow-right"></i>
         </div>
-        <div class="action-item" (click)="tapUp()" [ngClass]="{disabled: !canUp}">
+        <div class="action-item" (click)="tapUp()" [class]="{disabled: !canUp}">
             <i class="iconfont icon-arrow-up"></i>
         </div>
         <div class="action-item" (click)="tapRefresh()">
@@ -21,9 +21,9 @@
                 <input type="text" name="path" [field]="path">
             } @else {
                 @for (item of breadcrumbItems; track $index) {
-                    <a class="breadcrumb-item" [ngClass]="{disabled: item.disabled}" (click)="tapBreadcrumb(item, $event)">
+                    <a class="breadcrumb-item" [class]="{disabled: item.disabled}" (click)="tapBreadcrumb(item, $event)">
                         @if (item.icon) {
-                            <i class="iconfont" [ngClass]="item.icon"></i>
+                            <i class="iconfont" [class]="item.icon"></i>
                         }
                         <span class="breadcrumb-item-name">{{ item.name }}</span>
                     </a>

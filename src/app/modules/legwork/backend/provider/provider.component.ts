@@ -29,22 +29,22 @@ export class ProviderComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public editData: IProvider = {} as any;
+    public readonly editForm = form(signal<IProvider>({}));
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item: IProvider) {
-        this.editData = item;
+        this.editForm = item;
         this.service.providerCategories(item.user_id).subscribe(res => {
-            this.editData.categories = res.data;
+            this.editForm.categories = res.data;
         });
         modal.openCustom(value => {
-            this.service.providerChange(this.editData?.id, value).subscribe(res => {
+            this.service.providerChange(this.editForm?.id, value).subscribe(res => {
                 this.toastrService.success('修改成功');
                 this.tapPage();
             });
@@ -52,7 +52,7 @@ export class ProviderComponent implements OnInit {
     }
 
     public tapAllowCategory(item: ICategory) {
-        this.service.providerCategoryChange(this.editData?.id, item.id, 1).subscribe(res => {
+        this.service.providerCategoryChange(this.editForm?.id, item.id, 1).subscribe(res => {
             this.toastrService.success('已允许分类成功');
             this.tapPage();
         });

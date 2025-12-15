@@ -1,6 +1,6 @@
-<div class="play-list-container" [ngStyle]="boxStyle">
+<div class="play-list-container" [style]="boxStyle">
     @for (item of items(); track $index) {
-        <div class="music-item" [ngClass]="{active: item.active}" (click)="tapItem(item)">
+        <div class="music-item" [class]="{active: item.active}" (click)="tapItem(item)">
             <div class="icon">
                 @if (item.active) {
                     <i class="iconfont icon-play"></i>

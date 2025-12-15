@@ -1,10 +1,9 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
-import { emptyValidate } from '../../../../theme/validators';
 import { ICmsLinkage } from '../../model';
 import { CmsService } from '../cms.service';
 
@@ -29,30 +28,40 @@ export class LinkageComponent implements OnInit {
         per_page: 20,
         keywords: ''
     }));
-    public editData: ICmsLinkage = {} as any;
+    public readonly editForm = form(signal<ICmsLinkage>({
+        id: 0,
+        name: '',
+        code: '',
+        type: 0,
+        language: '',
+    }), schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.code);
+    });
     public typeItems = ['栏目', '内容'];
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item?: ICmsLinkage) {
-        this.editData = item ? {...item} : {
-            id: 0,
-            name: '',
-            code: '',
-            type: 0,
-            language: '',
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.code = item?.code ?? '';
+            v.type = item?.type ?? 0;
+            v.language = item?.language ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.linkageSave(this.editData).subscribe(_ => {
+            this.service.linkageSave(this.editForm().value()).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
-        }, () => !emptyValidate(this.editData.name) && !emptyValidate(this.editData.code));
+        }, () => this.editForm().valid());
     }
 
 

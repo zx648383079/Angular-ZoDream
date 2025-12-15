@@ -28,7 +28,7 @@
             </thead>
             <tbody>
                 @for (item of items; track $index) {
-                    <tr [ngClass]="{danger: item.remain < 0}">
+                    <tr [class]="{danger: item.remain < 0}">
                     <td>
                         <a [routerLink]="[item.id]">{{ item.name }}</a>
                     </td>
@@ -73,7 +73,7 @@
                     {{ item.name }}
                 </div>
                 <div class="item-meta-bar">
-                    <div class="item-count" [ngClass]="{'--with-danger': item.remain < 0}">{{ item.budget | numberFormat }}</div>
+                    <div class="item-count" [class]="{'--with-danger': item.remain < 0}">{{ item.budget | numberFormat }}</div>
                     @if (item.spent > 0) {
                     <div class="item-meta">
                         <b>-</b>
@@ -100,23 +100,23 @@
     </app-swipe-list-control>
 </div>
 
-<app-dialog-box #modal [title]="editData && editData.id > 0 ? '编辑预算' : '新增预算'">
+<app-dialog-box #modal [title]="editData && editForm.id().value() > 0 ? '编辑预算' : '新增预算'">
     <div class="form-group">
         <label for="name">预算名</label>
         <div class="input-group-control">
-            <input class="form-control" id="name" [field]="editData.name" placeholder="请输入预算名">
+            <input class="form-control" id="name" [field]="editForm.name" placeholder="请输入预算名">
         </div>
     </div>
     <div class="form-group">
         <label for="budget">预算(元)</label>
         <div class="input-group-control">
-            <input class="form-control" id="budget" [field]="editData.budget" placeholder="请输入预算">
+            <input class="form-control" id="budget" [field]="editForm.budget" placeholder="请输入预算">
         </div>
     </div>
     <div class="form-group">
         <label for="cycle">周期</label>
         <div class="input-group-control">
-            <select class="form-control" id="cycle" [field]="editData.cycle">
+            <select class="form-control" id="cycle" [field]="editForm.cycle">
                 @for (item of cycleItems; track $index;let i = $index) {
                     <option [value]="i">{{ item }}</option>
                 }

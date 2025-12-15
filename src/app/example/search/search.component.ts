@@ -30,13 +30,13 @@ export class ExampleSearchComponent implements OnInit {
         sort: 'id',
         order: 'desc',
     }));
-    public editData: IFeedback = {} as any;
+    public readonly editModel = signal<IFeedback>({} as any);
     public isMultiple = false;
     public isChecked = false;
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -131,7 +131,7 @@ export class ExampleSearchComponent implements OnInit {
             this.total = 190;
             this.isChecked = false;
             this.searchService.applyHistory(queries);
-                this.queries().value.set(queries);
+            this.queries().value.set(queries);
         }, 2000);
     }
 
@@ -141,7 +141,7 @@ export class ExampleSearchComponent implements OnInit {
     }
 
     public tapView(modal: DialogEvent, item: IFeedback) {
-        this.editData = item;
+        this.editModel.set(item);
         modal.openCustom(value => {
             if (typeof value !== 'number') {
                 return;

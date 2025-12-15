@@ -66,17 +66,17 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id > 0 ? '编辑程序包' : '新增程序包'">
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑程序包' : '新增程序包'">
     <div class="form-group">
         <label>目标系统</label>
         <div class="form-control-group">
-            <select class="form-control" [field]="editData.os">
+            <select class="form-control" [field]="editForm.os">
                 @for (item of osItems; track $index) {
                     <option [value]="item">{{ item }}</option>
                 }
                 
             </select>
-            <select class="form-control" [field]="editData.framework">
+            <select class="form-control" [field]="editForm.framework">
                 @for (item of frameworkItems; track $index) {
                     <option [value]="item">{{ item }}</option>
                 }
@@ -87,19 +87,19 @@
     <div class="form-group">
         <label for="name-input">文件名</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editData.name" placeholder="请输入文件名">
+            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入文件名">
         </div>
     </div>
     <div class="form-group">
         <label>文件大小</label>
         <div>
-            <app-data-size [field]="editData.size" />
+            <app-data-size [field]="editForm.size" />
         </div>
     </div>
     <div class="form-group">
         <label>文件类型</label>
         <div class="input-group-control">
-            <select class="form-control" [field]="editData.url_type">
+            <select class="form-control" [field]="editForm.url_type">
                 @for (item of urlTypeItems; track $index) {
                     <option [value]="item.value">{{ item.name }}</option>
                 }
@@ -107,18 +107,18 @@
             </select>
         </div>
     </div>
-    @if (editData.url_type < 1) {
+    @if (editForm.url_type < 1) {
     <div class="form-group" >
         <label>文件</label>
         <div class="input-group-control">
-            <app-file-input [field]="editData.url" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)" />
+            <app-file-input [field]="editForm.url" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)" />
         </div>
     </div>
     } @else {
     <div class="form-group">
-        <label>{{ editData.url_type > 2 ? '内容' : '网址' }}</label>
+        <label>{{ editForm.url_type > 2 ? '内容' : '网址' }}</label>
         <div>
-            <app-text-editor [field]="editData.url" height="100" />
+            <app-text-editor [field]="editForm.url" height="100" />
         </div>
     </div>
     }

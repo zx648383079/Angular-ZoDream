@@ -16,7 +16,7 @@
                 <span>{{ data.collect_count }}收藏</span>
             </div>
             <div class="collect-btn" (click)="tapCollect()">
-                <i class="iconfont icon-heart" [ngClass]="{'icon-heart': data.is_collected, 'icon-heart-o': !data.is_collected}"></i>
+                <i class="iconfont icon-heart" [class]="{'icon-heart': data.is_collected, 'icon-heart-o': !data.is_collected}"></i>
                 收藏
             </div>
         </div>
@@ -49,10 +49,10 @@
                 </p>
                 <div class="action-box">
                     <a (click)="tapAgree(item)">
-                        <i class="iconfont" [ngClass]="{'icon-thumbs-o-up': item.is_agree != 1, 'icon-thumbs-up': item.is_agree == 1}"></i>{{ item.agree_count }}
+                        <i class="iconfont" [class]="{'icon-thumbs-o-up': item.is_agree != 1, 'icon-thumbs-up': item.is_agree == 1}"></i>{{ item.agree_count }}
                     </a>
                     <a (click)="tapDisagree(item)">
-                        <i class="iconfont" [ngClass]="{'icon-thumbs-o-down': item.is_agree != 2, 'icon-thumbs-down': item.is_agree == 2}"></i>{{ item.disagree_count }}
+                        <i class="iconfont" [class]="{'icon-thumbs-o-down': item.is_agree != 2, 'icon-thumbs-down': item.is_agree == 2}"></i>{{ item.disagree_count }}
                     </a>
                     <a (click)="tapAddBook(item)">
                         {{ item.on_shelf ? '已在书架' : '加入书架' }}

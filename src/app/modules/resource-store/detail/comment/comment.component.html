@@ -18,8 +18,8 @@
             <h3 i18n>All Comment</h3>
             <div class="bar-right">
                 <div class="btn-group">
-                    <a class="btn btn-outline-default" [ngClass]="{active: queries.order == 'desc'}" (click)="tapSort('desc')"  i18n>Newest</a>
-                    <a class="btn btn-outline-default" [ngClass]="{active: queries.order == 'asc'}" (click)="tapSort('asc')"  i18n>Oldest</a>
+                    <a class="btn btn-outline-default" [class]="{active: queries.order == 'desc'}" (click)="tapSort('desc')"  i18n>Newest</a>
+                    <a class="btn btn-outline-default" [class]="{active: queries.order == 'asc'}" (click)="tapSort('asc')"  i18n>Oldest</a>
                 </div>
             </div>
         </div>

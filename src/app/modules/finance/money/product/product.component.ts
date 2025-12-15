@@ -1,8 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { emptyValidate } from '../../../../theme/validators';
 import { FinanceService } from '../../finance.service';
 import { IFinancialProduct } from '../../model';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -17,13 +18,17 @@ export class ProductComponent implements OnInit {
 
     public items: IFinancialProduct[] = [];
     public isLoading = false;
-    public keywords = '';
-    public editData: IFinancialProduct = {
-        id: undefined,
+    public readonly queries = form(signal({
+        keywords: ''
+    }));
+    public readonly editForm =  form(signal({
+        id: 0,
         name: '',
         status: 1,
         remark: ''
-    };
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.tapRefresh();
@@ -37,16 +42,13 @@ export class ProductComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.productList({
-            keywords: this.keywords,
-        }).subscribe(res => {
+        this.service.productList(this.queries().value()).subscribe(res => {
             this.isLoading = false;
             this.items = res.data;
         });
     }
 
     public tapSearch() {
-        this.keywords = form.keywords;
         this.tapRefresh();
     }
 
@@ -72,20 +74,19 @@ export class ProductComponent implements OnInit {
     }
 
     open(modal: DialogEvent, item?: IFinancialProduct) {
-        this.editData = item ? {...item} : {
-            id: undefined,
-            name: '',
-            status: 1,
-            remark: ''
-        } as any;
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.status = item?.status ?? 1;
+            v.remark = item?.remark ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.productSave({...this.editData}).subscribe(_ => {
+            this.service.productSave({...this.editForm}).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
-        }, () => {
-            return !emptyValidate(this.editData.name)
-        });
+        }, () => this.editForm().valid());
     }
 
 }

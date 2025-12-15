@@ -53,23 +53,23 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id > 0 ? '编辑评分' : '新增评分'" [scrollable]="false">
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑评分' : '新增评分'" [scrollable]="false">
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editData.name" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">分数</label>
         <div class="input-group-control">
-            <app-file-input [field]="editData.score" />
+            <app-file-input [field]="editForm.score" />
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">源网址</label>
         <div class="input-group-control">
-            <input class="form-control" [field]="editData.url">
+            <input class="form-control" [field]="editForm.url">
         </div>
     </div>
 </app-dialog-box>

@@ -1,6 +1,6 @@
 @for (item of items; track $index) {
-    <div class="select--with-search" [ngClass]="{focus: item.focus, 'select-loading': item.isLoading}">
-        <div class="select-input" [ngClass]="{'input--with-placeholder': !item.label}" (click)="item.focus = !item.focus">
+    <div class="select--with-search" [class]="{focus: item.focus, 'select-loading': item.isLoading}">
+        <div class="select-input" [class]="{'input--with-placeholder': !item.label}" (click)="item.focus = !item.focus">
             {{ item.label || placeholder() }}
         </div>
         <div class="select-option-bar">
@@ -16,7 +16,7 @@
             </div>
             @if (item.items && item.items.length > 0) {
                 @for (option of item.items; track $index) {
-                <div class="option-item" [ngClass]="{selected: option.value === item.value}" (click)="tapSelect(item, option)">
+                <div class="option-item" [class]="{selected: option.value === item.value}" (click)="tapSelect(item, option)">
                     {{ option.name }}
                 </div>
                 }

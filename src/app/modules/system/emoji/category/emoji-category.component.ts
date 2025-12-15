@@ -1,30 +1,36 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { IEmojiCategory } from '../../../../theme/models/seo';
 import { emptyValidate } from '../../../../theme/validators';
 import { SystemService } from '../../system.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-emoji-category',
-  templateUrl: './emoji-category.component.html',
-  styleUrls: ['./emoji-category.component.scss']
+    selector: 'app-emoji-category',
+    templateUrl: './emoji-category.component.html',
+    styleUrls: ['./emoji-category.component.scss']
 })
-export class EmojiCategoryComponent implements OnInit {
+export class EmojiCategoryComponent {
     private readonly service = inject(SystemService);
     private readonly toastrService = inject(DialogService);
 
 
     public items: IEmojiCategory[] = [];
     public isLoading = false;
-    public keywords = '';
-    public editData: IEmojiCategory = {} as any;
+    public readonly queries = form(signal({
+        keywords: ''
+    }));
+    public readonly editForm = form(signal<IEmojiCategory>({
+        id: 0,
+        name: '',
+        icon: '',
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     constructor() {
         this.tapRefresh();
-    }
-
-    ngOnInit() {
     }
 
     /**
@@ -35,9 +41,7 @@ export class EmojiCategoryComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.emojiCategoryList({
-            keywords: this.keywords,
-        }).subscribe({
+        this.service.emojiCategoryList(this.queries().value()).subscribe({
             next: res => {
                 this.items = res.data;
                 this.isLoading = false;
@@ -49,7 +53,6 @@ export class EmojiCategoryComponent implements OnInit {
     }
 
     public tapSearch() {
-        this.keywords = form.keywords || '';
         this.tapRefresh();
     }
 
@@ -68,17 +71,18 @@ export class EmojiCategoryComponent implements OnInit {
     }
 
     public tapView(modal: DialogBoxComponent, item?: any) {
-        this.editData = item ? {...item} : {
-            id: 0,
-            name: '',
-            icon: '',
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.icon = item?.icon ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.emojiCategorySave(this.editData).subscribe(res => {
+            this.service.emojiCategorySave(this.editForm().value()).subscribe(res => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
-        }, () => !emptyValidate(this.editData.name));
+        }, () => this.editForm().valid());
     }
 
 }

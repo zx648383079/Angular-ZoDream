@@ -6,12 +6,12 @@
     <div class="panel-body" >
         <div class="tab-box">
             <div class="tab-header">
-                <div class="tab-item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">基本</div>
-                <div class="tab-item" [ngClass]="{active: tabIndex == 1}" (click)="tabIndex = 1">高级</div>
-                <div class="tab-item" [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2">样式</div>
+                <div class="tab-item" [class]="{active: tabIndex < 1}" (click)="tabIndex = 0">基本</div>
+                <div class="tab-item" [class]="{active: tabIndex == 1}" (click)="tabIndex = 1">高级</div>
+                <div class="tab-item" [class]="{active: tabIndex == 2}" (click)="tabIndex = 2">样式</div>
             </div>
-            <div class="tab-body" [ngStyle]="boxStyle">
-                <div class="tab-item" [ngClass]="{active: tabIndex < 1}">
+            <div class="tab-body" [style]="boxStyle">
+                <div class="tab-item" [class]="{active: tabIndex < 1}">
                     <app-editor-text-input header="标题" />
                     <app-editor-switch-input header="懒加载" />
                     <div class="control-row">
@@ -43,13 +43,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-item" [ngClass]="{active: tabIndex == 1}">
+                <div class="tab-item" [class]="{active: tabIndex == 1}">
                     <app-editor-position-input header="定位" />
                     <app-editor-number-slider-input header="透明度" [hasUnit]="false" />
-                    <div class="control-panel" [ngClass]="{open: panelToggle.box}">
+                    <div class="control-panel" [class]="{open: panelToggle.box}">
                         <div class="panel-header" (click)="panelToggle.box = !panelToggle.box">
                             <span>外观</span>
-                            <i class="iconfont" [ngClass]="{'icon-chevron-right': !panelToggle.box, 'icon-chevron-down': panelToggle.box}"></i>
+                            <i class="iconfont" [class]="{'icon-chevron-right': !panelToggle.box, 'icon-chevron-down': panelToggle.box}"></i>
                         </div>
                         <div class="panel-body">
                             <app-editor-background-popup header="背景" />
@@ -57,21 +57,21 @@
                             <app-editor-shadow-popup header="阴影" />
                         </div>
                     </div>
-                    <div class="control-panel" [ngClass]="{open: panelToggle.m}">
+                    <div class="control-panel" [class]="{open: panelToggle.m}">
                         <div class="panel-header" (click)="panelToggle.m = !panelToggle.m">
                             <span>剪切蒙版</span>
                             <i class="iconfont"
-                                [ngClass]="{'icon-chevron-right': !panelToggle.m, 'icon-chevron-down': panelToggle.m}"></i>
+                                [class]="{'icon-chevron-right': !panelToggle.m, 'icon-chevron-down': panelToggle.m}"></i>
                         </div>
                         <div class="panel-body">
                             <app-editor-mask-input />
                         </div>
                     </div>
-                    <div class="control-panel" [ngClass]="{open: panelToggle.title}">
+                    <div class="control-panel" [class]="{open: panelToggle.title}">
                         <div class="panel-header" (click)="panelToggle.title = !panelToggle.title">
                             <span>标题栏</span>
                             <i class="iconfont"
-                                [ngClass]="{'icon-chevron-right': !panelToggle.title, 'icon-chevron-down': panelToggle.title}"></i>
+                                [class]="{'icon-chevron-right': !panelToggle.title, 'icon-chevron-down': panelToggle.title}"></i>
                         </div>
                         <div class="panel-body">
                             <app-editor-switch-input header="可见" />
@@ -85,11 +85,11 @@
                             <app-editor-background-popup header="背景" />
                         </div>
                     </div>
-                    <div class="control-panel" [ngClass]="{open: panelToggle.body}">
+                    <div class="control-panel" [class]="{open: panelToggle.body}">
                         <div class="panel-header" (click)="panelToggle.body = !panelToggle.body">
                             <span>内容栏</span>
                             <i class="iconfont"
-                                [ngClass]="{'icon-chevron-right': !panelToggle.body, 'icon-chevron-down': panelToggle.body}"></i>
+                                [class]="{'icon-chevron-right': !panelToggle.body, 'icon-chevron-down': panelToggle.body}"></i>
                         </div>
                         <div class="panel-body">
                             <app-editor-switch-input header="可见" />
@@ -103,18 +103,18 @@
                             <app-editor-background-popup header="背景" />
                         </div>
                     </div>
-                    <div class="control-panel" [ngClass]="{open: panelToggle.anim}">
+                    <div class="control-panel" [class]="{open: panelToggle.anim}">
                         <div class="panel-header" (click)="panelToggle.anim = !panelToggle.anim">
                             <span>动画</span>
                             <i class="iconfont"
-                                [ngClass]="{'icon-chevron-right': !panelToggle.anim, 'icon-chevron-down': panelToggle.anim}"></i>
+                                [class]="{'icon-chevron-right': !panelToggle.anim, 'icon-chevron-down': panelToggle.anim}"></i>
                         </div>
                         <div class="panel-body">
                             <app-editor-animation-input />
                         </div>
                     </div>
                 </div>
-                <div class="tab-item" [ngClass]="{active: tabIndex == 2}" (click)="tabIndex = 2">
+                <div class="tab-item" [class]="{active: tabIndex == 2}" (click)="tabIndex = 2">
                     <div class="style-item active">无</div>
                 </div>
             </div>

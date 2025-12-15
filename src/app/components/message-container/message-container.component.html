@@ -6,7 +6,7 @@
         @if (item.type === 99) {
             <p class="message-line">{{ item.content }}</p>
         } @else {
-            <div [ngClass]="messageIsUser(item) ? 'message-right' :  'message-left'">
+            <div [class]="messageIsUser(item) ? 'message-right' :  'message-left'">
                 <img class="avatar" [src]="formatAsset(item.user.avatar)">
                 <div class="content">
                     @switch (item.type) {
@@ -26,7 +26,7 @@
                             </div>
                         }
                         @case (66) {
-                            <div class="bonus-block" [ngClass]="{'bonus-open': item.is_open, 'bonus-expired': item.is_expired}" (click)="onRuleTap(item)">
+                            <div class="bonus-block" [class]="{'bonus-open': item.is_open, 'bonus-expired': item.is_expired}" (click)="onRuleTap(item)">
                                 <div class="bonus-header"></div>
                                 <div class="bonus-body"></div>
                                 <div class="bonus-icon" i18n>Open</div>
@@ -35,7 +35,7 @@
                         @case (80) {
                             <div class="news-block">
                                 @for (news of item.items; track $index;let j = $index) {
-                                    <div [ngClass]="{'cover-news-item': j < 1, 'news-item': j > 0}" (click)="tapNewsItem(news)">
+                                    <div [class]="{'cover-news-item': j < 1, 'news-item': j > 0}" (click)="tapNewsItem(news)">
                                         <div class="news-title">{{ news.title }}</div>
                                         <div class="news-thumb">
                                             <img [src]="formatAsset(news.thumb)" [alt]="news.title">

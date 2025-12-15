@@ -7,9 +7,9 @@
     </div>
 </div>
 <div class="tab-bar">
-    <a class="item" [ngClass]="{active: queries.category < 1}" (click)="tapCategory()" i18n>All</a>
+    <a class="item" [class]="{active: queries.category < 1}" (click)="tapCategory()" i18n>All</a>
     @for (item of categories; track $index) {
-        <a class="item" [ngClass]="{active: queries.category == item.id}" (click)="tapCategory(item)">{{ item.name }}</a>
+        <a class="item" [class]="{active: queries.category == item.id}" (click)="tapCategory(item)">{{ item.name }}</a>
     }
 </div>
 

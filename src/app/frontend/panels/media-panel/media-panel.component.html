@@ -2,7 +2,7 @@
     <div class="panel-header">
         <span i18n>Lastest Resources</span>
     </div>
-    <div class="panel-body" [ngClass]="{'is_loading': isLoading}">
+    <div class="panel-body" [class]="{'is_loading': isLoading}">
         @for (item of items; track $index) {
             <a class="media-list-item" [routerLink]="['/res/category', item.cat_id, item.id]">
                 <div class="item-cover">

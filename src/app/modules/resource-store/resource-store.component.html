@@ -27,11 +27,11 @@
             </div>
         </div>
     </div>
-    <div class="navbar" [ngClass]="{open: navOpen}">
+    <div class="navbar" [class]="{open: navOpen}">
         <div class="container-fluid">
             <ul class="navbar-main">
                 @for (item of navItems; track $index; let i = $index) {
-                    <li [ngClass]="{active: i == navIndex}" (click)="navIndex = i">
+                    <li [class]="{active: i == navIndex}" (click)="navIndex = i">
                         <a >{{ item.name }}</a>
                     </li>
                 }
@@ -40,7 +40,7 @@
         <div class="container-fluid navbar-next-bar">
             <ul class="navbar-next">
                 @for (item of subNavItems; track $index) {
-                    <li [ngClass]="{active: item.active}">
+                    <li [class]="{active: item.active}">
                         <a [routerLink]="['category', item.id]">{{ item.name }}</a>
                         @if (item.children) {
                         <div class="nav-sub">

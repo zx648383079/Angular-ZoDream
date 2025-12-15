@@ -43,17 +43,17 @@
 <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
 <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
 
-<app-dialog-box #modal [title]="editData.id > 0 ? '编辑链接' : '新增链接'" [scrollable]="false">
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑链接' : '新增链接'" [scrollable]="false">
     <div class="form-group">
         <label for="name-input">标题</label>
         <div>
-            <input class="form-control" id="name-input" [field]="editData.title" placeholder="请输入标题">
+            <input class="form-control" id="name-input" [field]="editForm.title" placeholder="请输入标题">
         </div>
     </div>
     <div class="form-group">
         <label>原链接</label>
         <div class="input-group-control">
-            <input class="form-control" [field]="editData.source_url" placeholder="请输入链接">
+            <input class="form-control" [field]="editForm.source_url" placeholder="请输入链接">
         </div>
     </div>
 </app-dialog-box>

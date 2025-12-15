@@ -32,7 +32,7 @@ export class UserComponent implements OnInit {
         per_page: 20,
         group: 0,
     }));
-    public editData: any = {};
+    public readonly editForm = form(signal<any>({}));
 
     get selectUrl() {
         return 'wx/admin/user/group_search?wid=' + this.service.baseId;
@@ -40,13 +40,13 @@ export class UserComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public tapEdit(modal: DialogEvent, item: IBotUser) {
-        this.editData = {
+        this.editForm = {
             id: item.id,
             note_name: item.note_name,
             is_black: item.is_black,
@@ -55,8 +55,8 @@ export class UserComponent implements OnInit {
         };
         modal.open(() => {
             this.service.userUpdate(item.id, {
-                note_name: this.editData.note_name,
-                is_black: this.editData.is_black
+                note_name: this.editForm.note_name,
+                is_black: this.editForm.is_black
             }).subscribe({
                 next: res => {
                     this.toastrService.success('修改成功');

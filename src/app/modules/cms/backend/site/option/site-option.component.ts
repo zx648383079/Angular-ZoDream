@@ -20,7 +20,7 @@ export class SiteOptionComponent implements OnInit {
 
     public items: IOption[] = [];
 
-    public editData: IOption = {} as any;
+    public readonly editForm = form(signal<IOption>({}));
     public typeItems = [
         {value: 'text', name: '文本'},
         {value: 'textarea', name: '多行文本'},
@@ -84,7 +84,7 @@ export class SiteOptionComponent implements OnInit {
     }
 
     public tapEditOption(modal: any, item?: IOption) {
-        this.editData = item || {
+        this.editForm = item || {
             name: '',
             code: '',
             type: 'text',
@@ -105,15 +105,15 @@ export class SiteOptionComponent implements OnInit {
                 });
                 return;
             }
-            if (emptyValidate(this.editData.code)) {
+            if (emptyValidate(this.editForm.code)) {
                 return false;
             }
             for (const item of this.items) {
-                if (item.code === this.editData.code) {
+                if (item.code === this.editForm.code) {
                     return;
                 }
             }
-            this.items.push(this.editData);
+            this.items.push(this.editForm);
         });
     }
 

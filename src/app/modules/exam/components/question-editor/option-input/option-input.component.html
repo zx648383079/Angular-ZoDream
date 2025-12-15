@@ -1,7 +1,7 @@
 @for (item of value(); track $index; let i = $index) {
 <div class="option-item" (click)="tapEditOption(optionModal, i)">
     <div class="item-action" (click)="tapSelected($event, i)">
-        <i class="iconfont" [ngClass]="{'icon-check': item.is_right, 'icon-close': !item.is_right}" title="标记当前选项是否正确"></i>
+        <i class="iconfont" [class]="{'icon-check': item.is_right, 'icon-close': !item.is_right}" title="标记当前选项是否正确"></i>
     </div>
     <div class="item-body">
         @if (item.type != 1) {

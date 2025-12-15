@@ -1,10 +1,11 @@
-import { Component, effect, HostListener, inject, input, output } from '@angular/core';
+import { Component, effect, HostListener, inject, input, output, signal } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { IErrorResponse } from '../../../theme/models/page';
 import { IEmoji } from '../../../theme/models/seo';
 import { IUser } from '../../../theme/models/user';
 import { MicroService } from '../micro.service';
 import { IComment } from '../model';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -30,11 +31,11 @@ export class CommentViewerComponent {
     public perPage = 10;
     private booted = false;
 
-    public editData = {
+    public readonly editForm = form(signal({
         content: '',
         parent_id: 0,
         is_forward: false,
-    };
+    }));
 
     @HostListener('scroll', [
         '$event',
@@ -73,11 +74,11 @@ export class CommentViewerComponent {
     }
 
     public tapEmoji(item: IEmoji) {
-        this.editData.content += item.type > 0 ? item.content : '[' + item.name + ']';
+        this.editForm.content().value.update(v => v + (item.type > 0 ? item.content : '[' + item.name + ']'));
     }
 
     public tapComment() {
-        if (this.editData.content.length < 1) {
+        if (this.editForm.content().value().length < 1) {
             this.toastrService.warning($localize `Please input content`);
             return;
         }
@@ -85,12 +86,15 @@ export class CommentViewerComponent {
             this.toastrService.warning($localize `operation failed`);
             return;
         }
-        const data = Object.assign({micro_id: this.micro()}, this.editData);
+        const data = Object.assign({micro_id: this.micro()}, this.editForm().value());
         this.service.commentSave(data).subscribe({
             next: _ => {
                 this.toastrService.success($localize `Successful comment`);
-                this.editData.content = '';
-                this.editData.parent_id = 0;
+                this.editForm().value.update(v => {
+                    v.parent_id = 0;
+                    v.content = '';
+                    return v;
+                });
             }, 
             error: err => {
                 const res = err.error as IErrorResponse;
@@ -100,16 +104,19 @@ export class CommentViewerComponent {
     }
 
     public tapCommenting(item?: IComment) {
-        this.editData.parent_id = item?.id || 0;
-        this.editData.content = '回复 @' + item.user.name;
+        this.editForm().value.update(v => {
+            v.parent_id = item?.id || 0;
+            v.content = '回复 @' + item.user.name;
+            return v;
+        });
     }
 
     public onCommentChange() {
-        if (this.editData.parent_id < 1) {
+        if (this.editForm.parent_id().value() < 1) {
             return;
         }
-        if (this.editData.content.indexOf('回复 @') !== 0) {
-            this.editData.parent_id = 0;
+        if (this.editForm.content().value().indexOf('回复 @') !== 0) {
+            this.editForm.parent_id().value.set(0);
         }
     }
 

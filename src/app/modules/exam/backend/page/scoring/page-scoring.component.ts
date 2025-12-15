@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -6,6 +6,7 @@ import { formatHour } from '../../../../../theme/utils';
 import { IPageEvaluate, IQuestionCard, IQuestionFormat, IQuestionPageItem } from '../../../model';
 import { formatPager } from '../../../util';
 import { ExamService } from '../../exam.service';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -27,9 +28,9 @@ export class PageScoringComponent implements OnInit {
     public endTime = 0;
     public pageItems: IQuestionPageItem[] = [];
     public current: IQuestionPageItem;
-    public editData = {
+    public readonly editForm = form(signal({
         remark: '',
-    };
+    }));
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -69,7 +70,7 @@ export class PageScoringComponent implements OnInit {
             e?.enter();
             this.service.pageScoring({
                 id: this.data.id,
-                remark: this.editData.remark
+                remark: this.editForm.remark
             }).subscribe({
                 next: () => {
                     this.toastrService.success('阅卷完成');

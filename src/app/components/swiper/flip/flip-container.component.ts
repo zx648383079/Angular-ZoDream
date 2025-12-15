@@ -9,7 +9,7 @@ import { SwiperEvent } from '../model';
     encapsulation: ViewEncapsulation.None,
     // changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <div class="flip-container" [ngStyle]="flipStyle">
+    <div class="flip-container" [style]="flipStyle">
         <ng-content />
     </div>
     `,

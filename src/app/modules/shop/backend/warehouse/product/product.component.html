@@ -68,8 +68,8 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id > 0 ? '修改库存' : '新增库存'">
-    @if (!editData.id || editData.id < 1) {
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '修改库存' : '新增库存'">
+    @if (!editForm.id || editForm.id < 1) {
     <div class="form-group">
         <label for="region-input">商品</label>
         <div>
@@ -80,13 +80,13 @@
     <div class="form-group">
         <label for="region-input">数量</label>
         <div class="input-group-control">
-            <input type="number" class="form-control" [field]="editData.amount">
+            <input type="number" class="form-control" [field]="editForm.amount">
         </div>
     </div>
     <div class="form-group">
         <label for="region-input">备注</label>
         <div class="input-group-control">
-            <textarea class="form-control" [field]="editData.remark"></textarea>
+            <textarea class="form-control" [field]="editForm.remark"></textarea>
         </div>
     </div>
 </app-dialog-box>

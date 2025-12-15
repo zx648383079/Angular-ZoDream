@@ -1,14 +1,14 @@
-<div class="editor-modal-box" [ngClass]="{'modal-visible': visible}">
-    <div class="input-header-block" [ngClass]="{'input-not-empty': !!url}">
+<div class="editor-modal-box" [class]="{'modal-visible': visible}">
+    <div class="input-header-block" [class]="{'input-not-empty': !!url}">
         <input type="url" [field]="url">
         <label for="">网址</label>
     </div>
-    <div class="input-header-block" [ngClass]="{'input-not-empty': !!title}">
+    <div class="input-header-block" [class]="{'input-not-empty': !!title}">
         <input type="text" [field]="title">
         <label for="">标题</label>
     </div>
     <div class="input-flex-line">
-        <i class="iconfont" [ngClass]="{'icon-check-square-o': isBlank, 'icon-square-o': !isBlank}" (click)="isBlank = !isBlank"></i>
+        <i class="iconfont" [class]="{'icon-check-square-o': isBlank, 'icon-square-o': !isBlank}" (click)="isBlank = !isBlank"></i>
         在新标签页打开
     </div>
     <div class="modal-action">

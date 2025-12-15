@@ -49,23 +49,23 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id ? '编辑' : '新建'">
+<app-dialog-box #modal [title]="editForm.id ? '编辑' : '新建'">
     <div class="form-group">
         <label for="name-input">职业名</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editData.name" placeholder="请输入职业名">
+            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入职业名">
         </div>
     </div>
     <div class="form-group">
         <label>预览图</label>
         <div class="input-group-control">
-            <app-file-input [field]="editData.image" [online]="true" />
+            <app-file-input [field]="editForm.image" [online]="true" />
         </div>
     </div>
     <div class="form-group">
         <label>说明</label>
         <div class="input-group-control">
-            <textarea class="form-control" [field]="editData.description" placeholder="请输入简介"></textarea>
+            <textarea class="form-control" [field]="editForm.description" placeholder="请输入简介"></textarea>
         </div>
     </div>
     <div class="form-group">
@@ -77,7 +77,7 @@
     <div class="form-group">
         <label>限制种族</label>
         <div class="input-group-control">
-            <textarea class="form-control" [field]="editData.description" placeholder="请输入简介"></textarea>
+            <textarea class="form-control" [field]="editForm.description" placeholder="请输入简介"></textarea>
         </div>
     </div>
     <div class="group-panel">
@@ -85,19 +85,19 @@
         <div class="group-body">
             <div class="property-item">
                 <label for="">生命值</label>
-                <app-number-input [field]="editData.hp" />
+                <app-number-input [field]="editForm.hp" />
             </div>
             <div class="property-item">
                 <label for="">魔法值</label>
-                <app-number-input [field]="editData.mp" />
+                <app-number-input [field]="editForm.mp" />
             </div>
             <div class="property-item">
                 <label for="">攻击</label>
-                <app-number-input [field]="editData.att" />
+                <app-number-input [field]="editForm.att" />
             </div>
             <div class="property-item">
                 <label for="">防御</label>
-                <app-number-input [field]="editData.def" />
+                <app-number-input [field]="editForm.def" />
             </div>
         </div>
     </div>

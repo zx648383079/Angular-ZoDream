@@ -32,11 +32,11 @@ export class LogComponent implements OnInit {
         per_page: 20
     }));
 
-    public editData: IBotMessageHistory = {} as any;
+    public readonly editForm = form(signal<IBotMessageHistory>({}));
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -46,7 +46,7 @@ export class LogComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item: IBotMessageHistory) {
-        this.editData = item;
+        this.editForm = item;
         modal.open();
     }
 

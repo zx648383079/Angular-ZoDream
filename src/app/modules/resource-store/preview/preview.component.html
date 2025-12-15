@@ -17,7 +17,7 @@
                     移除其他内容
                 </a>
                 @for (item of resizeItems; track $index; let i = $index) {
-                    <a (click)="resizeIndex = i" [ngClass]="{active: resizeIndex == i}">{{ item.name }}</a>
+                    <a (click)="resizeIndex = i" [class]="{active: resizeIndex == i}">{{ item.name }}</a>
                 }
             </div>
         </div>
@@ -25,6 +25,6 @@
 </div>
 
 <div class="frame-box">
-    <iframe id="main-frame" [src]="previewSrc" frameborder="0" [ngStyle]="frameStyle"></iframe>
+    <iframe id="main-frame" [src]="previewSrc" frameborder="0" [style]="frameStyle"></iframe>
 </div>
 }

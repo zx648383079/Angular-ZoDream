@@ -1,9 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { filterTree } from '../../../../theme/utils';
-import { emptyValidate } from '../../../../theme/validators';
 import { ISiteCategory } from '../../model';
 import { NavigationService } from '../navigation.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -18,7 +18,14 @@ export class CategoryComponent implements OnInit {
 
     public items: ISiteCategory[] = [];
     public isLoading = false;
-    public editData: ISiteCategory = {} as any;
+    public readonly editForm = form(signal<ISiteCategory>({
+        id: 0,
+        name: '',
+        icon: '',
+        parent_id: 0,
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
     public categories: ISiteCategory[] = [];
 
     ngOnInit() {
@@ -26,15 +33,16 @@ export class CategoryComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item?: ISiteCategory) {
-        this.editData = item ? Object.assign({}, item) : {
-            id: 0,
-            name: '',
-            icon: '',
-            parent_id: 0,
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.icon = item?.icon ?? '';
+            v.parent_id = item?.parent_id ?? 0;
+            return v;
+        });
         this.categories = !item ? this.items : filterTree(this.items, item.id);
         modal.open(() => {
-            this.service.categorySave(this.editData).subscribe({
+            this.service.categorySave(this.editForm().value()).subscribe({
                 next: () => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.load();
@@ -43,9 +51,7 @@ export class CategoryComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editData.name);
-        });
+        }, () => this.editForm().valid());
     }
 
     private load() {

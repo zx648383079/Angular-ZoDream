@@ -10,7 +10,7 @@
         <div class="cmd-box" #cmd>
             @for (item of items; track $index) {
                 <p class="cmd-line">
-                <i class="iconfont" [ngClass]="{'icon-check': true, 'icon-close': false}"></i>
+                <i class="iconfont" [class]="{'icon-check': true, 'icon-close': false}"></i>
                 {{ item }}
             </p>
             }

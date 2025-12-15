@@ -59,7 +59,7 @@
         <div class="panel-body">
             <ul>
                 @for (item of cardItems; track $index; let i = $index) {
-                    <li [ngClass]="{right: item.right > 0, wrong: item.right < 0, active: item.active}">
+                    <li [class]="{right: item.right > 0, wrong: item.right < 0, active: item.active}">
                         <a (click)="tapCard(i)">{{ item.order }}</a>
                     </li>
                 }

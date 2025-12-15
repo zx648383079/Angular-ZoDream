@@ -17,15 +17,15 @@
         </div>
         <div class="tab-box">
             <div class="tab-header">
-                <div class="tab-item" [ngClass]="{active: requestIndex < 1}" (click)="requestIndex = 0">
+                <div class="tab-item" [class]="{active: requestIndex < 1}" (click)="requestIndex = 0">
                     请求头
                 </div>
-                <div class="tab-item" [ngClass]="{active: requestIndex == 1}" (click)="requestIndex = 1">
+                <div class="tab-item" [class]="{active: requestIndex == 1}" (click)="requestIndex = 1">
                     请求参数
                 </div>
             </div>
             <div class="tab-body">
-                <div class="tab-item" [ngClass]="{active: requestIndex < 1}">
+                <div class="tab-item" [class]="{active: requestIndex < 1}">
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -39,7 +39,7 @@
                             @for (item of headerItems; track $index; let i = $index) {
                             <tr>
                                 <td>
-                                    <i class="iconfont" [ngClass]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}" (click)="item.checked = !item.checked"></i>
+                                    <i class="iconfont" [class]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}" (click)="item.checked = !item.checked"></i>
                                 </td>
                                 <td>
                                     <input type="text" class="form-control" [field]="item.key">
@@ -63,7 +63,7 @@
                         </tfoot>
                     </table>
                 </div>
-                <div class="tab-item" [ngClass]="{active: requestIndex == 1}">
+                <div class="tab-item" [class]="{active: requestIndex == 1}">
                     <div class="type-bar">
                         <app-check-input [items]="typeItems" [rangeKey]="1" [field]="bodyType" (ngModelChange)="onTypeChange()" />
                         <select [hidden]="bodyType != 3" [field]="rawType" class="form-control">
@@ -90,9 +90,9 @@
                                 @for (item of body; track $index; let i = $index) {
                                 <tr>
                                     <td>
-                                        <i class="iconfont" [ngClass]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}" (click)="item.checked = !item.checked"></i>
+                                        <i class="iconfont" [class]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}" (click)="item.checked = !item.checked"></i>
                                     </td>
-                                    <td [ngClass]="{'type-td': bodyType == 1}">
+                                    <td [class]="{'type-td': bodyType == 1}">
                                         <input type="text" class="form-control" [field]="item.key">
                                         @if (bodyType == 1) {
                                         <select [field]="item.type" class="form-control">
@@ -135,23 +135,23 @@
     <div class="panel-container">
         <div class="tab-box">
             <div class="tab-header">
-                <div class="tab-item" [ngClass]="{active: responseIndex < 1}" (click)="responseIndex = 0">
+                <div class="tab-item" [class]="{active: responseIndex < 1}" (click)="responseIndex = 0">
                     响应内容
                 </div>
-                <div class="tab-item" [ngClass]="{active: responseIndex == 1}" (click)="responseIndex = 1">
+                <div class="tab-item" [class]="{active: responseIndex == 1}" (click)="responseIndex = 1">
                     响应头
                 </div>
-                <div class="tab-item" [ngClass]="{active: responseIndex == 2}" (click)="responseIndex = 2">
+                <div class="tab-item" [class]="{active: responseIndex == 2}" (click)="responseIndex = 2">
                     附加信息
                 </div>
             </div>
             <div class="tab-body">
-                <div class="tab-item" [ngClass]="{active: responseIndex < 1}">
+                <div class="tab-item" [class]="{active: responseIndex < 1}">
                     <div class="code-box">
                         <textarea class="form-control" [value]="responseBody"></textarea>
                     </div>
                 </div>
-                <div class="tab-item" [ngClass]="{active: responseIndex == 1}">
+                <div class="tab-item" [class]="{active: responseIndex == 1}">
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -174,7 +174,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="tab-item" [ngClass]="{active: responseIndex == 2}">
+                <div class="tab-item" [class]="{active: responseIndex == 2}">
                     <table class="table table-hover">
                         <thead>
                             <tr>

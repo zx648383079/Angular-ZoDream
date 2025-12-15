@@ -3,8 +3,8 @@
         <i class="iconfont icon-arrow-left"></i>
     </div>
     <div class="title-tab-bar">
-        <a class="item" [ngClass]="{active: tabIndex < 1}" (click)="tabIndex = 0">主页</a>
-        <a class="item" [ngClass]="{active: tabIndex == 1}" (click)="tapTab(1)">成员</a>
+        <a class="item" [class]="{active: tabIndex < 1}" (click)="tabIndex = 0">主页</a>
+        <a class="item" [class]="{active: tabIndex == 1}" (click)="tapTab(1)">成员</a>
     </div>
     <a class="right-item" (click)="tapExit()">退出</a>
 </div>
@@ -31,7 +31,7 @@
 
     <div class="menu-bar">
         @for (item of bottomItems; track $index) {
-            <a [ngClass]="{disabled: item.disabled}" (click)="tapRoute(item)">{{ item.name }}
+            <a [class]="{disabled: item.disabled}" (click)="tapRoute(item)">{{ item.name }}
                 @if (item.count > 0) {
                     ({{ item.count }})
                 }

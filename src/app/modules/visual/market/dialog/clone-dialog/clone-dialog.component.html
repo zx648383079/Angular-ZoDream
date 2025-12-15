@@ -19,31 +19,31 @@
         <div class="form-group">
             <label for="name-input" i18n>Name</label>
             <div>
-                <input class="form-control" id="name-input" [field]="editData.name" i18n-placeholder placeholder="Please input the name">
+                <input class="form-control" id="name-input" [field]="editForm.name" i18n-placeholder placeholder="Please input the name">
             </div>
         </div>
         <div class="form-group">
             <label for="title-input" i18n>Site Title</label>
             <div>
-                <input class="form-control" id="title-input" [field]="editData.title" i18n-placeholder placeholder="Please input the title of site">
+                <input class="form-control" id="title-input" [field]="editForm.title" i18n-placeholder placeholder="Please input the title of site">
             </div>
         </div>
         <div class="form-group">
             <label>Logo</label>
             <div>
-                <app-file-input [field]="editData.logo" />
+                <app-file-input [field]="editForm.logo" />
             </div>
         </div>
         <div class="form-group">
             <label for="keywords-input" i18n>Site Keywords</label>
             <div>
-                <app-words-input [field]="editData.keywords"  i18n-placeholder placeholder="Please input the keywords of site" />
+                <app-words-input [field]="editForm.keywords"  i18n-placeholder placeholder="Please input the keywords of site" />
             </div>
         </div>
         <div class="form-group">
             <label for="description-input" i18n>Site Description</label>
             <div>
-                <app-text-editor [field]="editData.description" height="100" />
+                <app-text-editor [field]="editForm.description" height="100" />
             </div>
         </div>
     </div>

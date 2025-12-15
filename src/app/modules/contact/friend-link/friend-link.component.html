@@ -14,7 +14,7 @@
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
                     <a class="btn btn-primary" (click)="tapAdd(modal)">添加</a>
-                    <a class="btn" [ngClass]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
+                    <a class="btn" [class]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
                 </div>
             </form>
         </div>
@@ -22,7 +22,7 @@
             <thead>
                 <tr>
                     <th [hidden]="!isMultiple">
-                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                        <i class="checkbox" [class]="{checked: isChecked}" (click)="toggleCheck()"></i>
                     </th>
                     <th>ID</th>
                     <th>站点名</th>
@@ -37,7 +37,7 @@
                 @for (item of items; track $index) {
                     <tr>
                     <td [hidden]="!isMultiple">
-                        <i class="checkbox" [ngClass]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
+                        <i class="checkbox" [class]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
                     </td>
                     <td>{{ item.id }}</td>
                     <td [title]="item.created_at">{{ item.name }}</td>
@@ -67,7 +67,7 @@
             <tfoot [hidden]="!isMultiple || items.length < 1">
                 <tr>
                     <td>
-                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                        <i class="checkbox" [class]="{checked: isChecked}" (click)="toggleCheck()"></i>
                     </td>
                     <td colspan="4">
                         <button class="btn btn-danger" [disabled]="checkedItems.length < 1" (click)="tapRemoveMultiple()">删除选中项（{{ checkedItems.length }}）</button>
@@ -87,7 +87,7 @@
                 <ng-container i18n>Site Name:</ng-container>
             </label>
             <div>
-                <input type="text" [field]="editData.name" class="form-control" id="name" i18n-placeholder placeholder="Your Site Name" >
+                <input type="text" [field]="editForm.name" class="form-control" id="name" i18n-placeholder placeholder="Your Site Name" >
             </div>
         </div>
         <div class="input-group-control">
@@ -95,25 +95,25 @@
                 <ng-container i18n>Site Link:</ng-container>
             </label>
             <div>
-                <input type="text" [field]="editData.url" class="form-control" id="url" i18n-placeholder placeholder="Your Site Link, Like:https://zodream.cn" >
+                <input type="text" [field]="editForm.url" class="form-control" id="url" i18n-placeholder placeholder="Your Site Link, Like:https://zodream.cn" >
             </div>
         </div>
         <div class="input-group-control">
             <label for="logo" i18n>Site Logo:</label>
             <div>
-                <app-file-input [field]="editData.logo" />
+                <app-file-input [field]="editForm.logo" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="url" i18n>Site Description:</label>
             <div>
-                <textarea [field]="editData.brief" class="form-control" id="brief" i18n-placeholder placeholder="Site Description"></textarea>
+                <textarea [field]="editForm.brief" class="form-control" id="brief" i18n-placeholder placeholder="Site Description"></textarea>
             </div>
         </div>
         <div class="input-group-control">
             <label for="email" i18n>Email:</label>
             <div>
-                <input type="email" [field]="editData.email" class="form-control" id="email" i18n-placeholder placeholder="Will send the result to your email">
+                <input type="email" [field]="editForm.email" class="form-control" id="email" i18n-placeholder placeholder="Will send the result to your email">
             </div>
         </div>
     </div>

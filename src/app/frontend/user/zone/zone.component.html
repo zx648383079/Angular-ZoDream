@@ -26,7 +26,7 @@
         </div>
         <div class="group-body">
             @for (item of items; track $index) {
-                <div class="zone-item" [ngClass]="{active: isSelected(item)}" (click)="tapSelect(item)">
+                <div class="zone-item" [class]="{active: isSelected(item)}" (click)="tapSelect(item)">
                     <span>{{ item.name }}</span>
                 </div>
             }

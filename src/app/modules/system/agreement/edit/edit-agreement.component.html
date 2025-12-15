@@ -5,7 +5,7 @@
         @if (languageItems.length > 1) {
         <div class="language-toggle">
             @for (item of languageItems; track $index) {
-                <a (click)="loadDetail(item.id, item.value)" [ngClass]="{active: item.value === dataForm.language().value()}">{{ item.name }}</a>
+                <a (click)="loadDetail(item.id, item.value)" [class]="{active: item.value === dataForm.language().value()}">{{ item.name }}</a>
             }
         </div>
         }

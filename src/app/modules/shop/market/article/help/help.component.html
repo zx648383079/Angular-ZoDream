@@ -4,13 +4,13 @@
             <div class="menu-box">
                 @for (item of items; track $index) {
                     <div class="menu-group">
-                    <div class="menu-name" (click)="tapItem(item)" [ngClass]="{active: item.active}">
+                    <div class="menu-name" (click)="tapItem(item)" [class]="{active: item.active}">
                         {{ item.name || item.title }}
                     </div>
                     @if (item.children) {
                         <ul>
                         @for (it of item.children; track it.title) {
-                            <li (click)="tapItem(it)" [ngClass]="{active: it.active}">{{ it.title }}</li>
+                            <li (click)="tapItem(it)" [class]="{active: it.active}">{{ it.title }}</li>
                         }
                     </ul>
                     }

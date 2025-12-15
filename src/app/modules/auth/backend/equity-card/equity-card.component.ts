@@ -1,10 +1,9 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IEquityCard } from '../../../../theme/models/auth';
 import { IPageQueries } from '../../../../theme/models/page';
-import { emptyValidate } from '../../../../theme/validators';
 import { AuthService } from '../auth.service';
 import { SearchService } from '../../../../theme/services';
 
@@ -30,33 +29,36 @@ export class EquityCardComponent implements OnInit {
         per_page: 20,
         keywords: ''
     }));
-    public editData: IEquityCard = {
+    public readonly editForm= form(signal<IEquityCard>({
+        id: 0,
         name: '',
         icon: '',
-    } as any;
+        status: 0,
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item?: IEquityCard) {
-        this.editData = item ? Object.assign({}, item) : {
-            id: 0,
-            name: '',
-            icon: '',
-            status: 0,
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.icon = item?.icon ?? '';
+            v.status = item?.status ?? 0;
+            return v;
+        });
         modal.open(() => {
-            this.service.cardSave(this.editData).subscribe(_ => {
+            this.service.cardSave(this.editForm().value()).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
-        }, () => {
-            return !emptyValidate(this.editData.name);
-        });
+        }, () => this.editForm().valid());
     }
 
 

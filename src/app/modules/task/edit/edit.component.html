@@ -61,7 +61,7 @@
 
 
     @for (item of items; track $index) {
-        <div class="task-item" [ngClass]="{finished: item.status < 5}">
+        <div class="task-item" [class]="{finished: item.status < 5}">
         <div class="name">{{ item.name }}</div>
         <div class="desc">{{ item.description }}</div>
         <div class="time">{{ item.time_length | hour }}</div>
@@ -74,17 +74,17 @@
 
 </div>
 
-<app-dialog-box #modal [title]="editData.id > 0 ? '编辑子任务' : '新增子任务'">
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑子任务' : '新增子任务'">
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editData.name" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="description-input">说明</label>
         <div class="input-group-control">
-            <textarea class="form-control" id="description-input" [field]="editData.description" placeholder="请输入说明"></textarea>
+            <textarea class="form-control" id="description-input" [field]="editForm.description" placeholder="请输入说明"></textarea>
         </div>
     </div>
 </app-dialog-box>

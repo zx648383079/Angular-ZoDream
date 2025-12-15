@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { IGameMap } from '../../model';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -35,25 +35,36 @@ export class MapComponent implements OnInit {
         project: 0,
         area: 0,
     }));
-    public editData: IGameMap = {} as any;
+    public readonly editForm = form(signal({
+        id: 0,
+        area_id: 0,
+        name: '',
+        description: '',
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.route.parent.params.subscribe(params => {
-            this.queries.project = parseNumber(params.game);
+            this.queries.project().value.set(parseNumber(params.game));
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
 
     public open(modal: DialogEvent, item?: IGameMap) {
-        this.editData = item ? {...item} : {
-            area_id: this.queries.area
-        } as any;
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.area_id = this.queries.area().value() as any;
+            v.name = item?.name ?? '';
+            v.description = item?.description ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.mapSave({...this.editData, project_id: this.queries.project}).subscribe({
+            this.service.mapSave({...this.editForm().value(), project_id: this.queries.project}).subscribe({
                 next: _ => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
@@ -62,7 +73,7 @@ export class MapComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        });
+        }, () => this.editForm().valid());
     }
 
     public tapRefresh() {
@@ -92,7 +103,8 @@ export class MapComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries, ['project']);
+                this.queries().value.set(queries);
+            this.searchService.applyHistory(queries, ['project']);
             },
             error: () => {
                 this.isLoading = false;

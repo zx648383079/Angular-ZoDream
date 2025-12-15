@@ -8,10 +8,10 @@
         <div class="tool-item btn-info" title="分数">
             <input type="text" class="form-control btn-info" placeholder="分数" maxLength="2" [field]="value().score">
         </div>
-        <div class="tool-item btn-primary" [ngClass]="{active: extendOpen}" title="添加附加内容" (click)="extendOpen = !extendOpen">
+        <div class="tool-item btn-primary" [class]="{active: extendOpen}" title="添加附加内容" (click)="extendOpen = !extendOpen">
             <i class="iconfont icon-plus"></i>
         </div>
-        <div class="tool-item btn-success" [ngClass]="{active: analysisOpen}" (click)="analysisOpen = !analysisOpen" title="解析">
+        <div class="tool-item btn-success" [class]="{active: analysisOpen}" (click)="analysisOpen = !analysisOpen" title="解析">
             <i class="iconfont icon-key"></i>
         </div>
         <div class="tool-drop-item">
@@ -20,7 +20,7 @@
             </div>
             <ul class="drop-body" [hidden]="!typeOpen">
                 @for (item of typeItems; track $index; let i = $index) {
-                    <li [ngClass]="{active: i == value().type}" (click)="tapType(i)">{{ item }}</li>
+                    <li [class]="{active: i == value().type}" (click)="tapType(i)">{{ item }}</li>
                 }
             </ul>
         </div>

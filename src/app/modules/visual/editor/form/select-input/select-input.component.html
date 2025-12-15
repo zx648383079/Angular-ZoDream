@@ -13,7 +13,7 @@
             <i class="iconfont icon-close"></i>
         </div>
         <div class="input-arrow" (click)="visible = !visible">
-            <i class="iconfont" [ngClass]="arrowIcon()"></i>
+            <i class="iconfont" [class]="arrowIcon()"></i>
         </div>
     </div>
     <div class="select-option-bar">
@@ -35,7 +35,7 @@
         </div>
         }
         @for (item of items(); track $index) {
-            <div class="option-item" [ngClass]="{selected: value == item.value}" (click)="tapSelected(item)">{{ item.name }}</div>
+            <div class="option-item" [class]="{selected: value == item.value}" (click)="tapSelected(item)">{{ item.name }}</div>
         }
     </div>
 </div>

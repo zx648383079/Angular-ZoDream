@@ -1,10 +1,10 @@
-<div class="action-btn" [ngClass]="{disabled: disabled(), loading: loading()}">
+<div class="action-btn" [class]="{disabled: disabled(), loading: loading()}">
     <div class="action-body">
         <ng-content />
     </div>
     <div class="action-loading">
-        <span [ngStyle]="loadingStyle"></span>
-        <span [ngStyle]="loadingStyle"></span>
-        <span [ngStyle]="loadingStyle"></span>
+        <span [style]="loadingStyle"></span>
+        <span [style]="loadingStyle"></span>
+        <span [style]="loadingStyle"></span>
     </div>
 </div>

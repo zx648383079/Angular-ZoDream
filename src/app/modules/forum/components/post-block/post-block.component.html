@@ -120,7 +120,7 @@
                 @for (item of block.items; track $index) {
                     @if (block.editable) {
                         <div class="vote-check-item" (click)="tapVoteItem(block, item)">
-                            <i class="iconfont" [id]="item.id" [ngClass]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}"></i>
+                            <i class="iconfont" [id]="item.id" [class]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}"></i>
                             <label [for]="item.id">{{ item.no }}. {{ item.value }}</label>
                         </div>
                     } @else {
@@ -128,7 +128,7 @@
                             <span>{{ item.no }}. {{ item.value }}</span>
                             <div class="vote-progress" [title]="item.count + '/' + block.total">
                                 <div class="progress">
-                                    <div class="progress-bar" [ngStyle]="{width: item.percentage + '%'}">{{ item.count + '/' + block.total }}</div>
+                                    <div class="progress-bar" [style]="{width: item.percentage + '%'}">{{ item.count + '/' + block.total }}</div>
                                 </div>
                                 <div class="vote-label">
                                     {{ item.percentage }}% (<em>{{ item.count }}</em>)

@@ -81,11 +81,11 @@
 
     @if (forum && forum.classifies && forum.classifies.length > 0) {
     <div class="classify-bar">
-        <div class="item" [ngClass]="{active: 0 === queries.classify}" (click)="tapClassify()" i18n>
+        <div class="item" [class]="{active: 0 === queries.classify}" (click)="tapClassify()" i18n>
             All
         </div>
         @for (item of forum.classifies; track $index) {
-            <div class="item" [ngClass]="{active: item.id === queries.classify}" (click)="tapClassify(item)">
+            <div class="item" [class]="{active: item.id === queries.classify}" (click)="tapClassify(item)">
                 {{ item.name }}
             </div>
         }
@@ -99,7 +99,7 @@
                 <ng-container i18n>Topic</ng-container>
                 <div class="sort-bar">
                     @for (item of sortItems; track $index) {
-                        <a [ngClass]="{active: item.value === sortKey}" (click)="tapSort(item)">{{ item.name }}</a>
+                        <a [class]="{active: item.value === sortKey}" (click)="tapSort(item)">{{ item.name }}</a>
                     }
                 </div>
             </div>

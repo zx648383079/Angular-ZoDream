@@ -51,31 +51,31 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id > 0 ? '编辑商品' : '新增商品'">
-    @if (!editData.id || editData.goods_id < 1) {
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑商品' : '新增商品'">
+    @if (!editForm.id || editForm.goods_id < 1) {
     <div class="form-group">
         <label for="goods">选择商品</label>
         <div class="input-group-control">
-            <app-select-input url="shop/admin/goods/search" [field]="editData.goods_id" />
+            <app-select-input url="shop/admin/goods/search" [field]="editForm.goods_id" />
         </div>
     </div>
     }
     <div class="form-group">
         <label for="price">秒杀价格</label>
         <div class="input-group-control">
-            <input class="form-control" id="price" [field]="editData.price" placeholder="请输入价格">
+            <input class="form-control" id="price" [field]="editForm.price" placeholder="请输入价格">
         </div>
     </div>
     <div class="form-group">
         <label for="amount">秒杀数量</label>
         <div class="input-group-control">
-            <input class="form-control" id="amount" [field]="editData.amount" placeholder="请输入数量">
+            <input class="form-control" id="amount" [field]="editForm.amount" placeholder="请输入数量">
         </div>
     </div>
     <div class="form-group">
         <label for="every_amount">限购数量</label>
         <div class="input-group-control">
-            <input class="form-control" id="every_amount" [field]="editData.every_amount" placeholder="请输入数量">
+            <input class="form-control" id="every_amount" [field]="editForm.every_amount" placeholder="请输入数量">
         </div>
     </div>
 </app-dialog-box>

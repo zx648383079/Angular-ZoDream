@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { IIssue } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -34,7 +34,16 @@ export class GoodsIssueComponent implements OnInit {
     }));
     public isMultiple = false;
     public isChecked = false;
-    public editData: IIssue = {} as any;
+    public readonly editForm = form(signal({
+        id: 0,
+        question: '',
+        answer: '',
+        status: 0,
+        goods_id: 0,
+    }), schemaPath => {
+        required(schemaPath.question);
+        required(schemaPath.answer);
+    });
     public statusItems: IItem[] = [
         {name: '无', value: 0},
         {name: '置顶', value: 5},
@@ -43,17 +52,22 @@ export class GoodsIssueComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item?: IIssue) {
-        this.editData = item ? {...item} : {
-            goods_id: this.queries.goods
-        } as any;
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.question = item?.question ?? '';
+            v.answer = item?.answer ?? '';
+            v.status = item?.status ?? 0;
+            v.goods_id = this.queries.goods().value() as number;
+            return v;
+        });
         modal.open(() => {
-            this.service.issueSave({...this.editData}).subscribe({
+            this.service.issueSave({...this.editForm}).subscribe({
                 next: _ => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
@@ -62,7 +76,7 @@ export class GoodsIssueComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        });
+        }, () => this.editForm().valid());
     }
 
     public formatStatus(val: number) {

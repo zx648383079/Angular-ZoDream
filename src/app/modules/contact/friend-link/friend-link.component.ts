@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService, ManageDialogEvent } from '../../../components/dialog';
@@ -30,19 +30,22 @@ export class FriendLinkComponent implements OnInit {
         keywords: '',
         per_page: 20,
     }));
-    public editData = {
+    public readonly editForm = form(signal({
         name: '',
         url: '',
         logo: '',
         brief: '',
         email: '',
-    };
+    }), schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.url);
+    });
     public isMultiple = false;
     public isChecked = false;
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         })
     }
@@ -52,13 +55,13 @@ export class FriendLinkComponent implements OnInit {
     }
 
     public tapAdd(modal: DialogEvent) {
-        for (const key in this.editData) {
-            if (Object.prototype.hasOwnProperty.call(this.editData, key)) {
-                this.editData[key] = '';
+        for (const key in this.editForm) {
+            if (Object.prototype.hasOwnProperty.call(this.editForm, key)) {
+                this.editForm[key] = '';
             }
         }
         modal.open(() => {
-            this.service.friendLinkSave(this.editData).subscribe({
+            this.service.friendLinkSave(this.editForm().value()).subscribe({
                 next: res => {
                     this.toastrService.success('添加成功');
                     this.tapRefresh();
@@ -67,7 +70,7 @@ export class FriendLinkComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             })
-        }, () => !emailValidate(this.editData.name) && !emptyValidate(this.editData.url));
+        }, () => this.editForm().valid());
     }
 
     public toggleCheck(item?: IFriendLink) {

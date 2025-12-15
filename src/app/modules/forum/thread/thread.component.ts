@@ -71,7 +71,7 @@ export class ThreadComponent implements OnInit {
         required(schemaPath.content);
     });
 
-    public editData: any = {};
+    public readonly editForm = form(signal<any>({}));
     public rewardData = {
         amount: 10,
     };
@@ -88,7 +88,7 @@ export class ThreadComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
         });
         this.route.params.subscribe(params => {
             this.service.getThread(params.id).subscribe(res => {
@@ -153,7 +153,7 @@ export class ThreadComponent implements OnInit {
         if (!this.thread || !this.user || !modal) {
             return;
         }
-        this.editData = {
+        this.editForm = {
             remark: '',
         };
         const maps = {
@@ -164,16 +164,16 @@ export class ThreadComponent implements OnInit {
         };
         eachObject(maps, (k, i) => {
             if (this.thread[i]) {
-                this.editData[k] = this.thread[k];
+                this.editForm[k] = this.thread[k];
             }
         });
         modal.open(() => {
-            this.service.threadAction(this.thread.id, this.editData).subscribe(res => {
+            this.service.threadAction(this.thread.id, this.editForm).subscribe(res => {
                 eachObject(maps, i => {
                     this.thread[i] = res[i];
                 });
             });
-        }, () => !emailValidate(this.editData.remark));
+        }, () => !emailValidate(this.editForm.remark));
     }
 
     public tapBlock(block: any, item: IThreadPost) {

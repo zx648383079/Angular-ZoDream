@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService, DialogEvent } from '../../../../../components/dialog';
@@ -31,22 +31,37 @@ export class RulePrizeComponent implements OnInit {
         keywords: '',
         project: 0
     }));
-    public editData: IGamePrizeItem = {} as any;
+    public readonly editForm = form(signal<IGamePrizeItem>({
+        id: 0,
+        name: '',
+        type: 0,
+        amount: 0,
+        thumb: ''
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.route.parent.params.subscribe(params => {
-            this.queries.project = parseNumber(params.game);
+            this.queries.project().value.set(parseNumber(params.game));
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item?: IGamePrizeItem) {
-        this.editData = item ? {...item} : {} as any;
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.type = item?.type ?? 0;
+            v.amount = item?.amount ?? 0;
+            v.thumb = item?.thumb ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.storeSave({...this.editData, project_id: this.queries.project}).subscribe({
+            this.service.storeSave({...this.editForm().value(), project_id: this.queries.project}).subscribe({
                 next: _ => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
@@ -55,7 +70,7 @@ export class RulePrizeComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        });
+        }, () => this.editForm().valid());
     }
 
 
@@ -86,7 +101,8 @@ export class RulePrizeComponent implements OnInit {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.searchService.applyHistory(this.queries = queries, ['project']);
+                this.queries().value.set(queries);
+            this.searchService.applyHistory(queries, ['project']);
             },
             error: () => {
                 this.isLoading = false;

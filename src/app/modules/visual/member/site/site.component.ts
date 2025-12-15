@@ -5,8 +5,7 @@ import { VisualService } from '../visual.service';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../../theme/services';
-import { emptyValidate } from '../../../../theme/validators';
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -30,31 +29,46 @@ export class SiteComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public editData: ISite = {} as any;
+    public readonly editForm = form(signal<ISite>({
+        id: 0,
+        name: '',
+        thumb: '',
+        logo: '',
+        title: '',
+        keywords: '',
+        description: '',
+        domain: '',
+        is_share: false,
+        share_price: 0,
+        status: 0,
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
 
     public open(modal: DialogEvent, item?: ISite) {
-        this.editData = item ? Object.assign({}, item) : {
-            id: 0,
-            name: '',
-            thumb: '',
-            logo: '',
-            title: '',
-            keywords: '',
-            description: '',
-            domain: '',
-            is_share: false,
-            share_price: 0,
-            status: 0,
-        }));
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.thumb = item?.thumb ?? '';
+            v.logo = item?.logo ?? '';
+            v.title = item?.title ?? '';
+            v.keywords = item?.keywords ?? '';
+            v.description = item?.description ?? '';
+            v.domain = item?.domain ?? '';
+            v.is_share = item?.is_share ?? false;
+            v.share_price = item?.share_price ?? 0;
+            v.status = item?.status ?? 0;
+            return v;
+        });
         modal.open(() => {
-            this.service.siteSave(this.editData).subscribe({
+            this.service.siteSave(this.editForm().value()).subscribe({
                 next: () => {
                     this.toastrService.success($localize `Save Successfully`);
                     if (item) {
@@ -67,9 +81,7 @@ export class SiteComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editData.name);
-        });
+        }, () => this.editForm().valid());
     }
 
     public tapRefresh() {

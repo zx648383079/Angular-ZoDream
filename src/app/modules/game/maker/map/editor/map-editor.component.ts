@@ -145,10 +145,10 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
             return;
         }
         this.mapModal().open(() => {
-            this.service.mapSave({...this.editData, project_id: this.queries.project, ...this.formatPoint(e)}).subscribe(res => {
+            this.service.mapSave({...this.editForm().value(), project_id: this.queries.project, ...this.formatPoint(e)}).subscribe(res => {
                 this.items.push(res);
             });
-        }, () => !emptyValidate(this.editData.name), '添加地图');
+        }, () => !emptyValidate(this.editForm.name), '添加地图');
     }
 
     public onMoveStart(item: IGameMap, e: MouseEvent) {
@@ -204,12 +204,12 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
                 return;
             }
             
-            this.editData = {
+            this.editForm = {
                 name: '',
                 [toKey]: item.id
             };
             this.mapModal().open(() => {
-                this.service.mapSave({...this.editData, project_id: this.queries.project, ...this.formatPoint(p)}).subscribe(res => {
+                this.service.mapSave({...this.editForm().value(), project_id: this.queries.project, ...this.formatPoint(p)}).subscribe(res => {
                     item[this.posToKey(pos)] = res.id;
                     this.items.forEach(i => {
                         if (i[toKey] == item.id) {
@@ -219,7 +219,7 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
                     this.items.push(res);
                     this.refreshLine();
                 });
-            }, () => !emptyValidate(this.editData.name), '添加地图');
+            }, () => !emptyValidate(this.editForm.name), '添加地图');
         });
     }
 

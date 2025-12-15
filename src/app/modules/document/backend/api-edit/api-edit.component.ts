@@ -35,7 +35,7 @@ export class ApiEditComponent implements OnInit {
     public version = 0;
     public catalog: IDocApi[] = [];
     public versionItems: IProjectVersion[] = [];
-    public editData: any = {};
+    public readonly editForm = form(signal<any>({}));
     public methodItems = ['GET', 'POST', 'PUT', 'DELETE', 'OPTION'];
 
     ngOnInit() {
@@ -185,25 +185,25 @@ export class ApiEditComponent implements OnInit {
     }
 
     public openVersion(modal: DialogBoxComponent) {
-        this.editData = {
+        this.editForm = {
             name: ''
         };
         modal.open(() => {
-            this.service.versionNew(this.project.id, this.version, this.editData.name).subscribe(_ => {
+            this.service.versionNew(this.project.id, this.version, this.editForm.name).subscribe(_ => {
                 this.toastrService.success('创建版本成功');
                 this.refreshVersion();
             });
         }, () => {
-            return !emptyValidate(this.editData.name);
+            return !emptyValidate(this.editForm.name);
         });
     }
 
     public tapParse(modal: DialogBoxComponent, kind: number) {
-        this.editData = {
+        this.editForm = {
             content: ''
         };
         modal.open(() => {
-            this.service.apiParse(this.editData.content, kind).subscribe(res => {
+            this.service.apiParse(this.editForm.content, kind).subscribe(res => {
                 if (kind === 3) {
                     this.data.header.push(...res.data);
                     return;
@@ -215,7 +215,7 @@ export class ApiEditComponent implements OnInit {
                 this.data.response.push(...res.data);
             });
         }, () => {
-            return !emptyValidate(this.editData.content);
+            return !emptyValidate(this.editForm.content);
         })
     }
 

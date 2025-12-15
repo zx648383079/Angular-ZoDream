@@ -32,7 +32,7 @@ export class MusicComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public editData: IMusic = {} as any;
+    public readonly editForm = form(signal<IMusic>({}));
     public fileTypeItems: IItem[] = [
         {name: '标准音质', value: 0},
         {name: '低音质', value: 1},
@@ -43,7 +43,7 @@ export class MusicComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -61,11 +61,11 @@ export class MusicComponent implements OnInit {
     }
 
     public tapRemoveFile(i: number) {
-        this.editData.files.splice(i, 1);
+        this.editForm.files.splice(i, 1);
     }
 
     public tapAddFile() {
-        this.editData.files.push({
+        this.editForm.files.push({
             file_type: 0,
             file: '',
         } as any);
@@ -137,9 +137,9 @@ export class MusicComponent implements OnInit {
     }
 
     private editMusic(modal: DialogEvent, item: IMusic) {
-        this.editData = item;
+        this.editForm = item;
         modal.open(() => {
-            this.service.musicSave(this.editData).subscribe({
+            this.service.musicSave(this.editForm().value()).subscribe({
                 next: () => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapPage();
@@ -149,7 +149,7 @@ export class MusicComponent implements OnInit {
                 }
             });
         }, () => {
-            return !emptyValidate(this.editData.name);
+            return !emptyValidate(this.editForm.name);
         });
     }
 

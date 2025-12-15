@@ -1,9 +1,9 @@
-<div class="editor-modal-box" [ngClass]="{'modal-visible': visible}">
+<div class="editor-modal-box" [class]="{'modal-visible': visible}">
     <div class="table-grid">
         @for (i of rowItems; track i) {
         <div class="table-row">
             @for (j of columnItems; track j) {
-                <span class="table-cell" [ngClass]="{active: column >= j && row >= i}" (mouseover)="tapCell(i, j)" (click)="tapConfirm(i, j)"></span>
+                <span class="table-cell" [class]="{active: column >= j && row >= i}" (mouseover)="tapCell(i, j)" (click)="tapConfirm(i, j)"></span>
             }
         </div>
         }

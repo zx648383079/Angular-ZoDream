@@ -63,23 +63,23 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id > 0 ? '编辑直播源' : '新增直播源'" [scrollable]="false">
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑直播源' : '新增直播源'" [scrollable]="false">
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editData.title" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [field]="editForm.title" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">预览图</label>
         <div class="input-group-control">
-            <app-file-input [field]="editData.thumb" />
+            <app-file-input [field]="editForm.thumb" />
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">地址</label>
         <div class="input-group-control">
-            <input class="form-control" [field]="editData.thumb">
+            <input class="form-control" [field]="editForm.thumb">
         </div>
     </div>
 </app-dialog-box>

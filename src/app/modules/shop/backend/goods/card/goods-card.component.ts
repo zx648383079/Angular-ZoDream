@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
@@ -11,9 +11,9 @@ import { GoodsService } from '../goods.service';
 
 @Component({
     standalone: false,
-  selector: 'app-goods-card',
-  templateUrl: './goods-card.component.html',
-  styleUrls: ['./goods-card.component.scss']
+    selector: 'app-goods-card',
+    templateUrl: './goods-card.component.html',
+    styleUrls: ['./goods-card.component.scss']
 })
 export class GoodsCardComponent implements OnInit {
     private readonly service = inject(GoodsService);
@@ -33,16 +33,18 @@ export class GoodsCardComponent implements OnInit {
         page: 1,
         per_page: 20,
     }));
-    public editData = {
+    public readonly editForm = form(signal({
         amount: 1,
-    };
+    }), schemaPath => {
+        required(schemaPath.amount);
+    });
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -50,7 +52,7 @@ export class GoodsCardComponent implements OnInit {
     public tapGenerate(modal: DialogEvent) {
         modal.open(() => {
             this.service.cardGenerate({
-                amount: this.editData.amount,
+                amount: this.editForm.amount,
                 goods: this.queries.goods
             }).subscribe({
                 next: _ => {
@@ -61,7 +63,7 @@ export class GoodsCardComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             })
-        }, () => this.editData.amount > 0);
+        }, () => this.editForm().valid());
     }
 
     public tapExport() {
@@ -73,7 +75,7 @@ export class GoodsCardComponent implements OnInit {
     public onUploadFile(event: UploadButtonEvent) {
         const form = new FormData();
         form.append('file', event.files[0]);
-        form.append('goods', this.queries.goods);
+        form.append('goods', this.queries.goods().value() as any);
         event.enter();
         this.service.cardImport(form).subscribe({
             next: _ => {
@@ -114,7 +116,8 @@ export class GoodsCardComponent implements OnInit {
             this.items = res.data;
             this.hasMore = res.paging.more;
             this.total = res.paging.total;
-            this.searchService.applyHistory(this.queries = queries, ['goods']);
+            this.queries().value.set(queries);
+            this.searchService.applyHistory(queries, ['goods']);
         });
     }
 

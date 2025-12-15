@@ -6,7 +6,7 @@
     <div class="search-body">
         <div class="panel-body">
             @for (item of items; track $index) {
-                <div class="item-option" [ngClass]="{selected: selected && selected.id === item.id}" (click)="tapSelected(item)">
+                <div class="item-option" [class]="{selected: selected && selected.id === item.id}" (click)="tapSelected(item)">
                     <div class="thumb">
                         <img [src]="item.thumb">
                     </div>
@@ -18,7 +18,7 @@
         @if (childVisible) {
             <div class="child-body">
             @for (item of children; track $index) {
-                <div class="item-option" [ngClass]="{selected: selectedChild && selectedChild.id === item.id}" (click)="tapSelectedChild(item)">
+                <div class="item-option" [class]="{selected: selectedChild && selectedChild.id === item.id}" (click)="tapSelectedChild(item)">
                     <div class="name">{{ item.series_number }}</div>
                     <div class="price">￥{{ item.price }}</div>
                 </div>

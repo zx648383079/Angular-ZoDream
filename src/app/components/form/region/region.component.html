@@ -1,6 +1,6 @@
-<div class="selector" data-type="selector" [ngClass]="{disabled: disabled}">
+<div class="selector" data-type="selector" [class]="{disabled: disabled}">
     <div (click)="showPanel()" class="selector-input-container">
-        <div class="select-header" [ngClass]="{open: panelVisible}">
+        <div class="select-header" [class]="{open: panelVisible}">
             {{ pathLabel }}
             <i class="iconfont icon-chevron-down"></i>
         </div>
@@ -9,7 +9,7 @@
     <div class="selector-panel-container" (click)="$event.stopPropagation()">
         <ul class="selector-header">
             @for (item of paths; track $index; let i = $index) {
-                <li class="select-header"  [ngClass]="{open: i == activeColumn}" (click)="tapColumn(i)">
+                <li class="select-header"  [class]="{open: i == activeColumn}" (click)="tapColumn(i)">
                     {{ item[rangeLabel()] }}
                     <i class="iconfont icon-chevron-down"></i>
                 </li>
@@ -18,7 +18,7 @@
         <div class="selector-body">
             <ul>
                 @for (item of items; track $index) {
-                    <li (click)="tapCheckedItem(item)" [ngClass]="{selected: isSelected(item)}">
+                    <li (click)="tapCheckedItem(item)" [class]="{selected: isSelected(item)}">
                         {{ item[rangeLabel()] }}</li>
                 }
             </ul>

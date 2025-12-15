@@ -17,7 +17,7 @@
                     @if (queries.goods) {
                     <a class="btn btn-success" (click)="open(modal)">新增问答</a>
                     }
-                    <a class="btn" [ngClass]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
+                    <a class="btn" [class]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
                 </div>
             </form>
             
@@ -27,7 +27,7 @@
             <thead>
             <tr>
                 <th [hidden]="!isMultiple">
-                    <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                    <i class="checkbox" [class]="{checked: isChecked}" (click)="toggleCheck()"></i>
                 </th>
                 <th>ID</th>
                 <th>提问</th>
@@ -40,7 +40,7 @@
                 @for (item of items; track $index) {
                     <tr>
                     <td [hidden]="!isMultiple">
-                        <i class="checkbox" [ngClass]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
+                        <i class="checkbox" [class]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
                     </td>
                     <td>{{ item.id }}</td>
                     <td>
@@ -64,7 +64,7 @@
             <tfoot [hidden]="!isMultiple || items.length < 1">
                 <tr>
                     <td>
-                        <i class="checkbox" [ngClass]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                        <i class="checkbox" [class]="{checked: isChecked}" (click)="toggleCheck()"></i>
                     </td>
                     <td colspan="5">
                         <button class="btn btn-danger" [disabled]="checkedItems.length < 1" (click)="tapRemoveMultiple()">删除选中项（{{ checkedItems.length }}）</button>
@@ -77,23 +77,23 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editData.id ? '编辑' : '新建'">
+<app-dialog-box #modal [title]="editForm.id ? '编辑' : '新建'">
     <div class="form-group">
         <label>提问</label>
         <div class="input-group-control">
-            <textarea class="form-control" [field]="editData.question" placeholder="请输入提问" [disabled]="!!editData.id"></textarea>
+            <textarea class="form-control" [field]="editForm.question" placeholder="请输入提问" [disabled]="!!editForm.id"></textarea>
         </div>
     </div>
     <div class="form-group">
         <label>回答</label>
         <div class="input-group-control">
-            <textarea class="form-control" [field]="editData.answer" placeholder="请输入回答"></textarea>
+            <textarea class="form-control" [field]="editForm.answer" placeholder="请输入回答"></textarea>
         </div>
     </div>
     <div class="form-group">
         <label>状态</label>
         <div class="input-group-control">
-            <select class="form-control" [field]="editData.status">
+            <select class="form-control" [field]="editForm.status">
                 @for (item of statusItems; track $index) {
                 <option [value]="item.value">{{ item.name }}</option>
                 }

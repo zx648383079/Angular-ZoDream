@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -34,7 +34,13 @@ export class ListComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public editData: IShortLink = {} as any;
+    public readonly editForm = form(signal<IShortLink>({
+        id: 0,
+        title: '',
+        source_url: ''
+    }), schemaPath => {
+        required(schemaPath.short_url);
+    });
     public statusItems: IItem[] = [
         {name: '待审核', value: 0},
         {name: '正常', value: 5},
@@ -44,7 +50,7 @@ export class ListComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -55,13 +61,14 @@ export class ListComponent implements OnInit {
     }
 
     public tapEdit(modal: DialogEvent, item?: IShortLink) {
-        this.editData = item ? Object.assign({}, item) : {
-            id: 0,
-            title: '',
-            source_url: ''
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.title = item?.title ?? '';
+            v.source_url = item?.source_url ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.linkSave(this.editData).subscribe({
+            this.service.linkSave(this.editForm().value()).subscribe({
                 next: () => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapPage();
@@ -70,9 +77,7 @@ export class ListComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editData.source_url);
-        });
+        }, () => this.editForm().valid());
     }
 
     /**

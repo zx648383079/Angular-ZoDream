@@ -20,7 +20,7 @@
             @for (item of toolItems; track $index) {
                 @if (item) {
                 <div class="action-item" [title]="item.label" (click)="tapTool(item)">
-                    <i class="iconfont" [ngClass]="item.icon"></i>
+                    <i class="iconfont" [class]="item.icon"></i>
                 </div>
                 } @else {
                     <div class="action-hr"></div>

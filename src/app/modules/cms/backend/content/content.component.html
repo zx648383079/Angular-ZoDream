@@ -20,7 +20,7 @@
             <thead>
                 <tr>
                     @for (item of columnItems; track $index; let i = $index) {
-                    <th [ngClass]="{'auto-hide': i > 3}">{{ item.label }}</th>
+                    <th [class]="{'auto-hide': i > 3}">{{ item.label }}</th>
                     }
                     <th>操作</th>
                 </tr>
@@ -29,7 +29,7 @@
                 @for (item of items; track $index) {
                     <tr>
                     @for (key of columnItems; track $index; let i = $index) {
-                    <td [ngClass]="{'auto-hide': i > 3}">
+                    <td [class]="{'auto-hide': i > 3}">
                         {{ formatColumn(item, key) }}
                     </td>
                     }

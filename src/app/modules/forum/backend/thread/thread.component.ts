@@ -38,7 +38,7 @@ export class ThreadComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             if (this.queries.forum < 1 || this.forum?.id === this.queries.forum) {
                 this.tapPage();
                 return;

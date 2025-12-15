@@ -6,7 +6,7 @@
         </div>
         <div class="panel-tab-bar">
             @for (item of tabItems; track $index;let i = $index) {
-                <a class="item" [ngClass]="{active: tabIndex == i}" (click)="tapTab(i)">{{ item }}</a>
+                <a class="item" [class]="{active: tabIndex == i}" (click)="tapTab(i)">{{ item }}</a>
             }
         </div>
     </div>
@@ -20,7 +20,7 @@
                     @for (item of group.items; track $index) {
                     <div class="icon-option-item" (click)="tapTool(item)">
                         <div class="item-icon">
-                            <i class="iconfont" [ngClass]="item.icon"></i>
+                            <i class="iconfont" [class]="item.icon"></i>
                         </div>
                         <div class="item-name">{{ item.label }}</div>
                     </div>

@@ -1,4 +1,4 @@
-<div [ngClass]="theme()" #progressBox [title]="value().toFixed(2)">
+<div [class]="theme()" #progressBox [title]="value().toFixed(2)">
     <div class="progress-bar" role="progressbar" [style]="progressStyle">
         @if (label()) {
             {{ value().toFixed(2) }}/{{ max().toFixed(2) }}

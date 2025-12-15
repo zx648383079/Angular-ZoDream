@@ -2,7 +2,7 @@
     <div class="row">
         @for (item of items; track $index) {
             <div class="col-md-6 col-lg-4">
-            <div class="project-item" [ngClass]="{inactive: item.status < 1}">
+            <div class="project-item" [class]="{inactive: item.status < 1}">
                 <div class="item-logo">
                     <img [appLazyLoad]="item.logo" [alt]="item.name">
                 </div>
@@ -37,23 +37,23 @@
         </div>
     </div>
 </div>
-<app-dialog-box #modal [title]="editData.id ? '编辑' : '新建'">
+<app-dialog-box #modal [title]="editForm.id ? '编辑' : '新建'">
     <div class="form-group">
         <label for="name-input">游戏名</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editData.name" placeholder="请输入标题">
+            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入标题">
         </div>
     </div>
     <div class="form-group">
         <label>图标</label>
         <div class="input-group-control">
-            <app-file-input [field]="editData.logo" [online]="true" />
+            <app-file-input [field]="editForm.logo" [online]="true" />
         </div>
     </div>
     <div class="form-group">
         <label>说明</label>
         <div class="input-group-control">
-            <textarea class="form-control" [field]="editData.description" placeholder="请输入简介"></textarea>
+            <textarea class="form-control" [field]="editForm.description" placeholder="请输入简介"></textarea>
         </div>
     </div>
 </app-dialog-box>

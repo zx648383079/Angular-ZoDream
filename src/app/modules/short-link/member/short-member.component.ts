@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { IShortLink } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
@@ -30,7 +30,13 @@ export class ShortMemberComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public editData: IShortLink = {} as any;
+    public readonly editForm = form(signal<IShortLink>({
+        id: 0,
+        title: '',
+        source_url: ''
+    }), schemaPath => {
+        required(schemaPath.source_url);
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(res => {
@@ -40,13 +46,14 @@ export class ShortMemberComponent implements OnInit {
     }
 
     public tapEdit(modal: DialogEvent, item?: IShortLink) {
-        this.editData = item ? Object.assign({}, item) : {
-            id: 0,
-            title: '',
-            source_url: ''
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.title = item?.title ?? '';
+            v.source_url = item?.source_url ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.linkSave(this.editData).subscribe({
+            this.service.linkSave(this.editForm().value()).subscribe({
                 next: () => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapPage();
@@ -55,9 +62,7 @@ export class ShortMemberComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editData.source_url);
-        });
+        }, () => this.editForm().valid());
     }
 
     public tapRefresh() {

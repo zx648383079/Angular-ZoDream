@@ -31,8 +31,8 @@
         </app-flip-item>
         <app-flip-item header="制作配料">
             <div class="tab-bar">
-                <div class="item" [ngClass]="{active: tabIndex == 0}" (click)="tabIndex = 0">食谱</div>
-                <div class="item" [ngClass]="{active: tabIndex > 0}" (click)="tabIndex = 1">食材</div>
+                <div class="item" [class]="{active: tabIndex == 0}" (click)="tabIndex = 0">食谱</div>
+                <div class="item" [class]="{active: tabIndex > 0}" (click)="tabIndex = 1">食材</div>
             </div>
             <div [hidden]="tabIndex > 0">
                 <ng-select />

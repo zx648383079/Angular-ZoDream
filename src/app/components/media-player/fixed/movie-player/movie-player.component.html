@@ -1,6 +1,6 @@
-<div class="movie-player" [ngClass]="{'max-player': isFull, 'fixed-player': isFixed() || isFull}">
+<div class="movie-player" [class]="{'max-player': isFull, 'fixed-player': isFixed() || isFull}">
     <div class="player-container">
-        <div class="player-body" [ngStyle]="{height: bodyHeight + 'px'}">
+        <div class="player-body" [style]="{height: bodyHeight + 'px'}">
             <video class="player-video" #playerVideo></video>
         </div>
         @if (openCatalog) {
@@ -13,7 +13,7 @@
     <div class="player-bar" #playerBar>
         <div class="bar-action">
             <i class="iconfont icon-step-backward"></i>
-            <i class="iconfont play-btn" [ngClass]="{'icon-play': paused, 'icon-pause': !paused}"></i>
+            <i class="iconfont play-btn" [class]="{'icon-play': paused, 'icon-pause': !paused}"></i>
             <i class="iconfont icon-stop"></i>
             <i class="iconfont icon-step-forward"></i>
         </div>
@@ -42,9 +42,9 @@
             </select>
             }
             
-            <i class="iconfont" [hidden]="moreVisible" [ngClass]="{'icon-volume-off': volume <= 0, 'icon-volume-down': volume > 0 && volume <= 60, 'icon-volume-up': volume > 60}" (click)="tapVolume()"></i>
+            <i class="iconfont" [hidden]="moreVisible" [class]="{'icon-volume-off': volume <= 0, 'icon-volume-down': volume > 0 && volume <= 60, 'icon-volume-up': volume > 60}" (click)="tapVolume()"></i>
             <i class="iconfont icon-th-list" (click)="openCatalog = !openCatalog"></i>
-            <i class="iconfont" [ngClass]="{'icon-full-screen': !isFull, 'icon-exit-full-screen': isFull}" (click)="tapFullScreen()"></i>
+            <i class="iconfont" [class]="{'icon-full-screen': !isFull, 'icon-exit-full-screen': isFull}" (click)="tapFullScreen()"></i>
             <i class="iconfont icon-ellipsis-v" [hidden]="!moreVisible" title="更多操作" (click)="morePanelVisible = !morePanelVisible"></i>
         </div>
     </div>

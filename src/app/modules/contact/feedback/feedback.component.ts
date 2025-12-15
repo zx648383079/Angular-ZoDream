@@ -30,14 +30,14 @@ export class FeedbackComponent implements OnInit {
         keywords: '',
         per_page: 20,
     }));
-    public editData: IFeedback = {} as any;
+    public readonly editForm = form(signal<IFeedback>({}));
     public isMultiple = false;
     public isChecked = false;
     public isReview = false;
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -128,12 +128,12 @@ export class FeedbackComponent implements OnInit {
     }
 
     public tapView(modal: DialogEvent, item: IFeedback) {
-        this.editData = item;
+        this.editForm = item;
         modal.openCustom(value => {
             if (typeof value !== 'number') {
                 return;
             }
-            this.service.feedbackChange(this.editData?.id, {
+            this.service.feedbackChange(this.editForm?.id, {
                 status: value,
             }).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);

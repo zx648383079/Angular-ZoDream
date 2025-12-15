@@ -101,35 +101,35 @@
     </app-swipe-list-control>
 </div>
 
-<app-dialog-box #modal [title]="editData && editData.id > 0 ? '编辑资金账户' : '新增资金账户'">
+<app-dialog-box #modal [title]="editData && editForm.id().value() > 0 ? '编辑资金账户' : '新增资金账户'">
     <div class="form-group">
         <label for="name">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name" [field]="editData.name" placeholder="请输入名称">
+            <input class="form-control" id="name" [field]="editForm.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="money">金额</label>
         <div class="input-group-control">
-            <input class="form-control" id="money" [field]="editData.money" placeholder="请输入金额">
+            <input class="form-control" id="money" [field]="editForm.money" placeholder="请输入金额">
         </div>
     </div>
     <div class="form-group">
         <label for="frozen_money">冻结资金</label>
         <div class="input-group-control">
-            <input class="form-control" id="frozen_money" [field]="editData.frozen_money" placeholder="请输入冻结资金">
+            <input class="form-control" id="frozen_money" [field]="editForm.frozen_money" placeholder="请输入冻结资金">
         </div>
     </div>
     <div class="form-group">
         <label for="remark">备注</label>
         <div class="input-group-control">
-            <textarea class="form-control" id="remark" [field]="editData.remark" placeholder="请输入备注"></textarea>
+            <textarea class="form-control" id="remark" [field]="editForm.remark" placeholder="请输入备注"></textarea>
         </div>
     </div>
     <div class="form-group">
         <label for="status">是否开启</label>
         <div class="input-group-control">
-            <app-switch id="status" [field]="editData.status" />
+            <app-switch id="status" [field]="editForm.status" />
         </div>
     </div>
 </app-dialog-box>

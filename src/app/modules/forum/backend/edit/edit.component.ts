@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { IForum, IForumClassify } from '../../model';
 import { IUser } from '../../../../theme/models/user';
 import { filterTree } from '../../../../theme/utils';
-import { emptyValidate } from '../../../../theme/validators';
 import { ForumService } from '../forum.service';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -38,11 +37,14 @@ export class EditComponent implements OnInit {
     public categories: IForum[] = [];
     public classifyItems: IForumClassify[] = [];
     public userItems: IUser[] = [];
-    public editData: IForumClassify = {
+    public readonly editForm = form(signal({
         id: 0,
         name: '',
         icon: '',
-    };
+    }), schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.icon);
+    });
     public userKeywords = '';
     public users: IUser[] = [];
 
@@ -111,21 +113,20 @@ export class EditComponent implements OnInit {
     }
 
     public editClassify(modal: DialogBoxComponent, item?: IForumClassify) {
-        this.editData = item ? {...item} : {
-            id: 0,
-            name: '',
-            icon: '',
-        };
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.icon = item?.icon ?? '';
+            return v;
+        });
         modal.open(() => {
             if (!item) {
-                this.classifyItems.push(this.editData);
+                this.classifyItems.push(this.editForm().value());
             } else {
-                item.icon = this.editData.icon;
-                item.name = this.editData.name;
+                item.icon = this.editForm.icon().value();
+                item.name = this.editForm.name().value();
             }
-        }, () => {
-            return !emptyValidate(this.editData.name) || !emptyValidate(this.editData.icon)
-        }, item ? '编辑主题' : '新增主题');
+        }, () => this.editForm().valid(), item ? '编辑主题' : '新增主题');
     }
 
     public removeClassify(item: IForumClassify) {

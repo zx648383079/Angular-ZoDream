@@ -62,7 +62,7 @@
             <div class="panel-body">
                 <ul>
                     @for (item of cardItems; track $index; let i = $index) {
-                        <li [ngClass]="{right: item.right > 0, wrong: item.right < 0, active: item.active}">
+                        <li [class]="{right: item.right > 0, wrong: item.right < 0, active: item.active}">
                             <a (click)="tapItem(i)">{{ item.order }}</a>
                         </li>
                     }
@@ -74,5 +74,5 @@
 </div>
 }
 <app-dialog-box #modal title="总体点评">
-    <app-exam-editor [field]="editData.remark" />
+    <app-exam-editor [field]="editForm.remark" />
 </app-dialog-box>

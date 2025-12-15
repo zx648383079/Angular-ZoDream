@@ -1,4 +1,4 @@
-<div class="code-container" [ngClass]="{'--with-minimize': screenMode == 1, '--with-full-screen': screenMode == 2}">
+<div class="code-container" [class]="{'--with-minimize': screenMode == 1, '--with-full-screen': screenMode == 2}">
     <div class="code-header">
         @if (copyTip) {
             <a class="code-tooltip">{{ copyTip }}</a>
@@ -22,10 +22,10 @@
     </div>
     <div class="highlight-bar">
         @for (item of lineNo; track $index) {
-            <span [ngClass]="{highlighted: item.checked}">&nbsp;</span>
+            <span [class]="{highlighted: item.checked}">&nbsp;</span>
         }
     </div>
-    <pre><code [ngClass]="'language-' + internalLang">{{ internalValue }}</code></pre>
+    <pre><code [class]="'language-' + internalLang">{{ internalValue }}</code></pre>
     <div class="line-number-bar">
         @for (item of lineNo; track $index) {
             <span>{{ item.value }}</span>

@@ -1,21 +1,21 @@
-<div class="action-btn" [ngClass]="{loading: isLoading}">
+<div class="action-btn" [class]="{loading: isLoading}">
     @if (items().length > 0) {
     <div class="btn-group action-body">
         @for (item of inlineItems; track $index) {
-            <a class="btn" [ngClass]="item.color" (click)="tapItem(item)">
-                <i class="iconfont btn-icon" [ngClass]="item.icon"></i>
+            <a class="btn" [class]="item.color" (click)="tapItem(item)">
+                <i class="iconfont btn-icon" [class]="item.icon"></i>
                 <span class="btn-label">{{ item.name }}</span>
             </a>
         }
         @if (dropItems.length > 0) {
         <div class="btn-group btn-group-custom" (click)="dropVisible = !dropVisible">
-            <button class="btn btn-setting dropdown-toggle" [ngClass]="{show: dropVisible}">
+            <button class="btn btn-setting dropdown-toggle" [class]="{show: dropVisible}">
                 <i class="iconfont icon-cog"></i>
             </button>
-            <ul class="dropdown-menu" [ngClass]="{show: dropVisible}">
+            <ul class="dropdown-menu" [class]="{show: dropVisible}">
                 @for (item of dropItems; track $index) {
-                <li [ngClass]="item.color" (click)="tapItem(item)">
-                    <i class="iconfont btn-icon" [ngClass]="item.icon"></i>
+                <li [class]="item.color" (click)="tapItem(item)">
+                    <i class="iconfont btn-icon" [class]="item.icon"></i>
                     <span class="btn-label">{{ item.name }}</span>
                 </li>
                 }

@@ -1,5 +1,5 @@
 @if (data) {
-<div class="container-fluid" [ngClass]="{'on-running': data && data.status != 5}">
+<div class="container-fluid" [class]="{'on-running': data && data.status != 5}">
     
     <div class="detail-box">
         <app-circle-progress class="timer-desc" (finished)="tapCheck()" />
@@ -8,13 +8,13 @@
     </div>
 
     @if (items.length > 0) {
-    <div class="expand-box" [ngClass]="{'open': expanded}">
+    <div class="expand-box" [class]="{'open': expanded}">
         <div class="expand-header" (click)="expanded = !expanded">
             <i class="iconfont icon-chevron-down"></i>
         </div>
         <div class="expand-body">
             @for (item of items; track $index) {
-                <div class="task-item" [ngClass]="{finished: item.status < 5}">
+                <div class="task-item" [class]="{finished: item.status < 5}">
                 <div class="name">{{ item.name }}</div>
                 <div class="desc">{{ item.description }}</div>
                 <div class="time">{{ item.time_length | hour }}</div>

@@ -2,18 +2,18 @@
   <div class="row">
     <div class="col-md-4 tab users">
         <div class="tab-head">
-            <div [ngClass]="{'active': !isList}" (click)="isList = false">
+            <div [class]="{'active': !isList}" (click)="isList = false">
                 <i class="iconfont icon-comment" aria-hidden="true"></i>
             </div>
-            <div [ngClass]="{'active': isList}" (click)="isList = true">
+            <div [class]="{'active': isList}" (click)="isList = true">
                 <i class="iconfont icon-user"></i>
             </div>
         </div>
         <div class="tab-content">
-            <div class="list-view" [ngClass]="{'active': !isList}">
+            <div class="list-view" [class]="{'active': !isList}">
                 <ul>
                     @for (user of lastUsers; track $index) {
-                    <li (click)="change(user)" [ngClass]="{'active': currentUser && user.user_id == currentUser.user_id}">
+                    <li (click)="change(user)" [class]="{'active': currentUser && user.user_id == currentUser.user_id}">
                         <div class="avatar">
                             <img [src]="user.avatar" alt="">
                         </div>
@@ -31,10 +31,10 @@
                     
                 </ul>
             </div>
-            <div class="list-view" [ngClass]="{'active': isList}">
+            <div class="list-view" [class]="{'active': isList}">
                 <ul>
                     @for (user of users; track $index) {
-                    <li (click)="change(user)" [ngClass]="{'active': currentUser && user.user_id == currentUser.user_id}">
+                    <li (click)="change(user)" [class]="{'active': currentUser && user.user_id == currentUser.user_id}">
                         <div class="avatar">
                             <img [src]="user.avatar" alt="">
                         </div>
@@ -60,7 +60,7 @@
                     <p class="more" (click)="getMore()">加载更多</p>
                 }
                 @for (message of messages; track $index) {
-                <div [ngClass]="{'left': message.type == 0, 'right': message.type == 1, 'line': message.type == -1}">
+                <div [class]="{'left': message.type == 0, 'right': message.type == 1, 'line': message.type == -1}">
                     
                     @if (message.type >= 0) {
                     <div>

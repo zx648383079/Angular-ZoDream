@@ -1,7 +1,7 @@
-<div class="scale-bar" [ngClass]="{'vertical-bar': !orientation()}">
+<div class="scale-bar" [class]="{'vertical-bar': !orientation()}">
     <i class="iconfont icon-minus minus-icon" (click)="tapMinus()"></i>
     <div class="inner-bar">
-        <div class="inner-icon" [ngStyle]="innerStyle"></div>
+        <div class="inner-icon" [style]="innerStyle"></div>
         <span class="inner-label">{{ value() }}%</span>
     </div>
     <i class="iconfont icon-plus plus-icon" (click)="tapPlus()"></i>

@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
@@ -30,11 +30,17 @@ export class WordComponent implements OnInit {
         per_page: 20,
         keywords: ''
     }));
-    public editData: IBlackWord = {} as any;
+    public readonly editForm = form(signal<IBlackWord>({
+        id: 0, 
+        words: '', 
+        replace_words: ''
+    }), schemaPath => {
+        required(schemaPath.words);
+    });
 
     ngOnInit(): void {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -95,13 +101,18 @@ export class WordComponent implements OnInit {
     }
 
     open(modal: DialogEvent, item?: IBlackWord) {
-        this.editData = item ? {...item} : {id: 0, words: '', replace_words: ''};
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.words = item?.words ?? '';
+            v.replace_words = item?.replace_words ?? '';
+            return v;
+        });
         modal.open(() => {
-            this.service.wordSave(Object.assign({}, this.editData)).subscribe(res => {
+            this.service.wordSave(Object.assign({}, this.editForm)).subscribe(res => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapPage();
             });
-        }, () => !emptyValidate(this.editData.words));
+        }, () => this.editForm().valid());
     }
 
 }

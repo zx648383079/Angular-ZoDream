@@ -2,7 +2,7 @@
     <div class="panel-header">
         <span i18n>Notices</span>
     </div>
-    <div class="panel-body" [ngClass]="{'is_loading': isLoading}">
+    <div class="panel-body" [class]="{'is_loading': isLoading}">
         @for (item of items; track $index) {
             <div class="notice-list-item">
                 <div class="item-body" [innerHTML]="item.html"></div>

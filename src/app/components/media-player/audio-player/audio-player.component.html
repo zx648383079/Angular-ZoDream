@@ -1,6 +1,6 @@
-<div class="mini-player-bar" [ngClass]="{'player-mini': mini()}">
+<div class="mini-player-bar" [class]="{'player-mini': mini()}">
     <div class="icon" (click)="tapPlay()" [title]="paused ? '播放' : '暂停'">
-        <i class="iconfont" [ngClass]="{'icon-play': paused, 'icon-pause': !paused}"></i>
+        <i class="iconfont" [class]="{'icon-play': paused, 'icon-pause': !paused}"></i>
     </div>
     <div class="slider">
         <app-player-progress-bar [value]="progress" [loaded]="loaded" [max]="duration" (valueChange)="onProgressChange($event)" />
@@ -9,7 +9,7 @@
         {{ progress | duration }}/{{ duration | duration }}
     </div>
     <div class="volume-icon">
-        <i class="iconfont" [ngClass]="{'icon-volume-off': volume <= 0, 'icon-volume-down': volume > 0 && volume <= 60, 'icon-volume-up': volume > 60}" (click)="tapVolume()"></i>
+        <i class="iconfont" [class]="{'icon-volume-off': volume <= 0, 'icon-volume-down': volume > 0 && volume <= 60, 'icon-volume-up': volume > 60}" (click)="tapVolume()"></i>
     </div>
     <div class="volume-slider">
         <app-player-progress-bar [value]="volume" [formatValue]="false" (valueChange)="onVolumeChange($event)" />

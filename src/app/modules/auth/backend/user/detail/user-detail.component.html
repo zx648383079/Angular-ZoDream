@@ -121,7 +121,7 @@
 <div class="container-fluid">
     <div class="tab-bar">
         @for (item of tabItems; track $index;let i = $index) {
-            <a class="item" [ngClass]="{active: tabIndex == i}" (click)="tapTab(i)">{{ item }}</a>
+            <a class="item" [class]="{active: tabIndex == i}" (click)="tapTab(i)">{{ item }}</a>
         }
     </div>
     @if (user) {

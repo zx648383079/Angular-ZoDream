@@ -40,7 +40,7 @@ export class ReportComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
     }
@@ -126,14 +126,14 @@ export class ReportComponent implements OnInit {
     }
 
     public tapView(modal: DialogEvent, item: IReport) {
-        this.editData = item;
+        this.editForm = item;
         modal.openCustom(value => {
             if (typeof value !== 'number') {
                 return;
             }
             this.service.reportSave({
                 status: value,
-                id: this.editData?.id
+                id: this.editForm?.id
             }).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapPage();

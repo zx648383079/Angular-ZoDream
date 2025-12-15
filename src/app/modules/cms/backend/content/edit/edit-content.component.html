@@ -5,7 +5,7 @@
         <div class="tab-box">
             <div class="tab-header">
                 @for (item of formItems; track $index) {
-                <div class="tab-item" [ngClass]="{active: item.active}" (click)="tapTab(item)">
+                <div class="tab-item" [class]="{active: item.active}" (click)="tapTab(item)">
                     {{ item.name }}
                 </div>
                 }
@@ -13,7 +13,7 @@
             </div>
             <div class="tab-body">
                 @for (group of formItems; track $index) {
-                    <div class="tab-item" [ngClass]="{active: group.active}">
+                    <div class="tab-item" [class]="{active: group.active}">
                         @for (item of group.items; track $index) {
                             <div class="input-group-control">
                                 <label>{{ item.label }}</label>

@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
@@ -39,7 +39,21 @@ export class SiteComponent implements OnInit {
     public tagInput$ = new Subject<string>();
     public tagLoading = false;
     public topItems = ['无', '推荐'];
-    public editData: any = {} as any;
+    public readonly editForm = form(signal({
+        id: 0,
+        name: '',
+        logo: '',
+        description: '',
+        cat_id: 0,
+        schema: 'https',
+        domain: '',
+        top_type: 0,
+        tags: [],
+        also_page: 0,
+        keywords: '',
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
     public editExistData: ISite|undefined;
     public scoringData = {
         score: 60,
@@ -51,7 +65,7 @@ export class SiteComponent implements OnInit {
             this.categories = res.data;
         });
         this.route.queryParams.subscribe(params => {
-            this.searchService.getQueries(params, this.queries);
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
         this.tagItems$ = concat(
@@ -93,39 +107,40 @@ export class SiteComponent implements OnInit {
     }
 
     public onLinkBlur() {
-        if (!this.editData.domain) {
+        const link = this.editForm.domain().value();
+        if (!link) {
             return;
         }
-        const link = this.editData.domain as string;
         const i = link.indexOf('//');
         if (i >= 0) {
-            this.editData.domain = link.substring(i + 2).replace(/\/+$/, '');
+            this.editForm.domain().value.set(link.substring(i + 2).replace(/\/+$/, ''));
         }
         if (i > 2) {
-            this.editData.schema = link.substring(0, i - 1);
+            this.editForm.schema().value.set(link.substring(0, i - 1));
         }
-        this.service.siteCheck(this.editData).subscribe(res => {
+        this.service.siteCheck(this.editForm).subscribe(res => {
             this.editExistData = res.data;
         });
     }
 
     public open(modal: DialogEvent, item?: ISite) {
         this.editExistData = undefined;
-        this.editData = item ? {...item} : {
-            id: 0,
-            name: '',
-            logo: '',
-            description: '',
-            cat_id: this.queries.category,
-            schema: 'https',
-            domain: '',
-            top_type: 0,
-            tags: [],
-            also_page: 0,
-            keywords: '',
-        } as any;
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.logo = item?.logo ?? '';
+            v.description = item?.description ?? '';
+            v.cat_id = this.queries.category().value();
+            v.schema = item?.schema ?? 'https';
+            v.domain = item?.domain ?? '';
+            v.top_type = item?.top_type ?? 0;
+            v.tags = item?.tags ?? [];
+            v.also_page = 0;
+            v.keywords = '';
+            return v;
+        });
         modal.open(() => {
-            this.service.siteSave(this.editData).subscribe({
+            this.service.siteSave(this.editForm().value()).subscribe({
                 next: () => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
@@ -134,9 +149,7 @@ export class SiteComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editData.name);
-        });
+        }, () => this.editForm().valid());
     }
 
 
