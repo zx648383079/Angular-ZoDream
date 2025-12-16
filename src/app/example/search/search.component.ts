@@ -83,12 +83,15 @@ export class ExampleSearchComponent implements OnInit {
     }
 
     public tapSort(key: string) {
-        if (this.queries.sort().value() === key) {
-            this.queries.order().value.update(v => v == 'desc' ? 'asc' : 'desc');
-        } else {
-            this.queries.sort().value.set(key);
-            this.queries.order().value.set('desc');
-        }
+        this.queries().value.update(v => {
+            if (v.sort === key) {
+                v.order = v.order == 'desc' ? 'asc' : 'desc';
+            } else {
+                v.sort = key;
+                v.order = 'desc';
+            }
+            return v;
+        });
         this.tapRefresh();
     }
 

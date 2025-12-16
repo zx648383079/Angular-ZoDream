@@ -4,14 +4,14 @@
     <div class="search-bar">
         <form class="form-horizontal-control" (submit)="tapSearch()">
             <div class="flat-input">
-                <input type="text" class="form-control" name="keywords" id="keywords" [field]="queries.keywords" id="keywords" placeholder="请输入关键词搜索" >
-                <select name="category" class="form-control" [field]="queries.category" class="form-control">
+                <input type="text" class="form-control" [field]="queries.keywords" id="keywords" placeholder="请输入关键词搜索" >
+                <select class="form-control" [field]="queries.category">
                     <option [value]="0">--请选择分类--</option>
                     @for (item of categories; track $index) {
                     <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                     }
                 </select>
-                <select name="brand" class="form-control" [field]="queries.brand" class="form-control">
+                <select class="form-control" [field]="queries.brand">
                     <option [value]="0">--请选择品牌--</option>
                     @for (item of brandItems; track $index) {
                     <option [value]="item.id">{{ item.name }}</option>

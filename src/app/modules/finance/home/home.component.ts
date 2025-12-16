@@ -77,7 +77,7 @@ export class HomeComponent implements OnInit {
     }
 
     public tapType(i: number) {
-        this.queries.type = i;
+        this.queries.type().value.set(i);
         this.onQueriesChange();
     }
 

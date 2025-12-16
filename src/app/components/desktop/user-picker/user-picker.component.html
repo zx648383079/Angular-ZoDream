@@ -7,7 +7,7 @@
         }
         
         <div class="picker-input-body">
-            <input #inputor type="text" id="keywords" [field]="queries.keywords" (ngModelChange)="tapRefresh()" [disabled]="disabled()">
+            <input #inputor type="text" id="keywords" [value]="queries().keywords" (input)="onKeywordsChange($event)">
             <div class="input-placeholder">
                 @if (value()) {
                     <div class="placeholder-item">

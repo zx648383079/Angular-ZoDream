@@ -1,9 +1,8 @@
 import { form } from '@angular/forms/signals';
 import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ShopService } from '../../shop.service';
 import { IAccountLog } from '../../../../theme/models/auth';
-import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { Store } from '@ngrx/store';
 import { ShopAppState } from '../../shop.reducer';
@@ -13,9 +12,9 @@ import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
 
 @Component({
     standalone: false,
-  selector: 'app-account',
-  templateUrl: './account.component.html',
-  styleUrls: ['./account.component.scss']
+    selector: 'app-account',
+    templateUrl: './account.component.html',
+    styleUrls: ['./account.component.scss']
 })
 export class AccountComponent implements OnInit, OnDestroy {
     private readonly service = inject(ShopService);
@@ -26,7 +25,7 @@ export class AccountComponent implements OnInit, OnDestroy {
 
     public title = '我的账户';
     public items: IAccountLog[] = [];
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
         page: 1,
         per_page: 20,
@@ -58,10 +57,10 @@ export class AccountComponent implements OnInit, OnDestroy {
     }
 
     public tapType(i: number) {
-        if (this.queries.type === i) {
+        if (this.queries.type().value() === i) {
             return;
         }
-        this.queries.type = i;
+        this.queries.type().value.set(i);
         this.tapRefresh();
     }
 

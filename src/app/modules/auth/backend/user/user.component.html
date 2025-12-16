@@ -27,10 +27,10 @@
           <tr>
               <th (click)="tapSort('id')">
                   ID
-                <i class="iconfont" [class]="{'icon-sort-alpha-desc': queries.sort == 'id' && queries.order != 'asc', 'icon-sort-alpha-asc': queries.sort == 'id' && queries.order == 'asc'}"></i>
+                <i class="iconfont" [class]="{'icon-sort-alpha-desc': queries.sort().value() == 'id' && queries.order().value() != 'asc', 'icon-sort-alpha-asc': queries.sort().value() == 'id' && queries.order().value() == 'asc'}"></i>
               </th>
               <th (click)="tapSort('name')">用户名
-                <i class="iconfont" [class]="{'icon-sort-alpha-desc': queries.sort == 'name' && queries.order != 'asc', 'icon-sort-alpha-asc': queries.sort == 'name' && queries.order == 'asc'}"></i>
+                <i class="iconfont" [class]="{'icon-sort-alpha-desc': queries.sort().value() == 'name' && queries.order().value() != 'asc', 'icon-sort-alpha-asc': queries.sort().value() == 'name' && queries.order().value() == 'asc'}"></i>
               </th>
               <th class="auto-hide">邮箱</th>
               <th class="auto-hide">性别</th>
@@ -57,7 +57,7 @@
                   <td>{{ item.money }}</td>
                   @if (editable) {
                   <td>
-                        <app-switch [field]="item.is_verified" (ngModelChange)="onVerify(item, modal)" />
+                        <app-switch [value]="item.is_verified" (valueChange)="onVerify(item, modal)" />
                   </td>
                   <td>{{ formatStatus(item.status) }}</td>
                   }

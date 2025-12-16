@@ -1,18 +1,18 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { INavLink } from '../../theme/models/seo';
 import { AppState } from '../../theme/interfaces';
 import { IUser } from '../../theme/models/user';
 import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { AppStoreService } from './app-store.service';
 import { ICategory } from './model';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-app-store',
-  templateUrl: './app-store.component.html',
-  styleUrls: ['./app-store.component.scss']
+    selector: 'app-app-store',
+    templateUrl: './app-store.component.html',
+    styleUrls: ['./app-store.component.scss']
 })
 export class AppStoreComponent implements OnInit {
     private readonly router = inject(Router);
@@ -20,6 +20,9 @@ export class AppStoreComponent implements OnInit {
     private readonly store = inject<Store<AppState>>(Store);
     private readonly service = inject(AppStoreService);
 
+    public readonly queries = form(signal({
+        keywords: '',
+    }));
 
     public navItems: ICategory[] = [
         {name: '推荐'} as any,
@@ -54,7 +57,7 @@ export class AppStoreComponent implements OnInit {
 
 
     public tapSearch() {
-        this.router.navigate(['search'], {relativeTo: this.route, queryParams: form});
+        this.router.navigate(['search'], {relativeTo: this.route, queryParams: this.queries().value()});
     }
 
     public toggleNav() {

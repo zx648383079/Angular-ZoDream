@@ -34,7 +34,7 @@ export class BagComponent implements IGameScene, OnInit {
     }
 
     public tapType(i: number) {
-        this.queries.type = i;
+        this.queries.type().value.set(i);
         this.tapRefresh();
     }
 
@@ -55,7 +55,7 @@ export class BagComponent implements IGameScene, OnInit {
         this.router.request(GameCommand.BagQuery, queries).subscribe({
             next: res => {
                 const data = res.data;
-                this.queries = queries;
+                this.queries().value.set(queries);
                 this.isLoading = false;
                 this.total = data.paging.total;
                 this.hasMore = data.paging.more;

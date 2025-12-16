@@ -47,7 +47,7 @@
                     </td>
                     <td>{{ item.status >= 0 ? '已关注' : '未关注' }}</td>
                     <td>
-                        <app-switch [field]="item.is_black" (ngModelChange)="onBlackChange(item)" />
+                        <app-switch [value]="item.is_black" (ngModelChange)="onBlackChange(item)" />
                     </td>
                     <td>
                         <div class="btn-group  btn-group-xs">

@@ -32,10 +32,10 @@ export class ListComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
-        category: 0,
-        brand: 0,
+        category: '',
+        brand: '',
         page: 1,
         per_page: 20,
         is_best: 0,
@@ -65,12 +65,15 @@ export class ListComponent implements OnInit {
     }
 
     public tapSort(key: string) {
-        if (this.queries.sort === key) {
-            this.queries.order = this.queries.order == 'desc' ? 'asc' : 'desc';
-        } else {
-            this.queries.sort = key;
-            this.queries.order = 'desc';
-        }
+        this.queries().value.update(v => {
+            if (v.sort === key) {
+                v.order = v.order == 'desc' ? 'asc' : 'desc';
+            } else {
+                v.sort = key;
+                v.order = 'desc';
+            }
+            return v;
+        });
         this.tapRefresh();
     }
 

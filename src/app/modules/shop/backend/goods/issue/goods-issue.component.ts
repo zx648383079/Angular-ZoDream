@@ -1,4 +1,4 @@
-import { form, required } from '@angular/forms/signals';
+import { disabled, form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { IIssue } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -38,11 +38,14 @@ export class GoodsIssueComponent implements OnInit {
         id: 0,
         question: '',
         answer: '',
-        status: 0,
+        status: '0',
         goods_id: 0,
     }), schemaPath => {
         required(schemaPath.question);
         required(schemaPath.answer);
+        disabled(schemaPath.question, ({valueOf}) => {
+            return valueOf(schemaPath.id) > 0;
+        });
     });
     public statusItems: IItem[] = [
         {name: '无', value: 0},
@@ -62,7 +65,7 @@ export class GoodsIssueComponent implements OnInit {
             v.id = item?.id ?? 0;
             v.question = item?.question ?? '';
             v.answer = item?.answer ?? '';
-            v.status = item?.status ?? 0;
+            v.status = item?.status as any ?? '0';
             v.goods_id = this.queries.goods().value() as number;
             return v;
         });

@@ -63,7 +63,7 @@ export class TeamPiazzaComponent implements IGameScene, OnInit {
         this.router.request(GameCommand.TeamQuery, queries).subscribe({
             next: res => {
                 const data = res.data as IPage<IGameTeam>;
-                this.queries = queries;
+                this.queries().value.set(queries);
                 this.isLoading = false;
                 this.total = data.paging.total;
                 this.hasMore = data.paging.more;

@@ -13,9 +13,9 @@ import { BotService } from '../bot.service';
 
 @Component({
     standalone: false,
-  selector: 'app-bot-m-media',
-  templateUrl: './media.component.html',
-  styleUrls: ['./media.component.scss']
+    selector: 'app-bot-m-media',
+    templateUrl: './media.component.html',
+    styleUrls: ['./media.component.scss']
 })
 export class MediaComponent implements OnInit {
     private readonly service = inject(BotService);
@@ -41,7 +41,13 @@ export class MediaComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public readonly editForm = form(signal<any>({}));
+    public readonly editModel = signal({
+        thumb: '',
+        title: '',
+        type: 'image',
+        material_type: 0,
+        content: ''
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -63,13 +69,15 @@ export class MediaComponent implements OnInit {
     }
 
     public open(modal: DialogEvent) {
-        this.editForm = {
+        this.editModel.set({
             title: '',
             type: 'image',
-            material_type: 0
-        };
+            material_type: 0,
+            content: '',
+            thumb: '',
+        });
         modal.open(() => {
-            this.service.mediaSave(this.editForm().value()).subscribe({
+            this.service.mediaSave(this.editModel()).subscribe({
                 next: _ => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
@@ -78,7 +86,7 @@ export class MediaComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             })
-        }, () => !emptyValidate(this.editForm.content));
+        }, () => !emptyValidate(this.editModel().content));
     }
 
     public tapPull(e?: ButtonEvent) {
@@ -101,7 +109,7 @@ export class MediaComponent implements OnInit {
     }
 
     public tapTab(i: any) {
-        this.queries.type = i;
+        this.queries.type().value.set(i);
         this.tapRefresh();
     }
 

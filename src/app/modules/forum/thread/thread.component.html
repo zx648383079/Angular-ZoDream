@@ -48,13 +48,13 @@
                     <a class="new-tag">New</a>
                 }
                 <div class="pull-right">
-                    @if (queries.order != 'desc') {
+                    @if (queries.order().value() != 'desc') {
                         <i class="iconfont icon-sort-alpha-desc" i18n-title title="Backwards browse" (click)="tapSortOrder()"></i>
                     } @else {
                         <i class="iconfont icon-sort-alpha-asc" i18n-title title="Browse in order" (click)="tapSortOrder()"></i>
                     }
-                    <select [field]="queries.status" class="form-control" (ngModelChange)="onStatusChange()">
-                        @for (item of statusData.items; track $index; let i = $index) {
+                    <select [field]="queries.status" class="form-control" (change)="onStatusChange()">
+                        @for (item of statusItems; track $index; let i = $index) {
                         <option [value]="i">{{ item }}</option>
                         }
                     </select>
@@ -75,7 +75,7 @@
                             <i class="iconfont icon-user"></i>
                             <ng-container i18n>Published {{ item.created_at | ago }} </ng-container>
                             <i class="split">|</i>
-                            @if (queries.user < 1) {
+                            @if (queries.user().value() < 1) {
                                 <a (click)="tapSeeUser(item.user_id)" i18n>Only author</a>
                             } @else {
                                 <a (click)="tapSeeUser(0)" i18n>Back to all</a>
@@ -134,7 +134,7 @@
                             <i class="iconfont icon-user"></i>
                                 <ng-container i18n>Published {{ item.created_at | ago }} </ng-container>
                             <i class="split">|</i>
-                            @if (queries.user < 1) {
+                            @if (queries.user().value() < 1) {
                                 <a (click)="tapSeeUser(item.user_id)" i18n>Only author</a>
                             } @else {
                                 <a (click)="tapSeeUser(0)" i18n>Back to all</a>
@@ -284,11 +284,11 @@
     <div class="link-item">
         <div class="label" i18n>Amount</div>
         <div class="value">
-            <input type="number" class="form-control" [field]="rewardData.amount">
+            <input type="number" class="form-control" [field]="rewardForm.amount">
         </div>
     </div>
 </app-dialog-box>
 
 <app-dialog-box #statusModal [scrollable]="false" i18n-title title="Modify Status">
-    <app-check-input [items]="statusData.items" [rangeKey]="1"[field]="statusData.selected" />
+    <app-check-input [items]="statusItems" [rangeKey]="1" [field]="statusForm.selected" />
 </app-dialog-box>

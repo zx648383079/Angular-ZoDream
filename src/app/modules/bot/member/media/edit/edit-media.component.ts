@@ -1,20 +1,22 @@
-import { Component, input, output } from '@angular/core';
+import { Component, computed, model } from '@angular/core';
 import { IItem } from '../../../../../theme/models/seo';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-bot-m-edit-media',
-  templateUrl: './edit-media.component.html',
-  styleUrls: ['./edit-media.component.scss']
+    selector: 'app-bot-m-edit-media',
+    templateUrl: './edit-media.component.html',
+    styleUrls: ['./edit-media.component.scss']
 })
-export class EditMediaComponent {
+export class EditMediaComponent implements FormValueControl<any> {
 
-    public readonly value = input<any>({
-    title: '',
-    type: 'image',
-    material_type: 0
-});
-    public readonly valueChange = output<any>();
+    public readonly value = model({
+        thumb: '',
+        title: '',
+        type: 'image',
+        material_type: 0,
+        content: ''
+    });
     public typeItems: IItem[] = [
         {name: '图片', value: 'image'},
         {name: '语音', value: 'voice'},
@@ -23,9 +25,7 @@ export class EditMediaComponent {
     ];
     public materialTypeItems = ['临时素材', '永久素材'];
 
-    constructor() { }
-
-    public get fileFilter() {
+    public readonly fileFilter = computed(() => {
         switch (this.value().type) {
             case 'voice':
                 return 'audio/*';
@@ -34,20 +34,25 @@ export class EditMediaComponent {
             default:
                 return 'image/*';
         }
-    }
-
-    public onValueChange() {
-        this.valueChange.emit(this.value());
-    }
+    });
 
     public onFileUpload(e: any) {
-        const value = this.value();
-        if (e.thumb) {
-            value.thumb = e.thumb;
-        }
-        if (e.original && !value.title) {
-            value.title = e.original;
-            this.onValueChange();
-        }
+        this.value.update(v => {
+            if (e.thumb) {
+                v.thumb = e.thumb;
+            }
+            if (e.original && !v.title) {
+                v.title = e.original;
+            }
+            v.content = e.url;
+            return v;
+        });
+    }
+
+    public onValueChange(e: Event, key: string) {
+        this.value.update(v => {
+            v[key] = (e.target as HTMLSelectElement).value
+            return v;
+        });
     }
 }

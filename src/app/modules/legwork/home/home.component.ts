@@ -8,9 +8,9 @@ import { ICategory, IService } from '../model';
 
 @Component({
     standalone: false,
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
     private readonly service = inject(LegworkService);
@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit {
     }
 
     public tapCategory(item?: ICategory) {
-        this.queries.category = item ? item.id : 0;
+        this.queries.category().value.set(item ? item.id : 0);
         this.tapRefresh();
     }
 

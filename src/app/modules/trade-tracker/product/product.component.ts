@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TrackerService } from '../tracker.service';
 import { IChannel, IProduct } from '../model';
@@ -6,6 +6,7 @@ import { EChartsCoreOption } from 'echarts/core';
 import { parseNumber } from '../../../theme/utils';
 import { DialogService } from '../../../components/dialog';
 import { IItem } from '../../../theme/models/seo';
+import { form } from '@angular/forms/signals';
 
 
 
@@ -32,11 +33,11 @@ export class ProductComponent implements OnInit {
         {name: '出售', value: 0},
         {name: '求购', value: 1},
     ];
-    public queries = {
+    public readonly queries = form(signal({
         start_at: '',
         end_at: '',
         type: 0
-    };
+    }));
 
     ngOnInit() {
         this.route.params.subscribe(res => {
@@ -124,7 +125,7 @@ export class ProductComponent implements OnInit {
             const items = res.data;
             this.options = {
                 title: {
-                    text: this.queries.type < 1 ? '出售统计' : '求购统计',
+                    text: this.queries.type().value() < 1 ? '出售统计' : '求购统计',
                     left: 'center',
                 },
                 tooltip: {

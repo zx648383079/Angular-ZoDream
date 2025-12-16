@@ -1,8 +1,9 @@
-import { Component, effect, inject, input } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { IScoreSubtotal } from '../../../../theme/models/seo';
 import { AppStoreService } from '../../app-store.service';
+import { form, validate } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -20,9 +21,20 @@ export class ScoreComponent {
     public subtotal: IScoreSubtotal;
     public isLoading = false;
     private booted = 0;
-    public scoreData = {
+    public readonly scoreForm = form(signal({
         score: 10,
-    };
+    }), schemaPath => {
+        validate(schemaPath.score, ({value}) => {
+            const val = value();
+            if (val > 0 && val <= 10) {
+                return null;
+            }
+            return {
+                kind: 'range',
+                message: $localize `Please input score`
+            };
+        })
+    });
 
     constructor() {
         effect(() => {
@@ -41,20 +53,19 @@ export class ScoreComponent {
     }
 
     public tapGrade(e?: ButtonEvent) {
-        if (this.scoreData.score < 1 || this.scoreData.score > 10) {
-            this.toastrService.warning($localize `Please input score`);
+        if (this.scoreForm().invalid()) {
             return;
         }
         e?.enter();
-        this.service.scoreGrade({...this.scoreData, id: this.itemId()}).subscribe({
+        this.service.scoreGrade({...this.scoreForm().value(), id: this.itemId()}).subscribe({
             next: _ => {
                 e?.reset();
                 this.toastrService.success($localize `Score successfull`);
-                this.scoreData.score = 10;
+                this.scoreForm.score().value.set(10);
             }, 
             error: err => {
                 e?.reset();
-                this.scoreData.score = 10;
+                this.scoreForm.score().value.set(10);
                 this.toastrService.warning(err);
             }
         })

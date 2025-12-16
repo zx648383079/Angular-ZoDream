@@ -16,7 +16,7 @@
     <div class="search-bar">
         <form class="form-horizontal-control" (submit)="tapSearch()">
             <div class="flat-input">
-                <input type="text" class="form-control" name="keywords" id="keywords" [field]="queries.keywords" id="keywords" i18n-placeholder placeholder="Please enter keywords to search for existing sites">
+                <input type="text" class="form-control" id="keywords" [field]="queries.keywords" id="keywords" i18n-placeholder placeholder="Please enter keywords to search for existing sites">
                 <button type="submit" class="btn btn-primary" i18n>Search</button>
                 <a class="btn" [class]="{'btn-info': !onlySelected, 'btn-success': onlySelected}" (click)="tapToggleOnly()" i18n>Only selected({{ selectedCount }})</a>
             </div>

@@ -36,7 +36,7 @@ export class ReportComponent implements OnInit {
     public isMultiple = false;
     public isChecked = false;
     public isReview = false;
-    public editData:  IReport = {} as any;
+    public readonly editModel = signal<IReport>({} as any);
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -126,14 +126,14 @@ export class ReportComponent implements OnInit {
     }
 
     public tapView(modal: DialogEvent, item: IReport) {
-        this.editForm = item;
+        this.editModel.set(item);
         modal.openCustom(value => {
             if (typeof value !== 'number') {
                 return;
             }
             this.service.reportSave({
                 status: value,
-                id: this.editForm?.id
+                id: this.editModel().id
             }).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapPage();

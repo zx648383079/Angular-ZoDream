@@ -24,7 +24,7 @@
     <div class="row score-input">
         <div class="col-md-3 text-right" i18n>Your reviews:</div>
         <div class="col-md-9">
-            <app-star [field]="scoreData.score" (ngModelChange)="onScoreChange()" [disabled]="false" [labelVisible]="true" />
+            <app-star [field]="scoreForm.score" (valueChange)="onScoreChange()" [labelVisible]="true" />
         </div>
     </div>
     

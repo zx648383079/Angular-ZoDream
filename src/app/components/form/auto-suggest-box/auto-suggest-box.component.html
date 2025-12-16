@@ -3,7 +3,7 @@
         <button class="search-btn">
             <i class="iconfont icon-search"></i>
         </button>
-        <input type="text" name="keywords" [(value)]="value" [placeholder]="placeholder()" (ngModelChange)="onSuggestChange()" autocomplete="off" (keydown)="suggestKeyPress($event)" (focus)="onFocus()" (blur)="onBlur()">
+        <input type="text" name="keywords" [(value)]="value" [placeholder]="placeholder()" (input)="onSuggestChange()" autocomplete="off" (keydown)="suggestKeyPress($event)" (focus)="onFocus()" (blur)="onBlur()">
         <div class="clear-btn" [hidden]="value().length < 1" (click)="tapClear()">
             <i class="iconfont icon-close"></i>
         </div>

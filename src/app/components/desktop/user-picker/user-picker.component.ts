@@ -1,4 +1,3 @@
-import { form } from '@angular/forms/signals';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, HostListener, inject, input, model, signal, viewChild } from '@angular/core';
 import { IUser } from '../../../theme/models/user';
@@ -23,11 +22,11 @@ export class UserPickerComponent implements FormValueControl<IUser> {
     public readonly value = model<IUser>();
     public isFocus = false;
 
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = signal<IPageQueries>({
         keywords: '',
         page: 1,
         per_page: 20
-    }));
+    });
     public items: IUser[] = [];
     public hasMore = false;
     public isLoading = false;
@@ -50,11 +49,19 @@ export class UserPickerComponent implements FormValueControl<IUser> {
     }
 
     public tapItem(item: IUser) {
-        this.output(item);
+        this.value.set(item);
     }
 
     public tapClear() {
-        this.output();
+        this.value.set(null)
+    }
+
+    public onKeywordsChange(e: Event) {
+        this.queries.update(v => {
+            v.keywords = (e.target as HTMLInputElement).value;
+            return v;
+        });
+        this.tapRefresh();
     }
 
     public tapRefresh() {
@@ -62,7 +69,7 @@ export class UserPickerComponent implements FormValueControl<IUser> {
     }
 
     public tapMore() {
-        this.goPage(this.queries.page().value() + 1);
+        this.goPage(this.queries().page + 1);
     }
 
     public goPage(page: number) {
@@ -70,23 +77,19 @@ export class UserPickerComponent implements FormValueControl<IUser> {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries().value(), page};
+        const queries = {...this.queries(), page};
         this.http.get<IPage<IUser>>('auth/admin/user/search', {params: queries}).subscribe({
             next: res => {
                 this.isLoading = false;
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.queries().value.set(queries);
+                this.queries.set(queries);
             },
             error: _ => {
                 this.isLoading = false;
             }
         });
-    }
-
-    private output(v?: IUser) {
-        this.value.set(v);
     }
 
 }

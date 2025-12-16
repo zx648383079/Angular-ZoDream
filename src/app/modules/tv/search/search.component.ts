@@ -9,9 +9,9 @@ import { TvService } from '../tv.service';
 
 @Component({
     standalone: false,
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+    selector: 'app-search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
     private readonly service = inject(TvService);

@@ -84,7 +84,7 @@ export class AddressPickerComponent implements FormValueControl<IAddress> {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.queries = queries;
+                this.queries().value.set(queries);
                 if (this.items.length < 1 && this.total < 1) {
                     this.toggleEdit();
                 }

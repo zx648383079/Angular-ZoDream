@@ -44,7 +44,7 @@ export class TemplateEditorComponent implements FormValueControl<string> {
     }
 
     public tapType(i: any) {
-        this.queries.type = i;
+        this.queries.type().value.set(i);
         this.tapRefresh();
     }
 

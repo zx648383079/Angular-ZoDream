@@ -1,4 +1,3 @@
-import { form } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import {
     IThread, IThreadPost, IThreadUser
@@ -55,12 +54,12 @@ export class ThreadComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         user: 0,
         order: '',
-        status: 0,
+        status: '0',
     }));
 
     public user: IUser;
@@ -71,14 +70,20 @@ export class ThreadComponent implements OnInit {
         required(schemaPath.content);
     });
 
-    public readonly editForm = form(signal<any>({}));
-    public rewardData = {
+    public readonly editForm = form(signal({
+        remark: '',
+        top_type: false,
+        is_digest: false,
+        is_highlight: false,
+        is_closed: false
+    }));
+    public readonly rewardForm = form(signal({
         amount: 10,
-    };
-    public statusData = {
-        items: [$localize `None`, $localize `Reviewed`, $localize `Done`,  $localize `Positive`, $localize `Opposition`],
+    }));
+    public statusItems = [$localize `None`, $localize `Reviewed`, $localize `Done`,  $localize `Positive`, $localize `Opposition`]
+    public readonly statusForm = form(signal({
         selected: 0,
-    };
+    }));
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
@@ -136,12 +141,15 @@ export class ThreadComponent implements OnInit {
     }
 
     public tapSeeUser(user: number = 0) {
-        this.queries.user = user;
+        this.queries.user().value.set(user);
         this.tapRefresh();
     }
 
     public tapSortOrder() {
-        this.queries.order = this.queries.order == 'desc' ? 'asc' : 'desc';
+        this.queries().value.update(v => {
+            v.order = v.order == 'desc' ? 'asc' : 'desc';
+            return v;
+        });
         this.tapRefresh();
     }
 
@@ -153,9 +161,7 @@ export class ThreadComponent implements OnInit {
         if (!this.thread || !this.user || !modal) {
             return;
         }
-        this.editForm = {
-            remark: '',
-        };
+        this.editForm.remark().value.set('');
         const maps = {
             highlightable: 'is_highlight',
             digestable: 'is_digest',
@@ -168,12 +174,12 @@ export class ThreadComponent implements OnInit {
             }
         });
         modal.open(() => {
-            this.service.threadAction(this.thread.id, this.editForm).subscribe(res => {
+            this.service.threadAction(this.thread.id, this.editForm()).subscribe(res => {
                 eachObject(maps, i => {
                     this.thread[i] = res[i];
                 });
             });
-        }, () => !emailValidate(this.editForm.remark));
+        }, () => !emailValidate(this.editForm.remark().value()));
     }
 
     public tapBlock(block: any, item: IThreadPost) {
@@ -249,18 +255,18 @@ export class ThreadComponent implements OnInit {
     }
 
     public formatStatus(item: IThreadPost) {
-        return mapFormat(item.status || 0, this.statusData.items);
+        return mapFormat(item.status || 0, this.statusItems);
     }
 
     public tapChange(modal: DialogEvent, item: IThreadPost) {
         if (!this.thread.editable) {
             return;
         }
-        this.statusData.selected = item.status || 0;
+        this.statusForm.selected().value.set(item.status || 0);
         modal.open(() => {
             this.service.postChange({
                 id: item.id,
-                status: this.statusData.selected
+                status: this.statusForm.selected().value()
             }).subscribe(res => {
                 item.status = res.status;
             });
@@ -308,7 +314,7 @@ export class ThreadComponent implements OnInit {
     public tapReward(modal: DialogEvent) {
         modal.open(() => {
             this.service.threadAction(this.thread.id, {
-                reward: this.rewardData.amount
+                reward: this.rewardForm.amount().value()
             }).subscribe({
                 next: res => {
                     this.thread.is_reward = res.is_reward;
@@ -317,7 +323,7 @@ export class ThreadComponent implements OnInit {
                     this.toastrService.warning(err.error.message);
                 }
             });
-        }, () => this.rewardData.amount > 0);
+        }, () => this.rewardForm.amount().value() > 0);
 
     }
 
@@ -361,7 +367,7 @@ export class ThreadComponent implements OnInit {
                 this.dataModel.set({
                     content: '',
                 });
-                if (this.queries.page < 2) {
+                if (this.queries.page().value() < 2) {
                     this.tapRefresh();
                 }
             },

@@ -125,7 +125,7 @@ export class SpiderComponent implements OnDestroy {
                 this.items = res.data;
                 // this.hasMore = res.paging.more;
                 // this.total = res.paging.total;
-                this.queries = queries
+                this.queries().value.set(queries);
             },
             error: _ => {
                 this.isLoading = false;

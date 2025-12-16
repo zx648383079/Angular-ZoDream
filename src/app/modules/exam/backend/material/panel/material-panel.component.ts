@@ -1,5 +1,5 @@
-import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, input, model, output, signal } from '@angular/core';
+import { form, required } from '@angular/forms/signals';
+import { Component, inject, input, model, signal } from '@angular/core';
 import { DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
@@ -32,13 +32,15 @@ export class MaterialPanelComponent {
     public typeItems = ['文本', '音频', '视频'];
     public tabIndex = false;
     public readonly value = model<IQuestionMaterial>();
-    public editData: IQuestionMaterial = {
+    public readonly editForm = form(signal({
         title: '',
         course_id: 0,
         description: '',
         type: 0,
         content: '',
-    };
+    }), schemaPath => {
+        required(schemaPath.title);
+    });
 
 
     public tapSelected(item: IQuestionMaterial) {

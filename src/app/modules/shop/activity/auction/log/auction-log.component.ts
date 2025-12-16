@@ -70,7 +70,7 @@ export class AuctionLogComponent {
                 this.isLoading = false;
                 this.total = res.paging.total;
                 this.items = res.data;
-                this.queries = queries;
+                this.queries().value.set(queries);
             },
             error: () => {
                 this.isLoading = false;

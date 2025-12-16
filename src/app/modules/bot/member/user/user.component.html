@@ -14,7 +14,7 @@
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
                     <a class="btn btn-success" routerLink="group">分组管理</a>
-                    <app-action-button class="btn btn-info" (tapped)="tapAsync($event)">同步</app-action-button>
+                    <app-action-button class="btn btn-info" (tapped)="tapAsync($event)">同步公众号</app-action-button>
                 </div>
             </form>
         </div>
@@ -47,7 +47,7 @@
                     </td>
                     <td>{{ item.status >= 0 ? '已关注' : '未关注' }}</td>
                     <td>
-                        <app-switch [field]="item.is_black" (ngModelChange)="onBlackChange(item)" />
+                        <app-switch [value]="item.is_black" (ngModelChange)="onBlackChange(item)" />
                     </td>
                     <td>
                         <div class="btn-group  btn-group-xs">

@@ -1,18 +1,24 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppStoreService } from '../app-store.service';
 import { ICategory, ISoftware } from '../model';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+    selector: 'app-store-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
     private readonly service = inject(AppStoreService);
+
+
+    public readonly queries = form(signal({
+        keywords: '',
+    }));
 
 
     public categories: ICategory[] = [];
@@ -32,7 +38,7 @@ export class HomeComponent implements OnInit {
     }
 
     public tapSearch() {
-        this.router.navigate(['search'], {relativeTo: this.route, queryParams: form});
+        this.router.navigate(['search'], {relativeTo: this.route, queryParams: this.queries().value()});
     }
 
 

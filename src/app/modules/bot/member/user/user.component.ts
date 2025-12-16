@@ -33,7 +33,13 @@ export class UserComponent implements OnInit {
         per_page: 20,
         group: 0,
     }));
-    public readonly editForm = form(signal<any>({}));
+    public readonly editForm = form(signal({
+        id: 0,
+        note_name: '',
+        is_black: false,
+        remark: '',
+        group_id: 0,
+    }));
 
     constructor() {
         this.themeService.titleChanged.next($localize `Account Center`);
@@ -51,13 +57,13 @@ export class UserComponent implements OnInit {
     }
 
     public tapEdit(modal: DialogEvent, item: IBotUser) {
-        this.editForm = {
+        this.editForm().value.set({
             id: item.id,
             note_name: item.note_name,
-            is_black: item.is_black,
+            is_black: item.is_black > 0,
             remark: item.remark,
             group_id: item.group_id,
-        };
+        });
         modal.open(() => {
             this.service.userUpdate(item.id, {
                 note_name: this.editForm.note_name,

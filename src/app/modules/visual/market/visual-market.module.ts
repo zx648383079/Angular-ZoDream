@@ -5,11 +5,13 @@ import { ThemeModule } from '../../../theme/theme.module';
 import { VisualService } from './visual.service';
 import { ZreFormModule } from '../../../components/form';
 import { DesktopModule } from '../../../components/desktop';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        Field,
         DesktopModule,
         VisualMarketRoutingModule,
         ZreFormModule,

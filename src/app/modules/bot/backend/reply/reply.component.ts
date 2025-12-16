@@ -38,7 +38,6 @@ export class ReplyComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public readonly editForm = form(signal<any>({}));
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

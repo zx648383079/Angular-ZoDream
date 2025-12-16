@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ISite } from '../../../model';
 import { VisualService } from '../../visual.service';
 import { ThemeService } from '../../../../../theme/services';
@@ -8,6 +8,7 @@ import { selectAuthStatus } from '../../../../../theme/reducers/auth.selectors';
 import { ButtonEvent } from '../../../../../components/form';
 import { DialogService } from '../../../../../components/dialog';
 import { emptyValidate } from '../../../../../theme/validators';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -24,7 +25,16 @@ export class CloneDialogComponent {
 
     public visible = false;
     public sourceData: ISite;
-    public readonly editForm = form(signal<ISite>({}));
+    public readonly editForm = form(signal({
+        name: '',
+        logo: '',
+        keywords: '',
+        title: '',
+        description: ''
+    }), schemaPath => {
+        required(schemaPath.name);
+        required(schemaPath.title);
+    });
     private isGuest = true;
 
     constructor() {
@@ -41,21 +51,27 @@ export class CloneDialogComponent {
             this.themeService.emitLogin(true);
             return;
         }
-        this.editForm = {} as any;
+        this.editForm().value.set({
+            name: '',
+            logo: '',
+            keywords: '',
+            title: '',
+            description: ''
+        });
         this.sourceData = item;
         this.visible = true;
     }
 
 
     public tapYes(e?: ButtonEvent) {
-        if (emptyValidate(this.editForm.title) || emptyValidate(this.editForm.name)) {
+        if (this.editForm().invalid()) {
             this.toastrService.warning($localize `Please input site name`);
             return;
         }
         e?.enter();
         this.service.siteClone({
             source: this.sourceData.id,
-            ... this.editForm
+            ... this.editForm().value()
         }).subscribe({
             next: _ => {
                 e?.reset();
@@ -70,7 +86,6 @@ export class CloneDialogComponent {
     }
 
     public tapCancel() {
-
         this.visible = false;
     }
 }

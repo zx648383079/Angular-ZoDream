@@ -1,6 +1,7 @@
-import { Component, input } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { IInvoiceTitle } from '../../../model';
 import { IUser } from '../../../../../theme/models/user';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -11,17 +12,17 @@ import { IUser } from '../../../../../theme/models/user';
 export class InvoiceDialogComponent {
 
     public visible = false;
-    public readonly user = input<IUser>(undefined);
+    public readonly user = input<IUser>();
     public titleTypeItems = ['个人', '企业'];
     public typeItems = ['普通发票', '电子普通发票'];
     public contentItems = ['商品明细', '商品类别'];
-    public editData: any = {
+    public readonly editForm = form(signal({
         title_type: 0,
         type: 0,
         title: '',
         tax_no: '',
         content: '',
-    };
+    }));
     private confirmFn: (data: IInvoiceTitle) => void;
 
     constructor() { }
@@ -29,7 +30,13 @@ export class InvoiceDialogComponent {
     public open(invoice: IInvoiceTitle, cb: (data: IInvoiceTitle) => void) {
         this.confirmFn = cb;
         if (invoice) {
-            this.editForm = {...invoice};
+            this.editForm().value.update(v => {
+                v.title_type = invoice?.title_type ?? 0;
+                v.type = invoice?.type ?? 0;
+                v.title = invoice?.title ?? '';
+                v.tax_no = invoice?.tax_no ?? '';
+                return v;
+            });
         }
         this.visible = true;
     }
@@ -40,7 +47,7 @@ export class InvoiceDialogComponent {
             return;
         }
         if (this.confirmFn) {
-            this.confirmFn({...this.editForm});
+            this.confirmFn({...this.editForm().value() as any});
         }
     }
 }

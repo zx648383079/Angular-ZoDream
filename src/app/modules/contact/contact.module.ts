@@ -8,6 +8,7 @@ import { DialogModule } from '../../components/dialog';
 import { ZreFormModule } from '../../components/form';
 import { DesktopModule } from '../../components/desktop';
 import { ZreSwiperModule } from '../../components/swiper';
+import { Field } from '@angular/forms/signals';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { ZreSwiperModule } from '../../components/swiper';
     imports: [
         CommonModule,
         ThemeModule,
+        Field,
         DesktopModule,
         ContactRoutingModule,
         ZreFormModule,

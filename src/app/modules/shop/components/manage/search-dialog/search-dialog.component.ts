@@ -27,10 +27,10 @@ export class SearchDialogComponent {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
-        category: 0,
-        brand: 0,
+        category: '',
+        brand: '',
         page: 1,
         per_page: 20,
     }));
@@ -174,7 +174,7 @@ export class SearchDialogComponent {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
-                this.queries = queries
+                this.queries().value.set(queries);
             },
             error: _ => {
                 this.isLoading = false;

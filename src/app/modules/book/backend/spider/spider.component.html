@@ -4,7 +4,7 @@
     <div class="search-bar">
         <form class="form-horizontal-control" (submit)="tapSearch()">
             <div class="flat-input">
-                <input type="text" class="form-control" name="keywords" id="keywords" [field]="queries.keywords" id="keywords" placeholder="请输入关键词搜索" >
+                <input type="text" class="form-control" id="keywords" [field]="queries.keywords" id="keywords" placeholder="请输入关键词搜索" >
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn btn-danger" (click)="close()">
                     <i class="iconfont icon-close"></i>

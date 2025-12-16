@@ -35,7 +35,7 @@ export class OrganizeStoreComponent implements IGameScene, OnInit {
     }
 
     public tapType(i: number) {
-        this.queries.type = i;
+        this.queries.type().value.set(i);
         this.tapRefresh();
     }
 
@@ -56,7 +56,7 @@ export class OrganizeStoreComponent implements IGameScene, OnInit {
         this.router.request(GameCommand.OrganizeStoreQuery, queries).subscribe({
             next: res => {
                 const data = res.data as IPage<IGameItem>;
-                this.queries = queries;
+                this.queries().value.set(queries);
                 this.isLoading = false;
                 this.total = data.paging.total;
                 this.hasMore = data.paging.more;

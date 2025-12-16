@@ -1,7 +1,7 @@
 <div class="container">
     <form class="search-bar" (submit)="tapSearch()">
-        <input type="text" class="form-control" name="keywords" id="keywords" [field]="queries.keywords" placeholder="请输入搜索内容">
-        <select class="form-control" name="type" [field]="queries.type">
+        <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="请输入搜索内容">
+        <select class="form-control" [field]="queries.type">
             @for (item of typeItems; track $index; let i = $index) {
             <option [value]="i">{{ item }}</option>
             }
@@ -13,7 +13,7 @@
 
     <div class="panel-container">
         @for (item of items; track $index) {
-            @if (queries.type < 1) {
+            @if (typeValue() < 1) {
                 <div class="page-item">
                 <a class="item-body" [routerLink]="['../pager', item.id]">
                     <span class="name">{{ item.name }}</span>

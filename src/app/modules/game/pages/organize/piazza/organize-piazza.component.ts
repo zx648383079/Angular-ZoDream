@@ -64,7 +64,7 @@ export class OrganizePiazzaComponent implements IGameScene, OnInit {
         this.router.request(GameCommand.OrganizeQuery, queries).subscribe({
             next: res => {
                 const data = res.data as IPage<IGameOrganize>;
-                this.queries = queries;
+                this.queries().value.set(queries);
                 this.isLoading = false;
                 this.total = data.paging.total;
                 this.hasMore = data.paging.more;

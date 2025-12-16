@@ -1,5 +1,5 @@
-import { form } from '@angular/forms/signals';
-import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { form, required } from '@angular/forms/signals';
+import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../components/dialog';
@@ -39,12 +39,14 @@ export class NoteComponent implements OnInit, OnDestroy {
         per_page: 20,
         keywords: '',
         user: 0,
-    }
+    }))
 
-    public editData: any = {
+    public readonly editForm = form(signal({
         content: '',
         status: 1,
-    }));
+    }), schemaPath => {
+        required(schemaPath.content);
+    });
     public authUser: IUser;
 
     private subItems = new Subscription();
@@ -56,13 +58,11 @@ export class NoteComponent implements OnInit, OnDestroy {
         });
     }
 
-    public get size() {
-        return wordLength(this.editForm.content);
-    }
+    public readonly size = computed(() => wordLength(this.editForm.content().value()));
 
     ngOnInit() {
         this.subItems.add(this.themeService.suggestQuerySubmitted.subscribe(res => {
-            this.queries.keywords = res;
+            this.queries.keywords().value.set(res);
             this.tapRefresh();
         }));
         this.route.queryParams.subscribe(params => {
@@ -76,21 +76,21 @@ export class NoteComponent implements OnInit, OnDestroy {
     }
 
     public toggleVisible() {
-        this.editForm.status = this.editForm.status > 0 ? 0 : 1;
+        this.editForm.status().value.update(v => v > 0 ? 0 : 1);
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.size === 0) {
+        if (this.size() === 0) {
             this.toastrService.warning($localize `Please input the content`);
             return;
         }
         e?.enter();
         this.service.save({
-            ...this.editForm
+            ...this.editForm().value()
         }).subscribe({
             next: _ => {
                 e?.reset();
-                this.editForm.content = '';
+                this.editForm.content().value.set('');
                 this.toastrService.success($localize `Successfully released!`);
                 this.tapRefresh();
             },
@@ -140,8 +140,8 @@ export class NoteComponent implements OnInit, OnDestroy {
             return;
         }
         this.isLoading = true;
-        const params: any = {...this.queries().value(), page};
-        this.service.getList(params).subscribe({
+        const queries = {...this.queries().value(), page};
+        this.service.getList(queries).subscribe({
             next: res => {
                 const data = res.data.map(i => {
                     i.html = this.sanitizer.bypassSecurityTrustHtml(i.html);
@@ -151,7 +151,7 @@ export class NoteComponent implements OnInit, OnDestroy {
                 this.isLoading = false;
                 this.items = page < 2 ? data : [].concat(this.items, data);
                 this.queries().value.set(queries);
-            this.searchService.applyHistory(params, false);
+            this.searchService.applyHistory(queries, false);
             },
             error: () => {
                 this.isLoading = false;

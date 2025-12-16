@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -9,6 +9,7 @@ import { DocumentService } from '../document.service';
 import { ThemeService } from '../../../../theme/services';
 import { NavigationDisplayMode } from '../../../../theme/models/event';
 import { treeRemoveId } from '../../shared';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -34,10 +35,13 @@ export class ApiEditComponent implements OnInit, OnDestroy {
 
     public data: IDocApi;
     public project: IProject;
-    public version = 0;
+    public readonly version = signal(0);
     public catalog: IDocApi[] = [];
     public versionItems: IProjectVersion[] = [];
-    public readonly editForm = form(signal<any>({}));
+    public readonly editForm = form(signal({
+        content: '',
+        name: ''
+    }));
     public methodItems = ['GET', 'POST', 'PUT', 'DELETE', 'OPTION'];
 
     ngOnInit() {
@@ -46,7 +50,7 @@ export class ApiEditComponent implements OnInit, OnDestroy {
             if (!params.project) {
                 return;
             }
-            this.version = params.version ? parseInt(params.version, 10) : 0;
+            this.version.set(params.version ? parseInt(params.version, 10) : 0);
             this.service.project(params.project).subscribe(res => {
                 this.project = res;
                 this.loadCatalog(res.id, params.id)
@@ -105,7 +109,6 @@ export class ApiEditComponent implements OnInit, OnDestroy {
             response: [],
         } as any;
         this.dataModel.set({
-                        id: res.id,
             name: '',
             method: 'GET',
             description: '',
@@ -117,7 +120,6 @@ export class ApiEditComponent implements OnInit, OnDestroy {
         this.service.api(item.id).subscribe(res => {
             this.data = res;
             this.dataModel.set({
-                        id: res.id,
                 name: res.name,
                 method: res.method,
                 description: res.description,
@@ -128,10 +130,10 @@ export class ApiEditComponent implements OnInit, OnDestroy {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (!this.form.valid) {
+        if (!this.dataForm().valid()) {
             return;
         }
-        const data = Object.assign({}, this.data, this.form.value);
+        const data = Object.assign({}, this.data, this.dataForm().value());
         if (data.type < 1 && emptyValidate(data.uri)) {
             this.toastrService.warning('请输入接口路径');
             return;
@@ -196,25 +198,21 @@ export class ApiEditComponent implements OnInit, OnDestroy {
     }
 
     public openVersion(modal: DialogBoxComponent) {
-        this.editForm = {
-            name: ''
-        };
+        this.editForm.name().value.set('');
         modal.open(() => {
-            this.service.versionNew(this.project.id, this.version, this.editForm.name).subscribe(_ => {
+            this.service.versionNew(this.project.id, this.version(), this.editForm.name().value()).subscribe(_ => {
                 this.toastrService.success('创建版本成功');
                 this.refreshVersion();
             });
         }, () => {
-            return !emptyValidate(this.editForm.name);
+            return !emptyValidate(this.editForm.name().value());
         });
     }
 
     public tapParse(modal: DialogBoxComponent, kind: number) {
-        this.editForm = {
-            content: ''
-        };
+        this.editForm.content().value.set('');;
         modal.open(() => {
-            this.service.apiParse(this.editForm.content, kind).subscribe(res => {
+            this.service.apiParse(this.editForm.content().value(), kind).subscribe(res => {
                 if (kind === 3) {
                     this.data.header.push(...res.data);
                     return;
@@ -226,7 +224,7 @@ export class ApiEditComponent implements OnInit, OnDestroy {
                 this.data.response.push(...res.data);
             });
         }, () => {
-            return !emptyValidate(this.editForm.content);
+            return !emptyValidate(this.editForm.content().value());
         })
     }
 

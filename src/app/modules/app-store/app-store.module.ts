@@ -7,6 +7,7 @@ import { ZreFormModule } from '../../components/form';
 import { ZreEditorModule } from '../../components/editor';
 import { LinkRuleModule } from '../../components/link-rule';
 import { DesktopModule } from '../../components/desktop';
+import { Field } from "@angular/forms/signals";
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import { DesktopModule } from '../../components/desktop';
         ZreEditorModule,
         LinkRuleModule,
         AppStoreRoutingModule,
+        Field
     ],
     declarations: [...appStoreRoutedComponents],
     providers: [

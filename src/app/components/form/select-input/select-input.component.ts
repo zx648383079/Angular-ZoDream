@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, HostListener, SimpleChanges, effect, inject, input, model } from '@angular/core';
+import { Component, HostListener, effect, inject, input, model } from '@angular/core';
 import { IData } from '../../../theme/models/page';
 import { cloneObject } from '../../../theme/utils';
 import { hasElementByClass } from '../../../theme/utils/doc';

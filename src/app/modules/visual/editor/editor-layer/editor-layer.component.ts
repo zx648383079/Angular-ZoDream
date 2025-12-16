@@ -1,16 +1,17 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import { ContextMenuComponent } from '../../../../components/context-menu';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { emptyValidate } from '../../../../theme/validators';
 import { EditorService } from '../editor.service';
 import { ICatalogItem, MENU_ACTION, TreeEvent, TREE_ACTION, Widget } from '../model';
 import { EditorLayer } from '../model/menu';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-editor-layer',
-  templateUrl: './editor-layer.component.html',
-  styleUrls: ['./editor-layer.component.scss']
+    selector: 'app-editor-layer',
+    templateUrl: './editor-layer.component.html',
+    styleUrls: ['./editor-layer.component.scss']
 })
 export class EditorLayerComponent implements OnInit {
     private dialogService = inject(DialogService);
@@ -22,7 +23,10 @@ export class EditorLayerComponent implements OnInit {
     public tabIndex = 0;
     public catalogItems: ICatalogItem[] = [];
     public weightItems: Widget[] = [];
-    public readonly editForm = form(signal<any>({}));
+    public readonly editForm = form(signal({
+        name: '',
+        isGroup: false,
+    }));
     public bodyStyle: any = {};
 
     ngOnInit() {
@@ -47,16 +51,17 @@ export class EditorLayerComponent implements OnInit {
     }
 
     public tapNewCatalog(group = false) {
-        this.editForm =  {
+        this.editForm().value.set({
             name: '',
             isGroup: group,
-        };
+        });
         this.catalogModal().open(() => {
+            const data = this.editForm().value();
             this.service.pushCatalog({
-                name: this.editForm.name,
-                canExpand: this.editForm.isGroup,
+                name: data.name,
+                canExpand: data.isGroup,
             });
-        }, () => !emptyValidate(this.editForm.name), group ? '新增分组' : '新增页面');
+        }, () => !emptyValidate(this.editForm.name().value()), group ? '新增分组' : '新增页面');
     }
 
     public onWidgetTap(e: TreeEvent) {

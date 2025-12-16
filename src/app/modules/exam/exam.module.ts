@@ -8,10 +8,12 @@ import { ContextMenuModule } from '../../components/context-menu';
 import { ExamCommonModule } from './exam-common';
 import { DialogModule } from '../../components/dialog';
 import { DesktopModule } from '../../components/desktop';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
+        Field,
         ExamRoutingModule,
         ZreFormModule,
         DesktopModule,

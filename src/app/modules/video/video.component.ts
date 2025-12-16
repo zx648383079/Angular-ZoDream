@@ -104,7 +104,7 @@ export class VideoComponent implements OnInit {
     }
 
     public tapSearch(keywords: string) {
-        this.queries.keywords = keywords;
+        this.queries.keywords().value.set(keywords);
         this.tapRefresh();
     }
 

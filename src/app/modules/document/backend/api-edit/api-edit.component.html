@@ -4,7 +4,7 @@
             <div class="col-lg-3 col-md-4 right-hr">
                 <div class="bar-version">
                     <label for="version">版本</label>
-                    <select id="version" [field]="version" (ngModelChange)="onVersionChange()">
+                    <select id="version" [(value)]="version" (change)="onVersionChange()">
                         @for (item of versionItems; track $index) {
                             <option [value]="item.id">{{ item.name }}</option>
                         }
@@ -57,13 +57,13 @@
                                         @for (item of data.header; track $index; let i = $index) {
                                         <tr>
                                             <td>
-                                                <input type="text" class="form-control" [field]="item.name" [ngModelOptions]="{standalone: true}">
+                                                <input type="text" class="form-control" [(value)]="item.name">
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" [field]="item.default_value" [ngModelOptions]="{standalone: true}">
+                                                <input type="text" class="form-control" [(value)]="item.default_value">
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" [field]="item.remark" [ngModelOptions]="{standalone: true}">
+                                                <input type="text" class="form-control" [(value)]="item.remark">
                                             </td>
                                             <td>
                                                 <i class="iconfont icon-close" (click)="tapRemoveItem(i, 3)"></i>

@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ISitePage } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -6,7 +6,6 @@ import { VisualService } from '../../visual.service';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../../../theme/services';
-import { emptyValidate } from '../../../../../theme/validators';
 
 @Component({
     standalone: false,
@@ -31,9 +30,21 @@ export class SitePageComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public editData: ISitePage = {
-        settings: {}
-    } as any;
+    public readonly editForm = form(signal({
+        id: 0,
+        name: '',
+        title: '',
+        thumb: '',
+        keywords: '',
+        description: '',
+        site_id: 0,
+        is_default: false,
+        settings: {
+            cache_time: 0,
+        }
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -46,10 +57,17 @@ export class SitePageComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item: ISitePage) {
-        this.editForm = Object.assign({}, item);
-        if (!this.editForm.settings) {
-            this.editForm.settings = {};
-        }
+        this.editForm().value.update(v => {
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.title = item?.title ?? '';
+            v.thumb = item?.thumb ?? '';
+            v.keywords = item?.keywords ?? '';
+            v.description = item?.description ?? '';
+            v.site_id = item?.site_id ?? 0;
+            v.settings = item?.settings ?? {};
+            return v;
+        });
         modal.open(() => {
             this.service.sitePageSave(this.editForm().value()).subscribe({
                 next: () => {
@@ -60,9 +78,7 @@ export class SitePageComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editForm.name);
-        });
+        }, () => this.editForm().valid());
     }
 
     public tapPreview(item: ISitePage) {

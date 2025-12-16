@@ -8,9 +8,9 @@
                         <textarea class="form-control" [field]="editForm.content" placeholder="请输入内容"></textarea>
                     </div>
                     <div class="item-action">
-                        <span class="length-box">{{ size }}/255</span>
+                        <span class="length-box">{{ size() }}/255</span>
                         <div class="pull-right">
-                            <a (click)="toggleVisible()" [title]="editForm.status > 0 ? '公开显示' : '仅私人查看'"><i class="iconfont" [class]="{'icon-eye': editForm.status > 0, 'icon-eye-slash': editForm.status < 1}"></i></a>
+                            <a (click)="toggleVisible()" [title]="editForm.status().value() > 0 ? '公开显示' : '仅私人查看'"><i class="iconfont" [class]="{'icon-eye': editForm.status().value() > 0, 'icon-eye-slash': editForm.status().value() < 1}"></i></a>
                             <app-action-button (tapped)="tapSubmit($event)"><i class="iconfont icon-check"></i></app-action-button>
                         </div>
                     </div>

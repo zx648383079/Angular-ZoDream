@@ -24,10 +24,10 @@ export class ProductComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
-        category: 0,
-        brand: 0,
+        category: '',
+        brand: '',
         page: 1,
         per_page: 20,
         is_best: 0,

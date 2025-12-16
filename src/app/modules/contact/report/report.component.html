@@ -130,32 +130,32 @@
 </div>
 
 
-<app-dialog-box #modal [buttonVisible]="false" [title]="'投诉详情(' + editForm.id + ')'">
+<app-dialog-box #modal [buttonVisible]="false" [title]="'投诉详情(' + editModel().id + ')'">
     <div class="line-row-item">
         <span class="item-label">投诉人：</span>
-        <span class="item-body">{{ editForm.user?.name }}</span>
+        <span class="item-body">{{ editModel().user?.name }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">联系方式：</span>
-        <span class="item-body">{{ editForm.email }}</span>
+        <span class="item-body">{{ editModel().email }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">IP：</span>
-        <span class="item-body">{{ editForm.ip }}</span>
+        <span class="item-body">{{ editModel().ip }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">投诉时间：</span>
-        <span class="item-body">{{ editForm.created_at | ago }}</span>
+        <span class="item-body">{{ editModel().created_at | ago }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">投诉简介：</span>
-        <span class="item-body">{{ editForm.title }}</span>
+        <span class="item-body">{{ editModel().title }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">投诉内容：</span>
-        <span class="item-body">{{ editForm.content }}</span>
+        <span class="item-body">{{ editModel().content }}</span>
     </div>
-    @if (editForm.status < 1) {
+    @if (editModel().status < 1) {
     <ng-container name="footer">
         <div class="btn-group">
             <button type="button" class="btn btn-primary" (click)="modal.close(1)">已阅</button>

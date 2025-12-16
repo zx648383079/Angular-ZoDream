@@ -20,7 +20,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
-                    @if (queries.type == 'news') {
+                    @if (queries.type().value() == 'news') {
                         <a routerLink="create" class="btn btn-info">创建</a>
                     } @else {
                         <a (click)="open(modal)" class="btn btn-info">创建</a>
@@ -30,7 +30,7 @@
             </form>
         </div>
 
-        @if (queries.type == 'image' || queries.type == 'video') {
+        @if (queries.type().value() == 'image' || queries.type().value() == 'video') {
             <div class="row">
                 @for (item of items; track $index) {
                     <div class="col-md-3">
@@ -69,7 +69,7 @@
                         <th>标题</th>
                         <th>类型</th>
                         <th>Media Id</th>
-                        @if (queries.type == 'news') {
+                        @if (queries.type().value() == 'news') {
                             <th>发布状态</th>
                             <th>当前发布ID</th>
                         }
@@ -94,7 +94,7 @@
                             }
                             
                         </td>
-                        @if (queries.type == 'news') {
+                        @if (queries.type().value() == 'news') {
                             <td>{{ formatPublishStatus(item.publish_status) }}</td>
                             <td>{{ item.publish_id }}</td>
                         }
@@ -127,5 +127,5 @@
 </div>
 
 <app-dialog-box #modal [title]="'新增素材'">
-    <app-bot-edit-media [(value)]="editData" />
+    <app-bot-edit-media [(value)]="editModel" />
 </app-dialog-box>

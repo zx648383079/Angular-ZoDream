@@ -1,14 +1,15 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, inject, signal, viewChild } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
-import { MoviePlayerComponent, PlayerEvent, PlayerEvents } from '../../../components/media-player';
+import { MoviePlayerComponent, PlayerEvents } from '../../../components/media-player';
 import { IComment, IVideo } from '../model';
 import { VideoService } from '../video.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-video-detail',
-  templateUrl: './video-detail.component.html',
-  styleUrls: ['./video-detail.component.scss']
+    selector: 'app-video-detail',
+    templateUrl: './video-detail.component.html',
+    styleUrls: ['./video-detail.component.scss']
 })
 export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly service = inject(VideoService);
@@ -28,12 +29,16 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public commentData = {
         video_id: 0,
-        content: '',
-        parent_id: 0,
         items: [],
         page: 1,
         hasMore: true,
     };
+    public readonly commentForm = form(signal({
+        parent_id: 0,
+        content: ''
+    }), schemaPath => {
+        required(schemaPath.content);
+    });
 
     ngOnInit() {
         this.tapRefresh(() => {
@@ -82,7 +87,7 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public tapShowComment() {
-
+        this.commentData.video_id = this.data.id;
     }
 
     public tapPlay() {
@@ -212,23 +217,30 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
     public tapCommenting(item: IComment) {
-        this.commentData.parent_id = item.id;
-        this.commentData.content = '回复 @' + item.user.name;
+        this.commentForm().value.update(v => {
+            v.parent_id = item.id;
+            v.content = '回复 @' + item.user.name;
+            return v;
+        });
     }
 
     public tapCommentSubmit() {
-        if (!this.commentData.content || this.commentData.content.trim().length < 1) {
+        if (this.commentForm().invalid()) {
             this.toastrService.warning($localize `Please input the comment`);
             return;
         }
+        const data = this.commentForm().value();
         this.service.commentSave({
             video_id: this.commentData.video_id,
-            content: this.commentData.content,
-            parent_id: this.commentData.content.indexOf('回复 @') === 0 ? this.commentData.parent_id : 0,
+            content: data.content,
+            parent_id: data.content.indexOf('回复 @') === 0 ? data.parent_id : 0,
         }).subscribe(_ => {
             this.toastrService.success($localize `Successfully comment`);
-            this.commentData.parent_id = 0;
-            this.commentData.content = '';
+            this.commentForm().value.update(v => {
+                v.content = '';
+                v.parent_id = 0;
+                return v;
+            });
         });
     }
 

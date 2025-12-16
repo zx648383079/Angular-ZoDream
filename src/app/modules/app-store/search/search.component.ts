@@ -24,7 +24,7 @@ export class SearchComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = signal({
         keywords: '',
         page: 1,
         per_page: 20,
@@ -34,8 +34,10 @@ export class SearchComponent implements OnInit {
         price: '',
         sort: '',
         order: '',
+    });
+    public readonly queryForm = form(signal({
+        keywords: '',
     }));
-    public keywords = '';
     public items: ISoftware[] = [];
     public hasMore = true;
     public isLoading = false;
@@ -45,18 +47,18 @@ export class SearchComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.queries().value.update(v => this.searchService.getQueries(params, v));
-            this.keywords = this.queries.keywords().value();
-            this.tapPage();
+            this.queries.update(v => this.searchService.getQueries(params, v));
+            this.queryForm.keywords().value.set(this.queries().keywords);
+            this.tapPage(this.queries().page);
         });
     }
 
     public get selectedFilters() {
         const items: IFilterTag[] = [];
-        if (!emptyValidate(this.queries.keywords().value())) {
+        if (!emptyValidate(this.queries().keywords)) {
             items.push({
                 name: 'keywords',
-                label: `${this.queries.keywords}`
+                label: `${this.queries().keywords}`
             });
         }
         for (const item of this.filterItems) {
@@ -80,7 +82,7 @@ export class SearchComponent implements OnInit {
         for (const it of item.items) {
             it.selected = false;
         }
-        this.queries.price = `${item.min}-${item.max}`;
+        this.queries().price = `${item.min}-${item.max}`;
         this.tapRefresh();
     }
 
@@ -107,17 +109,17 @@ export class SearchComponent implements OnInit {
     }
 
     public tapUser(user: number) {
-        this.queries.user = user;
+        this.queries().user = user;
         this.tapRefresh();
     }
 
     public tapCategory(cat: number) {
-        this.queries.category = cat;
+        this.queries().category = cat;
         this.tapRefresh();
     }
 
     public tapClearQuery() {
-        this.keywords = '';
+        this.queryForm.keywords().value.set('');
     }
 
     public tapRemoveFilter(name: string) {
@@ -134,7 +136,7 @@ export class SearchComponent implements OnInit {
     }
 
     public tapClearFilter() {
-        this.queries = {
+        this.queries.set({
             keywords: '',
             page: 1,
             per_page: 20,
@@ -144,7 +146,7 @@ export class SearchComponent implements OnInit {
             price: '',
             sort: '',
             order: '',
-        };
+        });
         for (const item of this.filterItems) {
             for (const it of item.items) {
                 it.selected = false;
@@ -154,19 +156,25 @@ export class SearchComponent implements OnInit {
     }
 
     public tapSort(sort: string) {
-        const oldSort = this.queries.sort;
-        const oldOrder = this.queries.order;
-        this.queries.order = 'desc';
-        this.queries.sort = sort;
+        const oldSort = this.queries().sort;
+        const oldOrder = this.queries().order;
+        this.queries.update(v => {
+            v.order = 'desc';
+            v.sort = sort;
+            return v;
+        });
         if (sort != 'price') {
             this.tapRefresh();
             return;
         }
-        if (oldSort == sort) {
-            this.queries.order = oldOrder == 'asc' ? 'desc' : 'asc';
-        } else {
-            this.queries.order = 'desc';
-        }
+        this.queries.update(v => {
+            if (oldSort == sort) {
+                v.order = oldOrder == 'asc' ? 'desc' : 'asc';
+            } else {
+                v.order = 'desc';
+            }
+            return v;
+        });
         this.tapRefresh();
     }
 
@@ -174,12 +182,13 @@ export class SearchComponent implements OnInit {
         this.goPage(1);
     }
 
-    public tapPage() {
-        this.goPage(this.queries.page().value());
+    
+    public tapPage(page: number) {
+        this.goPage(page);
     }
 
     public tapMore() {
-        this.goPage(this.queries.page().value() + 1);
+        this.goPage(this.queries().page + 1);
     }
 
     /**
@@ -190,14 +199,14 @@ export class SearchComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries().value(), page};
+        const queries = {...this.queries(), page};
         this.service.appList({...queries, filter: this.filterItems.length < 1}).subscribe({
             next: res => {
                 this.items = res.data;
                 this.hasMore = res.paging.more;
                 this.total = res.paging.total;
                 this.searchService.applyHistory(queries);
-                this.queries().value.set(queries);
+                this.queries.set(queries);
                 this.isLoading = false;
                 if (res.filter) {
                     this.filterItems = res.filter;
@@ -210,7 +219,10 @@ export class SearchComponent implements OnInit {
     }
 
     public tapSearch() {
-
+        this.queries.update(v => {
+            v.keywords = this.queryForm.keywords().value();
+            return v;
+        });
         this.tapRefresh();
     }
 

@@ -80,7 +80,7 @@ export class MusicComponent implements OnInit {
         if (typeof value === 'object') {
             return;
         }
-        this.queries.keywords = value;
+        this.queries.keywords().value.set(value);
         this.goPage(1);
     }
 

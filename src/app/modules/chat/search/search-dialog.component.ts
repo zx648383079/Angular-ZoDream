@@ -98,7 +98,7 @@ export class SearchDialogComponent {
         const queries = {...this.queries().value(), page};
         this.service.search(queries).subscribe(res => {
             this.items = res.data;
-            this.queries = queries;
+            this.queries().value.set(queries);
             this.hasMore = res.paging.more;
         });
     }

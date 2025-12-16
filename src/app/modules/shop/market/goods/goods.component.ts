@@ -12,9 +12,9 @@ import { ShopService } from '../../shop.service';
 
 @Component({
     standalone: false,
-  selector: 'app-goods',
-  templateUrl: './goods.component.html',
-  styleUrls: ['./goods.component.scss']
+    selector: 'app-goods',
+    templateUrl: './goods.component.html',
+    styleUrls: ['./goods.component.scss']
 })
 export class GoodsComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);

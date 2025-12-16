@@ -7,10 +7,12 @@ import { FileExplorerService } from './file-explorer.service';
 import { FileExplorerCatalogComponent } from './catalog/file-explorer-catalog.component';
 import { FileExplorerImageEditorComponent } from './tools';
 import { DesktopModule } from '../desktop';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
+        Field,
         DesktopModule,
     ],
     declarations: [

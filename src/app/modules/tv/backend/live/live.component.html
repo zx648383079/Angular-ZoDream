@@ -45,7 +45,7 @@
                         <div class="source-label">{{ item.source }}</div>
                     </td>
                     <td>
-                        <app-switch [field]="item.status" (ngModelChange)="onStatusChange(item)" onLabel="有效" offLabel="已失效" />
+                        <app-switch [(value)]="item.status" (valueChange)="onStatusChange(item)" onLabel="有效" offLabel="已失效" />
                     </td>
                     <td>
                         <div class="btn-group btn-group-xs">

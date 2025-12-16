@@ -52,7 +52,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
     public editMode = false;
     public checkedAll = false;
     public items: IDisk[] = [];
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
         type: '',
         page: 1,
@@ -69,7 +69,10 @@ export class CatalogComponent implements OnInit, OnDestroy {
     ];
     public sortKey = '';
     public orderAsc = true;
-    public readonly editForm = form(signal<any>({}));
+    public readonly editForm = form(signal({
+        id: 0,
+        name: ''
+    }));
     public playerStyle: any = {};
     private subItems = new Subscription();
 
@@ -271,7 +274,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
     }
 
     public tapOpenEdit(modal: DialogBoxComponent) {
-        this.editForm = {name: ''};
+        this.editForm.name().value.set('');
         modal.open(() => {
             this.service.create({
                 name: this.editForm.name,
@@ -284,7 +287,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
                     this.toastrService.error(err);
                 }
             });
-        }, () => !emptyValidate(this.editForm.name));
+        }, () => !emptyValidate(this.editForm.name().value()));
     }
 
     public tapUpload(e: any) {
@@ -421,7 +424,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
         }
         this.isLoading = true;
         this.pullBox()?.startLoad();
-        const query = emptyValidate(this.queries.keywords) && emptyValidate(this.queries.type) ? this.service.getCatalog({
+        const query = emptyValidate(this.queries.keywords().value()) && emptyValidate(this.queries.type().value()) ? this.service.getCatalog({
             id: this.lastFolder,
             path: this.path,
             page
@@ -432,7 +435,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
         });
         query.subscribe({
             next: res => {
-                this.queries.page = page;
+                this.queries.page().value.set(page);
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 const items = res.data.map(i => {

@@ -2,7 +2,6 @@ import { form } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService, DialogEvent } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import { IItem } from '../../../../theme/models/seo';
 import { SearchService } from '../../../../theme/services';
 import { IOrder } from '../../model';
@@ -25,9 +24,9 @@ export class OrderComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         series_number: '',
-        status: 0,
+        status: '0',
         page: 1,
         per_page: 20,
         keywords: '',
@@ -51,9 +50,9 @@ export class OrderComponent implements OnInit {
     ];
     public panelOpen = false;
 
-    public shipData = {
+    public readonly shipForm = form(signal({
         fee: 0,
-    }
+    }));
 
     constructor() {
         this.tapRefresh();
@@ -68,12 +67,12 @@ export class OrderComponent implements OnInit {
 
 
     public tapShip(modal: DialogEvent, item: IOrder) {
-        this.shipData.fee = item.shipping_fee;
+        this.shipForm.fee().value.set(item.shipping_fee);
         modal.open(() => {
             this.service.orderSave({
                 id: item.id,
                 operate: 'fee',
-                shipping_fee: this.shipData.fee
+                shipping_fee: this.shipForm.fee().value()
             }).subscribe({
                 next: res => {
                     this.toastrService.success('修改成功');

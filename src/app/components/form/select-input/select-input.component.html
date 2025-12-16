@@ -8,7 +8,7 @@
                 </div>
             }
         </div>
-        <input type="text" [field]="keywords" [placeholder]="placeholder()" (ngModelChange)="onKeywordsChange()" 
+        <input type="text" [(value)]="keywords" [placeholder]="placeholder()" (input)="onKeywordsChange()" 
         [disabled]="disabled()" (focus)="onFocus()" (blur)="onBlur()">
         <div class="input-arrow">
             <span class="arrow-icon"></span>

@@ -3,7 +3,7 @@
     @if (header()) {
     <label >{{ header() }}</label>
     }
-    <select class="form-control" [field]="positionType">
+    <select class="form-control" [value]="value().position_type" (change)="onValueChange($event)">
         <option value="static">无</option>
         <option value="relative">相对定位</option>
         <option value="absolute">绝对定位</option>
@@ -12,7 +12,7 @@
 </div>
 
 <div class="position-container">
-    @if (positionType != 'static') {
+    @if (value().position_type != 'static') {
         <app-editor-bound-input />
     }
 </div>

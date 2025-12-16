@@ -1,6 +1,7 @@
-import { Component, input, model } from '@angular/core';
+import { Component, input, model, signal } from '@angular/core';
 import { CustomDialogEvent } from '../../../../../components/dialog';
 import { IQuestion } from '../../../model';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -11,10 +12,9 @@ import { IQuestion } from '../../../model';
 export class QuestionChildrenComponent {
     public readonly value = model<IQuestion[]>([]);
     public readonly editable = input(true);
-    public editData: IQuestion = {
-    } as any;
+    public readonly editForm = form(signal<IQuestion>({
 
-    constructor() { }
+    } as any));
 
     public tapEdit(modal: CustomDialogEvent, i = -1) {
         modal.open<IQuestion>(i >= 0 ? this.value()[i] : {} as any,  data => {

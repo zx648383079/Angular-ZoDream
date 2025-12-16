@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnInit, inject, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IBound, IPoint, computedBound, isIntersect, drawLineTo } from '../../../../../theme/utils/canvas';
@@ -6,6 +6,7 @@ import { parseNumber } from '../../../../../theme/utils';
 import { emptyValidate } from '../../../../../theme/validators';
 import { IGameMap, IGameMapArea } from '../../../model';
 import { GameMakerService } from '../../game-maker.service';
+import { form, required } from '@angular/forms/signals';
 
 
 const posMap = ['north_id', 'east_id', 'south_id', 'west_id'];
@@ -30,13 +31,16 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
     public items: IGameMap[] = [];
     public areaItems: IGameMapArea[] = [];
     public panelOpen = false;
-    public queries = {
+    public readonly queries = form(signal({
         keywords: '',
         project: 0
-    };
-    public editData: any = {
-        name: ''
-    };
+    }));
+    public readonly editForm = form(signal({
+        name: '',
+        description: '',
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
     private selectionRect: IBound = {
         x: 0,
         y: 0,
@@ -82,7 +86,7 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.route.parent.params.subscribe(params => {
-            this.queries.project = parseNumber(params.game);
+            this.queries.project().value.set(parseNumber(params.game));
         });
         this.service.mapAll(this.queries).subscribe(res => {
             this.areaItems = res.area_items;
@@ -148,7 +152,7 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
             this.service.mapSave({...this.editForm().value(), project_id: this.queries.project, ...this.formatPoint(e)}).subscribe(res => {
                 this.items.push(res);
             });
-        }, () => !emptyValidate(this.editForm.name), '添加地图');
+        }, () => this.editForm().valid(), '添加地图');
     }
 
     public onMoveStart(item: IGameMap, e: MouseEvent) {
@@ -169,7 +173,7 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
             });
             last = {x: p.clientX, y: p.clientY};
         }, () => {
-            this.service.mapBatchSave(this.queries.project, items).subscribe(() => {});
+            this.service.mapBatchSave(this.queries.project().value(), items).subscribe(() => {});
             this.refreshLine();
         });
     }
@@ -204,12 +208,12 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
                 return;
             }
             
-            this.editForm = {
-                name: '',
-                [toKey]: item.id
-            };
+            this.editForm.name().value.set('');
             this.mapModal().open(() => {
-                this.service.mapSave({...this.editForm().value(), project_id: this.queries.project, ...this.formatPoint(p)}).subscribe(res => {
+                this.service.mapSave({...this.editForm().value(), 
+                    [toKey]: item.id,
+                    project_id: this.queries.project, 
+                    ...this.formatPoint(p)}).subscribe(res => {
                     item[this.posToKey(pos)] = res.id;
                     this.items.forEach(i => {
                         if (i[toKey] == item.id) {
@@ -219,7 +223,7 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
                     this.items.push(res);
                     this.refreshLine();
                 });
-            }, () => !emptyValidate(this.editForm.name), '添加地图');
+            }, () => this.editForm().valid(), '添加地图');
         });
     }
 

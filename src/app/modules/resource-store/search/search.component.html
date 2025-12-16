@@ -2,8 +2,8 @@
     <div class="row">
         <div class="col-md-12">
             <form class="search-input" (submit)="tapSearch()">
-                <input type="text" class="form-control" name="keywords" [field]="keywords">
-                @if (keywords) {
+                <input type="text" class="form-control" [field]="queryForm.keywords">
+                @if (queryForm.keywords().value()) {
                     <i class="iconfont icon-close" (click)="tapClearQuery()"></i>
                 }
                 
@@ -30,24 +30,24 @@
                     </div>
                 </div>
                 <div class="tab-bar">
-                    <div class="item" [class]="{active: queries.sort == ''}" (click)="tapSort('')" i18n>
+                    <div class="item" [class.active]="queries().sort == ''" (click)="tapSort('')" i18n>
                         Best match
                     </div>
-                    <div class="item" [class]="{active: queries.sort == 'hot'}" (click)="tapSort('hot')" i18n>
+                    <div class="item" [class.active]="queries().sort == 'hot'" (click)="tapSort('hot')" i18n>
                         Best sellers
                     </div>
-                    <div class="item" [class]="{active: queries.sort == 'new'}" (click)="tapSort('new')" i18n>
+                    <div class="item" [class.active]="queries().sort == 'new'" (click)="tapSort('new')" i18n>
                         Newest
                     </div>
-                    <div class="item" [class]="{active: queries.sort == 'score'}" (click)="tapSort('score')" i18n>
+                    <div class="item" [class.active]="queries().sort == 'score'" (click)="tapSort('score')" i18n>
                         Best rated
                     </div>
-                    <div class="item" [class]="{active: queries.sort == 'trending'}" (click)="tapSort('trending')" i18n>
+                    <div class="item" [class.active]="queries().sort == 'trending'" (click)="tapSort('trending')" i18n>
                         Trending
                     </div>
-                    <div class="item" [class]="{active: queries.sort == 'price'}" (click)="tapSort('price')">
+                    <div class="item" [class.active]="queries().sort == 'price'" (click)="tapSort('price')">
                         <ng-container i18n>Price</ng-container>
-                        <i class="iconfont" [class]="{'icon-sort-desc': queries.sort == 'price' && queries.order != 'asc', 'icon-sort-asc': queries.sort == 'price' && queries.order == 'asc'}"></i>
+                        <i class="iconfont" [class]="{'icon-sort-desc': queries().sort == 'price' && queries().order != 'asc', 'icon-sort-asc': queries().sort == 'price' && queries().order == 'asc'}"></i>
                     </div>
                 </div>
             </div>
@@ -90,8 +90,8 @@
                     
                     @if (item.name == 'price') {
                     <div class="price-input">
-                        <input type="text" class="form-control" [field]="item.min">-
-                        <input type="text" class="form-control" [field]="item.max">
+                        <input type="number" class="form-control" [(value)]="item.min">-
+                        <input type="number" class="form-control" [(value)]="item.max">
                         <div class="btn btn-primary" (click)="tapPrice(item)">
                             <i class="iconfont icon-chevron-right"></i>
                         </div>
@@ -206,7 +206,7 @@
 
 
             <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-            <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+            <app-pagination [total]="total" [value]="queries().page" [perPage]="queries().per_page" (valueChange)="tapPage($event)" />
         </div>
     </div>
 </div>

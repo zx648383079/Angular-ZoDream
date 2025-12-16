@@ -2,16 +2,15 @@ import { form } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
-import { IPageQueries } from '../../../../../theme/models/page';
 import { IBrand, ICategory, IGoods } from '../../../model';
 import { SearchService } from '../../../../../theme/services';
 import { GoodsService } from '../goods.service';
 
 @Component({
     standalone: false,
-  selector: 'app-trash',
-  templateUrl: './trash.component.html',
-  styleUrls: ['./trash.component.scss']
+    selector: 'app-trash',
+    templateUrl: './trash.component.html',
+    styleUrls: ['./trash.component.scss']
 })
 export class TrashComponent implements OnInit {
     private readonly service = inject(GoodsService);
@@ -23,10 +22,10 @@ export class TrashComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
-        category: 0,
-        brand: 0,
+        category: '',
+        brand: '',
         page: 1,
         per_page: 20,
     }));

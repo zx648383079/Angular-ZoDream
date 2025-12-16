@@ -1,18 +1,18 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
-import { eachObject, mapFormat } from '../../../theme/utils';
+import { eachObject, mapFormat, parseNumber } from '../../../theme/utils';
 import { ExamService } from '../exam.service';
 import { ICourse, IExamPage } from '../model';
 
 @Component({
     standalone: false,
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+    selector: 'app-search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
     private readonly service = inject(ExamService);
@@ -26,13 +26,14 @@ export class SearchComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         keywords: '',
-        type: 0,
+        type: '0',
         course: 0,
     }));
+    public readonly typeValue = computed(() => parseNumber(this.queries.type().value()));
     public typeItems = ['试卷', '题目'];
     public courseItems: ICourse[] = [];
 

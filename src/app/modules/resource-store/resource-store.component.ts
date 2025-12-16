@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
@@ -8,6 +8,7 @@ import { ICategory } from './model';
 import { ResourceService } from './resource.service';
 import { Subscription } from 'rxjs';
 import { ThemeService } from '../../theme/services';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -21,6 +22,10 @@ export class ResourceStoreComponent implements OnInit, OnDestroy {
     private readonly store = inject<Store<AppState>>(Store);
     private readonly service = inject(ResourceService);
     private readonly themeService = inject(ThemeService);
+
+    public readonly queries = form(signal({
+        keywords: '',
+    }));
 
 
     public navItems: ICategory[] = [
@@ -69,7 +74,7 @@ export class ResourceStoreComponent implements OnInit, OnDestroy {
 
 
     public tapSearch() {
-        this.router.navigate(['search'], {relativeTo: this.route, queryParams: form});
+        this.router.navigate(['search'], {relativeTo: this.route, queryParams: this.queries().value()});
     }
 
     public toggleNav() {

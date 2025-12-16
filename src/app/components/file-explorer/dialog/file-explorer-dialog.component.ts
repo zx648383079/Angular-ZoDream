@@ -1,7 +1,8 @@
-import { Component, ComponentRef, Injector, OnInit, ViewContainerRef, inject, input, model, viewChild } from '@angular/core';
+import { Component, ComponentRef, Injector, OnInit, ViewContainerRef, inject, input, model, signal, viewChild } from '@angular/core';
 import { IBreadcrumbItem, IFileExplorerTool, IFileItem } from '../model';
 import { FileExplorerPanelComponent } from '../panel/file-explorer-panel.component';
 import { FileExplorerImageEditorComponent } from '../tools';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -20,8 +21,10 @@ export class FileExplorerDialogComponent {
     ];
     public readonly visible = model(false);
     public readonly mode = input(0);
-    public path = '';
-    public keywords = '';
+    public readonly queries = form(signal({
+        path: '',
+        keywords: '',
+    }));
     public pathIsInputing = false;
     private historyItems: string[] = [];
     private historyIndex = -1;
@@ -83,13 +86,13 @@ export class FileExplorerDialogComponent {
 
     public tapConfirmPath() {
         this.pathIsInputing = false;
-        this.enterPath(this.path);
+        this.enterPath(this.queries.path().value());
     }
 
 
     public tapConfirmSearch() {
         this.pathIsInputing = false;
-        this.panel().search(this.path, this.keywords);
+        this.panel().search(this.queries.path().value(), this.queries.keywords().value());
     }
 
     public onCatalogTap(path: string) {
@@ -113,7 +116,7 @@ export class FileExplorerDialogComponent {
      */
     private enterPath(path: string, useHistory = false) {
         this.applyPath(path, useHistory);
-        this.keywords = '';
+        this.queries.keywords().value.set('');
         this.panel().search(path);
     }
 
@@ -143,7 +146,7 @@ export class FileExplorerDialogComponent {
         if (!useHistory) {
             this.addHistory(path);
         }
-        this.path = path;
+        this.queries.path().value.set(path);
         const items: IBreadcrumbItem[] = [];
         const pushItem = (name: string, file: string) => {
             if (file === '/') {

@@ -11,7 +11,7 @@
     <div class="col-md-4 right-hr">
         <div class="bar-version">
             <label for="version">版本</label>
-            <select id="version" [field]="version" (ngModelChange)="onVersionChange()">
+            <select id="version" [(value)]="version" (change)="onVersionChange()">
                 @for (item of versionItems; track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
                 }

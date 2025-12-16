@@ -16,9 +16,9 @@ import { AccountStatusItems } from '../../../../theme/models/auth';
 
 @Component({
     standalone: false,
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+    selector: 'app-user',
+    templateUrl: './user.component.html',
+    styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit, OnDestroy {
     private readonly service = inject(AuthService);
@@ -42,7 +42,10 @@ export class UserComponent implements OnInit, OnDestroy {
     }));
 
     public editable = false;
-    public readonly editForm = form(signal<any>({}));
+    public readonly editForm = form(signal({
+        name: '',
+        id_card: ''
+    }));
     public buttonItems: IButton[] = [
         {
             name: '明细',
@@ -179,18 +182,20 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     public tapSearch() {
-
-        this.queries.sort = 'id';
+        this.queries.sort().value.set('id');
         this.tapRefresh();
     }
 
     public tapSort(key: string) {
-        if (this.queries.sort === key) {
-            this.queries.order = this.queries.order == 'desc' ? 'asc' : 'desc';
-        } else {
-            this.queries.sort = key;
-            this.queries.order = 'desc';
-        }
+        this.queries().value.update(v => {
+            if (v.sort === key) {
+                v.order = v.order == 'desc' ? 'asc' : 'desc';
+            } else {
+                v.sort = key;
+                v.order = 'desc';
+            }
+            return v;
+        });
         this.tapRefresh();
     }
 
@@ -224,7 +229,7 @@ export class UserComponent implements OnInit, OnDestroy {
         modal.open(() => {
             this.service.userVerify({
                 id: item.id,
-                id_card: this.editForm.id_card
+                id_card: this.editForm.id_card().value()
             }).subscribe({
                 next: _ => {
 

@@ -1,7 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ICategory, IResource } from '../model';
 import { ResourceService } from '../resource.service';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -13,6 +14,10 @@ export class HomeComponent implements OnInit {
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
     private readonly service = inject(ResourceService);
+
+    public readonly queries = form(signal({
+        keywords: '',
+    }));
 
 
     public categories: ICategory[] = [];
@@ -32,7 +37,7 @@ export class HomeComponent implements OnInit {
     }
 
     public tapSearch() {
-        this.router.navigate(['search'], {relativeTo: this.route, queryParams: form});
+        this.router.navigate(['search'], {relativeTo: this.route, queryParams: this.queries().value()});
     }
 
 

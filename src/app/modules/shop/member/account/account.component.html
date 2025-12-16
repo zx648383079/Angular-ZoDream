@@ -38,13 +38,13 @@
             <div class="row order-search">
                <div class="col-md-7 col-xl-8">
                     <div class="header-tab">
-                        <a [class]="{active: queries.type < 1}" (click)="tapType(0)">收支明细</a>
-                        <a [class]="{active: queries.type == 6}" (click)="tapType(6)">充值记录</a>
+                        <a [class.active]="queries.type().value() < 1" (click)="tapType(0)">收支明细</a>
+                        <a [class.active]="queries.type().value() == 6" (click)="tapType(6)">充值记录</a>
                     </div>
                </div>
                <div class="col-md-5 col-xl-4">
                     <form class="flat-search"  (submit)="tapSearch()">
-                        <input type="text" name="keywords" id="keywords" [field]="queries.keywords">
+                        <input type="text" id="keywords" [field]="queries.keywords">
                         <button>搜索</button>
                     </form>
                </div>

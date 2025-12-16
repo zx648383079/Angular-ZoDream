@@ -7,11 +7,13 @@ import { EditorService } from './editor.service';
 import { ZreFormModule } from '../../../components/form';
 import { ProgressModule } from '../../../components/progress';
 import { VisualEditorRoutingModule, visualEditorRoutingComponents } from './routing.module';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        Field,
         ContextMenuModule,
         VisualEditorRoutingModule,
         DialogModule,

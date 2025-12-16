@@ -48,7 +48,7 @@ export class TaskComponent implements IGameScene, OnInit {
         this.router.request(GameCommand.TaskOwn, queries).subscribe({
             next: res => {
                 const data = res.data as IPage<IGameTask>;
-                this.queries = queries;
+                this.queries().value.set(queries);
                 this.isLoading = false;
                 this.total = data.paging.total;
                 this.hasMore = data.paging.more;

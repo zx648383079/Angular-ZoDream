@@ -17,10 +17,12 @@ import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
 import { DocumentSharedModule } from '../shared';
 import { DesktopModule } from '../../../components/desktop';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
+        Field,
         DocumentBackendRoutingModule,
         ThemeModule,
         DesktopModule,

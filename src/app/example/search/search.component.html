@@ -50,7 +50,7 @@
                             {{ item.phone }}
                         </td>
                         <td>
-                            <app-switch [value]="item.open_status" (ngModelChange)="onOpenToggle(item)" />
+                            <app-switch [value]="item.open_status" (valueChange)="onOpenToggle(item)" />
                         </td>
                         <td>{{ formatStatus(item.status) }}</td>
                         <td class="auto-hide">{{ item.created_at | ago }}</td>

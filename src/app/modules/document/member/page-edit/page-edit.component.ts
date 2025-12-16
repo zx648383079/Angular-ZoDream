@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -9,6 +9,7 @@ import { DocumentService } from '../document.service';
 import { ThemeService } from '../../../../theme/services';
 import { NavigationDisplayMode } from '../../../../theme/models/event';
 import { treeRemoveId } from '../../shared';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -32,10 +33,12 @@ export class PageEditComponent implements OnInit, OnDestroy {
 
     public data: IDocPage;
     public project: IProject;
-    public version = 0;
+    public readonly version = signal(0);
     public catalog: IDocPage[] = [];
     public versionItems: IProjectVersion[] = [];
-    public readonly editForm = form(signal<any>({}));
+    public readonly editForm = form(signal({
+        name: ''
+    }));
 
     ngOnInit() {
         this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Compact);
@@ -43,7 +46,7 @@ export class PageEditComponent implements OnInit, OnDestroy {
             if (!params.project) {
                 return;
             }
-            this.version = params.version ? parseInt(params.version, 10) : 0;
+            this.version.set(params.version ? parseInt(params.version, 10) : 0);
             this.service.project(params.project).subscribe(res => {
                 this.project = res;
                 this.loadCatalog(res.id, params.id)
@@ -98,7 +101,6 @@ export class PageEditComponent implements OnInit, OnDestroy {
             content: '',
         } as any;
         this.dataModel.set({
-                        id: res.id,
             name: '',
             content: '',
         });
@@ -108,7 +110,6 @@ export class PageEditComponent implements OnInit, OnDestroy {
         this.service.page(item.id).subscribe(res => {
             this.data = res;
             this.dataModel.set({
-                        id: res.id,
                 name: res.name,
                 content: res.content
             });
@@ -117,10 +118,10 @@ export class PageEditComponent implements OnInit, OnDestroy {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (!this.form.valid) {
+        if (!this.dataForm().valid()) {
             return;
         }
-        const data = Object.assign({}, this.data, this.form.value);
+        const data = Object.assign({}, this.data, this.dataForm().value());
         e?.enter();
         this.service.pageSave(data).subscribe({
             next: res => {
@@ -181,16 +182,14 @@ export class PageEditComponent implements OnInit, OnDestroy {
     }
 
     public openVersion(modal: DialogBoxComponent) {
-        this.editForm = {
-            name: ''
-        };
+        this.editForm.name().value.set('');
         modal.open(() => {
-            this.service.versionNew(this.project.id, this.version, this.editForm.name).subscribe(_ => {
+            this.service.versionNew(this.project.id, this.version(), this.editForm.name().value()).subscribe(_ => {
                 this.toastrService.success('创建版本成功');
                 this.refreshVersion();
             });
         }, () => {
-            return !emptyValidate(this.editForm.name);
+            return !emptyValidate(this.editForm.name().value());
         });
     }
 

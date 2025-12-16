@@ -9,11 +9,11 @@
         <form class="form-horizontal-control"  (submit)="tapSearch()">
             <div class="input-group-control">
                 <label for="keywords">标题</label>
-                <input type="text" class="form-control" name="keywords" id="keywords" [field]="queries.keywords" id="keywords" placeholder="标题" >
+                <input type="text" class="form-control" id="keywords" [field]="queries.keywords" id="keywords" placeholder="标题" >
             </div>
             <div class="input-group-control">
                 <label>分类</label>
-                <select name="category" [field]="queries.category" class="form-control">
+                <select [field]="queries.category" class="form-control">
                     <option [value]="0">请选择</option>
                     @for (item of categories; track $index) {
                     <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
@@ -22,7 +22,7 @@
             </div>
             <div class="input-group-control">
                 <label>品牌</label>
-                <select name="brand" [field]="queries.brand" class="form-control">
+                <select [field]="queries.brand" class="form-control">
                     <option [value]="0">请选择</option>
                     @for (item of brandItems; track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
