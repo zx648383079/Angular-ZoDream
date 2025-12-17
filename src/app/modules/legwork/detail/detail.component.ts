@@ -1,8 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { LegworkService } from '../legwork.service';
-import { IService } from '../model';
+import { IService, IServiceForm } from '../model';
+import { applyEach, form, min, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -16,9 +17,23 @@ export class DetailComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
 
 
-    public data: IService;
-    public amount = 1;
-    public remark = [];
+    public readonly data = signal<IService>(null);
+    public readonly dataForm = form(signal<{
+        amount: number;
+        items: IServiceForm[]
+    }>({
+        amount: 1,
+        items: []
+    }), schemaPath => {
+        min(schemaPath.amount, 1);
+        applyEach(schemaPath.items, item => {
+            required(item.value, {
+                when: ({valueOf}) => {
+                    return !!valueOf(item.required);
+                }
+            })
+        });
+    });
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -26,31 +41,27 @@ export class DetailComponent implements OnInit {
         });
     }
 
-    get total() {
-        if (!this.data) {
+    public readonly total = computed(() => {
+        if (!this.data()) {
             return 0;
         }
-        return this.data.price * this.amount;
-    }
+        return this.data().price * this.dataForm.amount().value();
+    });
 
     public loadService(id: any) {
         this.service.service(id).subscribe(res => {
-            this.data = res;
-            this.remark = res.form ? res.form : [];
+            this.data.set(res);
+            this.dataForm.items().value.set(res.form ? res.form : []);
         });
     }
 
-    public onAmountChange() {
-
-    }
-
     public tapSubmit() {
-        if (this.amount < 1) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incorrect purchase quantity `);
             return;
         }
         const remark: any = {};
-        for (const item of this.remark) {
+        for (const item of this.dataForm.items().value()) {
             if (!item.value && item.required) {
                 this.toastrService.warning($localize `${item.label} is required`);
                 return;
@@ -58,8 +69,8 @@ export class DetailComponent implements OnInit {
             remark[item.name] = item.value as any;
         }
         this.service.orderCreate({
-            service_id: this.data.id,
-            amount: this.amount,
+            service_id: this.data().id,
+            amount: this.dataForm.amount().value(),
             remark
         }).subscribe({
             next: res => {

@@ -1,20 +1,20 @@
 <div id="comments" class="book-footer comment">
-    @if (commentData.parent_id < 1) {
+    @if (commentForm.parent_id().value() < 1) {
     <div class="book-comment-form">
         <div class="title" i18n>Post a comment</div>
         @if (status() != 2 && !user) {
         <div class="form-table-control">
             <div class="form-group">
                 <label i18n>Nickname</label>
-                <input type="text" class="form-control" [field]="guestUser.name" i18n-placeholder placeholder="Please input your nickname">
+                <input type="text" class="form-control" [field]="guestForm.name" i18n-placeholder placeholder="Please input your nickname">
             </div>
             <div class="form-group">
                 <label i18n>Email</label>
-                <input type="email" class="form-control" [field]="guestUser.email" i18n-placeholder placeholder="Please input your email" (ngModelChange)="onEmailChange()">
+                <input type="email" class="form-control" [field]="guestForm.email" i18n-placeholder placeholder="Please input your email" (input)="onEmailChange()">
             </div>
             <div class="form-group">
                 <label i18n>Link</label>
-                <input type="url" class="form-control" [field]="guestUser.url" i18n-placeholder placeholder="Please input your link">
+                <input type="url" class="form-control" [field]="guestForm.url" i18n-placeholder placeholder="Please input your link">
             </div>
         </div>
         }
@@ -26,7 +26,7 @@
                 first.
             </div>
         } @else if (user) {
-            <textarea class="form-control" [field]="commentData.content" i18n-placeholder placeholder="Please input content"></textarea>
+            <textarea class="form-control" [field]="commentForm.content" i18n-placeholder placeholder="Please input content"></textarea>
         }
         
         <app-action-button class="btn btn-primary" (tapped)="tapComment($event)" i18n>Comment</app-action-button>
@@ -51,14 +51,14 @@
             <ng-container i18n>All comments</ng-container>
             
              <div class="order-bar">
-                <span [class]="{active: queries.order == 'desc'}" (click)="tapSort('desc')" i18n>Newest</span>
-                <span [class]="{active: queries.order == 'asc'}" (click)="tapSort('asc')" i18n>Earliest</span>
+                <span [class]="{active: queries.order().value() == 'desc'}" (click)="tapSort('desc')" i18n>Newest</span>
+                <span [class]="{active: queries.order().value() == 'asc'}" (click)="tapSort('asc')" i18n>Earliest</span>
             </div>
         </div>
         <div id="comment-box">
             <app-pull-to-refresh [more]="hasMore" [loading]="isLoading" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
                 @for (item of items; track $index) {
-                    <app-comment-item [value]="item" [user]="user" [status]="status()" [guestUser]="guestUser" (commenting)="onReply($event)" />
+                    <app-comment-item [value]="item" [user]="user" [status]="status()" [guestUser]="guestForm().value()" (commenting)="onReply($event)" />
                 }
             </app-pull-to-refresh>
         </div>

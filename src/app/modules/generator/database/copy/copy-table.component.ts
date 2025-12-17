@@ -1,9 +1,10 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { IItem } from '../../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
 import { ITableColumn } from '../../model';
+import { form } from '@angular/forms/signals';
 
 interface ITableItem {
     schema: string;
@@ -38,9 +39,9 @@ interface IColumnValue {
 
 @Component({
     standalone: false,
-  selector: 'app-copy-table',
-  templateUrl: './copy-table.component.html',
-  styleUrls: ['./copy-table.component.scss']
+    selector: 'app-copy-table',
+    templateUrl: './copy-table.component.html',
+    styleUrls: ['./copy-table.component.scss']
 })
 export class CopyTableComponent implements OnInit {
     private readonly service = inject(GenerateService);
@@ -57,21 +58,21 @@ export class CopyTableComponent implements OnInit {
     public tableItems: IItem[] = [];
     public columnItems: IColumnItem[] = [];
     public srcColumnItems: IColumnItem[] = [];
-    public tableData = {
+    public readonly tableForm = form(signal({
         type: 0,
         schema: '',
         table: '',
         column: '',
-        foreign: undefined,
-    };
-    public columnData: IColumnValue = {
+        foreign: null,
+    }));
+    public readonly columnForm = form(signal<IColumnValue>({
         type: 0,
         value: '',
         valueType: 'string',
-        column: undefined,
+        column: null,
         append: 0,
         appendType: 'number',
-    };
+    }));
 
     public typeItems: IItem[] = [
         {
@@ -140,8 +141,8 @@ export class CopyTableComponent implements OnInit {
     public tapDist(modal: DialogBoxComponent) {
         modal.open(() => {
             this.distTable = {
-                schema: this.tableData.schema,
-                table: this.tableData.table,
+                schema: this.tableForm.schema().value(),
+                table: this.tableForm.table().value(),
             };
             this.getColumn(this.distTable, data => {
                 this.linkItems = data.map(i => {
@@ -158,18 +159,18 @@ export class CopyTableComponent implements OnInit {
             this.toastrService.warning('请先选择目标表');
             return;
         }
-        this.tableData.type = this.srcTable.length > 0 ? 2 : 1;
-        this.tableData.table = '';
+        this.tableForm.type = this.srcTable.length > 0 ? 2 : 1;
+        this.tableForm.table = '';
         modal.open(() => {
             const table: ITableItem = {
-                schema: this.tableData.schema,
-                table: this.tableData.table,
+                schema: this.tableForm.schema,
+                table: this.tableForm.table,
             };
-            if (this.tableData.type > 1) {
-                table.column = this.tableData.column;
-                table.foreignColumn = this.tableData.foreign.column;
-                table.foreignTable = this.tableData.foreign.table;
-                table.foreignSchema = this.tableData.foreign.schema;
+            if (this.tableForm.type > 1) {
+                table.column = this.tableForm.column;
+                table.foreignColumn = this.tableForm.foreign.column;
+                table.foreignTable = this.tableForm.foreign.table;
+                table.foreignSchema = this.tableForm.foreign.schema;
             }
             this.srcTable.push(table);
             this.refreshSrcColumn();
@@ -182,9 +183,9 @@ export class CopyTableComponent implements OnInit {
             this.toastrService.warning('请先选择数据表');
             return;
         }
-        this.columnData = item.src ? {...item.src} : {type: 0, value: '', valueType: 'string', column: undefined, append: 0, appendType: 'number',};
+        this.columnForm = item.src ? {...item.src} : {type: 0, value: '', valueType: 'string', column: undefined, append: 0, appendType: 'number',};
         modal.open(() => {
-            item.src = {...this.columnData, label: this.formatColumnValue(this.columnData)};
+            item.src = {...this.columnForm().value(), label: this.formatColumnValue(this.columnForm)};
         }, '选择数据');
     }
 
@@ -197,7 +198,7 @@ export class CopyTableComponent implements OnInit {
     }
 
     public onSchemaChange() {
-        this.getTable(this.tableData.schema, data => {
+        this.getTable(this.tableForm.schema().value(), data => {
             this.tableItems = data.map(i => {
                 return {
                     name: i,
@@ -208,11 +209,11 @@ export class CopyTableComponent implements OnInit {
     }
 
     public onTableChange() {
-        this.getColumn(this.tableData, data => {
+        this.getColumn(this.tableForm().value(), data => {
             this.columnItems = data.map(i => {
                 return {
-                    schema: this.tableData.schema,
-                    table: this.tableData.table,
+                    schema: this.tableForm.schema().value(),
+                    table: this.tableForm.table().value(),
                     column: i.value,
                     label: i.label,
                 };

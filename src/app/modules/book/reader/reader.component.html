@@ -1,7 +1,7 @@
 <div class="container-fluid" #container [class]="{'scroll-up': scrollToUp || mode > 0}" >
   
     <div class="reader-box">
-        <app-flip-pager [initChapter]="chapterId" [options]="configs" (progressChanged)="onProgressChange($event)" (previewRequest)="onRequest($event)" />
+        <app-flip-pager [initChapter]="chapterId" [options]="configForm().value()" (progressChanged)="onProgressChange($event)" (previewRequest)="onRequest($event)" />
     </div>
     
     @if (isLoading) {
@@ -21,16 +21,16 @@
             <div class="line-item">
                 <span i18n>Foreground</span>
                 <div class="color-box">
-                    <app-color-picker [field]="configs.color">
-                        <span class="color" [style]="{'background-color': configs.color}"></span>
+                    <app-color-picker [field]="configForm.color">
+                        <span class="color" [style]="{'background-color': configForm.color().value()}"></span>
                     </app-color-picker>
                 </div>
             </div>
             <div class="line-item">
                 <span i18n>Background</span>
                 <div class="color-box">
-                    <app-color-picker [field]="configs.background" (ngModelChange)="onBackgroundChange()">
-                        <span class="color" [style]="{'background-color': configs.background}"></span>
+                    <app-color-picker [field]="configForm.background" (valueChange)="onBackgroundChange()">
+                        <span class="color" [style]="{'background-color': configForm.background().value()}"></span>
                     </app-color-picker>
                     <span class="add-img" (click)="tapBackgroundImg()">
                         <i class="iconfont icon-image"></i>
@@ -41,7 +41,7 @@
                 <span i18n>Effect</span>
                 <div class="font-box">
                     @for (item of flipItems; track $index; let i = $index) {
-                        <span [class]="{active: configs.flip == i}" (click)="configs.flip = i">{{ item }}</span>
+                        <span [class.active]="configForm.flip().value() == i" (click)="configForm.flip().value.set(i)">{{ item }}</span>
                     }
                     
                 </div>
@@ -50,7 +50,7 @@
                 <span i18n>Font Family</span>
                 <div class="font-box">
                     @for (item of fontItems; track $index; let i = $index) {
-                        <span [class]="{active: configs.font == i}" (click)="configs.font = i">{{ item }}</span>
+                        <span [class.active]="configForm.font().value() == i" (click)="configForm.font().value.set(i)">{{ item }}</span>
                     }
                 </div>
             </div>
@@ -58,7 +58,7 @@
                 <span i18n>Font Size</span>
                 <div class="size-box">
                     <i class="iconfont icon-minus" (click)="tapMinus('size')"></i>
-                    <span class="lang">{{ configs.size }}</span>
+                    <span class="lang">{{ configForm.size().value() }}</span>
                     <i class="iconfont icon-plus" (click)="tapPlus('size')"></i>
                 </div>
             </div>
@@ -66,7 +66,7 @@
                 <span i18n>Line spacing</span>
                 <div class="size-box">
                     <i class="iconfont icon-minus" (click)="tapMinus('line')"></i>
-                    <span class="lang">{{ configs.line }}</span>
+                    <span class="lang">{{ configForm.line().value() }}</span>
                     <i class="iconfont icon-plus" (click)="tapPlus('line')"></i>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                 <span i18n>Letter spacing</span>
                 <div class="size-box">
                     <i class="iconfont icon-minus" (click)="tapMinus('letter')"></i>
-                    <span class="lang">{{ configs.letter }}</span>
+                    <span class="lang">{{ configForm.letter().value() }}</span>
                     <i class="iconfont icon-plus" (click)="tapPlus('letter')"></i>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                 <i class="iconfont icon-bars"></i>
                 <ng-container i18n>Catalog</ng-container>
             </a>
-            <a (click)="tapEye()" [class]="{active: configs.theme == 7}">
+            <a (click)="tapEye()" [class.active]="configForm.theme().value() == 7">
                 <i class="iconfont icon-eye"></i>
                 <ng-container i18n>Black</ng-container>
             </a>

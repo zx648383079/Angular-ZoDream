@@ -77,6 +77,10 @@ export class CommentViewerComponent {
         this.editForm.content().value.update(v => v + (item.type > 0 ? item.content : '[' + item.name + ']'));
     }
 
+    public toggleForward() {
+        this.editForm.is_forward().value.update(v => !v);
+    }
+
     public tapComment() {
         if (this.editForm.content().value().length < 1) {
             this.toastrService.warning($localize `Please input content`);
@@ -137,7 +141,6 @@ export class CommentViewerComponent {
             return;
         }
         if (!this.auto()) {
-            // TODO: The 'emit' function requires a mandatory void argument
             this.loadMore.emit();
             return;
         }

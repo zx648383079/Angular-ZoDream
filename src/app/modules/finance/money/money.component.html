@@ -36,7 +36,7 @@
                     <td>{{ item.money }}</td>
                     <td>{{ item.frozen_money }}</td>
                     <td>
-                        <app-switch [field]="item.status" (ngModelChange)="onStatusChange(item)" />
+                        <app-switch [(value)]="item.status" (valueChange)="onStatusChange(item)" />
                     </td>
                     <td>{{ item.remark }}</td>
                     <td>

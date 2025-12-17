@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { Component, OnInit, computed, inject, signal, viewChild } from '@angular/core';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
 import { IUser } from '../../../../../theme/models/user';
@@ -6,22 +6,28 @@ import { emptyValidate, mobileValidate } from '../../../../../theme/validators';
 import { IAddress, ICartItem, ICoupon, IGoods, IGoodsResult, IOrder, IPayment, IShipping } from '../../../model';
 import { OrderService } from '../order.service';
 import { SearchDialogComponent } from '../../../components';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-    selector: 'app-create',
+    selector: 'app-order-create',
     templateUrl: './create.component.html',
     styleUrls: ['./create.component.scss'],
 })
-export class CreateComponent implements OnInit {
+export class CreateComponent {
     private readonly service = inject(OrderService);
     private readonly toastrService = inject(DialogService);
 
 
     private readonly modal = viewChild(SearchDialogComponent);
+    public readonly dataForm = form(signal<{
+        user: IUser,
+        address: IAddress
+    }>({
+        user: null,
+        address: null
+    }));
     public stepIndex = 0;
-    public user: IUser;
-    public address: IAddress;
     public goodsItems: ICartItem[] = [];
     public coupon?: ICoupon;
     public paymentItems: IPayment[] = [];
@@ -30,21 +36,19 @@ export class CreateComponent implements OnInit {
     public shipping: IShipping;
     public order: IOrder;
 
-    ngOnInit() {
-    }
-
-    public get invalid(): boolean {
+    public readonly invalid = computed(() => {
         if (this.stepIndex < 1) {
-            return !this.user;
+            return !this.dataForm.user().value();
         }
         if (this.stepIndex == 1) {
-            if (!this.address) {
+            const address = this.dataForm.address().value();
+            if (!address) {
                 return true;
             }
-            if (this.address.id > 0) {
+            if (address.id > 0) {
                 return false;
             }
-            return emptyValidate(this.address.name) || this.address.region_id < 1 || emptyValidate(this.address.address) || !mobileValidate(this.address.tel);
+            return emptyValidate(address.name) || address.region_id < 1 || emptyValidate(address.address) || !mobileValidate(address.tel);
         }
         if (this.stepIndex == 2) {
             return this.goodsItems.length < 1;
@@ -53,7 +57,9 @@ export class CreateComponent implements OnInit {
             return !this.payment || !this.shipping;
         }
         return false;
-    }
+    });
+
+    public readonly userId = computed(() => this.dataForm.user().value()?.id);
 
     public tapNext() {
         if (this.invalid) {
@@ -101,10 +107,11 @@ export class CreateComponent implements OnInit {
     }
 
     private loadShipping() {
-        if (!this.address || this.goodsItems.length < 1) {
+        const data = this.dataForm().value();
+        if (!data.address || this.goodsItems.length < 1) {
             return;
         }
-        this.service.shippingList(this.user.id, this.goodsItems, this.address.id > 0 ? this.address.id : this.address).subscribe({
+        this.service.shippingList(data.user.id, this.goodsItems, data.address.id > 0 ? data.address.id : data.address).subscribe({
             next: res => {
                 if (res.data && res.data.length > 0) {
                     this.shippingItems = res.data;
@@ -125,13 +132,14 @@ export class CreateComponent implements OnInit {
     public shippingChanged(item: IShipping) {
         this.shipping = item;
         this.refreshPrice();
-        this.service.paymentList(this.user.id, this.goodsItems, item.code).subscribe(res => {
+        this.service.paymentList(this.userId(), this.goodsItems, item.code).subscribe(res => {
             this.paymentItems = res.data;
         });
     }
 
     public tapCheckout(e?: ButtonEvent) {
-        if (!this.address) {
+        const data = this.dataForm().value();
+        if (!data.address) {
             this.toastrService.warning('请选择收货地址');
             return;
         }
@@ -150,11 +158,11 @@ export class CreateComponent implements OnInit {
         e?.enter();
         this.service.checkoutOrder({
             goods: this.goodsItems,
-            address: this.address.id > 0 ? this.address.id : this.address,
+            address: data.address.id > 0 ? data.address.id : data.address,
             shipping: this.shipping.code,
             payment: this.payment.code,
             coupon: this.coupon ? this.coupon.id : 0,
-            user: this.user.id,
+            user: data.user.id,
         }).subscribe({
             next: res => {
                 e?.reset();
@@ -170,16 +178,17 @@ export class CreateComponent implements OnInit {
     }
 
     private refreshPrice() {
-        if (!this.address || this.goodsItems.length < 1) {
+        const data = this.dataForm().value();
+        if (!data.address || this.goodsItems.length < 1) {
             return;
         }
         this.service.previewOrder({
             goods: this.goodsItems,
-            address: this.address.id > 0 ? this.address.id : this.address,
+            address: data.address.id > 0 ? data.address.id : data.address,
             shipping: this.shipping?.code,
             payment: this.payment?.code,
             coupon: this.coupon ? this.coupon.id : 0,
-            user: this.user.id,
+            user: data.user.id,
         }).subscribe({
             next: res => {
                 this.order = res;

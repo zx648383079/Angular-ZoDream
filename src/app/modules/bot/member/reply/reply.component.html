@@ -45,7 +45,7 @@
                     <td>{{ formatType(item.type) }}</td>
                     <td>{{ item.keywords }}</td>
                     <td>
-                        <app-switch [field]="item.status" offLabel="未激活" onLabel="已激活" (ngModelChange)="onStatusChange(item)" />
+                        <app-switch [(value)]="item.status" offLabel="未激活" onLabel="已激活" (valueChange)="onStatusChange(item)" />
                     </td>
                     <td>
                         <div class="btn-group  btn-group-xs">

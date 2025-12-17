@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, Renderer2, inject, viewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, Renderer2, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IChapter } from '../model';
 import { BookService } from '../book.service';
@@ -6,6 +6,7 @@ import { FlipPagerComponent, IFlipProgress, IRequestEvent } from './flip-pager/f
 import { scrollBottom, windowHeight, windowScollTop } from '../util';
 import { SearchService, ThemeService } from '../../../theme/services';
 import { NavigationDisplayMode } from '../../../theme/models/event';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -29,7 +30,7 @@ export class ReaderComponent implements OnInit, OnDestroy {
     public mode = 0;
     public fontItems = ['雅黑', '宋体', '楷书', '启体'];
     public flipItems = ['无', '覆盖', '仿真', '滚屏'];
-    public configs: any = {
+    public readonly configForm = form(signal({
         font: 3,
         background: '#fff',
         backgroundImage: null,
@@ -39,7 +40,8 @@ export class ReaderComponent implements OnInit, OnDestroy {
         letter: 4,
         color: '#333',
         flip: 0,
-    };
+        theme: 0,
+    }));
     public sizeRound: {[key: string]: number[]} = {
         size: [12, 2, 40],
         line: [2, 1, 40],
@@ -144,7 +146,7 @@ export class ReaderComponent implements OnInit, OnDestroy {
     }
 
     public onBackgroundChange() {
-        this.configs.backgroundImage = null;
+        this.configForm.backgroundImage().value.set(null);
     }
 
     public tapBackgroundImg() {
@@ -156,7 +158,7 @@ export class ReaderComponent implements OnInit, OnDestroy {
                 if (!files || files.length < 1) {
                     return;
                 }
-                that.configs.backgroundImage = window.URL.createObjectURL(files[0]);
+                that.configForm.backgroundImage().value.set(window.URL.createObjectURL(files[0]));
             };
         if (!fileELment) {
             fileELment = document.createElement('input');
@@ -176,7 +178,7 @@ export class ReaderComponent implements OnInit, OnDestroy {
     }
 
     public tapMinus(name: 'size' | 'line' | 'letter') {
-        if (!this.configs.hasOwnProperty(name)) {
+        if (!this.configForm.hasOwnProperty(name)) {
             return;
         }
         const round = {
@@ -184,16 +186,21 @@ export class ReaderComponent implements OnInit, OnDestroy {
             line: [2, 1, 40],
             letter: [1, 1, 40],
         };
-        this.configs[name] = Math.min(Math.max(this.configs[name] as number - this.sizeRound[name][1],
-        this.sizeRound[name][0]), this.sizeRound[name][2]);
+        this.configForm().value.update(v => {
+            v[name] = Math.min(Math.max(v[name] as number - this.sizeRound[name][1], this.sizeRound[name][0]), this.sizeRound[name][2]);
+            return v;
+        });
     }
 
     public tapPlus(name: 'size' | 'line' | 'letter') {
-        if (!this.configs.hasOwnProperty(name)) {
+        if (!this.configForm.hasOwnProperty(name)) {
             return;
         }
-        this.configs[name] = Math.min(Math.max(this.configs[name] as number + this.sizeRound[name][1],
-        this.sizeRound[name][0]), this.sizeRound[name][2]);
+        
+        this.configForm().value.update(v => {
+            v[name] = Math.min(Math.max(v[name] as number + this.sizeRound[name][1], this.sizeRound[name][0]), this.sizeRound[name][2]);
+            return v;
+        });
     }
 
     public tapChapter() {
@@ -201,15 +208,18 @@ export class ReaderComponent implements OnInit, OnDestroy {
     }
 
     public tapEye() {
-        if (this.configs.theme === 7) {
-            this.configs.theme = 1;
-            [this.configs.background, this.configs.color] = this.configs.oldTheme.split('|');
-            return;
-        }
-        this.configs.oldTheme = [this.configs.background, this.configs.color].join('|');
-        this.configs.background = '#000';
-        this.configs.color = '#fff';
-        this.configs.theme = 7;
+        this.configForm().value.update(v => {
+            if (v.theme === 7) {
+                v.theme = 1;
+                [v.background, v.color] = v.oldTheme.split('|');
+            } else {
+                v.oldTheme = [v.background, v.color].join('|');
+                v.background = '#000';
+                v.color = '#fff';
+                v.theme = 7;
+            }
+            return v;
+        });
     }
 
     public tapSetting() {

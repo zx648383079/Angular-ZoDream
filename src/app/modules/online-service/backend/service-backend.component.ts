@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../components/dialog';
 import { DialogBoxComponent } from '../../../components/dialog';
@@ -8,21 +8,29 @@ import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
 import { emptyValidate } from '../../../theme/validators';
 import { ICategory, ICategoryUser, ISession, IWord } from '../model';
 import { OnlineBackendService } from './online.service';
+import { form } from '@angular/forms/signals';
 
 const LOOP_SPACE_TIME = 20;
 const LOOP_SESSION_TIME = 120;
 
 @Component({
     standalone: false,
-  selector: 'app-service-backend',
-  templateUrl: './service-backend.component.html',
-  styleUrls: ['./service-backend.component.scss']
+    selector: 'app-service-backend',
+    templateUrl: './service-backend.component.html',
+    styleUrls: ['./service-backend.component.scss']
 })
 export class ServiceBackendComponent implements OnInit, OnDestroy {
     private readonly store = inject<Store<AppState>>(Store);
     private readonly service = inject(OnlineBackendService);
     private readonly toastrService = inject(DialogService);
 
+    public readonly dataForm = form(signal({
+        keywords: '',
+        service_word: '',
+        message: '',
+        remark: '',
+        user_keywords: ''
+    }));
 
     public tabIndex = 0;
     public expandIndex = 0;
@@ -30,12 +38,8 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
     public sessionItems: ISession[] = [];
     public session: ISession;
     public messageItems = [];
-    public messageContent = '';
-    public keywords = '';
-    public remarkContent = '';
     public users: ICategoryUser[] = [];
     public userSelected = 0;
-    public userKeywords = '';
 
     public currentUser = 0;
     private nextTime = 0;
@@ -75,32 +79,34 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
         return [];
     }
 
-    public get sessionItems1(): ISession[] {
+    public readonly sessionItems1 = computed(() => {
+        const keywords = this.dataForm.keywords().value();
         return this.sessionItems.filter(i => {
             if (i.status !== 1) {
                 return false;
             }
-            return this.keywords.trim().length < 0 || i.name.indexOf(this.keywords) >= 0;
+            return keywords.trim().length < 0 || i.name.indexOf(keywords) >= 0;
         });
-    }
+    });
 
-    public get sessionItems2(): ISession[] {
+    public readonly sessionItems2 = computed(() => {
+        const keywords = this.dataForm.keywords().value();
         return this.sessionItems.filter(i => {
             if (i.status > 0) {
                 return false;
             }
-            return this.keywords.trim().length < 0 || i.name.indexOf(this.keywords) >= 0;
+            return keywords.trim().length < 0 || i.name.indexOf(keywords) >= 0;
         });
-    }
-
-    public get sessionItems3(): ISession[] {
+    });
+    public readonly sessionItems3 = computed(() => {
+        const keywords = this.dataForm.keywords().value();
         return this.sessionItems.filter(i => {
             if (i.status < 2) {
                 return false;
             }
-            return this.keywords.trim().length < 0 || i.name.indexOf(this.keywords) >= 0;
+            return keywords.trim().length < 0 || i.name.indexOf(keywords) >= 0;
         });
-    }
+    });
 
     public tapSession(item: ISession) {
         if (!this.session || this.session.id !== item.id) {
@@ -108,36 +114,38 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
             this.startTime = 0;
             this.nextTime = 0;
             this.session = item;
+            this.dataForm.service_word().value.set(item.service_word as any);
             this.tapNext();
         }
     }
 
     public tapWord(item: IWord) {
-        this.messageContent = item.content;
+        this.dataForm.message().value.set(item.content);
     }
 
     public tapSend() {
-        const content = this.messageContent;
+        const content = this.dataForm.message().value();
         if (content.length < 1) {
             this.toastrService.warning('请输入内容');
             return;
         }
         this.send({content});
-        this.messageContent = '';
+        this.dataForm.message().value.set('');
     }
 
     public onReplyChange() {
         this.service.sessionReply({
             session_id: this.session.id,
-            word: this.session.service_word,
+            word: this.dataForm.service_word().value(),
         }).subscribe(res => {
             this.session = res;
+            this.dataForm.service_word().value.set(res.service_word as any);
         });
     }
 
     public onSearchUser() {
         this.service.userList({
-            keywords: this.userKeywords,
+            keywords: this.dataForm.user_keywords().value(),
             per_page: 10,
         }).subscribe(res => {
             this.users = res.data.filter(i => {
@@ -161,16 +169,16 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
     }
 
     public openRemark(modal: DialogBoxComponent) {
-        this.remarkContent = '';
+        this.dataForm.remark().value.set('');
         modal.open(() => {
             this.service.sessionRemark({
                 session_id: this.session.id,
-                remark: this.remarkContent,
+                remark: this.dataForm.remark().value(),
             }).subscribe(res => {
                 this.toastrService.success('备注成功成功');
                 this.session = res;
             });
-        }, () => !emptyValidate(this.remarkContent));
+        }, () => !emptyValidate(this.dataForm.remark().value()));
     }
 
     public tapClose() {
@@ -181,7 +189,7 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
     }
 
     public tapEmoji(item: IEmoji) {
-        this.messageContent += item.type > 0 ? item.content : '[' + item.name + ']';
+        this.dataForm.message().value.update(v => v + (item.type > 0 ? item.content : '[' + item.name + ']'));
     }
 
     public uploadImage(event: any) {

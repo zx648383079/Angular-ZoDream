@@ -33,7 +33,7 @@ export class ScoreComponent {
                 kind: 'range',
                 message: $localize `Please input score`
             };
-        })
+        });
     });
 
     constructor() {

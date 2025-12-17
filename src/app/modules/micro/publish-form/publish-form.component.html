@@ -1,12 +1,12 @@
 <div class="micro-publish-box">
     <div class="title">
         <ng-container i18n>Are there any new things you want to share with everyone? </ng-container>
-        <div class="tip" [hidden]="!content" i18n>
-            <em>{{ content.length }}</em>characters have been entered 
+        <div class="tip" [hidden]="!dataForm.content().value()" i18n>
+            <em>{{ dataForm.content().value().length }}</em>characters have been entered 
         </div>
     </div>
     <div class="input-box">
-        <textarea class="form-control" [field]="content"></textarea>
+        <textarea class="form-control" [field]="dataForm.content"></textarea>
     </div>
     <div class="actions">
         <div class="tools">
@@ -29,7 +29,7 @@
                 <i class="item-text">#</i>
             </div>
         </div>
-        <select class="form-control" [field]="openType">
+        <select class="form-control" [field]="dataForm.open_type">
             @for (item of typeItems; track $index;let i = $index) {
                 <option [value]="i">{{ item }}</option>
             }
@@ -50,7 +50,8 @@
 </div>
 <app-dialog-box #topicModal i18n-title title="Participate in the topic" [footerVisible]="false">
     <div class="flat-input">
-        <input type="text" class="form-control" i18n-placeholder placeholder="Topic" [field]="topic" (ngModelChange)="onTopicChange()" (keydown)="topicModal.confirmClose($event)">
+        <input type="text" class="form-control" i18n-placeholder placeholder="Topic" 
+        [value]="topic()" (input)="onTopicChange($event)" (keydown)="topicModal.confirmClose($event)">
         <div class="btn btn-primary" (click)="topicModal.close(topic)">
             <i class="iconfont icon-plus"></i>
         </div>

@@ -12,6 +12,7 @@ import { DialogModule } from '../../components/dialog';
 import { ZreEditorModule } from '../../components/editor';
 import { DesktopModule } from '../../components/desktop';
 import { TabletModule } from '../../components/tablet';
+import { Field } from '@angular/forms/signals';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { TabletModule } from '../../components/tablet';
     ],
     imports: [
         CommonModule,
+        Field,
         ThemeModule,
         DesktopModule,
         TabletModule,

@@ -2,7 +2,7 @@
     <div class="input-group-control">
         <label for="platform_id">应用</label>
         <div>
-            <select id="platform_id" class="form-control" name="platform_id" [field]="platformId" (ngModelChange)="tapPlatformChange()">
+            <select id="platform_id" class="form-control" [field]="dataForm.platform" (change)="tapPlatformChange()">
                 @for (item of platformItems; track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
                 }
@@ -10,20 +10,20 @@
         </div>
     </div>
     <div class="edit-view">
-        @for (group of items; track $index) {
-            <div class="expand-box" [class]="{min: group.expanded}">
-                <div class="expand-header" (click)="group.expanded = !group.expanded">
-                    {{ group.label }}
+        @for (group of dataForm.items; track $index) {
+            <div class="expand-box" [class.min]="group.expanded().value()">
+                <div class="expand-header" (click)="toggleGroup(group)">
+                    {{ group.label().value() }}
                     <i class="iconfont" [class]="group.expanded ? 'icon-chevron-down' : 'icon-chevron-up'"></i>
                 </div>
                 <div class="expand-body">
                     @for (item of group.children; track $index) {
                     <div class="input-group-control">
-                        <label [for]="'option_' + group.name + item.name ">{{ item.label }}</label>
+                        <label [attr.for]="'option_' + group.name().value() + item.name().value() ">{{ item.label().value() }}</label>
                         <div>
-                            <input type="text" [id]="'option_' + group.name + item.name " class="form-control" [field]="item.value">
-                            @if (item.tip) {
-                                <div class="tip">{{ item.tip }}</div>
+                            <input type="text" [id]="'option_' + group.name().value() + item.name().value() " class="form-control" [field]="item.value">
+                            @if (item.tip().value()) {
+                                <div class="tip">{{ item.tip().value() }}</div>
                             }
                         </div>
                     </div>

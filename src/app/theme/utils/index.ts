@@ -2,7 +2,7 @@ import { Md5 } from 'ts-md5';
 import { environment } from '../../../environments/environment';
 import { IPageTreeItem } from '../models/page';
 
-const rdashAlpha = /-([a-z])/g;
+const rdashAlpha = /_-([a-z])/g;
 
 /**
  * - 转驼峰
@@ -370,13 +370,13 @@ export function cloneObject<T>(val: T): T {
 /**
  * 遍历对象属性或数组
  */
-export function eachObject(obj: any, cb: (val: any, key?: string|number) => any): any {
+export function eachObject<K = string|number, V = any>(obj: any, cb: (val: V, key?: K) => any): any {
     if (typeof obj !== 'object') {
         return cb(obj, undefined);
     }
     if (obj instanceof Array) {
         for (let i = 0; i < obj.length; i++) {
-            if (cb(obj[i], i) === false) {
+            if (cb(obj[i], i as any) === false) {
                 return false;
             }
         }
@@ -384,7 +384,7 @@ export function eachObject(obj: any, cb: (val: any, key?: string|number) => any)
     }
     for (const key in obj) {
         if (Object.prototype.hasOwnProperty.call(obj, key)) {
-            if (cb(obj[key], key) === false) {
+            if (cb(obj[key], key as any) === false) {
                 return false;
             }
         }

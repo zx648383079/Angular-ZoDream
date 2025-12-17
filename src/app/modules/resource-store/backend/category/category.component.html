@@ -26,7 +26,7 @@
                     <td>{{ item.level | treeLevel }}{{ item.name }}</td>
                     <td></td>
                     <td>
-                        <app-switch [field]="item.is_hot" (ngModelChange)="onHotChange(item)" />
+                        <app-switch [(value)]="item.is_hot" (valueChange)="onHotChange(item)" />
                     </td>
                     <td>
                         <div class="btn-group">

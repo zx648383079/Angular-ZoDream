@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, output } from '@angular/core';
+import { Component, OnInit, inject, output, signal } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { IEmoji } from '../../../theme/models/seo';
 import { IMicro, ITopic } from '../model';
@@ -10,6 +10,7 @@ import { emptyValidate } from '../../../theme/validators';
 import { DialogBoxComponent } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { ThemeService } from '../../../theme/services';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -20,7 +21,7 @@ import { ThemeService } from '../../../theme/services';
 export class PublishFormComponent {
     private readonly service = inject(MicroService);
     private readonly toastrService = inject(DialogService);
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
     private readonly themeService = inject(ThemeService);
 
 
@@ -28,9 +29,13 @@ export class PublishFormComponent {
 
     public fileItems: IUploadResult[] = [
     ];
-    public content = '';
 
-    public openType = 0;
+    public readonly dataForm = form(signal({
+        content: '',
+        open_type: '0'
+    }), schemaPath => {
+        required(schemaPath.content);
+    });
 
     public typeItems = [
         $localize `Public`, 
@@ -39,14 +44,15 @@ export class PublishFormComponent {
         $localize `Private`
     ];
 
-    public topic = '';
+    public readonly topic = signal('');
     public topicItems: ITopic[] = [];
 
     public readonly published = output<IMicro>();
 
-    public onTopicChange() {
+    public onTopicChange(e: Event) {
+        this.topic.set((e.target as HTMLInputElement).value);
         this.service.topicList({
-            keywords: this.topic,
+            keywords: this.topic(),
             per_page: 10,
         }).subscribe(res => {
             this.topicItems = res.data;
@@ -58,12 +64,12 @@ export class PublishFormComponent {
             if (emptyValidate(item)) {
                 return false;
             }
-            this.content += '#' + item + '#';
+            this.dataForm.content().value.update(v => v + '#' + item + '#');
         });
     }
 
     public tapEmoji(item: IEmoji) {
-        this.content += item.type > 0 ? item.content : '[' + item.name + ']';
+        this.dataForm.content().value.update(v => v + (item.type > 0 ? item.content : '[' + item.name + ']'));
     }
 
     public tapRemoveFile(i: number) {
@@ -71,14 +77,13 @@ export class PublishFormComponent {
     }
 
     public tapPublish(e?: ButtonEvent) {
-        if (this.content.length < 1) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Please input content`);
             return;
         }
         e?.enter();
         this.service.create({
-            content: this.content,
-            open_type: this.openType,
+            ...this.dataForm().value(),
             file: this.fileItems.map(i => {
                 return {
                     thumb: i.thumb,
@@ -90,7 +95,7 @@ export class PublishFormComponent {
                 e?.reset();
                 this.toastrService.success($localize `Successfully released!`);
                 this.fileItems = [];
-                this.content = '';
+                this.dataForm.content().value.set('');
                 this.published.emit(res);
             }, error: err => {
                 e?.reset();

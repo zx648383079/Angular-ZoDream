@@ -5,6 +5,7 @@ import { mapFormat, parseNumber } from '../../../../theme/utils';
 import { EditorTypeItems, IBotMedia, IBotReplyTemplate, IBotReplyTemplateField, MediaTypeItems, MenuTypeItems } from '../../model';
 import { formatTemplateField } from '../../util';
 import { BotService } from '../bot.service';
+import { FormValueControl } from '@angular/forms/signals';
 
 interface IEditorData {
     type: number;
@@ -26,13 +27,13 @@ interface IEditorData {
     templateUrl: './message-editor.component.html',
     styleUrls: ['./message-editor.component.scss']
 })
-export class MessageEditorComponent {
+export class MessageEditorComponent implements FormValueControl<IEditorData> {
     private readonly service = inject(BotService);
 
 
     public readonly other = input('');
     public readonly source = input(0);
-    public readonly value = model<any>({
+    public readonly value = model<IEditorData>({
         type: 0,
     });
     public data: IEditorData = {

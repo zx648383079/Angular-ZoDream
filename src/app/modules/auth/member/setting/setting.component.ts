@@ -1,8 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { SearchService } from '../../../../theme/services';
 import { MemberService } from '../member.service';
+import { form } from '@angular/forms/signals';
 
 
 interface IGroupHeader {
@@ -24,11 +25,12 @@ export class SettingComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public data: any = {
+    public readonly dataForm = form(signal({
         accept_new_bulletin: true,
         open_not_disturb: false,
+        upload_add_water: false,
         post_expiration: 0,
-    };
+    }));
     public isChanged = false;
 
     public tabItems: IGroupHeader[] = [
@@ -57,7 +59,9 @@ export class SettingComponent implements OnInit {
 
     ngOnInit() {
         this.service.settings().subscribe(res => {
-            this.data = this.searchService.getQueries(res, this.data);
+            this.dataForm().value.update(v => {
+                return this.searchService.getQueries(res, v);
+            });
             this.isChanged = false;
         });
     }
@@ -95,7 +99,7 @@ export class SettingComponent implements OnInit {
             return;
         }
         e?.enter();
-        const data: any = Object.assign({}, this.data);
+        const data = this.dataForm().value();
         this.service.settingsSave(data).subscribe({
             next: _ => {
                 e?.reset();

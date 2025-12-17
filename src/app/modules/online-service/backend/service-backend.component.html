@@ -8,12 +8,12 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="search-bar">
-                    <input type="text" class="form-control" placeholder="搜索" [field]="keywords">
+                    <input type="text" class="form-control" placeholder="搜索" [field]="dataForm.keywords">
                 </div>
                 <div class="expand-box open" [class]="{open: expandIndex < 1}">
-                    <div class="expand-header" (click)="expandIndex = 0">会话中（{{ sessionItems1.length }}）</div>
+                    <div class="expand-header" (click)="expandIndex = 0">会话中（{{ sessionItems1().length }}）</div>
                     <div class="expand-body">
-                        @for (item of sessionItems1; track $index) {
+                        @for (item of sessionItems1(); track $index) {
                         <div class="user-item" (click)="tapSession(item)">
                             <div class="avatar">
                                 <img [src]="item.user?.avatar" alt="">
@@ -29,9 +29,9 @@
                     </div>
                 </div>
                 <div class="expand-box" [class]="{open: expandIndex == 1}">
-                    <div class="expand-header" (click)="expandIndex = 1">排队中（{{ sessionItems2.length }}）</div>
+                    <div class="expand-header" (click)="expandIndex = 1">排队中（{{ sessionItems2().length }}）</div>
                     <div class="expand-body">
-                        @for (item of sessionItems2; track $index) {
+                        @for (item of sessionItems2(); track $index) {
                         <div class="user-item" (click)="tapSession(item)">
                             <div class="avatar">
                                 <img [src]="item.user?.avatar" alt="">
@@ -47,9 +47,9 @@
                     </div>
                 </div>
                 <div class="expand-box" [class]="{open: expandIndex == 2}">
-                    <div class="expand-header" (click)="expandIndex = 2">会话结束（{{ sessionItems3.length }}）</div>
+                    <div class="expand-header" (click)="expandIndex = 2">会话结束（{{ sessionItems3().length }}）</div>
                     <div class="expand-body">
-                        @for (item of sessionItems3; track $index) {
+                        @for (item of sessionItems3(); track $index) {
                         <div class="user-item" (click)="tapSession(item)">
                             <div class="avatar">
                                 <img [src]="item.user?.avatar" alt="">
@@ -69,7 +69,7 @@
             <div class="col-md-6">
                 <div class="title-bar">
                     <div class="title">{{ session.name }}</div>
-                    <select class="form-control" [field]="session.service_word" (ngModelChange)="onReplyChange()">
+                    <select class="form-control" [field]="dataForm.service_word" (change)="onReplyChange()">
                         <option [value]="0">无自动回复</option>
                         @for (item of autoWords; track $index) {
                             <option [value]="item.id">{{ item.content }}</option>
@@ -98,7 +98,7 @@
                     </label>
                 </div>
                 <div class="message-editor">
-                    <textarea class="form-control message-text" [field]="messageContent" placeholder="请输入内容"></textarea>
+                    <textarea class="form-control message-text" [field]="dataForm.message" placeholder="请输入内容"></textarea>
                     <div class="message-action">
                         <button (click)="tapSend()">发送</button>
                     </div>
@@ -169,13 +169,13 @@
     <div class="form-group">
         <label for="name-input">备注内容</label>
         <div class="input-group-control">
-            <textarea class="form-control" [field]="remarkContent"></textarea>
+            <textarea class="form-control" [field]="dataForm.remark"></textarea>
         </div>
     </div>
 </app-dialog-box>
 
 <app-dialog-box #transferModal title="转接其他客服">
-    <input type="text" class="form-control" placeholder="请输入客服昵称" [field]="userKeywords" (ngModelChange)="onSearchUser()">
+    <input type="text" class="form-control" placeholder="请输入客服昵称" [field]="dataForm.user_keywords" (input)="onSearchUser()">
         @for (item of users; track $index) {
             <div class="line-item" [class]="{active: userSelected == item.user_id}" (click)="userSelected = item.user_id">
                 【{{ item.category.name }}】{{ item.user.name }}(ID: {{ item.user_id }})

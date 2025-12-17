@@ -32,7 +32,7 @@
                     <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
                     <td>
-                        <app-switch [value]="item.status" (ngModelChange)="onStatusChange(item)" />
+                        <app-switch [(value)]="item.status" (valueChange)="onStatusChange(item)" />
                     </td>
                     <td>{{ item.remark }}</td>
                     <td>

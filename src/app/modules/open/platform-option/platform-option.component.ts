@@ -1,32 +1,53 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, inject, input } from '@angular/core';
+import { Component, OnInit, inject, input, signal } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { IPlatform } from '../../../theme/models/open';
 import { IData, IDataOne } from '../../../theme/models/page';
+import { FieldTree, form } from '@angular/forms/signals';
+import { camelCase, eachObject } from '../../../theme/utils';
+
+
+interface IOptionGroup {
+    name: string,
+    label: string,
+    expanded: boolean;
+    children: {
+        name: string,
+        label: string,
+        tip?: string,
+        value: string
+    }[]
+}
 
 @Component({
     standalone: false,
-  selector: 'app-platform-option',
-  templateUrl: './platform-option.component.html',
-  styleUrls: ['./platform-option.component.scss']
+    selector: 'app-platform-option',
+    templateUrl: './platform-option.component.html',
+    styleUrls: ['./platform-option.component.scss']
 })
 export class PlatformOptionComponent implements OnInit {
     private http = inject(HttpClient);
     private readonly toastrService = inject(DialogService);
 
 
-    public readonly url = input<string>(undefined);
+    public readonly url = input<string>('');
 
-    public platformId = 0;
     public platformItems: IPlatform[] = [];
-    public items: any[] = [];
+    public readonly dataModel = signal<{
+        platform: string,
+        items: IOptionGroup[]
+    }>({
+        platform: '',
+        items: []
+    });
+    public readonly dataForm = form(this.dataModel);
 
     ngOnInit() {
         this.http.get<IData<IPlatform>>(this.url() + '/platform').subscribe(res => {
             this.platformItems = res.data;
             if (res.data.length > 0) {
-                this.platformId = res.data[0].id;
+                this.dataForm.platform().value.set(res.data[0].id as any);
                 this.tapPlatformChange();
             }
         });
@@ -35,35 +56,40 @@ export class PlatformOptionComponent implements OnInit {
     public tapPlatformChange() {
         this.http.get<IData<any>>(this.url() + '/option', {
             params: {
-                platform: this.platformId.toString(),
+                platform: this.dataForm.platform().value(),
             }
         }).subscribe(res => {
-            this.items = [];
-            this.each(res.data, (item, key) => {
+            const items = [];
+            eachObject(res.data, (item, key) => {
                 const group = {
                     name: key,
                     label: item._label,
+                    expanded: true,
                     children: []
                 };
-                this.each(item, (val, i) => {
+                eachObject<string, any>(item, (val, i) => {
                     if (i.indexOf('_label') >= 0 || i.indexOf('_tip') >= 0) {
                         return;
                     }
                     group.children.push({
                         name: i,
-                        label: Object.prototype.hasOwnProperty.call(item, i + '_label') ? item[i + '_label'] : this.studly(i),
+                        label: Object.prototype.hasOwnProperty.call(item, i + '_label') ? item[i + '_label'] : camelCase(i),
                         tip: Object.prototype.hasOwnProperty.call(item, i + '_tip') ? item[i + '_tip'] : undefined,
                         value: val
                     });
                 });
-                this.items.push(group);
+                items.push(group);
+            });
+            this.dataModel.update(v => {
+                v.items = items;
+                return v;
             });
         });
     }
 
     public saveOption(e?: ButtonEvent) {
         const option = {};
-        for (const group of this.items) {
+        for (const group of this.dataForm.items().value()) {
             const data = {};
             for (const item of group.children) {
                 data[item.name] = item.value;
@@ -72,7 +98,7 @@ export class PlatformOptionComponent implements OnInit {
         }
         e?.enter();
         this.http.post<IDataOne<boolean>>(this.url() + '/save_option', {
-            platform: this.platformId,
+            platform: this.dataForm.platform().value(),
             option,
         }).subscribe({
             next: res => {
@@ -88,19 +114,8 @@ export class PlatformOptionComponent implements OnInit {
         });
     }
 
-    private studly(key: string): string {
-        const re = /[-_](\w)/g;
-        return key.replace(re, ($0, $1) => {
-            return $1.toUpperCase();
-        });
-    }
-
-    private each(obj: any, cb: (val: any, key: string) => void) {
-        for (const key in obj) {
-            if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                cb(obj[key], key);
-            }
-        }
+    public toggleGroup(group: FieldTree<IOptionGroup>) {
+        group.expanded().value.update(v => !v);
     }
 
 }

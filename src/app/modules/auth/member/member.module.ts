@@ -7,11 +7,13 @@ import { LinkRuleModule } from '../../../components/link-rule';
 import { ThemeModule } from '../../../theme/theme.module';
 import { MemberService } from './member.service';
 import { DesktopModule } from '../../../components/desktop';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        Field,
         ZreFormModule,
         DesktopModule,
         LinkRuleModule,

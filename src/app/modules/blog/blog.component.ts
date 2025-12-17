@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import {
     BlogService
 } from './blog.service';
@@ -16,6 +16,7 @@ import { IErrorResult } from '../../theme/models/page';
 import { DialogService } from '../../components/dialog';
 import { SearchService } from '../../theme/services';
 import { PullToRefreshComponent } from '../../components/tablet';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -56,7 +57,9 @@ export class BlogComponent implements OnInit {
     public page = 1;
     public hasMore = true;
     public isLoading = false;
-    public keywords = '';
+    public readonly queries = form(signal({
+        keywords: ''
+    }));
 
     public blog: IBlog;
 
@@ -99,7 +102,7 @@ export class BlogComponent implements OnInit {
         this.pullBox()?.startLoad();
         this.service.getPage({
             category: this.category,
-            keywords: this.keywords,
+            keywords: this.queries.keywords().value(),
             sort: this.sort,
             page
         }).subscribe({

@@ -1,31 +1,34 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { IItem } from '../../../../theme/models/seo';
 import { DownloadService } from '../../../../theme/services';
 import { GenerateService } from '../../generate.service';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-export',
-  templateUrl: './export.component.html',
-  styleUrls: ['./export.component.scss']
+    selector: 'app-export',
+    templateUrl: './export.component.html',
+    styleUrls: ['./export.component.scss']
 })
 export class ExportComponent implements OnInit {
     private readonly service = inject(GenerateService);
     private readonly toastrService = inject(DialogService);
-    private downloadService = inject(DownloadService);
+    private readonly downloadService = inject(DownloadService);
 
 
     public schemaItems: IItem[] = [];
     public tableItems: IItem[] = [];
-    public schema = '';
-    public tables: string[] = [];
-    public hasStructure = true;
-    public hasData = true;
-    public hasDrop = true;
-    public hasSchema = true;
-    public expire = 10;
-    public format = 'sql';
+    public readonly dataForm = form(signal({
+        schema: '',
+        tables: [],
+        hasStructure: true,
+        hasData: true,
+        hasDrop: true,
+        hasSchema: true,
+        expire: 10,
+        format: 'sql'
+    }));
 
     public typeItems: IItem[] = [
         {name: 'SQL文件', value: 'sql'},
@@ -44,7 +47,7 @@ export class ExportComponent implements OnInit {
     }
 
     public onSchemaChange() {
-        this.service.tableList(this.schema).subscribe(res => {
+        this.service.tableList(this.dataForm.schema().value()).subscribe(res => {
             this.tableItems = res.data.map(i => {
                 return {
                     name: i,
@@ -56,14 +59,7 @@ export class ExportComponent implements OnInit {
 
     public tapSubmit() {
         this.downloadService.export('gzo/database/export', {
-            schema: this.schema,
-            table: this.tables,
-            hasStructure: this.hasStructure,
-            hasData: this.hasData,
-            hasDrop: this.hasDrop,
-            hasSchema: this.hasSchema,
-            expire: this.expire,
-            format: this.format,
+            ...this.dataForm().value()
         });
     }
 }

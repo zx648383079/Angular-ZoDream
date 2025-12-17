@@ -3,7 +3,7 @@
         <div class="search-box">
             <div class="search-input">
                 <i class="iconfont icon-search"></i>
-                <input type="text" [field]="keywords" i18n-placeholder placeholder="Search related articles" (ngModelChange)="tapRefresh()">
+                <input type="text" [field]="queries.keywords" i18n-placeholder placeholder="Search related articles" (input)="tapRefresh()">
             </div>
         </div>
         <div class="filter-box">

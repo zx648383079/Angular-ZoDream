@@ -3,8 +3,8 @@
         <div class="search-icon" [title]="currentEngine.name" (click)="toggleEngine()">
             <i class="iconfont" [class]="currentEngine.icon"></i>
         </div>
-        <input type="text" name="keywords" [value]="value()" (input)="value.set($event.target.value)" 
-        [placeholder]="placeholder()" (ngModelChange)="onSuggestChange()" 
+        <input type="text" name="keywords" [value]="value()" (input)="onSuggestChange($event)" 
+        [placeholder]="placeholder()"
         autocomplete="off" (keydown)="suggestKeyPress($event)" 
         (focus)="onFocus()" (blur)="onBlur()">
         <div class="clear-btn" [hidden]="value().length < 1" (click)="tapClear()">

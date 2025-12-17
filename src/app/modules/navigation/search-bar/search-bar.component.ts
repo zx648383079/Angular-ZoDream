@@ -150,7 +150,8 @@ export class SearchBarComponent implements SuggestEvent, ISearchBar {
         this.openType = 0;
     }
 
-    public onSuggestChange() {
+    public onSuggestChange(e: Event) {
+        this.value.set((e.target as HTMLInputElement).value);
         if (!this.suggestable() || this.dropIndex >= 0) {
             return;
         }

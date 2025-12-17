@@ -1,32 +1,33 @@
 <div class="title-bar">
     <span i18n>Service detail</span>
 </div>
-@if (data) {
+@if (data()) {
 <div class="panel-container">
     <div class="line-item">
         <span i18n>Service</span>
         <span class="name">
-            @if (data.category) {
-            [{{ data.category.name }}]
+            @if (data().category) {
+            [{{ data().category.name }}]
             }
-            {{ data.name }}</span>
+            {{ data().name }}</span>
     </div>
     <div class="line-tip">
-        {{ data.brief }}
+        {{ data().brief }}
     </div>
-    @for (item of remark; track $index) {
+    @for (item of dataForm.items; track $index) {
     <div class="line-item">
-        <label [for]="'form_' + item.name">{{ item.label }}</label>
-        <input type="text" class="form-control" [id]="'form_' + item.name" [required]="item.required" [field]="item.value">
+        <label [attr.for]="'form_' + item.name().value()">{{ item.label().value() }}</label>
+        <input type="text" class="form-control" [id]="'form_' + item.name().value()" 
+        [field]="item.value">
     </div>
     }
     <div class="line-item">
         <span i18n>Amount</span>
-        <app-number-input [field]="amount" [min]="1" (ngModelChange)="onAmountChange()" />
+        <app-number-input [field]="dataForm.amount" />
     </div>
     <div class="line-item">
         <span i18n>Service charge</span>
-        <span class="name">￥{{ total }}</span>
+        <span class="name">￥{{ total() }}</span>
     </div>
     <button class="btn btn-primary" (click)="tapSubmit()" i18n>Place order</button>
 </div>

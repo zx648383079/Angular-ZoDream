@@ -8,7 +8,7 @@
     <div class="input-group-control">
         <label for="type">类型</label>
         <div>
-            <select id="type" [value]="value().type" (ngModelChange)="onValueChange($event, 'type')" class="form-control">
+            <select id="type" [value]="value().type" (valueChange)="onValueChange($event, 'type')" class="form-control">
                 @for (item of typeItems; track $index) {
                 <option [value]="item.value">{{ item.name }}</option>
                 }

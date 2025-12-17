@@ -8,7 +8,7 @@
         <div class="tab-body">
             <div class="tab-item" [class]="{active: couponIndex < 1}">
                 @for (item of couponItems; track $index) {
-                    <div class="coupon-item" [class]="{active: item.id == value?.id, expired: item.expired}" (click)="couponChanged(item)">
+                    <div class="coupon-item" [class]="{active: item.id == value().id, expired: item.expired}" (click)="couponChanged(item)">
                         <div class="item-body">
                             <div class="money">
                                 @if (item.type > 0) {
@@ -32,9 +32,9 @@
                     </div>
                 }
             </div>
-            <div class="tab-item" [class]="{active: couponIndex == 1}">
+            <div class="tab-item" [class.active]="couponIndex == 1">
                 <div class="flat-input">
-                    <input type="text" class="form-control" [field]="couponCode">
+                    <input type="text" class="form-control" [(value)]="couponCode">
                     <button class="btn btn-primary" (click)="tapExchange()">兑换</button>
                 </div>
             </div>

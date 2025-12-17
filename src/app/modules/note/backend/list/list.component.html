@@ -47,7 +47,7 @@
                     </td>
                     <td>{{ item.content }}</td>
                     <td>
-                        <app-switch [value]="item.is_notice" (ngModelChange)="onNoticeToggle(item)" />
+                        <app-switch [(value)]="item.is_notice" (valueChange)="onNoticeToggle(item)" />
                     </td>
                     <td [title]="item.created_at">{{ item.created_at | ago }}</td>
                     <td>

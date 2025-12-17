@@ -7,7 +7,7 @@
         </div>
         <div class="reply-input">
             <div class="input">
-                <textarea class="form-control" [field]="editForm.content" (ngModelChange)="onCommentChange()"
+                <textarea class="form-control" [field]="editForm.content" (valueChange)="onCommentChange()"
                 placeholder="Say something." i18n-placeholder></textarea>
             </div>
             <div class="input-actions">
@@ -16,7 +16,7 @@
                         <i class="iconfont icon-smile-o"></i>
                     </app-emoji-picker>
                 </div>
-                <i class="iconfont" [class]="{'icon-square-o': !editForm.is_forward, 'icon-check-square-o': editForm.is_forward}" (click)="editForm.is_forward = !editForm.is_forward"></i>
+                <i class="iconfont" [class]="{'icon-square-o': !editForm.is_forward, 'icon-check-square-o': editForm.is_forward}" (click)="toggleForward()"></i>
                 <ng-container i18n>At the same time forward to my posts</ng-container>
                 
                 <a class="btn btn-primary" (click)="tapComment()" i18n>Comment</a>

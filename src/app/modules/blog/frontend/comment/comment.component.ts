@@ -49,15 +49,15 @@ export class CommentComponent {
     private booted = 0;
     public user: IUser;
 
-    public commentData = {
+    public readonly commentForm = form(signal({
         content: '',
         parent_id: 0,
-    };
-    public guestUser = {
+    }));
+    public readonly guestForm = form(signal({
         name: '',
         email: '',
         url: '',
-    };
+    }));
 
 
     constructor() {
@@ -92,12 +92,16 @@ export class CommentComponent {
     }
 
     public onEmailChange() {
-        if (emptyValidate(this.guestUser.email) || !emptyValidate(this.guestUser.url)) {
+        const data = this.guestForm().value();
+        if (emptyValidate(data.email) || !emptyValidate(data.url)) {
             return;
         }
-        this.service.commentator(this.guestUser.email).subscribe(res => {
-            this.guestUser.name = res.name;
-            this.guestUser.url = res.url;
+        this.service.commentator(data.email).subscribe(res => {
+            this.guestForm().value.update(v => {
+                v.name = res.name;
+                v.url = res.url;
+                return v;
+            });
         });
     }
 
@@ -113,8 +117,11 @@ export class CommentComponent {
             return;
         }
         if (!this.user) {
-            eachObject(this.guestUser, (_, k) => {
-                this.guestUser[k] = data[k];
+            this.guestForm().value.update(v => {
+                eachObject(v, (_, k) => {
+                    v[k] = data[k];
+                });
+                return v;
             });
         }
         const commentData = {...data, blog_id: this.itemId()};
@@ -137,13 +144,13 @@ export class CommentComponent {
             this.tapLogin();
             return;
         }
-        if (emptyValidate(this.commentData.content)) {
+        if (emptyValidate(this.commentForm.content().value())) {
             this.toastrService.warning($localize `Please input content`);
             return;
         }
-        const data = Object.assign({blog_id: this.itemId()}, this.commentData);
+        const data = Object.assign({blog_id: this.itemId()}, this.commentForm().value());
         if (!this.user) {
-            eachObject(this.guestUser, (v, k) => {
+            eachObject(this.guestForm().value(), (v, k) => {
                 data[k] = v;
             });
         }
@@ -152,8 +159,11 @@ export class CommentComponent {
             next: _ => {
                 e?.reset();
                 this.toastrService.success($localize `Comment successful`);
-                this.commentData.content = '';
-                this.commentData.parent_id = 0;
+                this.commentForm().value.update(v => {
+                    v.content = '';
+                    v.parent_id = 0;
+                    return v;
+                });
                 this.saveGuestUser();
             },
             error: err => {
@@ -208,13 +218,19 @@ export class CommentComponent {
         if (!str) {
             return;
         }
-        this.guestUser = JSON.parse(str);
+        const data = JSON.parse(str);
+        this.guestForm().value.update(v => {
+            eachObject(v, (_, k) => {
+                v[k] = data[k];
+            });
+            return v;
+        });
     }
 
     private saveGuestUser() {
-        if (emptyValidate(this.guestUser.name)) {
+        if (emptyValidate(this.guestForm.name().value())) {
             return;
         }
-        window.localStorage.setItem(GuestUserKey, JSON.stringify(this.guestUser));
+        window.localStorage.setItem(GuestUserKey, JSON.stringify(this.guestForm().value()));
     }
 }
