@@ -5,7 +5,7 @@ import { IRegion } from '../model';
 
 @Injectable()
 export class RegionService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public regionList(params: any) {

@@ -32,7 +32,8 @@ export class EditFieldComponent implements OnInit {
         tip_message: '',
         error_message: '',
         tab_name: '',
-        model_id: 0
+        model_id: 0,
+        options: <ICmsFormInput[]>[]
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name);
@@ -42,7 +43,6 @@ export class EditFieldComponent implements OnInit {
     public data: ICmsModelField;
     public typeItems: IItem[] = [];
     public tabItems: string[] = [];
-    public optionItems: ICmsFormInput[] = [];
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -82,7 +82,8 @@ export class EditFieldComponent implements OnInit {
                     tip_message: res.tip_message,
                     error_message: res.error_message,
                     tab_name: res.tab_name,
-                    model_id: model
+                    model_id: model,
+                    options: []
                 });
                 if (res.setting) {
                     // TODO
@@ -97,7 +98,7 @@ export class EditFieldComponent implements OnInit {
 
     public onTypeChange() {
         this.service.fieldOption(this.dataForm.type().value(), this.data ? this.data.id : 0).subscribe(res => {
-            this.optionItems = res.data ? res.data : [];
+            this.dataForm.options().value.set(res.data ? res.data : []);
         });
     }
 
@@ -106,16 +107,12 @@ export class EditFieldComponent implements OnInit {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: ICmsModelField = this.dataForm().value() as any;
+        const data = this.dataForm().value();
         const option: any = {};
-        this.optionItems.forEach(i => {
+        data.options.forEach(i => {
             option[i.name] = i.value;
         });
-        if (!data.setting) {
-            data.setting = {};
-        }
-        data.setting.option = option;
-        this.service.fieldSave(data).subscribe({
+        this.service.fieldSave({...data, options: undefined, setting: {option}}).subscribe({
             next: _ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapBack();

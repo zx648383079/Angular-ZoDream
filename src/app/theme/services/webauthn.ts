@@ -7,7 +7,7 @@ import { IUser } from '../models/user';
 @Injectable()
 export class WebAuthn {
 
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
     constructor() {
         this.ready();

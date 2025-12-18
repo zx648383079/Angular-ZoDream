@@ -21,7 +21,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly service = inject(BlogService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
     private readonly themeService = inject(ThemeService);
     private editor = inject(EditorService);
 

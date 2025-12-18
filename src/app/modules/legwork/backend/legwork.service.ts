@@ -5,7 +5,7 @@ import { ICategory, IOrder, IProvider, IService, IWaiter } from '../model';
 
 @Injectable()
 export class LegworkService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public categoryList(params: any) {

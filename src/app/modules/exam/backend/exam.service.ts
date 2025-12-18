@@ -6,7 +6,7 @@ import { ICourse, IExamPage, IPageEvaluate, IQuestion, IQuestionMaterial } from 
 
 @Injectable()
 export class ExamService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public questionList(params: any) {

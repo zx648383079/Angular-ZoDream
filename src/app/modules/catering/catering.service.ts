@@ -7,7 +7,7 @@ import { ICateringAddress, ICateringCategory, ICateringOrder, ICateringPatron, I
   providedIn: 'root'
 })
 export class CateringService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public categoryList() {

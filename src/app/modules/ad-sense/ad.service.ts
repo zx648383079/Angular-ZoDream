@@ -14,7 +14,7 @@ import {
 
 @Injectable()
 export class AdService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public adList(params: any) {

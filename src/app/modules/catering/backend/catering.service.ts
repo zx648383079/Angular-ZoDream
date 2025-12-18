@@ -7,7 +7,7 @@ import { IDataOne, IPage } from '../../../theme/models/page';
   providedIn: 'root'
 })
 export class CateringBackendService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public storeList(params: any) {

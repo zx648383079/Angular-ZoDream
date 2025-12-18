@@ -5,7 +5,7 @@ import { IComment, IMicro, ITopic } from '../model';
 
 @Injectable()
 export class MicroService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public postList(params: any) {

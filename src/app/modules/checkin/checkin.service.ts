@@ -5,7 +5,7 @@ import { ICheckIn } from './model';
 
 @Injectable()
 export class CheckinService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public checkIn() {

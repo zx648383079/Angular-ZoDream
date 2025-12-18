@@ -5,7 +5,7 @@ import { IDataOne, IPage } from '../../../theme/models/page';
 
 @Injectable()
 export class MicroService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public microList(params: any) {

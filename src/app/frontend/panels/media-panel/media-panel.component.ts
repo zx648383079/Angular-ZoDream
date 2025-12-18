@@ -10,7 +10,7 @@ import { IResource } from '../../../modules/resource-store/model';
     styleUrls: ['./media-panel.component.scss']
 })
 export class MediaPanelComponent {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public isLoading = true;

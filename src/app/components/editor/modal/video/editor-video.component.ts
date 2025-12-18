@@ -9,7 +9,7 @@ import { EditorModalCallback, IEditorModal } from '../../model';
   styleUrls: ['./editor-video.component.scss']
 })
 export class EditorVideoComponent implements IEditorModal {
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
 
 
     public visible = false;

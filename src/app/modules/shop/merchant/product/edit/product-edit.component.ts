@@ -19,7 +19,7 @@ export class ProductEditComponent implements OnInit {
     private readonly service = inject(ShopService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
 
 
     public readonly skuForm = viewChild(SkuFormComponent);

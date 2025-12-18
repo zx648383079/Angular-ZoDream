@@ -22,7 +22,7 @@ interface ICaptcha {
     styleUrls: ['./captcha.component.scss']
 })
 export class CaptchaComponent {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public visible = false;

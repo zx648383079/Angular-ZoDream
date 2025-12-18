@@ -7,7 +7,7 @@ import { IUser } from '../../../../theme/models/user';
 
 @Injectable()
 export class OrderService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public orderList(params: any) {

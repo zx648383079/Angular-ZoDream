@@ -12,7 +12,7 @@ import { FormValueControl } from '@angular/forms/signals';
     styleUrls: ['./select-input.component.scss'],
 })
 export class SelectInputComponent<T = any> implements FormValueControl< T | T[] | number | string> {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public readonly url = input<string>(undefined);

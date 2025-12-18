@@ -17,7 +17,7 @@ interface IRange {
     styleUrls: ['./forum-editor.component.scss'],
 })
 export class ForumEditorComponent implements AfterViewInit, FormValueControl<string> {
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
 
 
     private readonly areaElement = viewChild<ElementRef<HTMLTextAreaElement>>('editorArea');

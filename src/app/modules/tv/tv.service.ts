@@ -7,7 +7,7 @@ import { ICategory, ILive, IMovie, IMovieArea, IMusic } from './model';
   providedIn: 'root'
 })
 export class TvService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     

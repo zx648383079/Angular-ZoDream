@@ -6,7 +6,7 @@ import { ICategory, IOrder, IProvider, IService, IUserRole, IWaiter } from './mo
 
 @Injectable()
 export class LegworkService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public categoryList() {

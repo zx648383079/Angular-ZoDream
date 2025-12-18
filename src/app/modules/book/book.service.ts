@@ -7,7 +7,7 @@ import { IBook, ICategory, IAuthor, IChapter, IBookList, IBookListItem, IBookRec
 
 @Injectable()
 export class BookService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public getHot(): Observable<string[]> {

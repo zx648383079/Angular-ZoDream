@@ -13,7 +13,7 @@ export class FileUploadService {
 
     static guid = 0;
 
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
     public uniqueId(): number {
         if (FileUploadService.guid > 100000) {

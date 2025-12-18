@@ -27,7 +27,7 @@ interface IOptionGroup {
     styleUrls: ['./platform-option.component.scss']
 })
 export class PlatformOptionComponent implements OnInit {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
     private readonly toastrService = inject(DialogService);
 
 

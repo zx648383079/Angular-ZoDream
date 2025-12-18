@@ -11,7 +11,7 @@ import { IApplyLog, IChatHistory, IChatWith, IFriend, IFriendGroup, IGroup, IMes
 
 @Injectable()
 export class ChatService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public profile() {

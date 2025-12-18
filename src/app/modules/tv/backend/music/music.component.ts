@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -12,9 +12,9 @@ import { TVService } from '../tv.service';
 
 @Component({
     standalone: false,
-  selector: 'app-music',
-  templateUrl: './music.component.html',
-  styleUrls: ['./music.component.scss']
+    selector: 'app-music',
+    templateUrl: './music.component.html',
+    styleUrls: ['./music.component.scss']
 })
 export class MusicComponent implements OnInit {
     private readonly service = inject(TVService);
@@ -32,7 +32,17 @@ export class MusicComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public readonly editForm = form(signal<IMusic>({}));
+    public readonly editForm = form(signal<IMusic>({
+        id: 0,
+        name: '',
+        cover: '',
+        album: '',
+        artist: '',
+        duration: 0,
+        files: [],
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
     public fileTypeItems: IItem[] = [
         {name: '标准音质', value: 0},
         {name: '低音质', value: 1},
@@ -61,14 +71,20 @@ export class MusicComponent implements OnInit {
     }
 
     public tapRemoveFile(i: number) {
-        this.editForm.files.splice(i, 1);
+        this.editForm.files().value.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
     }
 
     public tapAddFile() {
-        this.editForm.files.push({
-            file_type: 0,
-            file: '',
-        } as any);
+        this.editForm.files().value.update(v => {
+            v.push({
+                file_type: '0',
+                file: '',
+            } as any);
+            return v;
+        });
     }
 
     public tapRefresh() {
@@ -137,7 +153,7 @@ export class MusicComponent implements OnInit {
     }
 
     private editMusic(modal: DialogEvent, item: IMusic) {
-        this.editForm = item;
+        this.editForm().value.set(item);
         modal.open(() => {
             this.service.musicSave(this.editForm().value()).subscribe({
                 next: () => {
@@ -148,9 +164,7 @@ export class MusicComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => {
-            return !emptyValidate(this.editForm.name);
-        });
+        }, () => this.editForm().valid());
     }
 
     public tapRemove(item: IMusic) {

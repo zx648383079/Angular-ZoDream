@@ -8,7 +8,7 @@ import { IUploadResult } from '../../../theme/models/open';
   providedIn: 'root'
 })
 export class VisualService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
 

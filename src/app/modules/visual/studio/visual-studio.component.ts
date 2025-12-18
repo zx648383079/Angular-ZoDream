@@ -12,7 +12,7 @@ import { IDataOne } from '../../../theme/models/page';
     styleUrls: ['./visual-studio.component.scss']
 })
 export class VisualStudioComponent implements OnInit, AfterViewInit {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
 

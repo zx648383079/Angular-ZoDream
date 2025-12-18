@@ -6,7 +6,7 @@ import { IDocApi, IDocPage, IProject, IProjectVersion } from './model';
 
 @Injectable()
 export class DocumentService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public projectList(params: any) {

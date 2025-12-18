@@ -19,7 +19,7 @@ export class EditComponent implements OnInit {
     private readonly service = inject(GoodsService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
     private attrService = inject(AttributeService);
 
 

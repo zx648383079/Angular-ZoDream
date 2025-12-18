@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
     providedIn: 'root'
 })
 export class FrontendService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     private link$: Observable<ILink[]>;

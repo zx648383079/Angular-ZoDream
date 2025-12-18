@@ -21,7 +21,7 @@ import { formatDate, mapFormat } from '../../../theme/utils';
 export class IncomeComponent implements OnInit {
     private readonly service = inject(FinanceService);
     private readonly toastrService = inject(DialogService);
-    private downloadService = inject(DownloadService);
+    private readonly downloadService = inject(DownloadService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
 

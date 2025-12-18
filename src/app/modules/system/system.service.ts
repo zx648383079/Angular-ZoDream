@@ -7,7 +7,7 @@ import { IFormInput } from '../../components/form';
 
 @Injectable()
 export class SystemService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public cacheStore() {

@@ -8,7 +8,7 @@ import { IJumpLog, IPageAccessLog, ITrendLog, ITrendStatistics } from './model';
     providedIn: 'root'
 })
 export class TrendService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public trendRealTime(params: any) {

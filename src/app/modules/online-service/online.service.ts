@@ -5,7 +5,7 @@ import { IMessage } from './model';
 
 @Injectable()
 export class OnlineService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public getList(params: any) {

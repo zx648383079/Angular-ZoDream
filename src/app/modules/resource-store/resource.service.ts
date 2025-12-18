@@ -8,7 +8,7 @@ import { ICategory, IComment, IResource, IResourceCatalog } from './model';
     providedIn: 'root'
 })
 export class ResourceService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public categoryList(params: any) {

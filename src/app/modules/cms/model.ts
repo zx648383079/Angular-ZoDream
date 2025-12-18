@@ -152,7 +152,7 @@ export interface ICmsFormGroup {
 export interface ICmsFormInput {
     name: string;
     label: string;
-    value: any;
+    value: string;
     items?: string[];
     type: string;
 }

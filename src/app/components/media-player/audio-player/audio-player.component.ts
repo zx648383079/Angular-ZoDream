@@ -109,7 +109,6 @@ export class AudioPlayerComponent implements OnDestroy {
         });
         audio.addEventListener('ended', () => {
             this.paused = true;
-            // TODO: The 'emit' function requires a mandatory void argument
             this.ended.emit();
         });
         audio.addEventListener('error', e => {

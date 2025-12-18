@@ -11,7 +11,7 @@ import { FormValueControl } from '@angular/forms/signals';
     styleUrls: ['./image-input.component.scss'],
 })
 export class ImageInputComponent implements FormValueControl<string> {
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
 
 
     public readonly placeholder = input($localize `Select an image`);

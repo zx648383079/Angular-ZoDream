@@ -87,7 +87,7 @@
     <div class="form-group">
         <label for="name-input">时长</label>
         <div class="input-group-control">
-            <input class="form-control" [field]="editForm.duration">
+            <input type="number" class="form-control" [field]="editForm.duration">
         </div>
     </div>
     <table class="table">
@@ -102,14 +102,14 @@
             @for (item of editForm.files; track $index;let i = $index) {
             <tr>
                 <td>
-                    <select class="form-control" [field]="item.file_type" [ngModelOptions]="{standalone: true}">
+                    <select class="form-control" [field]="item.file_type">
                         @for (type of fileTypeItems; track $index) {
                             <option [value]="type.value">{{ type.name }}</option>
                         }
                     </select>
                 </td>
                 <td>
-                    <app-file-input [field]="item.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)" [ngModelOptions]="{standalone: true}" />
+                    <app-file-input [field]="item.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)" />
                 </td>
                 <td>
                     <i class="iconfont icon-close" (click)="tapRemoveFile(i)"></i>

@@ -7,7 +7,7 @@ import { IBulletinUser } from '../../theme/models/auth';
 
 @Injectable()
 export class UserService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public profile() {

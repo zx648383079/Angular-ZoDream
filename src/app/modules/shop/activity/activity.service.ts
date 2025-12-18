@@ -5,7 +5,7 @@ import { IActivity, IActivityTime, ICoupon, ISeckillGoods } from '../model';
 
 @Injectable()
 export class ActivityService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public seckillTime() {

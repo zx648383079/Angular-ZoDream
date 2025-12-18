@@ -8,7 +8,7 @@ import { ICategory, IComment, ISoftware, ISoftwareCheck, ISoftwareLog, ISoftware
     providedIn: 'root'
 })
 export class AppStoreService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public categoryList(params: any) {

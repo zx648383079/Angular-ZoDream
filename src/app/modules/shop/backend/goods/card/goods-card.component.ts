@@ -19,7 +19,7 @@ export class GoodsCardComponent implements OnInit {
     private readonly service = inject(GoodsService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-    private downloadService = inject(DownloadService);
+    private readonly downloadService = inject(DownloadService);
     private readonly searchService = inject(SearchService);
 
 

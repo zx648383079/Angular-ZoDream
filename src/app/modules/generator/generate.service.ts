@@ -7,7 +7,7 @@ import { IColumn, IPreviewFile, ITable, ITableColumn } from './model';
 
 @Injectable()
 export class GenerateService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public controller(data: any) {

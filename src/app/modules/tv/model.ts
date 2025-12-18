@@ -31,7 +31,7 @@ export interface IMusic {
 export interface IMusicFile {
     id: number;
     music_id: number;
-    file_type: number;
+    file_type: string;
     file: string;
     url?: string;
 }

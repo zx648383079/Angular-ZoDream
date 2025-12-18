@@ -9,7 +9,7 @@ import { Observable, map } from 'rxjs';
   providedIn: 'root'
 })
 export class DiskService implements IFileProvider {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public serverList(params: any) {

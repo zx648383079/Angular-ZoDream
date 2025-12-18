@@ -13,7 +13,7 @@ import { IData } from '../../../theme/models/page';
     styleUrls: ['./emoji-picker.component.scss']
 })
 export class EmojiPickerComponent {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
     private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
 

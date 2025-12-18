@@ -5,7 +5,7 @@ import { IBook, IChapter, IBookRole, IBookRoleRelation } from '../model';
 
 @Injectable()
 export class BookService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public selfBookList(params: any) {

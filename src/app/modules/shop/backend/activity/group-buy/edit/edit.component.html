@@ -36,11 +36,11 @@
                 <app-date-input [field]="dataForm.end_at" placeholder="请输入结束时间" />
             </div>
         </div>
-        <div formGroupName="configure">
+        <div>
             <div class="input-group-control">
                 <label for="configure_deposit">保证金</label>
                 <div>
-                    <input type="text" id="configure_deposit" class="form-control" [field]="dataForm.deposit"
+                    <input type="number" id="configure_deposit" class="form-control" [field]="dataForm.configure.deposit"
                         placeholder="请输入 保证金">
 
                 </div>
@@ -48,14 +48,14 @@
             <div class="input-group-control">
                 <label for="configure_amount">限购数量</label>
                 <div>
-                    <input type="text" id="configure_amount" class="form-control" [field]="dataForm.amount"
+                    <input type="number" id="configure_amount" class="form-control" [field]="dataForm.configure.amount"
                         placeholder="请输入 限购数量">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="configure_min_users">最低参与人数</label>
                 <div>
-                    <input type="text" id="configure_min_users" class="form-control" [field]="dataForm.min_users" placeholder="请输入最低参与人数">
+                    <input type="number" id="configure_min_users" class="form-control" [field]="dataForm.configure.min_users" placeholder="请输入最低参与人数">
                     <div class="input-tip">
                         设置最低参与人数
                     </div>
@@ -64,7 +64,7 @@
             <div class="input-group-control">
                 <label for="configure_max_users">开团人数</label>
                 <div>
-                    <input type="text" id="configure_max_users" class="form-control" [field]="dataForm.max_users" placeholder="请输入开团人数">
+                    <input type="number" id="configure_max_users" class="form-control" [field]="dataForm.configure.max_users" placeholder="请输入开团人数">
                     <div class="input-tip">
                         设置开团人数， 当人数达到时，自动生成订单表示开团成功， 0 表示到活动时间结束才验证是否开团成功
                     </div>
@@ -73,7 +73,7 @@
             <div class="input-group-control">
                 <label for="configure_send_point">赠送积分</label>
                 <div>
-                    <input type="text" id="configure_send_point" class="form-control" [field]="dataForm.send_point"
+                    <input type="number" id="configure_send_point" class="form-control" [field]="dataForm.configure.send_point"
                         placeholder="请输入 赠送积分">
                 </div>
             </div>
@@ -81,12 +81,12 @@
         <div class="input-group-control">
             <label for="money">价格阶梯</label>
             <div class="step-box">
-                @for (item of stepItems.controls; track $index; let i = $index) {
+                @for (item of dataForm.configure.step; track $index; let i = $index) {
                     <p class="step-item">
                         数量达到
-                        <input type="text" size="10" class="form-control" [field]="itemForm.amount">
+                        <input type="number" size="10" class="form-control" [field]="item.amount">
                         享受价格
-                        <input type="text" size="10" class="form-control" [field]="itemForm.price">
+                        <input type="number" size="10" class="form-control" [field]="item.price">
                         <i class="iconfont icon-close" (click)="tapRemoveStep(i)"></i>
                     </p>
                 }

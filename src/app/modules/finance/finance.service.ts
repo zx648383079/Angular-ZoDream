@@ -7,7 +7,7 @@ import { IAccount, IBudget, IConsumptionChannel, IFinancialProduct, IFinancialPr
 
 @Injectable()
 export class FinanceService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public accountList(params: any) {

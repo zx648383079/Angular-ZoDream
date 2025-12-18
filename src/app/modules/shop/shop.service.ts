@@ -19,7 +19,7 @@ const REGION_KEY = 'region';
     providedIn: 'root',
 })
 export class ShopService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     private _regionId = 0;

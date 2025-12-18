@@ -12,7 +12,7 @@ import { form, FormValueControl } from '@angular/forms/signals';
     styleUrls: ['./user-picker.component.scss'],
 })
 export class UserPickerComponent implements FormValueControl<IUser> {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     private readonly inputor = viewChild<ElementRef<HTMLInputElement>>('inputor');

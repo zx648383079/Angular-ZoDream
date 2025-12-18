@@ -5,7 +5,7 @@ import { IShopPlugin } from '../../../model';
 
 @Injectable()
 export class TbkService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public search(params: any) {

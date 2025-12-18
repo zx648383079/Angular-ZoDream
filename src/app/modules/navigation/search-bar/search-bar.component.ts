@@ -12,7 +12,7 @@ import { hasElementByClass } from '../../../theme/utils/doc';
     styleUrls: ['./search-bar.component.scss']
 })
 export class SearchBarComponent implements SuggestEvent, ISearchBar {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public readonly value = model('');

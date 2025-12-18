@@ -13,7 +13,7 @@ import { HttpClient } from '@angular/common/http';
     styleUrls: ['./search-dialog.component.scss']
 })
 export class SearchDialogComponent {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
     private readonly searchService = inject(SearchService);
 
 

@@ -15,7 +15,7 @@ import { formatFillOption, questionNeedOption, questionOptionIsEmpty } from '../
     styleUrls: ['./question-editor.component.scss']
 })
 export class QuestionEditorComponent {
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
 
 
     public readonly disabled = input(false);

@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class DiskService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public getCatalog(params: any) {

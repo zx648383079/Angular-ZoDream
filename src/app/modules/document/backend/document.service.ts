@@ -5,7 +5,7 @@ import { IApiField, ICategory, IDocApi, IDocPage, IProject, IProjectVersion } fr
 
 @Injectable()
 export class DocumentService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public categoryTree() {

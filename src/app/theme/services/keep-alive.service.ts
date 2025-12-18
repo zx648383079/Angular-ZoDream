@@ -10,7 +10,7 @@ export class KeepAliveService {
     private _lastAt = 0;
     private _isLoading = false;
 
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
 }

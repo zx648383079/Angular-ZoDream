@@ -5,7 +5,7 @@ import { IDataOne, IPage } from '../../../theme/models/page';
 
 @Injectable()
 export class ForumService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public threadList(params: any) {

@@ -21,7 +21,7 @@ interface IPluginItem {
     styleUrls: ['./plugin.component.scss']
 })
 export class PluginComponent implements OnInit {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
     private readonly toastrService = inject(DialogService);
 
 

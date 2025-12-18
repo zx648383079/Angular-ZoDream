@@ -14,7 +14,7 @@ import { FormValueControl } from '@angular/forms/signals';
     templateUrl: 'region.component.html',
 })
 export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     static cacheMaps: {[url: string]: any} = {};

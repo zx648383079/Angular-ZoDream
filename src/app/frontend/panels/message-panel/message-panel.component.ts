@@ -10,7 +10,7 @@ import { IFeedback } from '../../../theme/models/seo';
     styleUrls: ['./message-panel.component.scss']
 })
 export class MessagePanelComponent {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
 

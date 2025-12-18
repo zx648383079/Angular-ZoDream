@@ -36,23 +36,23 @@
                 </div>
             </div>
             <div class="option-box">
-                @for (item of optionItems; track $index) {
+                @for (item of dataForm.options; track $index) {
                     <div class="input-group-control">
-                        <label>{{ item.label }}</label>
-                        @switch (item.type) {
+                        <label>{{ item.label().value() }}</label>
+                        @switch (item.type().value()) {
                             @case ('text') {
                                 <div>
-                                    <input type="text" class="form-control"  [field]="item.value" [ngModelOptions]="{standalone: true}">
+                                    <input type="text" class="form-control"  [field]="item.value">
                                 </div>
                             }
                             @case ('textarea') {
                                 <div>
-                                    <textarea class="form-control"  [field]="item.value" [ngModelOptions]="{standalone: true}"></textarea>
+                                    <textarea class="form-control"  [field]="item.value"></textarea>
                                 </div>
                             }
                             @case ('select') {
                                 <div>
-                                    <select class="form-control"  [field]="item.value" [ngModelOptions]="{standalone: true}">
+                                    <select class="form-control"  [field]="item.value">
                                         @for (val of item.items; track $index) {
                                         <option [value]="val">{{ val }}</option>
                                         }
@@ -61,17 +61,17 @@
                             }
                             @case ('radio') {
                                 <div>
-                                    <app-check-input [items]="item.items" [field]="item.value" [ngModelOptions]="{standalone: true}" />
+                                    <app-check-input [items]="item.items().value()" [field]="item.value" />
                                 </div>
                             }
                             @case ('checkbox') {
                                 <div>
-                                    <app-check-input [items]="item.items" [field]="item.value" [multiple]="true" [ngModelOptions]="{standalone: true}" />
+                                    <app-check-input [items]="item.items().value()" [field]="item.value" [multiple]="true"/>
                                 </div>
                             }
                             @case ('switch') {
                                 <div>
-                                    <app-switch [field]="item.value" [ngModelOptions]="{standalone: true}" />
+                                    <app-switch [field]="item.value"/>
                                 </div>
                             }
                         }

@@ -1,7 +1,7 @@
-<div class="switch-box" [class]="{active: isActive}" (click)="tapToggle()">
+<div class="switch-box" [class.active]="isActive()" (click)="tapToggle()">
     <div class="switch-input"></div>
     <div class="switch-label">
-        {{ labelContent }}
+        {{ labelContent() }}
         <ng-content />
     </div>
 </div>

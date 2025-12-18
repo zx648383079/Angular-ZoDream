@@ -19,7 +19,6 @@ export class CommandButtonComponent implements IButton {
     }
 
     public onTapped(event: ButtonEvent) {
-        // TODO: The 'emit' function requires a mandatory void argument
         this.tapped.emit();
     }
 }

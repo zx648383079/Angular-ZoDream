@@ -9,7 +9,7 @@ import { IBotAccount, IBotMedia, IBotMenuItem, IBotTemplate, IBotReply, IBotRepl
     providedIn: 'root'
 })
 export class BotService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
     private readonly router = inject(Router);
 
 

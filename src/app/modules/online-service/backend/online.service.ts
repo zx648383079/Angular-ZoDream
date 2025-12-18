@@ -5,7 +5,7 @@ import { ICategory, ICategoryUser, IMessage, ISession, IWord } from '../model';
 
 @Injectable()
 export class OnlineBackendService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public categoryList(params: any) {

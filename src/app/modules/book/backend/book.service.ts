@@ -5,7 +5,7 @@ import { IData, IDataOne, IPage } from '../../../theme/models/page';
 
 @Injectable()
 export class BookService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
 

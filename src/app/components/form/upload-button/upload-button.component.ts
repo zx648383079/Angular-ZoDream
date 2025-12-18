@@ -10,7 +10,7 @@ import { UploadButtonEvent } from '../event';
 })
 export class UploadButtonComponent {
     private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
 
 
     public readonly disabled = input(false);

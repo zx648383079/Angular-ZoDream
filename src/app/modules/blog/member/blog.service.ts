@@ -10,7 +10,7 @@ import { IItem } from '../../../theme/models/seo';
   providedIn: 'root'
 })
 export class BlogService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
 

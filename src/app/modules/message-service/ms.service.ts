@@ -16,7 +16,7 @@ import { IFormInput } from '../../components/form';
 
 @Injectable()
 export class MessageServiceService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public logList(params: any) {

@@ -7,7 +7,7 @@ import { ICategory, ISite, IThemeComponent } from '../model';
     providedIn: 'root'
 })
 export class VisualService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public getNav() {

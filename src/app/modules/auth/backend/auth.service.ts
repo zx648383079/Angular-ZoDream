@@ -6,7 +6,7 @@ import { IUser, IUserStatus, IUserZone } from '../../../theme/models/user';
 
 @Injectable()
 export class AuthService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
 

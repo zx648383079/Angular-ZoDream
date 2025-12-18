@@ -6,7 +6,7 @@ import { IUser } from '../../../theme/models/user';
 
 @Injectable()
 export class ForumService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public userList(params: any) {

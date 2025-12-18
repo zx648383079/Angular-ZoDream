@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class MicroService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public getList(params: any) {

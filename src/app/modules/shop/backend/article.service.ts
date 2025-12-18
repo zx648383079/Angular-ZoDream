@@ -7,7 +7,7 @@ import { IArticle, IArticleCategory } from '../model';
 
 @Injectable()
 export class ArticleService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public articleList(params: any) {

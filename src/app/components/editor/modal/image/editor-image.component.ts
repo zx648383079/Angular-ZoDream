@@ -9,7 +9,7 @@ import { EditorModalCallback, IEditorModal } from '../../model';
   styleUrls: ['./editor-image.component.scss']
 })
 export class EditorImageComponent implements IEditorModal {
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
 
 
     public visible = false;

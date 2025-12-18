@@ -5,7 +5,7 @@ import { IFriendLink, IFeedback, ISubscribe, IReport } from '../../theme/models/
 
 @Injectable()
 export class ContactService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public friendLinkList(params: any) {

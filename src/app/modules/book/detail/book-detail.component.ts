@@ -14,7 +14,7 @@ export class BookDetailComponent implements OnInit {
     private readonly service = inject(BookService);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
-    private downloadService = inject(DownloadService);
+    private readonly downloadService = inject(DownloadService);
 
 
     public data: IBook;

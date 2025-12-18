@@ -11,7 +11,7 @@ import { DialogService } from '../../../components/dialog';
   providedIn: 'root'
 })
 export class VisualService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
     private readonly router = inject(Router);
     private readonly toastrService = inject(DialogService);
 

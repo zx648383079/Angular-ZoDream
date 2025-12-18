@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ForumService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public getForumList(): Observable<IForum[]> {

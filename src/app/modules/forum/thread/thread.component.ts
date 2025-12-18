@@ -42,7 +42,7 @@ export class ThreadComponent implements OnInit {
     private readonly service = inject(ForumService);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
-    private downloadService = inject(DownloadService);
+    private readonly downloadService = inject(DownloadService);
     private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
 

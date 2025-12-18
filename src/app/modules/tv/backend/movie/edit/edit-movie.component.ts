@@ -19,7 +19,7 @@ export class EditMovieComponent implements OnInit {
     private readonly service = inject(TVService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
 
 
     public readonly dataModel = signal({
@@ -40,6 +40,7 @@ export class EditMovieComponent implements OnInit {
         duration: '',
         series_count: 0,
         status: 0,
+        tags: []
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.title);
@@ -47,7 +48,6 @@ export class EditMovieComponent implements OnInit {
         required(schemaPath.cat_id);
         required(schemaPath.area_id);
     });
-    public tags: ITag[] = [];
     public categories: ICategory[] = [];
     public areaItems: IMovieArea[] = [];
     public tagItems$: Observable<ITag[]>;
@@ -68,9 +68,6 @@ export class EditMovieComponent implements OnInit {
             }
             this.service.movie(params.id).subscribe({
                 next: res => {
-                    if (res.tags) {
-                        this.tags = res.tags;
-                    }
                     this.dataModel.set({
                         id: res.id,
                         title: res.title,
@@ -89,6 +86,7 @@ export class EditMovieComponent implements OnInit {
                         content: res.content,
                         series_count: res.series_count,
                         status: res.status,
+                        tags: res.tags ?? []
                     });
                 },
                 error: err => {
@@ -121,7 +119,6 @@ export class EditMovieComponent implements OnInit {
             return;
         }
         const data: IMovie = this.dataForm().value() as any;
-        data.tags = this.tags;
         e?.enter();
         this.service.movieSave(data).subscribe({
             next: _ => {

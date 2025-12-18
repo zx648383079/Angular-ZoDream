@@ -10,7 +10,7 @@ import { IUser } from '../../../theme/models/user';
     providedIn: 'root'
 })
 export class MemberService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public profile() {

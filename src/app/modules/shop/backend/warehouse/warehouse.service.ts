@@ -5,7 +5,7 @@ import { IWarehouse, IWarehouseGoods, IWarehouseLog } from '../../model';
 
 @Injectable()
 export class WarehouseService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public warehouseList(params: any) {

@@ -10,7 +10,7 @@ import { IBlog } from '../../../modules/blog/model';
   styleUrls: ['./article-panel.component.scss']
 })
 export class ArticlePanelComponent {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public isLoading = true;

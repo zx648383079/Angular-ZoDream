@@ -7,7 +7,7 @@ import { IDataOne } from '../../../theme/models/page';
     providedIn: 'root'
 })
 export class MemberSpaceService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public user(params: any) {

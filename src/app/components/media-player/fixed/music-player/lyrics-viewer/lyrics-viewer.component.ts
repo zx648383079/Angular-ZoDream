@@ -17,7 +17,7 @@ interface ILyricsItem {
     styleUrls: ['./lyrics-viewer.component.scss']
 })
 export class LyricsViewerComponent {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     private readonly scroller = viewChild<ElementRef<HTMLDivElement>>('scoller');

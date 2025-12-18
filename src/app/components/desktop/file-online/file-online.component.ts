@@ -13,7 +13,7 @@ import { form } from '@angular/forms/signals';
     styleUrls: ['./file-online.component.scss']
 })
 export class FileOnlineComponent implements SearchDialogEvent {
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
     private readonly searchService = inject(SearchService);
 
     public readonly accept = input('image/*');

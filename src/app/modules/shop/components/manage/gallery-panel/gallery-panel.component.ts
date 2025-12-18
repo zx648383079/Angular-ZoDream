@@ -10,7 +10,7 @@ import { FormValueControl } from '@angular/forms/signals';
     styleUrls: ['./gallery-panel.component.scss'],
 })
 export class GalleryPanelComponent implements FormValueControl<any>, AfterViewInit {
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
 
 
     private readonly imageElement = viewChild<ElementRef<HTMLDivElement>>('imageBox');

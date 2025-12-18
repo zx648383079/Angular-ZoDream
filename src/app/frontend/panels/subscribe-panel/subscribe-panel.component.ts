@@ -12,7 +12,7 @@ import { DialogService } from '../../../components/dialog';
     styleUrls: ['./subscribe-panel.component.scss']
 })
 export class SubscribePanelComponent {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
     private readonly toastrService = inject(DialogService);
 
 

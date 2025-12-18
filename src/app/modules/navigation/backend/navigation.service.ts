@@ -5,7 +5,7 @@ import { ISite, ISiteCategory, ISiteTag, IWebPage, IWebPageKeywords } from '../m
 
 @Injectable()
 export class NavigationService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public categoryList(params: any) {

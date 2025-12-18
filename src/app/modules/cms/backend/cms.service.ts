@@ -6,7 +6,7 @@ import { ICmsCategory, ICmsComment, ICmsContent, ICmsFormInput, ICmsGroup, ICmsL
 
 @Injectable()
 export class CmsService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public siteList(params: any) {

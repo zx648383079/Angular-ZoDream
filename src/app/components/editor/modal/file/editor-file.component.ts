@@ -4,12 +4,12 @@ import { EditorModalCallback, IEditorModal } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-editor-file',
-  templateUrl: './editor-file.component.html',
-  styleUrls: ['./editor-file.component.scss']
+    selector: 'app-editor-file',
+    templateUrl: './editor-file.component.html',
+    styleUrls: ['./editor-file.component.scss']
 })
 export class EditorFileComponent implements IEditorModal {
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
 
 
     public visible = false;

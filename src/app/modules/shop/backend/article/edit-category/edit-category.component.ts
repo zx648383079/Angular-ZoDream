@@ -27,7 +27,7 @@ export class EditCategoryComponent implements OnInit {
     private readonly service = inject(ArticleService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
 
 
     public readonly dataModel = signal({

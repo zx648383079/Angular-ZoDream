@@ -5,7 +5,7 @@ import { IBotAccount } from './model';
 
 @Injectable()
 export class BotService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public getList(params: any) {

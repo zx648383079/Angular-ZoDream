@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
     styleUrls: ['./product-dialog.component.scss']
 })
 export class ProductDialogComponent {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public readonly value = model<IGoods>(undefined);

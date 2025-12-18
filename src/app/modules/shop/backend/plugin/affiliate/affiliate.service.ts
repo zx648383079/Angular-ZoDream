@@ -5,7 +5,7 @@ import { IAffiliateLog, IShopPlugin } from '../../../model';
 
 @Injectable()
 export class AffiliateService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public logList(params: any) {

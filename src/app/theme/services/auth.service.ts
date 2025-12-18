@@ -44,7 +44,7 @@ const USER_KEY = 'user';
 @Injectable()
 export class AuthService {
 
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
     private actions = inject(AuthActions);
     private readonly store = inject(Store<AppState>);
     private readonly router = inject(Router);

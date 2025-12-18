@@ -5,7 +5,7 @@ import { IShare, ITask, ITaskComment, ITaskDay, ITaskPlan, ITaskReview } from '.
 
 @Injectable()
 export class TaskService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public dayList(params: any) {

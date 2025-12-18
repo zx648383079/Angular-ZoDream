@@ -8,7 +8,7 @@ import { ICategory, IComment, ILive, IMovie, IMovieArea, IMovieFile, IMovieScore
     providedIn: 'root'
 })
 export class TVService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public categoryTree() {

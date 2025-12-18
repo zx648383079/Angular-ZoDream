@@ -5,7 +5,7 @@ import { IChannel, IProduct, ITradeLog } from '../model';
 
 @Injectable()
 export class TrackerBackendService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public channelList(params: any) {

@@ -7,7 +7,7 @@ import { IPayment, IShipping } from '../model';
 
 @Injectable()
 export class PaymentService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
 

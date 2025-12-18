@@ -12,7 +12,7 @@ import { FormValueControl } from '@angular/forms/signals';
     },
 })
 export class EditorImageInputComponent implements FormValueControl<string> {
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
 
 
     public readonly header = input<string>('');

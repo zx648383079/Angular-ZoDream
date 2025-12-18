@@ -5,7 +5,7 @@ import { IGameAchieve, IGameCharacter, IGameCharacterIdentity, IGameDescent, IGa
 
 @Injectable()
 export class GameMakerService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public projectList(params: any) {

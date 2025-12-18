@@ -5,7 +5,7 @@ import { IAttribute, IAttributeGroup } from '../../model';
 
 @Injectable()
 export class AttributeService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public attrList(params: any) {

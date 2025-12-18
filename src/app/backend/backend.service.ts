@@ -4,7 +4,7 @@ import { IUserRole } from '../theme/models/auth';
 
 @Injectable()
 export class BackendService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public roles() {

@@ -6,7 +6,7 @@ import { IShortLink } from './model';
     providedIn: 'root'
 })
 export class ShortLinkService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
 

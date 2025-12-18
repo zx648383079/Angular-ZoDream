@@ -6,7 +6,7 @@ import { IData, IPage } from '../../theme/models/page';
 
 @Injectable()
 export class FileExplorerService implements IFileProvider {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public driveList(): Observable<IFileItem[]> {

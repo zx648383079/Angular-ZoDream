@@ -36,7 +36,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
     private readonly service = inject(DiskService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
     private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
 

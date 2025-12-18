@@ -8,7 +8,7 @@ import { ICategory, IComment, IResource, ITag } from '../model';
     providedIn: 'root'
 })
 export class ResourceService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public categoryTree() {

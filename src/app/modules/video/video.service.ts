@@ -6,7 +6,7 @@ import { IComment, IMusic, IVideo } from './model';
 
 @Injectable()
 export class VideoService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public videoList(params: any) {

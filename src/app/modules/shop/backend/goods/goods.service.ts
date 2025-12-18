@@ -19,7 +19,7 @@ import {
 
 @Injectable()
 export class GoodsService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     /**

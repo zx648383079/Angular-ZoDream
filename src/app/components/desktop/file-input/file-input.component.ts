@@ -14,7 +14,7 @@ import { FormValueControl } from '@angular/forms/signals';
     styleUrls: ['./file-input.component.scss'],
 })
 export class FileInputComponent implements FormValueControl<string> {
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
 
 
     public readonly accept = input('image/*');

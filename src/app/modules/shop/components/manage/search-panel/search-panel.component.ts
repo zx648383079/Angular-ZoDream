@@ -10,7 +10,7 @@ import { IPage } from '../../../../../theme/models/page';
     styleUrls: ['./search-panel.component.scss']
 })
 export class SearchPanelComponent {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public keywords = '';

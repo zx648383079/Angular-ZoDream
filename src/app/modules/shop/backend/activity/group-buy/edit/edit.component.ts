@@ -1,15 +1,15 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
-import { IActivity, IGroupBuyConfigure } from '../../../../model';
+import { IActivity, IGroupBuyConfigure, IGroupBuyStep } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-shop-group-buy-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+    selector: 'app-shop-group-buy-edit',
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.scss']
 })
 export class EditGroupBuyComponent implements OnInit {
     private readonly service = inject(ActivityService);
@@ -32,18 +32,14 @@ export class EditGroupBuyComponent implements OnInit {
             send_point: 0,
             min_users: 2,
             max_users: 0,
-            step: []
-        }
+            step: <IGroupBuyStep[]>[]
+        },
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name);
     });
 
     public data: IActivity<IGroupBuyConfigure>;
-
-    get stepItems() {
-        return this.dataForm.step as FormArray<FormGroup>;
-    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -53,19 +49,23 @@ export class EditGroupBuyComponent implements OnInit {
             this.service.groupBuy(params.id).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
-                        id: res.id,
+                    id: res.id,
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
                     scope: res.scope as any,
                     scope_type: res.scope_type,
                     start_at: res.start_at as string,
-                    end_at: res.end_at,
-                    step: this.fb.array(
-                        // TODO
-                    ) as any
+                    end_at: res.end_at as any,
+                    configure: {
+                        deposit: res.configure.deposit,
+                        amount: res.configure.amount,
+                        send_point: res.configure.send_point,
+                        min_users: res.configure.min_users,
+                        max_users: res.configure.max_users,
+                        step: res.configure.step ?? [],
+                    }
                 });
-                this.dataForm.configure.patchValue(res.configure);
             });
         });
     }
@@ -90,19 +90,20 @@ export class EditGroupBuyComponent implements OnInit {
     }
 
     public tapRemoveStep(i: number) {
-        this.stepItems.removeAt(i);
+        this.dataForm.configure.step().value.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
     }
 
     public tapAddStep() {
-    public readonly dataModel = signal({
-            amount: 0,
-            price: 0,
-    });
-    public readonly dataForm = form(this.dataModel, schemaPath => {
-        required(schemaPath.name);
-    public readonly dataForm = form(this.dataModel, schemaPath => {
-    public readonly dataForm = form(this.dataModel, schemaPath => {
-    });
+        this.dataForm.configure.step().value.update(v => {
+            v.push({
+                amount: 0,
+                price: 0
+            });
+            return v;
+        });
     }
 
 }

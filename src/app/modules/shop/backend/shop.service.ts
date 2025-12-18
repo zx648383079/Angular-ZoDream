@@ -11,7 +11,7 @@ export interface ISubtotal {
 
 @Injectable()
 export class ShopService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
 

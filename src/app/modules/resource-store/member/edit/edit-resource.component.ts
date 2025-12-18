@@ -21,7 +21,7 @@ export class EditResourceComponent implements OnInit, OnDestroy {
     private readonly service = inject(ResourceService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
     private readonly themeService = inject(ThemeService);
 
 

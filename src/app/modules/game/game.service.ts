@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class GameService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public projectList(params?: any) {

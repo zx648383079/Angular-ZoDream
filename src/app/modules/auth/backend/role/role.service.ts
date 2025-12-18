@@ -5,7 +5,7 @@ import { IRole, IPermission } from '../../../../theme/models/auth';
 
 @Injectable()
 export class RoleService {
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
 
 
   public roleList(params: any) {

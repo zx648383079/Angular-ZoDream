@@ -6,7 +6,6 @@ import { ButtonEvent } from '../../components/form';
 import { IBlog, ITag } from '../../modules/blog/model';
 import { ICategory } from '../../modules/shop/model';
 import { IItem } from '../../theme/models/seo';
-import { parseNumber } from '../../theme/utils';
 import { form, required } from '@angular/forms/signals';
 
 @Component({

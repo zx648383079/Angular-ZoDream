@@ -11,7 +11,7 @@ import { EditorBlockType, IEditorBlock } from '../../../../../components/editor'
     styleUrls: ['./add-panel.component.scss'],
 })
 export class AddPanelComponent {
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
     private readonly searchService = inject(SearchService);
 
 

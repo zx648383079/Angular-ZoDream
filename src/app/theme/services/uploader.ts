@@ -48,7 +48,7 @@ export interface IUploadChunk {
 export class UploadFile<T = IUploadResult> {
 
 
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
     public $status: BehaviorSubject<UploadStatus> = new BehaviorSubject(UploadStatus.Queue);
     public $progress: BehaviorSubject<number> = new BehaviorSubject(0);

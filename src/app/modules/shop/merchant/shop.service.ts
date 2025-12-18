@@ -5,7 +5,7 @@ import { IGoods, ICategory, IBrand, IGoodsCard, IAttributeGroup, IGoodsAttribute
 
 @Injectable()
 export class ShopService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
 

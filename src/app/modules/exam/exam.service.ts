@@ -7,7 +7,7 @@ import { ICourse, IExamPage, IExamPager, IExamSheet, IQuestion, IQuestionCard, I
 
 @Injectable()
 export class ExamService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public courseChildren(id: any = 0) {

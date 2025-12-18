@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 export class DownloadService {
 
 
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
     /**
      * Blob请求

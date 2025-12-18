@@ -6,7 +6,7 @@ import { IData, IDataOne, IPage } from '../../theme/models/page';
 
 @Injectable()
 export class OpenService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public authorizeList(params: any) {

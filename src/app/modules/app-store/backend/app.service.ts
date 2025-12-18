@@ -8,7 +8,7 @@ import { ICategory, IComment, ISoftware, ISoftwarePackage, ISoftwareVersion, ITa
     providedIn: 'root'
 })
 export class AppService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public categoryTree() {

@@ -11,7 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
     styleUrls: ['./notice-panel.component.scss']
 })
 export class NoticePanelComponent {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
     private sanitizer = inject(DomSanitizer);
 
 

@@ -12,7 +12,7 @@ import { assetUri, parseNumber, uriEncode } from '../../../theme/utils';
     styleUrls: ['./preview.component.scss']
 })
 export class PreviewComponent implements OnInit, AfterViewInit {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
 

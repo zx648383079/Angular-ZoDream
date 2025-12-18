@@ -13,7 +13,7 @@ import { FormValueControl } from '@angular/forms/signals';
     styleUrls: ['./exam-editor.component.scss'],
 })
 export class ExamEditorComponent implements AfterViewInit, FormValueControl<string>, IEditor, OnInit {
-    private uploadService = inject(FileUploadService);
+    private readonly uploadService = inject(FileUploadService);
     private readonly toastrService = inject(DialogService);
     private container = inject(EditorService);
 

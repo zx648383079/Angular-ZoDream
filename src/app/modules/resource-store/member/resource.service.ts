@@ -9,7 +9,7 @@ import { IUploadResult } from '../../../theme/models/open';
     providedIn: 'root'
 })
 export class ResourceService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
 

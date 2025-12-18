@@ -5,7 +5,7 @@ import { IApiField, IDocApi, IDocPage, IProject, IProjectVersion } from '../mode
 
 @Injectable()
 export class DocumentService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public projectList(params: any) {

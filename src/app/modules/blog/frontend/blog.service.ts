@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class BlogService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     /**

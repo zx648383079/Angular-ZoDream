@@ -5,7 +5,7 @@ import { ISite, ISiteCategory, ISiteCollect, ISiteCollectGroup, IWebPage } from 
 
 @Injectable()
 export class NavigationService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
 

@@ -20,7 +20,7 @@ interface ISelectColumn {
     styleUrls: ['./multi-select-input.component.scss'],
 })
 export class MultiSelectInputComponent<T = any> implements FormValueControl<T> {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public readonly url = input<string>(undefined);

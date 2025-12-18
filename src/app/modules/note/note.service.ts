@@ -7,7 +7,7 @@ import { INote } from './model';
   providedIn: 'root'
 })
 export class NoteService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
     public getList(params: any) {

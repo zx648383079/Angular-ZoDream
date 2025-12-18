@@ -7,7 +7,7 @@ import { ILastestLog, IProduct, ITradeLog } from './model';
     providedIn: 'root'
 })
 export class TrackerService {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
 
 
