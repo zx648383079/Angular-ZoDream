@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, WritableSignal, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -6,12 +6,14 @@ import { IErrorResult } from '../../../../theme/models/page';
 import { eachObject } from '../../../../theme/utils';
 import { IDocApi } from '../../model';
 import { DocumentService } from '../document.service';
+import { FieldTree, form } from '@angular/forms/signals';
 
 interface IOptionItem {
     checked?: boolean;
     key: string;
-    value: any;
-    type?: number;
+    value?: string;
+    valueFile?: File;
+    type?: string;
 }
 
 const CACHE_KEY = 'doc_aapi_debug';
@@ -21,15 +23,16 @@ interface ICacheRequest {
     url: string;
     headers: IOptionItem[];
     bodyType: number;
-    body: any;
-    rawType: number;
+    body: string;
+    bodies: IOptionItem[];
+    rawType: string;
 }
 
 @Component({
     standalone: false,
-  selector: 'app-debug',
-  templateUrl: './debug.component.html',
-  styleUrls: ['./debug.component.scss']
+    selector: 'app-doc-debug',
+    templateUrl: './debug.component.html',
+    styleUrls: ['./debug.component.scss']
 })
 export class DebugComponent implements OnInit {
     private readonly service = inject(DocumentService);
@@ -38,9 +41,16 @@ export class DebugComponent implements OnInit {
 
 
     public methodItems = ['GET', 'POST', 'PUT', 'DELETE', 'OPTION'];
-    public method = 'GET';
-    public url = '';
-    public headerItems: IOptionItem[] = [];
+    public readonly dataForm = form(signal({
+        url: '',
+        method: this.methodItems[0],
+        headers: <IOptionItem[]>[],
+        bodyType: 0,
+        rawType: '0',
+        body: '',
+        bodyFile: <File>null,
+        bodies: <IOptionItem[]>[]
+    }));
     public headerName = [
         'Host',
         'User-Agent',
@@ -53,10 +63,7 @@ export class DebugComponent implements OnInit {
         'Authorization',
     ];
     public requestIndex = 0;
-    public bodyType = 0;
-    public body: any;
     public typeItems = ['none', 'form-data', 'x-www-form-urlencoded', 'raw', 'binary'];
-    public rawType = 0;
     public rawItems = ['Text', 'JavaScript', 'JSON', 'HTML', 'XML'];
     public optionItems = ['Text', 'File'];
     public responseStatus = '';
@@ -82,41 +89,57 @@ export class DebugComponent implements OnInit {
     }
 
     private applyApiData(res: IDocApi) {
-        this.method = res.method;
-        this.url = res.uri;
+        this.dataForm().value.update(v => {
+            v.method = res.method;
+            v.url = res.uri;
+            if (res.header && res.header.length > 0)
+            {
+                v.headers = res.header.map(i => {
+                    return <IOptionItem>{
+                        checked: true,
+                        key: i.name,
+                        value: i.default_value,
+                    };
+                });
+            }
+            if (res.request && res.request.length > 0) {
+                v.bodyType = 2;
+                v.rawType = '2';
+                v.bodies = res.request.map(i => {
+                    return <IOptionItem>{
+                        checked: true,
+                        key: i.name,
+                        value: i.default_value,
+                        type: '0',
+                    };
+                });
+            }
+            return v;
+        });
         this.requestIndex = 1;
-        if (res.header && res.header.length > 0) {
-            this.headerItems = res.header.map(i => {
-                return {
-                    checked: true,
-                    key: i.name,
-                    value: i.default_value,
-                };
-            });
-        }
-        if (res.request && res.request.length > 0) {
-            this.bodyType = 2;
-            this.rawType = 2;
-            this.body = res.request.map(i => {
-                return {
-                    checked: true,
-                    key: i.name,
-                    value: i.default_value,
-                    type: 0,
-                };
-            });
-        }
+        
+    }
+
+    public toggle(item: WritableSignal<boolean>) {
+        item.update(v => !v);
     }
 
     public tapSend(e?: ButtonEvent) {
         e?.enter();
+        const data = this.dataForm().value();
         this.service.apiDebug({
-            url: this.url,
-            method: this.method,
-            type: this.typeItems[this.bodyType],
-            raw_type: this.rawItems[this.rawType],
-            header: this.headerItems.filter(i => i.checked),
-            body: this.body instanceof Array ? this.body.filter(i => i.checked) : this.body,
+            url: data.url,
+            method: data.method,
+            type: this.typeItems[data.bodyType],
+            raw_type: this.rawItems[data.rawType],
+            header: data.headers.filter(i => i.checked),
+            body: data.bodyType == 3 ? data.body : data.bodyType == 4 ? data.bodyFile 
+            : data.bodies.filter(i => i.checked).map(i => {
+                if (i.type == '1') {
+                    return {...i, value: i.valueFile, valueFile: undefined};
+                }
+                return i;
+            }),
         }).subscribe({
             next: res => {
                 e?.reset();
@@ -153,59 +176,70 @@ export class DebugComponent implements OnInit {
     }
 
     public tapAddHeader() {
-        this.headerItems.push({
-            checked: false,
-            key: '',
-            value: ''
+        this.dataForm.headers().value.update(v => {
+            v.push({
+                checked: false,
+                key: '',
+                value: ''
+            });
+            return v;
         });
     }
 
     public tapRemoveHeader(i: number) {
-        this.headerItems.splice(i, 1);
+        this.dataForm.headers().value.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
     }
 
     public onTypeChange() {
-        this.body = this.bodyType > 0 && this.bodyType < 3 ? [] : '';
     }
 
     public tapAddBody() {
-        if (!(this.body instanceof Array)) {
-            this.body = [];
-        }
-        this.body.push({
-            checked: false,
-            key: '',
-            value: '',
-            type: 0,
+        this.dataForm.bodies().value.update(v => {
+            v.push({
+                checked: false,
+                key: '',
+                value: '',
+                type: '0',
+            });
+            return v;
         });
     }
 
     public tapRemoveBody(i: number) {
-        if (!(this.body instanceof Array)) {
-            this.body = [];
-            return;
-        }
-        this.body.splice(i, 1);
+        this.dataForm.bodies().value.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
     }
 
-    public uploadFile(event: any, item?: IOptionItem) {
+    public uploadFile(event: any, item?: FieldTree<IOptionItem, number>) {
         const files = event.target.files as FileList;
         if (item) {
-            item.value = files[0];
-            item.type = 1;
+            item().value.update(v => {
+                v.valueFile = files[0];
+                v.type = '1';
+                return v;
+            });
             return;
         }
-        this.body = files[0];
+        this.dataForm.bodyFile().value.set(files[0]);
     }
 
     public tapReset() {
-        this.url = '';
-        this.method = 'GET';
-        this.headerItems = [];
+        this.dataForm().value.set({
+            url: '',
+            method: this.methodItems[0],
+            headers: <IOptionItem[]>[],
+            bodyType: 0,
+            rawType: '0',
+            body: '',
+            bodyFile: <File>null,
+            bodies: <IOptionItem[]>[]
+        });
         this.requestIndex = 0;
-        this.bodyType = 0;
-        this.body = null;
-        this.rawType = 0;
         this.responseStatus = '';
         this.responseTime = 0;
         this.responseSize = 0;
@@ -225,24 +259,20 @@ export class DebugComponent implements OnInit {
         if (!data) {
             return;
         }
-        this.method = data.method;
-        this.url = data.url;
-        this.headerItems = data.headers;
-        this.bodyType = data.bodyType;
-        this.body = data.body;
-        this.rawType = data.rawType;
+        this.dataForm().value.update(v => {
+            v.method = data.method;
+            v.url = data.url;
+            v.headers = data.headers;
+            v.bodyType = data.bodyType;
+            v.rawType = data.rawType as any;
+            v.body = data.body;
+            v.bodies = data.bodies;
+            return v;
+        });
     }
 
     private setCache() {
-        const data: ICacheRequest = {
-            method: this.method,
-            url: this.url,
-            headers: this.headerItems,
-            body: this.body,
-            bodyType: this.bodyType,
-            rawType: this.bodyType
-        };
-        localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+        localStorage.setItem(CACHE_KEY, JSON.stringify(this.dataForm().value()));
     }
 
 }

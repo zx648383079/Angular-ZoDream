@@ -83,51 +83,51 @@
     </div>
 </app-dialog-box>
 <app-dialog-box #modal [title]="'发送模板消息'">
-    @if (sendData.template) {
+    @if (sendForm.template) {
         <div class="form-table-control">
             <div class="input-group-control">
                 <label for="">模板名称</label>
                 <div>
-                    <input type="text" class="form-control" [field]="sendData.template.title">
-                    <app-switch offLabel="无效" onLabel="有效" [field]="sendData.template.status" />
+                    <input type="text" class="form-control" [field]="sendForm.template.title">
+                    <app-switch offLabel="无效" onLabel="有效" [field]="sendForm.template.status" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">接收者</label>
                 <div>
                     <div>
-                        <app-select-input [url]="selectUrl" [field]="sendData.to" [formatFn]="formatUser" />
+                        <app-select-input [url]="selectUrl()" [field]="sendForm.to" [formatFn]="formatUser" />
                     </div>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">标题</label>
                 <div>
-                    <input type="text" class="form-control" [field]="sendData.title">
+                    <input type="text" class="form-control" [field]="sendForm.title">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">链接</label>
                 <div>
-                    <input type="text" class="form-control" [field]="sendData.template_url">
+                    <input type="text" class="form-control" [field]="sendForm.template_url">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">小程序appid</label>
                 <div>
-                    <input type="text" class="form-control" [field]="sendData.appid">
+                    <input type="text" class="form-control" [field]="sendForm.appid">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">小程序路径</label>
                 <div>
-                    <input type="text" class="form-control" [field]="sendData.path">
+                    <input type="text" class="form-control" [field]="sendForm.path">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">模板内容</label>
                 <div>
-                    <textarea class="form-control" readonly [field]="sendData.content"></textarea>
+                    <textarea class="form-control" [field]="sendForm.content"></textarea>
                 </div>
             </div>
             <table class="table table-hover">
@@ -139,11 +139,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (item of sendData.items; track $index) {
+                    @for (item of sendForm.items; track $index) {
                     <tr>
-                        <td>{{ item.name }}</td>
+                        <td>{{ item.name().value() }}</td>
                         <td>
-                            <textarea class="form-control" [field]="item.value" (ngModelChange)="onFieldChange()"></textarea>
+                            <textarea class="form-control" [field]="item.value" (valueChange)="onFieldChange()"></textarea>
                         </td>
                         <td>
                             <input type="color" class="form-control" [field]="item.color">

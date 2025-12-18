@@ -1,12 +1,13 @@
 <div class="question-editor">
     <div class="panel-tool-bar editor-tool-bar">
         <div class="tool-item" title="编辑分数">
-            <input type="text" class="form-control btn-info" [field]="value().score" placeholder="分数" maxLength="2" (ngModelChange)="onValueChange()">
+            <input type="text" class="form-control btn-info" [value]="value().score" placeholder="分数" maxLength="2" 
+            (input)="onScoreChange($event.target.value)">
         </div>
         <div class="tool-item btn-primary" [class]="{active: extendOpen}" title="添加附加内容" (click)="extendOpen = !extendOpen">
             <i class="iconfont icon-plus"></i>
         </div>
-        @if (canEdit) {
+        @if (canEdit()) {
         <div class="tool-item btn-success" (click)="tapEditAnalysis(analysisModal)" [title]="analysisItems.length > 0 ? '修改解析' : '添加解析'">
             <i class="iconfont icon-key"></i>
         </div>
@@ -24,7 +25,7 @@
     </div>
     <div class="editor-header">
         <div class="title">
-            <textarea class="form-control" placeholder="请输入题目内容" [field]="value().title" (ngModelChange)="onValueChange()" [disabled]="!canEdit"></textarea>
+            <textarea class="form-control" placeholder="请输入题目内容" [value]="value().title" (valueChange)="onTitleChange($event)" [disabled]="!canEdit()"></textarea>
         </div>
         <div class="material">
             @if (materialType < 1 && materialFile) {
@@ -34,7 +35,7 @@
             } @else if (materialType == 2 && materialFile) {
                 <app-video-player [src]="materialFile" />
             }
-            @if (canEdit) {
+            @if (canEdit()) {
             <label for="upload-input" class="add-btn" title="上传图片/视频/音频">
                 <i class="iconfont icon-upload"></i>
                 <input type="file" id="upload-input" accept="image/*,audio/*,video/*" (change)="uploadFile($event)">
@@ -47,17 +48,18 @@
             }
         </div>
         <div class="content" [hidden]="!extendOpen">
-            <app-exam-editor label="附加内容："  placeholder="请输入附加内容" [field]="value().content" (ngModelChange)="onExtendChange()" [disabled]="!canEdit" />
+            <app-exam-editor label="附加内容："  placeholder="请输入附加内容" [value]="value().content" 
+                (valueChange)="onExtendChange($event)"  [disabled]="!canEdit" />
         </div>
     </div>
 
     <div class="editor-option">
        @if (value().type == 2) {
-           <app-bool-input [(value)]="value().answer" (valueChange)="onValueChange()" [editable]="canEdit" />
+           <app-bool-input [(value)]="value().answer" (valueChange)="onValueChange()" [disabled]="!canEdit()" />
        } @else if (!value().type || value().type < 2 || value().type == 4) {
-           <app-option-input [multiple]="value().type > 0" [(value)]="optionItems" (valueChange)="onValueChange()" [editable]="canEdit" />
+           <app-option-input [multiple]="value().type > 0" [(value)]="optionItems" (valueChange)="onValueChange()" [disabled]="!canEdit()" />
        } @else if (value().type == 3) {
-            <app-exam-editor label="答案："  placeholder="请输入答案" [field]="value().answer" (ngModelChange)="onValueChange()" [disabled]="!canEdit" />
+            <app-exam-editor label="答案："  placeholder="请输入答案" [value]="value().answer" (valueChange)="onAnswerChange($event)" [disabled]="!canEdit" />
        } @else if (value().type == 5) {
             <app-question-children [(value)]="kidItems" (valueChange)="onValueChange()" />
        }
@@ -68,15 +70,15 @@
 <app-dialog-box #analysisModal title="管理题目解析">
     <div class="form-group">
         <label>内容类型</label>
-        <select class="form-control" [field]="analysisData.type">
+        <select class="form-control" [(value)]="analysisData.type">
             @for (item of analysisTypeItems; track $index; let i = $index) {
                 <option [value]="i">{{ item }}</option>
             }
         </select>
     </div>
     @if (analysisData.type < 1) {
-        <app-exam-editor [field]="analysisData.content" />
+        <app-exam-editor [(value)]="analysisData.content" />
     } @else {
-        <app-file-input [field]="analysisData.content" accept="*/*" />
+        <app-file-input [(value)]="analysisData.content" accept="*/*" />
     }
 </app-dialog-box>

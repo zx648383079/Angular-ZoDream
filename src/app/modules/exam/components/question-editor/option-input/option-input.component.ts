@@ -2,6 +2,7 @@ import { Component, input, model } from '@angular/core';
 import { DialogEvent } from '../../../../../components/dialog';
 import { IQuestionOption } from '../../../model';
 import { intToABC } from '../../../util';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -9,9 +10,9 @@ import { intToABC } from '../../../util';
     templateUrl: './option-input.component.html',
     styleUrls: ['./option-input.component.scss']
 })
-export class OptionInputComponent {
+export class OptionInputComponent implements FormValueControl<IQuestionOption[]> {
     public readonly value = model<IQuestionOption[]>([]);
-    public readonly editable = input(true);
+    public readonly disabled = input(false);
     public readonly multiple = input(false);
     public optionData: IQuestionOption = {
         type: 0,
@@ -22,7 +23,7 @@ export class OptionInputComponent {
 
     public tapSelected(event: MouseEvent, i: number) {
         event.stopPropagation();
-        if (!this.editable()) {
+        if (this.disabled()) {
             return;
         }
         this.value.update(v => {
@@ -42,7 +43,7 @@ export class OptionInputComponent {
     }
 
     public tapEditOption(modal: DialogEvent, i = -1) {
-        if (!this.editable()) {
+        if (this.disabled()) {
             return;
         }
         this.optionData = i >= 0 ? {...this.value()[i], type: this.value()[i].type || 0} : {
@@ -97,7 +98,7 @@ export class OptionInputComponent {
     }
 
     public tapAddOption() {
-        if (!this.editable()) {
+        if (this.disabled()) {
             return;
         }
         this.value.update(v => {
@@ -111,7 +112,7 @@ export class OptionInputComponent {
 
     public tapRemoveOption(event: MouseEvent, i: number) {
         event.stopPropagation();
-        if (!this.editable()) {
+        if (this.disabled()) {
             return;
         }
         this.value.update(v => {

@@ -52,7 +52,7 @@
                             {{ item.phone }}
                         </td>
                         <td>
-                            <app-switch [value]="item.open_status" (ngModelChange)="onOpenToggle(item)" />
+                            <app-switch [(value)]="item.open_status" (valueChange)="onOpenToggle(item)" />
                         </td>
                         <td>{{ item.status | status }}</td>
                         <td class="auto-hide">{{ item.created_at | ago }}</td>
@@ -130,28 +130,28 @@
 </div>
 
 
-<app-dialog-box #modal [buttonVisible]="false" [title]="'反馈详情(' + editForm.id + ')'">
+<app-dialog-box #modal [buttonVisible]="false" [title]="'反馈详情(' + editModel().id + ')'">
     <div class="line-row-item">
         <span class="item-label">称呼：</span>
-        <span class="item-body">{{ editForm.name }}</span>
+        <span class="item-body">{{ editModel().name }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">邮箱：</span>
-        <span class="item-body">{{ editForm.email }}</span>
+        <span class="item-body">{{ editModel().email }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">联系方式：</span>
-        <span class="item-body">{{ editForm.phone }}</span>
+        <span class="item-body">{{ editModel().phone }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">留言时间：</span>
-        <span class="item-body">{{ editForm.created_at | ago }}({{ editForm.created_at }})</span>
+        <span class="item-body">{{ editModel().created_at | ago }}({{ editModel().created_at }})</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">反馈内容：</span>
-        <span class="item-body">{{ editForm.content }}</span>
+        <span class="item-body">{{ editModel().content }}</span>
     </div>
-    @if (editForm.status < 1) {
+    @if (editModel().status < 1) {
     <ng-container name="footer">
         <div class="btn-group">
             <button type="button" class="btn btn-primary" (click)="modal.close(1)">已阅</button>

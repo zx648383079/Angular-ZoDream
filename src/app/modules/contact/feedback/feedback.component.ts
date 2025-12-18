@@ -30,7 +30,7 @@ export class FeedbackComponent implements OnInit {
         keywords: '',
         per_page: 20,
     }));
-    public readonly editForm = form(signal<IFeedback>({}));
+    public readonly editModel = signal<IFeedback>({} as any);
     public isMultiple = false;
     public isChecked = false;
     public isReview = false;
@@ -128,12 +128,12 @@ export class FeedbackComponent implements OnInit {
     }
 
     public tapView(modal: DialogEvent, item: IFeedback) {
-        this.editForm = item;
+        this.editModel.set(item);
         modal.openCustom(value => {
             if (typeof value !== 'number') {
                 return;
             }
-            this.service.feedbackChange(this.editForm?.id, {
+            this.service.feedbackChange(this.editModel().id, {
                 status: value,
             }).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);

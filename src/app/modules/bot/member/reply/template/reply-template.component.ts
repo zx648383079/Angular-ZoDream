@@ -1,11 +1,11 @@
-import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { form, readonly, required } from '@angular/forms/signals';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
 import { IPage, IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
-import { IBotReplyTemplate, IBotUser } from '../../../model';
+import { IBotReplyTemplate, IBotReplyTemplateField, IBotUser } from '../../../model';
 import { formatTemplateField, renderTemplateField } from '../../../util';
 import { BotService } from '../../bot.service';
 
@@ -37,12 +37,31 @@ export class ReplyTemplateComponent implements OnInit {
     public readonly editForm = form(signal({
         id: 0,
         template_id: '',
-        content: ''
+        content: '',
+        title: '',
+        example: '',
+        status: false,
     }), schemaPath => {
         required(schemaPath.template_id);
         required(schemaPath.content);
     });
-    public sendData: any = {};
+    public sendForm = form(signal({
+        to_type: 0,
+        template: {
+            title: '',
+            status: false,
+            content: ''
+        },
+        to: 0,
+        title: '',
+        template_url: '',
+        appid: '',
+        path: '',
+        content: '',
+        items: <IBotReplyTemplateField[]>[]
+    }), schemaPath => {
+        readonly(schemaPath.content);
+    });
 
     public formatUser = (res: IPage<IBotUser>) => {
         return res.data.map(i => {
@@ -53,8 +72,8 @@ export class ReplyTemplateComponent implements OnInit {
         });
     };
 
-    public get selectUrl() {
-        switch (this.sendData.to_type) {
+    public readonly selectUrl = computed(() => {
+        switch (this.sendForm.to_type().value()) {
             case 2:
                 return 'wx/admin/user/search?wid=' + this.service.baseId;
             case 1:
@@ -62,7 +81,7 @@ export class ReplyTemplateComponent implements OnInit {
             default:
                 return null;
         }
-    }
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -110,23 +129,29 @@ export class ReplyTemplateComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item: IBotReplyTemplate) {
-        this.sendData = {
-            template: item,
-            items: formatTemplateField(item.content),
-            to_type: 2,
-            to: 0
-        };
+        this.sendForm().value.update(v => {
+            v.template = {
+                title: item.title,
+                status: item.status > 0,
+                content: item.content,
+            };
+            v.items = formatTemplateField(item.content);
+            v.to_type = 2;
+            v.to = 0
+            return v;
+        });
         modal.open(() => {
+            const data = this.sendForm().value();
             this.service.send({
                 to_type: 2,
-                to: this.sendData.to,
+                to: data.to,
                 type: 3,
                 content: {
                     template_id: item.template_id,
-                    template_url: this.sendData.template_url,
-                    appid: this.sendData.appid,
-                    path: this.sendData.path,
-                    template_data: this.sendData.items,
+                    template_url: data.template_url,
+                    appid: data.appid,
+                    path: data.path,
+                    template_data: data.items,
                 }
             }).subscribe({
                 next: _ => {
@@ -141,7 +166,10 @@ export class ReplyTemplateComponent implements OnInit {
     }
 
     public onFieldChange() {
-        this.sendData.content = renderTemplateField(this.sendData.template.content, this.sendData.items);
+        this.sendForm().value.update(v => {
+            v.content = renderTemplateField(v.template.content, v.items);
+            return v;
+        });
     }
 
     public tapAsync(e?: ButtonEvent) {

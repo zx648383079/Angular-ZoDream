@@ -3,19 +3,19 @@
         <i class="iconfont icon-bars nav-toggle-icon" (click)="navToggle = !navToggle"></i>
         <div class="bar-version">
             <label for="version" i18n>Version</label>
-            <select id="version" [field]="version" (ngModelChange)="onVersionChange()">
+            <select id="version" [field]="queries.version" (change)="onVersionChange()">
                 @for (item of versionItems; track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
                 }
             </select>
         </div>
         <div class="bar-search">
-            <input type="text" i18n-placeholder placeholder="Please input a keywods..." [field]="keywords">
-            <i class="iconfont" [class]="{'icon-search': this.keywords.length < 1, 'icon-close': this.keywords.length > 0}" (click)="this.keywords = ''"></i>
+            <input type="text" i18n-placeholder placeholder="Please input a keywods..." [field]="queries.keywords">
+            <i class="iconfont" [class]="{'icon-search': queries.keywords().value().length < 1, 'icon-close': queries.keywords().value().length > 0}" (click)="queries.keywords().value.set('')"></i>
         </div>
         <div class="bar-top">
             <ul class="tree-box">
-                @for (item of formatCatalog; track $index) {
+                @for (item of formatCatalog(); track $index) {
                 <li class="tree-item" [class]="{open: item.expanded, active: data && item.id == data.id}">
                     <div class="tree-name" (click)="tapRead(item)">
                         <i class="iconfont" [class]="{'icon-chevron-right': item.children && !item.expanded, 'icon-chevron-down': item.children && item.expanded}"></i>
@@ -219,24 +219,24 @@
 
 <app-dialog-box #codeModal i18n-title title="Code generation" [footerVisible]="false">
     <form class="search-bar" (submit)="tapGenerate()">
-        <select name="kind" ngModel class="form-control">
+        <select [field]="codeForm.kind" class="form-control">
             @for (item of kindItems; track $index;let i = $index) {
                 <option [value]="i">{{ item }}</option>
             }
         </select>
-        <select name="lang" ngModel class="form-control">
+        <select [field]="codeForm.lang" class="form-control">
             @for (item of langItems; track $index) {
                 <option [value]="item">{{ item }}</option>
             }
         </select>
         <button type="submit" class="btn btn-primary" i18n>Generate</button>
-        @if (codeData.content) {
+        @if (codeForm.content().value()) {
             <a class="btn btn-info" (click)="tapCopy($event)" i18n>Copy</a>
         }
     </form>
-    @if (codeData.content) {
+    @if (codeForm.content().value()) {
     <div class="code-box">
-        <pre><code class="language-json">{{ codeData.content }}</code></pre>
+        <pre><code class="language-json">{{ codeForm.content().value() }}</code></pre>
     </div>
     }
     

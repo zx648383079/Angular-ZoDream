@@ -1,5 +1,6 @@
 import { Component, effect, input, model } from '@angular/core';
 import { IQuestionFormat, IQuestionOption } from '../../model';
+import { FormValueControl } from '@angular/forms/signals';
 
 /**
  * 题目选择
@@ -10,10 +11,10 @@ import { IQuestionFormat, IQuestionOption } from '../../model';
     templateUrl: './question-input.component.html',
     styleUrls: ['./question-input.component.scss']
 })
-export class QuestionInputComponent {
+export class QuestionInputComponent implements FormValueControl<IQuestionFormat> {
 
     public readonly value = model<IQuestionFormat>();
-    public readonly editable = input(true);
+    public readonly disabled = input(false);
 
     constructor() {
         effect(() => {
@@ -35,7 +36,7 @@ export class QuestionInputComponent {
 
     public tapCheckItem(item: IQuestionOption) {
         const value = this.value();
-        if (!value || !this.editable()) {
+        if (!value || this.disabled()) {
             return;
         }
         const data = value;
@@ -65,7 +66,7 @@ export class QuestionInputComponent {
     }
 
     public onAnswerChange(value?: any) {
-        if (this.editable()) {
+        if (!this.disabled()) {
             this.value.update(v => {
                 if (v) {
                     v.answer = value;

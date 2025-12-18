@@ -65,12 +65,12 @@ export class CopyTableComponent implements OnInit {
         column: '',
         foreign: null,
     }));
-    public readonly columnForm = form(signal<IColumnValue>({
+    public readonly columnForm = form(signal({
         type: 0,
         value: '',
         valueType: 'string',
         column: null,
-        append: 0,
+        append: '0',
         appendType: 'number',
     }));
 
@@ -159,18 +159,22 @@ export class CopyTableComponent implements OnInit {
             this.toastrService.warning('请先选择目标表');
             return;
         }
-        this.tableForm.type = this.srcTable.length > 0 ? 2 : 1;
-        this.tableForm.table = '';
+        this.tableForm().value.update(v => {
+            v.type = this.srcTable.length > 0 ? 2 : 1;
+            v.table = '';
+            return v;
+        })
         modal.open(() => {
+            const data = this.tableForm().value();
             const table: ITableItem = {
-                schema: this.tableForm.schema,
-                table: this.tableForm.table,
+                schema: data.schema,
+                table: data.table,
             };
-            if (this.tableForm.type > 1) {
-                table.column = this.tableForm.column;
-                table.foreignColumn = this.tableForm.foreign.column;
-                table.foreignTable = this.tableForm.foreign.table;
-                table.foreignSchema = this.tableForm.foreign.schema;
+            if (data.type > 1) {
+                table.column = data.column;
+                table.foreignColumn = data.foreign.column;
+                table.foreignTable = data.foreign.table;
+                table.foreignSchema = data.foreign.schema;
             }
             this.srcTable.push(table);
             this.refreshSrcColumn();
@@ -183,9 +187,12 @@ export class CopyTableComponent implements OnInit {
             this.toastrService.warning('请先选择数据表');
             return;
         }
-        this.columnForm = item.src ? {...item.src} : {type: 0, value: '', valueType: 'string', column: undefined, append: 0, appendType: 'number',};
+        this.columnForm().value.update(v => {
+            return item.src ? {...item.src} as any : {type: 0, value: '', valueType: 'string', column: undefined, append: '0', appendType: 'number',};
+        });
         modal.open(() => {
-            item.src = {...this.columnForm().value(), label: this.formatColumnValue(this.columnForm)};
+            const data = this.columnForm().value() as any;
+            item.src = {...data, label: this.formatColumnValue(data)};
         }, '选择数据');
     }
 

@@ -48,13 +48,13 @@
         <div class="input-group-control">
             <label for="">数据库</label>
             <div>
-                <ng-select [field]="tableForm.schema" [items]="schemaItems" bindLabel="name" bindValue="value" (ngModelChange)="onSchemaChange()" />
+                <ng-select [field]="tableForm.schema" [items]="schemaItems" bindLabel="name" bindValue="value" (valueChange)="onSchemaChange()" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="">表</label>
             <div>
-                <ng-select [field]="tableForm.table" [items]="tableItems" bindLabel="name" bindValue="value" (ngModelChange)="onTableChange()" />
+                <ng-select [field]="tableForm.table" [items]="tableItems" bindLabel="name" bindValue="value" (valueChange)="onTableChange()" />
             </div>
         </div>
         @if (tableForm.type().value() > 1) {
@@ -77,11 +77,11 @@
 <app-dialog-box #columnModal [scrollable]="false">
     <div class="tab-box form-table-control">
         <div class="tab-header">
-            <div class="tab-item" [class]="{active: columnForm.type < 1}" (click)="columnForm.type = 0">固定值</div>
-            <div class="tab-item" [class]="{active: columnForm.type == 1}" (click)="columnForm.type = 1">关联列</div>
+            <div class="tab-item" [class.active]="columnForm.type().value() < 1" (click)="columnForm.type().value.set(0)">固定值</div>
+            <div class="tab-item" [class.active]="columnForm.type().value() == 1" (click)="columnForm.type().value.set(1)">关联列</div>
         </div>
         <div class="tab-body">
-            <div class="tab-item" [class]="{active: columnForm.type < 1}">
+            <div class="tab-item" [class.active]="columnForm.type().value() < 1">
                 <div class="input-group-control">
                     <label for="">类型</label>
                     <div>
@@ -99,7 +99,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-item" [class]="{active: columnForm.type == 1}">
+            <div class="tab-item" [class.active]="columnForm.type().value() == 1">
                 <div class="input-group-control">
                     <label for="">列</label>
                     <div>

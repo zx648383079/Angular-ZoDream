@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, model } from '@angular/core';
+import { Component, computed, effect, inject, input, model } from '@angular/core';
 import { DialogEvent } from '../../../../components/dialog';
 import { FileUploadService } from '../../../../theme/services';
 import { cloneObject } from '../../../../theme/utils';
@@ -18,7 +18,7 @@ export class QuestionEditorComponent {
     private uploadService = inject(FileUploadService);
 
 
-    public readonly editable = input(true);
+    public readonly disabled = input(false);
     public readonly value = model<IQuestion>();
 
     public optionItems: any[] = cloneObject(QuestionDefaultOption);
@@ -49,14 +49,14 @@ export class QuestionEditorComponent {
         });
     }
 
-    public get canEdit() {
+    public readonly canEdit = computed(() => {
         const value = this.value();
         return !value.id || value.id < 1 || value.editable;
-    }
+    });
 
     public tapType(i: number) {
         this.typeOpen = false;
-        if (!this.canEdit) {
+        if (!this.canEdit()) {
             return;
         }
         this.value().type = i;
@@ -70,7 +70,11 @@ export class QuestionEditorComponent {
         this.onValueChange();
     }
 
-    public onExtendChange() {
+    public onExtendChange(val: any) {
+        this.value.update(v => {
+            v.content = val;
+            return v;
+        });
         this.onTypeChange();
         this.onValueChange();
     }
@@ -81,6 +85,31 @@ export class QuestionEditorComponent {
             return;
         }
         this.optionItems = formatFillOption(value.content, this.optionItems);
+    }
+    
+    public onAnswerChange(val: any) {
+        this.value.update(v => {
+            v.answer = val;
+            return v;
+        });
+    }
+
+    public onScoreChange(val: any) {
+        this.value.update(v => {
+            v.score = val;
+            return v;
+        });
+    }
+
+    public onAnalysisChange(val: any) {
+        this.analysisData.content = val;
+    }
+
+    public onTitleChange(val: any) {
+        this.value.update(v => {
+            v.title = val;
+            return v;
+        });
     }
 
     public tapEditAnalysis(modal: DialogEvent) {
@@ -100,7 +129,7 @@ export class QuestionEditorComponent {
     }
 
     public uploadFile(event: Event) {
-        if (!this.canEdit) {
+        if (!this.canEdit()) {
             return;
         }
         const file = (event.target as HTMLInputElement).files[0] as File;
@@ -182,7 +211,7 @@ export class QuestionEditorComponent {
     }
 
     private formatValue(value?: IQuestion) {
-        const def = this.canEdit ? cloneObject(QuestionDefaultOption) : [];
+        const def = this.canEdit() ? cloneObject(QuestionDefaultOption) : [];
         if (!value) {
             this.materialFile = '';
             this.optionItems = def;

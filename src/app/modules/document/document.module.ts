@@ -11,11 +11,13 @@ import { DialogModule } from '../../components/dialog';
 import { ZreFormModule } from '../../components/form';
 import { ZreEditorModule } from '../../components/editor';
 import { DesktopModule } from '../../components/desktop';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        Field,
         DesktopModule,
         DocumentRoutingModule,
         DialogModule,

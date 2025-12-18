@@ -7,13 +7,13 @@
     
     <div class="page-search-bar">
         <div class="form-horizontal-control">
-            <app-date-input [field]="queries.start_at" (ngModelChange)="onQueriesChange()" />
+            <app-date-input [field]="queries.start_at" (valueChange)="onQueriesChange()" />
             ~
-            <app-date-input [field]="queries.end_at" (ngModelChange)="onQueriesChange()" />
+            <app-date-input [field]="queries.end_at" (valueChange)="onQueriesChange()" />
 
             <div class="tab-bar">
                 @for (item of typeItems; track $index;let i = $index) {
-                    <div class="item" [class]="{active: queries.type == i}" (click)="tapType(i)">
+                    <div class="item" [class.active]="queries.type().value() == i" (click)="tapType(i)">
                         按{{ item }}
                     </div>
                 }
@@ -51,7 +51,7 @@
                 }
                 <div class="inner">
                     <h3>{{ data.expenditure_current || 0 | numberFormat }}/{{ data.expenditure_last || 0 | numberFormat }}/{{ data.expenditure_total || 0 | numberFormat }}</h3>
-                    <p>当{{ formatType(queries.type) }}/上{{ formatType(queries.type) }}/总支出</p>
+                    <p>当{{ formatType(queries.type().value()) }}/上{{ formatType(queries.type().value()) }}/总支出</p>
                 </div>
                 <div class="icon">
                     <i class="iconfont icon-shopping-cart"></i>
@@ -71,7 +71,7 @@
                 }
                 <div class="inner">
                     <h3>{{ data.income_current || 0 | numberFormat }}/{{ data.income_last || 0 | numberFormat }}/{{ data.income_total || 0 | numberFormat }}</h3>
-                    <p>当{{ formatType(queries.type) }}/上{{ formatType(queries.type) }}/总收入</p>
+                    <p>当{{ formatType(queries.type().value()) }}/上{{ formatType(queries.type().value()) }}/总收入</p>
                 </div>
                 <div class="icon">
                     <i class="iconfont icon-gift"></i>
@@ -89,14 +89,14 @@
 <div class="tablet-large-header tablet-visible">
     <div class="container-fluid">
         <div class="align-tab-bar">
-            <a [class]="{active: queries.type == 1}" (click)="tapType(1)">月账单</a>
-            <a [class]="{active: queries.type == 3}" (click)="tapType(3)">年账单</a>
+            <a [class]="{active: queries.type().value() == 1}" (click)="tapType(1)">月账单</a>
+            <a [class]="{active: queries.type().value() == 3}" (click)="tapType(3)">年账单</a>
         </div>
         <div class="row">
             <div class="col-6">
-                <app-datepicker format="yyyy-mm-dd" [(value)]="queries.start_at" (valueChange)="onQueriesChange()">
+                <app-datepicker format="yyyy-mm-dd" [field]="queries.start_at" (valueChange)="onQueriesChange()">
                     <div class="select-shell-control">
-                        <span>{{ queries.start_at }}</span>
+                        <span>{{ queries.start_at().value() }}</span>
                         <i class="iconfont icon-chevron-down"></i>
                     </div>
                 </app-datepicker>
@@ -104,7 +104,7 @@
             <div class="col-6">
                 <div class="tab-bar">
                     @for (item of logTypeItems; track $index;let i = $index) {
-                        <div class="item" [class]="{active: queries.log_type == i}" (click)="tapLogType(i)">
+                        <div class="item" [class.active]="queries.log_type().value() == i" (click)="tapLogType(i)">
                             {{ item }}
                         </div>
                     }
@@ -112,7 +112,7 @@
             </div>
         </div>
 
-        @switch (queries.log_type) {
+        @switch (queries.log_type().value()) {
             @case (1) {
                 <div class="couter-control">
                     <div class="couter-label">共支出 {{ data.expenditure_count || 0 | numberFormat }} 笔，合计</div>

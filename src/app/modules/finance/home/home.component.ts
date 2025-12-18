@@ -1,7 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { EChartsCoreOption } from 'echarts/core';
 import { formatDate, mapFormat } from '../../../theme/utils';
 import { FinanceService } from '../finance.service';
+import { form } from '@angular/forms/signals';
 
 
 @Component({
@@ -16,19 +17,16 @@ export class HomeComponent implements OnInit {
 
     public isLoading = true;
     public data: any = {};
-    public queries = {
-        start_at: '',
+    public readonly queries = form(signal({
+        start_at: formatDate(new Date(), 'yyyy-mm-dd'),
         end_at: '',
         type: 1,
         log_type: 0
-    };
+    }));
     public typeItems = ['天', '月', '季度', '年'];
     public logTypeItems = ['收入', '支出', '其他'];
     public options: EChartsCoreOption;
 
-    constructor() {
-        this.queries.start_at = formatDate(new Date(), 'yyyy-mm-dd');
-    }
 
     ngOnInit() {
         this.onQueriesChange();
@@ -82,7 +80,7 @@ export class HomeComponent implements OnInit {
     }
 
     public tapLogType(i: number) {
-        this.queries.log_type = i;
+        this.queries.log_type().value.set(i);
     }
 
     public formatType(v: number) {

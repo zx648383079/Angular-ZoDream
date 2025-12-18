@@ -35,7 +35,11 @@ export class QuestionDialogComponent implements CustomDialogEvent {
         this.onTypeChange();
     }
 
-    public onExtendChange() {
+    public onExtendChange(val: any) {
+        this.value.update(v => {
+            v.content = val;
+            return v;
+        });
         this.onTypeChange();
     }
 
@@ -45,6 +49,31 @@ export class QuestionDialogComponent implements CustomDialogEvent {
             return;
         }
         this.optionItems = formatFillOption(value.content, this.optionItems);
+    }
+
+    public onAnswerChange(val: any) {
+        this.value.update(v => {
+            v.answer = val;
+            return v;
+        });
+    }
+
+    public onScoreChange(val: any) {
+        this.value.update(v => {
+            v.score = val;
+            return v;
+        });
+    }
+
+    public onAnalysisChange(val: any) {
+        this.analysisData.content = val;
+    }
+
+    public onTitleChange(val: any) {
+        this.value.update(v => {
+            v.title = val;
+            return v;
+        });
     }
 
     public close(result?: any) {

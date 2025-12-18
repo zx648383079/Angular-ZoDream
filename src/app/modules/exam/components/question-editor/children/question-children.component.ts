@@ -11,7 +11,7 @@ import { form } from '@angular/forms/signals';
 })
 export class QuestionChildrenComponent {
     public readonly value = model<IQuestion[]>([]);
-    public readonly editable = input(true);
+    public readonly disabled = input(false);
     public readonly editForm = form(signal<IQuestion>({
 
     } as any));
@@ -31,7 +31,7 @@ export class QuestionChildrenComponent {
 
     public tapRemove(event: MouseEvent, i: number) {
         event.stopPropagation();
-        if (!this.editable()) {
+        if (this.disabled()) {
             return;
         }
         this.value.update(v => {

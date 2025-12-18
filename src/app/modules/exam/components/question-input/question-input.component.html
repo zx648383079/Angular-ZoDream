@@ -1,4 +1,4 @@
-<div class="question-box" [class]="{'item-right': !editable() && value().right > 0, 'item-wrong': !editable() && value().right < 0}">
+<div class="question-box" [class]="{'item-right': disabled() && value().right > 0, 'item-wrong': disabled() && value().right < 0}">
     <div class="title">
         <span class="order">{{ value().order }}.</span>
         <app-math-mark [content]="value().title" />
@@ -8,7 +8,7 @@
     </div>
     @if (value().content) {
     <div class="content">
-        <app-math-mark [content]="value().content" [allowInput]="value().type == 4" [value]="editable() ? value().answer : value().your_answer" (valueChange)="onAnswerChange($event)" [editable]="editable()" [rightValue]="!editable() ? value().answer : []" />
+        <app-math-mark [content]="value().content" [allowInput]="value().type == 4" [value]="!disabled() ? value().answer : value().your_answer" (valueChange)="onAnswerChange($event)" [disabled]="disabled()" [rightValue]="disabled() ? value().answer : []" />
     </div>
     }
     @if (value().image) {
@@ -16,7 +16,7 @@
         <img [src]="value().image | asset">
     </div>
     }
-    @if (editable()) {
+    @if (!disabled()) {
         @if (value().type < 2) {
         <div class="option-list">
             @for (item of value().option; track $index) {
@@ -31,11 +31,11 @@
         </div>
         } @else if (value().type == 2) {
         <div class="option-list">
-            <app-check-input [items]="['错', '对']" [rangeKey]="1" [field]="value().answer" (ngModelChange)="onAnswerChange()" />
+            <app-check-input [items]="['错', '对']" [rangeKey]="1" [value]="value().answer" (valueChange)="onAnswerChange($event)" />
         </div>
         } @else if (value().type == 3) {
         <div>
-            <textarea rows="4" class="form-control" [field]="value().answer"  (ngModelChange)="onAnswerChange()"></textarea>
+            <textarea rows="4" class="form-control" [value]="value().answer"  (valueChange)="onAnswerChange($event)"></textarea>
         </div>
         }
     } @else {

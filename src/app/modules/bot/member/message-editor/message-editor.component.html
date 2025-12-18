@@ -1,7 +1,7 @@
 <div class="input-group-control">
     <label for="type">响应类型</label>
     <div>
-        <select id="type" [field]="data.type" class="form-control" (ngModelChange)="onTypeChange()">
+        <select id="type" [(value)]="data.type" class="form-control" (change)="onTypeChange()">
             @for (item of typeItems; track $index) {
             <option [value]="item.value">{{ item.name }}</option>
             }
@@ -12,28 +12,28 @@
     </div>
 </div>
 @if (data.type < 1) {
-    <textarea class="form-control" [field]="data.text" (ngModelChange)="onContentChange()"></textarea>
+    <textarea class="form-control" [(value)]="data.text" (valueChange)="onContentChange()"></textarea>
 } @else if (data.type >= 1 && data.type <= 2) {
-    <app-select-input id="parent_id" rangeKey="id" rangeLabel="title" [formatFn]="formatFn" [url]="requestUrl" [field]="data.media" (ngModelChange)="onContentChange()" />
+    <app-select-input id="parent_id" rangeKey="id" rangeLabel="title" [formatFn]="formatFn" [url]="requestUrl" [(value)]="data.media" (valueChange)="onContentChange()" />
 } @else if (data.type == 3) {
     <div class="input-group-control">
         <label for="template_id">模板ID</label>
-        <input type="text" id="template_id" class="form-control" [field]="data.template_id" (ngModelChange)="onTemplateChange()" placeholder="示例：模板ID">
+        <input type="text" id="template_id" class="form-control" [(value)]="data.template_id" (input)="onTemplateChange()" placeholder="示例：模板ID">
     </div>
     <div class="input-group-control">
         <label for="template_id">链接</label>
-        <input type="text" id="template_url" [field]="data.template_url" (ngModelChange)="onContentChange()" class="form-control">
+        <input type="text" id="template_url" [(value)]="data.template_url" (input)="onContentChange()" class="form-control">
     </div>
     <div class="input-group-control">
         <label for="">小程序appid</label>
         <div>
-            <input type="text" class="form-control" [field]="data.appid" (ngModelChange)="onContentChange()">
+            <input type="text" class="form-control" [(value)]="data.appid" (input)="onContentChange()">
         </div>
     </div>
     <div class="input-group-control">
         <label for="">小程序路径</label>
         <div>
-            <input type="text" class="form-control" [field]="data.path" (ngModelChange)="onContentChange()">
+            <input type="text" class="form-control" [(value)]="data.path" (input)="onContentChange()">
         </div>
     </div>
     <table class="table table-hover" [hidden]="!data.template_id">
@@ -49,10 +49,10 @@
             <tr>
                 <td>{{ item.name }}</td>
                 <td>
-                    <textarea class="form-control" [field]="item.value" (ngModelChange)="onContentChange()"></textarea>
+                    <textarea class="form-control" [(value)]="item.value" (input)="onContentChange()"></textarea>
                 </td>
                 <td>
-                    <input type="color" class="form-control" [field]="item.color" (ngModelChange)="onContentChange()">
+                    <input type="color" class="form-control" [(value)]="item.color" (input)="onContentChange()">
                 </td>
             </tr>
             }
@@ -62,33 +62,33 @@
     <div class="input-group-control">
         <label for="content">参数</label>
         <div>
-            <input type="text" id="content" class="form-control" placeholder="示例：参数" [field]="data.parameter" (ngModelChange)="onContentChange()">
+            <input type="text" id="content" class="form-control" placeholder="示例：参数" [(value)]="data.parameter" (input)="onContentChange()">
         </div>
     </div>
 } @else if (data.type == 5) {
     <div class="input-group-control">
         <label for="content">网址</label>
         <div>
-            <input type="text" id="content" class="form-control" [field]="data.url" (ngModelChange)="onContentChange()" placeholder="示例：网址">
+            <input type="text" id="content" class="form-control" [(value)]="data.url" (input)="onContentChange()" placeholder="示例：网址">
         </div>
     </div>
 } @else if (data.type == 6) {
     <div class="input-group-control">
         <label for="module1">APPID</label>
         <div>
-            <input type="text" id="module1" class="form-control" [field]="data.appid" (ngModelChange)="onContentChange()" placeholder="小程序APPID">
+            <input type="text" id="module1" class="form-control" [(value)]="data.appid" (input)="onContentChange()" placeholder="小程序APPID">
         </div>
     </div>
     <div class="input-group-control">
         <label for="module2">路径</label>
         <div>
-            <input type="text" id="module2" class="form-control" [field]="data.path" (ngModelChange)="onContentChange()" placeholder="小程序页面路径">
+            <input type="text" id="module2" class="form-control" [(value)]="data.path" (input)="onContentChange()" placeholder="小程序页面路径">
         </div>
     </div>
     <div class="input-group-control">
         <label for="module3">替代网址</label>
         <div>
-            <input type="text" id="module3" class="form-control" [field]="data.url" (ngModelChange)="onContentChange()" placeholder="老版微信不支持小程序时替代网址">
+            <input type="text" id="module3" class="form-control" [(value)]="data.url" (input)="onContentChange()" placeholder="老版微信不支持小程序时替代网址">
             <div class="input-tip">
                 旧版微信客户端无法支持小程序，用户点击菜单时将会打开备用网页。
             </div>
@@ -98,7 +98,7 @@
     <div class="input-group-control">
         <label for="content">场景</label>
         <div class="">
-            <select id="content" class="form-control" [field]="data.scene" (ngModelChange)="onContentChange()">
+            <select id="content" class="form-control" [(value)]="data.scene" (change)="onContentChange()">
                 <option value="">请选择</option>
                 @for (item of sceneItems; track $index) {
                 <option [value]="item.value">{{ item.name }}</option>

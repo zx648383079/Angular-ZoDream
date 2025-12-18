@@ -2,8 +2,8 @@
     @for (item of items; track $index) {
         @switch (item.type) {
             @case ('input') {
-                @if (editable()) {
-                    <input type="text" class="form-control" [field]="item.value" (ngModelChange)="onInputChange()" [size]="item.size">
+                @if (!disabled()) {
+                    <input type="text" class="form-control" [(value)]="item.value" (input)="onInputChange()" [size]="item.size">
                 } @else {
                     <div class="input-bar">
                         <p class="success-color">正确答案：

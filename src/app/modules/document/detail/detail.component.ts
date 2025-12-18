@@ -1,5 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { DialogBoxComponent } from '../../../components/dialog';
@@ -8,12 +7,13 @@ import { SearchService } from '../../../theme/services';
 import { emptyValidate } from '../../../theme/validators';
 import { DocumentService } from '../document.service';
 import { IDocApi, IDocPage, IProject, IProjectVersion } from '../model';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-detail',
-  templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.scss']
+    selector: 'app-detail',
+    templateUrl: './detail.component.html',
+    styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
     private readonly service = inject(DocumentService);
@@ -24,48 +24,54 @@ export class DetailComponent implements OnInit {
 
     public navToggle = false;
     public project: IProject;
-    public version = 0;
     public data: IDocApi&IDocPage;
     public catalog: IDocPage[]&IDocApi[] = [];
     public versionItems: IProjectVersion[] = [];
     public previous: IDocApi&IDocPage;
     public next: IDocApi&IDocPage;
-    public keywords = '';
+    public readonly queries = form(signal({
+        version: '0',
+        keywords: ''
+    }));
     public kindItems = [
         $localize `All`,
         $localize `Request`,
         $localize `Response`,
     ];
     public langItems: string[] = [];
-    public codeData = {
+    public readonly codeForm = form(signal({
+        kind: '',
+        lang: '',
         content: '',
-    }
+    }));
 
     ngOnInit() {
         this.route.params.subscribe(params => {
             if (!params.project) {
                 return;
             }
-            this.version = params.version ? parseInt(params.version, 10) : 0;
-            this.initData(params.project, this.version, params.id);
+            const version = params.version ? parseInt(params.version, 10) : 0;
+            this.queries.version().value.set(version as any);
+            this.initData(params.project, version, params.id);
         });
     }
 
-    public get formatCatalog() {
-        if (emptyValidate(this.keywords)) {
+    public readonly formatCatalog = computed(() => {
+        const keywords = this.queries.keywords().value();
+        if (emptyValidate(keywords)) {
             return this.catalog;
         }
         const items = [];
         this.eachCatalog(this.catalog, item => {
-            if (item.type < 1 && item.name.indexOf(this.keywords) >= 0) {
+            if (item.type < 1 && item.name.indexOf(keywords) >= 0) {
                 items.push(item);
             }
         });
         return items;
-    }
+    });
 
     public openCode(modal: DialogBoxComponent) {
-        this.codeData.content = '';
+        this.codeForm.content().value.set('');
         modal.open();
     }
 
@@ -82,7 +88,7 @@ export class DetailComponent implements OnInit {
     }
 
     public onVersionChange() {
-        this.service.catalogAll(this.project.id, this.version).subscribe(res => {
+        this.service.catalogAll(this.project.id, this.queries.version().value()).subscribe(res => {
             this.catalog = res.data;
             this.loadData(0);
         });
@@ -145,7 +151,7 @@ export class DetailComponent implements OnInit {
         }
         this.findNavigation(res.id);
         this.searchService.pushHistoryState(res.name,
-            window.location.href.replace(/\/\d+.*/, ['', this.project.id, this.version, res.id].join('/')));
+            window.location.href.replace(/\/\d+.*/, ['', this.project.id, this.queries.version().value(), res.id].join('/')));
         document.documentElement.scrollTop = 0;
     }
 
@@ -181,14 +187,15 @@ export class DetailComponent implements OnInit {
         }
     }
 
-    public tapGenerate(form: any) {
+    public tapGenerate() {
+        const data = this.codeForm().value();
         this.service.apiCode({
             id: this.data.id,
-            lang: form.lang,
-            kind: form.kind,
+            lang: data.lang,
+            kind: data.kind,
         }).subscribe({
             next: res => {
-                this.codeData.content = res.data;
+                this.codeForm.content().value.set(res.data);
             }, 
             error: (err: IErrorResult) => {
                 this.toastrService.warning(err.error.message);
@@ -197,7 +204,7 @@ export class DetailComponent implements OnInit {
     }
 
     public tapCopy(e: MouseEvent) {
-        navigator.clipboard.writeText(this.codeData.content).then(
+        navigator.clipboard.writeText(this.codeForm.content().value()).then(
             () => {
                 this.toastrService.success($localize `Copy successfully`);
             },

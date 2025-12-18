@@ -1,6 +1,7 @@
 import { Component, effect, inject, input, model, output } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MathMarkParser } from './parser';
+import { FormValueControl } from '@angular/forms/signals';
 
 interface IMarkItem {
     type: string;
@@ -14,11 +15,11 @@ interface IMarkItem {
 
 @Component({
     standalone: false,
-  selector: 'app-math-mark',
-  templateUrl: './math-mark.component.html',
-  styleUrls: ['./math-mark.component.scss']
+    selector: 'app-math-mark',
+    templateUrl: './math-mark.component.html',
+    styleUrls: ['./math-mark.component.scss']
 })
-export class MathMarkComponent  {
+export class MathMarkComponent implements FormValueControl<string[]>  {
     private sanitizer = inject(DomSanitizer);
 
 
@@ -27,7 +28,7 @@ export class MathMarkComponent  {
     public readonly rightValue = input<string[]>([]);
     public readonly allowInput = input(false);
     public readonly allowMath = input(true);
-    public readonly editable = input(true);
+    public readonly disabled = input(false);
     public items: IMarkItem[] = [];
 
     private parser: MathMarkParser = new MathMarkParser(this.sanitizer);

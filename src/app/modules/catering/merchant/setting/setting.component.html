@@ -2,7 +2,6 @@
     <div class="flex-menu">
         <app-merchant-menu currentUrl="setting" />
     </div>
-    @if (data) {
     <div class="flex-body">
         <div class="container-fluid">
             <div class="row">
@@ -12,7 +11,7 @@
                             <label for="avatar">LOGO</label>
                             <div>
                                 <div class="avatar">
-                                    <img [src]="data.logo">
+                                    <img [src]="dataForm.logo().value()">
                                 </div>
                                 <label for="fileUpload" class="btn btn-outline-info">更改LOGO</label>
                                 <input type="file" name="file" id="fileUpload" accept="image/*" (change)="uploadFile($event)"/>
@@ -21,13 +20,13 @@
                         <div class="input-group-control">
                             <label for="name">店铺名</label>
                             <div>
-                                <input type="text" id="name" class="form-control" placeholder="请输入店铺名" [field]="data.name" (ngModelChange)="onValueChange()">
+                                <input type="text" id="name" class="form-control" placeholder="请输入店铺名" [field]="dataForm.name" (input)="onValueChange()">
                             </div>
                         </div>
                         <div class="input-group-control">
                             <label for="address">店铺地址</label>
                             <div>
-                                <textarea id="address" class="form-control" placeholder="请输入店铺地址" [field]="data.address" (ngModelChange)="onValueChange()"></textarea>
+                                <textarea id="address" class="form-control" placeholder="请输入店铺地址" [field]="dataForm.address" (valueChange)="onValueChange()"></textarea>
                             </div>
                         </div>
                         <div class="input-group-control">
@@ -43,9 +42,9 @@
                 <div class="col-md-6">
                     <app-panel title="状态管理">
                         <div class="notice-panel">
-                            <h1 class="item-body">{{ data.open_status > 0 ? '营业中' : '休息中' }}</h1>
+                            <h1 class="item-body">{{ dataForm.open_status().value() > 0 ? '营业中' : '休息中' }}</h1>
                         </div>
-                        @if (data.open_status > 0) {
+                        @if (dataForm.open_status().value() > 0) {
                             <a class="btn btn-danger btn-line" (click)="toggleOpen()">关店休息</a>
                         } @else {
                             <a class="btn btn-primary btn-line" (click)="toggleOpen()">开店营业</a>
@@ -64,7 +63,7 @@
                 <div class="item-meta">是否支持到店点餐</div>
             </div>
             <div class="item-action">
-                <app-switch [field]="data.is_open_live" (ngModelChange)="onValueChange()" />
+                <app-switch [field]="dataForm.is_open_live" (valueChange)="onValueChange()" />
             </div>
         </div>
         <div class="input-item">
@@ -76,10 +75,10 @@
                 <div class="item-meta">是否支持外送</div>
             </div>
             <div class="item-action">
-                <app-switch [field]="data.is_open_ship" (ngModelChange)="onValueChange()" />
+                <app-switch [field]="dataForm.is_open_ship" (valueChange)="onValueChange()" />
             </div>
         </div>
-        @if (data.is_open_ship) {
+        @if (dataForm.is_open_ship().value()) {
         <div class="input-item">
             <div class="item-icon">
                 <i class="iconfont icon-chain-broken"></i>
@@ -89,7 +88,7 @@
                 <div class="item-meta">是否支持外卖订单上门自取</div>
             </div>
             <div class="item-action">
-                <app-switch [field]="data.is_ship_self" (ngModelChange)="onValueChange()" />
+                <app-switch [field]="dataForm.is_ship_self" (valueChange)="onValueChange()" />
             </div>
         </div>
         }
@@ -102,10 +101,10 @@
                 <div class="item-meta">是否支持提前预定</div>
             </div>
             <div class="item-action">
-                <app-switch [field]="data.is_open_reserve" (ngModelChange)="onValueChange()" />
+                <app-switch [field]="dataForm.is_open_reserve" (valueChange)="onValueChange()" />
             </div>
         </div>
-        @if (data.is_open_reserve) {
+        @if (dataForm.is_open_reserve().value()) {
         <div class="input-item">
             <div class="item-icon">
                 <i class="iconfont icon-chain-broken"></i>
@@ -115,10 +114,9 @@
                 <div class="item-meta">支持提前多久预定</div>
             </div>
             <div class="item-action">
-                <app-number-input [field]="data.reserve_time" (ngModelChange)="onValueChange()" /> 小时
+                <app-number-input [field]="dataForm.reserve_time" (valueChange)="onValueChange()" /> 小时
             </div>
         </div>
         }
     </div>
-    }
 </div>

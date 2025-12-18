@@ -45,7 +45,9 @@ export class EditComponent implements OnInit {
         required(schemaPath.name);
         required(schemaPath.icon);
     });
-    public userKeywords = '';
+    public readonly userForm = form(signal({
+        keywords: ''
+    }));
     public users: IUser[] = [];
 
     constructor() {
@@ -134,9 +136,7 @@ export class EditComponent implements OnInit {
     }
 
     public tapSearchUser() {
-        this.service.userList({
-            keywords: this.userKeywords
-        }).subscribe(res => {
+        this.service.userList(this.userForm().value()).subscribe(res => {
             this.users = res.data;
         });
     }

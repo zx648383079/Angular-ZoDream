@@ -6,26 +6,26 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="flat-input">
-            <select [field]="method" class="form-control">
+            <select [field]="dataForm.method" class="form-control">
                 @for (item of methodItems; track $index) {
                     <option [value]="item">{{ item }}</option>
                 }
             </select>
-            <input type="text" [field]="url" class="form-control">
+            <input type="text" [field]="dataForm.url" class="form-control">
             <app-action-button class="btn btn-primary" (tapped)="tapSend($event)">发送</app-action-button>
             <button class="btn btn-danger" (click)="tapReset()">重置</button>
         </div>
         <div class="tab-box">
             <div class="tab-header">
-                <div class="tab-item" [class]="{active: requestIndex < 1}" (click)="requestIndex = 0">
+                <div class="tab-item" [class.active]="requestIndex < 1" (click)="requestIndex = 0">
                     请求头
                 </div>
-                <div class="tab-item" [class]="{active: requestIndex == 1}" (click)="requestIndex = 1">
+                <div class="tab-item" [class.active]="requestIndex == 1" (click)="requestIndex = 1">
                     请求参数
                 </div>
             </div>
             <div class="tab-body">
-                <div class="tab-item" [class]="{active: requestIndex < 1}">
+                <div class="tab-item" [class.active]="requestIndex < 1">
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -36,10 +36,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for (item of headerItems; track $index; let i = $index) {
+                            @for (item of dataForm.headers; track $index; let i = $index) {
                             <tr>
                                 <td>
-                                    <i class="iconfont" [class]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}" (click)="item.checked = !item.checked"></i>
+                                    <i class="iconfont" [class]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}" (click)="toggle(item.checked().value)"></i>
                                 </td>
                                 <td>
                                     <input type="text" class="form-control" [field]="item.key">
@@ -63,20 +63,20 @@
                         </tfoot>
                     </table>
                 </div>
-                <div class="tab-item" [class]="{active: requestIndex == 1}">
+                <div class="tab-item" [class.active]="requestIndex == 1">
                     <div class="type-bar">
-                        <app-check-input [items]="typeItems" [rangeKey]="1" [field]="bodyType" (ngModelChange)="onTypeChange()" />
-                        <select [hidden]="bodyType != 3" [field]="rawType" class="form-control">
+                        <app-check-input [items]="typeItems" [rangeKey]="1" [field]="dataForm.bodyType" (valueChange)="onTypeChange()" />
+                        <select [hidden]="dataForm.bodyType().value() != 3" [field]="dataForm.rawType" class="form-control">
                             @for (item of rawItems; track $index;let i = $index) {
                                 <option [value]="i">{{ item }}</option>
                             }
                         </select>
                     </div>
-                    @if (bodyType == 4) {
+                    @if (dataForm.bodyType().value() == 4) {
                         <input type="file" class="form-control" (change)="uploadFile($event)">
-                    } @else if (bodyType == 3) {
-                        <textarea [field]="body" class="form-control"></textarea>
-                    } @else if (bodyType > 0 && bodyType < 3) {
+                    } @else if (dataForm.bodyType().value() == 3) {
+                        <textarea [field]="dataForm.body" class="form-control"></textarea>
+                    } @else if (dataForm.bodyType().value() > 0 && dataForm.bodyType().value() < 3) {
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -87,14 +87,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @for (item of body; track $index; let i = $index) {
+                                @for (item of dataForm.bodies; track $index; let i = $index) {
                                 <tr>
                                     <td>
-                                        <i class="iconfont" [class]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}" (click)="item.checked = !item.checked"></i>
+                                        <i class="iconfont" [class.icon-square-o]="!item.checked().value()" (click)="toggle(item.checked().value)"></i>
                                     </td>
-                                    <td [class]="{'type-td': bodyType == 1}">
+                                    <td [class]="{'type-td': dataForm.bodyType().value() == 1}">
                                         <input type="text" class="form-control" [field]="item.key">
-                                        @if (bodyType == 1) {
+                                        @if (dataForm.bodyType().value() == 1) {
                                         <select [field]="item.type" class="form-control">
                                             @for (item of optionItems; track $index;let i = $index) {
                                                 <option [value]="i">{{ item }}</option>
@@ -105,7 +105,7 @@
                                         
                                     </td>
                                     <td>
-                                        @if (item.type > 0) {
+                                        @if (item.type().value() != '') {
                                             <input type="file" class="form-control" (change)="uploadFile($event, item)">
                                         } @else {
                                             <input type="text" class="form-control" [field]="item.value">

@@ -1,15 +1,16 @@
-import { Component, ElementRef, OnInit, inject, viewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContextMenuComponent } from '../../../components/context-menu';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { IItem } from '../../../theme/models/seo';
-import { ThemeService } from '../../../theme/services';
+import { SearchService, ThemeService } from '../../../theme/services';
 import { mapFormat } from '../../../theme/utils';
 import { emptyValidate } from '../../../theme/validators';
 import { ExamService } from '../exam.service';
 import { ICourse, IExamPage, IQuestion, QuestionTypeItems } from '../model';
 import { questionNeedOption } from '../util';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -22,6 +23,7 @@ export class PageEditorComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
+    private readonly searchService = inject(SearchService);
 
 
     public readonly contextMenu = viewChild(ContextMenuComponent);
@@ -29,24 +31,29 @@ export class PageEditorComponent implements OnInit {
     public items: IQuestion[] = [];
     public editItem: IQuestion;
     public editIndex = -1;
-    public data: IExamPage = {
+    public readonly dataForm = form(signal({
         name: '',
         limit_time: 120,
-        course_id: 0,
-        course_grade: 1,
+        course_id: '',
+        course_grade: '1',
         start_at: '',
         end_at: '',
-    } as any;
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     public courseItems: ICourse[] = [];
     public gradeItems: IItem[] = [];
-    public dialogData = {
-        items: [],
+
+    public readonly dialogQueries = form(signal({
+        keywords: '',
+        course: '',
         page: 1,
         perPage: 20,
+    }));
+    public dialogData = {
+        items: [],
         total: 0,
-        keywords: '',
-        course: 0,
     };
 
     ngOnInit() {
@@ -54,13 +61,15 @@ export class PageEditorComponent implements OnInit {
             this.courseItems = res.data;
         });
         this.route.params.subscribe(params => {
-            this.data.course_id = parseInt(params.course, 10);
+            this.dataForm.course_id().value.set(parseInt(params.course, 10) as any);
             if (!params.id) {
                 this.onCourseChange();
                 return;
             }
             this.service.page(params.id).subscribe(res => {
-                this.data = {...this.data, ...res};
+                this.dataForm().value.update(v => {
+                    return this.searchService.getQueries(res, v);
+                });
                 this.items = res.rule_value as any;
                 this.onCourseChange();
                 this.tapEdit(0);
@@ -94,7 +103,7 @@ export class PageEditorComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (emptyValidate(this.data.name)) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning('请输入试卷标题');
             return;
         }
@@ -102,6 +111,7 @@ export class PageEditorComponent implements OnInit {
             this.toastrService.warning('有部分题目未输入完整！');
             return;
         }
+        const data = this.dataForm().value();
         const items = this.items.filter(i => {
             if (emptyValidate(i.title)) {
                 return false;
@@ -112,8 +122,8 @@ export class PageEditorComponent implements OnInit {
             return i.option_items && i.option_items.length > 0 && i.option_items.filter(j => j.is_right).length > 0;
         }).map(i => {
             i.option_items = i.option_items ? i.option_items?.filter(j => !emptyValidate(j.content)) : [];
-            i.course_id = this.data.course_id;
-            i.course_grade = this.data.course_grade;
+            i.course_id = data.course_id as any;
+            i.course_grade = data.course_grade as any;
             return i;
         });
         if (items.length < 1) {
@@ -122,12 +132,12 @@ export class PageEditorComponent implements OnInit {
         } 
         e?.enter();
         this.service.pageSave({
-            ...this.data,
+            ...data,
             rule_value: undefined,
             question_items: items
         }).subscribe({
             next: res => {
-                this.data = {...this.data, ...res};
+                this.dataForm().value.update(v => this.searchService.getQueries(res, v));
                 this.items = res.rule_value as any;
                 e?.reset();
                 this.toastrService.success($localize `Save Successfully`);
@@ -230,7 +240,7 @@ export class PageEditorComponent implements OnInit {
 
     public onCourseChange() {
         this.service.gradeAll({
-            course: this.data.course_id,
+            course: this.dataForm.course_id().value(),
         }).subscribe(res => {
             this.gradeItems = res.data;
         });
@@ -239,10 +249,7 @@ export class PageEditorComponent implements OnInit {
     public tapDialogPage() {
         this.service.search({
             type: 1,
-            keywords: this.dialogData.keywords,
-            course: this.dialogData.course,
-            page: this.dialogData.page,
-            per_page: this.dialogData.perPage,
+            ...this.dialogQueries().value(),
             full: true
         }).subscribe(res => {
             this.dialogData.items = res.data;
@@ -250,10 +257,8 @@ export class PageEditorComponent implements OnInit {
         });
     }
 
-    public tapDialogSearch(form: any) {
-        this.dialogData.keywords = form.keywords;
-        this.dialogData.course = form.course;
-        this.dialogData.page = 1;
+    public tapDialogSearch() {
+        this.dialogQueries.page().value.set(1);
         this.tapDialogPage();
     }
 

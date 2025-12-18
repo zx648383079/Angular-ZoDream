@@ -1,4 +1,4 @@
-import { Component, effect, input, output } from '@angular/core';
+import { Component, effect, input, model, output } from '@angular/core';
 import { IItem } from '../../../../../theme/models/seo';
 import { eachObject } from '../../../../../theme/utils';
 import { EditorTypeItems, EventItems, IBotReply } from '../../../model';
@@ -11,11 +11,10 @@ import { EditorTypeItems, EventItems, IBotReply } from '../../../model';
 })
 export class EditReplyComponent {
 
-    public readonly value = input<IBotReply>(undefined);
+    public readonly value = model<IBotReply>();
     public editorData: any;
     public eventItems: IItem[] = EventItems;
     public typeItems: IItem[] = EditorTypeItems;
-    public readonly valueChange = output<IBotReply>();
 
     constructor() {
         effect(() => {
@@ -28,14 +27,33 @@ export class EditReplyComponent {
     }
 
     public onEditorChange() {
-        eachObject(this.editorData, (v, k) => {
-            this.value()[k] = v;
+        this.value.update(v => {
+            eachObject(this.editorData, (v, k) => {
+                v[k] = v;
+            });
+            return v;
         });
-        this.onValueChange();
+        
     }
 
-    public onValueChange() {
-        this.valueChange.emit(this.value());
+    public onEventChange(e: Event) {
+        this.value.update(v => {
+            v.event = (e.target as HTMLSelectElement).value;
+            return v;
+        });
+    }
+
+    public onMatchChange(val: any) {
+        this.value.update(v => {
+            v.match = val;
+            return v;
+        });
+    }
+    public onKeywordsChange(e: any) {
+        this.value.update(v => {
+            v.keywords = typeof e == 'string' ? e : (e.target as HTMLSelectElement).value;
+            return v;
+        });
     }
 
 }
