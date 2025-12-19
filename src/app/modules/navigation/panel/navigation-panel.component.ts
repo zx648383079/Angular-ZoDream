@@ -1,4 +1,4 @@
-import { Component, inject, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { emptyValidate } from '../../../theme/validators';
 import { ISiteCollect, ISiteCollectGroup } from '../model';
@@ -7,15 +7,16 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../theme/interfaces';
 import { selectAuthStatus } from '../../../theme/reducers/auth.selectors';
 import { parseNumber } from '../../../theme/utils';
+import { form, required } from '@angular/forms/signals';
 
 const NavSaveKey = 'nsk';
 const NavSaveModekey = 'nsmk';
 
 @Component({
     standalone: false,
-  selector: 'app-navigation-panel',
-  templateUrl: './navigation-panel.component.html',
-  styleUrls: ['./navigation-panel.component.scss']
+    selector: 'app-navigation-panel',
+    templateUrl: './navigation-panel.component.html',
+    styleUrls: ['./navigation-panel.component.scss']
 })
 export class NavigationPanelComponent {
     private readonly service = inject(NavigationService);
@@ -27,7 +28,14 @@ export class NavigationPanelComponent {
 
     public editMode = false;
     public items: ISiteCollectGroup[] = [];
-    public readonly editForm = form(signal<ISiteCollect>({}));
+    public readonly editForm = form(signal({
+        id: 0,
+        name: '',
+        link: '',
+        group_id: '0',
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
     public isGuest = true;
     private saveMode = 0;
     private isUpdated = false;
@@ -204,26 +212,31 @@ export class NavigationPanelComponent {
     }
 
     private open<T = ISiteCollect>(item: T|undefined, cb: (data: T) => void) {
-        this.editForm = item ?  {...item} : {} as any;
-        if (!this.editForm.group_id) {
-            this.editForm.group_id = 0;
-        }
+        this.editForm().value.update(v => {
+            v.id = (item as any)?.id ?? 0;
+            v.name = (item as any)?.name ?? '';
+            v.group_id = (item as any)?.group_id ?? '0';
+            v.link = (item as any)?.link ?? '';
+            return v;
+        });
+        
         this.modal().open(() => {
-            if (this.editForm.group_id > 0) {
-                if (emptyValidate(this.editForm.link)) {
+            const data = this.editForm().value();
+            if (data.group_id != '0') {
+                if (emptyValidate(data.link)) {
                     this.toastrService.error($localize `Please input the Link`);
                     return;
                 }
-                if (this.isExist(this.editForm.link, this.editForm.id)) {
+                if (this.isExist(data.link, data.id)) {
                     this.toastrService.error($localize `This Link is exist`);
                     return;
                 }
             }
-            if (!this.editForm.id)  {
-                this.editForm.id = this.generateId(this.editForm.group_id > 0);
+            if (!data.id)  {
+                data.id = this.generateId(data.group_id != '0');
             }
             this.isUpdated = true;
-            cb({...this.editForm} as any);
+            cb({...data} as any);
             // const pipe: Observable<any> = this.editForm.group_id > 0 ? this.service.collectSave(this.editForm().value()) : this.service.groupSave(this.editForm().value());
             // pipe.subscribe({
             //     next: res => {
@@ -233,7 +246,7 @@ export class NavigationPanelComponent {
             //         this.toastrService.error(err);
             //     }
             // });
-        }, () => !emptyValidate(this.editForm.name), (item ? $localize `Edit` : $localize `New`));
+        }, () => this.editForm().valid(), (item ? $localize `Edit` : $localize `New`));
     }
 
     private generateId(isLink: boolean): number {

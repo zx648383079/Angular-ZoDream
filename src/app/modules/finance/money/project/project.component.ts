@@ -93,8 +93,8 @@ export class ProjectComponent implements OnInit {
             v.name = item?.name ?? '';
             v.alias = item?.alias ?? '';
             v.money = item?.money ?? 0;
-            v.account_id = item?.account_id ?? 0;
-            v.product_id = item?.product_id ?? 0;
+            v.account_id = item?.account_id as any ?? '';
+            v.product_id = item?.product_id as any ?? '';
             v.earnings = item?.earnings ?? 0;
             v.start_at = item?.start_at ?? '';
             v.end_at = item?.end_at ?? '';

@@ -12,9 +12,9 @@ import * as echarts from 'echarts/core';
 
 @Component({
     standalone: false,
-  selector: 'app-trend-district',
-  templateUrl: './district.component.html',
-  styleUrls: ['./district.component.scss']
+    selector: 'app-trend-district',
+    templateUrl: './district.component.html',
+    styleUrls: ['./district.component.scss']
 })
 export class DistrictComponent implements OnInit {
     private readonly service = inject(TrendService);
@@ -24,7 +24,7 @@ export class DistrictComponent implements OnInit {
 
 
     public items: any[] = [];
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         start_at: '',
         end_at: '',
         type: 0,
@@ -49,7 +49,7 @@ export class DistrictComponent implements OnInit {
     }
 
     public tapType(val: number) {
-        this.queries.type = val;
+        this.queries.type().value.set(val);
         this.service.map(val < 1).subscribe(res => {
             echarts.registerMap('world', res);
             this.tapRefresh();

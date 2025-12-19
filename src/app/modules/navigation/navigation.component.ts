@@ -106,10 +106,13 @@ export class NavigationComponent implements OnInit, OnDestroy {
         }
     }
 
-    public tapSearch(v: string) {
-        this.queries.keywords = v.trim();
-        this.queries.page = 1;
-        if (this.queries.keywords.length > 0) {
+    public tapSearch(val: string) {
+        this.queries().value.update(v => {
+            v.keywords = val.trim();
+            v.page = 1;
+            return v;
+        });
+        if (val.trim().length > 0) {
             this.tapRefresh();
             return;
         }

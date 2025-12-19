@@ -55,8 +55,7 @@ export class TaskSelectComponent {
         this.tapSearch();
     }
 
-    public tapSearch(form: any = {keywords: this.keywords}) {
-
+    public tapSearch() {
         this.tapRefresh();
     }
 

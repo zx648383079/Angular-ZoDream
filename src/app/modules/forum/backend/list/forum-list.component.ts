@@ -35,7 +35,8 @@ export class ForumListComponent implements OnInit {
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
-            if (this.queries.parent < 1 || this.parent?.id === this.queries.parent) {
+            const parent = this.queries.parent().value();
+            if (parent < 1 || this.parent?.id === parent) {
                 this.tapPage();
                 return;
             }
@@ -103,8 +104,11 @@ export class ForumListComponent implements OnInit {
 
     public tapViewChild(item?: IForum) {
         this.parent = item;
-        this.queries.keywords = '';
-        this.queries.parent = item ? item.id : 0;
+        this.queries().value.update(v => {
+            v.keywords = '';
+            v.parent = item ? item.id : 0;
+            return v;
+        });
         this.tapRefresh();
     }
 

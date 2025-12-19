@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -24,7 +24,7 @@ export class SourceComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         start_at: '',
         end_at: '',
         type: '',
@@ -41,8 +41,8 @@ export class SourceComponent implements OnInit {
         });
     }
 
-    public get headerTitle() {
-        switch (this.queries.type) {
+    public readonly headerTitle = computed(() => {
+        switch (this.queries.type().value()) {
             case 'engine':
                 return '搜索引擎';
             case 'keywords':
@@ -52,10 +52,10 @@ export class SourceComponent implements OnInit {
             default:
                 return '来源类型';
         }
-    }
+    });
 
     public getHeaderValue(item: any) {
-         switch (this.queries.type) {
+         switch (this.queries.type().value()) {
             case 'engine':
 
             case 'keywords':

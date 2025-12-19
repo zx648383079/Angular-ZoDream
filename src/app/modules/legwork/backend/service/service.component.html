@@ -52,28 +52,28 @@
     </div>
 </div>
 
-<app-dialog-box #modal [buttonVisible]="false" [title]="'服务详情(' + editForm.id + ')'">
+<app-dialog-box #modal [buttonVisible]="false" [title]="'服务详情(' + dataModel().id + ')'">
     <div class="line-row-item">
         <span class="item-label">服务名：</span>
-        <span class="item-body">{{ editForm.name }}</span>
+        <span class="item-body">{{ dataModel().name }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">图片：</span>
         <span class="item-body">
-            <img [src]="editForm.thumb">
+            <img [src]="dataModel().thumb">
         </span>
     </div>
     <div class="line-row-item">
         <span class="item-label">价格：</span>
-        <span class="item-body">{{ editForm.price }}</span>
+        <span class="item-body">{{ dataModel().price }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">描述：</span>
-        <span class="item-body">{{ editForm.brief }}</span>
+        <span class="item-body">{{ dataModel().brief }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">详情：</span>
-        <span class="item-body">{{ editForm.content }}</span>
+        <span class="item-body">{{ dataModel().content }}</span>
     </div>
     <ng-container name="footer">
         <button type="button" class="btn btn-primary" (click)="modal.close(1)">同意</button>

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import {
     ActivatedRoute
 } from '@angular/router';
@@ -6,7 +6,6 @@ import {
     IShare,
     ITask
 } from '../model';
-import { emptyValidate } from '../../../theme/validators';
 import {
     TaskService
 } from '../task.service';
@@ -49,7 +48,13 @@ export class EditComponent implements OnInit {
     }), schemaPath => {
         required(schemaPath.name);
     });
-    public shareData: IShare = {} as any;
+    public readonly shareForm = form(signal({
+        id: 0,
+        task_id: 0,
+        task: null,
+        share_type: '0',
+        share_rule: ''
+    }));
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -74,9 +79,9 @@ export class EditComponent implements OnInit {
         });
     }
 
-    get shareUrl() {
-        return 'http://' + location.host + '/task/share/' + this.shareData.id;
-    }
+    public readonly shareUrl = computed(() =>  {
+        return 'http://' + location.host + '/task/share/' + this.shareForm.id().value();
+    });
 
     public tapBack() {
         history.back();
@@ -151,18 +156,19 @@ export class EditComponent implements OnInit {
         if (!this.data || this.data.id < 1) {
             return;
         }
-        if (this.shareData.task_id !== this.data.id) {
-            this.shareData = {id: 0, task: this.data, task_id: this.data.id, share_type: 0, share_rule: ''};
+        if (this.shareForm.task_id().value() !== this.data.id) {
+            this.shareForm().value.set({id: 0, task: this.data, task_id: this.data.id, share_type: '0', share_rule: ''});
         }
         modal.open(() => {
+            const data = this.shareForm().value();
             this.service.shareCreate({
-                task_id: this.shareData.task_id,
-                share_type: this.shareData.share_type,
-                share_rule: this.shareData.share_rule,
+                task_id: data.task_id,
+                share_type: data.share_type,
+                share_rule: data.share_rule,
             }).subscribe(res => {
-                this.shareData = res;
+                this.shareForm().value.set(res as any);
                 this.tapShare(modal);
             });
-        }, () => !this.shareData.id);
+        }, () => !this.shareForm.id().value());
     }
 }

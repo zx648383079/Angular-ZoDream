@@ -1,16 +1,17 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IBotMenuItem } from '../../model';
 import { BotService } from '../bot.service';
 import { ButtonEvent } from '../../../../components/form';
 import { eachObject } from '../../../../theme/utils';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-bot-m-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+    selector: 'app-bot-m-menu',
+    templateUrl: './menu.component.html',
+    styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
     private readonly service = inject(BotService);
@@ -20,7 +21,12 @@ export class MenuComponent implements OnInit {
 
 
     public menuItems: IBotMenuItem[] = [];
-    public readonly editForm = form(signal<an>({}));
+    // TODO 无效
+    public readonly editForm = form(signal({
+        name: '',
+        type: 0,
+        children: []
+    }));
     public editorData: any;
 
     ngOnInit() {
@@ -40,39 +46,43 @@ export class MenuComponent implements OnInit {
             newItem.chilren = [];
             items.push(newItem);
         }
-        this.editForm = newItem;
+        this.editForm().value.set(newItem);
         this.editorData = {};
     }
 
     public tapEditMenu(item: any) {
-        this.editForm = item;
+        this.editForm().value.set(item);
         this.editorData = {...item};
     }
 
     public onEditorChange() {
-        eachObject(this.editorData, (v, k) => {
-            this.editForm[k] = v;
+        this.editForm().value.update(v => {
+            eachObject(this.editorData, (val, k) => {
+                v[k] = val;
+            });
+            if (!v.children && v.type == 99) {
+                v.children = [];
+            }
+            return v;
         });
-        if (!this.editForm.children && this.editForm.type == 99) {
-            this.editForm.children = [];
-        }
     }
 
     public tapClear() {
         this.menuItems = [];
-        this.editForm = undefined;
+        this.editForm().value.set(null);
     }
 
     public tapRemoveItem() {
-        if (!this.editForm) {
+        const current = this.editForm().value();
+        if (!current) {
             return;
         }
         this.toastrService.confirm('确定删除此菜单项？', () => {
             for (let i = 0; i < this.menuItems.length; i++) {
                 const element = this.menuItems[i];
-                if (element === this.editForm) {
+                if (element === current) {
                     this.menuItems.splice(i, 1);
-                    this.editForm = null;
+                    this.editForm().value.set(null);
                     return;
                 }
                 if (!element.children) {
@@ -80,9 +90,9 @@ export class MenuComponent implements OnInit {
                 }
                 for (let j = 0; j < element.children.length; j++) {
                     const it = element.children[j];
-                    if (it === this.editForm) {
+                    if (it === current) {
                         element.children.splice(i, 1);
-                        this.editForm = null;
+                        this.editForm().value.set(null);
                         return;
                     }
                 }

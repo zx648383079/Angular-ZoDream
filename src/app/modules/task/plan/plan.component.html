@@ -8,7 +8,7 @@
         <div class="page-search-bar">
             <div class="tab-bar">
                 @for (item of typeItems; track $index; let i = $index) {
-                    <div class="item" [class]="{active: queries.type == i}" (click)="tapType(i)">
+                    <div class="item" [class]="{active: queries.type().value() == i}" (click)="tapType(i)">
                         按{{ item }}
                     </div>
                 }
@@ -21,7 +21,7 @@
     </div>
 
     <div class="plan-box">
-        @if (queries.type < 1) {
+        @if (queries.type().value() < 1) {
             @for (item of items; track $index) {
                 <div class="task-item">
                 <div class="name">{{ item.task.name }}</div>
@@ -36,7 +36,7 @@
             </div>
             }
         }
-        @if (queries.type == 1) {
+        @if (queries.type().value() == 1) {
             <div class="week-box">
                 <div class="week-header">
                     @for (item of weekItems; track $index) {
@@ -60,7 +60,7 @@
                 </div>
             </div>
         }
-        @if (queries.type == 2) {
+        @if (queries.type().value() == 2) {
             <div class="month-box">
                 @for (item of monthItems; track item.label) {
                     <div class="day-item">
@@ -93,25 +93,25 @@
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                {{ editForm.task?.name }}
+                {{ editForm.task().value()?.name }}
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">说明</label>
             <div>
-                {{ editForm.task?.description }}
+                {{ editForm.task().value()?.description }}
             </div>
         </div>
         <div class="input-group-control">
             <label>数量</label>
             <div>
-                <app-number-input [field]="editForm.amount" [min]="1" [max]="20" />
+                <app-number-input [field]="editForm.amount"/>
             </div>
         </div>
         <div class="input-group-control">
             <label>优先级</label>
             <div>
-                <app-number-input [field]="editForm.priority" [min]="1"  [max]="99" />
+                <app-number-input [field]="editForm.priority"/>
             </div>
         </div>
         <div class="input-group-control">
@@ -120,14 +120,14 @@
                 <app-check-input [items]="typeItems" [rangeKey]="1" [field]="editForm.plan_type" />
             </div>
         </div>
-        @if (editForm.plan_type < 0) {
+        @if (editForm.plan_type().value() < 0) {
         <div class="input-group-control">
             <label>时间</label>
             <div>
                 <app-date-input [field]="editForm.plan_time" />
             </div>
         </div>
-        } @else if (editForm.plan_type == 1) {
+        } @else if (editForm.plan_type().value() == 1) {
         <div class="input-group-control">
             <label>星期</label>
             <div>
@@ -138,7 +138,7 @@
                 </select>
             </div>
         </div>
-        } @else if (editForm.plan_type == 2) {
+        } @else if (editForm.plan_type().value() == 2) {
         <div class="input-group-control">
             <label>天数</label>
             <div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../components/dialog';
@@ -10,12 +10,13 @@ import { ThemeService } from '../../../theme/services';
 import { emptyValidate } from '../../../theme/validators';
 import { BotService } from '../bot.service';
 import { IBotAccount, IBotMenuItem } from '../model';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-bot-emulate',
-  templateUrl: './emulate.component.html',
-  styleUrls: ['./emulate.component.scss']
+    selector: 'app-bot-emulate',
+    templateUrl: './emulate.component.html',
+    styleUrls: ['./emulate.component.scss']
 })
 export class EmulateComponent implements OnInit {
     private readonly service = inject(BotService);
@@ -31,7 +32,12 @@ export class EmulateComponent implements OnInit {
     public menuItems: IBotMenuItem[] = [];
     public messageItems: IMessageBase[] = [];
     public footerIndex = 1;
-    public content = '';
+
+    public readonly dataForm = form(signal({
+        content: ''
+    }), schemaPath => {
+        required(schemaPath.content);
+    });
     public user: IUser = {
         id: -1,
         name: $localize `[Guest]`,
@@ -115,18 +121,19 @@ export class EmulateComponent implements OnInit {
     }
 
     public tapSend() {
-        if (emptyValidate(this.content)) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Please inpu the content`);
             return;
         }
+        const data = this.dataForm().value();
         this.service.reply({
             id: this.account.id,
-            content: this.content,
+            ...data
         }).subscribe({
             next: res => {
-                this.messageBody().append([this.formatByUser({type: 0, content: this.content})]);
+                this.messageBody().append([this.formatByUser({type: 0, content: data.content})]);
                 this.appendResp(res);
-                this.content = '';
+                this.dataForm.content().value.set('');
             },
             error: err => {
                 this.toastrService.error(err);

@@ -34,9 +34,12 @@ export class LogComponent implements OnInit {
     public isMultiple = false;
     public isChecked = false;
     public readonly editForm = form(signal({
-        product: 0,
-        channel: 0,
-        price: 0
+        product: '',
+        channel: '',
+        type: 0,
+        price: 0,
+        order_count: 0,
+        created_at: ''
     }), schemaPath => {
         required(schemaPath.product);
         required(schemaPath.channel);

@@ -9,9 +9,9 @@
             <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label for="keywords">时间</label>
-                    <input type="text" class="form-control" [field]="queries.start_at" name="start_at" id="keywords" placeholder="开始时间">
+                    <input type="date" class="form-control" [field]="queries.start_at" id="start_at" placeholder="开始时间">
                     -
-                    <input type="text" class="form-control" [field]="queries.end_at" name="end_at" id="end_at" placeholder="结束时间">
+                    <input type="date" class="form-control" [field]="queries.end_at" id="end_at" placeholder="结束时间">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="tab-bar pull-right --with-gray">
@@ -26,7 +26,7 @@
             <thead>
               <tr>
                 <td rowspan="2">
-                    {{ headerTitle }}
+                    {{ headerTitle() }}
                 </td>
                 <td colspan="3">
                     网站基础指标

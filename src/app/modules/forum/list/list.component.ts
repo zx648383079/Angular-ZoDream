@@ -1,4 +1,3 @@
-import { form } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { IForum, IForumClassify, IThread } from '../model';
 import { ForumService } from '../forum.service';
@@ -34,7 +33,7 @@ export class ListComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
         page: 1,
         per_page: 20,
@@ -101,7 +100,7 @@ export class ListComponent implements OnInit {
     }
 
     public tapClassify(item?: IForumClassify) {
-        this.queries.classify = item ? item.id : 0;
+        this.queries.classify().value.set(item ? item.id : 0);
         this.tapRefresh();
     }
 
@@ -121,7 +120,7 @@ export class ListComponent implements OnInit {
                     v.content = '';
                     return v;
                 });
-                if (this.queries.page < 2) {
+                if (this.queries.page().value() < 2) {
                     this.tapRefresh();
                 }
             },

@@ -78,8 +78,8 @@
                         @for (item of dataForm.groups; track $index) {
                         <tr>
                             <td class="am-text-left">
-                                <p class="selected-content am-margin-bottom-xs">{{ item.region_label }}</p>
-                                <p class="operation am-margin-bottom-xs"> <a class="edit" (click)="open(modal, item.value())">编辑</a> <a
+                                <p class="selected-content am-margin-bottom-xs">{{ item.region_label().value() }}</p>
+                                <p class="operation am-margin-bottom-xs"> <a class="edit" (click)="open(modal, item().value())">编辑</a> <a
                                         class="delete" (click)="removeGroup(item)">删除</a>
                                 </p>
                             </td>
@@ -129,7 +129,7 @@
     }
     <div class="search-box">
         @if (!selectedAll) {
-        <input type="text" class="form-control" [field]="regionKeywords">
+        <input type="text" class="form-control" [field]="regionQueries.keywords">
         <button class="btn btn-primary" (click)="tapRegionSearch()">搜索</button>
         }
         <button class="btn btn-info" [class]="{active: selectedAll}" (click)="tapSelectAll()">{{ selectedAll ? '取消' : '' }}全地区</button>

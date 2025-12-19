@@ -12,7 +12,7 @@ export class ProductDialogComponent {
     private readonly http = inject(HttpClient);
 
 
-    public readonly value = model<IGoods>(undefined);
+    public readonly value = model<IGoods>();
     public readonly visible = signal(false);
     public amount = 1;
     public stock = 0;

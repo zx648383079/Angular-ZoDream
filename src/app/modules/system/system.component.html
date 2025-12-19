@@ -10,17 +10,17 @@
                         @switch (item.type) {
                             @case ('text') {
                                 <div>
-                                    <input type="text" class="form-control"  [field]="item.value">
+                                    <input type="text" class="form-control" [(value)]="item.value">
                                 </div>
                             }
                             @case ('textarea') {
                                 <div>
-                                    <textarea class="form-control"  [field]="item.value"></textarea>
+                                    <textarea class="form-control" [(value)]="item.value"></textarea>
                                 </div>
                             }
                             @case ('select') {
                                 <div>
-                                    <select class="form-control"  [field]="item.value">
+                                    <select class="form-control" [(value)]="item.value">
                                         @if (item.itemKey == 1) {
                                             @for (val of item.items; track $index; let i = $index) {
                                                 <option [value]="i">{{ val }}</option>
@@ -35,42 +35,42 @@
                             }
                             @case ('radio') {
                                 <div>
-                                    <app-check-input [rangeKey]="item.itemKey" [items]="item.items" [field]="item.value" />
+                                    <app-check-input [rangeKey]="item.itemKey" [items]="item.items" [(value)]="item.value" />
                                 </div>
                             }
                             @case ('checkbox') {
                                 <div>
-                                    <app-check-input [rangeKey]="item.itemKey" [items]="item.items" [field]="item.value" [multiple]="true" />
+                                    <app-check-input [rangeKey]="item.itemKey" [items]="item.items" [(value)]="item.value" [multiple]="true" />
                                 </div>
                             }
                             @case ('switch') {
                                 <div>
-                                    <app-switch [field]="item.value" onLabel="On" offLabel="Off" />
+                                    <app-switch [(value)]="item.value" onLabel="On" offLabel="Off" />
                                 </div>
                             }
                             @case ('image') {
                                 <div>
-                                    <app-file-input [field]="item.value" />
+                                    <app-file-input [(value)]="item.value" />
                                 </div>
                             }
                             @case ('file') {
                                 <div>
-                                    <app-file-input [field]="item.value" accept="*" />
+                                    <app-file-input [(value)]="item.value" accept="*" />
                                 </div>
                             }
                             @case ('editor') {
                                 <div>
-                                    <textarea class="form-control"  [field]="item.value"></textarea>
+                                    <textarea class="form-control" [(value)]="item.value"></textarea>
                                 </div>
                             }
                             @case ('basic_editor') {
                                 <div>
-                                    <textarea class="form-control"  [field]="item.value"></textarea>
+                                    <textarea class="form-control" [(value)]="item.value"></textarea>
                                 </div>
                             }
                             @case ('json') {
                                 <div>
-                                    <textarea class="form-control"  [field]="item.value"></textarea>
+                                    <textarea class="form-control" [(value)]="item.value"></textarea>
                                 </div>
                             }
                         }
@@ -110,7 +110,7 @@
         
             </div>
         </div>
-        @if (editForm.type !== 'group') {
+        @if (editForm.type().value() !== 'group') {
         <div class="group-property">
             <div class="input-group-control">
                 <label for="field_parent_id">分组</label>
@@ -149,7 +149,7 @@
         <div class="input-group-control">
             <label for="field_position">排序</label>
             <div>
-                <input type="text" id="field_position" class="form-control" [field]="editForm.position">
+                <input type="number" id="field_position" class="form-control" [field]="editForm.position">
             </div>
         </div>
     </div>

@@ -9,9 +9,9 @@ import { WarehouseService } from '../warehouse.service';
 
 @Component({
     standalone: false,
-  selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss']
+    selector: 'app-product',
+    templateUrl: './product.component.html',
+    styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
     private readonly service = inject(WarehouseService);
@@ -25,8 +25,14 @@ export class ProductComponent implements OnInit {
     public isLoading = false;
     public total = 0;
     public data: IWarehouse;
-    public readonly editForm = form(signal<IWarehouseLog>({}));
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly editForm = form(signal({
+        id: 0,
+        goods_id: 0,
+        product_id: 0,
+        amount: 0,
+        remark: ''
+    }));
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         keywords: '',
@@ -40,7 +46,7 @@ export class ProductComponent implements OnInit {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
-            if (this.queries.warehouse < 1) {
+            if (this.queries.warehouse().value() < 1) {
                 return;
             }
             this.service.warehouse(this.queries.warehouse).subscribe(res => {
@@ -50,24 +56,29 @@ export class ProductComponent implements OnInit {
     }
 
     public onProductChange(event: any) {
-        this.editForm.goods_id = event.item.id,
-        this.editForm.product_id = event.child ? event.child.id : 0;
+        this.editForm().value.update(v => {
+            v.goods_id = event.item.id,
+            v.product_id = event.child ? event.child.id : 0;
+            return v;
+        });
     }
 
     open(modal: DialogEvent, item?: IWarehouseGoods) {
-        this.editForm = item ? {
-            id: 1,
-            goods_id: item.goods_id,
-            product_id: item.product_id,
-            amount: 0,
-        } : {amount: 0} as any;
+        this.editForm().value.update(v => {
+            v.id = 0;
+            v.goods_id = item?.goods_id ?? 0,
+            v.product_id = item?.product_id ?? 0;
+            v.amount = 0;
+            return v;
+        });
         modal.open(() => {
+            const data = this.editForm().value();
             this.service.goodsChange({
                 warehouse_id: this.data.id,
-                goods_id: this.editForm.goods_id,
-                product_id: this.editForm.product_id,
-                amount: this.editForm.amount,
-                remark: this.editForm.remark,
+                goods_id: data.goods_id,
+                product_id: data.product_id,
+                amount: data.amount,
+                remark: data.remark,
             }).subscribe(_ => {
                 this.toastrService.success('库存调整成功');
                 this.tapPage();

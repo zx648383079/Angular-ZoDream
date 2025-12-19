@@ -26,8 +26,9 @@ export class EditMixComponent implements OnInit {
         start_at: '',
         end_at: '',
         configure: {
-            price: 0
-        }
+            price: 0,
+            goods: <IMixGoods[]>[]
+        },
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name);
@@ -35,7 +36,6 @@ export class EditMixComponent implements OnInit {
 
     public data: IActivity<IMixConfigure>;
     public dialogOpen = false;
-    public goodsItems: IMixGoods[] = [];
 
 
     public get configure() {
@@ -49,17 +49,19 @@ export class EditMixComponent implements OnInit {
             }
             this.service.mix(params.id).subscribe(res => {
                 this.data = res;
-                this.goodsItems = res.configure.goods;
                 this.dataModel.set({
-                        id: res.id,
+                    id: res.id,
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
                     scope_type: res.scope_type,
                     start_at: res.start_at as string,
-                    end_at: res.end_at,
+                    end_at: res.end_at as string,
+                    configure: {
+                        price: res.configure.price,
+                        goods: res.configure.goods ?? []
+                    }
                 });
-                this.configure.get('price').setValue(res.configure.price);
             });
         });
     }
@@ -75,7 +77,7 @@ export class EditMixComponent implements OnInit {
         }
         const data: IActivity<any> = this.dataForm().value() as any;
         let total = 0;
-        data.configure.goods = this.goodsItems.map(i => {
+        data.configure.goods = data.configure.goods.map(i => {
             total += i.amount * i.price;
             return {
                 goods_id: i.goods_id,
@@ -98,7 +100,10 @@ export class EditMixComponent implements OnInit {
     }
 
     public tapRemoveItem(i: number) {
-        this.goodsItems.splice(i, 1);
+        this.configure.goods().value.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
     }
 
     public tapAddItem() {
@@ -117,18 +122,22 @@ export class EditMixComponent implements OnInit {
             if (this.indexOf(item.id) >= 0) {
                 continue;
             }
-            this.goodsItems.push({
-                goods_id: item.id,
-                goods: item as any,
-                price: item.price,
-                amount: 1,
+            this.configure.goods().value.update(v => {
+                v.push({
+                    goods_id: item.id,
+                    goods: item as any,
+                    price: item.price,
+                    amount: 1,
+                })
+                return v;
             });
         }
     }
 
     private indexOf(goodsId: number): number {
-        for (let i = this.goodsItems.length - 1; i >= 0; i--) {
-            if (this.goodsItems[i].goods_id === goodsId) {
+        const items = this.configure.goods().value();
+        for (let i = items.length - 1; i >= 0; i--) {
+            if (items[i].goods_id === goodsId) {
                 return i;
             }
         }

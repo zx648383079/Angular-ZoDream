@@ -39,13 +39,13 @@
                         <label>可见性</label>
                         <div class="form-check">
                             <label class="form-check-label">
-                            <input type="radio" class="form-check-input" [field]="dataForm.status" id="status" [value]="0">
+                            <input type="radio" class="form-check-input" [field]="dataForm.status" id="status" value="0">
                             公开
                         </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                            <input type="radio" class="form-check-input" [field]="dataForm.status" id="status" [value]="1">
+                            <input type="radio" class="form-check-input" [field]="dataForm.status" id="status" value="1">
                             私有
                         </label>
                         </div>
@@ -65,16 +65,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @for (item of data.environment; track $index; let i = $index) {
+                                @for (item of dataForm.environment; track $index; let i = $index) {
                                 <tr>
                                     <td>
-                                        <input type="text" class="form-control" [field]="item.name" [ngModelOptions]="{standalone: true}" placeholder="例如：dev">
+                                        <input type="text" class="form-control" [field]="item.name" placeholder="例如：dev">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" [field]="item.title" [ngModelOptions]="{standalone: true}" placeholder="例如：测试环境">
+                                        <input type="text" class="form-control" [field]="item.title" placeholder="例如：测试环境">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" [field]="item.domain" [ngModelOptions]="{standalone: true}" placeholder="例如：http://zodream.cn">
+                                        <input type="text" class="form-control" [field]="item.domain" placeholder="例如：http://zodream.cn">
                                     </td>
                                     <td>
                                         <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>

@@ -6,15 +6,14 @@ import { IPageQueries } from '../../../../theme/models/page';
 import { IItem } from '../../../../theme/models/seo';
 import { SearchService } from '../../../../theme/services';
 import { mapFormat } from '../../../../theme/utils';
-import { emptyValidate } from '../../../../theme/validators';
 import { IShortLink } from '../../model';
 import { ShortLinkService } from '../short-link.service';
 
 @Component({
     standalone: false,
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+    selector: 'app-list',
+    templateUrl: './list.component.html',
+    styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
     private readonly service = inject(ShortLinkService);
@@ -34,10 +33,13 @@ export class ListComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public readonly editForm = form(signal<IShortLink>({
+    public readonly editForm = form(signal({
         id: 0,
         title: '',
-        source_url: ''
+        short_url: '',
+        status: '0',
+        source_url: '',
+        complete_short_url: '',
     }), schemaPath => {
         required(schemaPath.short_url);
     });

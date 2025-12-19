@@ -29,7 +29,7 @@ export class ServiceComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public readonly editForm = form(signal<IService>({}));
+    public readonly dataModel = signal<IService>({} as any);
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -39,9 +39,9 @@ export class ServiceComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item: IService) {
-        this.editForm = item;
+        this.dataModel.set(item);
         modal.openCustom(value => {
-            this.service.serviceChange(this.editForm?.id, value).subscribe(res => {
+            this.service.serviceChange(this.dataModel().id, value).subscribe(res => {
                 this.toastrService.success('修改成功');
                 this.tapPage();
             });

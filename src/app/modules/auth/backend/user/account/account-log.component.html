@@ -62,25 +62,25 @@
 </div>
 
 
-<app-dialog-box #modal [footerVisible]="false" [title]="'账户记录详情(' + editForm.id + ')'">
+<app-dialog-box #modal [footerVisible]="false" [title]="'账户记录详情(' + dataModel().id + ')'">
     <div class="line-row-item">
         <span class="item-label">用户：</span>
-        <span class="item-body">{{ editForm.user?.name }}</span>
+        <span class="item-body">{{ dataModel().user?.name }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">类型：</span>
-        <span class="item-body">{{ editForm.type }}</span>
+        <span class="item-body">{{ dataModel().type }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">金额：</span>
-        <span class="item-body">{{ editForm.money }}</span>
+        <span class="item-body">{{ dataModel().money }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">备注：</span>
-        <span class="value">{{ editForm.remark }}</span>
+        <span class="value">{{ dataModel().remark }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">状态：</span>
-        <span class="item-body">{{ editForm.status }}</span>
+        <span class="item-body">{{ dataModel().status }}</span>
     </div>
 </app-dialog-box>

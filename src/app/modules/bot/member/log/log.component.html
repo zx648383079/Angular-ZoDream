@@ -51,33 +51,33 @@
     </div>
 </div>
 
-<app-dialog-box #modal [footerVisible]="false" [title]="'记录详情(' + editForm.id + ')'">
+<app-dialog-box #modal [footerVisible]="false" [title]="'记录详情(' + dataModel().id + ')'">
     <div class="line-row-item">
         <span class="item-label">发送者：</span>
-        <span class="item-body">{{ editForm.from }}
-            @if (editForm.from_user) {
-                ({{ editForm.from_user.note_name || editForm.from_user.nickname }})
+        <span class="item-body">{{ dataModel().from }}
+            @if (dataModel().from_user) {
+                ({{ dataModel().from_user.note_name || dataModel().from_user.nickname }})
             }
         </span>
     </div>
     <div class="line-row-item">
         <span class="item-label">接收者：</span>
-        <span class="item-body">{{ editForm.to }}
-            @if (editForm.to_user) {
-                ({{ editForm.to_user.note_name || editForm.to_user.nickname }})
+        <span class="item-body">{{ dataModel().to }}
+            @if (dataModel().to_user) {
+                ({{ dataModel().to_user.note_name || dataModel().to_user.nickname }})
             }
         </span>
     </div>
     <div class="line-row-item">
         <span class="item-label">消息类型：</span>
-        <span class="item-body">{{ formatType(editForm.type) }}</span>
+        <span class="item-body">{{ formatType(dataModel().type) }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">时间：</span>
-        <span class="item-body">{{ editForm.created_at | ago }}</span>
+        <span class="item-body">{{ dataModel().created_at | ago }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">内容：</span>
-        <span class="item-body">{{ editForm.content }}</span>
+        <span class="item-body">{{ dataModel().content }}</span>
     </div>
 </app-dialog-box>

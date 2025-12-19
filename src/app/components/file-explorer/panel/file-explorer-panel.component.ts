@@ -1,7 +1,8 @@
-import { Component, OnInit, inject, input, output } from '@angular/core';
+import { Component, inject, input, output, signal } from '@angular/core';
 import { FILE_PROVIDER, IFileDataSource, IFileItem, IFileProvider } from '../model';
 import { IPage } from '../../../theme/models/page';
 import { parseNumber } from '../../../theme/utils';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -22,10 +23,10 @@ export class FileExplorerPanelComponent implements IFileDataSource {
     public isChecked = false;
     public sortKey = '';
     public orderAsc = true;
-    public queries = {
+    public readonly queries = form(signal({
         path: '',
         keywords: '',
-    };
+    }));
     public page = 1;
     public hasMore = true;
     public isLoading = false;
@@ -85,8 +86,11 @@ export class FileExplorerPanelComponent implements IFileDataSource {
     }
 
     public search(path: string, keywords?: string) {
-        this.queries.path = path;
-        this.queries.keywords = keywords ? keywords : '';
+        this.queries().value.update(v => {
+            v.path = path;
+            v.keywords = keywords ? keywords : '';
+            return v;
+        });
         this.tapRefresh();
     }
 

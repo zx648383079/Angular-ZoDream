@@ -14,7 +14,7 @@
                 </div>
                 <div class="input-group-control">
                     <label>分类</label>
-                    <select name="cat_id" [field]="queries.cat_id" class="form-control">
+                    <select [field]="queries.category" class="form-control">
                         <option [value]="0">请选择</option>
                         @for (item of categories; track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
@@ -112,7 +112,7 @@
             </select>
         </div>
     </div>
-    @if (editForm.type < 1) {
+    @if (typeValue() < 1) {
     <div class="form-group">
         <label for="content-input">图片</label>
         <div class="input-group-control">
@@ -120,7 +120,7 @@
         </div>
     </div>
     }
-    @if (editForm.type == 1) {
+    @if (typeValue() == 1) {
     <div class="form-group">
         <label for="con-input">内容</label>
         <div class="input-group-control">

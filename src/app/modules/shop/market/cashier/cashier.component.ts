@@ -14,7 +14,7 @@ import { ShopAppState } from '../../shop.reducer';
 import { selectShopCheckout } from '../../shop.selectors';
 import { ShopService } from '../../shop.service';
 import { InvoiceDialogComponent } from './invoice/invoice-dialog.component';
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 
 interface ICartData {
     type: number;
@@ -27,7 +27,7 @@ interface ICartData {
     templateUrl: './cashier.component.html',
     styleUrls: ['./cashier.component.scss'],
 })
-export class CashierComponent implements OnInit {
+export class CashierComponent {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly service = inject(ShopService);
@@ -53,7 +53,11 @@ export class CashierComponent implements OnInit {
     public invoice: IInvoiceTitle;
     public invoiceItems: IInvoiceTitle[] = [];
     public coupon: ICoupon;
-    public couponCode = '';
+    public readonly couponForm = form(signal({
+        code: ''
+    }), schemaPath => {
+        required(schemaPath.code);
+    });
     public addressIsEdit = true;
     public readonly editForm = form(signal<IAddress>({
         id: 0,
@@ -82,9 +86,8 @@ export class CashierComponent implements OnInit {
         });
         this.tapEditAddress();
     }
-
-    ngOnInit() {
-        
+    public toggleDefault() {
+        this.editForm.is_default().value.update(v => !v);
     }
 
     private load() {
@@ -158,15 +161,15 @@ export class CashierComponent implements OnInit {
     }
 
     public tapExchange() {
-        if (emptyValidate(this.couponCode)) {
+        if (this.couponForm().invalid()) {
             this.toastrService.warning('请输入优惠码');
             return;
         }
-        this.service.couponExchange(this.couponCode).subscribe({
+        this.service.couponExchange(this.couponForm.code().value()).subscribe({
             next: _ => {
                 this.toastrService.success('兑换成功');
                 this.loadCoupon();
-                this.couponCode = '';
+                this.couponForm.code().value.set('');
                 this.couponIndex = 0;
             },
             error: err => {

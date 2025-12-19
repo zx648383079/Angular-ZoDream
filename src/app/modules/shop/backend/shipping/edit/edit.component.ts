@@ -29,7 +29,9 @@ export class EditShippingComponent implements OnInit {
     public regionItems: IRegion[] = [];
     public selectedItems: IRegion[] = [];
     public selectedAll = false;
-    public regionKeywords = '';
+    public readonly regionQueries = form(signal({
+        keywords: '',
+    }));
 
     public readonly dataModel = signal({
         id: 0,
@@ -40,7 +42,7 @@ export class EditShippingComponent implements OnInit {
         description: '',
         cod_enabled: 0,
         position: 99,
-        groups: []
+        groups: <IShippingGroup[]>[]
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name);
@@ -149,9 +151,7 @@ export class EditShippingComponent implements OnInit {
     }
 
     public tapRegionSearch() {
-        this.regionService.regionSearch({
-            keywords: this.regionKeywords,
-        }).subscribe(res => {
+        this.regionService.regionSearch(this.regionQueries().value()).subscribe(res => {
             this.regionItems = res.data;
         });
     }

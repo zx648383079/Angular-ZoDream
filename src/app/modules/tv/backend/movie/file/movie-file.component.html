@@ -87,7 +87,7 @@
             <app-data-size [field]="editForm.size" />
         </div>
     </div>
-    @if (editForm.file_type < 1 || editForm.file_type == 4) {
+    @if (fileType() < 1 || fileType() == 4) {
         <div class="form-group">
             <label>文件</label>
             <div class="input-group-control">
@@ -96,7 +96,7 @@
         </div>
     } @else {
         <div class="form-group">
-            <label>{{ editForm.file_type > 2 ? '内容' : '网址' }}</label>
+            <label>{{ fileType() > 2 ? '内容' : '网址' }}</label>
             <div>
                 <app-text-editor [field]="editForm.file" height="100" />
             </div>

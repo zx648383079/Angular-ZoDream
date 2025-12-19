@@ -1,14 +1,15 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
-import { ICategory, IProject } from '../../model';
+import { ICategory, IProject, IProjectEnvironment } from '../../model';
 import { DocumentService } from '../document.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-create',
-  templateUrl: './create.component.html',
-  styleUrls: ['./create.component.scss']
+    selector: 'app-create',
+    templateUrl: './create.component.html',
+    styleUrls: ['./create.component.scss']
 })
 export class CreateComponent implements OnInit {
     private readonly service = inject(DocumentService);
@@ -16,20 +17,16 @@ export class CreateComponent implements OnInit {
 
 
     public readonly dataModel = signal({
+        type: 0,
         name: '',
         cover: '',
-        cat_id: 0,
         description: '',
-        status: 0,
+        status: '0',
+        environment: <IProjectEnvironment[]>[],
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name);
     });
-
-    public data: IProject = {
-        type: 0,
-        environment: [],
-    } as any;
 
     public categories: ICategory[] = [];
 
@@ -55,13 +52,12 @@ export class CreateComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (!this.form.valid) {
+        if (this.dataForm().invalid()) {
             return;
         }
-        const data = this.dataForm().value() as any;
-        data.type = this.data.type;
+        const data = this.dataForm().value();
         if (data.type > 0) {
-            data.environment = this.data.environment.filter(i => {
+            data.environment = data.environment.filter(i => {
                 return i.name.trim().length > 0;
             });
             if (!data.environment || data.environment.length < 1) {
@@ -84,18 +80,24 @@ export class CreateComponent implements OnInit {
     }
 
     public tapType(item: any) {
-        this.data.type = item.value;
+        this.dataForm.type().value.set(item.value);
     }
 
     public tapRemoveItem(i: number) {
-        this.data.environment.splice(i, 1);
+        this.dataForm.environment().value.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
     }
 
     public tapAddItem() {
-        this.data.environment.push({
-            name: '',
-            title: '',
-            domain: ''
+        this.dataForm.environment().value.update(v => {
+            v.push({
+                name: '',
+                title: '',
+                domain: ''
+            });
+            return v;
         });
     }
 }

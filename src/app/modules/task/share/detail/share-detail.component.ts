@@ -1,9 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IShare, ITask, ITaskComment } from '../../model';
 import { formatHour } from '../../../../theme/utils';
 import { TaskService } from '../../task.service';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -24,14 +25,18 @@ export class ShareDetailComponent implements OnInit {
     public panelOpen = false;
 
     public commentItems: ITaskComment[] = [];
-    public comment = '';
+    public readonly commentForm = form(signal({
+        content: ''
+    }));
     public page = 1;
     public hasMore = true;
     public isLoading = false;
     public total = 0;
     public perPage = 20;
 
-    public userKeywords = '';
+    public readonly userForm = form(signal({
+        keywords: ''
+    }));
     public userItems: any[] = [];
 
     ngOnInit() {
@@ -55,12 +60,13 @@ export class ShareDetailComponent implements OnInit {
         return formatHour(this.data?.time_length);
     }
 
-    get userFilterItems() {
-        if (!this.userKeywords || this.userKeywords.trim().length < 1) {
+    public readonly userFilterItems = computed(() => {
+        const keywords = this.userForm.keywords().value();
+        if (!keywords || keywords.trim().length < 1) {
             return this.userItems;
         }
-        return this.userItems.filter(item => item.name.indexOf(this.userKeywords) >= 0);
-    }
+        return this.userItems.filter(item => item.name.indexOf(keywords) >= 0);
+    });
 
     public tapPage() {
         this.goPage(this.page);
@@ -108,15 +114,16 @@ export class ShareDetailComponent implements OnInit {
     }
 
     public tapComment() {
-        if (!this.comment) {
+        const comment = this.commentForm.content().value();
+        if (!comment) {
             this.toastrService.warning('请输入内容');
             return;
         }
         this.service.commenSave({
             task_id: this.data.id,
-            content: this.comment
+            content: comment
         }).subscribe(_ => {
-            this.comment = '';
+            this.commentForm.content().value.set('');
             this.toastrService.success('评论成功');
             this.tapRefresh();
         });

@@ -9,6 +9,13 @@ export interface ICategory extends IPageTreeItem {
     level?: number;
     count?: number;
 }
+
+export interface IProjectEnvironment {
+    name: string;
+    title: string;
+    domain: string;
+}
+
 export interface IProject {
     id:          number;
     user_id:     number;
@@ -17,11 +24,7 @@ export interface IProject {
     cover:       string;
     type:        number;
     description: string;
-    environment: {
-        name: string;
-        title: string;
-        domain: string;
-    }[];
+    environment: IProjectEnvironment[];
     status:      number;
     deleted_at:  number;
     updated_at:  string;

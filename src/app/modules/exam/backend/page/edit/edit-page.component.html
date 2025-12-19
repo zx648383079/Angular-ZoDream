@@ -67,24 +67,24 @@
                     @for (item of optionItems; track $index; let j = $index) {
                     <tr>
                         <td>
-                            <select  class="form-control" [field]="item.course" [ngModelOptions]="{standalone: true}">
+                            <select  class="form-control" [(value)]="item.course">
                                 @for (item of courseItems; track $index) {
                                 <option [value]="item.id">{{ item.name }}</option>
                                 }
                             </select>
                         </td>
                         <td>
-                            <select  class="form-control" [field]="item.type" [ngModelOptions]="{standalone: true}">
+                            <select  class="form-control" [(value)]="item.type">
                                 @for (item of typeItems; track $index; let i = $index) {
                                 <option [value]="i">{{ item }}</option>
                                 }
                             </select>
                         </td>
                         <td>
-                            <input type="number" class="form-control" [field]="item.amount" [ngModelOptions]="{standalone: true}">
+                            <input type="number" class="form-control" [(value)]="item.amount">
                         </td>
                         <td>
-                            <input type="number" class="form-control" [field]="item.score" [ngModelOptions]="{standalone: true}">
+                            <input type="number" class="form-control" [(value)]="item.score">
                         </td>
                         <td>
                             <i class="iconfont icon-close" (click)="tapRemoveItem(j)"></i>
@@ -120,7 +120,7 @@
                             【{{ item.type | questionType }}】{{ item.title }}
                         </td>
                         <td>
-                            <input type="number" class="form-control" [field]="item.score" [ngModelOptions]="{standalone: true}">
+                            <input type="number" class="form-control" [(value)]="item.score">
                         </td>
                         <td>
                             <i class="iconfont icon-close" (click)="tapRemoveItem(j)"></i>
@@ -151,11 +151,11 @@
         <form class="form-horizontal-control" (submit)="tapDialogSearch()">
             <div class="input-group-control">
                 <label for="keywords">关键字</label>
-                <input type="text" class="form-control" [value]="dialogData.keywords" placeholder="关键词">
+                <input type="text" class="form-control" [field]="dialogQueries.keywords" placeholder="关键词">
             </div>
             <div class="input-group-control">
                 <label for="course">科目</label>
-                <select id="course" name="course" [value]="dialogData.course" class="form-control">
+                <select id="course" [field]="dialogQueries.course" class="form-control">
                     <option [value]="0">请选择</option>
                     @for (item of courseItems; track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
@@ -185,6 +185,6 @@
             </tbody>
         </table>
 
-        <app-pagination [total]="dialogData.total" [(page)]="dialogData.page" [perPage]="dialogData.perPage" (pageChange)="tapDialogPage()" />
+        <app-pagination [total]="dialogData.total" [field]="dialogQueries.page" [perPage]="dialogQueries.per_page().value()" (valueChange)="tapDialogPage()" />
     </div>
 </app-dialog-box>

@@ -1,10 +1,11 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { SearchService } from '../../../../../theme/services';
 import { eachObject } from '../../../../../theme/utils';
 import { ICmsContent, ICmsFormGroup } from '../../../model';
 import { CmsService } from '../../cms.service';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -20,13 +21,13 @@ export class EditContentComponent implements OnInit {
 
 
     public data: ICmsContent;
-    public queries = {
+    public readonly queries = form(signal({
         model: 0,
         parent: 0,
         site: 0,
         category: 0,
         id: 0,
-    };
+    }));
     public formItems: ICmsFormGroup[] = [];
 
     ngOnInit() {

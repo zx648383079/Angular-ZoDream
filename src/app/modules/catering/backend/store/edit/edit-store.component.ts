@@ -28,12 +28,12 @@ export class EditStoreComponent implements OnInit {
         description: '',
         logo: '',
         status: '',
+        user: <IUser>null,
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name);
     });
     public data: ICateringStore;
-    public user: IUser;
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -43,7 +43,6 @@ export class EditStoreComponent implements OnInit {
             this.service.store(params.id).subscribe({
                 next: res => {
                     this.data = res;
-                    this.user = res.user;
                     this.dataModel.set({
                         id: res.id,
                         name: res.name,
@@ -51,6 +50,7 @@ export class EditStoreComponent implements OnInit {
                         description: res.description,
                         logo: res.logo,
                         status: '',
+                        user: res.user ?? null
                     });
                 },
                 error: err => {
@@ -67,11 +67,11 @@ export class EditStoreComponent implements OnInit {
             return;
         }
         const data: ICateringStore = this.dataForm().value() as any;
-        if (this.user) {
-            data.user_id = this.user.id;
+        if (data.user) {
+            data.user_id = data.user.id;
         }
         e?.enter();
-        this.service.storeSave(data).subscribe({
+        this.service.storeSave({...data, user: undefined}).subscribe({
             next: _ => {
                 e.reset();
                 this.toastrService.success($localize `Save Successfully`);

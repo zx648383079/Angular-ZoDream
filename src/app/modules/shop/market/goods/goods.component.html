@@ -75,7 +75,7 @@
                     <div class="flex-group">
                         <div class="group-header">配送
                         </div>
-                        <div class="group-body">至<app-region url="shop/region/tree" [field]="regionId" (valueChange)="onRegionChange()" /></div>
+                        <div class="group-body">至<app-region url="shop/region/tree" [field]="dataForm.region" (valueChange)="onRegionChange()" /></div>
                     </div>
                    
                     <hr>
@@ -106,12 +106,12 @@
                           Amount
                         </div>
                         <div class="group-body">
-                          <app-number-input [field]="amount" [min]="1" [max]="stock" [disabled]="stock < 1" />
+                          <app-number-input [field]="dataForm.amount"/>
                         </div>
                     </div>
                 </div>
                 <div class="page-actions">
-                        @if (stock > 0) {
+                        @if (stock() > 0) {
                             <a (click)="tapBuy()" class="btn btn-danger" i18n>
                                 BUY NOW
                             </a>

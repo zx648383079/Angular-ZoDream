@@ -68,9 +68,9 @@
         </div>
     </div>
     <div class="dialog-footer">
-        <div class="pull-left" (click)="editForm.is_default = !editForm.is_default">
+        <div class="pull-left" (click)="toggleDefault()">
             <div class="checkbox">
-                <i class="iconfont" [class]="{'icon-check-square-o': editForm.is_default, 'icon-square-o': !editForm.is_default}"></i>
+                <i class="iconfont" [class]="{'icon-check-square-o': editForm.is_default().value(), 'icon-square-o': !editForm.is_default().value()}"></i>
             </div>
             设为默认
         </div>

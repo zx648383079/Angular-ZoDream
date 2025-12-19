@@ -10,7 +10,7 @@ import { IMusicList } from '../../model';
     templateUrl: './music-list.component.html',
     styleUrls: ['./music-list.component.scss']
 })
-export class MusicListComponent implements OnInit {
+export class MusicListComponent {
 
     public items: IMusicList[] = [];
     public hasMore = true;
@@ -31,11 +31,6 @@ export class MusicListComponent implements OnInit {
     public sortKey = '';
     public orderAsc = true;
 
-    constructor() { }
-
-    ngOnInit() {
-    }
-
     public tapBack() {
         history.back();
     }
@@ -50,7 +45,10 @@ export class MusicListComponent implements OnInit {
     }
 
     public tapFilter(key: string, val: string) {
-        this.queries[key] = val;
+        this.queries().value.update(v => {
+            v[key] = val;
+            return v;
+        })
         for (const item of this.filterItems) {
             if (item.name !== key) {
                 continue;

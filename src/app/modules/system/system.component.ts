@@ -1,16 +1,17 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
 import { IItem, IOption } from '../../theme/models/seo';
 import { eachObject, parseNumber, splitStr } from '../../theme/utils';
 import { emptyValidate } from '../../theme/validators';
 import { SystemService } from './system.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-system',
-  templateUrl: './system.component.html',
-  styleUrls: ['./system.component.scss']
+    selector: 'app-system',
+    templateUrl: './system.component.html',
+    styleUrls: ['./system.component.scss']
 })
 export class SystemComponent {
     private readonly service = inject(SystemService);
@@ -18,7 +19,19 @@ export class SystemComponent {
 
 
     public groups: IOption[] = [];
-    public readonly editForm = form(signal<IOption>({}));
+    public readonly editForm = form(signal({
+        id: 0,
+        name: '',
+        code: '',
+        parent_id: '0',
+        type: 'group',
+        visibility: '1',
+        default_value: '',
+        value: '',
+        position: 99,
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
     public typeItems = [
         {
             value: 'group',
@@ -136,21 +149,22 @@ export class SystemComponent {
 
 
     public tapAddGroup(modal: any) {
-        this.editForm = {
+        this.editForm().value.set({
+            id: 0,
             name: '',
             code: '',
-            parent_id: 0,
+            parent_id: '0',
             type: 'group',
-            visibility: 1,
+            visibility: '1',
             default_value: '',
             value: '',
             position: 99,
-        };
+        });
         this.tapOpenModal(modal);
     }
 
     public tapEditOption(modal: any, item: IOption) {
-        this.editForm = item;
+        this.editForm().value.set(item as any);
         this.tapOpenModal(modal);
     }
 
@@ -159,30 +173,31 @@ export class SystemComponent {
             if (!value) {
                 return;
             }
+            const data = this.editForm().value();
             if (value === 'remove') {
                 this.toastrService.confirm('确定删除此项', () => {
-                    this.service.optionRemove(this.editForm.id).subscribe(res => {
+                    this.service.optionRemove(data.id).subscribe(res => {
                         this.toastrService.success($localize `Delete Successfully`);
-                        this.removeOption(this.editForm);
+                        this.removeOption(data as any);
                     });
                 });
                 return;
             }
-            if (emptyValidate(this.editForm.name)) {
+            if (emptyValidate(data.name)) {
                 this.toastrService.warning('显示名称必填');
                 return false;
             }
-            if (this.editForm.type !== 'group') {
-                if (!this.editForm.parent_id) {
+            if (data.type !== 'group') {
+                if (!data.parent_id) {
                     this.toastrService.warning('请选择分组');
                     return false;
                 }
-                if (emptyValidate(this.editForm.code)) {
+                if (emptyValidate(data.code)) {
                     this.toastrService.warning('别名必填');
                     return false;
                 }
             }
-            this.service.optionSaveField(this.editForm).subscribe({
+            this.service.optionSaveField(data).subscribe({
                 next: res => {
                     this.addOption(res);
                     this.toastrService.success($localize `Save Successfully`); 

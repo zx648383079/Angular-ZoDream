@@ -1,13 +1,13 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { IEmoji, IEmojiCategory } from '../../../theme/models/seo';
 import { IPageQueries } from '../../../theme/models/page';
-import { emptyValidate } from '../../../theme/validators';
 import { SystemService } from '../system.service';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
 import { UploadButtonEvent } from '../../../components/form';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../theme/services';
+import { parseNumber } from '../../../theme/utils';
 
 @Component({
     standalone: false,
@@ -26,21 +26,23 @@ export class EmojiComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         keywords: '',
-        cat_id: 0,
+        category: '0',
     }));
     public categories: IEmojiCategory[] = [];
     public readonly editForm = form(signal({
         id: 0,
         name: '',
-        type: 0,
+        cat_id: '0',
+        type: '0',
         content: '',
     }), schemaPath => {
         required(schemaPath.content);
     });
+    public readonly typeValue = computed(() => parseNumber(this.editForm.type().value()));
     public isMultiple = false;
     public isChecked = false;
 

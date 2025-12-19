@@ -10,9 +10,9 @@ import { SearchService } from '../../../../theme/services';
 
 @Component({
     standalone: false,
-  selector: 'app-content',
-  templateUrl: './content.component.html',
-  styleUrls: ['./content.component.scss']
+    selector: 'app-content',
+    templateUrl: './content.component.html',
+    styleUrls: ['./content.component.scss']
 })
 export class ContentComponent implements OnInit {
     private readonly service = inject(CmsService);

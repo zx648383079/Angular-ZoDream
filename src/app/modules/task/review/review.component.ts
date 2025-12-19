@@ -1,8 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ITaskReview } from '../model';
 import { TaskService } from '../task.service';
 import { EChartsCoreOption } from 'echarts/core';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -15,8 +16,11 @@ export class ReviewComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
 
 
-    public date = '';
-    public type = 0;
+    public readonly queries = form(signal({
+        date: '',
+        type: '0',
+        ignore: false
+    }));
     public chart = 0;
     public ignore = false;
 
@@ -48,26 +52,20 @@ export class ReviewComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            if (params.type) {
-                this.type = parseInt(params.type, 10) || 0;
+            const type = parseInt(params.type, 10) || 0;
+            if (type) {
+                this.queries.type().value.set(type as any);
             }
             this.tapRefresh();
         });
     }
 
     public tapSearch() {
-        this.date = form.date || '';
-        this.type = parseInt(form.type, 10) || 0;
-        this.ignore = !!form.ignore;
         this.tapRefresh();
     }
 
     public tapRefresh() {
-        this.service.review({
-            date: this.date,
-            type: this.type,
-            ignore: this.ignore
-        }).subscribe(res => {
+        this.service.review(this.queries().value()).subscribe(res => {
             this.items = res.data;
             this.refreshChart(res.data);
         });

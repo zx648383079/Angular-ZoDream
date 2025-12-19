@@ -7,11 +7,11 @@ import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-    selector: 'app-address',
+    selector: 'app-shop-address',
     templateUrl: './address.component.html',
     styleUrls: ['./address.component.scss'],
 })
-export class AddressComponent implements OnInit {
+export class AddressComponent {
     private readonly service = inject(ShopService);
     private readonly toastrService = inject(DialogService);
 
@@ -28,7 +28,8 @@ export class AddressComponent implements OnInit {
         name: '',
         tel: '',
         region_id: 0,
-        address: ''
+        address: '',
+        is_default: false
     }), schemaPath => {
         required(schemaPath.name, {message: '请输入收货人姓名'});
     });
@@ -37,8 +38,9 @@ export class AddressComponent implements OnInit {
         this.tapRefresh();
     }
 
-    ngOnInit() {}
-
+    public toggleDefault() {
+        this.editForm.is_default().value.update(v => !v);
+    }
 
     public tapEdit(item?: IAddress) {
         this.editForm().value.update(v => {

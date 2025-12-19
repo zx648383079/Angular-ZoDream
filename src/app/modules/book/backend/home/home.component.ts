@@ -38,11 +38,11 @@ export class HomeComponent implements OnInit {
             value: 1,
         },
     ];
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
-        category: 0,
-        author: 0,
-        classify: 0,
+        category: '',
+        author: '',
+        classify: '0',
         page: 1,
         per_page: 20,
     }));

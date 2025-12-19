@@ -52,7 +52,7 @@ export class TradeTrackerComponent implements OnInit {
     }
 
     public tapSearch(keywords: any) {
-        this.queries.keywords = keywords;
+        this.queries.keywords().value.set(keywords);
         this.tapRefresh();
     }
 

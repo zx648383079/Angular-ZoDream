@@ -29,7 +29,10 @@ export class TagComponent implements OnInit {
         per_page: 20,
         keywords: '',
     }));
-    public readonly editForm = form(signal<ITag>({}));
+    public readonly editForm = form(signal({
+        id: 0,
+        name: ''
+    }));
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

@@ -7,11 +7,13 @@ import { TrendRoutingModule, trendRoutingComponents } from './routing.module';
 import { TrendService } from './trend.service';
 import { DesktopModule } from '../../components/desktop';
 import { ZreChartModule } from '../../components/chart';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        Field,
         DesktopModule,
         TrendRoutingModule,
         ZreFormModule,

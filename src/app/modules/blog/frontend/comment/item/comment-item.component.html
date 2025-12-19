@@ -24,7 +24,7 @@
             <span class="disagree-icon" (click)="tapDisagree(value())"><i class="iconfont icon-thumbs-down"></i><b>{{ value().disagree_count }}</b></span>
         </div>
     </div>
-    @if (expanded || editForm.parent_id > 0) {
+    @if (expanded || editForm.parent_id().value() > 0) {
     <div class="item-children">
         @for (it of value().replies; track $index) {
         <div class="comment-item" [id]="'comment-' + it.id">
@@ -53,7 +53,7 @@
             <a (click)="tapMore()" i18n>Click to view </a>
         </div>
         }
-        @if (editForm.parent_id > 0) {
+        @if (editForm.parent_id().value() > 0) {
         <div class="book-comment-form">
             <div class="title" i18n>Reply</div>
             @if (status() != 2 && !user()) {

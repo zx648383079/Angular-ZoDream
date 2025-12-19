@@ -32,11 +32,11 @@ export class ArticleComponent implements OnInit {
     public isLoading = false;
     public total = 0;
     public categories: IArticleCategory[] = [];
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         keywords: '',
-        cat_id: 0,
+        category: '0',
     }));
 
     constructor() {
@@ -46,9 +46,10 @@ export class ArticleComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.route.queryParams.subscribe(res => {
-            if (res.category) {
-                this.queries.cat_id = parseInt(res.category, 10) || 0;
+        this.route.queryParams.subscribe(params => {
+            const category = parseInt(params.category, 10) || 0;
+            if (category) {
+                this.queries.category().value.set(category as any);
             }
         });
         this.route.queryParams.subscribe(params => {

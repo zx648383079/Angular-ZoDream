@@ -25,9 +25,9 @@
                         }
                         @if (item.name == 'price') {
                             <div class="price-input">
-                                <input type="number" class="form-control" [field]="price.min">
+                                <input type="number" class="form-control" [(value)]="price.min">
                                 -
-                                <input type="number" class="form-control" [field]="price.max">
+                                <input type="number" class="form-control" [(value)]="price.max">
                             </div>
                         }
                     </div>

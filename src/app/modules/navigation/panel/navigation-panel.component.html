@@ -72,7 +72,7 @@
                     <input type="text" id="name" class="form-control" [field]="editForm.name" i18n-placeholder placeholder="Please input name/title">
                 </div>
         </div>
-        @if (editForm.group_id > 0) {
+        @if (editForm.group_id().value() != '0') {
         <div class="input-group-control">
                 <label for="link" i18n>Link</label>
                 <div>

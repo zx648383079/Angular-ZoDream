@@ -35,13 +35,13 @@ export class EditSoftwareComponent implements OnInit {
         official_website: '',
         git_url: '',
         score: 10,
+        tags: <ITag[]>[]
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name);
         required(schemaPath.content);
         required(schemaPath.cat_id);
     });
-    public tags: ITag[] = [];
     public categories: ICategory[] = [];
     public tagItems$: Observable<ITag[]>;
     public tagInput$ = new Subject<string>();
@@ -57,9 +57,6 @@ export class EditSoftwareComponent implements OnInit {
             }
             this.service.software(params.id).subscribe({
                 next: res => {
-                    if (res.tags) {
-                        this.tags = res.tags;
-                    }
                     this.dataModel.set({
                         id: res.id,
                         name: res.name,
@@ -73,6 +70,7 @@ export class EditSoftwareComponent implements OnInit {
                         official_website: res.official_website,
                         git_url: res.git_url,
                         score: res.score,
+                        tags: res.tags ?? []
                     });
                 },
                 error: err => {
@@ -105,7 +103,6 @@ export class EditSoftwareComponent implements OnInit {
             return;
         }
         const data: ISoftware = this.dataForm().value() as any;
-        data.tags = this.tags;
         e?.enter();
         this.service.softwareSave(data).subscribe({
             next: _ => {

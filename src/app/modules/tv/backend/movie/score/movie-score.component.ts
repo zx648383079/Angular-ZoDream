@@ -4,15 +4,14 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
-import { emptyValidate } from '../../../../../theme/validators';
 import { IMovieScore } from '../../../model';
 import { TVService } from '../../tv.service';
 
 @Component({
     standalone: false,
-  selector: 'app-movie-score',
-  templateUrl: './movie-score.component.html',
-  styleUrls: ['./movie-score.component.scss']
+    selector: 'app-movie-score',
+    templateUrl: './movie-score.component.html',
+    styleUrls: ['./movie-score.component.scss']
 })
 export class MovieScoreComponent implements OnInit {
     private readonly service = inject(TVService);

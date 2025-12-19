@@ -1,7 +1,7 @@
 <app-edit-header title="分销设置" (submited)="tapSubmit($event)" />
 <div class="container-fluid">
     
-    <div class="input-panel" [class]="{open: data.by_user}">
+    <div class="input-panel" [class.open]="dataForm.by_user().value()">
         <div class="input-item">
             <div class="item-icon">
                 <i class="iconfont icon-bookmark"></i>
@@ -11,7 +11,7 @@
                 <div class="item-meta">推荐会员分级返佣</div>
             </div>
             <div class="item-action">
-                <app-switch onLabel="开" offLabel="关" [field]="data.by_user" />
+                <app-switch onLabel="开" offLabel="关" [field]="dataForm.by_user" />
             </div>
         </div>
         <div class="panel-body">
@@ -24,7 +24,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (item of data.by_user_grade; track $index; let i = $index) {
+                    @for (item of dataForm.by_user_grade; track $index; let i = $index) {
                     <tr>
                         <td>
                             {{ i + 1 }} 级
@@ -49,7 +49,7 @@
             <div class="input-line-item">
                 <div class="item-label">后续佣金比例%</div>
                 <div class="item-body">
-                    <app-number-input [field]="data.by_user_next" />
+                    <app-number-input [field]="dataForm.by_user_next" />
                 </div>
             </div>
             <div class="tip">一级指下单订单主体会员的上级邀请人，二级指上级邀请人的上级，后续佣金比例输入则表示无限级返佣</div>
@@ -57,7 +57,7 @@
     </div>
     
 
-    <div class="input-panel open" [class]="{open: data.by_order}">
+    <div class="input-panel open" [class]="{open: dataForm.by_order}">
         <div class="input-item">
             <div class="item-icon">
                 <i class="iconfont icon-bookmark"></i>
@@ -67,14 +67,14 @@
             <div class="item-meta">推荐订单返佣</div>
             </div>
             <div class="item-action">
-                <app-switch onLabel="开" offLabel="关" [field]="data.by_order" />
+                <app-switch onLabel="开" offLabel="关" [field]="dataForm.by_order" />
             </div>
         </div>
         <div class="panel-body">
             <div class="input-line-item">
                 <div class="item-label">佣金比例%</div>
                 <div class="item-body">
-                    <app-number-input [field]="data.by_order_scale" />
+                    <app-number-input [field]="dataForm.by_order_scale" />
                 </div>
             </div>
         </div>

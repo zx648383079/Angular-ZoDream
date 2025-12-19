@@ -1,10 +1,12 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { DialogBoxComponent } from '../../../../../components/dialog';
 import { IOption } from '../../../../../theme/models/seo';
 import { emptyValidate } from '../../../../../theme/validators';
 import { CmsService } from '../../cms.service';
+import { form } from '@angular/forms/signals';
+import { eachObject } from '../../../../../theme/utils';
 
 @Component({
     standalone: false,
@@ -20,7 +22,13 @@ export class SiteOptionComponent implements OnInit {
 
     public items: IOption[] = [];
 
-    public readonly editForm = form(signal<IOption>({}));
+    public readonly editForm = form(signal({
+        name: '',
+        code: '',
+        type: 'text',
+        default_value: '',
+        value: '',
+    }));
     public typeItems = [
         {value: 'text', name: '文本'},
         {value: 'textarea', name: '多行文本'},
@@ -84,13 +92,14 @@ export class SiteOptionComponent implements OnInit {
     }
 
     public tapEditOption(modal: any, item?: IOption) {
-        this.editForm = item || {
-            name: '',
-            code: '',
-            type: 'text',
-            default_value: '',
-            value: '',
-        } as any;
+        this.editForm().value.update(v => {
+            v.name = item?.name ?? '';
+            v.code = item?.code ?? '';
+            v.type = item?.type ?? 'text';
+            v.default_value = item?.default_value ?? '';
+            v.value = item?.value as any ?? '';
+            return v;
+        });
         this.tapOpenModal(modal);
     }
 
@@ -105,15 +114,19 @@ export class SiteOptionComponent implements OnInit {
                 });
                 return;
             }
-            if (emptyValidate(this.editForm.code)) {
+            const data = this.editForm().value();
+            if (emptyValidate(data.code)) {
                 return false;
             }
             for (const item of this.items) {
-                if (item.code === this.editForm.code) {
+                if (item.code === data.code) {
+                    eachObject(data, (v, k) => {
+                        item[k] = v;
+                    });
                     return;
                 }
             }
-            this.items.push(this.editForm);
+            this.items.push(data as any);
         });
     }
 

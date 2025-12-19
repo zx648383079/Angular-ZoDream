@@ -5,11 +5,13 @@ import { ZreFormModule } from '../../../../../components/form';
 import { affiliateRoutedComponents, AffiliateRoutingModule } from './affiliate-routing.routing';
 import { AffiliateService } from './affiliate.service';
 import { DesktopModule } from '../../../../../components/desktop';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        Field,
         DesktopModule,
         ZreFormModule,
         AffiliateRoutingModule

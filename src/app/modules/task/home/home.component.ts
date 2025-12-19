@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, viewChild, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
@@ -33,7 +33,12 @@ export class HomeComponent implements OnInit {
         page: 1,
         per_page: 20,
     }));
-    public taskData: ITask = {} as any;
+    public readonly taskForm = form(signal({
+        name: '',
+        description: ''
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -104,15 +109,18 @@ export class HomeComponent implements OnInit {
 
     public tapFastNew(modal: DialogBoxComponent) {
         modal.open(() => {
-            this.service.taskFastCreate(this.taskData).subscribe({
+            this.service.taskFastCreate(this.taskForm().value()).subscribe({
                 next: res => {
                     this.items.push(res);
                     this.toastrService.success('添加成功');
-                    this.taskData = {} as any;
+                    this.taskForm().value.set({
+                        name: '',
+                        description: ''
+                    });
                 }, error: err => {
                     this.toastrService.error(err);
                 }
             })
-        }, () => !emptyValidate(this.taskData.name));
+        }, () => this.taskForm().valid());
     }
 }

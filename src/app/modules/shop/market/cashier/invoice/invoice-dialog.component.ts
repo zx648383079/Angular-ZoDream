@@ -25,8 +25,6 @@ export class InvoiceDialogComponent {
     }));
     private confirmFn: (data: IInvoiceTitle) => void;
 
-    constructor() { }
-
     public open(invoice: IInvoiceTitle, cb: (data: IInvoiceTitle) => void) {
         this.confirmFn = cb;
         if (invoice) {

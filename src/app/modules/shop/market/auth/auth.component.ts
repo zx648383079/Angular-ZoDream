@@ -10,6 +10,7 @@ import { AuthService } from '../../../../theme/services';
 import { assetUri, getCurrentTime, uriEncode } from '../../../../theme/utils';
 import { ShopAppState } from '../../shop.reducer';
 import { email, form, required } from '@angular/forms/signals';
+import { CountdownEvent } from '../../../../components/form';
 
 @Component({
     standalone: false,
@@ -43,8 +44,13 @@ export class AuthComponent implements OnInit {
 
     public mobileModel = signal({
         mobile: '',
+        code: '',
         remember: false,
         captcha: '',
+    });
+    public mobileForm = form(this.mobileModel, schemaPath => {
+        email(schemaPath.mobile);
+        required(schemaPath.code);
     });
 
     public get boxStyle() {
@@ -71,11 +77,14 @@ export class AuthComponent implements OnInit {
     }
 
     public tapSignIn() {
-        const form = this.tabIndex < 1 ? this.mobileForm : this.emailForm;
-        if (!form.valid) {
+        if (this.tabIndex < 1) {
+            if (this.mobileForm().invalid()) {
+                return;
+            }
+        } else if (this.emailForm().invalid()) {
             return;
         }
-        const data = Object.assign({}, form.value);
+        const data = this.tabIndex < 1 ? this.mobileForm().value() : this.emailForm().value();
         this.authService
             .login(data)
             .subscribe({

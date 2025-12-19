@@ -1,7 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { twoPad } from '../../../theme/utils';
+import { parseNumber, twoPad } from '../../../theme/utils';
 import { TaskService } from '../task.service';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -14,17 +15,21 @@ export class RecordComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
 
 
-    public date = '';
-    public type = 0;
+    public readonly queries = form(signal({
+        date: '',
+        type: '0',
+    }));
 
     public items: any[] = [];
-
     public typeItems = ['按天', '按周', '按月'];
+
+    public readonly typeValue = computed(() => parseNumber(this.queries.type().value()));
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            if (params.type) {
-                this.type = parseInt(params.type, 10) || 0;
+            const type = parseInt(params.type, 10) || 0;
+            if (type) {
+                this.queries.type().value.set(type as any);
             }
             this.tapRefresh();
         });
@@ -102,16 +107,11 @@ export class RecordComponent implements OnInit {
     }
 
     public tapSearch() {
-        this.date = form.date || '';
-        this.type = parseInt(form.type, 10) || 0;
         this.tapRefresh();
     }
 
     public tapRefresh() {
-        this.service.record({
-            date: this.date,
-            type: this.type,
-        }).subscribe(res => {
+        this.service.record(this.queries().value()).subscribe(res => {
             this.items = res.data;
         });
     }

@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -33,11 +33,16 @@ export class QrcodeComponent implements OnInit {
     }));
 
     public readonly editForm = form(signal({
+        name: '',
+        type: 0,
         scene_type: 0,
-        scene_str: ''
+        scene_str: '',
+        scene_id: 0,
+        expire_time: 0
     }), schemaPath => {
         required(schemaPath.scene_str);
     });
+    public readonly expireDay = computed(() => this.editForm.expire_time().value()/(24*3600))
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

@@ -18,12 +18,12 @@ export class CourseComponent implements OnInit {
 
     public items: ICourse[] = [];
     public isLoading = false;
-    public readonly editForm = form(signal<ICourse>({
+    public readonly editForm = form(signal({
         id: 0,
         name: '',
         thumb: '',
         description: '',
-        parent_id: 0,
+        parent_id: '0',
     }), schemaPath => {
         required(schemaPath.name);
     });
@@ -56,7 +56,7 @@ export class CourseComponent implements OnInit {
             v.name = item?.name ?? '';
             v.thumb = item?.thumb ?? '';
             v.description = item?.description ?? '';
-            v.parent_id = item?.parent_id ?? 0;
+            v.parent_id = item?.parent_id as any ?? '0';
             return v;
         });
         this.optionItems = filterTree(this.items, this.editForm.id().value());

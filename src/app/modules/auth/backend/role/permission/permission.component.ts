@@ -1,38 +1,33 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../../components/dialog';
 import { IPermission } from '../../../../../theme/models/auth';
 import { RoleService } from '../role.service';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-role-permission',
-  templateUrl: './permission.component.html',
-  styleUrls: ['./permission.component.scss']
+    selector: 'app-role-permission',
+    templateUrl: './permission.component.html',
+    styleUrls: ['./permission.component.scss']
 })
-export class PermissionComponent implements OnInit {
+export class PermissionComponent {
     private readonly service = inject(RoleService);
     private readonly toastrService = inject(DialogService);
 
+    public readonly queries = form(signal({
+        keywords: '',
+        page: 1,
+        per_page: 20
+    }));
 
     public items: IPermission[] = [];
-
     public hasMore = true;
-
-    public page = 1;
-
-    public perPage = 20;
-
     public isLoading = false;
-
     public total = 0;
-
-    public keywords = '';
 
     constructor() {
         this.tapRefresh();
     }
-
-    ngOnInit() {}
 
     /**
      * tapRefresh
@@ -42,15 +37,14 @@ export class PermissionComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public tapSearch() {
-        this.keywords = form.keywords;
         this.tapRefresh();
     }
 
@@ -62,15 +56,18 @@ export class PermissionComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.permissionList({
-            keywords: this.keywords,
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
+        const queries = {...this.queries().value(), page};
+        this.service.permissionList(queries).subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                this.queries().value.set(queries);
+            },
+            error: _ => {
+                this.isLoading = false;
+            }
         });
     }
 

@@ -9,9 +9,9 @@ import { ExamService } from '../../exam.service';
 
 @Component({
     standalone: false,
-  selector: 'app-course-grade',
-  templateUrl: './course-grade.component.html',
-  styleUrls: ['./course-grade.component.scss']
+    selector: 'app-course-grade',
+    templateUrl: './course-grade.component.html',
+    styleUrls: ['./course-grade.component.scss']
 })
 export class CourseGradeComponent implements OnInit {
     private readonly service = inject(ExamService);
@@ -24,17 +24,17 @@ export class CourseGradeComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         keywords: '',
-        course: 0,
+        course: '0',
     }));
     public readonly editForm = form(signal({
         id: 0,
         name: '',
         grade: 1,
-        course_id: 0,
+        course_id: '0',
     }), schemaPath => {
         required(schemaPath.name);
         required(schemaPath.grade);

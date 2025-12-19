@@ -30,7 +30,12 @@ export class GameListComponent implements OnInit {
         per_page: 20,
         keywords: '',
     }));
-    public readonly editForm = form(signal<IGameProject>({}));
+    public readonly editForm = form(signal<IGameProject>({
+        id: 0,
+        name: '',
+        logo: '',
+        description: ''
+    }));
 
     constructor() {
         this.themeService.titleChanged.next($localize `Game Maker`);
@@ -45,11 +50,11 @@ export class GameListComponent implements OnInit {
 
     public open(modal: DialogEvent, item?: IGameProject) {
         this.editForm().value.update(v => {
-            if (item) {
-                v.id = item.id;
-                return v;
-            }
-            return {};
+            v.id = item?.id ?? 0;
+            v.name = item?.name ?? '';
+            v.logo = item?.logo ?? '';
+            v.description = item?.description ?? '';
+            return v;
         });
         modal.open(() => {
             this.service.projectSave({...this.editForm}).subscribe({

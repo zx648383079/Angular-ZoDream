@@ -57,7 +57,7 @@ export class ListComponent implements OnInit, OnDestroy {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         keywords: '',
@@ -76,7 +76,7 @@ export class ListComponent implements OnInit, OnDestroy {
         if (typeof res === 'object') {
             return;
         }
-        this.queries.keywords = res;
+        this.queries.keywords().value.set(res);
         this.tapRefresh();
         return false;
     };
@@ -111,8 +111,9 @@ export class ListComponent implements OnInit, OnDestroy {
         );
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
-            if (this.queries.tag) {
-                this.header = this.queries.tag;
+            const tag = this.queries.tag().value();
+            if (tag) {
+                this.header = tag;
             }
             this.tapRefresh();
         });
@@ -160,7 +161,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     public tapSort(item: any) {
-        this.queries.sort = item.value;
+        this.queries.sort().value.set(item.value);
         this.tapRefresh();
     }
 
@@ -173,13 +174,13 @@ export class ListComponent implements OnInit, OnDestroy {
 
     public tapCategory(item: ICategory) {
         this.category = item;
-        this.queries.category = item.id;
+        this.queries.category().value.set(item.id);
         this.tapRefresh();
     }
 
     public tapLanguage(item: string) {
         this.header = item;
-        this.queries.programming_language = item;
+        this.queries.programming_language().value.set(item);
         this.tapRefresh();
     }
 }

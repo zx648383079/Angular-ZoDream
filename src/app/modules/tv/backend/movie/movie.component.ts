@@ -9,9 +9,9 @@ import { TVService } from '../tv.service';
 
 @Component({
     standalone: false,
-  selector: 'app-movie',
-  templateUrl: './movie.component.html',
-  styleUrls: ['./movie.component.scss']
+    selector: 'app-movie',
+    templateUrl: './movie.component.html',
+    styleUrls: ['./movie.component.scss']
 })
 export class MovieComponent implements OnInit {
     private readonly service = inject(TVService);
@@ -24,9 +24,9 @@ export class MovieComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
-        category: 0,
+        category: '',
         area: 0,
         page: 1,
         per_page: 20

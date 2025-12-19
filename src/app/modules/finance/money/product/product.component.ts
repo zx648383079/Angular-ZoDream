@@ -1,6 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
-import { emptyValidate } from '../../../../theme/validators';
 import { FinanceService } from '../../finance.service';
 import { IFinancialProduct } from '../../model';
 import { form, required } from '@angular/forms/signals';

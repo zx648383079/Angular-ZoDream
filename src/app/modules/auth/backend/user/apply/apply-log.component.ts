@@ -28,7 +28,7 @@ export class ApplyLogComponent implements OnInit {
         keywords: '',
         per_page: 20,
     }));
-    public readonly editForm = form(signal<IApplyLog>({}));
+    public readonly dataModel = signal<IApplyLog>({} as any);
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -83,13 +83,16 @@ export class ApplyLogComponent implements OnInit {
     }
 
     public tapView(modal: DialogBoxComponent, item: IApplyLog) {
-        this.editForm = item;
+        this.dataModel.set(item);
         this.service.user(item.user_id).subscribe(res => {
-            this.editForm.user = res;
+            this.dataModel.update(v => {
+                v.user = res;
+                return v;
+            });
         });
         modal.openCustom(value => {
             this.service.applySave({
-                id: this.editForm.id,
+                id: this.dataModel().id,
                 status: value
             }).subscribe(res => {
                 item.status = res.status;

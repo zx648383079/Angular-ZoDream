@@ -7,6 +7,12 @@ import { SearchService } from '../../../../theme/services';
 import { TrackerBackendService } from '../tracker.service';
 import { IProduct } from '../../model';
 
+interface IProductLink {
+    channel: string;
+    platform_no: string;
+    extra_meta: string;
+}
+
 @Component({
     standalone: false,
     selector: 'app-tracker-backend-product',
@@ -34,8 +40,9 @@ export class ProductComponent implements OnInit {
     public readonly editForm = form(signal({
         id: 0,
         name: '',
+        en_name: '',
         unique_code: '',
-        items: []
+        items: <IProductLink[]>[]
     }), schemaPath => {
         required(schemaPath.name);
         required(schemaPath.unique_code);
@@ -52,7 +59,7 @@ export class ProductComponent implements OnInit {
         this.editForm().value.update(v => {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';
-            v.items = item?.items ?? [];
+            v.items = [];
             return v;
         });
         modal.open(() => {

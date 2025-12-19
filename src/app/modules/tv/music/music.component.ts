@@ -5,7 +5,7 @@ import { SuggestChangeEvent } from '../../../components/form';
 import { MusicPlayerComponent } from '../../../components/media-player';
 import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
-import { formatHour } from '../../../theme/utils';
+import { formatHour, parseNumber } from '../../../theme/utils';
 import { IMusic } from '../model';
 import { TvService } from '../tv.service';
 
@@ -55,8 +55,8 @@ export class MusicComponent implements OnInit {
             name: item.name,
             cover: item.cover,
             artist: item.artist,
-            source: item.files.filter(i => i.file_type < 5).sort((a, b) => a.file_type - b.file_type)[0].url,
-            lyrics: item.files.filter(i => i.file_type === 11)[0].url
+            source: item.files.filter(i => parseNumber(i.file_type) < 5).sort((a, b) => parseNumber(a.file_type) - parseNumber(b.file_type))[0].url,
+            lyrics: item.files.filter(i => i.file_type === '11')[0].url
         });
     }
 

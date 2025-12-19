@@ -66,7 +66,7 @@ export class DocumentComponent implements OnInit {
             this.router.navigate(['project', value.id], {relativeTo: this.route})
             return;
         }
-        this.queries.keywords = value;
+        this.queries.keywords().value.set(value);
         this.goPage(1);
     }
 

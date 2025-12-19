@@ -1,33 +1,38 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
 import { emptyValidate } from '../../theme/validators';
 import { IShortLink } from './model';
 import { ShortLinkService } from './short-link.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-short-link',
-  templateUrl: './short-link.component.html',
-  styleUrls: ['./short-link.component.scss']
+    selector: 'app-short-link',
+    templateUrl: './short-link.component.html',
+    styleUrls: ['./short-link.component.scss']
 })
 export class ShortLinkComponent {
     private readonly toastrService = inject(DialogService);
     private readonly service = inject(ShortLinkService);
 
 
-    public source = '';
+    public readonly dataForm = form(signal({
+        source_url: ''
+    }), schemaPath => {
+        required(schemaPath.source_url);
+    });
     public result: IShortLink;
 
     public tapGenerate(e: ButtonEvent) {
-        if (emptyValidate(this.source)) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Please input source link`);
             return;
         }
         e?.enter();
         this.service.generate({
             title: 'unknown',
-            source_url: this.source,
+            ...this.dataForm().value()
         }).subscribe({
             next: res => {
                 e?.reset();

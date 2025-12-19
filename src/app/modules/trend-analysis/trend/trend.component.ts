@@ -30,12 +30,13 @@ export class TrendComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
         start_at: '',
         end_at: '',
         page: 1,
-        per_page: 20
+        per_page: 20,
+        goto: ''
     }));
     public tabItems = TimeTabItems;
     public tabIndex = -1;
@@ -50,38 +51,46 @@ export class TrendComponent implements OnInit {
     }
 
     public tapGoto(time?: string) {
-        if (time) {
-            this.queries = {
-                keywords: '',
-                start_at: '',
-                end_at: '',
-                page: 1,
-                per_page: 20,
-                goto: time,
-            };
-        } else {
-            this.queries.goto = this.queries.start_at;
-            this.queries.start_at = '';
-        }
+        this.queries().value.update(v => {
+            if (time) {
+                return {
+                    keywords: '',
+                    start_at: '',
+                    end_at: '',
+                    page: 1,
+                    per_page: 20,
+                    goto: time,
+                };
+            } else {
+                v.goto = v.start_at;
+                v.start_at = '';
+                return v;
+            }
+        });
+        
         this.tapRefresh();
     }
 
     public tapReset() {
-        this.queries = {
+        this.queries().value.set({
             keywords: '',
             start_at: '',
             end_at: '',
             page: 1,
             per_page: 20,
-        };
+            goto: ''
+        });
         this.tapRefresh();
     }
 
     public tapTime(val: number) {
         this.tabIndex = val;
         const range = getTimeRange(val, 0);
-        this.queries.start_at = range[0];
-        this.queries.end_at = range[1];
+        this.queries().value.update(v => {
+            v.start_at = range[0];
+            v.end_at = range[1];
+            return v;
+        });
         this.tapRefresh();
     }
 

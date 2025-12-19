@@ -32,18 +32,18 @@
 
             </div>
         </div>
-        <div formGroupName="configure">
+        <div>
             <div class="input-group-control">
                 <label for="configure_over_text">覆盖区文字</label>
                 <div>
-                    <input type="text" id="configure_over_text" class="form-control" [field]="dataForm.over_text"
+                    <input type="text" id="configure_over_text" class="form-control" [field]="dataForm.configure.over_text"
                         placeholder="请输入 覆盖区文字">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="configure_btn_text">按钮文字</label>
                 <div>
-                    <input type="text" id="configure_btn_text" class="form-control" [field]="dataForm.btn_text"
+                    <input type="text" id="configure_btn_text" class="form-control" [field]="dataForm.configure.btn_text"
                         placeholder="请输入 按钮文字">
 
                 </div>
@@ -51,7 +51,7 @@
             <div class="input-group-control">
                 <label for="configure_start_times">初始可抽次数</label>
                 <div>
-                    <input type="text" id="configure_start_times" class="form-control" [field]="dataForm.start_times"
+                    <input type="number" id="configure_start_times" class="form-control" [field]="dataForm.configure.start_times"
                         placeholder="请输入 初始可抽次数">
 
                 </div>
@@ -59,7 +59,7 @@
             <div class="input-group-control">
                 <label for="configure_buy_times">积分可抽次数</label>
                 <div>
-                    <input type="text" id="configure_buy_times" class="form-control" [field]="dataForm.buy_times"
+                    <input type="number" id="configure_buy_times" class="form-control" [field]="dataForm.configure.buy_times"
                         placeholder="请输入 积分可抽次数">
 
                 </div>
@@ -67,7 +67,7 @@
             <div class="input-group-control">
                 <label for="configure_time_price">兑换所需积分</label>
                 <div>
-                    <input type="text" id="configure_time_price" class="form-control" [field]="dataForm.time_price"
+                    <input type="number" id="configure_time_price" class="form-control" [field]="dataForm.configure.time_price"
                         placeholder="请输入 兑换所需积分">
 
                 </div>
@@ -79,22 +79,22 @@
             <p>最少添加2项，最多添加8项，所有奖项概率之和需为100%</p>
             <table class="table table-hover">
                 <tbody>
-                   @for (item of giftItems; track $index; let i = $index) {
+                   @for (item of dataForm.configure.items; track $index; let i = $index) {
                     <tr>
-                        <td>{{ item.goods_id > 0 ? item.goods.name : '未中奖' }}
-                            <input type="text" class="form-control" [field]="item.name" [ngModelOptions]="{standalone: true}">
+                        <td>{{ item.goods_id().value() > 0 ? item.goods.name().value() : '未中奖' }}
+                            <input type="text" class="form-control" [field]="item.name">
                         </td>
                         <td>
                             获奖概率
-                            <input type="text" class="form-control"  [field]="item.chance" [ngModelOptions]="{standalone: true}" size="10">%
+                            <input type="number" class="form-control"  [field]="item.chance" size="10">%
                         </td>
                         <td>
-                            <input type="color" [field]="item.color" [ngModelOptions]="{standalone: true}">
+                            <input type="color" [field]="item.color">
                         </td>
                         <td>
                             <i class="iconfont icon-arrow-up" (click)="tapUpItem(i)"></i>
                             <i class="iconfont icon-arrow-down"  (click)="tapDownItem(i)"></i>
-                            @if (item.goods_id > 0) {
+                            @if (item.goods_id().value() > 0) {
                             <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>
                             }
                         </td>

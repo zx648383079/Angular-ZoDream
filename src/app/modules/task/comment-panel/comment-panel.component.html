@@ -4,7 +4,7 @@
         <i class="iconfont icon-close" (click)="visible.set(false)"></i>
     </div>
     <div class="panel-search">
-        <input type="text" [field]="content" (keypress)="commentEnter($event)">
+        <input type="text" [field]="commentForm.content" (keypress)="commentEnter($event)">
         <i class="iconfont icon-paper-plane" (click)="tapComment()"></i>
         <label for="file-upload" class="file-btn">
             <i class="iconfont icon-upload"></i>

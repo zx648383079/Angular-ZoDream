@@ -9,9 +9,9 @@ import { SearchService } from '../../../../theme/services';
 
 @Component({
     standalone: false,
-  selector: 'app-weight',
-  templateUrl: './weight.component.html',
-  styleUrls: ['./weight.component.scss']
+    selector: 'app-weight',
+    templateUrl: './weight.component.html',
+    styleUrls: ['./weight.component.scss']
 })
 export class WeightComponent implements OnInit {
     private readonly service = inject(VisualService);
@@ -25,9 +25,9 @@ export class WeightComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
-        category: 0,
+        category: '',
         user: 0,
         page: 1,
         per_page: 20

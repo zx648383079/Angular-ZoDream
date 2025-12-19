@@ -6,7 +6,6 @@ import { ShortLinkService } from './short-link.service';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../theme/services';
-import { emptyValidate } from '../../../theme/validators';
 
 @Component({
     standalone: false,

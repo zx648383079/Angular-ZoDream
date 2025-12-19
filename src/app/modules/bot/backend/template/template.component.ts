@@ -7,15 +7,14 @@ import { IPageQueries } from '../../../../theme/models/page';
 import { IItem } from '../../../../theme/models/seo';
 import { SearchService } from '../../../../theme/services';
 import { mapFormat } from '../../../../theme/utils';
-import { emptyValidate } from '../../../../theme/validators';
 import { IBotTemplate, IBotTemplateCategory } from '../../model';
 import { BotService } from '../bot.service';
 
 @Component({
     standalone: false,
-  selector: 'app-bot-template',
-  templateUrl: './template.component.html',
-  styleUrls: ['./template.component.scss']
+    selector: 'app-bot-template',
+    templateUrl: './template.component.html',
+    styleUrls: ['./template.component.scss']
 })
 export class TemplateComponent implements OnInit {
     private readonly service = inject(BotService);
@@ -30,14 +29,18 @@ export class TemplateComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
-        type: 0,
-        category: 0,
+    public readonly queries = form(signal({
+        type: '0',
+        category: '',
         keywords: '',
         page: 1,
         per_page: 20
     }));
     public readonly editForm = form(signal({
+        id: 0,
+        name: '',
+        type: '0',
+        cat_id: '',
         content: ''
     }), schemaPath => {
         required(schemaPath.content);

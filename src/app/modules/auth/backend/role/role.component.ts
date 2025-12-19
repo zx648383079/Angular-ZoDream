@@ -1,39 +1,33 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { IRole } from '../../../../theme/models/auth';
 import { RoleService } from './role.service';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-role',
-  templateUrl: './role.component.html',
-  styleUrls: ['./role.component.scss']
+    selector: 'app-role',
+    templateUrl: './role.component.html',
+    styleUrls: ['./role.component.scss']
 })
-export class RoleComponent implements OnInit {
+export class RoleComponent {
     private readonly service = inject(RoleService);
     private readonly toastrService = inject(DialogService);
 
+    public readonly queries = form(signal({
+        keywords: '',
+        page: 1,
+        per_page: 20
+    }));
 
     public items: IRole[] = [];
-
     public hasMore = true;
-
-    public page = 1;
-
-    public perPage = 20;
-
     public isLoading = false;
-
     public total = 0;
-
-    public keywords = '';
 
     constructor() {
         this.tapRefresh();
     }
-
-    ngOnInit() {}
-
     /**
      * tapRefresh
      */
@@ -42,11 +36,11 @@ export class RoleComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     /**
@@ -57,20 +51,22 @@ export class RoleComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.roleList({
-            keywords: this.keywords,
-            page,
-            per_page: this.perPage
-        }).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
+        const queries = {...this.queries().value(), page};
+        this.service.roleList(queries).subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                this.queries().value.set(queries);
+            },
+            error: _ => {
+                this.isLoading = false;
+            }
         });
     }
 
     public tapSearch() {
-        this.keywords = form.keywords;
         this.tapRefresh();
     }
 

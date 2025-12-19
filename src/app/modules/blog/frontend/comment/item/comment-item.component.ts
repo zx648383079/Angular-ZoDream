@@ -30,14 +30,14 @@ export class CommentItemComponent {
 
     public hasMore = true;
     public isLoading = false;
-    public queries = signal({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 5,
         parent_id: 0,
         blog_id: 0,
         sort: 'created_at',
         order: 'asc',
-    });
+    }));
 
     public expanded = false;
     public readonly editForm = form(signal({
@@ -54,7 +54,7 @@ export class CommentItemComponent {
             }
             this.hasMore = value.reply_count > value.replies?.length;
             untracked(() => {
-                this.queries.update(v => {
+                this.queries().value.update(v => {
                     v.blog_id = value.blog_id;
                     v.parent_id = value.id;
                     v.page = 1;
@@ -152,7 +152,7 @@ export class CommentItemComponent {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.queries().page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public goPage(page: number) {
@@ -160,13 +160,13 @@ export class CommentItemComponent {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.queries(), page};
+        const queries = {...this.queries().value(), page};
         this.service.commentList({...queries}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading = false;
                 this.value().replies = [].concat(this.value().replies, res.data);
-                this.queries.set(queries);
+                this.queries().value.set(queries);
             }, 
             error: () => {
                 this.isLoading = false;

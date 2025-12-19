@@ -2,7 +2,6 @@ import { form } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { ICategory, IResource } from '../../model';
 import { ResourceService } from '../resource.service';
@@ -25,9 +24,9 @@ export class ResourceComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
-        category: 0,
+        category: '0',
         user: 0,
         page: 1,
         per_page: 20

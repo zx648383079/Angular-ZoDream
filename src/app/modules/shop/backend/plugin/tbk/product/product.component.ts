@@ -63,8 +63,8 @@ export class ProductComponent implements OnInit {
             next: res => {
                 this.isLoading = false;
                 this.items = res.data;
-                this.hasMore = res.data.length >= this.queries.per_page;
-                this.total = (this.hasMore ? page + 1 : page) * this.queries.per_page;
+                this.hasMore = res.data.length >= this.queries.per_page().value();
+                this.total = (this.hasMore ? page + 1 : page) * this.queries.per_page().value();
             },
             error: _ => {
                 this.isLoading = false;

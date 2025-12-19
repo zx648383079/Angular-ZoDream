@@ -9,7 +9,7 @@
             <label>发票类型</label>
             <div class="radio-box">
                 @for (item of typeItems; track $index; let i = $index) {
-                 <span [class]="{active: editForm.type == i}" (click)="editForm.type = i">{{ item }}</span>
+                 <span [class.active]="editForm.type().value() == i" (click)="editForm.type().value.set(i)">{{ item }}</span>
                 }
                 <span class="disable">增值税专用发票</span>
             </div>
@@ -19,13 +19,13 @@
             <label>发票抬头</label>
             <div class="radio-box">
                 @for (item of titleTypeItems; track $index; let i = $index) {
-                    <span [class]="{active: editForm.title_type == i}" (click)="editForm.title_type = i">{{ item }}</span>
+                    <span [class.active]="editForm.title_type().value() == i" (click)="editForm.title_type().value.set(i)">{{ item }}</span>
                 }
             </div>
         </div>
         <div class="input-group-control">
             <input type="text" placeholder="抬头" [field]="editForm.title">
-            @if (editForm.title_type > 0) {
+            @if (editForm.title_type().value() > 0) {
                 <input type="text" placeholder="税号" [field]="editForm.tax_no">
             }
         </div>
@@ -37,7 +37,7 @@
             <label>发票内容</label>
             <div class="radio-box">
                 @for (item of contentItems; track $index; let i = $index) {
-                    <span [class]="{active: editForm.content == i}" (click)="editForm.content = i">{{ item }}</span>
+                    <span [class.active]="editForm.content().value() == i + ''" (click)="editForm.content().value.set(i + '')">{{ item }}</span>
                 }
             </div>
         </div>

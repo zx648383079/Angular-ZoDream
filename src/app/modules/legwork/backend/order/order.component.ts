@@ -9,9 +9,9 @@ import { LegworkService } from '../legwork.service';
 
 @Component({
     standalone: false,
-  selector: 'app-order',
-  templateUrl: './order.component.html',
-  styleUrls: ['./order.component.scss']
+    selector: 'app-order',
+    templateUrl: './order.component.html',
+    styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit {
     private readonly service = inject(LegworkService);

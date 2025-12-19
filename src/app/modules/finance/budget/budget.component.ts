@@ -32,9 +32,9 @@ export class BudgetComponent implements OnInit {
         per_page: 20,
     }));
     public readonly editForm = form(signal({
-        id: undefined,
+        id: 0,
         name: '',
-        cycle: 0,
+        cycle: '0',
         budget: 0,
     }), schemaPath => {
         required(schemaPath.name);
@@ -116,7 +116,7 @@ export class BudgetComponent implements OnInit {
         this.editForm().value.update(v => {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';
-            v.cycle = item?.cycle ?? 0;
+            v.cycle = item?.cycle as any ?? '0';
             v.budget = item?.budget ?? 0;
             return v;
         });

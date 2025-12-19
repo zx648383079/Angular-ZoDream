@@ -10,9 +10,9 @@ import { CmsService } from '../cms.service';
 
 @Component({
     standalone: false,
-  selector: 'app-form',
-  templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss']
+    selector: 'app-form',
+    templateUrl: './form.component.html',
+    styleUrls: ['./form.component.scss']
 })
 export class FormComponent implements OnInit {
     private readonly service = inject(CmsService);

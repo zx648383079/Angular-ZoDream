@@ -10,11 +10,11 @@
             <form class="form-horizontal-control" (submit)="tapSearch()">
                 <div class="input-group-control">
                     <label for="keywords">日期</label>
-                    <app-date-input id="date" name="date" placeholder="选择日期" [value]="date" />
+                    <app-date-input id="date" placeholder="选择日期" [field]="queries.date" />
                 </div>
                 <div class="input-group-control">
                     <label>区间</label>
-                    <select name="type" [value]="type" class="form-control">
+                    <select [field]="queries.type" class="form-control">
                         @for (item of typeItems; track $index;let i = $index) {
                             <option [value]="i" >{{ item }}</option>
                         }
@@ -24,7 +24,7 @@
                 <div class="input-group-control">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input type="checkbox" name="ignore" id="ignore" [value]="1" [value]="ignore">
+                        <input type="checkbox" id="ignore" [field]="queries.ignore">
                         忽略无效
                       </label>
                     </div>
@@ -32,7 +32,7 @@
 
                 <div class="tab-bar">
                     @for (item of chartItems; track $index;let i = $index) {
-                        <div class="item" [class]="{active: chart == i}" (click)="chart = i">
+                        <div class="item" [class.active]="chart == i" (click)="chart = i">
                             {{ item }}
                         </div>
                     }

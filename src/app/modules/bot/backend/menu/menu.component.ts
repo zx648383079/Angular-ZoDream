@@ -9,9 +9,9 @@ import { SearchService } from '../../../../theme/services';
 
 @Component({
     standalone: false,
-  selector: 'app-bot-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+    selector: 'app-bot-menu',
+    templateUrl: './menu.component.html',
+    styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
     private readonly service = inject(BotService);

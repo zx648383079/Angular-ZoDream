@@ -9,9 +9,9 @@ import { ShopService } from '../../shop.service';
 
 @Component({
     standalone: false,
-  selector: 'app-category',
-  templateUrl: './category.component.html',
-  styleUrls: ['./category.component.scss']
+    selector: 'app-category',
+    templateUrl: './category.component.html',
+    styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
@@ -24,7 +24,7 @@ export class CategoryComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         category: 0,
@@ -46,19 +46,21 @@ export class CategoryComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
-            if (!this.category || this.queries.category == this.category.id) {
+            const category = this.queries.category().value();
+            if (!this.category || category == this.category.id) {
                 return;
             }
             this.tapRefresh();
-            this.service.category(this.queries.category).subscribe(res => {
+            this.service.category(category).subscribe(res => {
                 this.category = res;
             });
         });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
-            if (this.queries.category > 0) {
-                this.service.category(this.queries.category).subscribe(res => {
+            const category = this.queries.category().value();
+            if (category > 0) {
+                this.service.category(category).subscribe(res => {
                     this.category = res;
                 });
             }

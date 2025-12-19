@@ -44,7 +44,7 @@
     </div>
 </div>
 
-<app-dialog-box #modal [height]="500" [title]="editData && editForm.id().value() > 0 ? '编辑科目' : '新增科目'">
+<app-dialog-box #modal [height]="500" [title]="editForm.id().value() > 0 ? '编辑科目' : '新增科目'">
     <div class="form-group">
         <label for="name">名称</label>
         <div class="input-group-control">

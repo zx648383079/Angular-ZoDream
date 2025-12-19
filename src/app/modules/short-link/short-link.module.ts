@@ -4,11 +4,13 @@ import { shortRoutingComponents, ShortRoutingModule } from './routing.module';
 import { ShortLinkService } from './short-link.service';
 import { ThemeModule } from '../../theme/theme.module';
 import { ZreFormModule } from '../../components/form';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        Field,
         ZreFormModule,
         ShortRoutingModule,
     ],

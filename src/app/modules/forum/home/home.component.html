@@ -12,9 +12,9 @@
     @for (group of items; track $index) {
     <div class="catalog-panel" [class]="{min: group.min}">
         <div class="panel-header">
-            <a routerLink="{{ group.id }}">{{ group.name }}</a>
+            <a [routerLink]="[group.id]">{{ group.name }}</a>
             <div class="pull-right">
-                <app-switch [field]="group.min" />
+                <app-switch [(value)]="group.min" />
             </div>
         </div>
         <div class="panel-body">

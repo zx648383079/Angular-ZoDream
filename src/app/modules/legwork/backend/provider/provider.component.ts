@@ -29,7 +29,7 @@ export class ProviderComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public readonly editForm = form(signal<IProvider>({}));
+    public readonly dataModel = signal<IProvider>({} as any);
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -39,12 +39,15 @@ export class ProviderComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item: IProvider) {
-        this.editForm = item;
+        this.dataModel.set(item);
         this.service.providerCategories(item.user_id).subscribe(res => {
-            this.editForm.categories = res.data;
+            this.dataModel.update(v => {
+                v.categories = res.data;
+                return v;
+            });
         });
         modal.openCustom(value => {
-            this.service.providerChange(this.editForm?.id, value).subscribe(res => {
+            this.service.providerChange(this.dataModel().id, value).subscribe(res => {
                 this.toastrService.success('修改成功');
                 this.tapPage();
             });
@@ -52,7 +55,7 @@ export class ProviderComponent implements OnInit {
     }
 
     public tapAllowCategory(item: ICategory) {
-        this.service.providerCategoryChange(this.editForm?.id, item.id, 1).subscribe(res => {
+        this.service.providerCategoryChange(this.dataModel().id, item.id, 1).subscribe(res => {
             this.toastrService.success('已允许分类成功');
             this.tapPage();
         });

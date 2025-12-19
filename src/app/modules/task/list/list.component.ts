@@ -11,9 +11,9 @@ import { TaskService } from '../task.service';
 
 @Component({
     standalone: false,
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+    selector: 'app-list',
+    templateUrl: './list.component.html',
+    styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
     private readonly service = inject(TaskService);

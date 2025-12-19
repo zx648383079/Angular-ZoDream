@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { Component, OnInit, computed, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { IActivity, IGoods, ILotteryConfigure, ILotteryGift } from '../../../../model';
@@ -26,7 +26,7 @@ export class EditLotteryComponent implements OnInit {
         thumb: '',
         description: '',
         scope: [],
-        scope_type: 0,
+        scope_type: '0',
         start_at: '',
         end_at: '',
         configure: {
@@ -34,7 +34,13 @@ export class EditLotteryComponent implements OnInit {
             buy_times: 0,
             start_times: 0,
             btn_text: '',
-            over_text: ''
+            over_text: '',
+            items: <ILotteryGift[]>[{
+                name: '未中奖',
+                goods_id: 0,
+                chance: 0,
+                color: '',
+            }]
         }
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
@@ -42,19 +48,11 @@ export class EditLotteryComponent implements OnInit {
     });
 
     public data: IActivity<ILotteryConfigure>;
-    public giftItems: ILotteryGift[] = [
-        {
-            name: '未中奖',
-            goods_id: 0,
-            chance: 0,
-            color: '',
-        }
-    ];
 
-    get scopeType() {
-        const val = this.dataForm.scope_type.value;
+    public readonly scopeType = computed(() => {
+        const val = this.dataForm.scope_type().value();
         return typeof val === 'number' ? val : parseInt(val, 10);
-    }
+    });
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -63,17 +61,24 @@ export class EditLotteryComponent implements OnInit {
             }
             this.service.lottery(params.id).subscribe(res => {
                 this.data = res;
-                this.giftItems = res.configure.items;
                 this.dataModel.set({
-                        id: res.id,
+                    id: res.id,
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
-                    scope_type: res.scope_type,
+                    scope_type: res.scope_type as any,
+                    scope: [],
                     start_at: res.start_at as string,
-                    end_at: res.end_at,
+                    end_at: res.end_at as string,
+                    configure: {
+                        time_price: res.configure.time_price,
+                        buy_times: res.configure.buy_times,
+                        start_times: res.configure.start_times,
+                        btn_text: res.configure.btn_text,
+                        over_text: res.configure.over_text,
+                        items: res.configure.items
+                    }
                 });
-                this.dataForm.configure.patchValue(res.configure);
             });
         });
     }
@@ -87,8 +92,8 @@ export class EditLotteryComponent implements OnInit {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IActivity<any> = this.dataForm().value() as any;
-        data.configure.items = this.giftItems.map(i => {
+        const data = this.dataForm().value();
+        data.configure.items = data.configure.items.map(i => {
             return {
                 goods_id: i.goods_id,
                 name: i.name,
@@ -96,7 +101,7 @@ export class EditLotteryComponent implements OnInit {
                 color: i.color,
             };
         });
-        if (data.configure.goods.length < 2 || data.configure.goods.length > 8) {
+        if (data.configure.items.length < 2 || data.configure.items.length > 8) {
             this.toastrService.warning('组合中商品至少两种,最多8种');
             return;
         }
@@ -107,7 +112,10 @@ export class EditLotteryComponent implements OnInit {
     }
 
     public tapRemoveItem(i: number) {
-        this.giftItems.splice(i, 1);
+        this.dataForm.configure.items().value.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
     }
 
     public tapAddItem() {
@@ -119,20 +127,24 @@ export class EditLotteryComponent implements OnInit {
                 if (this.indexOf(item.id) >= 0) {
                     continue;
                 }
-                this.giftItems.push({
-                    goods_id: item.id,
-                    goods: item,
-                    name: '',
-                    chance: 0,
-                    color: '',
+                this.dataForm.configure.items().value.update(v => {
+                    v.push({
+                        goods_id: item.id,
+                        goods: item,
+                        name: '',
+                        chance: 0,
+                        color: '',
+                    });
+                    return v;
                 });
             }
         });
     }
 
     private indexOf(goodsId: number): number {
-        for (let i = this.giftItems.length - 1; i >= 0; i--) {
-            if (this.giftItems[i].goods_id === goodsId) {
+        const items = this.dataForm.configure.items().value();
+        for (let i = items.length - 1; i >= 0; i--) {
+            if (items[i].goods_id === goodsId) {
                 return i;
             }
         }
@@ -145,13 +157,20 @@ export class EditLotteryComponent implements OnInit {
         if (i < 1) {
             return;
         }
-        this.giftItems[i] = this.giftItems.splice(i - 1, 1, this.giftItems[i])[0];
+        this.dataForm.configure.items().value.update(v => {
+            v[i] = v.splice(i - 1, 1, v[i])[0];
+            return v;
+        });
+        
     }
 
     public tapDownItem(i: number) {
-        if (i >= this.giftItems.length - 1) {
-            return;
-        }
-        this.giftItems[i] = this.giftItems.splice(i + 1, 1, this.giftItems[i])[0];
+        this.dataForm.configure.items().value.update(v => {
+            if (i < v.length - 1) {
+                v[i] = v.splice(i + 1, 1, v[i])[0];
+            }
+            return v;
+        });
+        
     }
 }

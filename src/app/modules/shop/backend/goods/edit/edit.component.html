@@ -42,14 +42,14 @@
                     <div class="input-group-control">
                         <label for="price">价格</label>
                         <div>
-                            <input type="text" id="price" class="form-control" [field]="dataForm.price" placeholder="请输入 价格">
+                            <input type="number" id="price" class="form-control" [field]="dataForm.price" placeholder="请输入 价格">
 
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="market_price">市场价</label>
                         <div>
-                            <input type="text" id="market_price" class="form-control" [field]="dataForm.market_price"
+                            <input type="number" id="market_price" class="form-control" [field]="dataForm.market_price"
                                 placeholder="请输入 市场价">
 
                         </div>
@@ -84,13 +84,13 @@
                     <div class="input-group-control">
                         <label for="weight">重量</label>
                         <div>
-                            <input type="text" id="weight" class="form-control" [field]="dataForm.weight" placeholder="请输入 重量">
+                            <input type="number" id="weight" class="form-control" [field]="dataForm.weight" placeholder="请输入 重量">
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="stock">库存</label>
                         <div>
-                            <input type="text" id="stock" class="form-control" [field]="dataForm.stock" placeholder="请输入 库存">
+                            <input type="number" id="stock" class="form-control" [field]="dataForm.stock" placeholder="请输入 库存">
 
                         </div>
                     </div>
@@ -133,7 +133,7 @@
                                 <input type="radio" id="status0" [field]="dataForm.status" value="10">
                                 <label for="status0">上架</label>
                             </span><span class="radio-label">
-                                <input type="radio" id="status1" [field]="dataForm.status" value="0" checked="">
+                                <input type="radio" id="status1" [field]="dataForm.status" value="0">
                                 <label for="status1">下架</label>
                             </span>
                         </div>
@@ -143,7 +143,7 @@
         </div>
 
         <app-panel [title]="'预览图'">
-            <app-gallery-panel [field]="gallaryItems" [ngModelOptions]="{standalone: true}" />
+            <app-gallery-panel [field]="dataForm.gallary"/>
         </app-panel>
 
         <div class="panel-container">

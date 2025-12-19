@@ -26,9 +26,9 @@ export class MyShareComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
-        status: 0,
+        status: '0',
         page: 1,
         per_page: 20,
     }));

@@ -1,30 +1,35 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../../components/form';
 import { AffiliateService } from '../affiliate.service';
+import { form } from '@angular/forms/signals';
+
+interface IUserGrade {
+    scale: number;
+}
 
 @Component({
     standalone: false,
-  selector: 'app-setting',
-  templateUrl: './setting.component.html',
-  styleUrls: ['./setting.component.scss']
+    selector: 'app-setting',
+    templateUrl: './setting.component.html',
+    styleUrls: ['./setting.component.scss']
 })
 export class SettingComponent implements OnInit {
     private readonly service = inject(AffiliateService);
     private readonly toastrService = inject(DialogService);
 
 
-    public data = {
+    public readonly dataForm = form(signal({
         by_user: 0,
         by_user_next: 0,
-        by_user_grade: [],
+        by_user_grade: <IUserGrade[]>[],
         by_order: 0,
         by_order_scale: 0
-    };
+    }));
 
     ngOnInit() {
         this.service.option().subscribe(res => {
-            this.data = res.data;
+            this.dataForm().value.set(res.data);
         });
     }
 
@@ -33,7 +38,7 @@ export class SettingComponent implements OnInit {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        const data: any = Object.assign({}, this.data);
+        const data = this.dataForm().value();
         e?.enter();
         this.service.optionSave(data).subscribe({
             next: _ => {
@@ -49,13 +54,19 @@ export class SettingComponent implements OnInit {
     }
 
     public tapAddItem() {
-        this.data.by_user_grade.push({
-            scale: 0,
+        this.dataForm.by_user_grade().value.update(v => {
+            v.push({
+                scale: 0
+            })
+            return v;
         });
     }
 
     public tapRemoveItem(i: number) {
-        this.data.by_user_grade.splice(i, 1);
+        this.dataForm.by_user_grade().value.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
     }
 
 }

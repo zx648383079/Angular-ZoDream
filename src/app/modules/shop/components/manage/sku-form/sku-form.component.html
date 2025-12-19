@@ -7,10 +7,9 @@
                 @if (item.type < 1) {
                     @for (attr of item.attr_items; track $index) {
                         @if (item.input_type < 1) {
-                            <input type="text" class="form-control" [field]="attr.value" placeholder="属性值"
-                                [ngModelOptions]="{standalone: true}">
+                            <input type="text" class="form-control" [(value)]="attr.value" placeholder="属性值">
                         } @else if (item.input_type == 1) {
-                            <select class="form-control" [field]="attr.value" [ngModelOptions]="{standalone: true}">
+                            <select class="form-control" [(value)]="attr.value">
                                 @for (val of item.default_value; track $index) {
                                 <option [value]="val">{{ val }}</option>
                                 }
@@ -23,8 +22,8 @@
                         <i class="iconfont"
                             [class]="{'icon-square-o': !attr.checked, 'icon-check-square-o': attr.checked}"
                             (click)="tapAttrCheck(item, attr)"></i>
-                        <input type="text" class="form-control" [field]="attr.value"
-                            [readOnly]="item.input_type == 1" placeholder="属性值" [ngModelOptions]="{standalone: true}">
+                        <input type="text" class="form-control" [(value)]="attr.value"
+                            [readOnly]="item.input_type == 1" placeholder="属性值">
                         @if (item.input_type < 1) {
                         <i class="iconfont icon-close"
                             (click)="tapAttrRemove(item, attr)"></i>
@@ -33,18 +32,16 @@
                     }
                     @if (item.input_type < 1) {
                     <div class="add-box">
-                        <input type="text" class="form-control" [field]="item.new_value" placeholder="属性值"
-                            [ngModelOptions]="{standalone: true}">
+                        <input type="text" class="form-control" [(value)]="item.new_value" placeholder="属性值">
                         <button type="button" class="btn btn-info" (click)="tapAttrAdd(item)">添加</button>
                     </div>
                     }
                 } @else if (item.type == 2) {
                     @for (attr of item.attr_items; track $index) {
                     <div class="attr-block">
-                        <input type="text" class="form-control" [field]="attr.value"
-                            [readOnly]="item.input_type == 1" placeholder="属性值" [ngModelOptions]="{standalone: true}">
-                        <input type="text" class="form-control" [field]="attr.price" size="10" placeholder="价格"
-                            [ngModelOptions]="{standalone: true}">
+                        <input type="text" class="form-control" [(value)]="attr.value"
+                            [readOnly]="item.input_type == 1" placeholder="属性值">
+                        <input type="text" class="form-control" [(value)]="attr.price" size="10" placeholder="价格">
                         @if (item.input_type < 1) {
                         <i class="iconfont icon-close"
                             (click)="tapAttrRemove(item, attr)"></i>
@@ -53,10 +50,8 @@
                     }
                     @if (item.input_type < 1) {
                     <div class="add-box">
-                        <input type="text" class="form-control" [field]="item.new_value" placeholder="属性值"
-                            [ngModelOptions]="{standalone: true}">
-                        <input type="text" class="form-control" [field]="item.new_price" placeholder="价格"
-                            [ngModelOptions]="{standalone: true}">
+                        <input type="text" class="form-control" [(value)]="item.new_value" placeholder="属性值">
+                        <input type="text" class="form-control" [(value)]="item.new_price" placeholder="价格">
                         <button type="button" class="btn btn-info" (click)="tapAttrAdd(item)">添加</button>
                     </div>
                     }
@@ -71,19 +66,19 @@
         <div class="form-horizontal-control batch-box">
             <label class="am-form-label">批量设置</label>
             <div class="input-group-control">
-                <input type="text" [field]="batchData.series_number" placeholder="商家编码">
+                <input type="text" [(value)]="batchData.series_number" placeholder="商家编码">
             </div>
             <div class="input-group-control">
-                <input type="number"  [field]="batchData.price" placeholder="销售价">
+                <input type="number" [(value)]="batchData.price" placeholder="销售价">
             </div>
             <div class="input-group-control">
-                <input type="number"  [field]="batchData.market_price" placeholder="划线价">
+                <input type="number" [(value)]="batchData.market_price" placeholder="划线价">
             </div>
             <div class="input-group-control">
-                <input type="number"  [field]="batchData.stock" placeholder="库存数量">
+                <input type="number" [(value)]="batchData.stock" placeholder="库存数量">
             </div>
             <div class="input-group-control">
-                <input type="number"  [field]="batchData.weight" placeholder="重量">
+                <input type="number" [(value)]="batchData.weight" placeholder="重量">
             </div>
             <button type="button" class="btn btn-info" (click)="tapBatch()">确定</button>
         </div>
@@ -111,19 +106,19 @@
                     </td>
                     }
                     <td>
-                        <input type="text" name="series_number" [field]="item.form.series_number">
+                        <input type="text" [(value)]="item.form.series_number">
                     </td>
                     <td>
-                        <input type="number" name="price" [field]="item.form.price">
+                        <input type="number" [(value)]="item.form.price">
                     </td>
                     <td>
-                        <input type="number" name="market_price" [field]="item.form.market_price">
+                        <input type="number" [(value)]="item.form.market_price">
                     </td>
                     <td>
-                        <input type="number" name="stock" [field]="item.form.stock">
+                        <input type="number" [(value)]="item.form.stock">
                     </td>
                     <td>
-                        <input type="number" name="weight" [field]="item.form.weight">
+                        <input type="number" [(value)]="item.form.weight">
                     </td>
                 </tr>
                 }

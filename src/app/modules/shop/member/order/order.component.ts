@@ -10,9 +10,9 @@ import { ShopService } from '../../shop.service';
 
 @Component({
     standalone: false,
-  selector: 'app-order',
-  templateUrl: './order.component.html',
-  styleUrls: ['./order.component.scss']
+    selector: 'app-order',
+    templateUrl: './order.component.html',
+    styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit {
     private readonly service = inject(ShopService);
@@ -64,7 +64,7 @@ export class OrderComponent implements OnInit {
 
 
     public tapTab(item: IItem) {
-        this.queries.status = item.value as number;
+        this.queries.status().value.set(item.value as number);
         this.tapRefresh();
     }
 

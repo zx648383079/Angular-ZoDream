@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, effect, inject, input, model, signal } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -18,7 +18,11 @@ export class CommentPanelComponent {
 
     public readonly itemId = input(0);
     public visible = model(false);
-    public content = '';
+    public readonly commentForm = form(signal({
+        content: ''
+    }), schemaPath => {
+        required(schemaPath.content);
+    });
     public items: ITaskComment[] = [];
     public hasMore = true;
     public isLoading = false;
@@ -55,16 +59,16 @@ export class CommentPanelComponent {
     }
 
     public tapComment() {
-        if (!this.content) {
+        if (this.commentForm().invalid()) {
             this.toastrService.warning('请输入内容');
             return;
         }
         this.service.commenSave({
             task_id: this.itemId(),
-            content: this.content
+            ...this.commentForm().value()
         }).subscribe({
             next: _ => {
-                this.content = '';
+                this.commentForm.content().value.set('');
                 this.toastrService.success('评论成功');
                 this.tapRefresh();
             },

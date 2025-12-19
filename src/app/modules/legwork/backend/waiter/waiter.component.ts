@@ -29,7 +29,7 @@ export class WaiterComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public readonly editForm = form(signal<IWaiter>({}));
+    public readonly dataModel = signal<IWaiter>({} as any);
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -39,9 +39,9 @@ export class WaiterComponent implements OnInit {
     }
 
     public open(modal: DialogEvent, item: IWaiter) {
-        this.editForm = item;
+        this.dataModel.set(item);
         modal.openCustom(value => {
-            this.service.waiterChange(this.editForm?.id, value).subscribe(res => {
+            this.service.waiterChange(this.dataModel().id, value).subscribe(res => {
                 this.toastrService.success('修改成功');
                 this.tapPage();
             });

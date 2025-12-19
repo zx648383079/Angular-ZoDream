@@ -13,7 +13,7 @@ import { FormValueControl } from '@angular/forms/signals';
     templateUrl: './file-input.component.html',
     styleUrls: ['./file-input.component.scss'],
 })
-export class FileInputComponent implements FormValueControl<string> {
+export class FileInputComponent implements FormValueControl<string|any> {
     private readonly uploadService = inject(FileUploadService);
 
 
@@ -27,7 +27,7 @@ export class FileInputComponent implements FormValueControl<string> {
 
     public uploadFailure = false;
     public readonly disabled = input<boolean>(false);
-    public readonly value = model<string>('');
+    public readonly value = model<string|any>('');
     public isLoading = false;
     public fileName = this.uploadService.uniqueGuid();
 

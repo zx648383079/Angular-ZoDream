@@ -50,30 +50,30 @@
     </div>
 </div>
 
-<app-dialog-box #modal [buttonVisible]="false" [title]="'服务商详情(' + editForm.id + ')'">
+<app-dialog-box #modal [buttonVisible]="false" [title]="'服务商详情(' + dataModel().id + ')'">
     <div class="line-row-item">
         <span class="item-label">称呼：</span>
-        <span class="item-body">{{ editForm.name }}</span>
+        <span class="item-body">{{ dataModel().name }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">LOGO：</span>
         <span class="item-body">
-            <img [src]="editForm.logo">
+            <img [src]="dataModel().logo">
         </span>
     </div>
     <div class="line-row-item">
         <span class="item-label">联系方式：</span>
-        <span class="item-body">{{ editForm.tel }}</span>
+        <span class="item-body">{{ dataModel().tel }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">联系地址：</span>
-        <span class="item-body">{{ editForm.address }}</span>
+        <span class="item-body">{{ dataModel().address }}</span>
     </div>
-    @if (editForm.categories) {
+    @if (dataModel().categories) {
     <div class="line-row-item">
         <span class="item-label">分类：</span>
         <div class="item-body">
-            @for (item of editForm.categories; track $index) {
+            @for (item of dataModel().categories; track $index) {
             <div class="line-item">
                 <span class="label">{{ item.name }}</span>
                 <span class="value">

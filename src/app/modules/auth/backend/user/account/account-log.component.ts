@@ -31,7 +31,7 @@ export class AccountLogComponent implements OnInit {
         user: 0,
     }));
     public user: IUser;
-    public readonly editForm = form(signal<IAccountLog>({}));
+    public readonly dataModel = signal<IAccountLog>({} as any);
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -91,7 +91,7 @@ export class AccountLogComponent implements OnInit {
     }
 
     public tapView(modal: DialogEvent, item: IAccountLog) {
-        this.editForm = item;
+        this.dataModel.set(item);
         modal.open();
     }
 

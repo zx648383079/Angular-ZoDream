@@ -1,15 +1,16 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
-import { ICategory, IProject } from '../../model';
+import { ICategory, IProject, IProjectEnvironment } from '../../model';
 import { DocumentService } from '../document.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+    selector: 'app-edit',
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
     private readonly service = inject(DocumentService);
@@ -18,11 +19,14 @@ export class EditComponent implements OnInit {
 
 
     public readonly dataModel = signal({
+        id: 0,
+        type: 0,
+        cat_id: '0',
         name: '',
-        cat_id: 0,
         cover: '',
         description: '',
-        status: 0,
+        status: '0',
+        environment: <IProjectEnvironment[]>[],
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name);
@@ -44,27 +48,26 @@ export class EditComponent implements OnInit {
             this.service.project(params.id).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
-                        id: res.id,
-                    cat_id: res.cat_id,
+                    id: res.id,
+                    type: res.type,
+                    cat_id: res.cat_id as any,
                     name: res.name,
                     cover: res.cover,
                     description: res.description,
-                    status: res.status,
+                    status: res.status as any,
+                    environment: res.environment ?? []
                 });
             });
         });
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (!this.form.valid) {
+        if (this.dataForm().invalid()) {
             return;
         }
-        const data: any = Object.assign({
-            id: this.data.id,
-        }, this.form.value);
-        data.type = this.data.type;
+        const data = this.dataForm().value();
         if (data.type > 0) {
-            data.environment = this.data.environment.filter(i => {
+            data.environment = data.environment.filter(i => {
                 return i.name.trim().length > 0;
             });
             if (!data.environment || data.environment.length < 1) {
@@ -87,14 +90,20 @@ export class EditComponent implements OnInit {
     }
 
     public tapRemoveItem(i: number) {
-        this.data.environment.splice(i, 1);
+        this.dataForm.environment().value.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
     }
 
     public tapAddItem() {
-        this.data.environment.push({
-            name: '',
-            title: '',
-            domain: ''
+        this.dataForm.environment().value.update(v => {
+            v.push({
+                name: '',
+                title: '',
+                domain: ''
+            });
+            return v;
         });
     }
 

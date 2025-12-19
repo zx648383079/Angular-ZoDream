@@ -1,4 +1,4 @@
-import { form, required } from '@angular/forms/signals';
+import { form, min, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
@@ -8,6 +8,7 @@ import { SearchService } from '../../../../theme/services';
 import { emptyValidate } from '../../../../theme/validators';
 import { ISite, ISiteCategory, ISiteTag } from '../../model';
 import { NavigationService } from '../navigation.service';
+import { parseNumber } from '../../../../theme/utils';
 
 @Component({
     standalone: false,
@@ -26,11 +27,11 @@ export class SiteComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         keywords: '',
-        category: 0,
+        category: '',
         user: 0,
         tag: 0,
     }));
@@ -44,10 +45,10 @@ export class SiteComponent implements OnInit {
         name: '',
         logo: '',
         description: '',
-        cat_id: 0,
+        cat_id: '',
         schema: 'https',
         domain: '',
-        top_type: 0,
+        top_type: '0',
         tags: [],
         also_page: 0,
         keywords: '',
@@ -55,10 +56,13 @@ export class SiteComponent implements OnInit {
         required(schemaPath.name);
     });
     public editExistData: ISite|undefined;
-    public scoringData = {
+    public readonly scoringForm = form(signal({
         score: 60,
         change_reason: '',
-    };
+    }), schemaPath => {
+        required(schemaPath.change_reason);
+        min(schemaPath.score, 1);
+    });
 
     ngOnInit() {
         this.service.categoryTree().subscribe(res => {
@@ -87,13 +91,13 @@ export class SiteComponent implements OnInit {
     }
 
     public tapScoring(modal: DialogEvent, item: ISite) {
-        this.scoringData = {
+        this.scoringForm().value.set({
             score: item.score,
             change_reason: '',
-        };
+        });
         modal.open(() => {
             this.service.siteScoring({
-                ...this.scoringData,
+                ...this.scoringForm().value(),
                 id: item.id
             }).subscribe({
                 next: res => {
@@ -103,7 +107,7 @@ export class SiteComponent implements OnInit {
                     this.toastrService.error(err);
                 }
             });
-        }, () => this.scoringData.score > 0 && !emptyValidate(this.scoringData.change_reason));
+        }, () => this.scoringForm().valid());
     }
 
     public onLinkBlur() {
@@ -133,7 +137,7 @@ export class SiteComponent implements OnInit {
             v.cat_id = this.queries.category().value();
             v.schema = item?.schema ?? 'https';
             v.domain = item?.domain ?? '';
-            v.top_type = item?.top_type ?? 0;
+            v.top_type = item?.top_type as any ?? '';
             v.tags = item?.tags ?? [];
             v.also_page = 0;
             v.keywords = '';

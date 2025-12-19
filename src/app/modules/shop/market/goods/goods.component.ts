@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -9,6 +9,7 @@ import { mapFormat, parseNumber } from '../../../../theme/utils';
 import { setCart, setCheckoutCart } from '../../shop.actions';
 import { ShopAppState } from '../../shop.reducer';
 import { ShopService } from '../../shop.service';
+import { disabled, form, max, min } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -32,17 +33,24 @@ export class GoodsComponent implements OnInit {
     public tabIndex = 0;
     public recommendItems: IGoods[] = [];
     public hotItems: IGoods[] = [];
-    public amount = 1;
-    public stock = 0;
     public activity: IActivity<any>;
     public couponItems: ICoupon[] = [];
     public promoteItems: IActivity[] = [];
     public productItems: IProduct[] = [];
     public properties: IGoodsProperty[] = [];
-    public regionId = 0;
+    public readonly dataForm = form(signal({
+        region: 0,
+        amount: 1,
+        stock: 0
+    }), schemaPath => {
+        min(schemaPath.amount, 1);
+        max(schemaPath.amount, ({valueOf}) => valueOf(schemaPath.stock));
+        disabled(schemaPath.amount, ({valueOf}) => valueOf(schemaPath.stock) < 1);
+    });
+    public readonly stock = computed(() => this.dataForm.stock().value());
 
     ngOnInit() {
-        this.regionId = this.service.regionId;
+        this.dataForm.region().value.set(this.service.regionId);
         this.route.params.subscribe(params => {
             this.loadGoods(parseNumber(params.id), parseNumber(params.product));
         });
@@ -53,7 +61,7 @@ export class GoodsComponent implements OnInit {
             next: res => {
                 this.themeService.titleChanged.next(res.seo_title || res.name);
                 this.data = res;
-                this.stock = res.stock;
+                this.dataForm.stock().value.set(res.stock);
                 this.content = this.sanitizer.bypassSecurityTrustHtml(res.content);
                 this.galleryItems = [].concat([{thumb: res.thumb, type: 0, file: res.picture}], res.gallery ? res.gallery.map(i => {
                     if (!i.thumb) {
@@ -81,10 +89,10 @@ export class GoodsComponent implements OnInit {
     }
 
     public onRegionChange() {
-        this.service.regionId = this.regionId;
+        this.service.regionId = this.dataForm.region().value();
         this.service.goodsStock(this.data.id).subscribe({
             next: res => {
-                this.stock = res.stock;
+                this.dataForm.stock().value.set(res.stock);
             },
             error: err => {
                 this.toastrService.warning(err);
@@ -114,18 +122,19 @@ export class GoodsComponent implements OnInit {
             item.checked = index === j;
         });
         const product = this.selectedProduct;
-        this.stock = product?.stock || 0;
+        this.dataForm.stock().value.set(product?.stock || 0);
     }
 
     public tapBuy() {
         const product = this.selectedProduct;
+        const amount = this.dataForm.amount().value();
         const data: ICartGroup[] = [
             {
                 name: this.data.shop as any,
                 goods_list: [
                     {
                         goods_id: this.data.id,
-                        amount: this.amount,
+                        amount,
                         goods: this.data,
                         price: this.data.price,
                         product_id: product?.id,
@@ -142,7 +151,8 @@ export class GoodsComponent implements OnInit {
     }
 
     public tapAddToCart() {
-        this.service.cartAddGoods(this.data.id, this.amount, this.selectedProperties).subscribe(cart => {
+        const amount = this.dataForm.amount().value();
+        this.service.cartAddGoods(this.data.id, amount, this.selectedProperties).subscribe(cart => {
             if (cart.dialog) {
                 return;
             }

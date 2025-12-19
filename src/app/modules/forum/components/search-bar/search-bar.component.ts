@@ -8,7 +8,7 @@ import { Component, model, output } from '@angular/core';
 })
 export class SearchBarComponent {
 
-    public readonly keywords = model('');
+    public readonly value = model('');
     public readonly type = model(0);
     public readonly confirm = output<any>();
 
@@ -18,9 +18,7 @@ export class SearchBarComponent {
         $localize `Users`,
     ];
 
-    constructor() { }
-
     public tapSearch() {
-        this.confirm.emit({type: this.type(), keywords: this.keywords()});
+        this.confirm.emit({type: this.type(), keywords: this.value()});
     }
 }

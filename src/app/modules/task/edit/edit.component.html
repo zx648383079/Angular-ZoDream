@@ -90,20 +90,20 @@
 </app-dialog-box>
 
 <app-dialog-box #shareModal title="分享">
-    @if (shareData.id < 1) {
+    @if (shareForm.id().value() < 1) {
     <div class="form-group">
         <label for="share-type-input">分享类型</label>
         <div class="input-group-control">
-            <select class="form-control" id="share-type-input" [field]="shareData.share_type">
+            <select class="form-control" id="share-type-input" [field]="shareForm.share_type">
                 <option [value]="0">公开分享</option>
                 <option [value]="1">密码分享</option>
             </select>
         </div>
-        @if (shareData.share_type == 1) {
+        @if (shareForm.share_type().value() == '1') {
         <div>
             <label for="pwd-input">分享密码</label>
             <div class="input-group-control">
-                <input type="text" class="form-control" id="pwd-input" [field]="shareData.share_rule">
+                <input type="text" class="form-control" id="pwd-input" [field]="shareForm.share_rule">
             </div>
         </div>
         }
@@ -111,10 +111,10 @@
     </div>
     }
 
-    @if (shareData.id > 0) {
+    @if (shareForm.id().value() > 0) {
     <div class="code-label">
         <p>分享链接：</p>
-        <code>{{ shareUrl }}</code>
+        <code>{{ shareUrl() }}</code>
     </div>
     }
 

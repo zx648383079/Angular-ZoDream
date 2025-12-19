@@ -23,7 +23,7 @@ export class BroswerComponent implements OnInit {
 
 
     public items: any[] = [];
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         start_at: '',
         end_at: '',
         type: 0,

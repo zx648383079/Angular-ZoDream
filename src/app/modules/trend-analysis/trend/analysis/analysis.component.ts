@@ -24,7 +24,7 @@ export class AnalysisComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         start_at: '',
         end_at: '',
         page: 1,

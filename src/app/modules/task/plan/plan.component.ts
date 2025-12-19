@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, max, min } from '@angular/forms/signals';
 import { Component, OnInit, inject, viewChild, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
@@ -6,7 +6,7 @@ import { IPageQueries } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
 import { SearchService } from '../../../theme/services';
 import { twoPad } from '../../../theme/utils';
-import { ITaskPlan } from '../model';
+import { ITask, ITaskPlan } from '../model';
 import { TaskSelectComponent } from '../task-select/task-select.component';
 import { TaskService } from '../task.service';
 
@@ -30,7 +30,7 @@ export class PlanComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
         page: 1,
         per_page: 20,
@@ -39,7 +39,19 @@ export class PlanComponent implements OnInit {
     public typeItems = ['一天', '每周', '每月'];
     public weekNameItems: IItem[] = [];
     public monthNameItems: IItem[] = [];
-    public readonly editForm = form(signal<ITaskPlan>({}));
+    public readonly editForm = form(signal({
+        task: <ITask>null,
+        task_id: 0,
+        amount: 0,
+        plan_type: 0,
+        plan_time: '0',
+        priority: 0,
+    }), schemaPath => {
+        min(schemaPath.amount, 1);
+        max(schemaPath.amount, 20);
+        min(schemaPath.priority, 1);
+        max(schemaPath.priority, 99);
+    });
 
     constructor() {
         ['一', '二', '三', '四', '五', '六', '日'].forEach((i, j) => {
@@ -100,7 +112,13 @@ export class PlanComponent implements OnInit {
 
     public tapAdd() {
         this.taskModal().open(item => {
-            this.editForm = {task: item, task_id: item.id, amount: 1, priority: 8, plan_type: this.queries.type, plan_time: ''};
+            this.editForm().value.set({
+                task: item, 
+                task_id: item.id, 
+                amount: 1, 
+                priority: 8, 
+                plan_type: this.queries.type().value() as any, 
+                plan_time: ''});
             this.addModal().open(() => {
                 this.service.planSave({...this.editForm().value(), task: undefined}).subscribe({
                     next: res => {

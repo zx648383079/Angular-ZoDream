@@ -39,15 +39,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (item of goodsItems; track $index; let i = $index) {
+                    @for (item of dataForm.configure.goods; track $index; let i = $index) {
                         <tr>
                             <td>
-                                <span>{{ item.goods.name }}</span>
+                                <span>{{ item.goods.name().value() }}</span>
                             </td>
-                            <td><input type="text" class="form-control" [field]="item.amount" [ngModelOptions]="{standalone: true}"></td>
-                            <td><input type="text" class="form-control" [field]="item.price" [ngModelOptions]="{standalone: true}"></td>
-                            <td>{{ item.goods.price }}</td>
-                            <td class="subtotal">{{ item.amount * item.price }}</td>
+                            <td><input type="number" class="form-control" [field]="item.amount"></td>
+                            <td><input type="number" class="form-control" [field]="item.price"></td>
+                            <td>{{ item.goods.price().value() }}</td>
+                            <td class="subtotal">{{ item.amount().value() * item.price().value() }}</td>
                             <td>
                                 <a (click)="tapRemoveItem(i)">删除</a>
                             </td>
@@ -64,10 +64,10 @@
             </table>
         </div>
 
-        <div class="input-group-control" formGroupName="configure">
+        <div class="input-group-control">
             <label for="price">组合价格</label>
             <div>
-                <input type="text" id="price" class="form-control" [field]="dataForm.price" placeholder="请输入 组合价格">
+                <input type="number" id="price" class="form-control" [field]="dataForm.configure.price" placeholder="请输入 组合价格">
             </div>
         </div>
         <div class="input-group-control">

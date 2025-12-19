@@ -9,9 +9,9 @@ import { TVService } from '../tv.service';
 
 @Component({
     standalone: false,
-  selector: 'app-tag',
-  templateUrl: './tag.component.html',
-  styleUrls: ['./tag.component.scss']
+    selector: 'app-tag',
+    templateUrl: './tag.component.html',
+    styleUrls: ['./tag.component.scss']
 })
 export class TagComponent implements OnInit {
     private readonly service = inject(TVService);
@@ -29,7 +29,10 @@ export class TagComponent implements OnInit {
         per_page: 20,
         keywords: '',
     }));
-    public readonly editForm = form(signal<ITag>({}));
+    public readonly editForm = form(signal<ITag>({
+        id: 0,
+        name: ''
+    }));
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {

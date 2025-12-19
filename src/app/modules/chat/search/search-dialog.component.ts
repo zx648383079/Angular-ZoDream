@@ -69,7 +69,7 @@ export class SearchDialogComponent {
     }
 
     public tapSearchClear() {
-        this.queries.keywords = '';
+        this.queries.keywords().value.set('');
         this.isInput = false;
     }
 
@@ -81,10 +81,11 @@ export class SearchDialogComponent {
     }
 
     public tapPrevious() {
-        if (this.queries.page < 2) {
+        const page = this.queries.page().value();
+        if (page < 2) {
             return;
         }
-        this.goPage(this.queries.page - 1);
+        this.goPage(page - 1);
     }
 
     public tapNext() {

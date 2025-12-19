@@ -1,13 +1,14 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../../components/form';
 import { TbkService } from '../tbk.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-setting',
-  templateUrl: './setting.component.html',
-  styleUrls: ['./setting.component.scss']
+    selector: 'app-setting',
+    templateUrl: './setting.component.html',
+    styleUrls: ['./setting.component.scss']
 })
 export class SettingComponent implements OnInit {
     private readonly service = inject(TbkService);
@@ -26,7 +27,6 @@ export class SettingComponent implements OnInit {
     ngOnInit() {
         this.service.option().subscribe(res => {
             this.dataModel.set({
-                        id: res.id,
                 app_key: res.data.app_key,
                 secret: res.data.secret
             });

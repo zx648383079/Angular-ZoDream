@@ -41,13 +41,16 @@ export class EditPageComponent implements OnInit {
     public optionItems: any[] = [];
     public gradeItems: IItem[] = [];
 
+    public readonly dialogQueries = form(signal({
+        keywords: '',
+        course: '',
+        page: 1,
+        per_page: 20,
+    }));
+
     public dialogData = {
         items: [],
-        page: 1,
-        perPage: 20,
         total: 0,
-        keywords: '',
-        course: 0,
     };
 
     ngOnInit() {
@@ -127,10 +130,7 @@ export class EditPageComponent implements OnInit {
 
     public tapDialogPage() {
         this.service.questionList({
-            keywords: this.dialogData.keywords,
-            course: this.dialogData.course,
-            page: this.dialogData.page,
-            per_page: this.dialogData.perPage,
+            ...this.dialogQueries().value(),
             filter: true,
         }).subscribe(res => {
             this.dialogData.items = res.data;
@@ -138,10 +138,8 @@ export class EditPageComponent implements OnInit {
         });
     }
 
-    public tapDialogSearch(form: any) {
-        this.dialogData.keywords = form.keywords;
-        this.dialogData.course = form.course;
-        this.dialogData.page = 1;
+    public tapDialogSearch() {
+        this.dialogQueries.page().value.set(1);
         this.tapDialogPage();
     }
 

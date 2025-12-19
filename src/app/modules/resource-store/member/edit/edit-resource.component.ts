@@ -39,6 +39,8 @@ export class EditResourceComponent implements OnInit, OnDestroy {
         is_reprint: 0,
         preview_type: '0',
         preview_file: '',
+        tags: <ITag[]>[],
+        files: <IResourceFile[]>[],
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.title);
@@ -49,8 +51,6 @@ export class EditResourceComponent implements OnInit, OnDestroy {
     public readonly previewType = computed(() => parseNumber(this.dataForm.preview_type().value()));
 
     public data: IResource;
-    public fileItems: IResourceFile[] = [];
-    public tags: ITag[] = [];
     public categories: ICategory[] = [];
     public tagItems$: Observable<ITag[]>;
     public tagInput$ = new Subject<string>();
@@ -70,12 +70,6 @@ export class EditResourceComponent implements OnInit, OnDestroy {
             this.service.resource(params.id).subscribe({
                 next: res => {
                     this.data = res;
-                    if (res.tags) {
-                        this.tags = res.tags;
-                    }
-                    if (res.files) {
-                        this.fileItems = res.files;
-                    }
                     this.dataModel.set({
                         id: res.id,
                         title: res.title,
@@ -89,7 +83,9 @@ export class EditResourceComponent implements OnInit, OnDestroy {
                         is_commercial: res.is_commercial,
                         is_reprint: res.is_reprint,
                         preview_type: res.preview_type as any,
-                        preview_file: res.preview_file
+                        preview_file: res.preview_file,
+                        tags: res.tags ?? [],
+                        files: res.files ?? []
                     });
                 },
                 error: err => {
@@ -147,13 +143,11 @@ export class EditResourceComponent implements OnInit, OnDestroy {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        if (this.fileItems.length < 1) {
+        const data = this.dataForm().value();
+        if (data.files.length < 1) {
             this.toastrService.warning('请上传文件');
             return;
         }
-        const data: IResource = this.dataForm().value() as any;
-        data.tags = this.tags;
-        data.files = this.fileItems;
         e?.enter();
         this.service.resourceSave(data).subscribe({
             next: _ => {
@@ -182,14 +176,20 @@ export class EditResourceComponent implements OnInit, OnDestroy {
     }
 
     public tapRemoveFile(i: number) {
-        this.fileItems.splice(i, 1);
+        this.dataForm.files().value.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
     }
 
     public tapAddFile() {
-        this.fileItems.push({
-            file_type: 0,
-            file: '',
-        } as any);
+        this.dataForm.files().value.update(v => {
+            v.push({
+                file_type: '0',
+                file: '',
+            } as any);
+            return v;
+        });
     }
 
 }

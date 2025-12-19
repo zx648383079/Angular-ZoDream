@@ -9,9 +9,9 @@ import { IChannel } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-tracker-backend-channel',
-  templateUrl: './channel.component.html',
-  styleUrls: ['./channel.component.scss']
+    selector: 'app-tracker-backend-channel',
+    templateUrl: './channel.component.html',
+    styleUrls: ['./channel.component.scss']
 })
 export class ChannelComponent implements OnInit {
     private readonly service = inject(TrackerBackendService);

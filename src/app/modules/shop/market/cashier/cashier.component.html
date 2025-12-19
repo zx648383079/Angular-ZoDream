@@ -27,7 +27,7 @@
                             </div>
                         </div>
                         <div class="edit-right">
-                            <div (click)="editForm.is_default = !editForm.is_default">
+                            <div (click)="toggleDefault()">
                                 <div class="checkbox">
                                     <i class="iconfont" [class]="{'icon-check-square-o': editForm.is_default, 'icon-square-o': !editForm.is_default}"></i>
                                 </div>
@@ -167,7 +167,7 @@
                             </div>
                             <div class="tab-item" [class]="{active: couponIndex == 1}">
                                 <div class="flat-input">
-                                    <input type="text" class="form-control" [field]="couponCode">
+                                    <input type="text" class="form-control" [field]="couponForm.code">
                                     <button class="btn btn-primary" (click)="tapExchange()">兑换</button>
                                 </div>
                             </div>

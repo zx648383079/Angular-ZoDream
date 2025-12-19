@@ -1,29 +1,32 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ChapterTypeItems, IBook, IChapter } from '../../model';
 import { BookService } from '../book.service';
 import { mapFormat } from '../../../../theme/utils';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-chapter',
-  templateUrl: './chapter.component.html',
-  styleUrls: ['./chapter.component.scss']
+    selector: 'app-chapter',
+    templateUrl: './chapter.component.html',
+    styleUrls: ['./chapter.component.scss']
 })
 export class ChapterComponent implements OnInit {
     private readonly service = inject(BookService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
 
+    public readonly queries = form(signal({
+        keywords: '',
+        page: 1,
+        per_page: 20
+    }));
 
     public items: IChapter[] = [];
-    public page = 1;
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public perPage = 20;
-    public keywords = '';
     public data: IBook;
 
     ngOnInit() {
@@ -51,7 +54,7 @@ export class ChapterComponent implements OnInit {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.page + 1);
+        this.goPage(this.queries.page().value() + 1);
     }
 
     public goPage(page: number) {
@@ -59,28 +62,26 @@ export class ChapterComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.chapterList({
-            keywords: this.keywords,
-            book: this.data.id,
-            page
-        }).subscribe(res => {
-            this.page = page;
-            this.hasMore = res.paging.more;
-            this.isLoading = false;
-            this.items = res.data;
-            this.total = res.paging.total;
-            this.perPage = res.paging.limit;
-        }, () => {
-            this.isLoading = false;
+        const queries = {...this.queries().value(), page};
+        this.service.chapterList(queries).subscribe({
+            next: res => {
+                this.isLoading = false;
+                this.items = res.data;
+                this.hasMore = res.paging.more;
+                this.total = res.paging.total;
+                this.queries().value.set(queries);
+            },
+            error: _ => {
+                this.isLoading = false;
+            }
         });
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries.page().value());
     }
 
     public tapSearch() {
-        this.keywords = form.keywords;
         this.tapRefresh();
     }
 
