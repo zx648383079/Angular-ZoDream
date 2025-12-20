@@ -30,34 +30,33 @@
                 </select>
             </div>
         </div>
-        <div class="input-group-control" [hidden]="scopeType < 1">
+        <div class="input-group-control" [hidden]="scopeType() < 1">
             <label for="scope">范围区间</label>
             <div>
-                <app-select-input [url]="selectUrl" [field]="dataForm.scope" [multiple]="true" />
+                <app-select-input [url]="selectUrl()" [field]="dataForm.scope" [multiple]="true" />
             </div>
         </div>
-        <div class="input-group-control" formGroupName="configure">
+        <div class="input-group-control">
             <label for="">优惠内容</label>
             <div>
                 <span class="radio-label">
-                    <input type="radio" id="configure_type0" [value]="0" [field]="dataForm.type">
+                    <input type="radio" id="configure_type0" value="0" [field]="dataForm.configure.type">
                     <label for="configure_type0">满_元优惠</label>
                 </span><span class="radio-label">
-                    <input type="radio" id="configure_type1" [value]="1" [field]="dataForm.type">
+                    <input type="radio" id="configure_type1" value="1" [field]="dataForm.configure.type">
                     <label for="configure_type1">满_件优惠</label>
                 </span>
                 <div class="discount-line">
-                    <p>订单满 <input type="text" [field]="dataForm.amount" class="form-control"><span class="unit">{{ configureType < 1 ? '元' : '件' }}</span> </p>
+                    <p>订单满 <input type="number" [field]="dataForm.configure.amount" class="form-control"><span class="unit">{{ configureType() < 1 ? '元' : '件' }}</span> </p>
                     <p>
-                        <input type="checkbox" [field]="dataForm.check_discount" [value]="1">
-                        打<input type="text"
-                        [field]="dataForm.discount_value" size="10" class="form-control">折</p>
-                    <p><input type="checkbox"  [field]="dataForm.check_money" [value]="1">减<input type="text"
-                        [field]="dataForm.discount_money" size="10" class="form-control">元</p>
-                    <p><input type="checkbox"  [field]="dataForm.check_gift" [value]="1">送赠品
-                        <app-select-input url="shop/admin/goods/search" [field]="dataForm.discount_goods" />
+                        <input type="checkbox" [field]="dataForm.configure.check_discount">
+                        打<input type="number" [field]="dataForm.configure.discount_value" size="10" class="form-control">折</p>
+                    <p><input type="checkbox"  [field]="dataForm.configure.check_money">减<input type="number"
+                        [field]="dataForm.configure.discount_money" size="10" class="form-control">元</p>
+                    <p><input type="checkbox"  [field]="dataForm.configure.check_gift">送赠品
+                        <app-select-input url="shop/admin/goods/search" [field]="dataForm.configure.discount_goods" />
                     </p>
-                    <p><input type="checkbox" [field]="dataForm.check_shipping" [value]="1">包邮</p>
+                    <p><input type="checkbox" [field]="dataForm.configure.check_shipping">包邮</p>
                 </div>
             </div>
 

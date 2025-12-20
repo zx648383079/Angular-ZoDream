@@ -34,14 +34,16 @@ export class DeliveryComponent implements OnInit {
     public statusItems = [
         '已下单', '出库中', '已揽收', '运输中', '派送中', '已签收', '已取消'
     ];
-    public logisticsData = {
+    public readonly logisticsOpen = signal(false);
+    public readonly logisticsData = signal({
         items: [],
         data: null,
-        open: false,
-        status: 0,
+    });
+    public readonly logisticsForm = form(signal({
+        status: '0',
         content: '',
         time: '',
-    };
+    }));
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -59,29 +61,30 @@ export class DeliveryComponent implements OnInit {
     }
 
     public tapOpenAdd() {
-        if (this.logisticsData.items.length > 0) {
-            this.logisticsData.status = this.logisticsData.items[0].status;
-        }
-        if (emptyValidate(this.logisticsData.time)) {
-            this.logisticsData.time = formatTime(new Date());
-        }
-        this.logisticsData.open = true;
+        this.logisticsForm().value.update(v => {
+            if (this.logisticsData().items.length > 0) {
+                v.status = this.logisticsData().items[0].status;
+            }
+            if (emptyValidate(v.time)) {
+                v.time = formatTime(new Date());
+            }
+            return v;
+        });
+        this.logisticsOpen.set(true);
     }
 
     public tapAddLogistics() {
-        const item = this.logisticsData.data;
+        const item = this.logisticsData().data;
         const data = this.formatJson<IDeliveryLogistics>(item.logistics_content);
-        data.push({
-            status: this.logisticsData.status,
-            content: this.logisticsData.content,
-            time: this.logisticsData.time
+        data.push(this.logisticsForm().value() as any);
+        this.logisticsData.update(v => {
+            return {...v, items: this.formatLogistics(data)}
         });
-        this.logisticsData.items = this.formatLogistics(data);
-        this.logisticsData.open = false;
+        this.logisticsOpen.set(false);
         this.service.deliverySave({
             id: item.id,
             logistics_content: data,
-            status: this.logisticsData.status,
+            status: this.logisticsForm.status().value(),
         }).subscribe({
             next: res => {
                 for (const item of this.items) {
@@ -98,8 +101,11 @@ export class DeliveryComponent implements OnInit {
     }
 
     public tapLogistics(modal: DialogEvent, item: any) {
-        this.logisticsData.data = item;
-        this.logisticsData.items = this.formatLogistics(this.formatJson<IDeliveryLogistics>(item.logistics_content));
+        this.logisticsData.update(v => {
+            v.data = item;
+            v.items = this.formatLogistics(this.formatJson<IDeliveryLogistics>(item.logistics_content));
+            return v;
+        });
         modal.open();
     }
 

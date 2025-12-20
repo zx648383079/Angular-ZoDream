@@ -11,6 +11,13 @@ import { ButtonEvent, UploadCustomEvent } from '../../../../components/form';
 import { NavigationDisplayMode } from '../../../../theme/models/event';
 import { form, required } from '@angular/forms/signals';
 
+interface IResFile {
+    id: number;
+    res_id: number;
+    file_type: string;
+    file: string;
+}
+
 @Component({
     standalone: false,
     selector: 'app-edit-resource',
@@ -40,7 +47,7 @@ export class EditResourceComponent implements OnInit, OnDestroy {
         preview_type: '0',
         preview_file: '',
         tags: <ITag[]>[],
-        files: <IResourceFile[]>[],
+        files: <IResFile[]>[],
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.title);
@@ -85,7 +92,7 @@ export class EditResourceComponent implements OnInit, OnDestroy {
                         preview_type: res.preview_type as any,
                         preview_file: res.preview_file,
                         tags: res.tags ?? [],
-                        files: res.files ?? []
+                        files: res.files as any ?? []
                     });
                 },
                 error: err => {

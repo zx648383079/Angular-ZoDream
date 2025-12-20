@@ -7,9 +7,9 @@ import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-shop-bargain-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+    selector: 'app-shop-bargain-edit',
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.scss']
 })
 export class EditBargainComponent implements OnInit {
     private readonly service = inject(ActivityService);
@@ -48,15 +48,21 @@ export class EditBargainComponent implements OnInit {
             this.service.bargain(params.id).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
-                        id: res.id,
+                    id: res.id,
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
                     scope: res.scope as any,
                     start_at: res.start_at as string,
-                    end_at: res.end_at,
+                    end_at: res.end_at as any,
+                    configure: {
+                        min: res.configure.min,
+                        max: res.configure.max,
+                        times: res.configure.times,
+                        amount: res.configure.amount,
+                        shipping_fee: res.configure.shipping_fee,
+                    }
                 });
-                this.dataForm.configure.patchValue(res.configure);
             });
         });
     }

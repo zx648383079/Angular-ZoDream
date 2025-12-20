@@ -5,11 +5,13 @@ import { OnlineService } from './online.service';
 import { ThemeModule } from '../../theme/theme.module';
 import { MessageContainerModule } from '../../components/message-container';
 import { DesktopModule } from '../../components/desktop';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        Field,
         DesktopModule,
         MessageContainerModule,
     ],

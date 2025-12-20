@@ -13,7 +13,7 @@ import { ShopService } from '../../../shop.service';
 export class HelpComponent implements OnInit {
     private readonly service = inject(ShopService);
     private readonly route = inject(ActivatedRoute);
-    private sanitizer = inject(DomSanitizer);
+    private readonly sanitizer = inject(DomSanitizer);
 
 
     public items = [];

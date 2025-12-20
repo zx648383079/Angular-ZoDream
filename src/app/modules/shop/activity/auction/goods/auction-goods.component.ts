@@ -1,21 +1,22 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IActivity, IAuctionConfigure, IGoods, IGoodsGallery } from '../../../model';
 import { ThemeService } from '../../../../../theme/services';
 import { ActivityService } from '../../activity.service';
+import { form, max, min } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-auction-goods',
-  templateUrl: './auction-goods.component.html',
-  styleUrls: ['./auction-goods.component.scss']
+    selector: 'app-auction-goods',
+    templateUrl: './auction-goods.component.html',
+    styleUrls: ['./auction-goods.component.scss']
 })
 export class AuctionGoodsComponent implements OnInit, OnDestroy {
     private readonly service = inject(ActivityService);
     private readonly route = inject(ActivatedRoute);
-    private sanitizer = inject(DomSanitizer);
+    private readonly sanitizer = inject(DomSanitizer);
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
 
@@ -25,7 +26,14 @@ export class AuctionGoodsComponent implements OnInit, OnDestroy {
     public galleryItems: IGoodsGallery[] = [];
     public content: SafeHtml;
     public tabIndex = 0;
-    public bid = 0;
+    public readonly dataForm = form(signal({
+        min: 0,
+        max: 0,
+        bid: 1
+    }), schemaPath => {
+        min(schemaPath.bid, ({valueOf}) => valueOf(schemaPath.min));
+        max(schemaPath.bid, ({valueOf}) => valueOf(schemaPath.max));
+    });
     private spaceTime = 10;
     private isLoading = false;
     private timer = 0;
@@ -36,6 +44,7 @@ export class AuctionGoodsComponent implements OnInit, OnDestroy {
                 id: params.id,
                 full: true,
             }).subscribe(res => {
+                
                 this.data = res.goods;
                 this.activity = res;
                 this.refreshBid(res.price, res.log_count);
@@ -47,6 +56,11 @@ export class AuctionGoodsComponent implements OnInit, OnDestroy {
                     }
                     return i;
                 }) : []);
+                this.dataForm().value.update(v => {
+                    v.min = this.minBid;
+                    v.max = this.activity.configure.fixed_price;
+                    return v;
+                });
                 this.startTimer();
             });
         });
@@ -67,7 +81,7 @@ export class AuctionGoodsComponent implements OnInit, OnDestroy {
     }
 
     public tapBid() {
-        const bid = this.bid;
+        const bid = this.dataForm.bid().value();
         this.service.auctionBid({
             activity: this.activity.id,
             money: bid
@@ -87,7 +101,7 @@ export class AuctionGoodsComponent implements OnInit, OnDestroy {
             this.activity.log_count = count;
         }
         this.activity.price = bid;
-        this.bid = this.minBid;
+        this.dataForm.bid().value.set(this.minBid);
     }
 
     private startTimer() {

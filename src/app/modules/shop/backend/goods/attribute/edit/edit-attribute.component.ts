@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../../components/form';
@@ -23,7 +23,7 @@ export class EditAttributeComponent implements OnInit {
         id: 0,
         name: '',
         property_group: '',
-        group_id: 0,
+        group_id: '0',
         search_type: '0',
         input_type: '0',
         default_value: '',
@@ -48,17 +48,17 @@ export class EditAttributeComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             if (!params.id) {
-                this.dataForm.group_id.setValue(params.group);
+                this.dataForm.group_id().value.set(params.group);
                 return;
             }
             this.service.attr(params.id).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
-                        id: res.id,
+                    id: res.id,
                     name: res.name,
                     property_group: res.property_group,
                     search_type: res.search_type.toString(),
-                    group_id: res.group_id,
+                    group_id: res.group_id.toString(),
                     input_type: res.input_type.toString(),
                     default_value: res.default_value as string,
                     position: res.position,
@@ -68,12 +68,12 @@ export class EditAttributeComponent implements OnInit {
         });
     }
 
-    get isInput() {
-        return parseNumber(this.dataForm.input_type.value) > 0;
-    }
+    public readonly isInput = computed(() => {
+        return parseNumber(this.dataForm.input_type().value()) > 0;
+    });
 
     public onGroupChange() {
-        const group = this.dataForm.group_id.value;
+        const group = parseNumber(this.dataForm.group_id().value());
         this.propertyGroups = [];
         for (const item of this.groupItems) {
             if (item.id == group) {

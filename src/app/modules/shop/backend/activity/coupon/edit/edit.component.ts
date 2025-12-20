@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { IItem } from '../../../../../../theme/models/seo';
@@ -24,12 +24,12 @@ export class EditCouponComponent implements OnInit {
         id: 0,
         name: '',
         thumb: '',
-        type: 0,
-        rule: 0,
+        type: '0',
+        rule: '0',
         rule_value: 0,
         min_money: 0,
         money: 0,
-        send_type: 0,
+        send_type: '0',
         send_value: 0,
         every_amount: 0,
         start_at: '',
@@ -46,20 +46,20 @@ export class EditCouponComponent implements OnInit {
     ];
     public ruleItems: IItem[] = ActivityRuleItems;
 
-    get typeValue() {
-        return this.dataForm.type.value;
-    }
+    public readonly typeValue = computed(() => {
+        return parseNumber(this.dataForm.type().value());
+    });
 
-    get ruleType() {
-        return this.dataForm.rule.value;
-    }
+    public readonly ruleType = computed(() => {
+        return parseNumber(this.dataForm.rule().value());
+    });
 
-    get sendType() {
-        return this.dataForm.send_type.value;
-    }
+    public readonly sendType = computed(() => {
+        return parseNumber(this.dataForm.send_type().value());
+    });
 
-    get selectUrl() {
-        switch (parseNumber(this.ruleType)) {
+    public readonly selectUrl = computed(() => {
+        switch (this.ruleType()) {
             case 2:
                 return 'shop/admin/brand/search';
             case 1:
@@ -69,7 +69,7 @@ export class EditCouponComponent implements OnInit {
             default:
                 return null;
         }
-    }
+    });
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -79,15 +79,15 @@ export class EditCouponComponent implements OnInit {
             this.service.coupon(params.id).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
-                        id: res.id,
+                    id: res.id,
                     name: res.name,
                     thumb: res.thumb,
-                    type: res.type,
-                    rule: res.rule,
+                    type: res.type as any,
+                    rule: res.rule as any,
                     rule_value: typeof res.rule_value === 'object' ? res.rule_value as any : res.rule_value.split(','),
                     min_money: res.min_money,
                     money: res.money,
-                    send_type: res.send_type,
+                    send_type: res.send_type as any,
                     send_value: res.send_value,
                     every_amount: res.every_amount,
                     start_at: res.start_at as any,

@@ -32,17 +32,17 @@
 
             </div>
         </div>
-        <div class="input-group-control" [hidden]="scopeType < 1">
+        <div class="input-group-control" [hidden]="scopeType() < 1">
             <label for="scope">范围区间</label>
             <div>
-                <app-select-input [url]="selectUrl" [field]="dataForm.scope" [multiple]="true" />
+                <app-select-input [url]="selectUrl()" [field]="dataForm.scope" [multiple]="true" />
             </div>
         </div>
-        <div formGroupName="configure">
+        <div>
             <div class="input-group-control">
                 <label for="configure_order_amount">订单金额满</label>
                 <div>
-                    <input type="text" id="configure_order_amount" class="form-control" [field]="dataForm.order_amount"
+                    <input type="number" id="configure_order_amount" class="form-control" [field]="dataForm.configure.order_amount"
                         placeholder="请输入 订单金额满">
 
                 </div>
@@ -50,7 +50,7 @@
             <div class="input-group-control">
                 <label for="configure_money">返现金额</label>
                 <div>
-                    <input type="text" id="configure_money" class="form-control" [field]="dataForm.money"
+                    <input type="number" id="configure_money" class="form-control" [field]="dataForm.configure.money"
                         placeholder="请输入 返现金额">
 
                 </div>
@@ -58,7 +58,7 @@
             <div class="input-group-control">
                 <label for="configure_star">是否要求5星好评</label>
                 <div>
-                    <app-switch [field]="dataForm.star" />
+                    <app-switch [field]="dataForm.configure.star" />
                 </div>
             </div>
 

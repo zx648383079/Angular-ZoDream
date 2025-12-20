@@ -1,14 +1,15 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { IItem } from '../../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
 import { IPreviewFile } from '../../model';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-model',
-  templateUrl: './model.component.html',
-  styleUrls: ['./model.component.scss']
+    selector: 'app-model',
+    templateUrl: './model.component.html',
+    styleUrls: ['./model.component.scss']
 })
 export class ModelComponent implements OnInit {
     private readonly service = inject(GenerateService);
@@ -16,11 +17,14 @@ export class ModelComponent implements OnInit {
 
 
     public readonly modal = viewChild(DialogBoxComponent);
-    public module = '';
+
     public tableItems: IItem[] = [];
 
-    public selected = '';
     public previewItems: IPreviewFile[] = [];
+    public readonly dataForm = form(signal({
+        module: '',
+        table: '',
+    }));
 
     ngOnInit() {
         this.service.tableList().subscribe(res => {
@@ -35,8 +39,7 @@ export class ModelComponent implements OnInit {
 
     public tapSubmit(preview = true) {
         this.service.model({
-            module: this.module,
-            table: this.selected,
+            ...this.dataForm().value(),
             preview,
         }).subscribe({
             next: res => {

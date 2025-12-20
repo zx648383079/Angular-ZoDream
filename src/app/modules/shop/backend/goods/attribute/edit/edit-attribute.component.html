@@ -52,7 +52,7 @@
             <label for="type">类型</label>
             <div>
                 <span class="radio-label">
-                    <input type="radio" id="type0" [field]="dataForm.type" value="0" checked="">
+                    <input type="radio" id="type0" [field]="dataForm.type" value="0">
                     <label for="type0">唯一属性</label>
                 </span><span class="radio-label">
                     <input type="radio" id="type1" [field]="dataForm.type" value="1">
@@ -70,7 +70,7 @@
             <label for="input_type">输入类型</label>
             <div>
                 <span class="radio-label">
-                    <input type="radio" id="input_type0" [field]="dataForm.input_type" value="0" checked="">
+                    <input type="radio" id="input_type0" [field]="dataForm.input_type" value="0">
                     <label for="input_type0">手工录入</label>
                 </span><span class="radio-label">
                     <input type="radio" id="input_type1" [field]="dataForm.input_type" value="1">
@@ -78,7 +78,7 @@
                 </span>
             </div>
         </div>
-        @if (isInput) {
+        @if (isInput()) {
         <div class="input-group-control">
             <label for="default_value">默认值</label>
             <div>
@@ -89,7 +89,7 @@
         <div class="input-group-control">
             <label for="position">排序</label>
             <div>
-                <input type="text" id="position" class="form-control" [field]="dataForm.position">
+                <input type="number" id="position" class="form-control" [field]="dataForm.position">
             </div>
         </div>
         <div class="btn-group">

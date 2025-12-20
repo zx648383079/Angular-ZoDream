@@ -51,7 +51,7 @@
     <div class="row">
         <div class="col-md-8">
             <div class="tab-target-body">
-                <div class="tab-item" [class]="{active: tabIndex < 1}">
+                <div class="tab-item" [class.active]="tabIndex < 1">
                     <div class="group-box">
                         <div class="group-image">
                             <img [src]="data.thumb|asset" alt="">
@@ -81,12 +81,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-item" [class]="{active: tabIndex == 1}">
+                <div class="tab-item" [class.active]="tabIndex == 1">
                     <div class="group-box">
                         <app-catalog [items]="catalogItems" />
                     </div>
                 </div>
-                <div class="tab-item" [class]="{active: tabIndex == 2}">
+                <div class="tab-item" [class.active]="tabIndex == 2">
                     <div class="group-box">
                         <ul class="file-panel">
                             @for (item of data.files; track $index) {
@@ -104,10 +104,10 @@
                         </ul>
                     </div>
                 </div>
-                <div class="tab-item" [class]="{active: tabIndex == 3}">
+                <div class="tab-item" [class.active]="tabIndex == 3">
                     <app-score [itemId]="data.id" [init]="tabIndex == 3" />
                 </div>
-                <div class="tab-item" [class]="{active: tabIndex == 4}">
+                <div class="tab-item" [class.active]="tabIndex == 4">
                     <div class="group-box">
                         <app-comment [itemId]="data.id" [init]="tabIndex == 4" />
                     </div>

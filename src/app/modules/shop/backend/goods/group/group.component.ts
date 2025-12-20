@@ -9,9 +9,9 @@ import { SearchService } from '../../../../../theme/services';
 
 @Component({
     standalone: false,
-  selector: 'app-group',
-  templateUrl: './group.component.html',
-  styleUrls: ['./group.component.scss']
+    selector: 'app-goods-group',
+    templateUrl: './group.component.html',
+    styleUrls: ['./group.component.scss']
 })
 export class GroupComponent implements OnInit {
     private readonly service = inject(AttributeService);
@@ -29,7 +29,7 @@ export class GroupComponent implements OnInit {
         page: 1,
         per_page: 20,
     }));
-    public readonly editForm = form(signal<IAttributeGroup>({
+    public readonly editForm = form(signal({
         id: 0,
         name: '',
         property_groups: ''
@@ -48,7 +48,7 @@ export class GroupComponent implements OnInit {
         this.editForm().value.update(v => {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';
-            v.property_groups = item?.property_groups ?? '';
+            v.property_groups = item?.property_groups as any ?? '';
             return v;
         });
         modal.open(() => {

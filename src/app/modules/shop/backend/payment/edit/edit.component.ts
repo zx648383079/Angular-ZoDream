@@ -20,17 +20,14 @@ export class EditPaymentComponent implements OnInit {
 
 
     public data: IPayment;
-
     public items: IItem[] = [];
-
     public shippingItems: IShipping[] = [];
-
     public readonly dataModel = signal({
         id: 0,
         name: '',
         code: '',
         icon: '',
-        fee: '0',
+        fee: 0,
         description: '',
         shipping: [],
     });
@@ -56,11 +53,13 @@ export class EditPaymentComponent implements OnInit {
             this.service.payment(params.id).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
-                        id: res.id,
+                    id: res.id,
                     name: res.name,
                     code: res.code,
                     icon: res.icon,
                     description: res.description,
+                    fee: 0,
+                    shipping: []
                 });
             });
         });

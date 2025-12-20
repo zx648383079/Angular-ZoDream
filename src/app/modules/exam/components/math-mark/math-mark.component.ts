@@ -20,7 +20,7 @@ interface IMarkItem {
     styleUrls: ['./math-mark.component.scss']
 })
 export class MathMarkComponent implements FormValueControl<string[]>  {
-    private sanitizer = inject(DomSanitizer);
+    private readonly sanitizer = inject(DomSanitizer);
 
 
     public readonly content = input('');

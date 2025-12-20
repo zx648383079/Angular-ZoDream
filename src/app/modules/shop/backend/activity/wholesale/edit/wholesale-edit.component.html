@@ -38,12 +38,12 @@
         <div class="input-group-control">
             <label for="money">价格阶梯</label>
             <div class="step-box">
-                @for (item of stepItems.controls; track $index; let i = $index) {
+                @for (item of dataForm.configure.items; track $index; let i = $index) {
                     <p class="step-item">
                         数量达到
-                        <input type="text" size="10" class="form-control" [field]="itemForm.amount">
+                        <input type="number" size="10" class="form-control" [field]="item.amount">
                         享受价格
-                        <input type="text" size="10" class="form-control" [field]="itemForm.price">
+                        <input type="number" size="10" class="form-control" [field]="item.price">
                         <i class="iconfont icon-close" (click)="tapRemoveStep(i)"></i>
                     </p>
                 }

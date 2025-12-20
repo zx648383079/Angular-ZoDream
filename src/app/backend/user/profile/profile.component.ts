@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { AppState } from '../../../theme/interfaces';
 import { Store } from '@ngrx/store';
 import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { Subscription } from 'rxjs';
+import { email, form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -56,7 +57,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.subItems.add(this.store.select(selectAuthUser).subscribe(user => {
             this.data = user;
             this.dataModel.set({
-                        id: res.id,
                 name: user.name,
                 email: user.email,
                 sex: user.sex,
@@ -110,7 +110,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         const files = event.target.files as FileList;
         this.service.uploadAvatar(files[0]).subscribe(res => {
             this.data = res;
-            this.dataForm.avatar.setValue(res.avatar);
+            this.dataForm.avatar().value.set(res.avatar);
             this.toastrService.success('头像已更换');
         });
     }

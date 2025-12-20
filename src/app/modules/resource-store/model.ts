@@ -54,7 +54,7 @@ export interface IResourceCatalog {
 export interface IResourceFile {
     id: number;
     res_id: number;
-    file_type: string;
+    file_type: number;
     file: string;
     created_at: string;
     click_count: number;

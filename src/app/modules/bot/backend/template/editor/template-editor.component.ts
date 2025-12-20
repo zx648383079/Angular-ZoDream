@@ -16,7 +16,7 @@ import { FormValueControl } from '@angular/forms/signals';
 })
 export class TemplateEditorComponent implements FormValueControl<string> {
     private readonly service = inject(BotService);
-    private sanitizer = inject(DomSanitizer);
+    private readonly sanitizer = inject(DomSanitizer);
 
 
     public readonly editor = viewChild(EditorComponent);

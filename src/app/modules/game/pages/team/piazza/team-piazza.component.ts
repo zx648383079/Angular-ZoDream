@@ -1,8 +1,7 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameRouter, IGameScene, IGameTeam } from '../../../model';
 import { IPage, IPageQueries } from '../../../../../theme/models/page';
-import { emptyValidate } from '../../../../../theme/validators';
 
 @Component({
     standalone: false,
@@ -24,9 +23,11 @@ export class TeamPiazzaComponent implements IGameScene, OnInit {
         keywords: '',
     }));
     public modalVisible = false;
-    public input = {
+    public readonly dataForm = form(signal({
         name: ''
-    };
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.tapRefresh();
@@ -37,11 +38,11 @@ export class TeamPiazzaComponent implements IGameScene, OnInit {
     }
 
     public tapSubmit() {
-        if (emptyValidate(this.input.name)) {
+        if (this.dataForm().invalid()) {
             this.router.toast('请输入队名');
             return;
         }
-        this.router.request(GameCommand.TeamCreateOwn, this.input).subscribe(res => {
+        this.router.request(GameCommand.TeamCreateOwn, this.dataForm().value()).subscribe(res => {
             this.router.navigateReplace(GameScenePath.Team);
         });
     }

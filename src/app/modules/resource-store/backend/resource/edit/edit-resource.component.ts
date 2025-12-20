@@ -11,6 +11,13 @@ import { ResourceService } from '../../resource.service';
 import { ReviewStatusItems } from '../../../../../theme/models/auth';
 import { form, required } from '@angular/forms/signals';
 
+interface IResFile {
+    id: number;
+    res_id: number;
+    file_type: string;
+    file: string;
+}
+
 @Component({
     standalone: false,
     selector: 'app-edit-resource',
@@ -40,7 +47,7 @@ export class EditResourceComponent implements OnInit {
         preview_file: '',
         status: '0',
         tags: <ITag[]>[],
-        files: <IResourceFile[]>[],
+        files: <IResFile[]>[],
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.title);
@@ -85,7 +92,7 @@ export class EditResourceComponent implements OnInit {
                         preview_file: res.preview_file,
                         status: res.status as any,
                         tags: res.tags ?? [],
-                        files: res.files ?? []
+                        files: res.files as any ?? []
                     });
                 },
                 error: err => {

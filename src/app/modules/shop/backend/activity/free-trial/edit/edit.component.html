@@ -28,10 +28,10 @@
                 <app-select-input url="shop/admin/goods/search" [field]="dataForm.scope" />
             </div>
         </div>
-        <div class="input-group-control" formGroupName="configure">
+        <div class="input-group-control">
             <label for="configure_amount">试用数量</label>
             <div>
-                <input type="text" id="configure_amount" class="form-control" [field]="dataForm.amount"
+                <input type="number" id="configure_amount" class="form-control" [field]="dataForm.configure.amount"
                     placeholder="请输入 试用数量" >
 
             </div>

@@ -2,7 +2,6 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { ICategory } from '../../../../model';
-import { FileUploadService } from '../../../../../../theme/services/file-upload.service';
 import { filterTree } from '../../../../../../theme/utils';
 import { GoodsService } from '../../goods.service';
 import { form, required } from '@angular/forms/signals';
@@ -22,7 +21,7 @@ export class EditCategoryComponent implements OnInit {
     public readonly dataModel = signal({
         id: 0,
         name: '',
-        parent_id: 0,
+        parent_id: '0',
         keywords: '',
         description: '',
         icon: '',
@@ -52,9 +51,9 @@ export class EditCategoryComponent implements OnInit {
                 this.data = res;
                 this.categories = filterTree(this.categories, res.id);
                 this.dataModel.set({
-                        id: res.id,
+                    id: res.id,
                     name: res.name,
-                    parent_id: res.parent_id,
+                    parent_id: res.parent_id as any,
                     keywords: res.keywords,
                     description: res.description,
                     icon: res.icon,

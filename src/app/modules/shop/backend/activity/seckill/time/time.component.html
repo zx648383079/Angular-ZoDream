@@ -56,7 +56,7 @@
         <div>
             <app-time-input [field]="editForm.start_at" />
             ~
-            <app-time-input [field]="editForm.end_at" [minimum]="editForm.start_at + ''" />
+            <app-time-input [field]="editForm.end_at" [minimum]="editForm.start_at().value()" />
         </div>
     </div>
 </app-dialog-box>

@@ -1,21 +1,22 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IActivity, IFreeTrialConfigure, IGoods, IGoodsGallery } from '../../../model';
 import { ThemeService } from '../../../../../theme/services';
 import { ActivityService } from '../../activity.service';
+import { form, max, min } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-free-trial-goods',
-  templateUrl: './free-trial-goods.component.html',
-  styleUrls: ['./free-trial-goods.component.scss']
+    selector: 'app-free-trial-goods',
+    templateUrl: './free-trial-goods.component.html',
+    styleUrls: ['./free-trial-goods.component.scss']
 })
 export class FreeTrialGoodsComponent implements OnInit {
     private readonly service = inject(ActivityService);
     private readonly route = inject(ActivatedRoute);
-    private sanitizer = inject(DomSanitizer);
+    private readonly sanitizer = inject(DomSanitizer);
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
 
@@ -25,7 +26,13 @@ export class FreeTrialGoodsComponent implements OnInit {
     public galleryItems: IGoodsGallery[] = [];
     public content: SafeHtml;
     public tabIndex = 0;
-    public amount = 1;
+    public readonly dataForm = form(signal({
+        stock: 0,
+        amount: 1
+    }), schemaPath => {
+        min(schemaPath.amount, 1);
+        max(schemaPath.amount, ({valueOf}) => valueOf(schemaPath.stock));
+    });
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -33,6 +40,7 @@ export class FreeTrialGoodsComponent implements OnInit {
                 id: params.id,
                 full: true,
             }).subscribe(res => {
+                this.dataForm.stock().value.set(res.goods.stock);
                 this.data = res.goods;
                 this.activity = res;
                 this.themeService.titleChanged.next(this.data.seo_title || this.data.name);

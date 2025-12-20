@@ -7,7 +7,7 @@
     </div>
     
     <div class="comment-form">
-        <app-text-editor [field]="commentData.content" [disabled]="!user" height="200" i18n-placeholder placeholder="Leave a Comment" />
+        <app-text-editor [field]="commentForm.content" height="200" i18n-placeholder placeholder="Leave a Comment" />
         <div class="form-group">
             <app-action-button class="btn btn-primary" [disabled]="!user" (tapped)="tapComment($event)" i18n>Post Comment</app-action-button>
         </div>
@@ -18,8 +18,8 @@
             <h3 i18n>All Comment</h3>
             <div class="bar-right">
                 <div class="btn-group">
-                    <a class="btn btn-outline-default" [class]="{active: queries.order == 'desc'}" (click)="tapSort('desc')"  i18n>Newest</a>
-                    <a class="btn btn-outline-default" [class]="{active: queries.order == 'asc'}" (click)="tapSort('asc')"  i18n>Oldest</a>
+                    <a class="btn btn-outline-default" [class.active]="queries.order().value() == 'desc'" (click)="tapSort('desc')"  i18n>Newest</a>
+                    <a class="btn btn-outline-default" [class.active]="queries.order().value() == 'asc'" (click)="tapSort('asc')"  i18n>Oldest</a>
                 </div>
             </div>
         </div>

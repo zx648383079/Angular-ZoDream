@@ -21,7 +21,7 @@ export class TimeComponent implements OnInit {
     public items: IActivityTime[] = [];
     public isLoading = false;
     public activity = 0;
-    public readonly editForm = form(signal<IActivityTime>({
+    public readonly editForm = form(signal({
         id: 0,
         title: '',
         start_at: '',
@@ -71,8 +71,8 @@ export class TimeComponent implements OnInit {
         this.editForm().value.update(v => {
             v.id = item?.id ?? 0;
             v.title = item?.title ?? '';
-            v.start_at = item?.start_at ?? '';
-            v.end_at = item?.end_at ?? '';
+            v.start_at = item?.start_at as any ?? '';
+            v.end_at = item?.end_at as any ?? '';
             return v;
         });
         modal.open(() => {

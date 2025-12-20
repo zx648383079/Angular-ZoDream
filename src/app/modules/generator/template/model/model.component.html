@@ -8,13 +8,13 @@
         <div class="input-group-control">
             <label for="">数据表</label>
             <div>
-                <ng-select [field]="selected" [items]="tableItems" bindLabel="name" bindValue="value" />
+                <ng-select [field]="dataForm.table" [items]="tableItems" bindLabel="name" bindValue="value" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="">模块名</label>
             <div>
-                <input type="text" class="form-control" [field]="module">
+                <input type="text" class="form-control" [field]="dataForm.module">
             </div>
         </div>
         <div class="btn-group">

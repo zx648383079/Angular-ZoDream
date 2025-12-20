@@ -12,7 +12,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class NoticePanelComponent {
     private readonly http = inject(HttpClient);
-    private sanitizer = inject(DomSanitizer);
+    private readonly sanitizer = inject(DomSanitizer);
 
 
     public isLoading = true;

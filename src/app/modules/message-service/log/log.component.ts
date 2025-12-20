@@ -10,9 +10,9 @@ import { mapFormat } from '../../../theme/utils';
 
 @Component({
     standalone: false,
-  selector: 'app-ms-log',
-  templateUrl: './log.component.html',
-  styleUrls: ['./log.component.scss']
+    selector: 'app-ms-log',
+    templateUrl: './log.component.html',
+    styleUrls: ['./log.component.scss']
 })
 export class LogComponent implements OnInit {
     private readonly service = inject(MessageServiceService);
@@ -25,8 +25,8 @@ export class LogComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
-        type: 0,
+    public readonly queries = form(signal({
+        type: '0',
         page: 1,
         per_page: 20,
         keywords: ''

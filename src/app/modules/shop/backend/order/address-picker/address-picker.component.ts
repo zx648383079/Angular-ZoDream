@@ -56,6 +56,13 @@ export class AddressPickerComponent implements FormValueControl<IAddress> {
         } as any);
     }
 
+    public onValueChange(val: any, key: string) {
+        this.value.update(v => {
+            v[key] = val;
+            return v;
+        });
+    }
+
     public tapItem(item: IAddress) {
         this.output(item);
     }

@@ -14,7 +14,7 @@ import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
     }
 })
 export class BotRichBlockComponent {
-    private sanitizer = inject(DomSanitizer);
+    private readonly sanitizer = inject(DomSanitizer);
 
 
     public readonly value = input('');

@@ -9,7 +9,7 @@ import { ScreenFull, mediaIsFrame } from '../util';
     styleUrls: ['./video-player.component.scss']
 })
 export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
-    private sanitizer = inject(DomSanitizer);
+    private readonly sanitizer = inject(DomSanitizer);
     private render = inject(Renderer2);
 
 

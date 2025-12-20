@@ -19,7 +19,7 @@ import { ImagePlayerComponent } from '../../media-player';
     }
 })
 export class MarkdownBlockComponent implements AfterViewInit {
-    private sanitizer = inject(DomSanitizer);
+    private readonly sanitizer = inject(DomSanitizer);
     private element = inject<ElementRef<HTMLDivElement>>(ElementRef);
     private renderer = inject(Renderer2);
     private readonly toastrService = inject(DialogService);

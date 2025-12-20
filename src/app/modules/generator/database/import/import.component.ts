@@ -1,20 +1,23 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { IItem } from '../../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-import',
-  templateUrl: './import.component.html',
-  styleUrls: ['./import.component.scss']
+    selector: 'app-import',
+    templateUrl: './import.component.html',
+    styleUrls: ['./import.component.scss']
 })
 export class ImportComponent implements OnInit {
     private readonly service = inject(GenerateService);
     private readonly toastrService = inject(DialogService);
 
     public schemaItems: IItem[] = [];
-    public schema = '';
+    public readonly dataForm = form(signal({
+        schema: '',
+    }));
 
     ngOnInit() {
         this.service.schemaList().subscribe(res => {
@@ -31,7 +34,7 @@ export class ImportComponent implements OnInit {
         const files = event.target.files as FileList;
         const form = new FormData();
         form.append('file', files[0]);
-        form.append('schema', this.schema);
+        form.append('schema', this.dataForm.schema().value());
         this.service.import(form).subscribe(_ => {
             this.toastrService.success('导入成功');
         });

@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
-import { emptyValidate } from '../../../../theme/validators';
 import { IWord } from '../../model';
 import { OnlineBackendService } from '../online.service';
 

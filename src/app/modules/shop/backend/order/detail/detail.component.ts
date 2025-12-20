@@ -1,10 +1,20 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
-import { emptyValidate } from '../../../../../theme/validators';
 import { IOrder, IOrderGoods } from '../../../model';
 import { OrderService } from '../order.service';
+import { form, required } from '@angular/forms/signals';
+
+interface IShipGoods {
+    id: number;
+    thumb: string;
+    name: string;
+    type_remark: string;
+    series_number: string;
+    amount: number;
+    ship_amount: number;
+}
 
 @Component({
     standalone: false,
@@ -21,20 +31,22 @@ export class DetailComponent implements OnInit {
 
     public data: IOrder;
     public items: IOrderGoods[] = [];
-    public refundData = {
-        refund_type: 0,
+    public readonly refundForm = form(signal({
+        refund_type: '0',
         money: 0,
-    };
+    }));
     public refundTypeItems = ['原路退回', '退到余额', '线下退款'];
-    public shipData = {
-        shipping_id: 0,
+    public readonly shipForm = form(signal({
+        shipping_id: '0',
         logistics_number: '',
-        goods: [],
-    };
+        goods: <IShipGoods[]>[],
+    }));
     public shippingItems = [];
-    public remarkData = {
+    public readonly remarkForm = form(signal({
         remark: '',
-    }
+    }), schemaPath => {
+        required(schemaPath.remark);
+    });
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -77,7 +89,7 @@ export class DetailComponent implements OnInit {
     }
 
     public tapOperate(e: ButtonEvent, operate: string) {
-        if (emptyValidate(this.remarkData.remark)) {
+        if (this.remarkForm().invalid()) {
             this.toastrService.warning('请输入操作备注')
             return;
         }
@@ -85,7 +97,7 @@ export class DetailComponent implements OnInit {
         this.service.orderSave({
             id: this.data.id,
             operate,
-            ...this.remarkData
+            ...this.remarkForm().value()
         }).subscribe({
             next: res => {
                 e.reset();
@@ -104,7 +116,7 @@ export class DetailComponent implements OnInit {
             this.service.orderSave({
                 id: this.data.id,
                 operate: 'refund',
-                ...this.refundData
+                ...this.refundForm().value()
             }).subscribe({
                 next: res => {
                     this.toastrService.success('退款成功');
@@ -118,8 +130,10 @@ export class DetailComponent implements OnInit {
     }
 
     public tapShip(modal: DialogEvent) {
-        this.shipData.goods = this.items.map(i => {
-            return {...i, ship_amount: 0};
+        this.shipForm.goods().value.update(_ => {
+            return this.items.map(i => {
+                return <IShipGoods>{...i, ship_amount: 0};
+            });
         });
         if (this.shippingItems.length < 1) {
             this.service.shippingAll().subscribe(res => {
@@ -127,12 +141,13 @@ export class DetailComponent implements OnInit {
             });
         }
         modal.open(() => {
+            const data = this.shipForm().value();
             this.service.orderSave({
                 id: this.data.id,
                 operate: 'shipping',
-                shipping_id: this.shipData.shipping_id,
-                logistics_number: this.shipData.logistics_number,
-                goods: this.shipData.goods.map(i => {
+                shipping_id: data.shipping_id,
+                logistics_number: data.logistics_number,
+                goods: data.goods.map(i => {
                     return {
                         id: i.id,
                         amount: i.ship_amount

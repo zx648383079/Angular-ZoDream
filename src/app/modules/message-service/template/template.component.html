@@ -13,11 +13,11 @@
                 </div>
                 <div class="input-group-control">
                     <label for="type">类型</label>
-                    <select name="type" [field]="queries.type" class="form-control">
-                    <option [value]="0">请选择</option>
-                    @for (item of typeItems; track $index) {
-                        <option [value]="item.value">{{ item.name }}</option>
-                    }
+                    <select [field]="queries.type" class="form-control">
+                        <option [value]="0">请选择</option>
+                        @for (item of typeItems; track $index) {
+                            <option [value]="item.value">{{ item.name }}</option>
+                        }
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>

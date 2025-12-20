@@ -20,7 +20,7 @@ export class TemplateComponent implements OnInit {
     private readonly service = inject(BotService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-    private sanitizer = inject(DomSanitizer);
+    private readonly sanitizer = inject(DomSanitizer);
     private readonly searchService = inject(SearchService);
 
 

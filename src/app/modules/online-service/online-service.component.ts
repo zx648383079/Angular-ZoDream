@@ -1,24 +1,29 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, OnDestroy, inject, signal } from '@angular/core';
 import { DialogService } from '../../components/dialog';
 import { IEmoji } from '../../theme/models/seo';
 import { OnlineService } from './online.service';
+import { form, required } from '@angular/forms/signals';
 
 const LOOP_SPACE_TIME = 20;
 const SESSION_KEY = 'session_token';
 
 @Component({
     standalone: false,
-  selector: 'app-online-service',
-  templateUrl: './online-service.component.html',
-  styleUrls: ['./online-service.component.scss']
+    selector: 'app-online-service',
+    templateUrl: './online-service.component.html',
+    styleUrls: ['./online-service.component.scss']
 })
 export class OnlineServiceComponent implements OnDestroy {
     private readonly service = inject(OnlineService);
     private readonly toastrService = inject(DialogService);
 
 
-    public dialogOpen = false;
-    public content = '';
+    public readonly dialogOpen = signal(false);
+    public readonly dataForm = form(signal({
+        content: ''
+    }), schemaPath => {
+        required(schemaPath.content);
+    });
     public items: any[] = [];
     private sessionToken = '';
     private nextTime = 0;
@@ -36,20 +41,19 @@ export class OnlineServiceComponent implements OnDestroy {
     }
 
     public tapOpenChat() {
-        this.dialogOpen = true;
+        this.dialogOpen.set(true);
         if (this.sessionToken.length > 0) {
             this.tapNext();
         }
     }
 
     public tapSend() {
-        const content = this.content;
-        if (content.length < 1) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Please input the content of the inquiry`);
             return;
         }
-        this.send({content});
-        this.content = '';
+        this.send(this.dataForm().value());
+        this.dataForm.content().value.set('');
     }
 
     public tapUploadImage(event: any) {
@@ -63,7 +67,7 @@ export class OnlineServiceComponent implements OnDestroy {
     }
 
     public tapEmoji(item: IEmoji) {
-        this.content += item.type > 0 ? item.content : '[' + item.name + ']';
+        this.dataForm.content().value.update(v => v + (item.type > 0 ? item.content : '[' + item.name + ']'));
     }
 
     public onKeyDown(event: KeyboardEvent) {

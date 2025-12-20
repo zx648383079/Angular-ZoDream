@@ -14,7 +14,7 @@
                         placeholder="名称">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                @if (queries.category > 0) {
+                @if (queries.category().value() > 0) {
                 <a class="pull-right btn btn-primary" (click)="open(modal)">新增客服</a>
                 }
             </form>
@@ -51,7 +51,7 @@
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <app-select-input url="auth/admin/user/search" [multiple]="true" [field]="users" />
+            <app-select-input url="auth/admin/user/search" [multiple]="true" [field]="dataForm.users" />
         </div>
     </div>
 </app-dialog-box>

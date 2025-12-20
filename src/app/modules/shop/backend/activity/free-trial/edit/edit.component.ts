@@ -44,16 +44,18 @@ export class EditFreeTrialComponent implements OnInit {
             this.service.freeTrial(params.id).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
-                        id: res.id,
+                    id: res.id,
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
                     scope: res.scope as any,
                     scope_type: res.scope_type,
                     start_at: res.start_at as string,
-                    end_at: res.end_at,
+                    end_at: res.end_at as string,
+                    configure: {
+                        amount: res.configure.amount
+                    }
                 });
-                this.dataForm.configure.patchValue(res.configure);
             });
         });
     }

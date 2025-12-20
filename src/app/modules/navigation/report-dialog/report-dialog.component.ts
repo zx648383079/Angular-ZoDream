@@ -1,10 +1,11 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { DialogConfirmFn, DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { IItem } from '../../../theme/models/seo';
 import { emptyValidate } from '../../../theme/validators';
 import { IWebPage } from '../model';
 import { NavigationService } from '../navigation.service';
+import { form, maxLength, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -45,22 +46,27 @@ export class ReportDialogComponent {
         ]},
     ];
     public typeIndex = 0;
-    public content = '';
-    public email = '';
+    public readonly dataForm = form(signal({
+        email: '',
+        content: ''
+    }), schemaPath => {
+        required(schemaPath.content);
+        maxLength(schemaPath.content, 500);
+    });
 
     public get typeOptionItems() {
         return this.typeItems[this.typeIndex].items;
     }
 
-    public get wordSize() {
-        return Math.max(0, 500 - this.content.length);
-    }
+    public readonly wordSize = computed(() => {
+        return Math.max(0, 500 - this.dataForm.content().value().length);
+    });
 
     public open(data: IWebPage, cb?: DialogConfirmFn) {
         this.confirmFn = cb;
         this.data = data;
         this.visible = true;
-        this.content = '';
+        this.dataForm.content().value.set('');
     }
 
     public close() {
@@ -68,18 +74,19 @@ export class ReportDialogComponent {
     }
 
     public tapSubmit(e: ButtonEvent) {
+        if (this.dataForm().invalid()) {
+            this.toastrService.warning($localize `Please input a problem description`);
+            return;
+        }
+        const val = this.dataForm().value();
         const data = {
             item_type: 31,
             item_id: this.data.id,
             type: 99,
             title: '',
-            content: `[${this.data.title}](${this.data.link}):${this.content}`,
-            email: this.email
+            content: `[${this.data.title}](${this.data.link}):${val.content}`,
+            email: val.email
         };
-        if (emptyValidate(data.content)) {
-            this.toastrService.warning($localize `Please input a problem description`);
-            return;
-        }
         const option = [];
         for (const item of this.typeOptionItems) {
             if (item.checked) {

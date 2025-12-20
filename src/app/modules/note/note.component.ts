@@ -28,7 +28,7 @@ export class NoteComponent implements OnInit, OnDestroy {
     private readonly store = inject<Store<AppState>>(Store);
     private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
-    private sanitizer = inject(DomSanitizer);
+    private readonly sanitizer = inject(DomSanitizer);
 
 
     public items: INote[] = [];

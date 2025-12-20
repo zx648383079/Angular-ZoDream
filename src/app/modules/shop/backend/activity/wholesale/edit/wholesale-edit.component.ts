@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { IActivity, IWholesaleConfigure } from '../../../../model';
+import { IActivity, IGroupBuyStep, IWholesaleConfigure } from '../../../../model';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { ActivityService } from '../../activity.service';
@@ -19,6 +19,7 @@ export class WholesaleEditComponent implements OnInit {
 
 
     public readonly dataModel = signal({
+        id: 0,
         name: '',
         thumb: '',
         description: '',
@@ -26,16 +27,15 @@ export class WholesaleEditComponent implements OnInit {
         scope_type: 0,
         start_at: '',
         end_at: '',
+        configure: {
+            items: <IGroupBuyStep[]>[],
+        }
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name);
     });
 
     public data: IActivity<IWholesaleConfigure>;
-
-    get stepItems() {
-        return this.dataForm.step as FormArray<FormGroup>;
-    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -45,17 +45,17 @@ export class WholesaleEditComponent implements OnInit {
             this.service.wholesale(params.id).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
-                        id: res.id,
+                    id: res.id,
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
                     scope: res.scope as any,
                     scope_type: res.scope_type,
                     start_at: res.start_at as string,
-                    end_at: res.end_at,
-                    step: this.fb.array(
-                        //TODO
-                    ) as any
+                    end_at: res.end_at as string,
+                    configure: {
+                        items: res.configure.items ?? []
+                    }
                 });
             });
         });
@@ -71,9 +71,6 @@ export class WholesaleEditComponent implements OnInit {
             return;
         }
         const data: any = this.dataForm().value();
-        if (data.step) {
-            data.configure.items = data.items;
-        }
         e?.enter();
         this.service.wholesaleSave(data).subscribe({
             next: _ => {
@@ -89,19 +86,20 @@ export class WholesaleEditComponent implements OnInit {
     }
 
     public tapRemoveStep(i: number) {
-        this.stepItems.removeAt(i);
+        this.dataForm.configure.items().value.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
     }
 
     public tapAddStep() {
-    public readonly dataModel = signal({
-            amount: 0,
-            price: 0,
-    });
-    public readonly dataForm = form(this.dataModel, schemaPath => {
-        required(schemaPath.name);
-    public readonly dataForm = form(this.dataModel, schemaPath => {
-    public readonly dataForm = form(this.dataModel, schemaPath => {
-    });
+        this.dataForm.configure.items().value.update(v => {
+            v.push({
+                amount: 0,
+                price: 0
+            });
+            return v;
+        });
     }
 
 }

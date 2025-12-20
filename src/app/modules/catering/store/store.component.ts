@@ -36,7 +36,7 @@ export class StoreComponent implements OnInit {
     }
 
     public tapCategory(item: ICateringCategory) {
-        this.queries.category = item.id;
+        this.queries.category().value.set(item.id);
         this.tapRefresh();
     }
 

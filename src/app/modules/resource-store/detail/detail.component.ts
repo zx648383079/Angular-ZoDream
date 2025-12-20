@@ -34,7 +34,7 @@ export class DetailComponent implements OnInit {
         });
     }
 
-    public formatType(val: number) {
+    public formatType(val: any) {
         return mapFormat(val, FileTypeItems);
     }
 

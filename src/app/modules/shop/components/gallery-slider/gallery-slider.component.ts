@@ -10,7 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
     styleUrls: ['./gallery-slider.component.scss']
 })
 export class GallerySliderComponent {
-    private sanitizer = inject(DomSanitizer);
+    private readonly sanitizer = inject(DomSanitizer);
 
 
     public readonly items = input<IGoodsGallery[]>([]);

@@ -28,20 +28,20 @@
 
             </div>
         </div>
-        <div formGroupName="configure">
+        <div>
             <div class="input-group-control">
                 <label for="start_at">单次砍价范围</label>
                 <div>
-                    <input type="text" id="min" class="form-control" [field]="dataForm.min" placeholder="请输入最低砍价">
+                    <input type="number" id="min" class="form-control" [field]="dataForm.configure.min" placeholder="请输入最低砍价">
                     ~
-                    <input type="text" id="max" class="form-control" [field]="dataForm.max" placeholder="请输入最高砍价">
+                    <input type="number" id="max" class="form-control" [field]="dataForm.configure.max" placeholder="请输入最高砍价">
                 </div>
             </div>
 
             <div class="input-group-control">
                 <label for="configure_times">砍价次数</label>
                 <div>
-                    <input type="text" id="configure_times" class="form-control" [field]="dataForm.times"
+                    <input type="number" id="configure_times" class="form-control" [field]="dataForm.configure.times"
                         placeholder="请输入 砍价次数">
 
                 </div>
@@ -49,7 +49,7 @@
             <div class="input-group-control">
                 <label for="configure_amount">商品件数</label>
                 <div>
-                    <input type="text" id="configure_amount" class="form-control" [field]="dataForm.amount"
+                    <input type="number" id="configure_amount" class="form-control" [field]="dataForm.configure.amount"
                         placeholder="请输入 商品件数">
 
                 </div>
@@ -57,7 +57,7 @@
             <div class="input-group-control">
                 <label for="configure_shipping_fee">运费</label>
                 <div>
-                    <input type="text" id="configure_shipping_fee" class="form-control" [field]="dataForm.shipping_fee"
+                    <input type="number" id="configure_shipping_fee" class="form-control" [field]="dataForm.configure.shipping_fee"
                         placeholder="请输入 运费">
 
                 </div>

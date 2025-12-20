@@ -1,8 +1,9 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { IItem } from '../../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
 import { IPreviewFile } from '../../model';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -16,9 +17,11 @@ export class MigrationComponent implements OnInit {
 
 
     public readonly modal = viewChild(DialogBoxComponent);
-    public module = '';
+    public readonly dataForm = form(signal({
+        module: '',
+        table: <string[]>[],
+    }));
     public tableItems: IItem[] = [];
-    public selected: string[] = [];
     public previewItems: IPreviewFile[] = [];
 
     ngOnInit() {
@@ -34,8 +37,7 @@ export class MigrationComponent implements OnInit {
 
     public tapSubmit(preview = true) {
         this.service.migration({
-            module: this.module,
-            table: this.selected,
+            ...this.dataForm().value(),
             preview,
         }).subscribe({
             next: res => {

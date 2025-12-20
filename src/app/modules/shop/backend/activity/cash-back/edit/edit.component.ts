@@ -1,10 +1,11 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { IActivity, ICashBackConfigure } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 import { ActivityRuleItems } from '../../model';
 import { form, required } from '@angular/forms/signals';
+import { parseNumber } from '../../../../../../theme/utils';
 
 @Component({
     standalone: false,
@@ -24,7 +25,7 @@ export class EditCashBackComponent implements OnInit {
         thumb: '',
         description: '',
         scope: [],
-        scope_type: 0,
+        scope_type: '0',
         start_at: '',
         end_at: '',
         configure: {
@@ -40,13 +41,12 @@ export class EditCashBackComponent implements OnInit {
     public data: IActivity<ICashBackConfigure>;
     public ruleItems = ActivityRuleItems;
 
-    get scopeType() {
-        const val = this.dataForm.scope_type.value;
-        return typeof val === 'number' ? val : parseInt(val, 10);
-    }
+    public readonly scopeType = computed(() => {
+        return parseNumber(this.dataForm.scope_type().value());
+    });
 
-    get selectUrl() {
-        switch (this.scopeType) {
+    public readonly selectUrl = computed(() => {
+        switch (this.scopeType()) {
             case 2:
                 return 'shop/admin/brand/search';
             case 1:
@@ -56,7 +56,7 @@ export class EditCashBackComponent implements OnInit {
             default:
                 return null;
         }
-    }
+    });
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -66,16 +66,20 @@ export class EditCashBackComponent implements OnInit {
             this.service.cashBack(params.id).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
-                        id: res.id,
+                    id: res.id,
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
                     scope: typeof res.scope === 'object' ? res.scope : res.scope.split(',') as any,
-                    scope_type: res.scope_type,
+                    scope_type: res.scope_type as any,
                     start_at: res.start_at as string,
-                    end_at: res.end_at,
+                    end_at: res.end_at as any,
+                    configure: {
+                        money: res.configure.money,
+                        star: res.configure.star,
+                        order_amount: res.configure.order_amount
+                    }
                 });
-                this.dataForm.configure.patchValue(res.configure);
             });
         });
     }
@@ -96,9 +100,14 @@ export class EditCashBackComponent implements OnInit {
         } else if (typeof data.scope === 'object') {
             data.scope = (data.scope as number[]).join(',');
         }
-        this.service.cashBackSave(data).subscribe(_ => {
-            this.toastrService.success($localize `Save Successfully`);
-            this.tapBack();
+        this.service.cashBackSave(data).subscribe({
+            next: _ => {
+                this.toastrService.success($localize `Save Successfully`);
+                this.tapBack();
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 

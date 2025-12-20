@@ -19,19 +19,19 @@
     <div class="picker-form">
         <div>*所在地区:</div>
         <div class="region-input">
-            <app-region url="shop/region/tree" [field]="value().region_id" />
+            <app-region url="shop/region/tree" [value]="value().region_id"  (valueChange)="onValueChange($event, 'region_id')"/>
         </div>
         <div>*详细地址:</div>
         <div>
-            <textarea [field]="value().address" cols="30" rows="10"></textarea>
+            <textarea [value]="value().address" cols="30" rows="10" (valueChange)="onValueChange($event, 'address')"></textarea>
         </div>
         <div>*收货人:</div>
         <div>
-            <input type="text" [field]="value().name">
+            <input type="text" [value]="value().name" (input)="onValueChange($event.target.value, 'name')">
         </div>
         <div>*手机号码:</div>
         <div>
-            <input type="text" [field]="value().tel">
+            <input type="text" [value]="value().tel" (input)="onValueChange($event.target.value, 'tel')">
         </div>
     </div>
     }

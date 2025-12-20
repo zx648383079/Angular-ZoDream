@@ -14,7 +14,7 @@
                         placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                @if (queries.category > 0) {
+                @if (queries.category().value() > 0) {
                 <a class="pull-right btn btn-primary" (click)="open(modal)">新增快捷语</a>
                 }
             </form>

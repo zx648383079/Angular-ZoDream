@@ -23,7 +23,7 @@ export class EditArticleComponent implements OnInit {
     public readonly dataModel = signal({
         id: 0,
         title: '',
-        cat_id: 0,
+        cat_id: '0',
         thumb: '',
         keywords: '',
         description: '',
@@ -50,9 +50,9 @@ export class EditArticleComponent implements OnInit {
             this.service.article(params.id).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
-                        id: res.id,
+                    id: res.id,
                     title: res.title,
-                    cat_id: res.cat_id,
+                    cat_id: res.cat_id.toString(),
                     thumb: res.thumb,
                     keywords: '',
                     description: res.description,

@@ -63,13 +63,13 @@
 <div class="time-axis">
     <div class="time-item active">
         <div class="item-icon">收</div>
-        @if (logisticsData.data) {
+        @if (logisticsData().data) {
         <div class="item-body">
-            收货地址：{{ logisticsData.data.region_name }} {{logisticsData.data.address }}
+            收货地址：{{ logisticsData().data.region_name }} {{logisticsData().data.address }}
         </div>
         }
     </div>
-    @for (item of logisticsData.items; track $index; let i = $index) {
+    @for (item of logisticsData().items; track $index; let i = $index) {
         <div class="time-group" [class]="{active: i < 1}">
             <div class="group-icon">
                 <i class="iconfont icon-check" [class]="formatStatusIcon(item.status)"></i>
@@ -93,17 +93,17 @@
         </div>
     }
 </div>
-@if (!logisticsData.open) {
+@if (!logisticsOpen()) {
 <div class="btn btn-primary" (click)="tapOpenAdd()">
     <i class="iconfont icon-plus"></i>
 </div>
 }
-@if (logisticsData.open) {
+@if (logisticsOpen()) {
 <div class="form-table-control">
     <div class="input-group-control">
         <label for="">状态</label>
         <div>
-            <select  class="form-control" [field]="logisticsData.status">
+            <select class="form-control" [field]="logisticsForm.status">
                 @for (item of statusItems; track $index; let i = $index) {
                 <option [value]="i">{{ item }}</option>
                 }
@@ -113,18 +113,18 @@
     <div class="input-group-control">
         <label for="">物流内容</label>
         <div>
-            <textarea class="form-control" [field]="logisticsData.content"></textarea>
+            <textarea class="form-control" [field]="logisticsForm.content"></textarea>
         </div>
     </div>
     <div class="input-group-control">
         <label for="">发生时间</label>
         <div>
-            <app-date-input format="yyyy-mm-dd hh:ii:ss" [field]="logisticsData.time" />
+            <app-date-input format="yyyy-mm-dd hh:ii:ss" [field]="logisticsForm.time" />
         </div>
     </div>
     <div class="btn-group">
         <div class="btn btn-primary" (click)="tapAddLogistics()">更新</div>
-        <div class="btn btn-danger" (click)="logisticsData.open = false">取消</div>
+        <div class="btn btn-danger" (click)="logisticsOpen.set(false)">取消</div>
     </div>
 </div>
 }

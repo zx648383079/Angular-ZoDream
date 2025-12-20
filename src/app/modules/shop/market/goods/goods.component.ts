@@ -21,7 +21,7 @@ export class GoodsComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly service = inject(ShopService);
-    private sanitizer = inject(DomSanitizer);
+    private readonly sanitizer = inject(DomSanitizer);
     private readonly toastrService = inject(DialogService);
     private readonly store = inject<Store<ShopAppState>>(Store);
     private readonly themeService = inject(ThemeService);

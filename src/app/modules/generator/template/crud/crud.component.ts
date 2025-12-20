@@ -1,14 +1,15 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { IItem } from '../../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
 import { IPreviewFile } from '../../model';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-crud',
-  templateUrl: './crud.component.html',
-  styleUrls: ['./crud.component.scss']
+    selector: 'app-crud',
+    templateUrl: './crud.component.html',
+    styleUrls: ['./crud.component.scss']
 })
 export class CrudComponent implements OnInit {
     private readonly service = inject(GenerateService);
@@ -16,14 +17,16 @@ export class CrudComponent implements OnInit {
 
 
     public readonly modal = viewChild(DialogBoxComponent);
-    public module = '';
     public tableItems: IItem[] = [];
-    public selected = '';
-    public name = '';
-    public hasController = true;
-    public hasView = true;
-    public hasModel = true;
     public previewItems: IPreviewFile[] = [];
+    public readonly dataForm = form(signal({
+        module: '',
+        table: '',
+        name: '',
+        hasController: true,
+        hasModel: true,
+        hasView: true,
+    }));
 
     ngOnInit() {
         this.service.tableList().subscribe(res => {
@@ -38,12 +41,7 @@ export class CrudComponent implements OnInit {
 
     public tapSubmit(preview = true) {
         this.service.crud({
-            module: this.module,
-            table: this.selected,
-            name: this.name,
-            hasController: this.hasController,
-            hasModel: this.hasModel,
-            hasView: this.hasView,
+            ...this.dataForm().value(),
             preview,
         }).subscribe({
             next: res => {

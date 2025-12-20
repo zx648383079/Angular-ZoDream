@@ -48,15 +48,21 @@ export class EditAuctionComponent implements OnInit {
             this.service.auction(params.id).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
-                        id: res.id,
+                    id: res.id,
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
                     scope: res.scope as any,
                     start_at: res.start_at as string,
-                    end_at: res.end_at,
+                    end_at: res.end_at as any,
+                    configure: {
+                        mode: res.configure.mode.toString(),
+                        begin_price: res.configure.begin_price,
+                        fixed_price: res.configure.fixed_price,
+                        step_price: res.configure.step_price,
+                        deposit: res.configure.deposit,
+                    }
                 });
-                this.dataForm.configure.patchValue(res.configure as any);
             });
         });
     }
@@ -71,9 +77,14 @@ export class EditAuctionComponent implements OnInit {
             return;
         }
         const data: IActivity<IAuctionConfigure> = this.dataForm().value() as any;
-        this.service.auctionSave(data).subscribe(_ => {
-            this.toastrService.success($localize `Save Successfully`);
-            this.tapBack();
+        this.service.auctionSave(data).subscribe({
+            next: _ => {
+                this.toastrService.success($localize `Save Successfully`);
+                this.tapBack();
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 

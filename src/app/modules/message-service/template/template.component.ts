@@ -10,9 +10,9 @@ import { mapFormat } from '../../../theme/utils';
 
 @Component({
     standalone: false,
-  selector: 'app-ms-template',
-  templateUrl: './template.component.html',
-  styleUrls: ['./template.component.scss']
+    selector: 'app-ms-template',
+    templateUrl: './template.component.html',
+    styleUrls: ['./template.component.scss']
 })
 export class TemplateComponent implements OnInit {
     private readonly service = inject(MessageServiceService);
@@ -25,8 +25,8 @@ export class TemplateComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
-        type: 0,
+    public readonly queries = form(signal({
+        type: '0',
         page: 1,
         per_page: 20,
         keywords: ''

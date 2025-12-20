@@ -32,10 +32,10 @@ export class KeywordComponent implements OnInit {
         keywords: '',
     }));
     public typeItems = ['词语', '长尾词'];
-    public readonly editForm = form(signal<IWebPageKeywords>({
+    public readonly editForm = form(signal({
         id: 0,
         word: '',
-        type: 0,
+        type: '0',
     }), schemaPath => {
         required(schemaPath.word);
     });
@@ -55,7 +55,7 @@ export class KeywordComponent implements OnInit {
         this.editForm().value.update(v => {
             v.id = item?.id ?? 0;
             v.word = item?.word ?? '';
-            v.type = item?.type ?? 0;
+            v.type = item?.type as any ?? '0';
             return v;
         });
         modal.open(() => {

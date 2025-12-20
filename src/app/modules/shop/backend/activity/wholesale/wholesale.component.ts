@@ -9,9 +9,9 @@ import { ActivityService } from '../activity.service';
 
 @Component({
     standalone: false,
-  selector: 'app-shop-wholesale',
-  templateUrl: './wholesale.component.html',
-  styleUrls: ['./wholesale.component.scss']
+    selector: 'app-shop-wholesale',
+    templateUrl: './wholesale.component.html',
+    styleUrls: ['./wholesale.component.scss']
 })
 export class WholesaleComponent implements OnInit {
     private readonly service = inject(ActivityService);

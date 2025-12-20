@@ -1,13 +1,14 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { GenerateService } from '../../generate.service';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-query',
-  templateUrl: './query.component.html',
-  styleUrls: ['./query.component.scss']
+    selector: 'app-query',
+    templateUrl: './query.component.html',
+    styleUrls: ['./query.component.scss']
 })
 export class QueryComponent implements OnInit {
     private readonly service = inject(GenerateService);
@@ -16,20 +17,27 @@ export class QueryComponent implements OnInit {
 
 
     public items: any[] = [];
-    public schema = '';
-    public table = '';
     public isLoading = false;
-    public page = 1;
-    public perPage = 20;
     public total = -1;
-    public sql = '';
+    public readonly queries = form(signal({
+        sql: '',
+        page: 1,
+        per_page: 20,
+        schema: '',
+        table: '',
+    }));
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.schema = params.schema;
-            this.table = params.table;
-            if (this.table) {
-                this.sql = `SELECT * FROM \`${this.table}\``;
+            this.queries().value.update(v => {
+                v.schema = params.schema;
+                v.table = params.table;
+                if (v.table) {
+                    v.sql = `SELECT * FROM \`${v.table}\``;
+                }
+                return v;
+            });
+            if (params.table) {
                 this.onPageChange(1);
             }
         });
@@ -37,9 +45,12 @@ export class QueryComponent implements OnInit {
 
     public tapReset() {
         this.items = [];
-        this.sql = '';
         this.total = -1;
-        this.page = 1;
+        this.queries().value.update(v => {
+            v.page = 1;
+            v.sql = '';
+            return v;
+        });
     }
 
     public tapRun() {
@@ -51,18 +62,13 @@ export class QueryComponent implements OnInit {
             return;
         }
         this.isLoading = true;
-        this.service.query({
-            sql: this.sql,
-            page: this.page,
-            per_page: this.perPage,
-            schema: this.schema,
-            table: this.table,
-        }).subscribe({
+        const queries = {...this.queries().value(), page};
+        this.service.query(queries).subscribe({
             next: res => {
                 this.items = res.data;
-                this.page = page;
                 this.total = res.paging.total;
                 this.isLoading = false;
+                this.queries().value.set(queries);
             },
             error: err => {
                 this.isLoading = false;

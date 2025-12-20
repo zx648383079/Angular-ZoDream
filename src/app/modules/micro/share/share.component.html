@@ -1,33 +1,33 @@
 <div class="micro-publish-box">
     <div class="title">
         <ng-container i18n>Are there any new things you want to share with everyone? </ng-container>
-        <div class="tip" [hidden]="!data.content" i18n>
-            <em>{{ data.content.length }}</em>characters have been entered 
+        <div class="tip" [hidden]="wordLength() == 0" i18n>
+            <em>{{ wordLength() }}</em>characters have been entered 
         </div>
     </div>
     <div class="input-box">
-        <textarea class="form-control" rows="4" [field]="data.content"></textarea>
+        <textarea class="form-control" rows="4" [field]="dataForm.content"></textarea>
     </div>
     <div class="title-input">
-        <input type="text" class="form-control" [field]="data.title">
+        <input type="text" class="form-control" [field]="dataForm.title">
     </div>
     <div class="input-row">
-        <input type="text" class="form-control" [field]="data.url" disabled>
+        <input type="text" class="form-control" [field]="dataForm.url">
     </div>
     <div class="summary-input">
-        <textarea class="form-control" rows="3" [field]="data.summary"></textarea>
+        <textarea class="form-control" rows="3" [field]="dataForm.summary"></textarea>
     </div>
     <div class="pic-box">
-        @for (item of data.pics; track $index;let i = $index) {
+        @for (item of dataForm.pics; track $index;let i = $index) {
         <div class="img-item">
-            <img [src]="item" i18n-alt alt="Photo">
+            <img [src]="item()" i18n-alt alt="Photo">
             <i class="iconfont icon-close" (click)="tapRemoveImage(i)"></i>
         </div>
         }
         
     </div>
     <div class="actions">
-        <select class="form-control" [field]="data.open_type">
+        <select class="form-control" [field]="dataForm.open_type">
             @for (item of typeItems; track $index;let i = $index) {
                 <option [value]="i">{{ item }}</option>
             }

@@ -15,7 +15,7 @@ import { ActivityService } from '../../activity.service';
 export class BargainGoodsComponent implements OnInit {
     private readonly service = inject(ActivityService);
     private readonly route = inject(ActivatedRoute);
-    private sanitizer = inject(DomSanitizer);
+    private readonly sanitizer = inject(DomSanitizer);
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
 

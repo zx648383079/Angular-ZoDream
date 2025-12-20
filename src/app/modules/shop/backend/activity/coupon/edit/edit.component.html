@@ -35,22 +35,22 @@
 
             </div>
         </div>
-        <div class="input-group-control" [hidden]="ruleType < 1">
+        <div class="input-group-control" [hidden]="ruleType() < 1">
             <label for="scope">使用范围</label>
             <div>
-                <app-select-input [url]="selectUrl" [field]="dataForm.rule_value" [multiple]="true" />
+                <app-select-input [url]="selectUrl()" [field]="dataForm.rule_value" [multiple]="true" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="min_money">使用门槛</label>
             <div>
-                满<input type="text" id="min_money" class="form-control" [field]="dataForm.min_money">元
+                满<input type="number" id="min_money" class="form-control" [field]="dataForm.min_money">元
             </div>
         </div>
         <div class="input-group-control">
-            <label for="money">{{ typeValue < 1 ? '面值/元' : '折扣/折' }}</label>
+            <label for="money">{{ typeValue() < 1 ? '面值/元' : '折扣/折' }}</label>
             <div>
-                <input type="text" id="money" class="form-control" [field]="dataForm.money">
+                <input type="number" id="money" class="form-control" [field]="dataForm.money">
             </div>
         </div>
         <div class="input-group-control">
@@ -66,18 +66,18 @@
                 </select>
             </div>
         </div>
-        <div [hidden]="sendType > 0">
+        <div [hidden]="sendType() > 0">
             <div class="input-group-control">
                 <label for="send_value">发送数量</label>
                 <div>
-                    <input type="text" id="send_value" class="form-control" [field]="dataForm.send_value">
+                    <input type="number" id="send_value" class="form-control" [field]="dataForm.send_value">
                 </div>
             </div>
         </div>
         <div class="input-group-control">
             <label for="every_amount">每人限领</label>
             <div>
-                <input type="text" id="every_amount" class="form-control" [field]="dataForm.every_amount">
+                <input type="number" id="every_amount" class="form-control" [field]="dataForm.every_amount">
             </div>
         </div>
         <div class="input-group-control">

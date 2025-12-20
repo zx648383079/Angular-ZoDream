@@ -14,7 +14,6 @@
             @for (item of typeItems; track $index; let i=$index) {
                 <div class="item" [class]="{active: typeIndex == i}" (click)="typeIndex = i" [title]="item.label">{{ item.label }}</div>
             }
-            
         </div>
         <div class="row form-group">
             @for (item of typeOptionItems; track $index) {
@@ -30,14 +29,14 @@
             <em>*</em><ng-container i18n>Problem Description:</ng-container>
         </div>
         <div class="edit-body">
-            <textarea class="form-control" [field]="content" maxlength="500"></textarea>
-            <span class="edit-tip" i18n>{{ wordSize }} words</span>
+            <textarea class="form-control" [field]="dataForm.content"></textarea>
+            <span class="edit-tip" i18n>{{ wordSize() }} words</span>
         </div>
         <div class="line-header">
             <em>*</em><ng-container i18n>Contact information:</ng-container>
         </div>
         <div>
-            <input type="text" class="form-control" [field]="email">
+            <input type="text" class="form-control" [field]="dataForm.email">
         </div>
         <div class="line-footer">
             <div class="btn-group">

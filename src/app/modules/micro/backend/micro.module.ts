@@ -6,11 +6,13 @@ import { MicroService } from './micro.service';
 import { DesktopModule } from '../../../components/desktop';
 import { ZreSwiperModule } from '../../../components/swiper';
 import { LinkRuleModule } from '../../../components/link-rule';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        Field,
         DesktopModule,
         LinkRuleModule,
         ZreSwiperModule,

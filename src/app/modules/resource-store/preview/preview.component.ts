@@ -23,7 +23,7 @@ export class PreviewComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
-    private sanitizer = inject(DomSanitizer);
+    private readonly sanitizer = inject(DomSanitizer);
 
 
     public data: IResource;

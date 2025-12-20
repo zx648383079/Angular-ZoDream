@@ -2,14 +2,14 @@
     <div class="fixed-icon" (click)="tapOpenChat()">
         <i class="iconfont icon-service"></i>
     </div>
-    <div class="chat-dialog" [hidden]="!dialogOpen">
+    <div class="chat-dialog" [hidden]="!dialogOpen()">
         <div class="dialog-header">
             <div class="title" i18n>Online service</div>
-            <a class="pull-right" (click)="dialogOpen = false" i18n>Back</a>
+            <a class="pull-right" (click)="dialogOpen.set(false)" i18n>Back</a>
         </div>
         <app-message-container class="dialog-body" [items]="items" (loadMore)="tapMore($event)" />
         <div class="dialog-footer">
-            <input type="text" i18n-placeholder placeholder="Please input the content of the inquiry" [field]="content" (keydown)="onKeyDown($event)">
+            <input type="text" i18n-placeholder placeholder="Please input the content of the inquiry" [field]="dataForm.content" (keydown)="onKeyDown($event)">
             <app-emoji-picker class="file-btn" (tapped)="tapEmoji($event)">
                 <i class="iconfont icon-smile-o"></i>
             </app-emoji-picker>

@@ -31,12 +31,15 @@ export class UserComponent implements OnInit {
         keywords: '',
         category: 0,
     }));
-    public users: IUser[] = [];
+
+    public readonly dataForm = form(signal({
+        users: <IUser[]>[]
+    }));
 
     ngOnInit() {
         this.route.params.subscribe(params => {
             if (params.category) {
-                this.queries.category = parseInt(params.category, 10);
+                this.queries.category().value.set(parseInt(params.category, 10));
             }
         });
         this.route.queryParams.subscribe(params => {
@@ -46,16 +49,16 @@ export class UserComponent implements OnInit {
     }
 
     public open(modal: DialogEvent) {
-        this.users = [];
+        this.dataForm.users().value.set([]);
         modal.open(() => {
             this.service.userAdd({
                 category: this.queries.category,
-                user: this.users.map(i => i.id)
+                user: this.dataForm.users().value().map(i => i.id)
             }).subscribe(_ => {
                 this.toastrService.success('添加客服成功');
                 this.tapPage();
             });
-        }, () => this.users.length > 0);
+        }, () => this.dataForm.users().value().length > 0);
     }
 
     public tapSearch() {

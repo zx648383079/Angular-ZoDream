@@ -1,16 +1,17 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { IActivity, IDiscountConfigure } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 import { ActivityRuleItems } from '../../model';
 import { form, required } from '@angular/forms/signals';
+import { parseNumber } from '../../../../../../theme/utils';
 
 @Component({
     standalone: false,
-  selector: 'app-shop-discount-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+    selector: 'app-shop-discount-edit',
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.scss']
 })
 export class EditDiscountComponent implements OnInit {
     private readonly service = inject(ActivityService);
@@ -24,16 +25,16 @@ export class EditDiscountComponent implements OnInit {
         thumb: '',
         description: '',
         scope: [],
-        scope_type: 0,
+        scope_type: '0',
         start_at: '',
         end_at: '',
         configure: {
-            type: 0,
+            type: '0',
             amount: 0,
-            check_discount: 0,
-            check_money: 0,
-            check_gift: 0,
-            check_shipping: 0,
+            check_discount: false,
+            check_money: false,
+            check_gift: false,
+            check_shipping: false,
             discount_value: 0,
             discount_money: 0,
             discount_goods: 0,
@@ -46,13 +47,12 @@ export class EditDiscountComponent implements OnInit {
     public data: IActivity<IDiscountConfigure>;
     public ruleItems = ActivityRuleItems;
 
-    get scopeType() {
-        const val = this.dataForm.scope_type.value;
-        return typeof val === 'number' ? val : parseInt(val, 10);
-    }
+    public readonly scopeType = computed(() => {
+        return parseNumber(this.dataForm.scope_type().value());
+    });
 
-    get selectUrl() {
-        switch (this.scopeType) {
+    public readonly selectUrl = computed(() => {
+        switch (this.scopeType()) {
             case 2:
                 return 'shop/admin/brand/search';
             case 1:
@@ -62,15 +62,11 @@ export class EditDiscountComponent implements OnInit {
             default:
                 return null;
         }
-    }
+    })
 
-    get configureType() {
-        return this.dataForm.configure.get('type').value;
-    }
-
-    get configureDiscountType() {
-        return this.dataForm.configure.get('discount_type').value;
-    }
+    public readonly configureType = computed(() => {
+        return parseNumber(this.dataForm.configure.type().value());
+    });
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -80,29 +76,35 @@ export class EditDiscountComponent implements OnInit {
             this.service.discount(params.id).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
-                        id: res.id,
+                    id: res.id,
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
-                    scope_type: res.scope_type,
+                    scope_type: res.scope_type as any,
                     scope: typeof res.scope === 'object' ? res.scope : res.scope.split(',')  as any,
                     start_at: res.start_at as string,
                     end_at: res.end_at as string,
+                    configure: {
+                        type: res.configure.type as any,
+                        amount: res.configure.amount,
+                        check_discount: res.configure.check_discount as any,
+                        check_money: res.configure.check_money as any,
+                        check_gift: res.configure.check_gift as any,
+                        check_shipping: res.configure.check_shipping as any,
+                        discount_value: res.configure.discount_value,
+                        discount_money: res.configure.discount_money,
+                        discount_goods: res.configure.discount_goods,
+                    }
                 });
-                this.dataForm.configure.patchValue(res.configure);
             });
         });
     }
 
     public onScopeChange() {
-        this.dataModel.set({
-                        id: res.id,
-            scope: [] as any,
+        this.dataForm().value.update(v => {
+            v.scope = [];
+            return v;
         });
-    }
-
-    public hasType(index = 1) {
-        return this.configureDiscountType >> index % 2 === 1;
     }
 
     public tapBack() {
@@ -120,9 +122,14 @@ export class EditDiscountComponent implements OnInit {
         } else if (typeof data.scope === 'object') {
             data.scope = (data.scope as number[]).join(',');
         }
-        this.service.discountSave(data).subscribe(_ => {
-            this.toastrService.success($localize `Save Successfully`);
-            this.tapBack();
+        this.service.discountSave(data).subscribe({
+            next: _ => {
+                this.toastrService.success($localize `Save Successfully`);
+                this.tapBack();
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 

@@ -40,12 +40,12 @@ export class EditSeckillComponent implements OnInit {
             this.service.seckill(params.id).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
-                        id: res.id,
+                    id: res.id,
                     name: res.name,
                     thumb: res.thumb,
                     description: res.description,
                     start_at: res.start_at as string,
-                    end_at: res.end_at,
+                    end_at: res.end_at as string,
                     status: res.status,
                 });
             });

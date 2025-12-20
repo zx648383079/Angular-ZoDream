@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { disabled, form, required } from '@angular/forms/signals';
 import { Component, effect, inject, input, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
@@ -37,10 +37,13 @@ export class CommentComponent {
         order: 'desc',
     }));
     private booted = 0;
-    public commentData = {
-        content: '',
+    public readonly commentForm = form(signal({
         parent_id: 0,
-    };
+        content: ''
+    }), schemaPath => {
+        required(schemaPath.content);
+        disabled(schemaPath, () => !this.user);
+    });
     public user: IUser;
 
     constructor() {
@@ -67,17 +70,20 @@ export class CommentComponent {
             this.toastrService.warning($localize `Please login in first`);
             return;
         }
-        if (emptyValidate(this.commentData.content)) {
+        if (this.commentForm().invalid()) {
             this.toastrService.warning($localize `Please input content`);
             return;
         }
         e?.enter();
-        this.service.commentSave({...this.commentData, resource: this.itemId()}).subscribe({
+        this.service.commentSave({...this.commentForm().value(), resource: this.itemId()}).subscribe({
             next: _ => {
                 e?.reset();
                 this.toastrService.success($localize `Comment successful`);
-                this.commentData.content = '';
-                this.commentData.parent_id = 0;
+                this.commentForm().value.update(v => {
+                    v.content = '';
+                    v.parent_id = 0;
+                    return v;
+                });
             },
             error: err => {
                 e?.reset();
