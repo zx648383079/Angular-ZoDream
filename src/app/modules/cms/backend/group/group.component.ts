@@ -24,11 +24,11 @@ export class GroupComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         keywords: '',
-        type: 0,
+        type: '0',
     }));
     public readonly editForm = form(signal<ICmsGroup>({
         id: 0,

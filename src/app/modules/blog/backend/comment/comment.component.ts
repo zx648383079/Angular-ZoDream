@@ -9,9 +9,9 @@ import { BlogService } from '../blog.service';
 
 @Component({
     standalone: false,
-  selector: 'app-comment',
-  templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.scss']
+    selector: 'app-comment',
+    templateUrl: './comment.component.html',
+    styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent implements OnInit {
     private readonly service = inject(BlogService);
@@ -40,7 +40,7 @@ export class CommentComponent implements OnInit {
     }
 
     public tapUser(userId: number) {
-        this.queries.user = userId;
+        this.queries.user().value.set(userId);
         this.tapRefresh();
     }
 

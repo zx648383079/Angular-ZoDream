@@ -9,9 +9,9 @@ import { ExamService } from '../exam.service';
 
 @Component({
     standalone: false,
-  selector: 'app-upgrade',
-  templateUrl: './upgrade.component.html',
-  styleUrls: ['./upgrade.component.scss']
+    selector: 'app-upgrade',
+    templateUrl: './upgrade.component.html',
+    styleUrls: ['./upgrade.component.scss']
 })
 export class UpgradeComponent implements OnInit {
     private readonly service = inject(ExamService);
@@ -24,11 +24,11 @@ export class UpgradeComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         keywords: '',
-        course: 0,
+        course: '0',
     }));
     public courseItems: ICourse[] = [];
 

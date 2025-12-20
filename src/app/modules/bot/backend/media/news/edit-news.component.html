@@ -21,13 +21,13 @@
     <div class="input-group-control">
         <label for="show_cover">显示封面</label>
         <div>
-            <app-switch name="show_cover" [field]="data.show_cover" />
+            <app-switch [field]="data.show_cover" />
         </div>
     </div>
     <div class="input-group-control">
         <label for="open_comment">开启评论</label>
         <div>
-            <app-switch name="open_comment" [field]="data.open_comment" />
+            <app-switch [field]="data.open_comment" />
         </div>
     </div>
     @if (data.open_comment > 0) {

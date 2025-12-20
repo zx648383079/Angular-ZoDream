@@ -1,15 +1,15 @@
 <div class="step-header">
-    <a class="step-item" [class]="{active: stepIndex < 1}">
+    <a class="step-item" [class.active]="stepIndex < 1">
         <span class="step-badge">1</span>
         <span class="step-title">验证身份</span>
         <i class="step-line"></i>
     </a>
-    <a class="step-item" [class]="{active: stepIndex == 1}">
+    <a class="step-item" [class.active]="stepIndex == 1">
         <span class="step-badge">2</span>
-        <span class="step-title">绑定{{ nameLabel }}</span>
+        <span class="step-title">绑定{{ nameLabel() }}</span>
         <i class="step-line"></i>
     </a>
-    <a class="step-item" [class]="{active: stepIndex > 1}">
+    <a class="step-item" [class.active]="stepIndex > 1">
         <span class="step-badge">3</span>
         <span class="step-title">绑定成功</span>
     </a>
@@ -18,11 +18,11 @@
 @if (stepIndex < 1) {
 <div class="step-body min-body">
     <div class="inline-input disabled" (click)="tapToggleVerify()">
-        <label>{{ verifyLabel }}</label>
+        <label>{{ verifyLabel() }}</label>
         <input type="text" [value]="verify_value" readonly>
     </div>
     <div class="code-input">
-        <input type="text" [(value)]="data.verify">
+        <input type="text" [field]="dataForm.verify">
         <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)" />
     </div>
 
@@ -31,11 +31,11 @@
 } @else if (stepIndex == 1) {
 <div class="step-body min-body">
     <div class="inline-input">
-        <label for="">新{{ nameLabel }}</label>
-        <input type="text" [(value)]="data.value">
+        <label for="">新{{ nameLabel() }}</label>
+        <input type="text" [field]="dataForm.value">
     </div>
     <div class="code-input">
-        <input type="text" [(value)]="data.code">
+        <input type="text" [field]="dataForm.code">
         <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)" />
     </div>
 

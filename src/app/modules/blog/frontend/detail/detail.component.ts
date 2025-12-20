@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit, inject } from '@angular/core';
+import { Component, NgZone, OnInit, inject, signal } from '@angular/core';
 import {
     BlogService
 } from '../blog.service';
@@ -15,6 +15,7 @@ import { SearchService, ThemeService } from '../../../../theme/services';
 import { DEEPLINK_SCHEMA, openLink } from '../../../../theme/utils/deeplink';
 import { emptyValidate } from '../../../../theme/validators';
 import { IErrorResult } from '../../../../theme/models/page';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -37,7 +38,9 @@ export class DetailComponent implements OnInit {
     public isLoading = false;
     public relationItems: IBlog[] = [];
     public commentLoaded = false;
-    public openKey = '';
+    public readonly dataForm = form(signal({
+        open_key: ''
+    }));
 
     constructor() {
         (window as any).deeplinkOpen = path => {
@@ -92,7 +95,7 @@ export class DetailComponent implements OnInit {
             this.themeService.emitLogin(true);
             return;
         }
-        const openKey = this.openKey;
+        const openKey = this.dataForm.open_key().value();
         if (this.data.open_type === 5) {
             if (emptyValidate(openKey)) {
                 this.toastrService.warning($localize `Please input password`);

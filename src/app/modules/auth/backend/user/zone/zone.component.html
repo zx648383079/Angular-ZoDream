@@ -35,10 +35,10 @@
                     <td>{{ item.name }}</td>
                     <td>{{ item.decsription }}</td>
                     <td>
-                        <app-switch [field]="item.is_open" />
+                        <app-switch [(value)]="item.is_open" />
                     </td>
                     <td>
-                        <app-switch [field]="item.status" />
+                        <app-switch [(value)]="item.status" />
                     </td>
                     <td>
                         <div class="btn-group">

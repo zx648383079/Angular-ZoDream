@@ -1,8 +1,9 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, inject, input, output, signal } from '@angular/core';
 import { IUploadFile } from '../../../../../theme/models/open';
 import { FileUploadService, SearchService } from '../../../../../theme/services';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { EditorBlockType, IEditorBlock } from '../../../../../components/editor';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -63,12 +64,12 @@ export class AddPanelComponent {
     public isLoading = false;
     public hasMore = false;
     public mediaItems: IUploadFile[] = [];
-    public mediaQueries: IPageQueries = {
+    public readonly mediaQueries = form(signal({
         keywords: '',
         accept: '*/*',
         page: 1,
         per_page: 20,
-    };
+    }));
 
     public tapTab(i: number) {
         this.tabIndex = i;
@@ -99,7 +100,7 @@ export class AddPanelComponent {
     }
 
     public tapMore() {
-        this.goPage(this.mediaQueries.page + 1);
+        this.goPage(this.mediaQueries.page().value() + 1);
     }
 
     /**
@@ -110,13 +111,13 @@ export class AddPanelComponent {
             return;
         }
         this.isLoading = true;
-        const queries = {...this.mediaQueries, page};
+        const queries = {...this.mediaQueries().value(), page};
         this.uploadService.images.call(this.uploadService, queries).subscribe({
             next: res => {
                 this.isLoading = false;
                 this.mediaItems = page > 1 ? [].concat(this.mediaItems, res.data) : res.data;
                 this.hasMore = res.paging.more;
-                this.mediaQueries = queries
+                this.mediaQueries().value.set(queries)
             }, 
             error: _ => {
                 this.isLoading = false;
@@ -125,7 +126,6 @@ export class AddPanelComponent {
     }
 
     public tapSearch() {
-        this.mediaQueries = this.searchService.getQueries(form, this.mediaQueries);
         this.tapRefresh();
     }
 }

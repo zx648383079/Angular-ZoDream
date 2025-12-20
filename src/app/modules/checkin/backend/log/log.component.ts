@@ -8,9 +8,9 @@ import { CheckinService } from '../checkin.service';
 
 @Component({
     standalone: false,
-  selector: 'app-log',
-  templateUrl: './log.component.html',
-  styleUrls: ['./log.component.scss']
+    selector: 'app-log',
+    templateUrl: './log.component.html',
+    styleUrls: ['./log.component.scss']
 })
 export class LogComponent implements OnInit {
     private readonly service = inject(CheckinService);
@@ -22,7 +22,7 @@ export class LogComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
         date: '',
         page: 1,

@@ -1,7 +1,8 @@
-import { Component, model } from '@angular/core';
+import { Component, model, signal } from '@angular/core';
 import { DialogEvent } from '../../../../../components/dialog';
 import { emptyValidate } from '../../../../../theme/validators';
 import { IQuestionAnalysis } from '../../../model';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -13,30 +14,34 @@ export class QuestionAnalysisComponent {
 
     public readonly value = model<IQuestionAnalysis[]>([]);
     public analysisTypeItems = ['文本', '音频', '视频'];
-    public analysisData: IQuestionAnalysis = {
-        type: 0,
+    public readonly analysisForm = form(signal({
+        type: '0',
         content: '',
-    };
-
-    constructor() { }
-
+    }), schemaPath => {
+        required(schemaPath.content);
+    });
 
     public tapEdit(modal: DialogEvent, i = -1) {
         const val = this.value()[i];
-        this.analysisData.type = i >= 0 ? val.type : 0;
-        this.analysisData.content = i >= 0 ? val.content : '';
+        this.analysisForm().value.update(v => {
+            v.type = i >= 0 ? val.type as any : '0';
+            v.content = i >= 0 ? val.content : '';
+            return v;
+        });
+
         modal.open(() => {
             this.value.update(v => {
+                const data = this.analysisForm().value() as any;
                 if (i >= 0) {
-                    v[i].type = this.analysisData.type;
-                    v[i].content = this.analysisData.content;
+                    v[i].type = data.type;
+                    v[i].content = data.content;
                 } else {
-                    v.push({...this.analysisData});
+                    v.push({...data});
                 }
                 return v;
             });
             
-        }, () => !emptyValidate(this.analysisData.content), i >= 0 ? '编辑解析' : '新增解析');
+        }, () => this.analysisForm().valid(), i >= 0 ? '编辑解析' : '新增解析');
     }
 
     public tapRemove(i: number) {

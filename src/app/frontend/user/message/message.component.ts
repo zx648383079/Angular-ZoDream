@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
 import { UserService } from '../user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IBlockItem } from '../../../components/link-rule';
@@ -14,6 +14,7 @@ import { AppState } from '../../../theme/interfaces';
 import { Store } from '@ngrx/store';
 import { IUser } from '../../../theme/models/user';
 import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
+import { form, required } from '@angular/forms/signals';
 
 interface IMessageGroup {
     id?: number;
@@ -46,7 +47,11 @@ export class MessageComponent implements OnInit, OnDestroy {
     public perPage = 20;
     public isLoading = false;
     public total = 0;
-    public content = '';
+    public readonly dataForm = form(signal({
+        content: ''
+    }), schemaPath => {
+        required(schemaPath.content);
+    });
     public authUser: IUser;
     public dropdownVisible = false;
 
@@ -72,9 +77,9 @@ export class MessageComponent implements OnInit, OnDestroy {
         this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
     }
 
-    public get wordLength() {
-        return this.content.length;
-    }
+    public readonly wordLength = computed(() => {
+        return this.dataForm.content().value().length;
+    })
 
     public get currentUser(): any {
         return this.navIndex >= 0 && this.navIndex < this.navItems.length ? this.navItems[this.navIndex] : {};
@@ -108,7 +113,7 @@ export class MessageComponent implements OnInit, OnDestroy {
 
     public tapNav(i: number) {
         this.navIndex = i;
-        this.content = '';
+        this.dataForm.content().value.set('');
         this.tapRefresh();
     }
 
@@ -119,7 +124,7 @@ export class MessageComponent implements OnInit, OnDestroy {
     }
 
     public tapSend(e?: ButtonEvent) {
-        if (emptyValidate(this.content)) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Please input the content`);
             return;
         }
@@ -127,19 +132,20 @@ export class MessageComponent implements OnInit, OnDestroy {
             return;
         }
         e?.enter();
+        const data = this.dataForm().value();
         this.service.bulletinSend({
             user: this.currentUser.id,
-            content: this.content
+            ...data
         }).subscribe({
             next: _ => {
                 e?.reset();
                 this.items.push({
-                    content: this.content,
+                    content: data.content,
                     user: this.authUser,
                     type: 0,
                     created_at: new Date()
                 });
-                this.content = '';
+                this.dataForm.content().value.set('');
             },
             error: err => {
                 e?.reset();

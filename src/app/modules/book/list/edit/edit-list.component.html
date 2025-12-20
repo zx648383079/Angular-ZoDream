@@ -4,11 +4,11 @@
             <div class="form-group">
                 <label for="title">书单名</label>
                 <input type="text"
-                    class="form-control" [field]="data.title" id="title" placeholder="请输入书单名">
+                    class="form-control" [field]="dataForm.title" id="title" placeholder="请输入书单名">
             </div>
             <div class="form-group">
               <label for="description">介绍</label>
-              <textarea class="form-control" [field]="data.description" id="description" rows="3"></textarea>
+              <textarea class="form-control" [field]="dataForm.description" id="description" rows="3"></textarea>
             </div>
 
             <div class="text-right">
@@ -37,11 +37,11 @@
                 </p>
                 <p>
                     单主评分：
-                    <app-star [field]="item.star" [disabled]="false" />
+                    <app-star [(value)]="item.star" [disabled]="false" />
                 </p>
             </div>
             <p class="remark">
-                <textarea class="form-control" [field]="item.remark" placeholder="添加理由"></textarea>
+                <textarea class="form-control" [(value)]="item.remark" placeholder="添加理由"></textarea>
             </p>
         </div>
     }
@@ -53,7 +53,7 @@
         <i class="iconfont icon-close" (click)="panelOpen = false"></i>
     </div>
     <div class="panel-search">
-        <input type="text" [field]="keywords" (keypress)="searchEnter($event)">
+        <input type="text" [field]="searchForm.keywords" (keypress)="searchEnter($event)">
         <i class="iconfont icon-search" (click)="tapSearch()"></i>
     </div>
     <div class="panel-body">

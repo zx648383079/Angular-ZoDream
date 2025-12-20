@@ -16,12 +16,12 @@
     @if (mode == 2) {
     <div class="form-group">
         <label for="user-name">修改备注</label>
-        <input type="text" class="form-control" id="user-name" [field]="remark" placeholder="备注名称">
+        <input type="text" class="form-control" id="user-name" [(value)]="remark" placeholder="备注名称">
     </div>
     } @else if (mode == 1) {
     <div class="form-group">
         <label for="apply-remark">申请理由</label>
-        <textarea class="form-control" id="apply-remark" [field]="remark" placeholder="申请理由"></textarea>
+        <textarea class="form-control" id="apply-remark" [(value)]="remark" placeholder="申请理由"></textarea>
     </div>
     }
 

@@ -10,9 +10,9 @@ import { eachObject } from '../../../../../theme/utils';
 
 @Component({
     standalone: false,
-  selector: 'app-site-option',
-  templateUrl: './site-option.component.html',
-  styleUrls: ['./site-option.component.scss']
+    selector: 'app-site-option',
+    templateUrl: './site-option.component.html',
+    styleUrls: ['./site-option.component.scss']
 })
 export class SiteOptionComponent implements OnInit {
     private readonly service = inject(CmsService);
@@ -23,6 +23,7 @@ export class SiteOptionComponent implements OnInit {
     public items: IOption[] = [];
 
     public readonly editForm = form(signal({
+        id: 0,
         name: '',
         code: '',
         type: 'text',

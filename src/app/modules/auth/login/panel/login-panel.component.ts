@@ -1,4 +1,4 @@
-import { Component, OnDestroy, inject, output } from '@angular/core';
+import { Component, OnDestroy, inject, output, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { environment } from '../../../../../environments/environment';
 import { DialogService } from '../../../../components/dialog';
@@ -13,6 +13,7 @@ import { emailValidate, mobileValidate, passwordValidate } from '../../../../the
 import { Subscription } from 'rxjs';
 import { selectSystemConfig } from '../../../../theme/reducers/system.selectors';
 import { EncryptorService } from '../../../../theme/services/encryptor.service';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -31,12 +32,17 @@ export class LoginPanelComponent implements OnDestroy {
     public readonly logined = output<IUser>();
 
     public tabIndex = 2;
-    public mobile = '';
-    public code = '';
-    public email = '';
-    public password = '';
-    public captcha = '';
-    public agree = true;
+
+    public readonly dataForm = form(signal({
+        mobile: '',
+        code: '',
+        email: '',
+        password: '',
+        captcha: '',
+        agree: true,
+        twofa_code: '',
+        recovery_code: ''
+    }));
     public passwordObserve = false;
     public openAuth = false;
     public openWebAuthn = true;
@@ -44,8 +50,6 @@ export class LoginPanelComponent implements OnDestroy {
     public captchaImage = '';
     private qrToken = '';
     public qrImage = '';
-    public twoFaCode = '';
-    public recoveryCode = '';
     public qrStatus = 0;
     private subItems = new Subscription();
     private inputData: any = {};
@@ -80,11 +84,11 @@ export class LoginPanelComponent implements OnDestroy {
     }
 
     public tapClearMobile() {
-        this.mobile = '';
+        this.dataForm.mobile().value.set('');
     }
 
     public tapClearEmail() {
-        this.email = '';
+        this.dataForm.email().value.set('');
     }
 
     public tapToggleObserve() {
@@ -92,15 +96,16 @@ export class LoginPanelComponent implements OnDestroy {
     }
 
     public tapToggleAgree() {
-        this.agree = !this.agree;
+        this.dataForm.agree().value.update(v => !v);
     }
 
     public tapSendCode(event: CountdownEvent) {
-        if (!mobileValidate(this.mobile)) {
+        const mobile = this.dataForm.mobile().value();
+        if (!mobileValidate(mobile)) {
             this.toastrService.warning($localize `Please input phone number`);
             return;
         }
-        this.authService.sendMobileCode(this.mobile).subscribe(res => {
+        this.authService.sendMobileCode(mobile).subscribe(res => {
             event.start(120);
             this.toastrService.success(res.message || $localize `The verification code has been sent to the phone `);
         });
@@ -130,13 +135,14 @@ export class LoginPanelComponent implements OnDestroy {
     }
 
     public tapSignIn(e?: ButtonEvent) {
-        const data = this.loadSignInData();
+        const form = this.dataForm().value();
+        const data = this.loadSignInData(form);
         if (!data) {
             return;
         }
         if (this.captchaToken) {
             data.captcha_token = this.captchaToken;
-            data.captcha = this.captcha;
+            data.captcha = form.captcha;
         }
         e?.enter();
         if (data.password) {
@@ -161,41 +167,41 @@ export class LoginPanelComponent implements OnDestroy {
         });
     }
 
-    private loadSignInData(): any {
+    private loadSignInData(form: any): any {
         switch (this.tabIndex) {
             case 1:
-                return this.loadMobilePassword();
+                return this.loadMobilePassword(form);
             case 2:
-                return this.loadEmailPassword();
+                return this.loadEmailPassword(form);
             case 4:
-                return this.load2FA();
+                return this.load2FA(form);
             case 5:
-                return this.loadRecoveryCode();
+                return this.loadRecoveryCode(form);
             default:
-                return this.loadMobileCode();
+                return this.loadMobileCode(form);
         }
     }
 
-    private load2FA(): any {
-        if (!mobileValidate(this.twoFaCode)) {
+    private load2FA(form: any): any {
+        if (!mobileValidate(form.twofa_code)) {
             this.toastrService.warning($localize `Please input the authentication code`);
             return;
         }
-        return {...this.inputData, twofa_code: this.twoFaCode};
+        return {...this.inputData, twofa_code: form.twofa_code};
     }
 
-    private loadRecoveryCode(): any {
-        if (!mobileValidate(this.recoveryCode)) {
+    private loadRecoveryCode(form: any): any {
+        if (!mobileValidate(form.recovery_code)) {
             this.toastrService.warning($localize `Please input the recovery code`);
             return;
         }
-        return {...this.inputData, recovery_code: this.recoveryCode};
+        return {...this.inputData, recovery_code: form.recovery_code};
     }
 
-    private loadMobileCode(): any {
+    private loadMobileCode(form: any): any {
         const data = {
-            mobile: this.mobile,
-            code: this.code,
+            mobile: form.mobile,
+            code: form.code,
         };
         if (!mobileValidate(data.mobile)) {
             this.toastrService.warning($localize `Please input phone number`);
@@ -208,10 +214,10 @@ export class LoginPanelComponent implements OnDestroy {
         return data;
     }
 
-    private loadMobilePassword(): any {
+    private loadMobilePassword(form: any): any {
         const data = {
-            mobile: this.mobile,
-            password: this.password,
+            mobile: form.mobile,
+            password: form.password,
         };
         if (!mobileValidate(data.mobile)) {
             this.toastrService.warning($localize `Please input phone number`);
@@ -224,10 +230,10 @@ export class LoginPanelComponent implements OnDestroy {
         return data;
     }
 
-    private loadEmailPassword(): any {
+    private loadEmailPassword(form: any): any {
         const data = {
-            email: this.email,
-            password: this.password,
+            email: form.email,
+            password: form.password,
         };
         if (!emailValidate(data.email)) {
             this.toastrService.warning($localize `Please input your email`);

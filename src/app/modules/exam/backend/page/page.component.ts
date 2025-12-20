@@ -9,9 +9,9 @@ import { ExamService } from '../exam.service';
 
 @Component({
     standalone: false,
-  selector: 'app-page',
-  templateUrl: './page.component.html',
-  styleUrls: ['./page.component.scss']
+    selector: 'app-page',
+    templateUrl: './page.component.html',
+    styleUrls: ['./page.component.scss']
 })
 export class PageComponent implements OnInit {
     private readonly service = inject(ExamService);
@@ -25,11 +25,11 @@ export class PageComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         keywords: '',
-        course: 0,
+        course: '0',
     }));
     public courseItems: ICourse[] = [];
 

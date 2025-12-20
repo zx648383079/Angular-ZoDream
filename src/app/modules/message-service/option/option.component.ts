@@ -2,7 +2,8 @@ import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { MessageServiceService } from '../ms.service';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
-import { ButtonEvent, FormPanelComponent, FormPanelEvent } from '../../../components/form';
+import { ButtonEvent } from '../../../components/form';
+import { FormPanelComponent } from '../../../components/desktop';
 
 @Component({
     standalone: false,

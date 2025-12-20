@@ -27,10 +27,11 @@ export class StockComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
         page: 1,
-        per_page: 20
+        per_page: 20,
+        group: 0,
     }));
     public categoryItems: ICateringCategory[] = [];
 

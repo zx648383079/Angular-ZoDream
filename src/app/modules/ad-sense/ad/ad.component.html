@@ -37,7 +37,7 @@
                     <td>{{ item.name }}</td>
                     <td>
                         @if (item.position) {
-                             <a (click)="tapSearch({position_id: item.position_id})">{{ item.position.name}}</a>
+                             <a (click)="tapSearch(item.position_id)">{{ item.position.name}}</a>
                         } @else {
                              [-]
                         }

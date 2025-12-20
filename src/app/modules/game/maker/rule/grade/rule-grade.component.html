@@ -54,7 +54,7 @@
     <div class="form-group">
         <label for="name-input">等级</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editForm.grade" placeholder="请输入等级">
+            <input type="number" class="form-control" id="name-input" [field]="editForm.grade" placeholder="请输入等级">
         </div>
     </div>
     <div class="form-group">
@@ -75,26 +75,26 @@
     <div class="form-group">
         <label>等级范围</label>
         <div class="input-group-control range-input">
-            <app-number-input [field]="generateData.begin" />-
-            <app-number-input [field]="generateData.end" />
+            <app-number-input [field]="generateForm.begin" />-
+            <app-number-input [field]="generateForm.end" />
         </div>
     </div>
     <div class="form-group">
         <label>初始升级所需经验</label>
         <div class="input-group-control">
-            <app-number-input [field]="generateData.begin_exp" />
+            <app-number-input [field]="generateForm.begin_exp" />
         </div>
     </div>
     <div class="form-group">
         <label>每级增加经验类型</label>
         <div class="input-group-control">
-            <app-switch [field]="generateData.step_type" onLabel="百分比" offLabel="固定值" />
+            <app-switch [field]="generateForm.step_type" onLabel="百分比" offLabel="固定值" />
         </div>
     </div>
     <div class="form-group">
-        <label>每级增加经验({{ generateData.step_type > 0 ? '%' : '固定' }})</label>
+        <label>每级增加经验({{ generateForm.step_type().value() > 0 ? '%' : '固定' }})</label>
         <div class="input-group-control">
-            <app-number-input [field]="generateData.step_exp" />
+            <app-number-input [field]="generateForm.step_exp" />
         </div>
     </div>
     <div class="preview-bar">
@@ -105,8 +105,8 @@
             <i class="iconfont icon-chevron-left"></i>
         </div>
         <div class="item-body">
-            <div class="item-grade">{{ generateData.preview_grade }} 级</div>
-            <div class="item-exp">所需 {{ generateData.preview_exp | numberFormat }} 经验</div>
+            <div class="item-grade">{{ generateForm.preview_grade().value() }} 级</div>
+            <div class="item-exp">所需 {{ generateForm.preview_exp().value() | numberFormat }} 经验</div>
         </div>
         <div class="tool-item" (click)="tapPreviewOffset(1)">
             <i class="iconfont icon-chevron-right"></i>

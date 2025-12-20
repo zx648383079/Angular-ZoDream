@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
 import { CountdownEvent } from '../../../../components/form';
@@ -7,6 +7,7 @@ import { IUser } from '../../../../theme/models/user';
 import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
 import { emptyValidate } from '../../../../theme/validators';
 import { MemberService } from '../member.service';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -23,13 +24,13 @@ export class PasswordComponent {
     public tabIndex = 0;
     public user: IUser;
     public stepIndex = 0;
-    public data = {
+    public readonly dataForm = form(signal({
         old_password: '',
         password: '',
         confirm_password: '',
         verify_code: '',
         verify: '',
-    };
+    }));
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
@@ -85,13 +86,13 @@ export class PasswordComponent {
     }
 
     private verifyRole() {
-        if (emptyValidate(this.data.verify_code)) {
+        if (emptyValidate(this.dataForm.verify_code().value())) {
             this.toastrService.warning($localize `Please enter the verification code`);
             return;
         }
         this.service.verifyCode({
-            to_type: this.data.verify as any,
-            code: this.data.verify_code,
+            to_type: this.dataForm.verify().value() as any,
+            code: this.dataForm.verify_code().value(),
             event: 'verify_old',
         }).subscribe({
             next: _ => {

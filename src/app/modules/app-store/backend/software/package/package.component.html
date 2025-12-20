@@ -107,7 +107,7 @@
             </select>
         </div>
     </div>
-    @if (editForm.url_type < 1) {
+    @if (urlType() < 1) {
     <div class="form-group" >
         <label>文件</label>
         <div class="input-group-control">
@@ -116,7 +116,7 @@
     </div>
     } @else {
     <div class="form-group">
-        <label>{{ editForm.url_type > 2 ? '内容' : '网址' }}</label>
+        <label>{{ urlType() > 2 ? '内容' : '网址' }}</label>
         <div>
             <app-text-editor [field]="editForm.url" height="100" />
         </div>

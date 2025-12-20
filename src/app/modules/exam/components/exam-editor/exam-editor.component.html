@@ -40,7 +40,7 @@
         <div class="editor-footer">共 {{ size }} 字</div>
         @if (isPreview) {
         <div class="editor-preview">
-            <app-math-mark [content]="previewValue" [editable]="true" [allowInput]="true" />
+            <app-math-mark [content]="previewValue" [disabled]="false" [allowInput]="true" />
         </div>
         }
     </div>

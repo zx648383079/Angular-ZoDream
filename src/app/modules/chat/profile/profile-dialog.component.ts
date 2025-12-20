@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { IUser } from '../../../theme/models/user';
 
 @Component({
@@ -10,7 +10,7 @@ import { IUser } from '../../../theme/models/user';
 export class ProfileDialogComponent {
 
     public data: IUser = null;
-    public remark = '';
+    public readonly remark = signal('');
     public mode = 0;
     public visible = false;
 
@@ -20,7 +20,7 @@ export class ProfileDialogComponent {
     public open(user: IUser, cb: (res: boolean) => void) {
         this.data = user;
         this.visible = true;
-        this.remark = '';
+        this.remark.set('');
         this.confirmFn = cb;
     }
 

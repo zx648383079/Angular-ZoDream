@@ -10,9 +10,9 @@ import { CustomDialogComponent } from '../goods/custom-dialog/custom-dialog.comp
 
 @Component({
     standalone: false,
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+    selector: 'app-users',
+    templateUrl: './users.component.html',
+    styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
     private readonly service = inject(CateringService);
@@ -26,7 +26,7 @@ export class UsersComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         group: 0,
         keywords: '',
         page: 1,
@@ -73,7 +73,7 @@ export class UsersComponent implements OnInit {
     }
 
     public tapCategory(item?: ICateringPatronGroup) {
-        this.queries.group = item?.id || 0;
+        this.queries.group().value.set(item?.id || 0);
         this.tapRefresh();
     }
 

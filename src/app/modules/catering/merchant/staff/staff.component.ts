@@ -11,9 +11,9 @@ import { RoleDialogComponent } from './role/role-dialog.component';
 
 @Component({
     standalone: false,
-  selector: 'app-staff',
-  templateUrl: './staff.component.html',
-  styleUrls: ['./staff.component.scss']
+    selector: 'app-staff',
+    templateUrl: './staff.component.html',
+    styleUrls: ['./staff.component.scss']
 })
 export class StaffComponent implements OnInit {
     private readonly service = inject(CateringService);
@@ -29,10 +29,11 @@ export class StaffComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
         page: 1,
-        per_page: 20
+        per_page: 20,
+        group: 0,
     }));
     public categoryItems: ICateringStaffRole[] = [];
 

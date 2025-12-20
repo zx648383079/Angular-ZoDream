@@ -19,7 +19,7 @@
     } @else if (tabIndex == 1) {
     <div>
         <div class="input-header-block" [class]="{'input-not-empty': !!url}">
-            <input type="text" [field]="url">
+            <input type="text" [(value)]="url">
             <label for="">链接</label>
         </div>
         <div class="modal-action">

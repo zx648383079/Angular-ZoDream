@@ -1,4 +1,5 @@
-import { Component, OnInit, ElementRef, viewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, viewChild, signal } from '@angular/core';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -6,7 +7,7 @@ import { Component, OnInit, ElementRef, viewChild } from '@angular/core';
     templateUrl: './bulletin-send.component.html',
     styleUrls: ['./bulletin-send.component.scss']
 })
-export class BulletinSendComponent implements OnInit {
+export class BulletinSendComponent {
 
     readonly box = viewChild<ElementRef>('box');
     public lastUsers: any[] = [];
@@ -16,12 +17,11 @@ export class BulletinSendComponent implements OnInit {
     public hasMore = false;
     public isList = false;
     public page = 0;
-    public content = '';
-
-    constructor() { }
-
-    ngOnInit() {
-    }
+    public readonly dataForm = form(signal({
+        content: ''
+    }), schemaPath => {
+        required(schemaPath.content);
+    });
 
     public change(user: any) {
         this.currentUser = user;

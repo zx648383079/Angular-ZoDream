@@ -54,8 +54,6 @@ export class RoleDialogComponent {
     ];
     private confirmFn: DialogConfirmFn;
 
-    constructor() { }
-
     public open(confirm: DialogConfirmFn): void;
     public open(data: ICateringStaffRole, confirm: DialogConfirmFn): void;
     public open(data: ICateringStaffRole|DialogConfirmFn, confirm?: DialogConfirmFn) {

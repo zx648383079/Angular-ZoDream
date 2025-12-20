@@ -7,11 +7,13 @@ import { FileExplorerModule } from '../../../components/file-explorer';
 import { FILE_PROVIDER } from '../../../components/file-explorer/model';
 import { ZreFormModule } from '../../../components/form';
 import { DesktopModule } from '../../../components/desktop';
+import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        Field,
         DesktopModule,
         FileExplorerModule,
         DiskBackendRoutingModule,

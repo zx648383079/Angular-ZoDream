@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
@@ -9,12 +9,13 @@ import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
 import { emptyValidate } from '../../../theme/validators';
 import { BookService } from '../book.service';
 import { IAuthorProfile, IBook } from '../model';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-book-member',
-  templateUrl: './book-member.component.html',
-  styleUrls: ['./book-member.component.scss']
+    selector: 'app-book-member',
+    templateUrl: './book-member.component.html',
+    styleUrls: ['./book-member.component.scss']
 })
 export class BookMemberComponent implements OnInit {
     private readonly store = inject<Store<AppState>>(Store);
@@ -27,7 +28,13 @@ export class BookMemberComponent implements OnInit {
     public user: IUser;
     public data: IAuthorProfile;
     public bookItems: IBook[] = [];
-    public bookData: IBook = {} as IBook;
+    public readonly bookForm = form(signal({
+        name: '',
+        cover: '',
+        description: ''
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
@@ -45,9 +52,13 @@ export class BookMemberComponent implements OnInit {
     }
 
     public tapNewBook(modal: DialogBoxComponent) {
-        this.bookData = {} as IBook;
+        this.bookForm().value.set({
+            name: '',
+            cover: '',
+            description: ''
+        });
         modal.open(() => {
-            this.service.selfSaveBook(this.bookData).subscribe({
+            this.service.selfSaveBook(this.bookForm().value()).subscribe({
                 next: res => {
                     this.toastrService.success('书籍创建成功，请添加章节');
                     this.router.navigate(['book', res.id], {relativeTo: this.route});
@@ -56,6 +67,6 @@ export class BookMemberComponent implements OnInit {
                     this.toastrService.error(err.error.message);
                 }
             });
-        }, () => !emptyValidate(this.bookData.name));
+        }, () => this.bookForm().valid());
     }
 }

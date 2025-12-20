@@ -7,14 +7,14 @@ import { SearchService } from '../../../../../theme/services';
 import { DiskService } from '../../disk.service';
 import { DialogService } from '../../../../../components/dialog';
 import { IItem } from '../../../../../theme/models/seo';
-import { mapFormat } from '../../../../../theme/utils';
+import { mapFormat, parseNumber } from '../../../../../theme/utils';
 import { ButtonEvent } from '../../../../../components/form';
 
 @Component({
     standalone: false,
-  selector: 'app-disk-explorer-storage',
-  templateUrl: './explorer-storage.component.html',
-  styleUrls: ['./explorer-storage.component.scss']
+    selector: 'app-disk-explorer-storage',
+    templateUrl: './explorer-storage.component.html',
+    styleUrls: ['./explorer-storage.component.scss']
 })
 export class ExplorerStorageComponent implements OnInit {
     private readonly service = inject(DiskService);
@@ -31,9 +31,9 @@ export class ExplorerStorageComponent implements OnInit {
         {name: '公共', value: 1},
         {name: '内部', value: 2},
     ]
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
-        tag: 0,
+        tag: '0',
         page: 1,
         per_page: 20,
     }));
@@ -95,7 +95,7 @@ export class ExplorerStorageComponent implements OnInit {
     public tapReload(e?: ButtonEvent) {
         this.toastrService.confirm('确定执行重新索引？此操作将更新文件信息及查漏补缺！', () => {
             e?.enter();
-            this.service.storageReload(this.queries.tag).subscribe({
+            this.service.storageReload(parseNumber(this.queries.tag().value())).subscribe({
                 next: _ => {
                     e?.reset();
                     this.tapRefresh();

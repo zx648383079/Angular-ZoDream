@@ -14,7 +14,6 @@ import {
 import {
     ActivatedRoute
 } from '@angular/router';
-import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService, ThemeService } from '../../../../theme/services';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../theme/interfaces';

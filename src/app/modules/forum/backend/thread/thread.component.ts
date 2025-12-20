@@ -25,7 +25,7 @@ export class ThreadComponent implements OnInit {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         keywords: '',
@@ -39,7 +39,8 @@ export class ThreadComponent implements OnInit {
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
-            if (this.queries.forum < 1 || this.forum?.id === this.queries.forum) {
+            const forum = this.queries.forum().value();
+            if (forum < 1 || this.forum?.id === forum) {
                 this.tapPage();
                 return;
             }

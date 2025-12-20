@@ -9,9 +9,9 @@ import { SearchService } from '../../../theme/services';
 
 @Component({
     standalone: false,
-  selector: 'app-forum-member',
-  templateUrl: './forum-member.component.html',
-  styleUrls: ['./forum-member.component.scss']
+    selector: 'app-forum-member',
+    templateUrl: './forum-member.component.html',
+    styleUrls: ['./forum-member.component.scss']
 })
 export class ForumMemberComponent implements OnInit {
     private readonly service = inject(ForumService);

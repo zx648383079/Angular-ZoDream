@@ -9,13 +9,13 @@
         <div class="input-group-control">
             <label for="">接收者</label>
             <div>
-                <select class="form-control" [field]="data.to_type">
+                <select class="form-control" [field]="dataForm.to_type">
                     @for (item of toTypeItems; track $index; let i = $index) {
                     <option [value]="i">{{ item }}</option>
                     }
                 </select>
-                <div [hidden]="data.to_type < 1">
-                    <app-select-input [url]="selectUrl" [field]="data.to" [formatFn]="formatUser" />
+                <div [hidden]="dataForm.to_type().value() == '0'">
+                    <app-select-input [url]="selectUrl()" [field]="dataForm.to" [formatFn]="formatUser" />
                 </div>
             </div>
         </div>

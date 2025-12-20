@@ -10,9 +10,9 @@ import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-page-scoring',
-  templateUrl: './page-scoring.component.html',
-  styleUrls: ['./page-scoring.component.scss']
+    selector: 'app-page-scoring',
+    templateUrl: './page-scoring.component.html',
+    styleUrls: ['./page-scoring.component.scss']
 })
 export class PageScoringComponent implements OnInit {
     private readonly service = inject(ExamService);

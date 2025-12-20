@@ -13,7 +13,7 @@
                 </div>
                 <div class="input-group-control">
                     <label>分区</label>
-                    <select name="tag" [field]="queries.tag" class="form-control">
+                    <select [field]="queries.tag" class="form-control">
                         <option [value]="0">请选择</option>
                         @for (item of tagItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
@@ -23,7 +23,7 @@
                 <button type="submit" class="btn btn-primary">搜索</button>
 
                 <div class="btn-group pull-right">
-                    <app-action-button class="btn btn-success" (tapped)="tapReload($event)" [hidden]="queries.tag < 1">重新索引</app-action-button>
+                    <app-action-button class="btn btn-success" (tapped)="tapReload($event)" [hidden]="queries.tag().value() == '0'">重新索引</app-action-button>
                     <a class="btn" [class]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
                 </div>
             </form>

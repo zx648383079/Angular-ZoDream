@@ -38,10 +38,11 @@ export class ReplyComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public readonly editForm = form(signal({
+    public readonly editForm = form(signal<IBotReply>({
+        id: 0,
         event: '', 
         type: 0
-    }), schemaPath => {
+    } as any), schemaPath => {
         required(schemaPath.event);
     });
 

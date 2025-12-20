@@ -9,7 +9,7 @@
         <i class="iconfont icon-close dialog-close" (click)="close()"></i>
     </div>
     <div class="search-bar">
-        <a class="route-icon" [class]="{disabled: queries.page < 2}" title="上一页" (click)="tapPrevious()">
+        <a class="route-icon" [class.disabled]="queries.page().value() < 2" title="上一页" (click)="tapPrevious()">
             <i class="iconfont icon-chevron-left"></i>
         </a>
         <div class="search-input" [class]="{'on-edit': isInput}">

@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -9,9 +9,9 @@ import { DialogService } from '../../../../components/dialog';
 
 @Component({
     standalone: false,
-  selector: 'app-client',
-  templateUrl: './client.component.html',
-  styleUrls: ['./client.component.scss']
+    selector: 'app-client',
+    templateUrl: './client.component.html',
+    styleUrls: ['./client.component.scss']
 })
 export class ClientComponent implements OnInit {
     private readonly service = inject(DiskService);
@@ -30,13 +30,15 @@ export class ClientComponent implements OnInit {
         per_page: 20,
     }));
     public linkToggle = false;
-    public data: ILinkServerData = {
-        linked: false,
+    public readonly isLinked = signal(false);
+    public readonly dataForm = form(signal({
         server_url: '',
         upload_url: '',
         download_url: '',
         ping_url: '',
-    };
+    }), schemaPath => {
+        required(schemaPath.server_url);
+    });
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -46,24 +48,24 @@ export class ClientComponent implements OnInit {
     }
 
     public tapLink() {
-        if (!this.data.server_url) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning('请填写服务器地址');
             return;
         }
-        this.data.linked = !this.data.linked;
-        this.service.linkServer(this.data).subscribe({
+        this.isLinked.update(v => !v);
+        this.service.linkServer(this.dataForm().value() as any).subscribe({
             next: res => {
-                this.data = res;
+                this.isLinked.set(res.linked);
+                this.dataForm().value.set(res);
             },
             error: err => {
                 this.toastrService.error(err);
-                this.data.linked = false;
+                this.isLinked.set(false);
             }
         })
     }
 
     public tapSearch() {
-
         this.tapRefresh();
     }
 

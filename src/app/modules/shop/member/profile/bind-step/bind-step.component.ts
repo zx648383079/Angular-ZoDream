@@ -1,9 +1,10 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, effect, inject, input, signal, untracked } from '@angular/core';
 import { DialogService } from '../../../../../components/dialog';
 import { CountdownEvent } from '../../../../../components/form';
 import { IUser } from '../../../../../theme/models/user';
 import { emailValidate, emptyValidate, mobileValidate } from '../../../../../theme/validators';
 import { ShopService } from '../../../shop.service';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -21,56 +22,71 @@ export class BindStepComponent {
 
     public verify_value = '';
     public stepIndex = 0;
-    public data = {
+    public readonly dataForm = form(signal({
         name: '',
         verify_type: '',
         verify: '',
         value: '',
         code: '',
-    };
+    }));
 
     constructor() {
-        this.data.verify_type = this.data.name = this.name();
-        this.verify_value = this.user()[this.data.verify_type];
-        if (!this.verify_value) {
-            this.tapToggleVerify();
-        }
-        if (!this.verify_value) {
-            this.stepIndex = 1;
-        }
+        effect(() => {
+            const name = this.name();
+            const user = this.user();
+            untracked(() => {
+                this.dataForm().value.update(v => {
+                    v.verify_type = v.name = name;
+                    return v;
+                });
+                this.verify_value = user[name];
+                if (!this.verify_value) {
+                    this.tapToggleVerify();
+                }
+                if (!this.verify_value) {
+                    this.stepIndex = 1;
+                }
+            });
+            
+        });
     }
 
-    public get nameLabel() {
+    public readonly nameLabel = computed(() => {
         return this.formatLabel(this.name());
-    }
+    });
 
-    public get verifyLabel() {
-        return '原' + this.formatLabel(this.data.verify_type);
-    }
+    public readonly verifyLabel = computed(() => {
+        const label = this.formatLabel(this.dataForm.verify_type().value())
+        return $localize `Old ${label}`;
+    })
 
     private formatLabel(name: string) {
         const maps = {
-            email: '邮箱',
-            mobile: '手机号'
+            email: $localize `Email`,
+            mobile: $localize `Phone`
         };
         return Object.prototype.hasOwnProperty.call(maps, name) ? maps[name] : '--';
     }
 
     public tapToggleVerify() {
-        const type = this.data.verify_type == 'email' ? 'mobile' : 'email';
-        const user = this.user();
-        if (user[type]) {
-            this.data.verify_type = type;
-            this.data.verify = '';
-            this.verify_value = user[type];
-        }
+        this.dataForm().value.update(v => {
+            const type = v.verify_type == 'email' ? 'mobile' : 'email';
+            const user = this.user();
+            if (user[type]) {
+                v.verify_type = type;
+                v.verify = '';
+                this.verify_value = user[type];
+            }
+            return v;
+        });
+        
     }
 
     public tapSendCode(e: CountdownEvent) {
         if (this.stepIndex < 1) {
             // 直接获取验证码
             this.service.sendCode({
-                to_type: this.data.verify_type as any,
+                to_type: this.dataForm.verify_type().value() as any,
                 event: 'verify_old',
             }).subscribe({
                 next: _ => {
@@ -87,8 +103,8 @@ export class BindStepComponent {
         }
         // 获取新的验证码
         this.service.sendCode({
-            to_type: this.data.name as any,
-            to: this.data.value,
+            to_type: this.dataForm.name().value() as any,
+            to: this.dataForm.value().value(),
             event: 'verify_new',
         }).subscribe({
             next: _ => {
@@ -111,16 +127,17 @@ export class BindStepComponent {
     }
 
     private verifyValue(): boolean {
-        if (emptyValidate(this.data.value)) {
-            this.toastrService.warning('请输入' + this.nameLabel);
+        const value = this.dataForm.value().value();
+        if (emptyValidate(value)) {
+            this.toastrService.warning($localize `Please input ${this.nameLabel}`);
             return false;
         }
         const name = this.name();
         if (
-            (name === 'email' && !emailValidate(this.data.value)) ||
-            (name === 'mobile' && !mobileValidate(this.data.value))
+            (name === 'email' && !emailValidate(value)) ||
+            (name === 'mobile' && !mobileValidate(value))
         ) {
-            this.toastrService.warning('请输入正确的' + this.nameLabel);
+            this.toastrService.warning($localize `Please input valid ${this.nameLabel}`);
             return false;
         }
         return true;
@@ -130,12 +147,12 @@ export class BindStepComponent {
         if (!this.verifyValue()) {
             return;
         }
-        if (emptyValidate(this.data.code)) {
-            this.toastrService.warning('请输入验证码');
+        if (emptyValidate(this.dataForm.code().value())) {
+            this.toastrService.warning($localize `Please enter the verification code`);
             return;
         }
         // 提交数据进行更改
-        this.service.updateAccount(this.data).subscribe({
+        this.service.updateAccount(this.dataForm().value()).subscribe({
             next: _ => {
                 this.stepIndex = 2;
             },
@@ -146,13 +163,13 @@ export class BindStepComponent {
     }
 
     private verifyRole() {
-        if (emptyValidate(this.data.verify)) {
-            this.toastrService.warning('请输入验证码');
+        if (emptyValidate(this.dataForm.verify().value())) {
+            this.toastrService.warning($localize `Please enter the verification code`);
             return;
         }
         this.service.verifyCode({
-            to_type: this.data.verify_type as any,
-            code: this.data.verify,
+            to_type: this.dataForm.verify_type().value() as any,
+            code: this.dataForm.verify().value(),
             event: 'verify_old',
         }).subscribe({
             next: _ => {

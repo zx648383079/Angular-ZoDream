@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IFormInput, FormPanelEvent } from '../event';
+import { FormPanelEvent, IFormInput } from '../../form';
 
 @Component({
     standalone: false,

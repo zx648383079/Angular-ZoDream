@@ -7,18 +7,18 @@
         <a class="mobile-toggle" (click)="tapTab(1)" i18n>Login with password</a>
         <div class="icon-input">
             <i class="iconfont icon-mobile" aria-hidden="true"></i>
-            <input type="text" name="mobile" [field]="mobile" i18n-placeholder placeholder="Please input phone number">
-            @if (mobile.length > 0) {
+            <input type="text" [field]="dataForm.mobile" i18n-placeholder placeholder="Please input phone number">
+            @if (dataForm.mobile().value().length > 0) {
             <i class="iconfont icon-close-circle" (click)="tapClearMobile()"></i>
             }
         </div>
         <div class="code-input">
-            <input type="text" [field]="code" i18n-placeholder placeholder="SMS verification code">
+            <input type="text" [field]="dataForm.code" i18n-placeholder placeholder="SMS verification code">
             <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)" />
         </div>
         @if (captchaImage) {
         <div class="captcha-input">
-            <input type="text" [field]="captcha" i18n-placeholder placeholder="Captcha">
+            <input type="text" [field]="dataForm.captcha" i18n-placeholder placeholder="Captcha">
             <a (click)="tapCaptcha()" class="img-btn" i18n-title title="Click refresh">
                 <img [src]="captchaImage" i18n-alt alt="Refresh and retry">
             </a>
@@ -26,7 +26,7 @@
         }
         <app-action-button class="btn btn-primary" (tapped)="tapSignIn($event)" i18n>Sign in</app-action-button>
         <div class="agree-bar">
-            <i class="iconfont" [class]="{'icon-check-square-o': agree, 'icon-square-o': !agree}" (click)="tapToggleAgree()"></i>
+            <i class="iconfont" [class]="{'icon-check-square-o': dataForm.agree().value(), 'icon-square-o': !dataForm.agree().value()}" (click)="tapToggleAgree()"></i>
             <ng-container i18n>I agree to</ng-container>
             <a class="strong-link" routerLink="/frontend/agreement" target="_blank" i18n>terms of service</a>
         </div>
@@ -35,21 +35,21 @@
         <a class="mobile-toggle" (click)="tapTab(0)" i18n>Back</a>
         <div class="icon-input">
             <i class="iconfont icon-mobile" aria-hidden="true"></i>
-            <input type="text" name="mobile" [field]="mobile" i18n-placeholder placeholder="Please input phone number">
-            @if (mobile.length > 0) {
+            <input type="text" [field]="dataForm.mobile" i18n-placeholder placeholder="Please input phone number">
+            @if (dataForm.mobile().value().length > 0) {
             <i class="iconfont icon-close-circle" (click)="tapClearMobile()"></i>
             }
         </div>
         <div class="icon-input">
             <i class="iconfont icon-lock" aria-hidden="true"></i>
-            <input [type]="passwordObserve ? 'text' : 'password'"  name="password" [field]="password" i18n-placeholder placeholder="Please input the password">
-            @if (password.length > 0) {
+            <input [type]="passwordObserve ? 'text' : 'password'" [field]="dataForm.password" i18n-placeholder placeholder="Please input the password">
+            @if (dataForm.password.length > 0) {
             <i class="iconfont" (click)="tapToggleObserve()" [class]="{'icon-eye': passwordObserve, 'icon-eye-slash': !passwordObserve}"></i>
             }
         </div>
         @if (captchaImage) {
         <div class="captcha-input">
-            <input type="text" [field]="captcha" i18n-placeholder placeholder="Please input the captcha">
+            <input type="text" [field]="dataForm.captcha" i18n-placeholder placeholder="Please input the captcha">
             <a (click)="tapCaptcha()" class="btn" i18n-title title="Click refresh">
                 <img [src]="captchaImage" i18n-alt alt="Refresh and retry">
             </a>
@@ -60,21 +60,21 @@
     <div class="email-body" [hidden]="tabIndex != 2">
         <div class="icon-input">
             <i class="iconfont icon-user" aria-hidden="true"></i>
-            <input type="text" name="email" [field]="email" i18n-placeholder placeholder="Please input username">
-            @if (email.length > 0) {
+            <input type="text" [field]="dataForm.email" i18n-placeholder placeholder="Please input username">
+            @if (dataForm.email().value().length > 0) {
             <i class="iconfont icon-close-circle" (click)="tapClearEmail()"></i>
             }
         </div>
         <div class="icon-input">
             <i class="iconfont icon-lock" aria-hidden="true"></i>
-            <input [type]="passwordObserve ? 'text' : 'password'"  name="password" [field]="password" i18n-placeholder placeholder="Please input the password">
-            @if (password.length > 0) {
+            <input [type]="passwordObserve ? 'text' : 'password'" [field]="dataForm.password" i18n-placeholder placeholder="Please input the password">
+            @if (dataForm.password().value().length > 0) {
             <i class="iconfont" (click)="tapToggleObserve()" [class]="{'icon-eye': passwordObserve, 'icon-eye-slash': !passwordObserve}"></i>
             }
         </div>
         @if (captchaImage) {
         <div class="captcha-input">
-            <input type="text" [field]="captcha" i18n-placeholder placeholder="Please input the captcha">
+            <input type="text" [field]="dataForm.captcha" i18n-placeholder placeholder="Please input the captcha">
             <a (click)="tapCaptcha()" class="btn" i18n-title title="Click refresh">
                 <img [src]="captchaImage" i18n-alt alt="Refresh and retry">
             </a>
@@ -115,7 +115,7 @@
         <div class="title-bar" i18n>Two-factor authentication</div>
         <div class="icon-input">
             <i class="iconfont icon-shield" aria-hidden="true"></i>
-            <input type="text" i18n-placeholder placeholder="Authentication code" [field]="twoFaCode">
+            <input type="text" i18n-placeholder placeholder="Authentication code" [field]="dataForm.twofa_code">
         </div>
 
 
@@ -131,7 +131,7 @@
         <div class="title-bar" i18n>Use a Recovery Code</div>
         <div class="icon-input">
             <i class="iconfont icon-shield" aria-hidden="true"></i>
-            <input type="text" i18n-placeholder placeholder="Recovery Code" [field]="recoveryCode">
+            <input type="text" i18n-placeholder placeholder="Recovery Code" [field]="dataForm.recovery_code">
         </div>
     
         <app-action-button class="btn btn-primary" (tapped)="tapSignIn($event)" i18n>Verify</app-action-button>

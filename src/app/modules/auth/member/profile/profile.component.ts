@@ -1,10 +1,11 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IItem } from '../../../../theme/models/seo';
 import { SexItems, IUser } from '../../../../theme/models/user';
 import { parseNumber } from '../../../../theme/utils';
 import { MemberService } from '../member.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -38,7 +39,6 @@ export class ProfileComponent implements OnInit {
             next: user => {
                 this.user = user;
                 this.dataModel.set({
-                        id: res.id,
                     name: user.name,
                     sex: user.sex,
                     birthday: user.birthday,
@@ -62,7 +62,7 @@ export class ProfileComponent implements OnInit {
     public tapSex(item: IItem) {
         this.user.sex = item.value as number;
         this.user.sex_label = item.name;
-        this.dataForm.sex.setValue(parseNumber(item.value));
+        this.dataForm.sex().value.set(parseNumber(item.value));
     }
 
     public tapSubmit() {

@@ -1,16 +1,17 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewContainerRef, inject, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewContainerRef, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContextMenuComponent, IMenuItem } from '../../../components/context-menu';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { EditorService } from '../../../components/editor';
 import { ButtonEvent } from '../../../components/form';
 import { ThemeService } from '../../../theme/services';
-import { wordLength } from '../../../theme/utils';
+import { parseNumber, wordLength } from '../../../theme/utils';
 import { emptyValidate } from '../../../theme/validators';
 import { BookService } from './book.service';
 import { ChapterTypeItems, IBook, IChapter } from '../model';
 import { IItem } from '../../../theme/models/seo';
 import { TextElement } from './text-editor';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -39,17 +40,24 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     public topVisible = false;
 
     public typeItems: IItem[] = ChapterTypeItems.filter(i => i.value < 9);
-    
-    public moveData = {
-        source: 0,
-        target: 0,
-        type: 0,
-    };
-    public publishData = {
+    public readonly bookForm = form(signal({
+        name: '',
+        cover: '',
+        description: ''
+    }));
+    public readonly dataForm = form(signal({
+        title: '',
+        type: '0',
+        size: '0',
         publish_type: 0,
         publish_date: '',
         publish_time: ''
-    };
+    }));
+    public readonly moveForm = form(signal({
+        source: 0,
+        target: '0',
+        type: 0,
+    }));
     
     constructor() {
         this.themeService.titleChanged.next('编辑书籍');
@@ -102,6 +110,11 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
                     return i;
                 });
                 this.book = {...res, chapters: undefined};
+                this.bookForm().value.set({
+                    name: res.name,
+                    cover: res.cover,
+                    description: res.description
+                });
             },
             error: err => {
                 this.toastrService.error(err);
@@ -200,22 +213,20 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     public tapSaveBook() {
         this.service.selfSaveBook({
             id: this.book.id,
-            name: this.book.name,
-            cover: this.book.cover,
-            description: this.book.description,
+            ...this.bookForm().value()
         }).subscribe(_ => {
             this.toastrService.success('书籍信息保存成功');
         });
     }
 
     public tapMove(item: IChapter) {
-        this.moveData.source = item.id;
+        this.moveForm.source().value.set(item.id);
         this.moveModal().open(() => {
-            const data: any = {id: this.moveData.source};
-            if (this.moveData.type < 9) {
-                data.before = this.moveData.target;
+            const data: any = {id: this.moveForm.source().value()};
+            if (this.moveForm.type().value() < 9) {
+                data.before = this.moveForm.target;
             } else {
-                data.after = this.moveData.target;
+                data.after = this.moveForm.target;
             }
             this.service.selfMoveChapter(data).subscribe({
                 next: () => {
@@ -226,7 +237,10 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.toastrService.error(err);
                 }
             });
-        }, () => this.moveData.target > 0 && this.moveData.target != item.id, `移动章节《${item.title}》到`);
+        }, () => {
+            const target = parseNumber(this.moveForm.target().value());
+            return target > 0 && target != item.id;
+        }, `移动章节《${item.title}》到`);
     }
 
     public tapSaveChapter(e?: ButtonEvent) {
@@ -265,16 +279,18 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
             return;
         }
         this.publishModal().open(() => {
-            data.publish_type = this.publishData.publish_type;
+            const form = this.dataForm().value();
+            data.publish_type = form.publish_type;
             if (data.publish_type > 0) {
-                data.publish_at = `${this.publishData.publish_date} ${this.publishData.publish_time}`;
+                data.publish_at = `${form.publish_date} ${form.publish_time}`;
             }
             submitFn();
         }, () => {
-            if (this.publishData.publish_type < 1) {
+            const data = this.dataForm().value();
+            if (data.publish_type < 1) {
                 return true;
             }
-            return !emptyValidate(this.publishData.publish_date) && !emptyValidate(this.publishData.publish_time) ? true : '请选择发布的时间';
+            return !emptyValidate(data.publish_date) && !emptyValidate(data.publish_time) ? true : '请选择发布的时间';
         });
     }
 

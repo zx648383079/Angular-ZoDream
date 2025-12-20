@@ -1,9 +1,10 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { DialogBoxComponent } from '../../../../components/dialog';
 import { MindPointSource, MindLinkSource, MindConfirmEvent, MindUpdateEvent } from '../../../../components/mind';
 import { emptyValidate } from '../../../../theme/validators';
 import { IBookRole, IBookRoleRelation } from '../../model';
 import { BookService } from '../book.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -22,7 +23,7 @@ export class EditorRolePanelComponent {
     public roleItems: IBookRole[] = [];
     public linkItems: IBookRoleRelation[] = [];
     public roleIndex = -1;
-    public roleData = {
+    public readonly roleForm = form(signal({
         name: '',
         avatar: '',
         description: '',
@@ -30,15 +31,21 @@ export class EditorRolePanelComponent {
         link: '',
         from: '',
         type: 'new'
-    };
-    public goodsData = {
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
+    public readonly goodsForm = form(signal({
         name: '',
         amount: 1,
-    };
-    public skillData = {
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
+    public readonly skillForm = form(signal({
         name: '',
         level: '',
-    };
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
     private booted = false;
 
     public get goodsItems() {
@@ -80,20 +87,20 @@ export class EditorRolePanelComponent {
     }
 
     public tapEditGoods(modal: DialogBoxComponent, i = -1) {
-        this.goodsData = i >= 0 ? {
+        this.goodsForm().value.set(i >= 0 ? {
             name: this.goodsItems[i].name,
             amount: this.goodsItems[i].amount
         } : {
             name: '',
             amount: 1,
-        };
+        });
         modal.open(() => {
             if (i < 0) {
-                this.goodsItems.push({...this.goodsData});
+                this.goodsItems.push({...this.goodsForm().value()});
                 return;
             }
-            this.goodsItems[i] = {...this.goodsData};
-        }, () => !emptyValidate(this.goodsData.name));
+            this.goodsItems[i] = {...this.goodsForm().value()};
+        }, () => this.goodsForm().valid());
     }
 
     public tapRemoveGoods(i: number) {
@@ -101,20 +108,20 @@ export class EditorRolePanelComponent {
     }
 
     public tapEditSkill(modal: DialogBoxComponent, i = -1) {
-        this.skillData = i >= 0 ? {
+        this.skillForm().value.set(i >= 0 ? {
             name: this.skillItems[i].name,
             level: this.skillItems[i].level,
         } : {
             name: '',
             level: '',
-        };
+        });
         modal.open(() => {
             if (i < 0) {
-                this.skillItems.push({...this.skillData});
+                this.skillItems.push({...this.skillForm().value()});
                 return;
             }
-            this.skillItems[i] = {...this.skillData};
-        }, () => !emptyValidate(this.skillData.name));
+            this.skillItems[i] = {...this.skillForm().value()};
+        }, () => this.skillForm().valid());
     }
 
     public tapRemoveSkill(i: number) {
@@ -123,7 +130,7 @@ export class EditorRolePanelComponent {
 
     public tapEditRole(modal: DialogBoxComponent, i: number) {
         const item = this.roleItems[i];
-        this.roleData = {
+        this.roleForm().value.set({
             link: '',
             name: item.name,
             avatar: item.avatar,
@@ -131,14 +138,11 @@ export class EditorRolePanelComponent {
             character: item.character,
             type: 'new',
             from: '',
-        };
+        });
         modal.open(() => {
             this.service.roleSave({
                 id: item.id,
-                name: this.roleData.name,
-                avatar: this.roleData.avatar,
-                description: this.roleData.description,
-                character: this.roleData.character,
+                ...this.roleForm().value()
             }).subscribe(res => {
                 this.roleItems = this.roleItems.map(j => {
                     if (j.id === item.id) {
@@ -167,7 +171,7 @@ export class EditorRolePanelComponent {
     }
 
     public onMindConfirm(event: MindConfirmEvent<IBookRole, IBookRoleRelation>, modal: DialogBoxComponent) {
-        this.roleData = {
+        this.roleForm().value.set({
             link: '',
             name: event.to?.name || '',
             avatar: '',
@@ -175,15 +179,12 @@ export class EditorRolePanelComponent {
             character: '',
             from: event.from?.name || '',
             type: event.type,
-        };
+        });
         modal.open(() => {
             if (event.type === 'new') {
                 this.service.roleSave({
                     book_id: this.targetId(),
-                    name: this.roleData.name,
-                    avatar: this.roleData.avatar,
-                    description: this.roleData.description,
-                    character: this.roleData.character,
+                   ...this.roleForm().value(),
                     x: event.point?.x || 0,
                     y: event.point?.y || 0,
                 }).subscribe(res => {
@@ -193,24 +194,21 @@ export class EditorRolePanelComponent {
                 return;
             }
             if (event.type === 'link') {
-                this.service.LinkAdd(event.from.id, event.to.id, this.roleData.link).subscribe(res => {
+                this.service.LinkAdd(event.from.id, event.to.id, this.roleForm.link().value()).subscribe(res => {
                     event.next(res);
                 });
                 return;
             }
             this.service.roleSave({
                 book_id: this.targetId(),
-                name: this.roleData.name,
-                avatar: this.roleData.avatar,
-                description: this.roleData.description,
-                character: this.roleData.character,
+                ...this.roleForm().value(),
                 x: event.point?.x || 0,
                 y: event.point?.y || 0,
                 link_id: event.from?.id,
-                link_title: this.roleData.link
+                link_title: this.roleForm.link().value()
             }).subscribe(res => {
                 this.roleItems.push(res);
-                event.next(res, {title: this.roleData.link, role_id: event.from?.id, role_link: res.id});
+                event.next(res, {title: this.roleForm.link().value(), role_id: event.from?.id, role_link: res.id});
             });
         }, '添加角色与关系');
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class RenameDialogComponent {
 
 
-    public value = '';
+    public readonly value = signal('');
     public visible = false;
 
     private confirmFn: Function;

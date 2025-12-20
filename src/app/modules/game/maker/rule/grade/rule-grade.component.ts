@@ -10,9 +10,9 @@ import { GameMakerService } from '../../game-maker.service';
 
 @Component({
     standalone: false,
-  selector: 'app-maker-rule-grade',
-  templateUrl: './rule-grade.component.html',
-  styleUrls: ['./rule-grade.component.scss']
+    selector: 'app-maker-rule-grade',
+    templateUrl: './rule-grade.component.html',
+    styleUrls: ['./rule-grade.component.scss']
 })
 export class RuleGradeComponent implements OnInit {
     private readonly service = inject(GameMakerService);
@@ -39,7 +39,7 @@ export class RuleGradeComponent implements OnInit {
     }), schemaPath => {
         required(schemaPath.name);
     });
-    public generateData = {
+    public readonly generateForm = form(signal({
         begin: 1,
         end: 100,
         begin_exp: 1,
@@ -47,7 +47,7 @@ export class RuleGradeComponent implements OnInit {
         step_exp: 0,
         preview_grade: 1,
         preview_exp: 1
-    };
+    }));
 
     ngOnInit() {
         this.route.parent.params.subscribe(params => {
@@ -82,7 +82,7 @@ export class RuleGradeComponent implements OnInit {
 
     public openBatch(modal: DialogEvent) {
         modal.open(() => {
-            this.service.ruleGradeGenerate({...this.generateData, project: this.queries.project}).subscribe({
+            this.service.ruleGradeGenerate({...this.generateForm().value(), project: this.queries.project}).subscribe({
                 next: _ => {
                     this.toastrService.success($localize `Generate Successfully`);
                     this.tapRefresh();
@@ -95,30 +95,38 @@ export class RuleGradeComponent implements OnInit {
     }
 
     public onPreviewChange() {
-        if (this.generateData.preview_grade > this.generateData.begin) {
-            this.generateData.preview_grade = this.generateData.begin;
-        }
-        this.tapPreviewTo(this.generateData.preview_grade);
+        this.generateForm().value.update(v => {
+            if (v.preview_grade > v.begin) {
+                v.preview_grade = v.begin;
+            }
+            return v;
+        });
+        
+        this.tapPreviewTo(this.generateForm.preview_grade().value());
     }
 
     public tapPreviewOffset(offset = 1) {
-        this.tapPreviewTo(this.generateData.preview_grade + offset);
+        this.tapPreviewTo(this.generateForm.preview_grade().value() + offset);
     }
 
     public tapPreviewMax(isFirst = true) {
-        this.tapPreviewTo(isFirst ? this.generateData.begin : this.generateData.end);
+        this.tapPreviewTo(isFirst ? this.generateForm.begin().value() : this.generateForm.end().value());
     }
 
     public tapPreviewTo(grade: number) {
-        if (grade < this.generateData.begin) {
-            return;
-        }
-        this.generateData.preview_grade = grade;
-        const diff = this.generateData.preview_grade - this.generateData.begin;
-        if (diff < 0) {
-            return;
-        }
-        this.generateData.preview_exp = this.generateData.step_type > 0 ? (this.generateData.begin * Math.pow(1 + this.generateData.step_exp / 100, diff)) : (this.generateData.begin + this.generateData.step_exp * diff);
+        this.generateForm().value.update(v => {
+            if (grade < v.begin) {
+                return v;
+            }
+            v.preview_grade = grade;
+            const diff = v.preview_grade - v.begin;
+            if (diff < 0) {
+                return v;
+            }
+            v.preview_exp = v.step_type > 0 ? (v.begin * Math.pow(1 + v.step_exp / 100, diff)) : (v.begin + v.step_exp * diff);
+            return v;
+        });
+
     }
 
     public tapRefresh() {

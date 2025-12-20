@@ -1,4 +1,4 @@
-import { form } from '@angular/forms/signals';
+import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameOrganize, IGameRouter, IGameScene } from '../../../model';
 import { IPage, IPageQueries } from '../../../../../theme/models/page';
@@ -24,10 +24,11 @@ export class OrganizePiazzaComponent implements IGameScene, OnInit {
         keywords: '',
     }));
     public modalVisible = false;
-    public input = {
+    public readonly dataForm = form(signal({
         name: '',
-
-    };
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
 
     ngOnInit() {
         this.tapRefresh();
@@ -38,11 +39,11 @@ export class OrganizePiazzaComponent implements IGameScene, OnInit {
     }
 
     public tapSubmit() {
-        if (emptyValidate(this.input.name)) {
+        if (this.dataForm().invalid()) {
             this.router.toast('名称不能为空');
             return;
         }
-        this.router.request(GameCommand.OrganizeCreateOwn, this.input).subscribe(res => {
+        this.router.request(GameCommand.OrganizeCreateOwn, this.dataForm().value()).subscribe(res => {
             this.router.navigateReplace(GameScenePath.Organize);
         });
     }

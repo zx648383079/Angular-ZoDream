@@ -22,7 +22,7 @@ export class RuleFarmComponent implements OnInit {
     public readonly queries = form(signal({
         project: 0
     }));
-    public readonly editForm = form(signal<IGameFarmPlot>({
+    public readonly editForm = form(signal({
         id: 0,
         index: 0,
         grade: 0,

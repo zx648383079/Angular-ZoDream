@@ -8,9 +8,9 @@ import { ExamService } from '../../exam.service';
 
 @Component({
     standalone: false,
-  selector: 'app-upgrade-log',
-  templateUrl: './upgrade-log.component.html',
-  styleUrls: ['./upgrade-log.component.scss']
+    selector: 'app-upgrade-log',
+    templateUrl: './upgrade-log.component.html',
+    styleUrls: ['./upgrade-log.component.scss']
 })
 export class UpgradeLogComponent implements OnInit {
     private readonly service = inject(ExamService);
@@ -37,7 +37,7 @@ export class UpgradeLogComponent implements OnInit {
             if (params.id) {
                 return;
             }
-            this.queries.upgrade = params.id;
+            this.queries.upgrade().value.set(params.id);
         });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));

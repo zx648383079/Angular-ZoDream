@@ -1,16 +1,17 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IForum, IThread } from '../../model';
 import { IErrorResult } from '../../../../theme/models/page';
 import { ForumService } from '../../forum.service';
 import { ButtonEvent } from '../../../../components/form';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-edit-thread',
-  templateUrl: './edit-thread.component.html',
-  styleUrls: ['./edit-thread.component.scss']
+    selector: 'app-edit-thread',
+    templateUrl: './edit-thread.component.html',
+    styleUrls: ['./edit-thread.component.scss']
 })
 export class EditThreadComponent implements OnInit {
     private readonly service = inject(ForumService);
@@ -19,8 +20,9 @@ export class EditThreadComponent implements OnInit {
 
 
     public readonly dataModel = signal({
+        id: 0,
         title: '',
-        classify: 0,
+        classify_id: '0',
         content: '',
         is_private_post: 0,
     });
@@ -43,9 +45,9 @@ export class EditThreadComponent implements OnInit {
             this.service.threadEdit(params.id).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
-                        id: res.id,
+                    id: res.id,
                     title: res.title,
-                    classify: res.classify_id,
+                    classify_id: res.classify_id as any,
                     content: res.content,
                     is_private_post: res.is_private_post,
                 });
@@ -58,7 +60,7 @@ export class EditThreadComponent implements OnInit {
             this.toastrService.warning($localize `The content is not filled out completely`);
             return;
         }
-        const data: any = {...this.form.value, forum: this.data.forum_id};
+        const data: any = {...this.dataForm().value(), forum: this.data.forum_id};
         if (this.data.id) {
             data.id = this.data.id;
         }

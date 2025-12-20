@@ -1,7 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { eachObject } from '../../../../theme/utils';
 import { CheckinService } from '../checkin.service';
+import { form } from '@angular/forms/signals';
 
 interface IPlusItem {
     day: number;
@@ -10,50 +11,56 @@ interface IPlusItem {
 
 @Component({
     standalone: false,
-  selector: 'app-option',
-  templateUrl: './option.component.html',
-  styleUrls: ['./option.component.scss']
+    selector: 'app-option',
+    templateUrl: './option.component.html',
+    styleUrls: ['./option.component.scss']
 })
 export class OptionComponent implements OnInit {
     private readonly service = inject(CheckinService);
     private readonly toastrService = inject(DialogService);
 
 
-    public data: any = {
+    public readonly dataForm = form(signal({
         basic: 0,
         loop: 0,
-    };
-
-    public plusItems: IPlusItem[] = [];
-
+        items: <IPlusItem[]>[{
+            day: 0,
+            plus: 1
+        }],
+    }));
     ngOnInit() {
         this.service.option().subscribe(res => {
-            this.data = res;
-            if (res.plus) {
-                this.plusItems = [];
-                eachObject(res.plus, (v, k) => {
-                    this.plusItems.push({
-                        day: k as number,
-                        plus: v
-                    });
+            const items = [];
+            eachObject(res.plus, (v, k) => {
+                items.push({
+                    day: k as number,
+                    plus: v
                 });
+            });
+            if (items.length < 1) {
+                items.push({
+                    day: 0,
+                    plus: 1
+                })
             }
-            if (this.plusItems.length < 1) {
-                this.tapAddItem();
-            }
+            this.dataForm().value.set({
+                basic: res.basic,
+                loop: res.loop,
+                items
+            });
         });
     }
 
     public tapSubmit() {
-        const data = {...this.data};
+        const data = this.dataForm().value() as any;
         data.plus = {};
-        for (const item of this.plusItems) {
+        for (const item of data.items) {
             if (item.day < 1 || item.plus < 1) {
                 continue;
             }
             data.plus[item.day] = item.plus;
         }
-        this.service.optionSave(data).subscribe({
+        this.service.optionSave({...data, items: undefined}).subscribe({
             next: _ => {
                 this.toastrService.success($localize `Save Successfully`);
             },
@@ -64,13 +71,19 @@ export class OptionComponent implements OnInit {
     }
 
     public tapAddItem() {
-        this.plusItems.push({
-            day: 0,
-            plus: 1,
+        this.dataForm.items().value.update(v => {
+            v.push({
+                day: 0,
+                plus: 1,
+            });
+            return v;
         });
     }
 
     public tapRemoveItem(i: number) {
-        this.plusItems.splice(i, 1);
+        this.dataForm.items().value.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
     }
 }

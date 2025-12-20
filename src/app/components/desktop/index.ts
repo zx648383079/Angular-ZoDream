@@ -14,4 +14,5 @@ export * from './user-picker/user-picker.component';
 export * from './toggle-bar/toggle-bar.component';
 export * from './file-input/file-input.component';
 export * from './file-online/file-online.component';
+export * from './form-panel/form-panel.component';
 export * from './desktop.module';

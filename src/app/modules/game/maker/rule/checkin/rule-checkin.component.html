@@ -30,10 +30,10 @@
                             @for (item of plusItems; track $index; let i = $index) {
                             <tr>
                                 <td>
-                                    <input type="text" class="form-control" placeholder="天" [field]="item.day">
+                                    <input type="text" class="form-control" placeholder="天" [(value)]="item.day">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" placeholder="奖励" [field]="item.plus">
+                                    <input type="text" class="form-control" placeholder="奖励" [(value)]="item.plus">
                                 </td>
                                 <td>
                                     <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>

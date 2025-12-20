@@ -1,8 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, IGameCharacter, IGameCharacterIdentity, IGameDescent, IGameProject, IGameRouter, IGameScene } from '../../model';
 import { IItem } from '../../../../theme/models/seo';
 import { ButtonEvent } from '../../../../components/form';
 import { emailValidate } from '../../../../theme/validators';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -15,12 +16,14 @@ export class EntryComponent implements IGameScene {
 
 
     public step = 0;
-    public data = {
+    public readonly dataForm = form(signal({
         identity_id: 0,
         descent_id: 0,
         sex: 0,
         name: ''
-    };
+    }), schemaPath => {
+        required(schemaPath.name);
+    });
     public sexItems: IItem[] = [
         {name: '男', value: 1},
         {name: '女', value: 2},
@@ -50,28 +53,28 @@ export class EntryComponent implements IGameScene {
     }
 
     public tapDescent(item: IGameDescent) {
-        this.data.descent_id = item.id;
+        this.dataForm.descent_id().value.set(item.id);
         this.step = 3;
     }
 
     public tapIdentity(item: IGameCharacterIdentity) {
-        this.data.identity_id = item.id;
+        this.dataForm.identity_id().value.set(item.id);
         this.step = 3;
     }
 
     public tapSex(i: number) {
-        this.data.sex = i;
+        this.dataForm.sex().value.set(i);
         this.step = 4;
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (emailValidate(this.data.name)) {
+        if (this.dataForm().invalid()) {
             this.router.toast('昵称必填');
             return;
         }
         e?.enter();
         this.router.request(GameCommand.CharacterCreate, {
-            ...this.data
+            ...this.dataForm().value()
         }).subscribe({
             next: res => {
                 e?.reset();

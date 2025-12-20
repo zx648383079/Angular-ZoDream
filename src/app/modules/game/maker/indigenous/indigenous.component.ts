@@ -36,9 +36,9 @@ export class IndigenousComponent implements OnInit {
         name: '',
         avatar: '',
         description: '',
-    }, schemaPath => {
+    }), schemaPath => {
         required(schemaPath.name);
-    }));
+    });
 
     ngOnInit() {
         this.route.parent.params.subscribe(params => {

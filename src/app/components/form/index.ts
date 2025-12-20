@@ -16,7 +16,6 @@ export * from './password-strong/password-strong.component';
 export * from './action-button/action-button.component';
 export * from './number-input/number-input.component';
 export * from './data-size/data-size.component';
-export * from './form-panel/form-panel.component';
 export * from './image-input/image-input.component';
 export * from './auto-suggest-box/auto-suggest-box.component';
 export * from './command-bar/command-bar.component';

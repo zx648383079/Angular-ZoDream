@@ -7,5 +7,5 @@
             </div>
         }
     </div>
-    <input #inputBox type="text" [field]="keywords" [placeholder]="placeholder()" [disabled]="disabled()" (keydown)="onKeydown($event)" (focus)="isFocus = true" (blur)="onBlur()">
+    <input #inputBox type="text" [(value)]="keywords" [placeholder]="placeholder()" [disabled]="disabled()" (keydown)="onKeydown($event)" (focus)="isFocus = true" (blur)="onBlur()">
 </div>

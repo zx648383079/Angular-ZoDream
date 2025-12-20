@@ -27,7 +27,7 @@
     <h2 class="banner-text">请选择血统</h2>
     <div class="option-group">
         @for (item of descentItems; track $index) {
-            <a class="option-item" [class]="{selected: data.descent_id == item.id}" (click)="tapDescent(item)">{{ item.name }}</a>
+            <a class="option-item" [class]="{selected: dataForm.descent_id().value() == item.id}" (click)="tapDescent(item)">{{ item.name }}</a>
         }
     </div>
 </div>
@@ -36,7 +36,7 @@
     <h2 class="banner-text">请选择职业</h2>
     <div class="option-group">
         @for (item of identityItems; track $index) {
-            <a class="option-item" [class]="{selected: data.identity_id == item.id}" (click)="tapIdentity(item)">{{ item.name }}</a>
+            <a class="option-item" [class]="{selected: dataForm.identity_id().value() == item.id}" (click)="tapIdentity(item)">{{ item.name }}</a>
         }
     </div>
 </div>
@@ -45,12 +45,12 @@
     <h2 class="banner-text">请选择角色性别</h2>
     <div class="option-group">
         @for (item of sexItems; track $index) {
-            <a class="option-item" [class]="{selected: data.sex == item.value}"  (click)="tapSex(item.value)">{{ item.name }}</a>
+            <a class="option-item" [class]="{selected: dataForm.sex().value() == item.value}"  (click)="tapSex(item.value)">{{ item.name }}</a>
         }
     </div>
     @if (step == 4) {
     <div class="flat-input">
-        <input type="text" class="form-control" name="name" [field]="data.name" placeholder="请输入称呼">
+        <input type="text" class="form-control" [field]="dataForm.name" placeholder="请输入称呼">
         <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)">确认</app-action-button>
     </div>
     }

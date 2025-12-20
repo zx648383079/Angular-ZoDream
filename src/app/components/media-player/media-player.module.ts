@@ -11,6 +11,7 @@ import { DurationPipe } from './duration.pipe';
 import { PlayerService } from './fixed/player.service';
 import { ImagePlayerComponent } from './fixed/image-player/image-player.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
+import { ZreFormModule } from '../form';
 
 const COMPONENTS = [
     AudioPlayerComponent,
@@ -24,13 +25,13 @@ const COMPONENTS = [
 @NgModule({
     imports: [
         CommonModule,
+        ZreFormModule,
     ],
     declarations: [	
         ... COMPONENTS,
         LyricsViewerComponent,
         SpectrumPanelComponent,
         PlayListComponent,
-        
         DurationPipe,
     ],
     providers: [

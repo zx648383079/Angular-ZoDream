@@ -33,17 +33,17 @@
         <div class="input-group-control">
             <label for="" i18n>Recovery Code</label>
             <div>
-                <input type="text" class="form-control" [value]="data.recovery_code" readonly>
+                <input type="text" class="form-control" [value]="dataForm.recovery_code" readonly>
             </div>
         </div>
         <p i18n>Open the Authenticator APP to scan the code to add</p>
 
-        <img [src]="data.qr" i18n-alt alt="Add by scanning the code">
+        <img [src]="dataForm.qr" i18n-alt alt="Add by scanning the code">
 
         <div class="input-group-control">
             <label for="" i18n>Authentication code</label>
             <div>
-                <input type="text" class="form-control" [field]="data.twofa_code">
+                <input type="text" class="form-control" [field]="dataForm.twofa_code">
             </div>
         </div>
     </div>

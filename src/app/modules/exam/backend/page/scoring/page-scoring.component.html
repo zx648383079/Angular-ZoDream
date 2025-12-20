@@ -13,9 +13,9 @@
         @if (current.material) {
         <div class="material-panel">
             <h3>
-                <app-math-mark [content]="current.material.title" [allowInput]="false" [editable]="false" />
+                <app-math-mark [content]="current.material.title" [allowInput]="false" [disabled]="true" />
             </h3>
-            <app-math-mark [content]="current.material.content" [allowInput]="false" [editable]="false" />
+            <app-math-mark [content]="current.material.content" [allowInput]="false" [disabled]="true" />
             @if (current.material.image) {
                 <img [src]="current.material.image">
             }

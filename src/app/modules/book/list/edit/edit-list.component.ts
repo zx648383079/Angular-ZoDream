@@ -1,8 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBook, IBookList, IBookListItem } from '../../model';
 import { BookService } from '../../book.service';
 import { DialogService } from '../../../../components/dialog';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -17,15 +18,21 @@ export class EditListComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
 
 
-    public data: IBookList = {
+    public readonly dataForm = form(signal({
+        id: 0,
         title: '',
         description: '',
-    } as any;
+    }), schemaPath => {
+        required(schemaPath.title);
+    });
 
     public items: IBookListItem[] = [];
     public panelOpen = false;
     public bookItems: IBook[] = [];
-    public keywords = '';
+    public readonly searchForm = form(signal({
+        keywords: '',
+        page: 1,
+    }));
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -33,17 +40,26 @@ export class EditListComponent implements OnInit {
                 return;
             }
             this.service.listDetail(params.id).subscribe(res => {
-                this.data = res;
+                this.dataForm().value.set({
+                    id: res.id,
+                    title: res.title,
+                    description: res.description
+                });
                 this.items = res.items;
             });
         });
     }
 
     public tapSubmit() {
+        if (this.dataForm().invalid()) {
+            this.toastrService.warning('请输入名称');
+            return;
+        }
+        const form = this.dataForm().value();
         const data = {
-            id: this.data.id || 0,
-            title: this.data.title,
-            description: this.data.description,
+            id: form.id || 0,
+            title: form.title,
+            description: form.description,
             items: this.items.map(item => {
                 return {
                     star: item.star,
@@ -53,17 +69,19 @@ export class EditListComponent implements OnInit {
                 };
             })
         };
-        if (!data.title) {
-            this.toastrService.warning('请输入名称');
-            return;
-        }
+        
         if (data.items.length < 1) {
             this.toastrService.warning('请选择书');
             return;
         }
-        this.service.listSave(data).subscribe(res => {
-            this.toastrService.success($localize `Save Successfully`);
-            this.router.navigate([data.id > 0 ? '../../' : '../'], {relativeTo: this.route});
+        this.service.listSave(data).subscribe({
+            next: res => {
+                this.toastrService.success($localize `Save Successfully`);
+                this.router.navigate([data.id > 0 ? '../../' : '../'], {relativeTo: this.route});
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
         });
     }
 
@@ -89,10 +107,7 @@ export class EditListComponent implements OnInit {
     }
 
     public tapSearch() {
-        this.service.getBookList({
-            page: 1,
-            keywords: this.keywords,
-        }).subscribe(res => {
+        this.service.getBookList(this.searchForm().value()).subscribe(res => {
             this.bookItems = res.data;
         });
     }

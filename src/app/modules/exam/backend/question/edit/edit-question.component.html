@@ -208,6 +208,6 @@
     </table>
 </app-dialog-box>
 <app-dialog-box #previewModal title="预览" [footerVisible]="false">
-    <textarea class="form-control" [field]="previewData"></textarea>
-    <app-math-mark [content]="previewData" [editable]="true" [allowInput]="true" />
+    <textarea class="form-control" [field]="previewForm.content"></textarea>
+    <app-math-mark [content]="previewForm.content().value()" [disabled]="true" [allowInput]="true" />
 </app-dialog-box>

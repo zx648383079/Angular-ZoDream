@@ -27,10 +27,10 @@ export class ListComponent implements OnInit {
     public statusItems: IItem[] = [];
 
     public items: IBlog[] = [];
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
-        term: 0,
-        status: 0,
+        term: '0',
+        status: '0',
         page: 1,
         per_page: 20,
     }));

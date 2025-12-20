@@ -1,4 +1,4 @@
-import { Component, Injector, OnDestroy, OnInit, ViewContainerRef, inject, viewChild } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit, ViewContainerRef, computed, inject, signal, viewChild } from '@angular/core';
 import {
     ChatService
 } from './chat.service';
@@ -24,6 +24,7 @@ import { ApplyDialogComponent } from './apply/apply-dialog.component';
 import { RenameDialogComponent } from './rename/rename-dialog.component';
 import { ProfileDialogComponent } from './profile/profile-dialog.component';
 import { SelectDialogComponent } from './select/select-dialog.component';
+import { form, required } from '@angular/forms/signals';
 
 const LOOP_SPACE_TIME = 20;
 interface IChatUser extends IChatWith {
@@ -75,7 +76,9 @@ export class ChatComponent implements OnInit, OnDestroy {
      * 进入搜索用户
      */
     public searchMode = false;
-    public searchKeywords = '';
+    public readonly searchForm = form(signal({
+        keywords: ''
+    }));
 
     public histories: IChatHistory[] = [];
 
@@ -89,7 +92,11 @@ export class ChatComponent implements OnInit, OnDestroy {
     public hasMore = true;
     public isLoading = false;
     public messageItems: IMessageBase[] = [];
-    public messageContent = '';
+    public readonly messageForm = form(signal({
+        content: ''
+    }), schemaPath => {
+        required(schemaPath.content);
+    });
     public recording = false;
     private nextTime = 0;
     private startTime = 0;
@@ -179,24 +186,25 @@ export class ChatComponent implements OnInit, OnDestroy {
         });
     }
 
-    public get searchItems() {
-        if (emptyValidate(this.searchKeywords)) {
+    public readonly searchItems = computed(() => {
+        const keywords = this.searchForm.keywords().value();
+        if (emptyValidate(keywords)) {
             return [];
         }
         const items = [];
         for (const group of this.friends) {
             for (const item of group.users) {
-                if (item.name.indexOf(this.searchKeywords) >= 0) {
+                if (item.name.indexOf(keywords) >= 0) {
                     items.push(item);
                 }
             }
         }
         return items;
-    }
+    });
 
     public tapCloseFilter() {
         this.searchMode = false;
-        this.searchKeywords = '';
+        this.searchForm.keywords().value.set('');
     }
 
     public tapContextMenu(e: MouseEvent, user?: IUser) {
@@ -327,7 +335,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     public tapEmoji(item: IEmoji) {
-        this.messageContent += item.type > 0 ? item.content : '[' + item.name + ']';
+        this.messageForm.content().value.update(v => v + (item.type > 0 ? item.content : '[' + item.name + ']'));
     }
 
     public uploadImage(event: any) {
@@ -346,12 +354,12 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     public tapSend() {
-        if (emptyValidate(this.messageContent)) {
+        if (this.messageForm().invalid()) {
             return;
         }
-        this.service.sendText(this.chatUser, this.messageContent)
+        this.service.sendText(this.chatUser, this.messageForm.content().value())
             .subscribe(res => this.addMessage(res.data));
-        this.messageContent = '';
+        this.messageForm.content().value.set('');
     }
 
     private addMessage(data: IMessage|IMessage[]) {

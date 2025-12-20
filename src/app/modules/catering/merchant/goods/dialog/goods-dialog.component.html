@@ -45,7 +45,7 @@
                         <i class="iconfont icon-edit" (click)="tapEditLine(item)"></i>
                     </div>
                     <label>{{ item.name }}<em class="unit">/{{ item.unit }}</em></label>
-                    <app-number-input [only]="false" [field]="item.amount" />
+                    <app-number-input [only]="false" [(value)]="item.amount" />
                 </div>
                 }
                 <div class="btn btn-info" (click)="tapEditLine()">

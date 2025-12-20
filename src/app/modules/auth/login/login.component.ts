@@ -19,10 +19,6 @@ import {
     selectAuthStatus
 } from '../../../theme/reducers/auth.selectors';
 import {
-    FormBuilder,
-    Validators
-} from '@angular/forms';
-import {
     emptyValidate
 } from '../../../theme/validators';
 import {
@@ -58,23 +54,23 @@ export class LoginComponent implements OnInit, OnDestroy {
     public redirectUri: string;
     public isObserve = false;
 
-    public loginModel = signal({
+    public dataModel = signal({
         email: '',
         password: '',
         code: '',
         remember: false,
         captcha: '',
-    })
+        twofa_code: '',
+        recovery_code: ''
+    });
 
-    public loginForm = form(this.loginModel, schemaPath => {
+    public dataForm = form(this.dataModel, schemaPath => {
         email(schemaPath.email, {message: 'Please enter a valid email address'});
         minLength(schemaPath.password, 6, {message: 'Password must be at least 6 characters'});
     });
 
     public openAuth = false;
     public openWebAuthn = true;
-    public twoFaCode = '';
-    public recoveryCode = '';
     private captchaToken = '';
     public captchaImage = '';
     private qrToken = '';
@@ -151,10 +147,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.loginForm().invalid()) {
+        if (this.dataForm().invalid()) {
             return;
         }
-        const data: any = Object.assign({}, this.loginForm().value());
+        const data: any = this.dataForm().value();
         if (data.password) {
             data.password = this.encryptor.encrypt(data.password);
         }
@@ -162,17 +158,15 @@ export class LoginComponent implements OnInit, OnDestroy {
             data.captcha_token = this.captchaToken;
         }
         if (this.mode === 8) {
-            if (emptyValidate(this.twoFaCode)) {
+            if (emptyValidate(data.twofa_code)) {
                 this.toastrService.warning($localize `Please input the authentication code`);
                 return;
             }
-            data.twofa_code = this.twoFaCode;
         } else if (this.mode === 9) {
-            if (emptyValidate(this.recoveryCode)) {
+            if (emptyValidate(data.recovery_code)) {
                 this.toastrService.warning($localize `Please input the recovery code`);
                 return;
             }
-            data.recovery_code = this.recoveryCode;
         }
         e?.enter();
         this.authService

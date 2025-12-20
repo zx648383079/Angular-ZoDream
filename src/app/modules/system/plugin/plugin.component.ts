@@ -6,7 +6,8 @@ import { DialogBoxComponent, DialogService } from '../../../components/dialog';
 import { SearchService } from '../../../theme/services';
 import { SystemService } from '../system.service';
 import { IPluginItem } from '../../../theme/models/seo';
-import { ButtonEvent, FormPanelComponent, IFormInput } from '../../../components/form';
+import { ButtonEvent, IFormInput } from '../../../components/form';
+import { FormPanelComponent } from '../../../components/desktop';
 
 @Component({
     standalone: false,

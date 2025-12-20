@@ -29,7 +29,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
-                    <app-catering-nav-bar header="分组" [items]="categoryItems" [(selected)]="queries.group" (selectedChange)="tapRefresh()" (add)="tapEditCategory()" (edit)="tapEditCategory($event)" (remove)="tapRemoveCategory($event)" />
+                    <app-catering-nav-bar header="分组" [items]="categoryItems" 
+                    [(selected)]="queries.group().value" (selectedChange)="tapRefresh()" (add)="tapEditCategory()" (edit)="tapEditCategory($event)" (remove)="tapRemoveCategory($event)" />
                 </div>
                 <div class="col-md-9">
                     @for (item of items; track $index) {

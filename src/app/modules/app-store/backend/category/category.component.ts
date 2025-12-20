@@ -19,11 +19,11 @@ export class CategoryComponent implements OnInit {
 
     public items: ICategory[] = [];
     public isLoading = false;
-    public readonly editForm = form(signal<ICategory>({
+    public readonly editForm = form(signal({
         id: 0,
         name: '',
         icon: '',
-        parent_id: 0,
+        parent_id: '0',
     }), schemaPath => {
         required(schemaPath.name);
     });
@@ -38,7 +38,7 @@ export class CategoryComponent implements OnInit {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';
             v.icon = item?.icon ?? '';
-            v.parent_id = item?.parent_id ?? 0;
+            v.parent_id = item?.parent_id as any ?? '0';
             return v;
         });
         this.categories = !item ? this.items : filterTree(this.items, item.id);

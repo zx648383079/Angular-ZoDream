@@ -1,9 +1,10 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IConnect } from '../../../../theme/models/auth';
 import { WebAuthn } from '../../../../theme/services';
 import { emptyValidate } from '../../../../theme/validators';
 import { MemberService } from '../member.service';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -20,11 +21,11 @@ export class ConnectComponent implements OnInit {
     private readonly faModal = viewChild<DialogEvent>('faModal');
     public items: IConnect[] = [];
     public isLoading = false;
-    public data = {
+    public readonly dataForm = form(signal({
         recovery_code: '',
         twofa_code: '',
         qr: '',
-    };
+    }));
 
     ngOnInit() {
         this.tapRefresh();
@@ -78,11 +79,15 @@ export class ConnectComponent implements OnInit {
     private create2FA() {
         this.service.create2FA().subscribe({
             next: res => {
-                this.data.recovery_code = res.recovery_code;
-                this.data.qr = res.qr;
+                this.dataForm().value.update(v => {
+                    v.recovery_code = res.recovery_code;
+                    v.qr = res.qr;
+                    return v;
+                });
+                
                 this.faModal().open(() => {
                     this.service.save2FA({
-                        twofa_code: this.data.twofa_code
+                        twofa_code: this.dataForm.twofa_code().value()
                     }).subscribe({
                         next: _ => {
                             this.toastrService.success($localize `Open successfully`);
@@ -92,7 +97,7 @@ export class ConnectComponent implements OnInit {
                             this.toastrService.error(err);
                         }
                     });
-                }, () => !emptyValidate(this.data.twofa_code));
+                }, () => !emptyValidate(this.dataForm.twofa_code().value()));
             },
             error: err => {
                 this.toastrService.error(err);

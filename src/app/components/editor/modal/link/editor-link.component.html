@@ -1,10 +1,10 @@
 <div class="editor-modal-box" [class]="{'modal-visible': visible}">
     <div class="input-header-block" [class]="{'input-not-empty': !!url}">
-        <input type="url" [field]="url">
+        <input type="url" [(value)]="url">
         <label for="">网址</label>
     </div>
     <div class="input-header-block" [class]="{'input-not-empty': !!title}">
-        <input type="text" [field]="title">
+        <input type="text" [(value)]="title">
         <label for="">标题</label>
     </div>
     <div class="input-flex-line">

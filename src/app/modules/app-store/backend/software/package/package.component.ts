@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { UploadCustomEvent } from '../../../../../components/form';
@@ -33,14 +33,14 @@ export class PackageComponent implements OnInit {
         per_page: 20
     }));
     public software: ISoftware;
-    public readonly editForm = form(signal<ISoftwarePackage>({
+    public readonly editForm = form(signal({
         id: 0,
         name: '',
         app_id: 0,
         version_id: 0,
         os: '',
         framework: '',
-        url_type: 0,
+        url_type: '0',
         url: '',
         size: 0,
     }), schemaPath => {
@@ -49,6 +49,8 @@ export class PackageComponent implements OnInit {
     public osItems = ['windows', 'linux', 'android', 'ios'];
     public frameworkItems = ['any', 'x86', 'x64', 'ARM',];
     public urlTypeItems = FileTypeItems;
+
+    public readonly urlType = computed(() => parseNumber(this.editForm.url_type().value()));
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -76,7 +78,7 @@ export class PackageComponent implements OnInit {
             v.version_id = this.software.version.id;
             v.os = item?.os ?? '';
             v.framework = item?.framework ?? '';
-            v.url_type = item?.url_type ?? 0;
+            v.url_type = item?.url_type as any ?? '0';
             v.url = item?.url ?? '';
             v.size = item?.size ?? 0;
             return v;

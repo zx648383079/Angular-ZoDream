@@ -39,9 +39,9 @@ export class ItemComponent implements OnInit {
         type: 0,
         sub_type: 0,
         description: '',
-    }, schemaPath => {
+    }), schemaPath => {
         required(schemaPath.name);
-    }));
+    });
 
     ngOnInit() {
         this.route.parent.params.subscribe(params => {

@@ -63,6 +63,6 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editForm.id ? '编辑回复' : '新增回复'">
-    <app-edit-reply [(value)]="editData" />
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑回复' : '新增回复'">
+    <app-edit-reply [(value)]="editForm().value" />
 </app-dialog-box>

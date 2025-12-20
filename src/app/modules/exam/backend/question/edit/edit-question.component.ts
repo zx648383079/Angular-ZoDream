@@ -59,7 +59,9 @@ export class EditQuestionComponent implements OnInit {
     public childrenItems: IQuestion[] = [];
 
     public sameItems: IQuestion[] = [];
-    public previewData = '';
+    public readonly previewForm = form(signal({
+        content: ''
+    }));
 
     ngOnInit() {
         this.service.courseAll().subscribe(res => {
@@ -145,7 +147,7 @@ export class EditQuestionComponent implements OnInit {
     }
 
     public openPreview(modal: DialogEvent, name: string) {
-        this.previewData = this.dataModel()[name];
+        this.previewForm.content().value.set(this.dataModel()[name]);
         modal.open();
     }
 

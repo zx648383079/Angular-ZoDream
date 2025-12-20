@@ -11,7 +11,8 @@
     </div>
     @if (value().content) {
     <div class="content">
-        <app-math-mark [content]="value().content" [allowInput]="value().type == 4" [value]="yourAnswer"  [editable]="false" [rightValue]="value().answer" />
+        <app-math-mark [content]="value().content" [allowInput]="value().type == 4" [value]="yourAnswer" 
+        [disabled]="true" [rightValue]="value().answer" />
     </div>
     }
     @if (value().image) {

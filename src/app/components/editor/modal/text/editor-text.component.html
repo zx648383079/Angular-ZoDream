@@ -5,7 +5,7 @@
         </a>
     </div>
     <div class="input-header-block" [class]="{'input-not-empty': !!value}">
-        <input type="text" [field]="value">
+        <input type="text" [(value)]="value">
         <label for="">{{ label }}</label>
     </div>
     <div class="modal-action">

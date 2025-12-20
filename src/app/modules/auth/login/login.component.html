@@ -1,19 +1,19 @@
 <form class="form-icon-control login-form" (submit)="tapSubmit()" [class]="{slided: mode > 0}" [hidden]="mode > 6">
   <div class="input-box">
-        <app-autocomplete [field]="loginForm.email">
-            <div class="input-group-control" [class.error]="loginForm.email().touched() && loginForm.email().invalid()">
-                <input type="email" appFocusNext [field]="loginForm.email" i18n-placeholder placeholder="Please input username" autocomplete="off">
+        <app-autocomplete [field]="dataForm.email">
+            <div class="input-group-control" [class.error]="dataForm.email().touched() && dataForm.email().invalid()">
+                <input type="email" appFocusNext [field]="dataForm.email" i18n-placeholder placeholder="Please input username" autocomplete="off">
                 <i class="iconfont icon-user" aria-hidden="true"></i>
             </div>
         </app-autocomplete>
-        <div class="input-group-control" [class.error]="loginForm.password().touched() && loginForm.password().invalid()">
-            <input type="password" appFocusNext [field]="loginForm.password" i18n-placeholder placeholder="Please input the password" autocomplete="off" (keypress)="focusNext($event)">
+        <div class="input-group-control" [class.error]="dataForm.password().touched() && dataForm.password().invalid()">
+            <input type="password" appFocusNext [field]="dataForm.password" i18n-placeholder placeholder="Please input the password" autocomplete="off" (keypress)="focusNext($event)">
             <i class="iconfont icon-lock" aria-hidden="true"></i>
         </div>
 
         @if (captchaImage) {
-        <div class="input-group-control captcha-input" [class.error]="loginForm.captcha().touched() && loginForm.captcha().invalid()">
-            <input type="text" appFocusNext [field]="loginForm.captcha" i18n-placeholder placeholder="Please enter verification code" autocomplete="off" (keypress)="focusNext($event)">
+        <div class="input-group-control captcha-input" [class.error]="dataForm.captcha().touched() && dataForm.captcha().invalid()">
+            <input type="text" appFocusNext [field]="dataForm.captcha" i18n-placeholder placeholder="Please enter verification code" autocomplete="off" (keypress)="focusNext($event)">
             <i class="iconfont icon-key" aria-hidden="true"></i>
             <a (click)="tapCaptcha()" class="btn" i18n-title title="Click refresh">
                 <img [src]="captchaImage" i18n-alt alt="Refresh and retry">
@@ -22,17 +22,17 @@
         }
 
         <!-- <div class="input-group-control code-input" [class]="{error: password.invalid}">
-            <input type="text" [field]="loginForm.code" i18n-placeholder placeholder="lease enter verification code">
+            <input type="text" [field]="dataForm.code" i18n-placeholder placeholder="lease enter verification code">
             <i class="iconfont icon-lock" aria-hidden="true"></i>
             <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)"></app-countdown-button>
         </div> -->
 
       <div class="input-group-control">
-          <input type="checkbox" [field]="loginForm.remember">
+          <input type="checkbox" [field]="dataForm.remember">
           <ng-container i18n>Remember</ng-container>
           <a class="find-link" routerLink="find" i18n>Forgot your password?</a>
       </div>
-      <app-action-button appFocusNext class="btn" [disabled]="loginForm().invalid()" (tapped)="tapSubmit($event)" i18n>Sign in</app-action-button>
+      <app-action-button appFocusNext class="btn" [disabled]="dataForm().invalid()" (tapped)="tapSubmit($event)" i18n>Sign in</app-action-button>
       <div class="other-box">
           <a routerLink="register" i18n>Sign up</a>
           <i class="iconfont icon-qrcode" (click)="tapQr()"></i>
@@ -63,7 +63,7 @@
 <div class="form-icon-control auth-panel">
     <div class="title-bar" i18n>Two-factor authentication</div>
     <div class="input-group-control">
-        <input type="text" i18n-placeholder placeholder="Authentication code" [field]="twoFaCode">
+        <input type="text" i18n-placeholder placeholder="Authentication code" [field]="dataForm.twofa_code">
         <i class="iconfont icon-shield" aria-hidden="true"></i>
     </div>
 
@@ -81,7 +81,7 @@
 <div class="form-icon-control auth-panel">
     <div class="title-bar" i18n>Use a Recovery Code</div>
     <div class="input-group-control">
-        <input type="text" i18n-placeholder placeholder="Recovery Code" [field]="recoveryCode">
+        <input type="text" i18n-placeholder placeholder="Recovery Code" [field]="dataForm.recovery_code">
         <i class="iconfont icon-shield" aria-hidden="true"></i>
     </div>
 

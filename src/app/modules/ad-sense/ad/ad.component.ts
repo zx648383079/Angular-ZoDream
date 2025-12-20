@@ -81,8 +81,8 @@ export class AdComponent implements OnInit {
         });
     }
 
-    public tapSearch() {
-        this.queries.position_id().value.set(0);
+    public tapSearch(positionId = 0) {
+        this.queries.position_id().value.set(positionId);
         this.tapRefresh();
     }
 

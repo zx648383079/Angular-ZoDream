@@ -1,10 +1,10 @@
 <div class="editor-modal-box" [class]="{'modal-visible': visible}">
     <div class="input-header-block" [class]="{'input-not-empty': !!language}">
-        <input type="text" [field]="language">
+        <input type="text" [(value)]="language">
         <label for="">代码语言</label>
     </div>
     <div class="input-header-block" [class]="{'input-not-empty': !!code}">
-        <textarea [field]="code" rows="10"></textarea>
+        <textarea [(value)]="code" rows="10"></textarea>
         <label for="">代码内容</label>
     </div>
     <div class="modal-action">

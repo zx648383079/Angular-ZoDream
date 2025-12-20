@@ -1,4 +1,4 @@
-<app-edit-header [title]="dataModel().id > 0 ? '编辑文章' : '新增文章'" (submited)="tapSubmit()" />
+<app-edit-header [title]="data?.id > 0 ? '编辑文章' : '新增文章'" (submited)="tapSubmit()" />
 
 <div class="container-fluid">
     <div class="panel-container form-table-control">
@@ -20,17 +20,17 @@
                                 @switch (item.type) {
                                     @case ('password') {
                                         <div>
-                                            <input type="password" class="form-control" [field]="item.value">
+                                            <input type="password" class="form-control" [(value)]="item.value">
                                         </div>
                                     }
                                     @case ('textarea') {
                                         <div>
-                                            <textarea class="form-control"  [field]="item.value"></textarea>
+                                            <textarea class="form-control" [(value)]="item.value"></textarea>
                                         </div>
                                     }
                                     @case ('select') {
                                         <div>
-                                            <select class="form-control"  [field]="item.value">
+                                            <select class="form-control" [(value)]="item.value">
                                                 @for (val of item.items; track $index) {
                                                     <option [value]="val">{{ val }}</option>
                                                 }
@@ -39,57 +39,57 @@
                                     }
                                     @case ('radio') {
                                         <div>
-                                            <app-check-input [items]="item.items" [field]="item.value" />
+                                            <app-check-input [items]="item.items" [(value)]="item.value" />
                                         </div>
                                     }
                                     @case ('checkbox') {
                                         <div>
-                                            <app-check-input [items]="item.items" [field]="item.value" [multiple]="true" />
+                                            <app-check-input [items]="item.items" [(value)]="item.value" [multiple]="true" />
                                         </div>
                                     }
                                     @case ('switch') {
                                         <div>
-                                            <app-switch [field]="item.value" />
+                                            <app-switch [(value)]="item.value" />
                                         </div>
                                     }
                                     @case ('image') {
                                         <div>
-                                            <app-file-input [field]="item.value" />
+                                            <app-file-input [(value)]="item.value" />
                                         </div>
                                     }
                                     @case ('images') {
                                         <div>
-                                            <app-file-input [field]="item.value" />
+                                            <app-file-input [(value)]="item.value" />
                                         </div>
                                     }
                                     @case ('file') {
                                         <div>
-                                            <app-file-input [field]="item.value" accept="*" />
+                                            <app-file-input [(value)]="item.value" accept="*" />
                                         </div>
                                     }
                                     @case ('files') {
                                         <div>
-                                            <app-file-input [field]="item.value" accept="*" />
+                                            <app-file-input [(value)]="item.value" accept="*" />
                                         </div>
                                     }
                                     @case ('editor') {
                                         <div>
-                                            <app-zre-editor [field]="item.value" />
+                                            <app-zre-editor [(value)]="item.value" />
                                         </div>
                                     } 
                                     @case ('basic_editor') {
                                         <div>
-                                            <app-zre-editor [field]="item.value" />
+                                            <app-zre-editor [(value)]="item.value" />
                                         </div>
                                     }
                                     @case ('markdown') {
                                         <div>
-                                            <app-markdown-editor [field]="item.value" />
+                                            <app-markdown-editor [(value)]="item.value" />
                                         </div>
                                     }
                                     @default {
                                         <div>
-                                            <input type="text" class="form-control" [field]="item.value">
+                                            <input type="text" class="form-control" [(value)]="item.value">
                                         </div>
                                     }
                                 }

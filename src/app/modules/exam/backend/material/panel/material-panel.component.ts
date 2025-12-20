@@ -22,11 +22,11 @@ export class MaterialPanelComponent {
     public hasMore = true;
     public isLoading = false;
     public total = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         keywords: '',
-        course: 0,
+        course: '0',
     }));
     public readonly courseItems = input<ICourse[]>([]);
     public typeItems = ['文本', '音频', '视频'];

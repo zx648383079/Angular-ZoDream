@@ -5,7 +5,7 @@
             @if (hasSuggest()) {
                 <li class="search-item">
                     <div class="search-input">
-                        <input type="text" [field]="suggestText" (keydown)="suggestKeyPress($event)">
+                        <input type="text" [(value)]="suggestText" (keydown)="suggestKeyPress($event)">
                         <i class="iconfont icon-search" (click)="tapSuggest()"></i>
                     </div>
                     @if (suggestItems() && suggestItems().length > 0) {

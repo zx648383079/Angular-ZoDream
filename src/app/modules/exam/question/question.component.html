@@ -20,7 +20,7 @@
 <div class="container">
     <div class="panel-container">
         <div class="question-item-box">
-            <app-question-input [(value)]="data" [editable]="editable" />
+            <app-question-input [(value)]="data" [disabled]="!editable" />
         </div>
         <div class="tool-bar">
             <div class="btn-bar">

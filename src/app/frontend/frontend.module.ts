@@ -10,6 +10,7 @@ import { DialogModule } from '../components/dialog';
 import { ZreFormModule } from '../components/form';
 import { AuthSharedModule } from '../modules/auth/auth-shared.module';
 import { DesktopModule } from '../components/desktop';
+import { Field } from '@angular/forms/signals';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { DesktopModule } from '../components/desktop';
     imports: [
         CommonModule,
         ThemeModule,
+        Field,
         CheckinModule,
         DesktopModule,
         FrontendRoutingModule,

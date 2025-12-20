@@ -42,6 +42,8 @@ import { MarkdownBlockComponent } from './markdown-block/markdown-block.componen
 import { MediaPlayerModule } from '../media-player';
 import { CodeBlockComponent } from './code-block/code-block.component';
 import { Field } from '@angular/forms/signals';
+import { ZreFormModule } from '../form';
+import { FormPanelComponent } from './form-panel/form-panel.component';
 
 
 const COMPONENTS = [
@@ -63,6 +65,7 @@ const COMPONENTS = [
     FileOnlineComponent,
     MarkdownBlockComponent,
     CodeBlockComponent,
+    FormPanelComponent,
 ];
 
 const PIPES = [
@@ -90,6 +93,7 @@ const DIRECTIVES = [
 @NgModule({
     imports: [
         CommonModule,
+        ZreFormModule,
         Field,
         RouterModule,
         MediaPlayerModule

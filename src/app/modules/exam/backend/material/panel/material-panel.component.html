@@ -36,5 +36,5 @@
     <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
 </div>
 <div class="add-panel" [hidden]="!tabIndex">
-    <app-material-form [(value)]="editData" [courseItems]="courseItems()" (valueChange)="tapSelected($event)" />
+    <app-material-form [(value)]="editForm().value" [courseItems]="courseItems()" (valueChange)="tapSelected($event)" />
 </div>

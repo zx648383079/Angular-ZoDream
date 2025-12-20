@@ -23,7 +23,7 @@
                     </div>
                     <label>{{ item.name }}</label>
                     <span class="price-bar" [hidden]="multipleEditable"><em>￥</em>{{ item.price }}<em class="unit">/{{ item.unit }}</em></span>
-                    <app-number-input [only]="false" [field]="item.amount" />
+                    <app-number-input [only]="false" [(value)]="item.amount" />
                 </div>
                 }
             </div>

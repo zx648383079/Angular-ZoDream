@@ -1,9 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
 import { ThemeService } from '../../theme/services';
-import { emptyValidate } from '../../theme/validators';
 import { FrontendService } from '../frontend.service';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -17,12 +17,15 @@ export class AboutComponent implements OnInit {
     private readonly themeService = inject(ThemeService);
 
 
-    public data = {
+    public readonly dataForm = form(signal({
         name: '',
         email: '',
         phone: '',
         content: '',
-    };
+    }), schemaPath => {
+        required(schemaPath.name, {message: '请输入称呼'});
+        required(schemaPath.content, {message: '请输入内容'});
+    });
     public developer: {
         name: string;
         avatar: string;
@@ -59,19 +62,15 @@ export class AboutComponent implements OnInit {
     }
 
     public tapSubmit(e: ButtonEvent) {
-        if (emptyValidate(this.data.name)) {
-            this.toastrService.warning('请输入称呼');
-            return;
-        }
-        if (emptyValidate(this.data.content)) {
+        if (this.dataForm().invalid()) {
             this.toastrService.warning('请输入内容');
             return;
         }
         e?.enter();
-        this.service.feedback(this.data).subscribe({
+        this.service.feedback(this.dataForm().value()).subscribe({
             next: _ => {
                 this.toastrService.success('提交成功');
-                this.data.content = '';
+                this.dataForm.content().value.set('');
                 e?.reset();
             },
             error: err => {
