@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBookList, IBookListItem } from '../../model';
 import { BookService } from '../../book.service';
@@ -19,7 +19,7 @@ export class DetailComponent implements OnInit {
 
     public data: IBookList;
 
-    public items: IBookListItem[] = [];
+    public readonly items = signal<IBookListItem[]>([]);
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -28,7 +28,7 @@ export class DetailComponent implements OnInit {
             }
             this.service.listDetail(params.id).subscribe(res => {
                 this.data = res;
-                this.items = res.items;
+                this.items.set(res.items);
             });
         });
     }

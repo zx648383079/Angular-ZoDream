@@ -24,7 +24,7 @@
     }
     
     <div class="panel-container">
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
             <div class="list-book-item">
                 <div class="thumb">
                     <img [src]="item.book?.cover" alt="">

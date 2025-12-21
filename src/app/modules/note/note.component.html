@@ -1,5 +1,5 @@
 <div class="container">
-    <app-pull-to-refresh [loading]="isLoading" [more]="hasMore" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
+    <app-pull-to-refresh [loading]="isLoading()" [more]="hasMore()" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
         <div class="row">
             @if (authUser) {
             <div class="col-md-4">
@@ -18,7 +18,7 @@
             </div>
             }
     
-            @for (item of items; track $index) {
+            @for (item of items(); track $index) {
                 <div class="col-md-4">
                 <div class="note-item">
                     <div class="item-body" [innerHTML]="item.html"></div>
@@ -37,6 +37,6 @@
             </div>
             }
         </div>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
     </app-pull-to-refresh>
 </div>

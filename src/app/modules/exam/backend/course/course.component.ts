@@ -16,8 +16,8 @@ export class CourseComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
 
 
-    public items: ICourse[] = [];
-    public isLoading = false;
+    public readonly items = signal<ICourse[]>([]);
+    public readonly isLoading = signal(false);
     public readonly editForm = form(signal({
         id: 0,
         name: '',
@@ -27,7 +27,7 @@ export class CourseComponent implements OnInit {
     }), schemaPath => {
         required(schemaPath.name);
     });
-    public optionItems: ICourse[] = [];
+    public readonly optionItems = signal<ICourse[]>([]);
 
     constructor() {
         this.tapRefresh();
@@ -37,14 +37,14 @@ export class CourseComponent implements OnInit {
     }
 
     public tapRefresh() {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.courseList().subscribe({
             next: res => {
-                this.items = res.data;
-                this.isLoading = false;
+                this.items.set(res.data);
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -59,7 +59,7 @@ export class CourseComponent implements OnInit {
             v.parent_id = item?.parent_id as any ?? '0';
             return v;
         });
-        this.optionItems = filterTree(this.items, this.editForm.id().value());
+        this.optionItems.set(filterTree(this.items(), this.editForm.id().value()));
         modal.open(() => {
             this.service.courseSave(this.editForm().value()).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
@@ -75,8 +75,10 @@ export class CourseComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         });

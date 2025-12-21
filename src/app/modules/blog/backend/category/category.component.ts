@@ -1,21 +1,21 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { ICategory } from '../../model';
 import { BlogService } from '../blog.service';
 
 @Component({
     standalone: false,
-  selector: 'app-category',
-  templateUrl: './category.component.html',
-  styleUrls: ['./category.component.scss']
+    selector: 'app-category',
+    templateUrl: './category.component.html',
+    styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
     private readonly service = inject(BlogService);
     private readonly toastrService = inject(DialogService);
 
 
-    public items: ICategory[] = [];
-    public isLoading = false;
+    public readonly items = signal<ICategory[]>([]);
+    public readonly isLoading = signal(false);
 
     constructor() {
         this.tapRefresh();
@@ -30,14 +30,14 @@ export class CategoryComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.getCategories().subscribe({
             next: res => {
-                this.items = res;
-                this.isLoading = false;
+                this.items.set(res);
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -49,8 +49,10 @@ export class CategoryComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         });

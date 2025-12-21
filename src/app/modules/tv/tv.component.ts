@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { INavLink } from '../../theme/models/seo';
 
 
 @Component({
     standalone: false,
-  selector: 'app-tv',
-  templateUrl: './tv.component.html',
-  styleUrls: ['./tv.component.scss']
+    selector: 'app-tv',
+    templateUrl: './tv.component.html',
+    styleUrls: ['./tv.component.scss']
 })
-export class TvComponent implements OnInit {
+export class TvComponent {
 
-    public items: INavLink[] = [
+    public readonly items = signal<INavLink[]>([
         {
             name: $localize `Home`,
             url: './',
@@ -31,11 +31,6 @@ export class TvComponent implements OnInit {
             name: $localize `Live`,
             url: 'live',
         },
-    ];
-
-    constructor() { }
-
-    ngOnInit() {
-    }
+    ]);
 
 }

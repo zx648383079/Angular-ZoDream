@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { BlogService } from '../blog.service';
 import { ITag } from '../../model';
 import { ThemeService } from '../../../../theme/services';
@@ -16,21 +16,21 @@ export class TagComponent {
 
 
     public tagItems: ITag[] = [];
-    public isLoading = false;
+    public readonly isLoading = signal(false);
 
     constructor() {
         this.themeService.titleChanged.next($localize `Tags`);
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.getTags().subscribe({
             next: res => {
                 this.tagItems = res.map(item => {
                     item.style = 'font-size:' + (Math.sqrt(item.blog_count) + 12) + 'px';
                     return item;
                 });
-                this.isLoading = false;
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

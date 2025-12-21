@@ -1,7 +1,7 @@
-@if (visible) {
+@if (visible()) {
     <div class="dialog-mask" (click)="close()"></div>
 }
-@if (visible && isLoading) {
+@if (visible() && isLoading()) {
 <div class="dialog-loading">
     <div class="loading-ring1">
         <span></span>
@@ -13,4 +13,4 @@
 </div>
 }
 
-<div #imageBox class="dialog-image" [hidden]="!visible || isLoading"></div>
+<div #imageBox class="dialog-image" [hidden]="!visible() || isLoading()"></div>

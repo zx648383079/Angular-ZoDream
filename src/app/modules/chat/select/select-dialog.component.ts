@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { IFriendGroup } from '../model';
 
 @Component({
@@ -9,22 +9,22 @@ import { IFriendGroup } from '../model';
 })
 export class SelectDialogComponent {
 
-    public items: IFriendGroup[] = [];
+    public readonly items = signal<IFriendGroup[]>([]);
     public selected = 0;
-    public visible = false;
+    public readonly visible = signal(false);
 
     private confirmFn: Function;
 
 
     public open(items: IFriendGroup[], value: number, cb: (res: boolean) => void) {
-        this.items = items;
+        this.items.set(items);
         this.selected = value;
-        this.visible = true;
+        this.visible.set(true);
         this.confirmFn = cb;
     }
 
     public close(result = false) {
-        this.visible = false;
+        this.visible.set(false);
         this.confirmFn(result);
     }
 

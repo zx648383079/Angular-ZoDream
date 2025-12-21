@@ -8,9 +8,9 @@ import { Subscription } from 'rxjs';
 
 @Component({
     standalone: false,
-  selector: 'app-merchant',
-  templateUrl: './merchant.component.html',
-  styleUrls: ['./merchant.component.scss']
+    selector: 'app-merchant',
+    templateUrl: './merchant.component.html',
+    styleUrls: ['./merchant.component.scss']
 })
 export class MerchantComponent implements OnDestroy {
     private readonly store = inject<Store<AppState>>(Store);
@@ -125,7 +125,7 @@ export class MerchantComponent implements OnDestroy {
             url: '/shop',
         }
     ];
-    private subItems = new Subscription();
+    private readonly subItems = new Subscription();
     
 
     constructor() {

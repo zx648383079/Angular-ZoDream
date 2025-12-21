@@ -31,7 +31,7 @@
                 <div class="tab-body">
                     <div class="tab-item active">
                         <div class="row">
-                            @for (item of items; track $index) {
+                            @for (item of items(); track $index) {
                                 <div class="col-md-4">
                                 <div class="coupon-item" [class]="{open: item.open, expired: item.expired}">
                                     <div class="coupon-info">
@@ -64,11 +64,11 @@
                             </div>
                             }
                         </div>
-                        @if (!isLoading && total < 1) {
+                        @if (!isLoading() && total() < 1) {
                             <div class="empty-box">
-                            <div class="iconfont icon-search"></div>
-                            <div class="tip">优惠券列表还是空的</div>
-                        </div>
+                                <div class="iconfont icon-search"></div>
+                                <div class="tip">优惠券列表还是空的</div>
+                            </div>
                         }
                         
                     </div>

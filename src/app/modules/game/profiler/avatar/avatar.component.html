@@ -39,7 +39,7 @@
     </div>
     <div class="row">
         <div class="col-12">
-            @for (item of items; track $index) {
+            @for (item of items(); track $index) {
                 <div class="avatar-item" (click)="tapItem(item)">
                 <div class="item-thumb">
                     <img [appLazyLoad]="item.logo" [alt]="item.name">
@@ -120,7 +120,7 @@
     </div>
     <div class="modal-items">
         <div class="row">
-            @for (item of items; track $index) {
+            @for (item of items(); track $index) {
                 <div class="col-md-4">
                 <div class="item-panel">
                     <div class="panel-header">

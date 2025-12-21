@@ -3,9 +3,9 @@ import { GameCommand, GameRouterInjectorToken, IGameBagItem, IGameCharacter, IGa
 
 @Component({
     standalone: false,
-  selector: 'app-character-panel',
-  templateUrl: './character-panel.component.html',
-  styleUrls: ['./character-panel.component.scss']
+    selector: 'app-character-panel',
+    templateUrl: './character-panel.component.html',
+    styleUrls: ['./character-panel.component.scss']
 })
 export class CharacterPanelComponent implements IGameScene, OnInit {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);

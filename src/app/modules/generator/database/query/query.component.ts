@@ -16,9 +16,9 @@ export class QueryComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
 
 
-    public items: any[] = [];
-    public isLoading = false;
-    public total = -1;
+    public readonly items = signal<any[]>([]);
+    public readonly isLoading = signal(false);
+    public readonly total = signal(-1);
     public readonly queries = form(signal({
         sql: '',
         page: 1,
@@ -44,8 +44,8 @@ export class QueryComponent implements OnInit {
     }
 
     public tapReset() {
-        this.items = [];
-        this.total = -1;
+        this.items.set([]);
+        this.total.set(-1);
         this.queries().value.update(v => {
             v.page = 1;
             v.sql = '';
@@ -61,17 +61,17 @@ export class QueryComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.query(queries).subscribe({
             next: res => {
-                this.items = res.data;
-                this.total = res.paging.total;
-                this.isLoading = false;
+                this.items.set(res.data);
+                this.total.set(res.paging.total);
+                this.isLoading.set(false);
                 this.queries().value.set(queries);
             },
             error: err => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.toastrService.error(err);
             }
         })

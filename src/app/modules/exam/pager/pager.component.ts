@@ -9,9 +9,9 @@ import { formatPager } from '../util';
 
 @Component({
     standalone: false,
-  selector: 'app-pager',
-  templateUrl: './pager.component.html',
-  styleUrls: ['./pager.component.scss']
+    selector: 'app-pager',
+    templateUrl: './pager.component.html',
+    styleUrls: ['./pager.component.scss']
 })
 export class PagerComponent implements OnInit {
     private readonly service = inject(ExamService);

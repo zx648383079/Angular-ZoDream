@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { INavLink } from '../../../theme/models/seo';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BotService } from './bot.service';
@@ -17,7 +17,7 @@ export class BotMemberComponent implements OnInit {
     private readonly themeService = inject(ThemeService);
 
 
-    public items: INavLink[] = [
+    public readonly items = signal<INavLink[]>([
         {
             name: '账号列表',
             label: '账',
@@ -58,7 +58,7 @@ export class BotMemberComponent implements OnInit {
             label: '记',
             url: 'log',
         },
-    ];
+    ]);
 
     ngOnInit(): void {
         this.themeService.titleChanged.next($localize `Bot Manage`);
@@ -68,9 +68,13 @@ export class BotMemberComponent implements OnInit {
     }
 
     public tapNav(item: INavLink) {
-        for (const it of this.items) {
-            it.active = item == it;
-        }
+        this.items.update(v => {
+            for (const it of v) {
+                it.active = item == it;
+            }
+            return v;
+        });
+        
         this.router.navigate([item.url], {relativeTo: this.route});
     }
 }

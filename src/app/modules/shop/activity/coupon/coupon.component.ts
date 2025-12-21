@@ -10,9 +10,9 @@ import { ActivityService } from '../activity.service';
 
 @Component({
     standalone: false,
-  selector: 'app-coupon',
-  templateUrl: './coupon.component.html',
-  styleUrls: ['./coupon.component.scss']
+    selector: 'app-coupon',
+    templateUrl: './coupon.component.html',
+    styleUrls: ['./coupon.component.scss']
 })
 export class CouponComponent implements OnInit {
     private readonly service = inject(ActivityService);
@@ -22,10 +22,10 @@ export class CouponComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: ICoupon[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<ICoupon[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
@@ -71,18 +71,18 @@ export class CouponComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.couponList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.items.set(res.data);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

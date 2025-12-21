@@ -26,10 +26,10 @@ export class TrendComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: ILogGroup[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<ILogGroup[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal({
         keywords: '',
         start_at: '',
@@ -150,14 +150,14 @@ export class TrendComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries: any = {...this.queries().value(), page};
         this.service.logList(queries).subscribe({
             next: res => {
-                this.items = this.formatGroup(res.data.reverse());
+                this.items.set(this.formatGroup(res.data.reverse()));
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
-                this.isLoading = false;
+                this.total.set(res.paging.total);
+                this.isLoading.set(false);
                 if (queries.goto) {
                     queries.page = res.paging.offset;
                     queries.per_page = res.paging.limit;
@@ -168,7 +168,7 @@ export class TrendComponent implements OnInit {
 
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -198,7 +198,7 @@ export class TrendComponent implements OnInit {
     }
 
     private forEach(cb: (item: IPageAccessLog) => void) {
-        for (const group of this.items) {
+        for (const group of this.items()) {
             for (const item of group.items) {
                 cb(item);
             }

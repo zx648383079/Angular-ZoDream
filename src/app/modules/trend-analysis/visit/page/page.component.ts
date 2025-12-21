@@ -20,10 +20,10 @@ export class PageComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: any[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<any[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal({
         start_at: '',
         end_at: '',
@@ -64,7 +64,7 @@ export class PageComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries: any = {...this.queries().value(), page};
         if (this.tabIndex != '') {
             queries.start_at = this.tabIndex;
@@ -72,17 +72,17 @@ export class PageComponent implements OnInit {
         }
         this.service.visitList(queries).subscribe({
             next: res => {
-                this.items = res.data;
+                this.items.set(res.data);
                 if (res.paging) {
                     this.hasMore = res.paging.more;
-                    this.total = res.paging.total;
+                    this.total.set(res.paging.total);
                 }
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
-                this.isLoading = false;
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

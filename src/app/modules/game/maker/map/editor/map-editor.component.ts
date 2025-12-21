@@ -28,7 +28,7 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
     private readonly areaModal = viewChild<DialogEvent>('areaModal');
     private readonly mapModal = viewChild<DialogEvent>('mapModal');
     private readonly monsterModal = viewChild<DialogEvent>('monsterModal');
-    public items: IGameMap[] = [];
+    public readonly items = signal<IGameMap[]>([]);
     public areaItems: IGameMapArea[] = [];
     public panelOpen = false;
     public readonly queries = form(signal({
@@ -90,7 +90,7 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
         });
         this.service.mapAll(this.queries).subscribe(res => {
             this.areaItems = res.area_items;
-            this.items = res.items;
+            this.items.set(res.items);
             this.refreshLine();
         });
     }
@@ -134,8 +134,11 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
                 return;
             }
             const bound = this.formatPoint(this.selectionRect);
-            this.items.forEach(i => {
-                i.is_selected = isIntersect(bound, i);
+            this.items.update(v => {
+                return v.map(i => {
+                    i.is_selected = isIntersect(bound, i);
+                    return i;
+                });
             });
             this.selectionRect.width = 0;
         });
@@ -143,14 +146,20 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
 
     public tapAdd(e: MouseEvent) {
         if (this.items.length > 0) {
-            this.items.forEach(i => {
-                i.is_selected = false;
+            this.items.update(v => {
+                return v.map(i => {
+                    i.is_selected = false;
+                    return i;
+                });
             });
             return;
         }
         this.mapModal().open(() => {
             this.service.mapSave({...this.editForm().value(), project_id: this.queries.project, ...this.formatPoint(e)}).subscribe(res => {
-                this.items.push(res);
+                this.items.update(v => {
+                    v.push(res);
+                    return v;
+                });
             });
         }, () => this.editForm().valid(), '添加地图');
     }
@@ -158,11 +167,14 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
     public onMoveStart(item: IGameMap, e: MouseEvent) {
         e.stopPropagation();
         if (!item.is_selected) {
-            this.items.forEach(i => {
-                i.is_selected = i === item;
+            this.items.update(v => {
+                return v.map(i => {
+                    i.is_selected = i === item;
+                    return i;
+                });
             });
         }
-        const items = this.items.filter(i => i.is_selected);
+        const items = this.items().filter(i => i.is_selected);
         let last: IPoint = {x: e.clientX, y: e.clientY};
         this.withMove(p => {
             const diffX = p.clientX - last.x;
@@ -196,12 +208,15 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
                 this.service.mapSave({...target, project_id: this.queries.project}).subscribe(res => {
                     const fromKey = this.posToKey(pos);
                     item[fromKey] = res.id;
-                    this.items.forEach(i => {
-                        if (i !== target && i[toKey] == item.id) {
-                            i[toKey] = 0;
-                        } else if (i !== item && i[fromKey] == target.id) {
-                            i[fromKey] = 0;
-                        }
+                    this.items.update(v => {
+                        return v.map(i => {
+                            if (i !== target && i[toKey] == item.id) {
+                                i[toKey] = 0;
+                            } else if (i !== item && i[fromKey] == target.id) {
+                                i[fromKey] = 0;
+                            }
+                            return i;
+                        });
                     });
                     this.refreshLine();
                 });
@@ -215,12 +230,14 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
                     project_id: this.queries.project, 
                     ...this.formatPoint(p)}).subscribe(res => {
                     item[this.posToKey(pos)] = res.id;
-                    this.items.forEach(i => {
-                        if (i[toKey] == item.id) {
-                            i[toKey] = 0;
-                        }
+                    this.items.update(v => {
+                        return [...v.map(i => {
+                            if (i[toKey] == item.id) {
+                                i[toKey] = 0;
+                            }
+                            return i;
+                        }), res]
                     });
-                    this.items.push(res);
                     this.refreshLine();
                 });
             }, () => this.editForm().valid(), '添加地图');
@@ -228,7 +245,7 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
     }
 
     private getLineTo(p: IPoint): IGameMap|undefined {
-        for (const item of this.items) {
+        for (const item of this.items()) {
             if (isIntersect(this.formatMapBound(item), p)) {
                 return item;
             }
@@ -261,12 +278,12 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
     private refreshLine() {
         this.ctx.clearRect(0, 0, this.width, this.height);
         const boundItems: any = {};
-        for (const item of this.items) {
+        for (const item of this.items()) {
             boundItems[item.id] = this.formatMapBound(item);
         }
         const exist = [];
         
-        for (const item of this.items) {
+        for (const item of this.items()) {
             exist.push(item.id);
             posMap.forEach((key, i) => {
                 if (!item[key] || exist.indexOf(item[key]) >= 0) {

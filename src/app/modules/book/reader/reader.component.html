@@ -4,7 +4,7 @@
         <app-flip-pager [initChapter]="chapterId" [options]="configForm().value()" (progressChanged)="onProgressChange($event)" (previewRequest)="onRequest($event)" />
     </div>
     
-    @if (isLoading) {
+    @if (isLoading()) {
     <div class="loading-bar" i18n>
         Loading ...
     </div>

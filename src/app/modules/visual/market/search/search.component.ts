@@ -9,9 +9,9 @@ import { IThemeComponent } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+    selector: 'app-search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
@@ -19,10 +19,10 @@ export class SearchComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: IThemeComponent[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IThemeComponent[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
@@ -74,14 +74,14 @@ export class SearchComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.search({...queries, filter: this.filterItems.length < 1}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.total = res.paging.total;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.total.set(res.paging.total);
+                this.items.set(res.data);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
                 if (res.filter) {
@@ -89,7 +89,7 @@ export class SearchComponent implements OnInit {
                 }
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

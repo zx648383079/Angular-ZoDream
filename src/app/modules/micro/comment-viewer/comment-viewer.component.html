@@ -24,7 +24,7 @@
         </div>
     </div>
     }
-   @for (item of items; track $index) {
+   @for (item of items(); track $index) {
      <div class="comment-item">
         <div class="avatar">
             <img [src]="item.user.avatar" alt="">
@@ -85,8 +85,8 @@
         </div>
     </div>
    }
-    <div class="more-btn" [class]="{disabled: !hasMore}" (click)="tapMore()" i18n>
-        {hasMore, plural, =true {Read more} =false {No more~}}
+    <div class="more-btn" [class]="{disabled: !hasMore()}" (click)="tapMore()" i18n>
+        {hasMore(), plural, =true {Read more} =false {No more~}}
     </div>
 </div>
 }

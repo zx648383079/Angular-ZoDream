@@ -10,7 +10,7 @@
     </a>
 </div>
 
-@for (item of items; track $index) {
+@for (item of items(); track $index) {
     <div class="org-item">
     <div class="item-header">
         <div class="item-name">帮派名(5级)</div>
@@ -26,7 +26,7 @@
 </div>
 }
 
-<app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+<app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
 
 @if (modalVisible) {
 <div class="dialog-mask"></div>

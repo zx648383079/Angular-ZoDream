@@ -1,4 +1,4 @@
-import { Component, inject, input, output, signal } from '@angular/core';
+import { Component, computed, inject, input, output, signal } from '@angular/core';
 import { FILE_PROVIDER, IFileDataSource, IFileItem, IFileProvider } from '../model';
 import { IPage } from '../../../theme/models/page';
 import { parseNumber } from '../../../theme/utils';
@@ -17,10 +17,10 @@ export class FileExplorerPanelComponent implements IFileDataSource {
     public readonly editable = input(true);
     public readonly pathChange = output<string>();
     public readonly selectedChange = output<IFileItem>();
-    public items: IFileItem[] = [];
+    public readonly items = signal<IFileItem[]>([]);
     public listViewMode = false;
     public listEditable = false;
-    public isChecked = false;
+    public readonly isChecked = signal(false);
     public sortKey = '';
     public orderAsc = true;
     public readonly queries = form(signal({
@@ -28,11 +28,11 @@ export class FileExplorerPanelComponent implements IFileDataSource {
         keywords: '',
     }));
     public page = 1;
-    public hasMore = true;
-    public isLoading = false;
+    public readonly hasMore = signal(true);
+    public readonly isLoading = signal(false);
 
-    public get filterItems() {
-        const items = this.items;
+    public readonly filterItems = computed(() => {
+        const items = this.items();
         if (!this.sortKey) {
             return items;
         }
@@ -52,30 +52,30 @@ export class FileExplorerPanelComponent implements IFileDataSource {
             }
             return (av as string).localeCompare(bv, $localize `en`);
         });
-    }
+    });
 
-    public get checkedItems() {
-        return this.items.filter(i => i.checked);
-    }
+    public readonly checkedItems = computed(() => {
+        return this.items().filter(i => i.checked);
+    });
 
-    public get subtotal() {
+    public readonly subtotal = computed(() => {
         let total = 0;
-        for (const item of this.items) {
+        for (const item of this.items()) {
             if (item.size) {
                 total += item.size;
             }
         }
         return total;
-    }
+    });
 
-    public get count(): number {
-        return this.items.length;
-    }
+    public readonly count = computed(() => {
+        return this.items().length;
+    });
     public indexOf(file: IFileItem): number {
-        return this.items.indexOf(file);
+        return this.items().indexOf(file);
     }
     public getAt(i: number): IFileItem|undefined {
-        if (i < 0 || i >= this.count) {
+        if (i < 0 || i >= this.count()) {
             return;
         }
         return this.items[i];
@@ -114,19 +114,23 @@ export class FileExplorerPanelComponent implements IFileDataSource {
 
     public toggleCheck(item?: IFileItem) {
         if (!item) {
-            this.isChecked = !this.isChecked;
-            this.items.forEach(i => {
-                i.checked = this.isChecked;
+            this.isChecked.update(v => !v);
+            const isChecked = this.isChecked();
+            this.items.update(v => {
+                return v.map(i => {
+                    i.checked = isChecked;
+                    return i;
+                });
             });
             return;
         }
         item.checked = !item.checked;
         if (!item.checked) {
-            this.isChecked = false;
+            this.isChecked.set(false);
             return;
         }
-        if (this.checkedItems.length === this.items.length) {
-            this.isChecked = true;
+        if (this.checkedItems().length === this.items().length) {
+            this.isChecked.set(true);
         }
     }
 
@@ -161,15 +165,15 @@ export class FileExplorerPanelComponent implements IFileDataSource {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.searchFile({
             ...this.queries().value(),
             page,
         }).subscribe({
             next: (res: IPage<IFileItem>) => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.page = page;
-                this.hasMore = res.paging ? res.paging.more : false;
+                this.hasMore.set(res.paging ? res.paging.more : false);
                 const data = res.data.map(i => {
                     if (!i.icon) {
                         i.icon = i.isFolder ? 'icon-folder-o' : 'icon-file-o';
@@ -179,10 +183,10 @@ export class FileExplorerPanelComponent implements IFileDataSource {
                     }
                     return i;
                 });
-                this.items = page < 2 ? data : [].concat(this.items, data);
+                this.items.set(page < 2 ? data : [].concat(this.items, data));
             },
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

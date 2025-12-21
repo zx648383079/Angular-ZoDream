@@ -28,8 +28,8 @@ export class CommentItemComponent {
     public readonly guestUser = input<any>({});
     public readonly commenting = output<any>();
 
-    public hasMore = true;
-    public isLoading = false;
+    public readonly hasMore = signal(true);
+    public readonly isLoading = signal(false);
     public readonly queries = form(signal({
         page: 1,
         per_page: 5,
@@ -52,8 +52,8 @@ export class CommentItemComponent {
             if (!value.replies) {
                 value.replies = [];
             }
-            this.hasMore = value.reply_count > value.replies?.length;
             untracked(() => {
+                this.hasMore.set(value.reply_count > value.replies?.length);
                 this.queries().value.update(v => {
                     v.blog_id = value.blog_id;
                     v.parent_id = value.id;
@@ -159,17 +159,17 @@ export class CommentItemComponent {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.commentList({...queries}).subscribe({
             next: res => {
-                this.hasMore = res.paging.more;
-                this.isLoading = false;
+                this.hasMore.set(res.paging.more);
+                this.isLoading.set(false);
                 this.value().replies = [].concat(this.value().replies, res.data);
                 this.queries().value.set(queries);
             }, 
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

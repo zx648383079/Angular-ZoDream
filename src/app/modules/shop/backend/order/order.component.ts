@@ -20,10 +20,10 @@ export class OrderComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: IOrder[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IOrder[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal({
         series_number: '',
         status: '0',
@@ -95,8 +95,10 @@ export class OrderComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         });
@@ -124,19 +126,19 @@ export class OrderComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.orderList(queries).subscribe({
             next: res => {
-                this.isLoading = false;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

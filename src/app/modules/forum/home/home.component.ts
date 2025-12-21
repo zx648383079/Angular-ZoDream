@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { IForum } from '../model';
 import { ForumService } from '../forum.service';
 
@@ -12,18 +12,18 @@ export class HomeComponent implements OnInit {
     private readonly service = inject(ForumService);
 
 
-    public items: IForum[] = [];
-    public isLoading = false;
+    public readonly items = signal<IForum[]>([]);
+    public readonly isLoading = signal(false);
 
     ngOnInit() {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.getForumList().subscribe({
             next: res => {
-                this.items = res;
-                this.isLoading = false;
+                this.items.set(res);
+                this.isLoading.set(false);
             },
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

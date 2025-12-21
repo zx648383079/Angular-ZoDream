@@ -11,7 +11,7 @@
         
     </div>
     <div class="panel-body" [class]="{'is_loading': isLoading}">
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
             <a class="article-list-item" [routerLink]="['blog', item.id]">
                 <div class="item-body">
                     <a class="item-title">{{ item.title }}</a>

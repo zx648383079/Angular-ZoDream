@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import {
     IShare
 } from '../model';
@@ -16,13 +16,12 @@ export class ShareComponent implements OnInit {
     private readonly service = inject(DiskService);
 
 
-    public checkedAll = false;
-
-    public items: IShare[] = [];
+    public readonly isChecked = signal(false);
+    public readonly items = signal<IShare[]>([]);
 
     public page = 1;
-    public hasMore = true;
-    public isLoading = false;
+    private hasMore = true;
+    public readonly isLoading = signal(false);
 
     ngOnInit() {
         this.tapRefresh();
@@ -43,41 +42,45 @@ export class ShareComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.myShare({
             page
-        }).subscribe(res => {
-            this.page = page;
-            this.hasMore = res.paging.more;
-            this.isLoading = false;
-            this.items = page < 2 ? res.data : [].concat(this.items, res.data);
-        }, () => {
-            this.isLoading = false;
+        }).subscribe({
+            next: res => {
+                this.page = page;
+                this.hasMore = res.paging.more;
+                this.isLoading.set(false);
+                this.items.set(page < 2 ? res.data : [].concat(this.items, res.data));
+            }, 
+            error: () => {
+                this.isLoading.set(false);
+            }
         });
     }
 
     public tapFile(item: any) {
         item.checked = !item.checked;
         if (!item.checked) {
-            this.checkedAll = false;
+            this.isChecked.set(false);
         } else {
             this.checkedIfAll();
         }
     }
 
     public checkedIfAll() {
-        for (const item of this.items) {
+        for (const item of this.items()) {
             if (!item.checked) {
                 return;
             }
         }
-        this.checkedAll = true;
+        this.isChecked.set(true);
     }
 
     public tapCheckAll() {
-        this.checkedAll = !this.checkedAll;
-        for (const item of this.items) {
-            item.checked = this.checkedAll;
+        this.isChecked.update(v => !v);
+        const isChecked = this.isChecked();
+        for (const item of this.items()) {
+            item.checked = isChecked;
         }
     }
 

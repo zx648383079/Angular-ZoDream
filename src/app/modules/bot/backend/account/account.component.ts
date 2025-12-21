@@ -12,9 +12,9 @@ import { BotService } from '../bot.service';
 
 @Component({
     standalone: false,
-  selector: 'app-bot-account',
-  templateUrl: './account.component.html',
-  styleUrls: ['./account.component.scss']
+    selector: 'app-bot-account',
+    templateUrl: './account.component.html',
+    styleUrls: ['./account.component.scss']
 })
 export class AccountComponent implements OnInit {
     private readonly service = inject(BotService);
@@ -25,11 +25,11 @@ export class AccountComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: IBotAccount[] = [];
+    public readonly items = signal<IBotAccount[]>([]);
 
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public selected = 0;
     public readonly queries = form(signal<IPageQueries>({
         keywords: '',
@@ -86,19 +86,19 @@ export class AccountComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.accountList(queries).subscribe({
             next: res => {
-                this.items = res.data;
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
-                this.isLoading = false;
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -115,8 +115,10 @@ export class AccountComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         });

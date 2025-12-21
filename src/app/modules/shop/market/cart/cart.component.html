@@ -1,7 +1,7 @@
 
 <div class="cart-page">
     <div class="container">
-        @if (items.length < 1) {
+        @if (items().length < 1) {
             <div class="empty-cart-box">
                 @if (guest) {
                     <p i18n>After login, you can synchronize the products in the shopping cart</p>
@@ -14,7 +14,7 @@
         } @else {
             <div class="cart-header">
                 <div class="chkbox" (click)="toggleCheckAll()">
-                    <i class="iconfont" [class]="{'icon-check-square-o': checkedAll, 'icon-square-o': !checkedAll}"></i>
+                    <i class="iconfont" [class]="{'icon-check-square-o': isChecked(), 'icon-square-o': !isChecked()}"></i>
                     <span>全选</span>
                 </div>
                 <div>商品信息</div>
@@ -24,7 +24,7 @@
                 <div>操作</div>
             </div>
             
-            @for (group of items; track $index) {
+            @for (group of items(); track $index) {
             <div class="cart-group-item">
                 <div class="group-header">
                     <div class="chk" (click)="toggleCheckGroup(group)">
@@ -67,9 +67,9 @@
             }
             <div class="cart-footer">
                 <div class="chkbox">
-                    <i class="iconfont" [class]="{'icon-check-square-o': checkedAll, 'icon-square-o': !checkedAll}" (click)="toggleCheckAll()"></i>
+                    <i class="iconfont" [class]="{'icon-check-square-o': isChecked(), 'icon-square-o': !isChecked()}" (click)="toggleCheckAll()"></i>
                     <span>
-                        <span>已选（</span><span class="cart-checked-count">{{ checkedCount }}</span>
+                        <span>已选（</span><span class="cart-checked-count">{{ checkedCount() }}</span>
                         <span>）</span>
                     </span>
                     <div class="batch-action">
@@ -79,13 +79,13 @@
                 </div>
                 <div class="total">
                     <span i18n>SUBTOTAL:</span>
-                    <span class="price">{{ total | price }}</span>
+                    <span class="price">{{ total() | price }}</span>
                     <span>活动优惠 : </span>
                     <span class="price">{{ 0 | price }}</span>
                 </div>
                 <div class="money">
                     <span>应付总额：</span>
-                    <span class="price">{{ total | price }}</span>
+                    <span class="price">{{ total() | price }}</span>
                     @if (cart.promotion_cell.length > 0) {
                     <div class="tip">{{ cart.promotion_cell[0].popup_tip }}></div>
                     }

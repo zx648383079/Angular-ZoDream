@@ -36,7 +36,7 @@ export class BackendComponent implements OnInit, OnDestroy {
 
     public navItems: INavLink[] = [];
     public bottomNavs: INavLink[] = [];
-    private subItems = new Subscription();
+    private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next('管理平台');

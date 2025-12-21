@@ -8,13 +8,13 @@
     <div class="row">
         <div class="col-md-4">
             <div class="column-full-item">
-                @if (isLoading) {
+                @if (isLoading()) {
                 <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 }
                 <div class="inner">
-                    <h3>{{ data.forum_count || 0 | numberFormat }}</h3>
+                    <h3>{{ data().forum_count || 0 | numberFormat }}</h3>
                     <p>版块</p>
                 </div>
                 <div class="icon">
@@ -28,13 +28,13 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                @if (isLoading) {
+                @if (isLoading()) {
                 <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 }
                 <div class="inner">
-                    <h3>{{ data.thread_today || 0 | numberFormat }}/{{ data.thread_count || 0 | numberFormat }}</h3>
+                    <h3>{{ data().thread_today || 0 | numberFormat }}/{{ data().thread_count || 0 | numberFormat }}</h3>
                     <p>今日/总主题</p>
                 </div>
                 <div class="icon">
@@ -48,13 +48,13 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                @if (isLoading) {
+                @if (isLoading()) {
                 <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 }
                 <div class="inner">
-                    <h3>{{ data.post_today || 0 | numberFormat }}/{{ data.post_count || 0 | numberFormat }}</h3>
+                    <h3>{{ data().post_today || 0 | numberFormat }}/{{ data().post_count || 0 | numberFormat }}</h3>
                     <p>今日/总回帖</p>
                 </div>
                 <div class="icon">
@@ -68,13 +68,13 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                @if (isLoading) {
+                @if (isLoading()) {
                 <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 }
                 <div class="inner">
-                    <h3>{{ data.view_today || 0 | numberFormat }}/{{ data.view_count || 0 | numberFormat }}</h3>
+                    <h3>{{ data().view_today || 0 | numberFormat }}/{{ data().view_count || 0 | numberFormat }}</h3>
                     <p>今日/总流量</p>
                 </div>
                 <div class="icon">

@@ -1,4 +1,4 @@
-import { Component, effect, input, output } from '@angular/core';
+import { Component, effect, input, output, signal } from '@angular/core';
 import { UploadFile } from '../../../theme/services/uploader';
 import { formatDate, mapFormat } from '../../../theme/utils';
 import { IDisk } from '../model';
@@ -32,7 +32,7 @@ export class UploaderComponent {
 
     public readonly title = input('上传');
     public min = false;
-    public visible = false;
+    public readonly visible = signal(false);
     public readonly items = input<IUploadItem[]>([]);
     public formatedItems: IUploadGroup[] = [];
     public readonly maxTime = input(86400000);

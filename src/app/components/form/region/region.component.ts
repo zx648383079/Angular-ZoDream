@@ -1,4 +1,4 @@
-import { Component, SimpleChanges, HostListener, inject, input, output, model, effect } from '@angular/core';
+import { Component, SimpleChanges, HostListener, inject, input, output, model, effect, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IDataOne } from '../../../theme/models/page';
 import { cloneObject, eachObject } from '../../../theme/utils';
@@ -36,9 +36,9 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
     public readonly value = model<T[] | T>();
 
     public paths: Array<T> = [];
-    public items: Array<T> = [];
+    public readonly items = signal<T[]>([]);
     public activeColumn = 0;
-    public panelVisible = false;
+    public readonly panelVisible = signal(false);
 
     private data: {
         [key: number]: T
@@ -62,7 +62,7 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
     @HostListener('document:click', ['$event']) 
     public hideCalendar(event: any) {
         if (!(event.target as HTMLDivElement).closest('.selector') && !hasElementByClass(event.path, 'selector-panel-container')) {
-            this.panelVisible = false;
+            this.panelVisible.set(false);
         }
     }
 
@@ -70,7 +70,7 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
         if (this.disabled) {
             return;
         }
-        this.panelVisible = true;
+        this.panelVisible.set(true);
     }
 
     private getOrSet(url: string): Observable<any> {
@@ -102,7 +102,7 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
     }
 
     public tapColumn(column: number) {
-        this.items = this.coloumnItems(column);
+        this.items.set(this.coloumnItems(column));
         this.activeColumn = column;
     }
 
@@ -112,11 +112,11 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
     }
 
     public tapClose() {
-        this.panelVisible = false;
+        this.panelVisible.set(false);
     }
 
     public tapYes() {
-        this.panelVisible = false;
+        this.panelVisible.set(false);
         this.output();
     }
 
@@ -156,7 +156,7 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
         this.paths.push({
             [this.rangeLabel()]: this.placeholder()
         } as any);
-        this.items = items;
+        this.items.set(items);
         this.activeColumn = nextColumn;
     }
 

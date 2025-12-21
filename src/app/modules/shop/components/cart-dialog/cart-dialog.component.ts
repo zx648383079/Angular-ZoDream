@@ -10,9 +10,9 @@ import { ShopService } from '../../shop.service';
 
 @Component({
     standalone: false,
-  selector: 'app-cart-dialog',
-  templateUrl: './cart-dialog.component.html',
-  styleUrls: ['./cart-dialog.component.scss']
+    selector: 'app-cart-dialog',
+    templateUrl: './cart-dialog.component.html',
+    styleUrls: ['./cart-dialog.component.scss']
 })
 export class CartDialogComponent {
     private readonly store = inject<Store<ShopAppState>>(Store);

@@ -1,6 +1,6 @@
-<app-loading-tip [loading]="isLoading" [visible]="isLoading" />
+<app-loading-tip [loading]="isLoading()" [visible]="isLoading()" />
 
-@for (item of items; track $index) {
+@for (item of items(); track $index) {
     <a class="column-item" (click)="tapItem(item)" title="点击查看详情">
         <div class="item-icon">
             @if (item.icon) {

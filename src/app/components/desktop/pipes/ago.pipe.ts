@@ -10,7 +10,7 @@ import { formatAgo } from '../../../theme/utils';
 })
 export class AgoPipe implements PipeTransform {
 
-    transform(value: any, args ? : any): any {
+    transform(value?: any, args ? : any): any {
         return formatAgo(value);
     }
 

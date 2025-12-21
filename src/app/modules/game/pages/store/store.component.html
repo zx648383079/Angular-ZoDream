@@ -11,7 +11,7 @@
         <a class="item" [class]="{active: queries.type == item.value}" (click)="tapType(item.value)">{{ item.name }}</a>
     }
 </div>
-@for (item of items; track $index) {
+@for (item of items(); track $index) {
     <div class="bag-item">
     <div class="item-body">
         @if (item.quality) {
@@ -24,7 +24,7 @@
     </div>
 </div>
 }
-<app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+<app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
 
 @if (modalVisible) {
 <div class="dialog-mask"></div>

@@ -24,7 +24,7 @@ export class OnlineServiceComponent implements OnDestroy {
     }), schemaPath => {
         required(schemaPath.content);
     });
-    public items: any[] = [];
+    public readonly items = signal<any[]>([]);
     private sessionToken = '';
     private nextTime = 0;
     private startTime = 0;
@@ -86,7 +86,7 @@ export class OnlineServiceComponent implements OnDestroy {
             last_id: lastId,
         }).subscribe((res: any) => {
             if (res.data.length > 0) {
-                this.items = [].concat(res.data, this.items);
+                this.items.set([].concat(res.data, this.items));
             }
         });
     }
@@ -100,19 +100,22 @@ export class OnlineServiceComponent implements OnDestroy {
             data.start_time = this.nextTime;
         }
         this.isLoading = true;
-        this.service.send(data).subscribe((res: any) => {
-            this.items = [].concat(this.items, res.data);
-            this.nextTime = res.next_time;
-            if (!this.startTime) {
-                this.startTime = this.nextTime;
+        this.service.send(data).subscribe({
+            next:(res: any) => {
+                this.items.set([].concat(this.items, res.data));
+                this.nextTime = res.next_time;
+                if (!this.startTime) {
+                    this.startTime = this.nextTime;
+                }
+                this.sessionToken = res.session_token;
+                this.spaceTime = LOOP_SPACE_TIME;
+                this.isLoading = false;
+                this.saveToken();
+                this.startTimer();
+            }, 
+            error: _ => {
+                this.isLoading = false;
             }
-            this.sessionToken = res.session_token;
-            this.spaceTime = LOOP_SPACE_TIME;
-            this.isLoading = false;
-            this.saveToken();
-            this.startTimer();
-        }, _ => {
-            this.isLoading = false;
         });
     }
 
@@ -143,7 +146,7 @@ export class OnlineServiceComponent implements OnDestroy {
         }).subscribe({
             next: (res: any) => {
                 if (res.data.length > 0) {
-                    this.items = [].concat(this.items, res.data);
+                    this.items.set([].concat(this.items, res.data));
                 }
                 this.nextTime = res.next_time;
                 if (!this.startTime) {

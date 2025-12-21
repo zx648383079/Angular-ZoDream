@@ -1,4 +1,4 @@
-import { Component, inject, input, model, output } from '@angular/core';
+import { Component, computed, inject, input, model, output, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IUploadFile, IUploadResult } from '../../../theme/models/open';
 import { FileUploadService } from '../../../theme/services/file-upload.service';
@@ -28,16 +28,16 @@ export class FileInputComponent implements FormValueControl<string|any> {
     public uploadFailure = false;
     public readonly disabled = input<boolean>(false);
     public readonly value = model<string|any>('');
-    public isLoading = false;
+    public readonly isLoading = signal(false);
     public fileName = this.uploadService.uniqueGuid();
 
     public readonly fileUploaded = output<IUploadResult | IUploadFile>();
     public readonly customUpload = output<UploadCustomEvent>();
 
 
-    get canPreview() {
+    public readonly canPreview = computed(() => {
         return !this.custom() && this.accept().indexOf('image') >= 0;
-    }
+    });
 
     public openOnline(modal: FileOnlineComponent) {
         this.uploadFailure = false;
@@ -57,11 +57,11 @@ export class FileInputComponent implements FormValueControl<string|any> {
             return;
         }
         if (this.custom()) {
-            this.isLoading = true;
+            this.isLoading.set(true);
             this.customUpload.emit({
                 file: files[0],
                 next: res => {
-                    this.isLoading = false;
+                    this.isLoading.set(false);
                     if (res) {
                         this.value.set(res.url);
                         this.fileUploaded.emit(res);
@@ -80,15 +80,15 @@ export class FileInputComponent implements FormValueControl<string|any> {
         } else {
             upload$ = this.uploadService.uploadFile(files[0]);
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         upload$.subscribe({
             next: res => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.value.set(res.url);
                 this.fileUploaded.emit(res);
             },
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.uploadFailure = true;
             },
         });

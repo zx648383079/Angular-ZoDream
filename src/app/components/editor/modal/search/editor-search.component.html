@@ -4,7 +4,7 @@
         <i class="iconfont icon-search"></i>
     </div>
     <ul class="modal-search-body">
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
             <li [class]="{active: isSelected(item)}" (click)="tapSelect(item)">
                 <div class="item-action btn-primary">
                     <i class="iconfont icon-check"></i>
@@ -16,7 +16,7 @@
         }
     </ul>
     <div class="modal-action">
-        <div class="btn btn-outline-secondary" (click)="visible = false">取消</div>
+        <div class="btn btn-outline-secondary" (click)="visible.set(false)">取消</div>
         <div class="btn btn-outline-primary" (click)="tapConfirm()">插入</div>
     </div>
 </div>

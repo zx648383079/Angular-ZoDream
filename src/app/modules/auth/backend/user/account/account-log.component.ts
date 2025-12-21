@@ -10,9 +10,9 @@ import { DialogEvent } from '../../../../../components/dialog';
 
 @Component({
     standalone: false,
-  selector: 'app-account-log',
-  templateUrl: './account-log.component.html',
-  styleUrls: ['./account-log.component.scss']
+    selector: 'app-account-log',
+    templateUrl: './account-log.component.html',
+    styleUrls: ['./account-log.component.scss']
 })
 export class AccountLogComponent implements OnInit {
     private readonly service = inject(AuthService);
@@ -20,10 +20,10 @@ export class AccountLogComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: IAccountLog[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IAccountLog[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         keywords: '',
@@ -68,19 +68,19 @@ export class AccountLogComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.accountLogList(queries).subscribe({
             next: res => {
-                this.items = res.data;
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
-                this.isLoading = false;
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

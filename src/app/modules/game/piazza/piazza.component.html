@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
             <div class="col-md-6 col-lg-4">
             <a class="column-image-item mt-10" [routerLink]="['play', item.id]">
                 <div class="item-logo">

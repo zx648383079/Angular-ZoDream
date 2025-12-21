@@ -1,15 +1,15 @@
 <div class="catalog-body">
     <div class="file-header">
-        <div class="check-box" [class]="{checked: checkedAll}" (click)="tapCheckAll()"></div>
+        <div class="check-box" [class.checked]="isChecked()" (click)="tapCheckAll()"></div>
         <div class="name sort-asc">文件名</div>
         <div class="time">分享时间</div>
         <div class="times">浏览次数</div>
         <div class="times">保存次数</div>
         <div class="times">下载次数</div>
     </div>
-    @for (item of items; track $index) {
+    @for (item of items(); track $index) {
         <div class="file-item" (click)="tapFile(item)">
-            <div class="check-box" [class]="{checked: item.checked}"></div>
+            <div class="check-box" [class.checked]="item.checked"></div>
             <div class="file-icon">
                 <i class="iconfont icon-folder-o"></i>
             </div>

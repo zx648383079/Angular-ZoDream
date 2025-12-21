@@ -1,5 +1,5 @@
 <div class="math-mark-bar">
-    @for (item of items; track $index) {
+    @for (item of items(); track $index) {
         @switch (item.type) {
             @case ('input') {
                 @if (!disabled()) {

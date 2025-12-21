@@ -1,4 +1,4 @@
-<div class="time-input-container" [class]="{'panel-open': panelVisible}">
+<div class="time-input-container" [class.panel-open]="panelVisible()">
     <div class="input-container">
         <input type="text" [value]="value()" (change)="onValueChange($event)" [disabled]="disabled()" [placeholder]="placeholder()" (focus)="onFocus()">
         <div class="input-arrow">

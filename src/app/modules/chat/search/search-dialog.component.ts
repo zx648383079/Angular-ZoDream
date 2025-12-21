@@ -23,30 +23,30 @@ export class SearchDialogComponent {
         page: 1,
         per_page: 10
     }));
-    public hasMore = false;
-    public items: IUser[] = [];
+    public readonly hasMore = signal(false);
+    public readonly items = signal<IUser[]>([]);
     public tabIndex = 0;
-    public visible = false;
+    public readonly visible = signal(false);
 
     private confirmFn: Function;
 
 
     public open(cb: () => void) {
-        this.visible = true;
+        this.visible.set(true);
         this.confirmFn = cb;
     }
 
     public close() {
-        this.visible = false;
+        this.visible.set(false);
         this.confirmFn();
     }
 
     public tapItem(item: IUser) {
-        this.visible = false;
+        this.visible.set(false);
         const modal = this.profileModal();
         modal.mode = item.checked ? 0 : 1;
         modal.open(item, res => {
-            this.visible = true;
+            this.visible.set(true);
             if (!res) {
                 return;
             }
@@ -89,7 +89,7 @@ export class SearchDialogComponent {
     }
 
     public tapNext() {
-        if (!this.hasMore) {
+        if (!this.hasMore()) {
             return;
         }
         this.goPage(this.queries.page().value() + 1);
@@ -98,9 +98,9 @@ export class SearchDialogComponent {
     private goPage(page: number) {
         const queries = {...this.queries().value(), page};
         this.service.search(queries).subscribe(res => {
-            this.items = res.data;
+            this.items.set(res.data);
             this.queries().value.set(queries);
-            this.hasMore = res.paging.more;
+            this.hasMore.set(res.paging.more);
         });
     }
 }

@@ -24,10 +24,10 @@ export class BulletinComponent implements OnInit {
     private readonly themeService = inject(ThemeService);
 
 
-    public items: IBulletinUser[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IBulletinUser[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
@@ -59,12 +59,14 @@ export class BulletinComponent implements OnInit {
     public tapReadAll() {
         this.toastrService.confirm($localize `Sure to mark all messages as read? Messages can still be viewed after they have been read`, () => {
             this.service.bulletinReadAll().subscribe(_ => {
-                this.items = this.items.map(i => {
-                    if (i.status < 1) {
-                        i.status = 1;
-                        i.open = false;
-                    }
-                    return i;
+                this.items.update(v => {
+                    return v.map(i => {
+                        if (i.status < 1) {
+                            i.status = 1;
+                            i.open = false;
+                        }
+                        return i;
+                    });
                 });
             });
         })
@@ -105,22 +107,22 @@ export class BulletinComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.bulletinList(queries).subscribe({
             next: res => {
-                this.items = res.data.map(i => {
+                this.items.set(res.data.map(i => {
                     i.open = i.status < 1;
                     return i;
-                });
+                }));
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
-                this.isLoading = false;
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -132,8 +134,10 @@ export class BulletinComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         })

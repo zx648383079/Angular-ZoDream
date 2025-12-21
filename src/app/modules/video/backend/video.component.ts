@@ -1,27 +1,27 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { VideoService } from './video.service';
 
 @Component({
     standalone: false,
-  selector: 'app-video',
-  templateUrl: './video.component.html',
-  styleUrls: ['./video.component.scss']
+    selector: 'app-video',
+    templateUrl: './video.component.html',
+    styleUrls: ['./video.component.scss']
 })
 export class VideoComponent implements OnInit {
     private readonly service = inject(VideoService);
 
 
-    public isLoading = false;
-    public data: any = {};
+    public readonly isLoading = signal(false);
+    public readonly data = signal<any>({});
 
     ngOnInit() {
         this.service.statistics().subscribe({
             next: res => {
-                this.data = res;
-                this.isLoading = false;
+                this.data.set(res);
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

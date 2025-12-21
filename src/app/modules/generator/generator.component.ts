@@ -7,9 +7,9 @@ import { ThemeService } from '../../theme/services';
 
 @Component({
     standalone: false,
-  selector: 'app-generator',
-  templateUrl: './generator.component.html',
-  styleUrls: ['./generator.component.scss']
+    selector: 'app-generator',
+    templateUrl: './generator.component.html',
+    styleUrls: ['./generator.component.scss']
 })
 export class GeneratorComponent implements OnInit {
     private readonly store = inject<Store<AppState>>(Store);

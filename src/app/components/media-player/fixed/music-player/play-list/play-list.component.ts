@@ -3,9 +3,9 @@ import { IMediaActionEvent, IMediaFile, MediaAction } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-play-list',
-  templateUrl: './play-list.component.html',
-  styleUrls: ['./play-list.component.scss']
+    selector: 'app-play-list',
+    templateUrl: './play-list.component.html',
+    styleUrls: ['./play-list.component.scss']
 })
 export class PlayListComponent {
 
@@ -14,8 +14,6 @@ export class PlayListComponent {
     public readonly height = input(0);
     public readonly tapped = output<IMediaActionEvent>();
     public readonly playing = output<IMediaFile>();
-
-    constructor() { }
 
     public get boxStyle() {
         if (this.height() > 0) {

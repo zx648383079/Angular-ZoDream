@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ThemeService } from '../../../theme/services';
 import { SuggestChangeEvent } from '../../../components/form';
 
@@ -12,7 +12,7 @@ export class SearchInputComponent implements SuggestChangeEvent {
     private readonly themeService = inject(ThemeService);
 
 
-    public panelVisible = false;
+    public readonly panelVisible = signal(false);
     public suggestItems: any[] = [];
     public suggestText = '';
     public suggestIndex = -1;
@@ -75,11 +75,11 @@ export class SearchInputComponent implements SuggestChangeEvent {
     }
 
     public open() {
-        this.panelVisible = true;
+        this.panelVisible.set(true);
     }
 
     public close() {
-        this.panelVisible = false;
+        this.panelVisible.set(false);
     }
 
     private asyncSuggest() {

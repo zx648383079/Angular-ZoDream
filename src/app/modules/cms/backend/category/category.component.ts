@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ICmsCategory } from '../../model';
@@ -7,9 +7,9 @@ import { toggleTreeItem } from '../../../../theme/utils';
 
 @Component({
     standalone: false,
-  selector: 'app-category',
-  templateUrl: './category.component.html',
-  styleUrls: ['./category.component.scss']
+    selector: 'app-category',
+    templateUrl: './category.component.html',
+    styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
     private readonly service = inject(CmsService);
@@ -17,7 +17,7 @@ export class CategoryComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
 
 
-    public items: ICmsCategory[] = [];
+    public readonly items = signal<ICmsCategory[]>([]);
     public site = 0;
   
     ngOnInit() {
@@ -28,12 +28,12 @@ export class CategoryComponent implements OnInit {
     }
 
     public toggleTree(i: number) {
-        this.items = toggleTreeItem(this.items, i);
+        this.items.set(toggleTreeItem(this.items(), i));
     }
 
     public tapRefresh() {
         this.service.categoryList(this.site).subscribe(res => {
-            this.items = res.data;
+            this.items.set(res.data);
         });
     }
   
@@ -44,8 +44,10 @@ export class CategoryComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         });

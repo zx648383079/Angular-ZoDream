@@ -89,8 +89,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     public chatUser: IChatUser;
 
     public page = 1;
-    public hasMore = true;
-    public isLoading = false;
+    private hasMore = true;
+    public readonly isLoading = signal(false);
     public messageItems: IMessageBase[] = [];
     public readonly messageForm = form(signal({
         content: ''
@@ -161,7 +161,7 @@ export class ChatComponent implements OnInit, OnDestroy {
                 this.startTime = this.nextTime;
             }
             this.spaceTime = LOOP_SPACE_TIME;
-            this.isLoading = false;
+            this.isLoading.set(false);
             this.startTimer();
         }).on(COMMAND_MESSAGE_PING, (res: IMessagePing) => {
             if (res.apply_count > 0) {
@@ -181,7 +181,7 @@ export class ChatComponent implements OnInit, OnDestroy {
                 this.startTime = this.nextTime;
             }
             this.spaceTime = LOOP_SPACE_TIME;
-            this.isLoading = false;
+            this.isLoading.set(false);
             this.startTimer();
         });
     }
@@ -307,7 +307,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         if (this.isLoading || !this.chatUser) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.request.emit(COMMAND_MESSAGE, {
             type: this.chatUser.type,
             id: this.chatUser.id
@@ -392,7 +392,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     private tapNext() {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.request.emit(COMMAND_MESSAGE_PING, {
             type: this.chatUser.type,
             id: this.chatUser.id,

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { UserService } from '../user.service';
 import { ThemeService } from '../../../theme/services';
 import { IUserZone } from '../../../theme/models/user';
@@ -18,8 +18,8 @@ export class ZoneComponent implements OnInit {
 
 
 
-    public selectedItems: IUserZone[] = [];
-    public items: IUserZone[] = [];
+    public readonly selectedItems = signal<IUserZone[]>([]);
+    public readonly items = signal<IUserZone[]>([]);
     public activatedAt = 0;
 
     constructor() {
@@ -28,8 +28,8 @@ export class ZoneComponent implements OnInit {
 
     ngOnInit(): void {
         this.service.zoneList().subscribe(res => {
-            this.items = res.data;
-            this.selectedItems = res.selected;
+            this.items.set(res.data);
+            this.selectedItems.set(res.selected);
             this.activatedAt = res.activated_at;
         });
     }
@@ -39,7 +39,7 @@ export class ZoneComponent implements OnInit {
     }
 
     public isSelected(item: IUserZone) {
-        for (const it of this.selectedItems) {
+        for (const it of this.selectedItems()) {
             if (it.id === item.id) {
                 return true;
             }
@@ -51,7 +51,7 @@ export class ZoneComponent implements OnInit {
         if (this.activatedAt > 0) {
             return;
         }
-        this.selectedItems = [item];
+        this.selectedItems.set([item]);
     }
 
     public tapSubmit(e?: ButtonEvent) {
@@ -60,7 +60,7 @@ export class ZoneComponent implements OnInit {
         }
         e?.enter();
         this.service.zoneSave({
-            id: this.selectedItems.map(i => i.id)
+            id: this.selectedItems().map(i => i.id)
         }).subscribe({
             next: _ => {
                 e?.reset();

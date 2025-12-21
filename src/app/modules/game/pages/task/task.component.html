@@ -6,7 +6,7 @@
         任务列表
     </div>
 </div>
-@for (item of items; track $index) {
+@for (item of items(); track $index) {
     <div class="task-item" [class]="{active: item.is_open}">
     <div class="item-header" (click)="item.is_open = !item.is_open">
         <div class="item-name">{{ item.title }}</div>
@@ -34,4 +34,4 @@
     </div>
 </div>
 }
-<app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+<app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />

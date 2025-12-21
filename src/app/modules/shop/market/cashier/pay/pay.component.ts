@@ -7,9 +7,9 @@ import { ShopService } from '../../../shop.service';
 
 @Component({
     standalone: false,
-  selector: 'app-pay',
-  templateUrl: './pay.component.html',
-  styleUrls: ['./pay.component.scss']
+    selector: 'app-pay',
+    templateUrl: './pay.component.html',
+    styleUrls: ['./pay.component.scss']
 })
 export class PayComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);

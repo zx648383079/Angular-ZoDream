@@ -10,9 +10,9 @@ import { BotService } from '../bot.service';
 
 @Component({
     standalone: false,
-  selector: 'app-bot-log',
-  templateUrl: './log.component.html',
-  styleUrls: ['./log.component.scss']
+    selector: 'app-bot-log',
+    templateUrl: './log.component.html',
+    styleUrls: ['./log.component.scss']
 })
 export class LogComponent implements OnInit {
     private readonly service = inject(BotService);
@@ -21,10 +21,10 @@ export class LogComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: IBotMessageHistory[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IBotMessageHistory[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public selected = 0;
     public readonly queries = form(signal<IPageQueries>({
         keywords: '',
@@ -66,19 +66,19 @@ export class LogComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.logList(queries).subscribe({
             next: res => {
-                this.items = res.data;
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
-                this.isLoading = false;
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -95,8 +95,10 @@ export class LogComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         });

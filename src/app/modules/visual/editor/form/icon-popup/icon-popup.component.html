@@ -3,11 +3,11 @@
 <label >{{ header() }}</label>
 }
 <div class="control-popup-target">
-    <div class="color-icon" (click)="visible = !visible">
+    <div class="color-icon" (click)="toggle()">
         <i class="iconfont icon-edit"></i>
     </div>
 </div>
-<div class="control-popup" [hidden]="!visible">
+<div class="control-popup" [hidden]="!visible()">
     <div class="search-header-bar">
         <input>
         <i class="fa fa-search"></i>

@@ -20,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (item of items; track $index;let i = $index) {
+                @for (item of items(); track $index;let i = $index) {
                 <tr class="tree-item" [class]="{'tree-item-open': item.toggled, 'tree-next-level': item.level > 0, 'treee-item-visible': item.level < 1 || item.visibled}">
                     <td class="tree-arrow-td" (click)="toggleTree(i)">
                         <i class="tree-item-arrow"></i>
@@ -41,7 +41,7 @@
     
             </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
     </div>
 </div>
 
@@ -62,7 +62,7 @@
         <label>上级</label>
         <select id="parent_id" class="form-control" [field]="editForm.parent_id">
             <option [value]="0">-- 无上级分类 --</option>
-            @for (item of categories; track $index) {
+            @for (item of categories(); track $index) {
                 <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
             }
            

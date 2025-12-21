@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import {
     IShare
 } from '../model';
@@ -16,11 +16,10 @@ export class HomeComponent implements OnInit {
     private readonly service = inject(DiskService);
 
 
-    public items: IShare[] = [];
-
+    public readonly items = signal<IShare[]>([]);
     public page = 1;
-    public hasMore = true;
-    public isLoading = false;
+    private hasMore = true;
+    public readonly isLoading = signal(false);
 
     ngOnInit() {
         this.tapRefresh();
@@ -41,16 +40,19 @@ export class HomeComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.shareList({
             page
-        }).subscribe(res => {
-            this.page = page;
-            this.hasMore = res.paging.more;
-            this.isLoading = false;
-            this.items = page < 2 ? res.data : [].concat(this.items, res.data);
-        }, () => {
-            this.isLoading = false;
+        }).subscribe({
+            next: res => {
+                this.page = page;
+                this.hasMore = res.paging.more;
+                this.isLoading.set(false);
+                this.items.set(page < 2 ? res.data : [].concat(this.items, res.data));
+            }, 
+            error: () => {
+                this.isLoading.set(false);
+            }
         });
     }
 

@@ -9,9 +9,9 @@ import { IOrder } from '../model';
 
 @Component({
     standalone: false,
-  selector: 'app-order',
-  templateUrl: './order.component.html',
-  styleUrls: ['./order.component.scss']
+    selector: 'app-order',
+    templateUrl: './order.component.html',
+    styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit {
     private readonly service = inject(LegworkService);
@@ -20,9 +20,9 @@ export class OrderComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: IOrder[] = [];
-    public hasMore = true;
-    public isLoading = false;
+    public readonly items = signal<IOrder[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
     public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
@@ -77,18 +77,18 @@ export class OrderComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.orderList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.items = page < 2 ? res.data : [].concat(this.items, res.data);
+                this.isLoading.set(false);
+                this.items.set(page < 2 ? res.data : [].concat(this.items, res.data));
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

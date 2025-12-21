@@ -12,7 +12,4 @@ export class LoadingTipComponent {
     public readonly loading = input(true);
     public readonly emptyIcon = input('');
     public readonly emptyTip = input($localize `Nothing is here.`);
-
-    constructor() { }
-
 }

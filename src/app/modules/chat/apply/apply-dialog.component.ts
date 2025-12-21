@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ChatService } from '../chat.service';
 import { IApplyLog } from '../model';
 
@@ -12,20 +12,20 @@ export class ApplyDialogComponent {
     private readonly service = inject(ChatService);
 
 
-    public items: IApplyLog[] = [];
-    public visible = false;
+    public readonly items = signal<IApplyLog[]>([]);
+    public readonly visible = signal(false);
     private confirmFn: Function;
 
     public open(cb: () => void) {
-        this.visible = true;
+        this.visible.set(true);
         this.confirmFn = cb;
         this.service.applies({}).subscribe(res => {
-            this.items = res.data;
+            this.items.set(res.data);
         });
     }
 
     public close() {
-        this.visible = false;
+        this.visible.set(false);
         this.confirmFn();
     }
 

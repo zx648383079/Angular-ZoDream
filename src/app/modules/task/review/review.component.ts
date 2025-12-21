@@ -24,7 +24,7 @@ export class ReviewComponent implements OnInit {
     public chart = 0;
     public ignore = false;
 
-    public items: ITaskReview[] = [];
+    public readonly items = signal<ITaskReview[]>([]);
 
     public typeItems = ['按周', '按月'];
     public chartItems = ['表格', '图表'];
@@ -66,7 +66,7 @@ export class ReviewComponent implements OnInit {
 
     public tapRefresh() {
         this.service.review(this.queries().value()).subscribe(res => {
-            this.items = res.data;
+            this.items.set(res.data);
             this.refreshChart(res.data);
         });
     }

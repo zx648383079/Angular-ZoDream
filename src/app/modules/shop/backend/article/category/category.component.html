@@ -36,6 +36,6 @@
                 }
             </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || categories.length == 0" />
+        <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || categories.length == 0" />
     </div>
 </div>

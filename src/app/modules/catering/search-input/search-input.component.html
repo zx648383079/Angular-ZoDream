@@ -1,4 +1,4 @@
-<div class="dialog-search" [class]="{inputting: suggestText.length > 0}" [hidden]="!panelVisible">
+<div class="dialog-search" [class]="{inputting: suggestText.length > 0}" [hidden]="!panelVisible()">
     <i class="iconfont icon-close dialog-close" (click)="close()"></i>
     <div class="dialog-body">
         <div class="search-input">
@@ -13,6 +13,6 @@
         </ul>
     </div>        
 </div>
-<div class="search-icon" (click)="panelVisible = true">
+<div class="search-icon" (click)="panelVisible.set(true)">
     <i class="iconfont icon-search"></i>
 </div>

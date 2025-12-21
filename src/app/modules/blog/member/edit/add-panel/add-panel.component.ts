@@ -61,8 +61,8 @@ export class AddPanelComponent {
         {name: $localize `Images`}
     ];
     public mediaOpen = false;
-    public isLoading = false;
-    public hasMore = false;
+    public readonly isLoading = signal(false);
+    private hasMore = false;
     public mediaItems: IUploadFile[] = [];
     public readonly mediaQueries = form(signal({
         keywords: '',
@@ -110,17 +110,17 @@ export class AddPanelComponent {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.mediaQueries().value(), page};
         this.uploadService.images.call(this.uploadService, queries).subscribe({
             next: res => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.mediaItems = page > 1 ? [].concat(this.mediaItems, res.data) : res.data;
                 this.hasMore = res.paging.more;
                 this.mediaQueries().value.set(queries)
             }, 
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

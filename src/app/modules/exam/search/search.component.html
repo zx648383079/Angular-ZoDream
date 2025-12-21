@@ -12,7 +12,7 @@
     </form>
 
     <div class="panel-container">
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
             @if (typeValue() < 1) {
                 <div class="page-item">
                 <a class="item-body" [routerLink]="['../pager', item.id]">
@@ -55,7 +55,7 @@
             </div>
             }
         }
-        @if (!isLoading && items.length < 1) {
+        @if (!isLoading && items().length < 1) {
             <div class="page-empty-tip">
                 搜索结果为空
             </div>
@@ -63,5 +63,5 @@
         
     </div>
 
-    <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+    <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
 </div>

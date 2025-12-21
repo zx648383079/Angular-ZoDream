@@ -12,7 +12,7 @@
         <div class="input-clear" [hidden]="!value()">
             <i class="iconfont icon-close"></i>
         </div>
-        <div class="input-arrow" (click)="visible = !visible">
+        <div class="input-arrow" (click)="toggle()">
             <i class="iconfont" [class]="arrowIcon()"></i>
         </div>
     </div>
@@ -23,7 +23,7 @@
             <i class="iconfont icon-search"></i>
         </div>
         }
-        @if (isLoading) {
+        @if (isLoading()) {
         <div class="loading-option-item">
             <div class="loading-ring2">
                 <span></span>

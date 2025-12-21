@@ -1,7 +1,7 @@
 <div class="address-picker">
     @if (!editable) {
     <div class="picker-body">
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
             <div class="address-item" [class]="{active: value && item.id == value().id}" (click)="tapItem(item)">
                 <div>收货人: {{ item.name }}</div>
                 <div>联系方式：{{ item.tel }}</div>

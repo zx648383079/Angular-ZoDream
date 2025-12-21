@@ -88,7 +88,7 @@
             </tr>
             </thead>
             <tbody>
-                @for (item of items; track $index) {
+                @for (item of items(); track $index) {
                     <tr>
                     <td>{{ item.country }}</td>
                     <td>{{ item.pv | numberFormat }}</td>

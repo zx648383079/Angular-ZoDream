@@ -1,4 +1,4 @@
-@if (visible) {
+@if (visible()) {
 <div class="dialog-mask"></div>
 <div class="search-dialog-container">
     <div class="search-bar">
@@ -13,7 +13,7 @@
         </form>
     </div>
     <div class="body-container">
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
             <div class="book-item">
                 <div class="item-body">
                     <p>{{ item.name }}
@@ -33,7 +33,7 @@
         }
     </div>
     <div class="footer-container">
-        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
         <div class="load-progress">
             <progress [hidden]="!isAsync" [value]="loadProgress"></progress>
             <span>{{ loadTip }}</span>

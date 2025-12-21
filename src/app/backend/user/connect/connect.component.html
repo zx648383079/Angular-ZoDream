@@ -5,7 +5,7 @@
         </ul>
     </app-page-tip>
     <div class="panel-container">
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
         <div class="connect-item">
             <div class="item-body">
                 <i class="iconfont" [class]="item.icon | iconfont"></i>

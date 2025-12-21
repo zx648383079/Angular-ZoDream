@@ -1,25 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { EditorModalCallback, IEditorModal } from '../../model';
 import { IEditorOptionItem } from '../../base';
 
 @Component({
     standalone: false,
-  selector: 'app-editor-search',
-  templateUrl: './editor-search.component.html',
-  styleUrls: ['./editor-search.component.scss']
+    selector: 'app-editor-search',
+    templateUrl: './editor-search.component.html',
+    styleUrls: ['./editor-search.component.scss']
 })
 export class EditorSearchComponent implements IEditorModal {
 
-    public visible = false;
+    public readonly visible = signal(false);
     public keywords = '';
-    public items: IEditorOptionItem[] = [];
+    public readonly items = signal<IEditorOptionItem[]>([]);
     public selectedItems: IEditorOptionItem[] = [];
     private multiple = true;
     private confirmFn: EditorModalCallback;
-
-    constructor() {
-
-    }
 
     public isSelected(item: IEditorOptionItem) {
         for (const it of this.selectedItems) {
@@ -34,7 +30,7 @@ export class EditorSearchComponent implements IEditorModal {
         if (!this.multiple) {
             this.selectedItems = [item];
             this.keywords = '';
-            this.visible = false;
+            this.visible.set(false);
             this.tapConfirm();
             return;
         }
@@ -48,12 +44,12 @@ export class EditorSearchComponent implements IEditorModal {
     }
 
     public open(data: any, cb: EditorModalCallback) {
-        this.visible = true;
+        this.visible.set(true);
         this.confirmFn = cb;
     }
 
     public tapConfirm() {
-        this.visible = false;
+        this.visible.set(false);
         if (this.confirmFn) {
             this.confirmFn(this.selectedItems);
         }

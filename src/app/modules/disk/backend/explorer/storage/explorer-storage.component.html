@@ -24,15 +24,15 @@
 
                 <div class="btn-group pull-right">
                     <app-action-button class="btn btn-success" (tapped)="tapReload($event)" [hidden]="queries.tag().value() == '0'">重新索引</app-action-button>
-                    <a class="btn" [class]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
+                    <a class="btn" [class]="{'btn-danger': isMultiple(), 'btn-outline-info': !isMultiple()}" (click)="toggleMultiple()">批量操作</a>
                 </div>
             </form>
         </div>
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th [hidden]="!isMultiple">
-                        <i class="checkbox" [class]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                    <th [hidden]="!isMultiple()">
+                        <i class="checkbox" [class.checked]="isChecked()" (click)="toggleCheck()"></i>
                     </th>
                     <th>ID</th>
                     <th class="auto-hide">分区</th>
@@ -40,13 +40,13 @@
                     <th>文件大小</th>
                     <th class="auto-hide">MD5</th>
                     <th>创建时间</th>
-                    <th [hidden]="!isMultiple">操作</th>
+                    <th [hidden]="!isMultiple()">操作</th>
                 </tr>
             </thead>
             <tbody>
-                @for (item of items; track $index) {
+                @for (item of items(); track $index) {
                     <tr>
-                    <td [hidden]="!isMultiple">
+                    <td [hidden]="!isMultiple()">
                         <i class="checkbox" [class]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
                     </td>
                     <td>{{ item.id }}</td>
@@ -61,7 +61,7 @@
                     <td>{{ item.size | size }}</td>
                     <td [title]="item.path" class="auto-hide">{{ item.md5 }}</td>
                     <td [title]="item.created_at | timestamp">{{ item.created_at | ago }}</td>
-                    <td [hidden]="!isMultiple">
+                    <td [hidden]="!isMultiple()">
                         <div class="btn-group">
                             <a class="btn btn-primary" (click)="tapSync(item)" title="更新文件信息">更新</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
@@ -70,20 +70,20 @@
                 </tr>
                 }
             </tbody>
-            <tfoot [hidden]="!isMultiple || items.length < 1">
+            <tfoot [hidden]="!isMultiple || items().length < 1">
                 <tr>
                     <td>
-                        <i class="checkbox" [class]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                        <i class="checkbox" [class.checked]="isChecked()" (click)="toggleCheck()"></i>
                     </td>
                     <td colspan="4">
-                        <button class="btn btn-danger" [disabled]="checkedItems.length < 1" (click)="tapRemoveMultiple()">删除选中项（{{ checkedItems.length }}）</button>
+                        <button class="btn btn-danger" [disabled]="checkedItems().length < 1" (click)="tapRemoveMultiple()">删除选中项（{{ checkedItems().length }}）</button>
                     </td>
                 </tr>
             </tfoot>
         </table>
         
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />  
+        <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />  
     </div>
 </div>
 

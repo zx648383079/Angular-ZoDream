@@ -9,7 +9,7 @@
 </div>
 
 <div class="list-table-control">
-    @for (item of items; track $index) {
+    @for (item of items(); track $index) {
         <div class="row-item">
             <div class="item-header">
                 <span class="no">{{ item.id }}</span>
@@ -40,8 +40,8 @@
 </div>
 
 
-<app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-<app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+<app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+<app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
 
 <app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑链接' : '新增链接'" [scrollable]="false">
     <div class="form-group">

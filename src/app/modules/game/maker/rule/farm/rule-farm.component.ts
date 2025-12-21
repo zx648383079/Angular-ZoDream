@@ -18,7 +18,7 @@ export class RuleFarmComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
 
 
-    public items: IGameFarmPlot[] = [];
+    public readonly items = signal<IGameFarmPlot[]>([]);
     public readonly queries = form(signal({
         project: 0
     }));
@@ -57,7 +57,10 @@ export class RuleFarmComponent implements OnInit {
                 this.editForm.upgrade_rules().value.set([]);
             }
             if (!item) {
-                this.items.push(this.editForm().value());
+                this.items.update(v => {
+                    v.push(this.editForm().value());
+                    return v;
+                });
             }
             // this.service.projectSave({...this.editForm}).subscribe({
             //     next: _ => {

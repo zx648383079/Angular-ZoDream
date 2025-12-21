@@ -22,10 +22,10 @@ export class OrderComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
     public title = '我的订单';
-    public items: IOrder[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IOrder[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public tabItems: IItem[] = [
         {
             name: '全部订单',
@@ -100,8 +100,10 @@ export class OrderComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         });
@@ -111,8 +113,10 @@ export class OrderComponent implements OnInit {
         this.toastrService.confirm('确认取消此“' + item.series_number + '”订单？', () => {
             this.service.orderCancel(item.id).subscribe(res => {
                 this.toastrService.success('取消成功');
-                this.items = this.items.map(it => {
-                    return it.id !== item.id ? it : item;
+                this.items.update(v => {
+                    return v.map(it => {
+                        return it.id !== item.id ? it : item;
+                    });
                 });
             });
         });
@@ -137,13 +141,13 @@ export class OrderComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {... this.queries().value(), page};
         this.service.orderList(queries).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
+            this.isLoading.set(false);
+            this.items.set(res.data);
             this.hasMore = res.paging.more;
-            this.total = res.paging.total;
+            this.total.set(res.paging.total);
             this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
         });

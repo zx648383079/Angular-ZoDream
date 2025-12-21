@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-4 col-md-3 col-lg-2">
             <div class="nav-menu">
-                @for (item of items; track $index) {
+                @for (item of items(); track $index) {
                     <a class="menu-item" [class]="{active: item.active}" (click)="tapNav(item)">{{ item.name }}</a>
                 }
             </div>

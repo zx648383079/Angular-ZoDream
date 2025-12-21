@@ -1,19 +1,19 @@
-import { Component, OnInit, effect, input } from '@angular/core';
+import { Component, OnInit, effect, input, signal } from '@angular/core';
 import { INavLink } from '../../../../theme/models/seo';
 
 @Component({
     standalone: false,
-  selector: 'app-member-menu',
-  templateUrl: './member-menu.component.html',
-  styleUrls: ['./member-menu.component.scss']
+    selector: 'app-member-menu',
+    templateUrl: './member-menu.component.html',
+    styleUrls: ['./member-menu.component.scss']
 })
 export class MemberMenuComponent implements OnInit {
 
-    public items: INavLink[] = [
+    public readonly items = signal<INavLink[]>([
         {name: '个人中心', url: '', active: true},
         {name: '我的订单', url: 'order'},
         {name: '我的地址', url: 'address'},
-    ];
+    ]);
 
     public readonly currentUrl = input<string>('');
     private basePath = '../';
@@ -41,9 +41,11 @@ export class MemberMenuComponent implements OnInit {
         if (url.length < 0) {
             return;
         }
-        this.items = this.items.map(i => {
-            i.active = secret ? url === i.url : url.startsWith(i.url);
-            return i;
+        this.items.update(v => {
+            return v.map(i => {
+                i.active = secret ? url === i.url : url.startsWith(i.url);
+                return i;
+            });
         });
     }
 

@@ -3,9 +3,9 @@ import { Widget } from '../../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-button-control',
-  templateUrl: './button-control.component.html',
-  styleUrls: ['./button-control.component.scss']
+    selector: 'app-button-control',
+    templateUrl: './button-control.component.html',
+    styleUrls: ['./button-control.component.scss']
 })
 export class ButtonControlComponent {
 

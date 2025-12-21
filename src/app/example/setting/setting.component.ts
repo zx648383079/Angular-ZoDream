@@ -9,9 +9,9 @@ interface IGroupHeader {
 
 @Component({
     standalone: false,
-  selector: 'app-example-setting',
-  templateUrl: './setting.component.html',
-  styleUrls: ['./setting.component.scss']
+    selector: 'app-example-setting',
+    templateUrl: './setting.component.html',
+    styleUrls: ['./setting.component.scss']
 })
 export class ExampleSettingComponent implements OnInit {
 

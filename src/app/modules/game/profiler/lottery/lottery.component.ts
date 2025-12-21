@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -8,11 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LotteryComponent implements OnInit {
 
-    public items: any[] = [
+    public readonly items = signal([
         1, 2, 4, 5
-    ]
-
-    constructor() { }
+    ]);
 
     ngOnInit() {
     }

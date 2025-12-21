@@ -20,7 +20,7 @@
                </div>
            </div>
            <div class="order-page-box">
-                @for (item of items; track $index) {
+                @for (item of items(); track $index) {
                     <div class="panel">
                     <div class="panel-header order-item-header">
                         <span class="time">下单时间：{{ item.created_at }}</span>
@@ -62,8 +62,8 @@
                     </div>
                 </div>
                 }
-                <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-                <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+                <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+                <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
            </div>
         </div>
     </div>

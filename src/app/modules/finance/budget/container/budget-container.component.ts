@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EChartsCoreOption } from 'echarts/core';
 import { mapFormat } from '../../../../theme/utils';
@@ -16,11 +16,11 @@ export class BudgetContainerComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
 
 
-    public isLoading = true;
+    public readonly isLoading = signal(true);
     public data: IBudget;
     public options: EChartsCoreOption;
     public cycleFormat = '';
-    public total = 0;
+    public readonly total = signal(0);
     public budgetTotal = 0;
     public overTotal = 0;
 
@@ -35,13 +35,13 @@ export class BudgetContainerComponent implements OnInit {
     }
 
     public onQueriesChange(id: number) {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.budgetStatistics(id).subscribe(res => {
-            this.isLoading = false;
+            this.isLoading.set(false);
             this.data = res.data;
-            this.total = res.sum;
+            this.total.set(res.sum);
             this.budgetTotal = res.budget_sum;
-            this.overTotal = Math.max(this.total - this.budgetTotal, 0);
+            this.overTotal = Math.max(this.total() - this.budgetTotal, 0);
             this.cycleFormat = mapFormat(this.data.cycle, ['次', '天', '周', '月', '年']);
             const items: any[] = res.log_list;
             this.options = {

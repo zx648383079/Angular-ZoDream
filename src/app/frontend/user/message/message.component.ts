@@ -9,7 +9,6 @@ import { ThemeService } from '../../../theme/services';
 import { NavigationDisplayMode } from '../../../theme/models/event';
 import { parseNumber } from '../../../theme/utils';
 import { ButtonEvent } from '../../../components/form';
-import { emptyValidate } from '../../../theme/validators';
 import { AppState } from '../../../theme/interfaces';
 import { Store } from '@ngrx/store';
 import { IUser } from '../../../theme/models/user';
@@ -41,12 +40,14 @@ export class MessageComponent implements OnInit, OnDestroy {
 
     public navItems: IMessageGroup[] = [];
     public navIndex = -1;
-    public items: IMessageBase[] = [];
-    public hasMore = false;
-    public page = 1;
-    public perPage = 20;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IMessageBase[]>([]);
+    public readonly hasMore = signal(false);
+    public readonly queries = signal({
+        page: 1,
+        per_page: 20
+    });
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly dataForm = form(signal({
         content: ''
     }), schemaPath => {
@@ -139,11 +140,14 @@ export class MessageComponent implements OnInit, OnDestroy {
         }).subscribe({
             next: _ => {
                 e?.reset();
-                this.items.push({
-                    content: data.content,
-                    user: this.authUser,
-                    type: 0,
-                    created_at: new Date()
+                this.items.update(v => {
+                    v.push({
+                        content: data.content,
+                        user: this.authUser,
+                        type: 0,
+                        created_at: new Date()
+                    });
+                    return v;
                 });
                 this.dataForm.content().value.set('');
             },
@@ -159,7 +163,7 @@ export class MessageComponent implements OnInit, OnDestroy {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries().page);
     }
 
     public tapMore(lastId: number) {
@@ -168,10 +172,10 @@ export class MessageComponent implements OnInit, OnDestroy {
         }
         const item = this.navIndex >= 0 ? this.navItems[this.navIndex] : null;
         this.service.bulletinList({
+            ...this.queries(),
             user: item && item.id > 0 ? item.id : -1,
             last_id: lastId,
             page: 1,
-            per_page: this.perPage
         }).subscribe(res => {
             const items = res.data.map(i => {
                 return {
@@ -183,8 +187,8 @@ export class MessageComponent implements OnInit, OnDestroy {
                     created_at: i.created_at,
                 };
             });
-            this.items = [].concat(items, this.items);
-            this.hasMore = res.paging.more;
+            this.items.set([].concat(items, this.items));
+            this.hasMore.set(res.paging.more);
         });
     }
 
@@ -195,15 +199,15 @@ export class MessageComponent implements OnInit, OnDestroy {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const item = this.navIndex >= 0 ? this.navItems[this.navIndex] : null;
         this.service.bulletinList({
+            ...this.queries(),
             user: item && item.id > 0 ? item.id : -1,
             page,
-            per_page: this.perPage
         }).subscribe({
             next: res => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 const items = res.data.map(i => {
                     return {
                         id: i.id,
@@ -214,12 +218,16 @@ export class MessageComponent implements OnInit, OnDestroy {
                         created_at: i.created_at,
                     };
                 });
-                this.items = items;
-                this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.items.set(items);
+                this.hasMore.set(res.paging.more);
+                this.total.set(res.paging.total);
+                this.queries.update(v => {
+                    v.page = page;
+                    return v;
+                });
             }, 
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ThemeService } from '../../../theme/services';
 import { ExamService } from '../exam.service';
@@ -19,8 +19,8 @@ export class CourseComponent implements OnInit, OnDestroy {
 
 
     public data: ICourse;
-    public items: ICourse[] = [];
-    private subItems = new Subscription();
+    public readonly items = signal<ICourse[]>([]);
+    private readonly subItems = new Subscription();
 
     ngOnInit() {
         this.subItems.add(

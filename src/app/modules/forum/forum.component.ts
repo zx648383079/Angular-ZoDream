@@ -17,7 +17,7 @@ export class ForumComponent implements OnInit, OnDestroy {
     private readonly service = inject(ForumService);
 
 
-    private subItems = new Subscription();
+    private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `Forum`);

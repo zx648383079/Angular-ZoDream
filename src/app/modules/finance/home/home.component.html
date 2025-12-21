@@ -24,13 +24,13 @@
     <div class="row">
         <div class="col-md-4">
             <div class="column-full-item">
-                @if (isLoading) {
+                @if (isLoading()) {
                 <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 }
                 <div class="inner">
-                    <h3>{{ data.money_total || 0 | numberFormat }}</h3>
+                    <h3>{{ data().money_total || 0 | numberFormat }}</h3>
                     <p>总资产</p>
                 </div>
                 <div class="icon">
@@ -44,13 +44,13 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                @if (isLoading) {
+                @if (isLoading()) {
                 <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 }
                 <div class="inner">
-                    <h3>{{ data.expenditure_current || 0 | numberFormat }}/{{ data.expenditure_last || 0 | numberFormat }}/{{ data.expenditure_total || 0 | numberFormat }}</h3>
+                    <h3>{{ data().expenditure_current || 0 | numberFormat }}/{{ data().expenditure_last || 0 | numberFormat }}/{{ data().expenditure_total || 0 | numberFormat }}</h3>
                     <p>当{{ formatType(queries.type().value()) }}/上{{ formatType(queries.type().value()) }}/总支出</p>
                 </div>
                 <div class="icon">
@@ -64,13 +64,13 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                @if (isLoading) {
+                @if (isLoading()) {
                 <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 }
                 <div class="inner">
-                    <h3>{{ data.income_current || 0 | numberFormat }}/{{ data.income_last || 0 | numberFormat }}/{{ data.income_total || 0 | numberFormat }}</h3>
+                    <h3>{{ data().income_current || 0 | numberFormat }}/{{ data().income_last || 0 | numberFormat }}/{{ data().income_total || 0 | numberFormat }}</h3>
                     <p>当{{ formatType(queries.type().value()) }}/上{{ formatType(queries.type().value()) }}/总收入</p>
                 </div>
                 <div class="icon">
@@ -115,25 +115,25 @@
         @switch (queries.log_type().value()) {
             @case (1) {
                 <div class="couter-control">
-                    <div class="couter-label">共支出 {{ data.expenditure_count || 0 | numberFormat }} 笔，合计</div>
+                    <div class="couter-label">共支出 {{ data().expenditure_count || 0 | numberFormat }} 笔，合计</div>
                     <div class="couter-body">
-                        {{ data.expenditure_current || 0 | numberFormat }}
+                        {{ data().expenditure_current || 0 | numberFormat }}
                     </div>
                 </div>
             }
             @case (0) {
                 <div class="couter-control">
-                    <div class="couter-label">共收入 {{ data.income_count || 0 | numberFormat }} 笔，合计</div>
+                    <div class="couter-label">共收入 {{ data().income_count || 0 | numberFormat }} 笔，合计</div>
                     <div class="couter-body">
-                        {{ data.income_current || 0 | numberFormat }}
+                        {{ data().income_current || 0 | numberFormat }}
                     </div>
                 </div>
             }
             @case (2) {
                 <div class="couter-control">
-                    <div class="couter-label">共收入 {{ data.other_count || 0 | numberFormat }} 笔，合计</div>
+                    <div class="couter-label">共收入 {{ data().other_count || 0 | numberFormat }} 笔，合计</div>
                     <div class="couter-body">
-                        {{ data.other_current || 0 | numberFormat }}
+                        {{ data().other_current || 0 | numberFormat }}
                     </div>
                 </div>
             }

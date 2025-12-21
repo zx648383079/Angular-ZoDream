@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, computed, inject, signal, viewChild } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { FrontendService } from './frontend.service';
 import { ILink, ISystemOption } from '../theme/models/seo';
@@ -50,16 +50,16 @@ export class FrontendComponent implements OnDestroy {
         {name: $localize `Abount`, url: 'about'}
     ];
 
-    public friendLinks: ILink[] = [];
+    public readonly friendLinks = signal<ILink[]>([]);
     public navExpand = false;
     public fixedTop = false;
-    public diplayMode = NavigationDisplayMode.Inline;
+    public readonly diplayMode = signal(NavigationDisplayMode.Inline);
     public navStyle = true;
     public activeUri = '';
-    public site: ISystemOption = {} as any;
-    public user: IUserStatus;
-    public userLoading = false;
-    public dropDownVisible = false;
+    public readonly site = signal<ISystemOption>(null);
+    public readonly user = signal<IUserStatus>(null);
+    public readonly userLoading = signal(false);
+    public readonly dropVisible = signal(false);
     public dropNavItems: IDropNavItem[] = [
         {name: $localize `Account`, url: 'user'},
         {name: $localize `Message`, url: 'user/bulletin', count: 0},
@@ -73,19 +73,20 @@ export class FrontendComponent implements OnDestroy {
         },
         {}
     ];
-    private subItems = new Subscription();
+    public readonly isGuest = computed(() => this.userLoading() || !this.user());
+    private readonly subItems = new Subscription();
 
     constructor() {
         this.subItems.add(
             this.store.select(selectAuth).subscribe(res => {
-                if (this.userLoading === res.isLoading && !this.user === res.guest) {
+                if (this.userLoading() === res.isLoading && !this.user === res.guest) {
                     return;
                 }
-                this.userLoading = res.isLoading;
-                this.user = res.guest ?  undefined : {...res.user} as any;
+                this.userLoading.set(res.isLoading);
+                this.user.set(res.guest ? null : {...res.user} as any);
                 if (!res.isLoading && !res.guest) {
                     this.authService.loadProfile('bulletin_count,today_checkin,post_count,follower_count,following_count').subscribe(profile => {
-                        this.user = {...profile};
+                        this.user.set({...profile});
                         this.dropNavItems[1].count = profile.bulletin_count;
                         this.dropNavItems.forEach(i => {
                             if (i.is_access) {
@@ -96,19 +97,21 @@ export class FrontendComponent implements OnDestroy {
                 }
             }),
         );
-        this.subItems.add(this.store.select(selectSystemConfig).subscribe(res => {
-                this.site = {...res};
-                if (this.site.site_pns_beian) {
-                    this.site.site_pns_beian_no = this.site.site_pns_beian.match(/\d+/).toString();
+        this.subItems.add(
+            this.store.select(selectSystemConfig).subscribe(res => {
+                let site_pns_beian_no = '';
+                if (res.site_pns_beian) {
+                    site_pns_beian_no = res.site_pns_beian.match(/\d+/).toString();
                 }
-            }),
+                this.site.set({...res, site_pns_beian_no});
+            })
         );
         this.subItems.add(this.themeService.loginRequest.subscribe(() => {
                 this.loginModal().open();
             }),
         );
         this.subItems.add(this.themeService.navigationDisplayRequest.pipe(debounceTime(100)).subscribe(toggle => {
-                this.diplayMode = toggle;
+                this.diplayMode.set(toggle);
                 this.themeService.navigationChanged.next({
                     mode: toggle,
                     paneWidth: 0,
@@ -117,7 +120,7 @@ export class FrontendComponent implements OnDestroy {
             })
         );
         this.service.friendLinks().subscribe(res => {
-            this.friendLinks = res;
+            this.friendLinks.set(res);
         });
         this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
@@ -130,22 +133,25 @@ export class FrontendComponent implements OnDestroy {
         return window.location.href;
     }
 
-    public get todayChecked(): boolean {
-        return this.user && this.user.today_checkin;
-    }
+    public readonly todayChecked = computed(() => {
+        return this.user()?.today_checkin;
+    });
 
     ngOnDestroy(): void {
         this.subItems.unsubscribe();
     }
 
     public onCheckedChange(checked: boolean) {
-        if (this.user) {
-            this.user.today_checkin = checked;
-        }
+        this.user.update(v => {
+            if (v) {
+                v.today_checkin = checked;
+            }
+            return v;
+        });
     }
 
     public toggleDropDown() {
-        this.dropDownVisible = !this.dropDownVisible;
+        this.dropVisible.update(v => !v);
     }
 
     public tapLogin() {

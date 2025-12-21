@@ -1,4 +1,4 @@
-@if (visible) {
+@if (visible()) {
     <div class="dialog-mask" (click)="close()"></div>
 <div class="dialog-box"  animate.enter="dialog-opened" animate.leave="dialog-closed">
     <app-flip-container>
@@ -11,11 +11,11 @@
                 <span>食材配料</span>
                 <div class="panel-action">
                     <i class="iconfont icon-plus" (click)="tapEditLine()"></i>
-                    <i class="iconfont icon-cog" [hidden]="items.length == 0" (click)="multipleEditable = !multipleEditable"></i>
+                    <i class="iconfont icon-cog" [hidden]="items().length == 0" (click)="multipleEditable = !multipleEditable"></i>
                 </div>
             </div>
             <div class="multiple-panel">
-                @for (item of items; track $index) {
+                @for (item of items(); track $index) {
                     <div class="input-flex">
                     <div class="input-action" [hidden]="!multipleEditable">
                         <i class="iconfont icon-close" (click)="tapRemoveLine(item)"></i>

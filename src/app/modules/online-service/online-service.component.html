@@ -7,7 +7,7 @@
             <div class="title" i18n>Online service</div>
             <a class="pull-right" (click)="dialogOpen.set(false)" i18n>Back</a>
         </div>
-        <app-message-container class="dialog-body" [items]="items" (loadMore)="tapMore($event)" />
+        <app-message-container class="dialog-body" [items]="items()" (loadMore)="tapMore($event)" />
         <div class="dialog-footer">
             <input type="text" i18n-placeholder placeholder="Please input the content of the inquiry" [field]="dataForm.content" (keydown)="onKeyDown($event)">
             <app-emoji-picker class="file-btn" (tapped)="tapEmoji($event)">

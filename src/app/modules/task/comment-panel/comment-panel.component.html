@@ -12,8 +12,8 @@
         </label>
     </div>
     <div class="panel-body">
-        <app-pull-to-refresh [loading]="isLoading" [more]="hasMore" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
-            @for (item of items; track $index) {
+        <app-pull-to-refresh [loading]="isLoading()" [more]="hasMore()" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
+            @for (item of items(); track $index) {
                 <div class="comment-item">
                 <div class="content">
                     @if (item.type == 1) {

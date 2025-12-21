@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { IStorageFile } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
@@ -23,10 +23,10 @@ export class ExplorerStorageComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
 
 
-    public items: IStorageFile[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IStorageFile[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public tagItems: IItem[] = [
         {name: '公共', value: 1},
         {name: '内部', value: 2},
@@ -37,8 +37,8 @@ export class ExplorerStorageComponent implements OnInit {
         page: 1,
         per_page: 20,
     }));
-    public isMultiple = false;
-    public isChecked = false;
+    public readonly isMultiple = signal(false);
+    public readonly isChecked = signal(false);
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -48,30 +48,38 @@ export class ExplorerStorageComponent implements OnInit {
     }
 
 
-    public get checkedItems() {
-        return this.items.filter(i => i.checked);
+    public readonly checkedItems = computed(() => {
+        return this.items().filter(i => i.checked);
+    });
+
+    public toggleMultiple() {
+        this.isMultiple.update(v => !v);
     }
 
     public toggleCheck(item?: IStorageFile) {
         if (!item) {
-            this.isChecked = !this.isChecked;
-            this.items.forEach(i => {
-                i.checked = this.isChecked;
+            this.isChecked.update(v => !v);
+            const isChecked = this.isChecked();
+            this.items.update(v => {
+                return v.map(i => {
+                    i.checked = isChecked;
+                    return i;
+                });
             });
             return;
         }
         item.checked = !item.checked;
         if (!item.checked) {
-            this.isChecked = false;
+            this.isChecked.set(false);
             return;
         }
-        if (this.checkedItems.length === this.items.length) {
-            this.isChecked = true;
+        if (this.checkedItems().length === this.items().length) {
+            this.isChecked.set(true);
         }
     }
 
     public tapRemoveMultiple() {
-        const items = this.checkedItems;
+        const items = this.checkedItems();
         if (items.length < 1) {
             this.toastrService.warning($localize `No item selected!`);
             return;
@@ -141,19 +149,19 @@ export class ExplorerStorageComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.storageSearch(queries).subscribe({
             next: res => {
-                this.items = res.data;
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
-                this.isLoading = false;
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -165,8 +173,10 @@ export class ExplorerStorageComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         });

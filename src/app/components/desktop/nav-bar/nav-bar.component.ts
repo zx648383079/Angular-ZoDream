@@ -30,7 +30,7 @@ export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
 
     public suggestText = '';
 
-    private subItems = new Subscription();
+    private readonly subItems = new Subscription();
 
     ngOnInit() {
         this.subItems.add(

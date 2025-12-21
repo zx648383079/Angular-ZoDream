@@ -20,10 +20,10 @@ export class RoleComponent {
         per_page: 20
     }));
 
-    public items: IRole[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IRole[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
 
     constructor() {
         this.tapRefresh();
@@ -50,18 +50,18 @@ export class RoleComponent {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.roleList(queries).subscribe({
             next: res => {
-                this.isLoading = false;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.queries().value.set(queries);
             },
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -71,20 +71,22 @@ export class RoleComponent {
     }
 
     public tapRemove(item: IRole) {
-        this.toastrService.confirm({
-            title: '确定删除“' + item.display_name + '”角色？',
-            onConfirm: () => {
+        this.toastrService.confirm(
+            '确定删除“' + item.display_name + '”角色？',
+            () => {
                 this.service.permissionRemove(item.id).subscribe(res => {
                     if (!res.data) {
                         return;
                     }
                     this.toastrService.success($localize `Delete Successfully`);
-                    this.items = this.items.filter(it => {
-                        return it.id !== item.id;
+                    this.items.update(v => {
+                        return v.filter(it => {
+                            return it.id !== item.id;
+                        });
                     });
                 });
             }
-        });
+        );
     }
 
 }

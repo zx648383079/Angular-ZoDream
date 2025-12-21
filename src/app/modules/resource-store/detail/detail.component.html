@@ -46,7 +46,7 @@
 </div>
 }
 <div class="container-fluid detail-body">
-    <app-loading-tip [loading]="isLoading" [visible]="!data || isLoading" />
+    <app-loading-tip [loading]="isLoading()" [visible]="!data || isLoading()" />
     @if (data) {
     <div class="row">
         <div class="col-md-8">

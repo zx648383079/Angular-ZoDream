@@ -8,13 +8,13 @@
     <div class="row">
         <div class="col-md-4">
             <div class="column-full-item">
-                @if (isLoading) {
+                @if (isLoading()) {
                 <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 }
                 <div class="inner">
-                    <h3>{{ data.movie_today | numberFormat }}/{{ data.movie_count | numberFormat }}</h3>
+                    <h3>{{ data().movie_today | numberFormat }}/{{ data().movie_count | numberFormat }}</h3>
                     <p>视频今日新增/总数</p>
                 </div>
                 <div class="icon">
@@ -28,13 +28,13 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                @if (isLoading) {
+                @if (isLoading()) {
                 <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 }
                 <div class="inner">
-                    <h3>{{ data.music_today | numberFormat }}/{{ data.music_count || 0 | numberFormat }}</h3>
+                    <h3>{{ data().music_today | numberFormat }}/{{ data().music_count || 0 | numberFormat }}</h3>
                     <p>音乐今日新增/总数</p>
                 </div>
                 <div class="icon">
@@ -48,13 +48,13 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                @if (isLoading) {
+                @if (isLoading()) {
                 <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 }
                 <div class="inner">
-                    <h3>{{ data.live_count | numberFormat }}</h3>
+                    <h3>{{ data().live_count | numberFormat }}</h3>
                     <p>有效直播源</p>
                 </div>
                 <div class="icon">

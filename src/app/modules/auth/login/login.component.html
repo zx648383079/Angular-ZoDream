@@ -27,8 +27,8 @@
             <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)"></app-countdown-button>
         </div> -->
 
-      <div class="input-group-control">
-          <input type="checkbox" [field]="dataForm.remember">
+      <div class="input-group-control form-check">
+          <input type="checkbox" class="form-check-input" [field]="dataForm.remember">
           <ng-container i18n>Remember</ng-container>
           <a class="find-link" routerLink="find" i18n>Forgot your password?</a>
       </div>

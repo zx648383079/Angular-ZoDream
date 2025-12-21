@@ -6,7 +6,7 @@
         </nav>
 
         <div>
-            @for (item of items; track $index) {
+            @for (item of items(); track $index) {
                 <div class="coupon-item">
                 <div class="thumb">
                     <img [src]="item.thumb" alt="">
@@ -45,7 +45,7 @@
             </div>
             }
             
-            <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+            <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
         </div>
 
     </div>

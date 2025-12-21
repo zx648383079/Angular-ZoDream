@@ -41,7 +41,7 @@ export class CashierComponent {
     public user: IUser;
     public address: IAddress;
     public addressItems: IAddress[] = [];
-    public items: ICartGroup[] = [];
+    public readonly items = signal<ICartGroup[]>([]);
     public order: IOrder;
     public paymentItems: IPayment[] = [];
     public payment: IPayment;
@@ -80,7 +80,7 @@ export class CashierComponent {
                 }
                 return;
             }
-            this.items = res;
+            this.items.set(res);
             this.cartData = this.getGoodsIds(res);
             this.load();
         });
@@ -319,7 +319,7 @@ export class CashierComponent {
 
     private updateStore() {
         const cartItems = [];
-        for (const group of this.items) {
+        for (const group of this.items()) {
             for (const item of group.goods_list) {
                 if (item.id > 0) {
                     cartItems.push(item.id);

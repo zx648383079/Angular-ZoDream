@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { TrackerBackendService } from './tracker.service';
 
 @Component({
@@ -11,17 +11,17 @@ export class TradeTrackerBackendComponent implements OnInit {
     private readonly service = inject(TrackerBackendService);
 
 
-    public isLoading = true;
-    public data: any = {};
+    public readonly isLoading = signal(true);
+    public readonly data = signal<any>({});
 
     ngOnInit(): void {
         this.service.statistics().subscribe({
             next: res => {
-                this.data = res;
-                this.isLoading = false;
+                this.data.set(res);
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

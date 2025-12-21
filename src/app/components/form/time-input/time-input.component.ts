@@ -1,4 +1,4 @@
-import { Component, HostListener,  effect, input, model } from '@angular/core';
+import { Component, HostListener,  effect, input, model, signal } from '@angular/core';
 import { rangeStep, twoPad } from '../../../theme/utils';
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { FormValueControl } from '@angular/forms/signals';
@@ -18,12 +18,12 @@ export class TimeInputComponent implements FormValueControl<string> {
     public readonly value = model<string>('');
     public hourItems: number[] = [];
     public minuteItems: number[] = [];
-    public panelVisible = false;
+    public readonly panelVisible = signal(false);
 
     @HostListener('document:click', ['$event']) 
     public hideCalendar(event: any) {
         if (!event.target.closest('.time-input-container') && !hasElementByClass(event.path, 'time-input-container')) {
-            this.panelVisible = false;
+            this.panelVisible.set(false);
         }
     }
 
@@ -58,7 +58,7 @@ export class TimeInputComponent implements FormValueControl<string> {
     }
 
     public onFocus() {
-        this.panelVisible = true;
+        this.panelVisible.set(true);
     }
 
     public tapHour(i: number) {
@@ -68,7 +68,7 @@ export class TimeInputComponent implements FormValueControl<string> {
 
     public tapMinute(i: number) {
         this.value.set([this.currentHour, i].map(twoPad).join(':'));
-        this.panelVisible = false;
+        this.panelVisible.set(false);
     }
 
     private refreshHours() {

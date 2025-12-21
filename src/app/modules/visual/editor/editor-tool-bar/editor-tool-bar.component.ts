@@ -5,9 +5,9 @@ import { isMergeable, isSplitable, parseEnum } from '../util';
 
 @Component({
     standalone: false,
-  selector: 'app-editor-tool-bar',
-  templateUrl: './editor-tool-bar.component.html',
-  styleUrls: ['./editor-tool-bar.component.scss']
+    selector: 'app-editor-tool-bar',
+    templateUrl: './editor-tool-bar.component.html',
+    styleUrls: ['./editor-tool-bar.component.scss']
 })
 export class EditorToolBarComponent {
     private readonly service = inject(EditorService);

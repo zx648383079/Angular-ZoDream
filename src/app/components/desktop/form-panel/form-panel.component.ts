@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { FormPanelEvent, IFormInput } from '../../form';
 
 @Component({
@@ -9,26 +9,26 @@ import { FormPanelEvent, IFormInput } from '../../form';
 })
 export class FormPanelComponent implements FormPanelEvent {
 
-    public items: IFormInput[] = [];
+    public readonly items = signal<IFormInput[]>([]);
 
-    public get valid(): boolean {
+    public readonly valid = computed(() => {
         return !this.invalid;
-    }
-    public get invalid(): boolean {
-        for (const item of this.items) {
+    });
+    public readonly invalid = computed(() => {
+        for (const item of this.items()) {
             if (item.required && !item.value) {
                 return true;
             }
         }
         return false;
-    }
+    });
 
-    public get value(): any {
+    public readonly value = computed(() => {
         const data: any = {};
-        for (const item of this.items) {
+        for (const item of this.items()) {
             data[item.name] = item.value;
         }
         return data;
-    }
+    });
 
 }

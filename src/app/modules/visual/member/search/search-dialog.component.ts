@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { SearchDialogEvent } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { ComponentTypeItems, ICategory, IThemeComponent } from '../../model';
@@ -18,11 +18,11 @@ export class SearchDialogComponent implements SearchDialogEvent {
 
 
     public readonly multiple = input(false);
-    public visible = false;
-    public items: IThemeComponent[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly visible = signal(false);
+    public readonly items = signal<IThemeComponent[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal({
         keywords: '',
         category: '',
@@ -48,7 +48,7 @@ export class SearchDialogComponent implements SearchDialogEvent {
     public open(data: any|any[], confirm: (data: IThemeComponent|IThemeComponent[]) => void): void;
     public open(data: any|any[], confirm: (data: IThemeComponent|IThemeComponent[]) => void, check: (data: IThemeComponent[]) => boolean): void;
     public open(data: any, confirm?: (data: IThemeComponent|IThemeComponent[]) => void, check?: (data: IThemeComponent[]) => boolean) {
-        this.visible = true;
+        this.visible.set(true);
         if (typeof data === 'function') {
             this.confirmFn = data;
         } else {
@@ -59,7 +59,7 @@ export class SearchDialogComponent implements SearchDialogEvent {
     }
 
     public close() {
-        this.visible = false;
+        this.visible.set(false);
     }
 
     public tapToggleOnly() {
@@ -104,16 +104,16 @@ export class SearchDialogComponent implements SearchDialogEvent {
         if (this.confirmFn) {
             this.confirmFn(items);
         }
-        this.visible = false;
+        this.visible.set(false);
     }
 
     public tapCancel() {
         this.selectedItems = [];
     }
 
-    public get formatItems(): IThemeComponent[] {
-        return this.onlySelected ? this.selectedItems.map(i => i as IThemeComponent) : this.items;
-    }
+    public readonly formatItems = computed(() => {
+        return this.onlySelected ? this.selectedItems.map(i => i as IThemeComponent) : this.items();
+    });
 
 
     public get selectedCount() {
@@ -142,18 +142,18 @@ export class SearchDialogComponent implements SearchDialogEvent {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.search(queries).subscribe({
             next: res => {
-                this.isLoading = false;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.queries().value.set(queries);
             },
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

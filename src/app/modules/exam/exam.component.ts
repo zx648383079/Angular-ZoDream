@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ThemeService } from '../../theme/services';
 import { ExamService } from './exam.service';
@@ -18,8 +18,8 @@ export class ExamComponent implements OnInit, OnDestroy {
     private readonly themeService = inject(ThemeService);
 
 
-    public items: ICourse[] = [];
-    private subItems = new Subscription();
+    public readonly items = signal<ICourse[]>([]);
+    private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `Exam`);
@@ -41,7 +41,7 @@ export class ExamComponent implements OnInit, OnDestroy {
             this.router.navigate(['search'], {relativeTo: this.route, queryParams: {keywords: res}});
         });
         this.service.courseChildren().subscribe(res => {
-            this.items = res.data;
+            this.items.set(res.data);
         });
     }
 

@@ -60,7 +60,7 @@
     </div>
 
 
-    @for (item of items; track $index) {
+    @for (item of items(); track $index) {
         <div class="task-item" [class]="{finished: item.status < 5}">
         <div class="name">{{ item.name }}</div>
         <div class="desc">{{ item.description }}</div>

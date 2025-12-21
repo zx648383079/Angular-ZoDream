@@ -7,13 +7,13 @@
     <div class="row">
         <div class="col-md-4">
             <div class="column-full-item">
-                @if (isLoading) {
+                @if (isLoading()) {
                 <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 }
                 <div class="inner">
-                    <h3>{{ data.book_today | numberFormat }}/{{ data.book_count | numberFormat }}</h3>
+                    <h3>{{ data().book_today | numberFormat }}/{{ data().book_count | numberFormat }}</h3>
                     <p>今日/总书籍</p>
                 </div>
                 <div class="icon">
@@ -27,13 +27,13 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                @if (isLoading) {
+                @if (isLoading()) {
                 <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 }
                 <div class="inner">
-                    <h3>{{ data.chapter_today | numberFormat }}/{{ data.chapter_count | numberFormat }}</h3>
+                    <h3>{{ data().chapter_today | numberFormat }}/{{ data().chapter_count | numberFormat }}</h3>
                     <p>今日/总章节数</p>
                 </div>
                 <div class="icon">
@@ -47,13 +47,13 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                @if (isLoading) {
+                @if (isLoading()) {
                 <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 }
                 <div class="inner">
-                    <h3>{{ data.word_today | numberFormat }}/{{ data.word_count | numberFormat }}</h3>
+                    <h3>{{ data().word_today | numberFormat }}/{{ data().word_count | numberFormat }}</h3>
                     <p>今日/总字数</p>
                 </div>
                 <div class="icon">
@@ -67,13 +67,13 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-               @if (isLoading) {
+               @if (isLoading()) {
                 <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 }
                 <div class="inner">
-                    <h3>{{ data.category_count | numberFormat }}</h3>
+                    <h3>{{ data().category_count | numberFormat }}</h3>
                     <p>分类</p>
                 </div>
                 <div class="icon">
@@ -87,13 +87,13 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                @if (isLoading) {
+                @if (isLoading()) {
                 <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 }
                 <div class="inner">
-                    <h3>{{ data.author_count | numberFormat }}</h3>
+                    <h3>{{ data().author_count | numberFormat }}</h3>
                     <p>总作者</p>
                 </div>
                 <div class="icon">
@@ -107,13 +107,13 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                @if (isLoading) {
+                @if (isLoading()) {
                 <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 }
                 <div class="inner">
-                    <h3>{{ data.list_today | numberFormat }}/{{ data.list_count | numberFormat }}</h3>
+                    <h3>{{ data().list_today | numberFormat }}/{{ data().list_count | numberFormat }}</h3>
                     <p>今日/总书单</p>
                 </div>
                 <div class="icon">
@@ -127,13 +127,13 @@
         </div>
         <div class="col-md-4">
             <div class="column-full-item">
-                @if (isLoading) {
+                @if (isLoading()) {
                 <div class="overlay">
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 }
                 <div class="inner">
-                    <h3>{{ data.view_today | numberFormat }}/{{ data.view_count | numberFormat }}</h3>
+                    <h3>{{ data().view_today | numberFormat }}/{{ data().view_count | numberFormat }}</h3>
                     <p>今日/总流量</p>
                 </div>
                 <div class="icon">

@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, inject, output } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, output, signal } from '@angular/core';
 import { DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
 import { IErrorResult } from '../../theme/models/page';
@@ -29,18 +29,18 @@ export class CheckinComponent {
     private readonly themeService = inject(ThemeService);
 
 
-    public panelVisible = false;
-    public dayItems: IDay[] = [];
+    public readonly panelVisible = signal(false);
+    public readonly dayItems = signal<IDay[]>([]);
     public data: ICheckIn;
-    public month = '';
-    public canNext = false;
+    public readonly month = signal('');
+    public readonly nextable = signal(false);
     private booted = false;
     private monthDate: Date;
     public readonly checkedChange = output<boolean>();
 
     @HostListener('document:click', ['$event']) hideCalendar(event: any) {
         if (!event.target.closest('.checkin-picker') && !hasElementByClass(event.path, 'checkin-picker_container')) {
-            this.panelVisible = false;
+            this.panelVisible.set(false);
         }
     }
 
@@ -96,17 +96,17 @@ export class CheckinComponent {
 
     public tapButton() {
         this.load();
-        this.panelVisible = true;
+        this.panelVisible.set(true);
     }
 
     private setMonth(date: Date, needLog = true) {
         date.setDate(1);
         const now = new Date();
         this.monthDate = date;
-        this.month = now.getFullYear() === date.getFullYear() ? (date.getMonth() + 1).toString() : [date.getFullYear(), '-', twoPad(date.getMonth() + 1)].join('');
+        this.month.set(now.getFullYear() === date.getFullYear() ? (date.getMonth() + 1).toString() : [date.getFullYear(), '-', twoPad(date.getMonth() + 1)].join(''));
         now.setDate(1);
         now.setHours(0, 0, 0);
-        this.canNext = date.getTime() < now.getTime();
+        this.nextable.set(date.getTime() < now.getTime());
         this.refreshGrid(date);
         if (needLog) {
             this.refreshLog(date);
@@ -135,7 +135,7 @@ export class CheckinComponent {
                 day: i - start + 1,
             });
         }
-        this.dayItems = dayItems;
+        this.dayItems.set(dayItems);
     }
 
     private getDayOfWeek(date: Date): number {
@@ -161,7 +161,7 @@ export class CheckinComponent {
             isObj = true;
             dayMap.push(new Date(i.created_at).getDate());
         }
-        for (const item of this.dayItems) {
+        for (const item of this.dayItems()) {
             if (!item.day) {
                 continue;
             }

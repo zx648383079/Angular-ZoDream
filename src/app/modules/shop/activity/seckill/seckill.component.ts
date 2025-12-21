@@ -11,9 +11,9 @@ import { CountdownComponent } from '../../../../components/desktop';
 
 @Component({
     standalone: false,
-  selector: 'app-seckill',
-  templateUrl: './seckill.component.html',
-  styleUrls: ['./seckill.component.scss']
+    selector: 'app-seckill',
+    templateUrl: './seckill.component.html',
+    styleUrls: ['./seckill.component.scss']
 })
 export class SeckillComponent implements OnInit, OnDestroy {
     private readonly service = inject(ActivityService);
@@ -24,11 +24,11 @@ export class SeckillComponent implements OnInit, OnDestroy {
 
     public readonly countItems = viewChildren(CountdownComponent);
     public timeItems: IActivityTime[] = [];
-    public items: ISeckillGoods[] = [];
-    public hasMore = true;
-    public isLoading = false;
+    public readonly items = signal<ISeckillGoods[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
     public tabIndex = 0;
-    public total = 0;
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
@@ -89,18 +89,18 @@ export class SeckillComponent implements OnInit, OnDestroy {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.seckillList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.items.set(res.data);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

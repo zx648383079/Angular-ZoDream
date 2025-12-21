@@ -48,7 +48,7 @@ export class ReaderComponent implements OnInit, OnDestroy {
         letter: [1, 1, 40],
     };
     public progress = 0;
-    public isLoading = false;
+    public readonly isLoading = signal(false);
     public scrollToUp = false;
     private bookId = 0;
     private scrollTop = 0;
@@ -117,10 +117,10 @@ export class ReaderComponent implements OnInit, OnDestroy {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         if (Object.prototype.hasOwnProperty.call(this.cacheChapters, event.id)) {
             event.callback(this.cacheChapters[event.id]);
-            this.isLoading = false;
+            this.isLoading.set(false);
             this.booted = true;
             return;
         }
@@ -128,11 +128,11 @@ export class ReaderComponent implements OnInit, OnDestroy {
             next: res => {
                 this.cacheChapters[event.id] = res;
                 event.callback(res);
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.booted = true;
             }, 
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

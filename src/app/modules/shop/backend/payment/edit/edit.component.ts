@@ -20,7 +20,7 @@ export class EditPaymentComponent implements OnInit {
 
 
     public data: IPayment;
-    public items: IItem[] = [];
+    public readonly items = signal<IItem[]>([]);
     public shippingItems: IShipping[] = [];
     public readonly dataModel = signal({
         id: 0,
@@ -38,7 +38,7 @@ export class EditPaymentComponent implements OnInit {
 
     constructor() {
         this.service.paymentPlugin().subscribe(res => {
-            this.items = res;
+            this.items.set(res);
         });
         this.service.shippingAll().subscribe(res => {
             this.shippingItems = res;

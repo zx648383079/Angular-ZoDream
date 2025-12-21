@@ -26,7 +26,7 @@ export class EditListComponent implements OnInit {
         required(schemaPath.title);
     });
 
-    public items: IBookListItem[] = [];
+    public readonly items = signal<IBookListItem[]>([]);
     public panelOpen = false;
     public bookItems: IBook[] = [];
     public readonly searchForm = form(signal({
@@ -45,7 +45,7 @@ export class EditListComponent implements OnInit {
                     title: res.title,
                     description: res.description
                 });
-                this.items = res.items;
+                this.items.set(res.items);
             });
         });
     }
@@ -60,7 +60,7 @@ export class EditListComponent implements OnInit {
             id: form.id || 0,
             title: form.title,
             description: form.description,
-            items: this.items.map(item => {
+            items: this.items().map(item => {
                 return {
                     star: item.star,
                     remark: item.remark,
@@ -86,16 +86,19 @@ export class EditListComponent implements OnInit {
     }
 
     public tapAddTo(book: IBook) {
-        for (const item of this.items) {
+        for (const item of this.items()) {
             if (item.book_id === item.id) {
                 return;
             }
         }
-        this.items.push({
-            book,
-            book_id: book.id,
-            remark: '',
-            star: 10,
+        this.items.update(v => {
+            v.push({
+                book,
+                book_id: book.id,
+                remark: '',
+                star: 10,
+            });
+            return v;
         });
     }
 

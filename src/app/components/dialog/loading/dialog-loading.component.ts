@@ -5,9 +5,9 @@ import { DialogService } from '../dialog.service';
 
 @Component({
     standalone: false,
-  selector: 'app-dialog-loading',
-  templateUrl: './dialog-loading.component.html',
-  styleUrls: ['./dialog-loading.component.scss']
+    selector: 'app-dialog-loading',
+    templateUrl: './dialog-loading.component.html',
+    styleUrls: ['./dialog-loading.component.scss']
 })
 export class DialogLoadingComponent implements OnDestroy {
     private data = inject<DialogPackage<DialogLoadingOption>>(DialogPackage);

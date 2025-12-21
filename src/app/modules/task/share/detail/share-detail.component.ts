@@ -20,7 +20,7 @@ export class ShareDetailComponent implements OnInit {
 
     public data: ITask;
     public share: IShare;
-    public items: ITask[] = [];
+    public readonly items = signal<ITask[]>([]);
 
     public panelOpen = false;
 
@@ -28,11 +28,13 @@ export class ShareDetailComponent implements OnInit {
     public readonly commentForm = form(signal({
         content: ''
     }));
-    public page = 1;
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
-    public perPage = 20;
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
+    public readonly queries = signal({
+        page: 1,
+        per_page: 20
+    });
 
     public readonly userForm = form(signal({
         keywords: ''
@@ -48,7 +50,7 @@ export class ShareDetailComponent implements OnInit {
                 this.data = res.task;
                 this.share = res;
                 if (res.task && res.task.children) {
-                    this.items = res.task.children;
+                    this.items.set(res.task.children);
                 }
                 this.tapRefresh();
                 this.tapRefreshUser();
@@ -69,7 +71,7 @@ export class ShareDetailComponent implements OnInit {
     });
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries().page);
     }
 
     public tapRefresh() {
@@ -80,28 +82,31 @@ export class ShareDetailComponent implements OnInit {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.page + 1);
+        this.goPage(this.queries().page + 1);
     }
 
     public goPage(page: number) {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.commentList({
+            ...this.queries(),
             page,
             task_id: this.data.id
         }).subscribe({
             next: res => {
                 this.commentItems = res.data;
-                this.page = page;
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.total = res.paging.total;
-                this.perPage = res.paging.limit;
+                this.isLoading.set(false);
+                this.total.set(res.paging.total);
+                this.queries.update(v => {
+                    v.page = page;
+                    return v;
+                });
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -149,16 +154,15 @@ export class ShareDetailComponent implements OnInit {
     }
 
     public tapRemoveUser(item: any) {
-        if (!confirm('确定要删除用户《' + item.name + '》?')) {
-            return;
-        }
-        this.service.shareRemoveUser(this.share.id, item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success($localize `Delete Successfully`);
-            this.userItems = this.userItems.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定要删除用户《' + item.name + '》?', () => {
+            this.service.shareRemoveUser(this.share.id, item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.userItems = this.userItems.filter(it => {
+                    return it.id !== item.id;
+                });
             });
         });
     }

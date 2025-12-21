@@ -24,18 +24,18 @@ export class AccountComponent implements OnInit, OnDestroy {
 
 
     public title = '我的账户';
-    public items: IAccountLog[] = [];
+    public readonly items = signal<IAccountLog[]>([]);
     public readonly queries = form(signal({
         keywords: '',
         page: 1,
         per_page: 20,
         type: 0,
     }));
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public user: IUser;
-    private subItems = new Subscription();
+    private readonly subItems = new Subscription();
 
     constructor() {
         this.subItems.add(
@@ -85,17 +85,17 @@ export class AccountComponent implements OnInit, OnDestroy {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.accountLog(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.total = res.paging.total;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.total.set(res.paging.total);
+                this.items.set(res.data);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

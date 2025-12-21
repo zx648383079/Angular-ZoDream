@@ -8,7 +8,7 @@
 </div>
 
 <div class="container">
-    @for (item of items; track $index) {
+    @for (item of items(); track $index) {
         <div class="bulletin-item" [class]="{min: !item.open}">
             <div class="title" (click)="tapToggle(item)">
                 {{ item.bulletin.title }}
@@ -34,7 +34,7 @@
         </div>
     }
     
-    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-    <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+    <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+    <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     
 </div>

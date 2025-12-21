@@ -20,7 +20,7 @@
         <i class="iconfont icon-plus"></i>
         添加
     </div>
-    @for (item of items; track $index) {
+    @for (item of items(); track $index) {
         <div class="list-book-item">
             <div class="thumb">
                 <img [src]="item.book.cover" alt="">

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, Renderer2, effect, inject, input, model } from '@angular/core';
+import { Component, HostListener, OnInit, Renderer2, effect, inject, input, model, signal, untracked } from '@angular/core';
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { FormValueControl } from '@angular/forms/signals';
 
@@ -27,8 +27,8 @@ export class AutocompleteComponent implements FormValueControl<string>, OnInit {
     public readonly suffixItems = model([...MailSuffixMap]);
     public readonly value = model('');
     
-    public panelVisible = false;
-    public optionItems = [];
+    public readonly panelVisible = signal(false);
+    public readonly optionItems = signal<string[]>([]);
     public selectedIndex = -1;
 
     constructor() {
@@ -39,20 +39,23 @@ export class AutocompleteComponent implements FormValueControl<string>, OnInit {
         });
         let previousValue = '';
         effect(() => {
-            if (this.realValue(this.value()) !== this.realValue(previousValue)) {
-                this.selectedIndex = -1;
-                this.refreshOption();
-            } else if (this.selectedIndex < 0) {
-                this.panelVisible = this.optionItems.indexOf(this.value()) < 0;
-            }
-            previousValue = this.value();
+            const value = this.value();
+            untracked(() => {
+                if (this.realValue(value) !== this.realValue(previousValue)) {
+                    this.selectedIndex = -1;
+                    this.refreshOption();
+                } else if (this.selectedIndex < 0) {
+                    this.panelVisible.set(this.optionItems().indexOf(value) < 0);
+                }
+            })
+            previousValue = value;
         });
     }
 
     @HostListener('document:click', ['$event']) 
     public hideCalendar(event: any) {
         if (!event.target.closest('.autocomplete') && !hasElementByClass(event.path, 'autocomplete')) {
-            this.panelVisible = false;
+            this.panelVisible.set(false);
         }
     }
 
@@ -66,7 +69,7 @@ export class AutocompleteComponent implements FormValueControl<string>, OnInit {
             } else if (event.key === 'ArrowUp') {
                 this.output(this.selectedIndex <= 0 ? this.optionItems.length - 1 : (this.selectedIndex - 1));
             } else if (event.key === 'Enter' || event.key === 'Tab') {
-                this.panelVisible = false;
+                this.panelVisible.set(false);
             } else {
                 this.selectedIndex = -1;
             }
@@ -74,7 +77,7 @@ export class AutocompleteComponent implements FormValueControl<string>, OnInit {
     }
 
     public tapInput() {
-        this.panelVisible = true;
+        this.panelVisible.set(true);
     }
 
     public isSelected(i: number) {
@@ -83,7 +86,7 @@ export class AutocompleteComponent implements FormValueControl<string>, OnInit {
 
     public tapSelected(i: number) {
         this.output(i);
-        this.panelVisible = false;
+        this.panelVisible.set(false);
     }
 
     private output(i: number) {
@@ -102,13 +105,13 @@ export class AutocompleteComponent implements FormValueControl<string>, OnInit {
     private refreshOption() {
         const value = this.realValue(this.value());
         if (value.length < 1) {
-            this.optionItems = [];
+            this.optionItems.set([]);
             return;
         }
         const items = [];
         for (const item of this.suffixItems()) {
             items.push(this.prefix() + value + this.suffix() + item);
         }
-        this.optionItems = items;
+        this.optionItems.set(items);
     }
 }

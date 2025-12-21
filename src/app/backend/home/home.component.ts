@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { BackendService } from '../backend.service';
 
 @Component({
@@ -11,14 +11,14 @@ export class HomeComponent implements OnInit {
     private readonly service = inject(BackendService);
 
 
-    public isLoading = true;
-    public data: any = {};
+    public readonly isLoading = signal(true);
+    public readonly data = signal<any>({});
     public debugKey = '';
 
     ngOnInit() {
         this.service.statistics().subscribe(res => {
-            this.isLoading = false;
-            this.data = res;
+            this.isLoading.set(false);
+            this.data.set(res);
         });
     }
 

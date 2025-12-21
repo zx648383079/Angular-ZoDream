@@ -32,7 +32,7 @@
 
         @if (queries.type().value() == 'image' || queries.type().value() == 'video') {
             <div class="row">
-                @for (item of items; track $index) {
+                @for (item of items(); track $index) {
                     <div class="col-md-3">
                     <div class="media-item">
                         <div class="thumb" [title]="item.title">
@@ -77,7 +77,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (item of items; track $index) {
+                    @for (item of items(); track $index) {
                         <tr>
                         <td>{{ item.id }}</td>
                         <td>
@@ -121,8 +121,8 @@
                 </tbody>
             </table>
         }
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+        <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>
 

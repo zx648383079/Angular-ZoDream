@@ -1,4 +1,4 @@
-@for (item of items; track $index) {
+@for (item of items(); track $index) {
     <div class="select--with-search" [class]="{focus: item.focus, 'select-loading': item.isLoading}">
         <div class="select-input" [class]="{'input--with-placeholder': !item.label}" (click)="item.focus = !item.focus">
             {{ item.label || placeholder() }}

@@ -49,7 +49,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     public reasonSelected = 0;
     public minDate: Date;
     public maxDate: Date;
-    private subItems = new Subscription();
+    private readonly subItems = new Subscription();
 
     constructor() {
         this.maxDate = new Date();

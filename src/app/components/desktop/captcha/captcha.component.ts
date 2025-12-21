@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, input, output } from '@angular/core';
+import { Component, HostListener, inject, input, output, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IBound, IPoint } from '../../../theme/utils/canvas';
 
@@ -25,7 +25,7 @@ export class CaptchaComponent {
     private readonly http = inject(HttpClient);
 
 
-    public visible = false;
+    public readonly visible = signal(false);
     public data: ICaptcha;
     public value: any = '';
     public x = 0;
@@ -52,7 +52,7 @@ export class CaptchaComponent {
     }
 
     public open() {
-        this.visible = true;
+        this.visible.set(true);
     }
 
     public onMoveStart(e: MouseEvent) {
@@ -80,7 +80,7 @@ export class CaptchaComponent {
             if (!res.type) {
                 res.type = 'code';
             }
-            this.visible = true;
+            this.visible.set(true);
             this.data = res;
         });
     }

@@ -3,14 +3,14 @@
 </div>
 <div class="catalog-body">
     <div class="file-header">
-        <div class="check-box" [class]="{checked: checkedAll}" (click)="tapCheckAll()"></div>
+        <div class="check-box" [class.checked]="isChecked()" (click)="tapCheckAll()"></div>
         <div class="name sort-asc">文件名</div>
         <div class="size">大小</div>
         <div class="time">删除日期</div>
     </div>
-    @for (item of items; track $index) {
+    @for (item of items(); track $index) {
         <div class="file-item" (click)="tapFile(item)">
-            <div class="check-box" [class]="{checked: item.checked}"></div>
+            <div class="check-box" [class.checked]="item.checked"></div>
             <div class="file-icon">
                 <i class="iconfont" [class]="item.icon"></i>
             </div>

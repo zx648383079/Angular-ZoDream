@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, viewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, signal, viewChild } from '@angular/core';
 import { DialogEvent } from '../../../../components/dialog';
 import { assetUri } from '../../../../theme/utils';
 
@@ -11,8 +11,8 @@ import { assetUri } from '../../../../theme/utils';
 export class ShareDialogComponent implements DialogEvent {
 
     private readonly imageBox = viewChild<ElementRef<HTMLDivElement>>('imageBox');
-    public visible = false;
-    public isLoading = true;
+    public readonly visible = signal(false);
+    public readonly isLoading = signal(true);
     private resizeFn: Function;
 
     @HostListener('window:resize', [])
@@ -23,13 +23,13 @@ export class ShareDialogComponent implements DialogEvent {
     }
 
     public close(result?: any): void {
-        this.visible = false;
+        this.visible.set(false);
         this.resizeFn = undefined;
     }
 
     public open(data?: any, confirm?: any, check?: any): void {
         this.resizeFn = undefined;
-        this.visible = true;
+        this.visible.set(true);
         this.loadImage('/assets/images/blog.png');
     }
 
@@ -41,11 +41,11 @@ export class ShareDialogComponent implements DialogEvent {
     }
 
     private loadImage(src: string) {
-        this.isLoading = true;
+        this.isLoading.set(true);
         const loader = new Image();
         loader.src = assetUri(src);
         loader.onload = () => {
-            this.isLoading = false;
+            this.isLoading.set(false);
             const width = loader.width;
             const height = loader.height;
             this.displayImage(loader, width, height);

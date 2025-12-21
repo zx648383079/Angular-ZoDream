@@ -15,8 +15,8 @@ export class ChannelComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
 
 
-    public items: IConsumptionChannel[] = [];
-    public isLoading = false;
+    public readonly items = signal<IConsumptionChannel[]>([]);
+    public readonly isLoading = signal(false);
     public readonly queries = form(signal({
         keywords: ''
     }));
@@ -39,10 +39,10 @@ export class ChannelComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.channelList(this.queries().value()).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
+            this.isLoading.set(false);
+            this.items.set(res.data);
         });
     }
 
@@ -51,16 +51,17 @@ export class ChannelComponent implements OnInit {
     }
 
     public tapRemove(item: IConsumptionChannel) {
-        if (!confirm('确定删除“' + item.name + '”消费渠道？')) {
-            return;
-        }
-        this.service.channelRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success($localize `Delete Successfully`);
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.name + '”消费渠道？', () => {
+            this.service.channelRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
+                });
             });
         });
     }

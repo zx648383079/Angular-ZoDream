@@ -22,10 +22,10 @@ export class PostComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: IMicro[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IMicro[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
@@ -33,7 +33,7 @@ export class PostComponent implements OnInit {
         user: 0,
         topic: 0,
     }));
-    public isReview = false;
+    public readonly isReview = signal(false);
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -48,6 +48,10 @@ export class PostComponent implements OnInit {
             {name: '通过', value: 1},
             {name: '拒绝', value: 9}
         ]);
+    }
+
+    public toggleReview() {
+        this.isReview.update(v => !v);
     }
 
     public tapRefresh() {
@@ -65,19 +69,19 @@ export class PostComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.postList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.items = res.data;
-                this.total = res.paging.total;
+                this.isLoading.set(false);
+                this.items.set(res.data);
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -108,8 +112,10 @@ export class PostComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         });

@@ -9,12 +9,12 @@ import { form, required } from '@angular/forms/signals';
 })
 export class BulletinSendComponent {
 
-    readonly box = viewChild<ElementRef>('box');
+    private readonly box = viewChild<ElementRef>('box');
     public lastUsers: any[] = [];
     public users: any[] = [];
     public messages: any[] = [];
     public currentUser: any;
-    public hasMore = false;
+    public readonly hasMore = signal(false);
     public isList = false;
     public page = 0;
     public readonly dataForm = form(signal({

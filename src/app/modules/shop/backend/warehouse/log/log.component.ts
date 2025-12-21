@@ -9,9 +9,9 @@ import { WarehouseService } from '../warehouse.service';
 
 @Component({
     standalone: false,
-  selector: 'app-log',
-  templateUrl: './log.component.html',
-  styleUrls: ['./log.component.scss']
+    selector: 'app-log',
+    templateUrl: './log.component.html',
+    styleUrls: ['./log.component.scss']
 })
 export class LogComponent implements OnInit {
     private readonly service = inject(WarehouseService);
@@ -20,10 +20,10 @@ export class LogComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: IWarehouseLog[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IWarehouseLog[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
@@ -64,20 +64,20 @@ export class LogComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.logList(queries).subscribe({
             next: res => {
-                this.isLoading = false;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.queries().value.set(queries);
             this.searchService.applyHistory(queries, ['warehouse']);
             },
             error: err => {
                 this.toastrService.error(err);
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

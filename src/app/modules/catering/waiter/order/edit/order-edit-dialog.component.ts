@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { ICateringOrder, ICateringOrderGoods } from '../../../model';
 
 @Component({
@@ -12,9 +12,9 @@ export class OrderEditDialogComponent {
     /**
      * 是否显示
      */
-     public visible = false;
+     public readonly visible = signal(false);
      public data: ICateringOrder = {} as any;
-     public items: ICateringOrderGoods[] = [];
+     public readonly items = signal<ICateringOrderGoods[]>([]);
      public multipleEditable = false;
      public nextData: any = {
         name: '',
@@ -22,11 +22,11 @@ export class OrderEditDialogComponent {
      };
      
     public open() {
-        this.visible = true;
+        this.visible.set(true);
     }
 
     public close(yes = false) {
-        this.visible = false;
+        this.visible.set(false);
     }
 
 }

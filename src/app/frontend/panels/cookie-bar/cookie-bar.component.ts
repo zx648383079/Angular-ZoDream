@@ -59,9 +59,6 @@ export class CookieBarComponent implements OnInit {
         }
     ];
 
-    constructor(
-    ) { }
-
     ngOnInit() {
         this.tabIndex = window.localStorage.getItem(CookiePolicyKey) ? 0 : 1;
     }

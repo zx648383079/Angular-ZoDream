@@ -21,7 +21,7 @@ export class ReportDialogComponent {
     /**
      * 是否显示
      */
-    public visible = false;
+    public readonly visible = signal(false);
     public data: IWebPage;
     private confirmFn: DialogConfirmFn;
 
@@ -65,12 +65,12 @@ export class ReportDialogComponent {
     public open(data: IWebPage, cb?: DialogConfirmFn) {
         this.confirmFn = cb;
         this.data = data;
-        this.visible = true;
+        this.visible.set(true);
         this.dataForm.content().value.set('');
     }
 
     public close() {
-        this.visible = false;
+        this.visible.set(false);
     }
 
     public tapSubmit(e: ButtonEvent) {
@@ -104,7 +104,7 @@ export class ReportDialogComponent {
             next: _ => {
                 e?.reset();
                 this.toastrService.success($localize `Report successful, waiting for manual review`);
-                this.visible = false;
+                this.visible.set(false);
                 this.confirmFn && this.confirmFn();
             },
             error: err => {

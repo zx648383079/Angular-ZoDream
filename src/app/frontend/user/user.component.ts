@@ -29,7 +29,7 @@ export class UserComponent implements OnInit, OnDestroy {
     public moreVisible = false;
     public diplayMode = NavigationDisplayMode.Inline;
 
-    private subItems = new Subscription();
+    private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `My`);

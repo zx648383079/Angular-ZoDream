@@ -3,9 +3,9 @@ import { GameRouterInjectorToken, IGameRouter, GameScenePath, GameCommand, IGame
 
 @Component({
     standalone: false,
-  selector: 'app-game-team',
-  templateUrl: './team.component.html',
-  styleUrls: ['./team.component.scss']
+    selector: 'app-game-team',
+    templateUrl: './team.component.html',
+    styleUrls: ['./team.component.scss']
 })
 export class TeamComponent implements OnInit {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);

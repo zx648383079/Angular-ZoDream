@@ -24,7 +24,7 @@ export class EditShippingComponent implements OnInit {
 
     public data: IShipping;
 
-    public items: IItem[] = [];
+    public readonly items = signal<IItem[]>([]);
 
     public regionItems: IRegion[] = [];
     public selectedItems: IRegion[] = [];
@@ -52,7 +52,7 @@ export class EditShippingComponent implements OnInit {
 
     constructor() {
         this.service.shippingPlugin().subscribe(res => {
-            this.items = res;
+            this.items.set(res);
         });
     }
 

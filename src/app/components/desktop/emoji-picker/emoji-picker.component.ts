@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, HostListener, inject, input, output } from '@angular/core';
+import { Component, computed, ElementRef, HostListener, inject, input, output, signal } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, single } from 'rxjs/operators';
 import { IEmoji, IEmojiCategory } from '../../../theme/models/seo';
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { IData } from '../../../theme/models/page';
@@ -21,19 +21,19 @@ export class EmojiPickerComponent {
 
     public readonly url = input('seo/emoji');
     public readonly tapped = output<IEmoji>();
-    public items: IEmojiCategory[] = [];
+    public readonly items = signal<IEmojiCategory[]>([]);
     public navIndex = 0;
-    public panelVisible = false;
+    public readonly panelVisible = signal(false);
     private booted = false;
 
     @HostListener('document:click', ['$event']) 
     public hideCalendar(event: any) {
         if (!event.target.closest('.emoji-picker') && !hasElementByClass(event.path, 'emoji-picker_container')) {
-            this.panelVisible = false;
+            this.panelVisible.set(false);
         }
     }
 
-    get panelStyle() {
+    public readonly panelStyle = computed(() => {
         const bound = this.elementRef.nativeElement.getBoundingClientRect();
         const diff = window.innerWidth - bound.left - 340;
         const bottom = window.innerHeight - bound.bottom - 320;
@@ -41,29 +41,29 @@ export class EmojiPickerComponent {
             'margin-left': (diff >= 0 ? 0 : diff) + 'px',
             'margin-top': (bottom >= 0 ? 0 : -310) + 'px',
         };
-    }
+    });
 
-    public get navItems() {
-        return this.items.map(i => {
+    public readonly navItems = computed(() => {
+        return this.items().map(i => {
             return {
                 name: i.name
             };
         });
-    }
+    });
 
-    public get navTitle(): string {
-        if (this.navIndex >= this.items.length) {
+    public readonly navTitle = computed(() => {
+        if (this.navIndex >= this.items().length) {
             return '';
         }
-        return this.items[this.navIndex].name;
-    }
+        return this.items()[this.navIndex].name;
+    });
 
-    public get fiterItems(): IEmoji[] {
-        if (this.navIndex >= this.items.length) {
+    public readonly fiterItems = computed(() => {
+        if (this.navIndex >= this.items().length) {
             return [];
         }
-        return this.items[this.navIndex].items;
-    }
+        return this.items()[this.navIndex].items;
+    });
 
     private load() {
         if (this.booted) {
@@ -71,7 +71,7 @@ export class EmojiPickerComponent {
         }
         this.booted = true;
         this.getOrSet(this.url()).subscribe(res => {
-            this.items = res;
+            this.items.set(res);
         });
     }
 
@@ -86,11 +86,11 @@ export class EmojiPickerComponent {
 
     public tapButton() {
         this.load();
-        this.panelVisible = true;
+        this.panelVisible.set(true);
     }
 
     public tapItem(item: any) {
-        this.panelVisible = false;
+        this.panelVisible.set(false);
         this.tapped.emit(item);
     }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { IGameScene, InvestTabItems, GameRouterInjectorToken, IGameRouter, GameCommand } from '../../../model';
 
 @Component({
@@ -11,7 +11,7 @@ export class MineComponent implements IGameScene, OnInit {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
-    public items: any[] = [];
+    public readonly items = signal<any[]>([]);
     public tabItems = InvestTabItems;
     public tabIndex = 2;
 
@@ -30,7 +30,7 @@ export class MineComponent implements IGameScene, OnInit {
 
     public tapRefresh() {
         this.router.request(GameCommand.RanchQuery).subscribe(res => {
-            this.items = res.data;
+            this.items.set(res.data);
         });
     }
 

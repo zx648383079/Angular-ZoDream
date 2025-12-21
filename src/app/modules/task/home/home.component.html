@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    @for (item of items; track $index) {
+    @for (item of items(); track $index) {
         <div class="task-item" (click)="tapView(item)">
             <div class="name">{{ item.task.name }}</div>
             <div class="desc">{{ item.task.description }}</div>
@@ -43,7 +43,7 @@
             </div>
         </div>
     }
-    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+    <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
 </div>
 
 <app-task-select />

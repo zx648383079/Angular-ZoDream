@@ -113,7 +113,7 @@ export class GameMakerComponent implements OnDestroy {
             url: '/',
         }
     ];
-    private subItems = new Subscription();
+    private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `Game Maker`);

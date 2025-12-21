@@ -26,8 +26,9 @@
                 </ul>
             </div>
         </div>
-        <app-pull-to-refresh class="items-box" (refreshChange)="tapRefresh()" (moreChange)="tapMore()" [more]="hasMore" [loading]="isLoading">
-            @for (item of items; track $index) {
+        <app-pull-to-refresh class="items-box" (refreshChange)="tapRefresh()" (moreChange)="tapMore()" 
+        [more]="hasMore()" [loading]="isLoading()">
+            @for (item of items(); track $index) {
                 <dl class="book-item" (click)="tapItem(item)">
                     <dt>
                         <a >{{ item.title }}</a>

@@ -10,18 +10,18 @@ export class RenameDialogComponent {
 
 
     public readonly value = signal('');
-    public visible = false;
+    public readonly visible = signal(false);
 
     private confirmFn: Function;
 
 
     public open(cb: () => void) {
-        this.visible = true;
+        this.visible.set(true);
         this.confirmFn = cb;
     }
 
     public close() {
-        this.visible = false;
+        this.visible.set(false);
     }
 
 }

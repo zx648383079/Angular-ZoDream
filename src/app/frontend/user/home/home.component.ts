@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { IStatisticsItem } from '../../../theme/models/seo';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
@@ -15,17 +15,17 @@ export class HomeComponent implements OnInit {
     private readonly router = inject(Router);
 
 
-    public items: IStatisticsItem[] = [];
-    public isLoading = true;
+    public readonly items = signal<IStatisticsItem[]>([]);
+    public readonly isLoading = signal(true);
 
     ngOnInit() {
         this.service.statistics().subscribe({
             next: res => {
-                this.items = res.data;
-                this.isLoading = false;
+                this.items.set(res.data);
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

@@ -17,7 +17,7 @@
         </div>
     
         <div class="order-box">
-            @for (item of items; track $index) {
+            @for (item of items(); track $index) {
                 <div class="order-item">
                 <div class="item-header">
                     <span>{{ item.created_at }}</span>
@@ -55,8 +55,8 @@
             </div>
             }
         </div>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+        <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>
 <app-dialog-box #logisticsModal title="物流信息" [footerVisible]="false">

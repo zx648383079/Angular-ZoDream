@@ -12,7 +12,7 @@
             Selected Zone:
         </div>
         <div class="group-body">
-            @for (item of selectedItems; track $index) {
+            @for (item of selectedItems(); track $index) {
                 <div class="zone-item active">
                     <span>{{ item.name }}</span>
                 </div>
@@ -25,7 +25,7 @@
             Zones:
         </div>
         <div class="group-body">
-            @for (item of items; track $index) {
+            @for (item of items(); track $index) {
                 <div class="zone-item" [class]="{active: isSelected(item)}" (click)="tapSelect(item)">
                     <span>{{ item.name }}</span>
                 </div>

@@ -1,4 +1,4 @@
-import { Component, HostListener, TemplateRef, effect, input, model, output } from '@angular/core';
+import { Component, HostListener, TemplateRef, computed, effect, input, model, output, signal } from '@angular/core';
 import { IColumnLink, ITableHeaderItem } from './model';
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { eachObject } from '../../../theme/utils';
@@ -26,22 +26,22 @@ export class EditableTableComponent {
     public nameItems: IColumnLink[] = [];
     public sortKey = -1;
     public orderAsc = true;
-    public checkAll = false;
+    public readonly isChecked = signal(false);
     public openDrop = false;
 
-    public get checkedItems() {
-        return this.searchItems.filter(i => i.checked);
-    }
+    public readonly checkedItems = computed(() => {
+        return this.searchItems().filter(i => i.checked);
+    });
 
     /**
      * 根据关键词过滤
      */
-    public get searchItems() {
+    public readonly searchItems = computed(() => {
         return this.items().filter(i => this.inSearch(i));
-    }
+    });
 
-    public get filterItems() {
-        const items = this.searchItems;
+    public readonly filterItems = computed(() => {
+        const items = this.searchItems();
         if (this.sortKey < 0) {
             return items;
         }
@@ -66,7 +66,7 @@ export class EditableTableComponent {
             }
             return (av as string).localeCompare(bv, $localize `en`);
         });
-    }
+    });
 
     @HostListener('document:click', ['$event']) 
     public hideCalendar(event: any) {
@@ -135,14 +135,15 @@ export class EditableTableComponent {
     }
 
     public toggleCheckAll() {
-        this.checkAll = !this.checkAll;
-        for (const item of this.searchItems) {
-            item.checked = this.checkAll;
+        this.isChecked.update(v => !v);
+        const isChecked = this.isChecked();
+        for (const item of this.searchItems()) {
+            item.checked = isChecked;
         }
     }
 
     public tapRemoveAll() {
-        const items = this.checkedItems;
+        const items = this.checkedItems();
         if (items.length < 1) {
             return;
         }
@@ -152,7 +153,7 @@ export class EditableTableComponent {
     public toggleCheck(item: any) {
         item.checked = !item.checked;
         if (!item.checked) {
-            this.checkAll = false;
+            this.isChecked.set(false);
         }
     }
 

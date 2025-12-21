@@ -25,10 +25,10 @@ export class HomeComponent implements OnInit {
 
     private readonly taskModal = viewChild(TaskSelectComponent);
 
-    public items: ITaskDay[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<ITaskDay[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
@@ -70,19 +70,19 @@ export class HomeComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.dayList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.items = res.data;
-                this.total = res.paging.total;
+                this.isLoading.set(false);
+                this.items.set(res.data);
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -97,13 +97,16 @@ export class HomeComponent implements OnInit {
         this.service.daySave({
             task_id: item.id,
         }).subscribe(res => {
-            for (let i = 0; i < this.items.length; i++) {
-                if (this.items[i].id === res.id) {
-                    this.items[i] = res;
-                    return;
+            this.items.update(v => {
+                for (let i = 0; i < this.items.length; i++) {
+                    if (v[i].id === res.id) {
+                        v[i] = res;
+                        return v;
+                    }
                 }
-            }
-            this.items.push(res);
+                v.push(res);
+                return v;
+            });
         });
     }
 
@@ -111,7 +114,10 @@ export class HomeComponent implements OnInit {
         modal.open(() => {
             this.service.taskFastCreate(this.taskForm().value()).subscribe({
                 next: res => {
-                    this.items.push(res);
+                    this.items.update(v => {
+                        v.push(res);
+                        return v;
+                    });
                     this.toastrService.success('添加成功');
                     this.taskForm().value.set({
                         name: '',

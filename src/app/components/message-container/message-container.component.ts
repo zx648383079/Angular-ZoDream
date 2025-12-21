@@ -1,4 +1,4 @@
-import { Component, ElementRef, effect, inject, input, model, output } from '@angular/core';
+import { Component, ElementRef, computed, effect, inject, input, model, output } from '@angular/core';
 import { IBlockItem } from '../link-rule';
 import { assetUri, formatAgo } from '../../theme/utils';
 import { IMessageBase } from './model';
@@ -14,7 +14,7 @@ export class MessageContainerComponent {
 
 
     public readonly items = model<IMessageBase[]>([]);
-    public readonly hasMore = input(false);
+    public readonly more = input(false);
     public readonly maxTime = input(600000);
     public readonly currentId = input<string | number>(undefined);
     public readonly loadMore = output<number>();
@@ -22,7 +22,7 @@ export class MessageContainerComponent {
 
     private minId = 0;
 
-    get formatItems() {
+    public readonly formatItems = computed(() => {
         if (this.items().length < 1) {
             return [];
         }
@@ -66,7 +66,7 @@ export class MessageContainerComponent {
             items.push(item);
         }
         return items;
-    }
+    });
 
     constructor() {
         effect(() => {
@@ -118,7 +118,7 @@ export class MessageContainerComponent {
     }
 
     public tapMore() {
-        if (!this.hasMore()) {
+        if (!this.more()) {
             return;
         }
         this.loadMore.emit(this.minId);

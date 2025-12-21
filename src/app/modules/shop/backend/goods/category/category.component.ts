@@ -1,13 +1,13 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../../components/dialog';
 import { ICategory } from '../../../model';
 import { GoodsService } from '../goods.service';
 
 @Component({
     standalone: false,
-  selector: 'app-category',
-  templateUrl: './category.component.html',
-  styleUrls: ['./category.component.scss']
+    selector: 'app-category',
+    templateUrl: './category.component.html',
+    styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
     private readonly service = inject(GoodsService);
@@ -15,17 +15,17 @@ export class CategoryComponent implements OnInit {
 
 
     public categories: ICategory[] = [];
-    public isLoading = false;
+    public readonly isLoading = signal(false);
 
     ngOnInit() {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.categoryTree().subscribe({
             next: res => {
                 this.categories = res.data;
-                this.isLoading = false;
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

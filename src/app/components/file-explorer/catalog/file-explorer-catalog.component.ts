@@ -1,18 +1,18 @@
-import { Component, OnInit, inject, output } from '@angular/core';
+import { Component, OnInit, inject, output, signal } from '@angular/core';
 import { FILE_PROVIDER, IFileCatalogItem, IFileItem, IFileProvider } from '../model';
 
 @Component({
     standalone: false,
-  selector: 'app-file-explorer-catalog',
-  templateUrl: './file-explorer-catalog.component.html',
-  styleUrls: ['./file-explorer-catalog.component.scss']
+    selector: 'app-file-explorer-catalog',
+    templateUrl: './file-explorer-catalog.component.html',
+    styleUrls: ['./file-explorer-catalog.component.scss']
 })
 export class FileExplorerCatalogComponent implements OnInit {
     private readonly service = inject<IFileProvider>(FILE_PROVIDER);
 
 
     public readonly pathChange = output<string>();
-    public items: IFileCatalogItem[] = [
+    public readonly items = signal<IFileCatalogItem[]>([
         {
             icon: 'icon-home',
             name: $localize `Home`,
@@ -40,7 +40,7 @@ export class FileExplorerCatalogComponent implements OnInit {
             expanded: true,
             children: [],
         }
-    ];
+    ]);
     public activePath = '';
 
     ngOnInit() {

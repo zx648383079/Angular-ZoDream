@@ -47,7 +47,7 @@
                     <app-catering-nav-bar [items]="categoryItems" [(selected)]="queries.group().value" (selectedChange)="tapRefresh()" (add)="tapEditCategory()" (edit)="tapEditCategory($event)" (remove)="tapRemoveCategory($event)" />
                 </div>
                 <div class="col-md-9">
-                    @for (item of items; track $index) {
+                    @for (item of items(); track $index) {
                         <div class="body-row">
                         <div class="td-2 td-center">
                             开水白菜
@@ -68,8 +68,8 @@
                     </div>
                     }
 
-                    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-                    <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+                    <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+                    <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
                 </div>
             </div>
         </div>

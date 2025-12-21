@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="panel-body">
-            @for (group of items; track $index; let i = $index) {
+            @for (group of items(); track $index; let i = $index) {
             <div class="group-item">
                 <div class="group-name">
                     <i class="iconfont icon-close" (click)="tapRemove(i)"></i>
@@ -60,7 +60,7 @@
             <div>
                 <select id="group" class="form-control" [field]="editForm.group_id">
                     <option [value]="0" i18n>As Group</option>
-                    @for (item of items; track $index) {
+                    @for (item of items(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                     }
                 </select>

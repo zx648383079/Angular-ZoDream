@@ -19,10 +19,10 @@ export class TradeTrackerComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: ILastestLog[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<ILastestLog[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         product: '',
@@ -79,19 +79,19 @@ export class TradeTrackerComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.logList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.items = res.data;
-                this.total = res.paging.total;
+                this.isLoading.set(false);
+                this.items.set(res.data);
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

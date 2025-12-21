@@ -26,10 +26,10 @@ export class IncomeComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: ILog[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<ILog[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal({
         keywords: '',
         type: '0',
@@ -90,7 +90,7 @@ export class IncomeComponent implements OnInit {
     public formatGroup(): ILogGroup[] {
         const items: ILogGroup[] = [];
         let last: ILogGroup = null;
-        for (const item of this.items) {
+        for (const item of this.items()) {
             const current = formatDate(item.happened_at, 'yyyy-mm-dd');
             if (current !== last?.name)
             {
@@ -138,20 +138,20 @@ export class IncomeComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.logList(queries).subscribe({
             next: res => {
-                this.items = res.data;
+                this.items.set(res.data);
                 this.groupItems = this.formatGroup();
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
-                this.isLoading = false;
+                this.total.set(res.paging.total);
+                this.isLoading.set(false);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -168,8 +168,10 @@ export class IncomeComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         });

@@ -7,9 +7,9 @@ import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-migration',
-  templateUrl: './migration.component.html',
-  styleUrls: ['./migration.component.scss']
+    selector: 'app-migration',
+    templateUrl: './migration.component.html',
+    styleUrls: ['./migration.component.scss']
 })
 export class MigrationComponent implements OnInit {
     private readonly service = inject(GenerateService);

@@ -1,25 +1,27 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShopService } from '../../shop.service';
 import { IGoodsHistory } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-history',
-  templateUrl: './history.component.html',
-  styleUrls: ['./history.component.scss']
+    selector: 'app-history',
+    templateUrl: './history.component.html',
+    styleUrls: ['./history.component.scss']
 })
 export class HistoryComponent implements OnInit {
     private readonly service = inject(ShopService);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
 
-    public items: IGoodsHistory[] = [];
-    public hasMore = true;
-    public page = 1;
-    public perPage = 20;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IGoodsHistory[]>([]);
+    private hasMore = true;
+    public readonly queries = signal({
+        page: 1,
+        per_page: 20
+    });
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
 
     constructor() {
         this.tapRefresh();
@@ -36,11 +38,11 @@ export class HistoryComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries().page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries().page + 1);
     }
 
     /**
@@ -50,15 +52,15 @@ export class HistoryComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         // this.service.orderList({
         //     page,
         //     per_page: this.perPage
         // }).subscribe(res => {
-        //     this.isLoading = false;
-        //     this.items = res.data;
+        //     this.isLoading.set(false);
+        //     this.items.set(res.data);
         //     this.hasMore = res.paging.more;
-        //     this.total = res.paging.total;
+        //     this.total.set(res.paging.total);
         // });
     }
 

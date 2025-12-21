@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, effect, ElementRef, inject, input, model, viewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, ElementRef, inject, input, model, signal, viewChild } from '@angular/core';
 import { FileUploadService } from '../../../../../theme/services';
 import { IGoodsGallery } from '../../../model';
 import { FormValueControl } from '@angular/forms/signals';
@@ -15,10 +15,10 @@ export class GalleryPanelComponent implements FormValueControl<any>, AfterViewIn
 
     private readonly imageElement = viewChild<ElementRef<HTMLDivElement>>('imageBox');
     public readonly max = input(0);
-    public items: IGoodsGallery[] = [];
+    public readonly items = signal<IGoodsGallery[]>([]);
     public readonly disabled = input<boolean>(false);
     public readonly value = model<any>();
-    public isLoading = false;
+    public readonly isLoading = signal(false);
     public imageId = '';
     public videoId = '';
 
@@ -28,7 +28,7 @@ export class GalleryPanelComponent implements FormValueControl<any>, AfterViewIn
         this.videoId = 'video_' + fileName;
         effect(() => {
             const obj = this.value();
-            this.items = obj instanceof Array ? obj : [];
+            this.items.set(obj instanceof Array ? obj : []);
         });
     }
 
@@ -55,7 +55,10 @@ export class GalleryPanelComponent implements FormValueControl<any>, AfterViewIn
         if (this.disabled) {
             return;
         }
-        this.items.splice(i, 1);
+        this.items.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
         this.output();
     }
 
@@ -92,13 +95,16 @@ export class GalleryPanelComponent implements FormValueControl<any>, AfterViewIn
         }
         // 这样就可以多文件上传
         this.uploadService.uploadFiles(form).subscribe(res => {
-            for (const file of res) {
-                this.items.push({
-                    thumb: file.thumb,
-                    type: maps[file.original],
-                    file: file.url
-                });
-            }
+            this.items.update(v => {
+                for (const file of res) {
+                    v.push({
+                        thumb: file.thumb,
+                        type: maps[file.original],
+                        file: file.url
+                    });
+                }
+                return v;
+            });
             this.output();
         });
     }

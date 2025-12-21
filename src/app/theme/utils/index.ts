@@ -346,6 +346,16 @@ export function wordLength(val: string): number {
     return length;
 }
 
+
+export function findIndex<T>(items: T[], checkFn: (data: T) => boolean): number {
+    for (let i = items.length - 1; i >= 0; i--) {
+        if (checkFn(items[i])) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 /**
  * 深层次复制对象
  */

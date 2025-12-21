@@ -1,12 +1,12 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShopService } from '../../shop.service';
 
 @Component({
     standalone: false,
-  selector: 'app-bonus',
-  templateUrl: './bonus.component.html',
-  styleUrls: ['./bonus.component.scss']
+    selector: 'app-bonus',
+    templateUrl: './bonus.component.html',
+    styleUrls: ['./bonus.component.scss']
 })
 export class BonusComponent implements OnInit {
     private readonly service = inject(ShopService);
@@ -14,12 +14,14 @@ export class BonusComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
 
     public title = '我的红包';
-    public items: any[] = [];
-    public hasMore = true;
-    public page = 1;
-    public perPage = 20;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<any[]>([]);
+    private hasMore = true;
+    public readonly queries = signal({
+        page: 1,
+        per_page: 20
+    });
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
 
     constructor() {
         this.tapRefresh();
@@ -36,11 +38,11 @@ export class BonusComponent implements OnInit {
     }
 
     public tapPage() {
-        this.goPage(this.page);
+        this.goPage(this.queries().page);
     }
 
     public tapMore() {
-        this.goPage(this.page + 1);
+        this.goPage(this.queries().page + 1);
     }
 
     /**
@@ -50,15 +52,24 @@ export class BonusComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.orderList({
+            ...this.queries(),
             page,
-            per_page: this.perPage
-        }).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
-            this.hasMore = res.paging.more;
-            this.total = res.paging.total;
+        }).subscribe({
+            next: res => {
+                this.isLoading.set(false);
+                this.items.set(res.data);
+                this.hasMore = res.paging.more;
+                this.total.set(res.paging.total);
+                this.queries.update(v => {
+                    v.page = page;
+                    return v;
+                });
+            },
+            error: _ => {
+                this.isLoading.set(false);
+            }
         });
     }
 

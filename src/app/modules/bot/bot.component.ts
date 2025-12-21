@@ -9,9 +9,9 @@ import { IBotAccount } from './model';
 
 @Component({
     standalone: false,
-  selector: 'app-bot',
-  templateUrl: './bot.component.html',
-  styleUrls: ['./bot.component.scss']
+    selector: 'app-bot',
+    templateUrl: './bot.component.html',
+    styleUrls: ['./bot.component.scss']
 })
 export class BotComponent implements OnInit {
     private readonly service = inject(BotService);
@@ -20,10 +20,10 @@ export class BotComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: IBotAccount[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IBotAccount[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public selected = 0;
     public readonly queries = form(signal<IPageQueries>({
         keywords: '',
@@ -58,19 +58,19 @@ export class BotComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.getList(queries).subscribe({
             next: res => {
-                this.isLoading = false;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

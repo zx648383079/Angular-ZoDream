@@ -5,7 +5,7 @@
             <tr>
                 @if (batchable()) {
                 <th width="40">
-                    <i class="iconfont" [class]="{'icon-square-o': !checkAll, 'icon-check-square-o': checkAll}" (click)="toggleCheckAll()"></i>
+                    <i class="iconfont" [class]="{'icon-square-o': !isChecked(), 'icon-check-square-o': isChecked()}" (click)="toggleCheckAll()"></i>
                 </th>
                 }
                 @for (item of nameItems; track $index) {
@@ -60,7 +60,7 @@
             }
         </thead>
         <tbody>
-            @for (item of filterItems; track $index) {
+            @for (item of filterItems(); track $index) {
             <tr>
                 <td>
                     <i class="iconfont" [class]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}" (click)="toggleCheck(item)"></i>
@@ -101,11 +101,11 @@
         <tfoot>
             <tr>
                 <td>
-                    <i class="iconfont" [class]="{'icon-square-o': !checkAll, 'icon-check-square-o': checkAll}" (click)="toggleCheckAll()"></i>
+                    <i class="iconfont" [class]="{'icon-square-o': !isChecked(), 'icon-check-square-o': isChecked()}" (click)="toggleCheckAll()"></i>
                 </td>
                 <td [attr.colspan]="nameItems.length - 1">
                     <div class="btn-group">
-                        <button class="btn btn-danger" type="button" (click)="tapRemoveAll()" [disabled]="checkedItems.length < 1" i18n>
+                        <button class="btn btn-danger" type="button" (click)="tapRemoveAll()" [disabled]="checkedItems().length < 1" i18n>
                             Delete Selected
                         </button>
                         <ng-content />

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, effect, inject, input, model, viewChild, viewChildren } from '@angular/core';
+import { Component, ElementRef, effect, inject, input, model, signal, viewChild, viewChildren } from '@angular/core';
 
 interface ILyricsItem {
     text: string;
@@ -22,7 +22,7 @@ export class LyricsViewerComponent {
 
     private readonly scroller = viewChild<ElementRef<HTMLDivElement>>('scoller');
     private readonly innerItems = viewChildren<ElementRef<HTMLDivElement>>('innerItem');
-    public items: ILyricsItem[] = [];
+    public readonly items = signal<ILyricsItem[]>([]);
     public readonly value = model('');
     public readonly height = input(200);
     public readonly width = input(0);
@@ -34,7 +34,7 @@ export class LyricsViewerComponent {
     constructor() {
         effect(() => {
             this.valueSrc = '';
-            this.items = this.format(this.value(), this.duration());
+            this.items.set(this.format(this.value(), this.duration()));
         });
         effect(() => {
             this.currentTime();
@@ -48,7 +48,7 @@ export class LyricsViewerComponent {
                 next: res => {
                     this.valueSrc = src;
                     this.value.set(res);
-                    this.items = this.format(this.value(), this.duration());
+                    this.items.set(this.format(this.value(), this.duration()));
                 },
                 error: err => {
                     // TODO

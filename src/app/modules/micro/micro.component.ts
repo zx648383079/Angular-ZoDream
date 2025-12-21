@@ -32,9 +32,9 @@ export class MicroComponent implements OnInit, OnDestroy {
     private readonly themeService = inject(ThemeService);
 
 
-    public items: IMicro[] = [];
-    public hasMore = true;
-    public isLoading = false;
+    public readonly items = signal<IMicro[]>([]);
+    public readonly hasMore = signal(true);
+    public readonly isLoading = signal(false);
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
@@ -69,7 +69,7 @@ export class MicroComponent implements OnInit, OnDestroy {
             value: 'hot',
         }
     ];
-    private subItems = new Subscription();
+    private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `Micro Blog`);
@@ -245,8 +245,10 @@ export class MicroComponent implements OnInit, OnDestroy {
                         return;
                     }
                     this.toastrService.success($localize `successfully deleted! `);
-                    this.items = this.items.filter(it => {
-                        return it.id !== item.id;
+                    this.items.update(v => {
+                        return v.filter(it => {
+                            return it.id !== item.id;
+                        });
                     });
                 },
                 error: err => {
@@ -275,22 +277,22 @@ export class MicroComponent implements OnInit, OnDestroy {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.getList(queries).subscribe({
             next: res => {
-                this.hasMore = res.paging.more;
-                this.isLoading = false;
+                this.hasMore.set(res.paging.more);
+                this.isLoading.set(false);
                 res.data = res.data.map(i => {
                     i.comment_open = false;
                     return i;
                 })
-                this.items = page < 2 ? res.data : [].concat(this.items, res.data);
+                this.items.set(page < 2 ? res.data : [].concat(this.items, res.data));
                 this.queries().value.set(queries);
             this.searchService.applyHistory(queries, false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

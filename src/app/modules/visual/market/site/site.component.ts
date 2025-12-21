@@ -19,10 +19,10 @@ export class SiteComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: ISite[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<ISite[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
@@ -72,19 +72,19 @@ export class SiteComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.searchSite({...queries}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.total = res.paging.total;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.total.set(res.paging.total);
+                this.items.set(res.data);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

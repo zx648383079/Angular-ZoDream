@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
 
 @Component({
@@ -11,12 +11,12 @@ export class PrizeComponent implements IGameScene {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
-    public items: any[] = [
+    public readonly items = signal<any[]>([
         {is_open: false},
         {is_open: false}
-    ];
+    ]);
     public modalVisible = false;
-    public isLoading = false;
+    public readonly isLoading = signal(false);
     public lotterying = false;
     public isConfirmed = false;
 
@@ -37,7 +37,7 @@ export class PrizeComponent implements IGameScene {
             return;
         }
         let count = 0;
-        for (const item of this.items) {
+        for (const item of this.items()) {
             if (!item.is_open) {
                 count ++;
             }
@@ -60,25 +60,26 @@ export class PrizeComponent implements IGameScene {
             });
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.router.request(GameCommand.PrizeOwn).subscribe({
             next: res => {
-                this.isLoading = false;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.items.set(res.data);
             },
             error: err => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.lotterying = false;
-                this.items = [];
+                this.items.set([]);
                 this.router.toast(err);
             }
         });
-        this.items = [];
+        const items = [];
         for (let i = 0; i < count; i++) {
-            this.items.push({
+            items.push({
                 is_open: false
             });
         }
+        this.items.set(items);
         this.lotterying = true;
     }
 }

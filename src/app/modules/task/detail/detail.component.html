@@ -7,13 +7,13 @@
         <div class="timer-desc">{{ current.description }}</div>
     </div>
 
-    @if (items.length > 0) {
+    @if (items().length > 0) {
     <div class="expand-box" [class]="{'open': expanded}">
         <div class="expand-header" (click)="expanded = !expanded">
             <i class="iconfont icon-chevron-down"></i>
         </div>
         <div class="expand-body">
-            @for (item of items; track $index) {
+            @for (item of items(); track $index) {
                 <div class="task-item" [class]="{finished: item.status < 5}">
                 <div class="name">{{ item.name }}</div>
                 <div class="desc">{{ item.description }}</div>

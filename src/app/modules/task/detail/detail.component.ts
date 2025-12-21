@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { ThemeService } from '../../../theme/services';
@@ -29,7 +29,7 @@ export class DetailComponent implements OnInit {
 
     public data: ITaskDay;
     public current: ITask;
-    public items: ITask[] = [];
+    public readonly items = signal<ITask[]>([]);
     public expanded = false;
 
     ngOnInit() {
@@ -41,7 +41,7 @@ export class DetailComponent implements OnInit {
                 this.data = res;
                 this.current = res.task;
                 if (res.task && res.task.children) {
-                    this.items = res.task.children;
+                    this.items.set(res.task.children);
                 }
                 if (res.log && res.status === 9) {
                     this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Collapse);

@@ -27,10 +27,10 @@ export class UserPickerComponent implements FormValueControl<IUser> {
         page: 1,
         per_page: 20
     });
-    public items: IUser[] = [];
-    public hasMore = false;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IUser[]>([]);
+    private hasMore = false;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
 
 
     @HostListener('document:click', ['$event'])
@@ -76,18 +76,18 @@ export class UserPickerComponent implements FormValueControl<IUser> {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries(), page};
         this.http.get<IPage<IUser>>('auth/admin/user/search', {params: queries}).subscribe({
             next: res => {
-                this.isLoading = false;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.queries.set(queries);
             },
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

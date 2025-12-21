@@ -5,9 +5,9 @@ import { IDocApi, IDocPage, IProject } from '../model';
 
 @Component({
     standalone: false,
-  selector: 'app-project',
-  templateUrl: './project.component.html',
-  styleUrls: ['./project.component.scss']
+    selector: 'app-project',
+    templateUrl: './project.component.html',
+    styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
     private readonly service = inject(DocumentService);

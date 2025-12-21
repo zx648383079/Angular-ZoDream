@@ -38,10 +38,10 @@ export class SearchComponent implements OnInit {
     public readonly queryForm = form(signal({
         keywords: '',
     }));
-    public items: ISoftware[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<ISoftware[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public filterItems: IFilter[] = [];
     public viewTable = true;
 
@@ -198,22 +198,22 @@ export class SearchComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries(), page};
         this.service.appList({...queries, filter: this.filterItems.length < 1}).subscribe({
             next: res => {
-                this.items = res.data;
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries.set(queries);
-                this.isLoading = false;
+                this.isLoading.set(false);
                 if (res.filter) {
                     this.filterItems = res.filter;
                 }
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

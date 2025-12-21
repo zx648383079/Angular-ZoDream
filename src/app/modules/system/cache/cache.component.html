@@ -8,7 +8,7 @@
         <div class="input-group-control">
             <label for="store_">缓存区</label>
             <div>
-                @for (item of items; track $index) {
+                @for (item of items(); track $index) {
                     <span class="check-label" [class]="{checked: item.checked}" (click)="item.checked = !item.checked">
                         <label>{{ item.name }}</label>
                     </span>

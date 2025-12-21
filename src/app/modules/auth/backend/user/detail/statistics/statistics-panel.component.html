@@ -1,4 +1,4 @@
-@for (item of items; track $index) {
+@for (item of items(); track $index) {
     <a class="line-group-item" (click)="tapItem(item)" title="点击查看详情">
         <div class="item-header">{{ item.name }}：</div>
         <div class="item-body">

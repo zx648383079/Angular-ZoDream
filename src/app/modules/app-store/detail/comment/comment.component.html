@@ -25,7 +25,7 @@
         </div>
         
         
-       @for (item of items; track $index) {
+       @for (item of items(); track $index) {
          <div class="comment-item">
             <article class="comment">
                 <div class="comment-author">
@@ -73,7 +73,7 @@
        }
 
 
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+        <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>

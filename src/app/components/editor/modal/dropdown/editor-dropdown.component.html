@@ -1,6 +1,6 @@
 <div class="editor-modal-box" [class]="{'modal-visible': visible}" [style]="modalStyle">
     <ul class="option-bar">
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
             <li [class]="{active: item.value == selected}" [style]="item.style" (click)="tapConfirm(item)">{{ item.name }}</li>
         }
     </ul>

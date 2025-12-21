@@ -31,7 +31,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (item of items; track $index) {
+                @for (item of items(); track $index) {
                     <tr>
                     <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
@@ -55,7 +55,7 @@
                 
             </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
     </div>
   </div>
 
@@ -69,9 +69,9 @@
             <i class="iconfont icon-plus"></i>
         </a>
     </div>
-    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+    <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
     <app-swipe-list-control>
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
             <app-swipe-control>
             <div class="line-row-item --with-icon">
                 <div class="item-icon">

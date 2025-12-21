@@ -1,6 +1,6 @@
-import { Component, input, model } from '@angular/core';
+import { Component, input, model, signal } from '@angular/core';
 import { IMediaFile, PlayerEvent, PlayerListeners } from '../model';
-import { assetUri } from '../../../../theme/utils';
+import { assetUri, findIndex } from '../../../../theme/utils';
 
 @Component({
     standalone: false,
@@ -10,7 +10,7 @@ import { assetUri } from '../../../../theme/utils';
 })
 export class ImagePlayerComponent implements PlayerEvent {
 
-    public items: IMediaFile[] = [];
+    public readonly items = signal<IMediaFile[]>([]);
     public index = -1;
     public data: IMediaFile;
     public readonly visible = model(false);
@@ -66,22 +66,21 @@ export class ImagePlayerComponent implements PlayerEvent {
         
     }
     public stop(): void {
-        this.items = [];
+        this.items.set([]);
         this.index = -1;
         this.data = undefined;
     }
     public push(...items: IMediaFile[]): void {
-        for (const item of items) {
-            if (this.indexOf(item) >= 0) {
-                continue;
-            }
-            this.items.push(item);
-        }
+        this.items.update(v => {
+            const next = items.filter(i => findIndex(v, j => j.source == i.source) < 0);
+            return [...v, ...next];
+        });
     }
 
     public indexOf(item: IMediaFile): number {
-        for (let i = this.items.length - 1; i >= 0; i--) {
-            if (this.items[i].source === item.source) {
+        const items = this.items();
+        for (let i = items.length - 1; i >= 0; i--) {
+            if (items[i].source === item.source) {
                 return i;
             }
         }

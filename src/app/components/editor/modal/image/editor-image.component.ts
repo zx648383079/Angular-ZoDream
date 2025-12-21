@@ -1,26 +1,26 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { FileUploadService } from '../../../../theme/services';
 import { EditorModalCallback, IEditorModal } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-editor-image',
-  templateUrl: './editor-image.component.html',
-  styleUrls: ['./editor-image.component.scss']
+    selector: 'app-editor-image',
+    templateUrl: './editor-image.component.html',
+    styleUrls: ['./editor-image.component.scss']
 })
 export class EditorImageComponent implements IEditorModal {
     private readonly uploadService = inject(FileUploadService);
 
 
-    public visible = false;
+    public readonly visible = signal(false);
     public fileName = this.uploadService.uniqueGuid();
     public tabIndex = 0;
     public url = '';
-    public isLoading = false;
+    public readonly isLoading = signal(false);
     private confirmFn: EditorModalCallback;
 
     public open(data: any, cb: EditorModalCallback) {
-        this.visible = true;
+        this.visible.set(true);
         this.confirmFn = cb;
     }
 
@@ -39,10 +39,10 @@ export class EditorImageComponent implements IEditorModal {
         if (files.length < 1) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.uploadService.uploadImage(files[0]).subscribe({
             next: res => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.url = res.url;
                 this.output({
                     value: res.url,
@@ -50,7 +50,7 @@ export class EditorImageComponent implements IEditorModal {
                 });
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         })
     }
@@ -62,7 +62,7 @@ export class EditorImageComponent implements IEditorModal {
     }
 
     private output(data: any) {
-        this.visible = false;
+        this.visible.set(false);
         if (this.confirmFn) {
             this.confirmFn(data);
         }

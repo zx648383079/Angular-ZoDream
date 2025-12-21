@@ -23,12 +23,14 @@ export class CommentViewerComponent {
     public readonly micro = input(0);
     public readonly auto = input(false);
     public readonly loadMore = output<void>();
-    public items: IComment[] = [];
-    public page = 1;
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
-    public perPage = 10;
+    public readonly items = signal<IComment[]>([]);
+    public readonly hasMore = signal(true);
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
+    public readonly queries = signal({
+        page: 1,
+        per_page: 20
+    });
     private booted = false;
 
     public readonly editForm = form(signal({
@@ -144,28 +146,31 @@ export class CommentViewerComponent {
             this.loadMore.emit();
             return;
         }
-        this.goPage(this.page + 1);
+        this.goPage(this.queries().page + 1);
     }
 
     public goPage(page: number) {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.commentList({
+            ...this.queries(),
             id: this.micro(),
             page
         }).subscribe({
             next: res => {
-                this.page = page;
-                this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.items = page < 2 ? res.data : [].concat(this.items, res.data);
-                this.total = res.paging.total;
-                this.perPage = res.paging.limit;
+                this.hasMore.set(res.paging.more);
+                this.isLoading.set(false);
+                this.items.set(page < 2 ? res.data : [].concat(this.items, res.data));
+                this.total.set(res.paging.total);
+                this.queries.update(v => {
+                    v.page = page;
+                    return v;
+                });
             }, 
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

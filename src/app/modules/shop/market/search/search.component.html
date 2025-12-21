@@ -51,7 +51,7 @@
               </div>
           </div>
           <div class="row">
-            @for (item of items; track $index) {
+            @for (item of items(); track $index) {
                 <div class="col-lg-3 col-md-4 col-6">
                     <a class="goods-item item-hover" [routerLink]="'../goods/' + item.id">
                         <div class="thumb">
@@ -66,8 +66,8 @@
                 </div>
             }
           </div>
-          <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+          <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
       </div>
 
   </div>

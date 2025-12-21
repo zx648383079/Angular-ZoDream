@@ -68,7 +68,7 @@ export class RegisterComponent implements OnDestroy {
             return null;
         });
     });
-    private subItems = new Subscription();
+    private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `Sign up`);

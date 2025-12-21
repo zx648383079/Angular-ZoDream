@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
@@ -27,7 +27,7 @@ export class PreviewComponent implements OnInit {
 
 
     public data: IResource;
-    public isLoading = false;
+    public readonly isLoading = signal(false);
     public previewSrc: SafeResourceUrl;
     public resizeItems: ISizeItem[] = [
         {name: '全屏'},
@@ -60,16 +60,16 @@ export class PreviewComponent implements OnInit {
     }
 
     private load(id: any) {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.resourcePreview(id).subscribe({
             next: res => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.themeService.titleChanged.next(res.title);
                 this.data = res;
                 this.previewSrc = this.sanitizer.bypassSecurityTrustResourceUrl(res.preview_url);
             },
             error: err => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.data = undefined;
                 this.toastrService.error(err)
                 history.back();

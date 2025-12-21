@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DialogPackage } from '../dialog.injector';
 import { DialogService } from '../dialog.service';
 import { DialogConfirmOption } from '../model';
@@ -19,7 +19,7 @@ export class DialogConfirmComponent {
     public content = '';
     public confirmText = '';
     public cancelText = '';
-    public visible = true;
+    public readonly visible = signal(true);
 
     constructor() {
         const data = this.data;
@@ -33,7 +33,7 @@ export class DialogConfirmComponent {
     }
 
     public close(result?: boolean) {
-        this.visible = false;
+        this.visible.set(false);
         const option = this.data.data;
         if (result) {
             option.onConfirm && option.onConfirm();

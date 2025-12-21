@@ -1,32 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { EditorModalCallback, IEditorModal } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-editor-size',
-  templateUrl: './editor-size.component.html',
-  styleUrls: ['./editor-size.component.scss']
+    selector: 'app-editor-size',
+    templateUrl: './editor-size.component.html',
+    styleUrls: ['./editor-size.component.scss']
 })
 export class EditorSizeComponent implements IEditorModal {
 
-    public visible = false;
+    public readonly visible = signal(false);
     public width = '';
     public height = '';
     private confirmFn: EditorModalCallback;
-
-    constructor() { }
 
     public tapBack() {
         
     }
 
     public open(data: any, cb: EditorModalCallback) {
-        this.visible = true;
+        this.visible.set(true);
         this.confirmFn = cb;
     }
 
     public tapConfirm() {
-        this.visible = false;
+        this.visible.set(false);
         if (this.confirmFn) {
             this.confirmFn({
                 height: this.height,

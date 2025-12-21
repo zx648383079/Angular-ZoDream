@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { emptyValidate } from '../../../../../theme/validators';
 import { ICateringStaffRole } from '../../../model';
 
@@ -25,10 +25,10 @@ export class RoleDialogComponent {
     /**
      * 是否显示
      */
-    public visible = false;
+    public readonly visible = signal(false);
     public data: ICateringStaffRole = {name: ''} as any;
-    public isChecked = false;
-    public items: IRoleGroup[] = [
+    public readonly isChecked = signal(false);
+    public readonly items = signal<IRoleGroup[]>([
         {
             name: '订单管理',
             items: [
@@ -51,7 +51,7 @@ export class RoleDialogComponent {
                 {name: '分组管理', value: 'patron_group'},
             ]
         },
-    ];
+    ]);
     private confirmFn: DialogConfirmFn;
 
     public open(confirm: DialogConfirmFn): void;
@@ -64,14 +64,14 @@ export class RoleDialogComponent {
             this.applyRole(data.action);
             this.confirmFn = confirm;
         }
-        this.visible = true;
+        this.visible.set(true);
     }
 
     public close(yes = false) {
         if (yes && emptyValidate(this.data.name)) {
             return;
         }
-        this.visible = false;
+        this.visible.set(false);
         if (yes && this.confirmFn) {
             this.data.action = this.formatRole();
             this.confirmFn(this.data);
@@ -80,12 +80,16 @@ export class RoleDialogComponent {
 
     public toggleCheck(item?: IRoleGroup, kid?: any) {
         if (!item) {
-            this.isChecked = !this.isChecked;
-            this.items.forEach(i => {
-                i.items.forEach(j => {
-                    j.checked = this.isChecked;
-                });
-                i.checked = this.isChecked;
+            this.isChecked.update(v => !v);
+            const isChecked = this.isChecked();
+            this.items.update(v => {
+                return v.map(i => {
+                    i.items.forEach(j => {
+                        j.checked = isChecked;
+                    });
+                    i.checked = isChecked;
+                    return i;
+                })
             });
             return;
         }
@@ -98,12 +102,12 @@ export class RoleDialogComponent {
             kid.checked = !kid.checked;
             item.checked = this.isCheckedAll(item.items);
         }
-        this.isChecked = this.isCheckedAll(this.items);
+        this.isChecked.set(this.isCheckedAll(this.items()));
     }
 
     private formatRole() {
         const items = [];
-        for (const item of this.items) {
+        for (const item of this.items()) {
             for (const it of item.items) {
                 if (it.checked) {
                     items.push(it.value);
@@ -119,14 +123,16 @@ export class RoleDialogComponent {
         } else if (typeof role !== 'object') {
             role = role.split(',');
         }
-        this.items = this.items.map(item => {
-            const items = item.items.map(i => {
-                i.checked = role.indexOf(i.value.toString()) >= 0;
-                return i;
+        this.items.update(v => {
+            return v.map(item => {
+                const items = item.items.map(i => {
+                    i.checked = role.indexOf(i.value.toString()) >= 0;
+                    return i;
+                });
+                return {...item, items, checked: this.isCheckedAll(items)};
             });
-            return {...item, items, checked: this.isCheckedAll(items)};
         });
-        this.isChecked = this.isCheckedAll(this.items);
+        this.isChecked.set(this.isCheckedAll(this.items()));
     }
 
     private isCheckedAll(items: any[]): boolean {

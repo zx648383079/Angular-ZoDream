@@ -24,10 +24,10 @@ export class MusicComponent implements OnInit {
 
     public readonly player = viewChild(MusicPlayerComponent);
 
-    public items: IMusic[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IMusic[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
@@ -62,7 +62,7 @@ export class MusicComponent implements OnInit {
 
     public tapRefresh() {
         this.service.musicList({}).subscribe(res => {
-            this.items = res.data;
+            this.items.set(res.data);
         });
     }
 
@@ -88,19 +88,19 @@ export class MusicComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.musicList(queries).subscribe({
             next: res => {
-                this.items = res.data;
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
-                this.isLoading = false;
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

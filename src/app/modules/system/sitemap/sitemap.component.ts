@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, inject, viewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, inject, viewChild, signal } from '@angular/core';
 import { SystemService } from '../system.service';
 import { ButtonEvent } from '../../../components/form';
 
@@ -14,7 +14,7 @@ export class SitemapComponent implements OnInit {
 
     private readonly box = viewChild<ElementRef<HTMLDivElement>>('cmd');
 
-    public items: any[] = [];
+    public readonly items = signal<any[]>([]);
 
     ngOnInit() {
     }
@@ -23,7 +23,7 @@ export class SitemapComponent implements OnInit {
     * tapMake
     */
     public tapMake(e?: ButtonEvent) {
-        this.items = [];
+        this.items.set([]);
         e?.enter();
         this.service.sitemap().subscribe({
             next: res => {
@@ -42,12 +42,15 @@ export class SitemapComponent implements OnInit {
     public renderCMD(lines: any[]) {
         let i = 0;
         const handle = setInterval(() => {
-                if (i >= lines.length) {
-                    clearInterval(handle);
-                } else {
-                    this.items.push(lines[i ++]);
-                }
-                this.box().nativeElement.scrollTop = this.box().nativeElement.scrollHeight;
+            if (i >= lines.length) {
+                clearInterval(handle);
+            } else {
+                this.items.update(v => {
+                    v.push(lines[i ++]);
+                    return v;
+                });
+            }
+            this.box().nativeElement.scrollTop = this.box().nativeElement.scrollHeight;
         }, Math.max(16, Math.floor(Math.min(lines.length * 100, 10000) / lines.length)));
     }
 

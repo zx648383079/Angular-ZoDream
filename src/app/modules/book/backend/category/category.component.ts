@@ -1,23 +1,22 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ICategory } from '../../model';
-import { emptyValidate } from '../../../../theme/validators';
 import { BookService } from '../book.service';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-category',
-  templateUrl: './category.component.html',
-  styleUrls: ['./category.component.scss']
+    selector: 'app-category',
+    templateUrl: './category.component.html',
+    styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
     private readonly service = inject(BookService);
     private readonly toastrService = inject(DialogService);
 
 
-    public items: ICategory[] = [];
-    public isLoading = false;
+    public readonly items = signal<ICategory[]>([]);
+    public readonly isLoading = signal(false);
     public readonly editForm = form(signal<ICategory>({
         id: 0,
         name: '',
@@ -44,14 +43,14 @@ export class CategoryComponent implements OnInit {
     }
 
     public tapRefresh() {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.categoryList().subscribe({
             next: res => {
-                this.items = res.data;
-                this.isLoading = false;
+                this.items.set(res.data);
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -63,8 +62,10 @@ export class CategoryComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         });

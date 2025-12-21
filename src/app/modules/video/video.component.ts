@@ -23,10 +23,10 @@ export class VideoComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: IVideo[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IVideo[]>([]);
+    public readonly hasMore = signal(true);
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public isFixed = false;
     public readonly queries = form(signal<IPageQueries>({
         keywords: '',
@@ -86,19 +86,19 @@ export class VideoComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.videoList(queries).subscribe({
             next: res => {
-                this.isLoading = false;
-                this.items = res.data;
-                this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.isLoading.set(false);
+                this.items.set(res.data);
+                this.hasMore.set(res.paging.more);
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

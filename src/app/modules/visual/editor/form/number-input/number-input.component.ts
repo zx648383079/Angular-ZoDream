@@ -1,4 +1,4 @@
-import { Component, HostBinding, input, model } from '@angular/core';
+import { Component, HostBinding, input, model, signal } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
@@ -15,7 +15,7 @@ export class EditorNumberInputComponent implements FormValueControl<string> {
     public readonly label = input('');
 
     public unit = 'px';
-    public visible = false;
+    public readonly visible = signal(false);
     public unitItems: string[] = ['px', 'em', 'rem', 'vh', 'vw', '%', 'auto', 'none'];
     public readonly disabled = input<boolean>(false);
     public readonly value = model<string>('');
@@ -25,9 +25,13 @@ export class EditorNumberInputComponent implements FormValueControl<string> {
         return this.visible ? 'select-focus' : '';
     }
 
+    public toggle() {
+        this.visible.update(v => !v);
+    }
+
     public tapSelectedUnit(item: string) {
         this.unit = item;
-        this.visible = false;
+        this.visible.set(false);
     }
 
 }

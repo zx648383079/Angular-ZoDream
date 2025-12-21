@@ -1,19 +1,19 @@
-import { Component, HostListener, OnInit, inject } from '@angular/core';
+import { Component, HostListener, OnInit, inject, signal } from '@angular/core';
 import { ICategory, IMovie } from '../model';
 import { TvService } from '../tv.service';
 
 @Component({
     standalone: false,
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
     private readonly service = inject(TvService);
 
 
-    public items: IMovie[] = [];
-    public categories: ICategory[] = [];
+    public readonly items = signal<IMovie[]>([]);
+    public readonly categories = signal<ICategory[]>([]);
 
     @HostListener('keydown', ['$event'])
     public onKeyDown(e: KeyboardEvent) {
@@ -24,10 +24,10 @@ export class HomeComponent implements OnInit {
 
     ngOnInit() {
         this.service.categoryList({}).subscribe(res => {
-            this.categories = res.data;
+            this.categories.set(res.data);
         });
         this.service.movieList({}).subscribe(res => {
-            this.items = res.data;
+            this.items.set(res.data);
         });
     }
 

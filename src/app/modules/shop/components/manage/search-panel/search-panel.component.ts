@@ -1,4 +1,4 @@
-import { Component, inject, output } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { IGoods, IProduct } from '../../../model';
 import { HttpClient } from '@angular/common/http';
 import { IPage } from '../../../../../theme/models/page';
@@ -14,7 +14,7 @@ export class SearchPanelComponent {
 
 
     public keywords = '';
-    public items: IGoods[] = [];
+    public readonly items = signal<IGoods[]>([]);
     public children: IProduct[] = [];
     public selected: IGoods;
     public selectedChild: IProduct;
@@ -38,7 +38,7 @@ export class SearchPanelComponent {
         this.search({
             keywords: this.keywords
         }).subscribe(res => {
-            this.items = res.data;
+            this.items.set(res.data);
         });
     }
 

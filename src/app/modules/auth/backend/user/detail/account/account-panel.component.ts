@@ -19,10 +19,10 @@ export class AccountPanelComponent {
 
     public readonly itemId = input(0);
     public readonly init = input(false);
-    public items: IAccountLog[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IAccountLog[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
@@ -78,18 +78,18 @@ export class AccountPanelComponent {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.accountLogList({...queries, user: this.itemId()}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.total = res.paging.total;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.total.set(res.paging.total);
+                this.items.set(res.data);
                 this.queries().value.set(queries);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

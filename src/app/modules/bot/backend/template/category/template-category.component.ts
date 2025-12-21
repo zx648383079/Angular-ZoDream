@@ -16,8 +16,8 @@ export class TemplateCategoryComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
 
 
-    public items: IBotTemplateCategory[] = [];
-    public isLoading = false;
+    public readonly items = signal<IBotTemplateCategory[]>([]);
+    public readonly isLoading = signal(false);
     public readonly editForm = form(signal({
         id: 0,
         name: '',
@@ -32,16 +32,16 @@ export class TemplateCategoryComponent implements OnInit {
     }
 
     public tapRefresh() {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.batch({
             template_category: {}
         }).subscribe({
             next: res => {
-                this.items = res.template_category;
-                this.isLoading = false;
+                this.items.set(res.template_category);
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -51,7 +51,7 @@ export class TemplateCategoryComponent implements OnInit {
             v.name = item?.name ?? '';
             return v;
         });
-        this.filterItems = item ? filterTree(this.items, item.id) : this.items;
+        this.filterItems = item ? filterTree(this.items(), item.id) : this.items();
         modal.open(() => {
             this.service.categorySave(this.editForm().value()).subscribe({
                 next: _ => {
@@ -72,8 +72,10 @@ export class TemplateCategoryComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         });

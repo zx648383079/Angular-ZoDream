@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, signal, viewChild } from '@angular/core';
 import { IFileDataSource, IFileExplorerTool, IFileItem } from '../../model';
 import { assetUri } from '../../../../theme/utils';
 import { Canvas } from './Canvas';
@@ -15,9 +15,9 @@ import { ISize } from '../../../../theme/utils/canvas';
 export class FileExplorerImageEditorComponent implements IFileExplorerTool, AfterViewInit {
 
     private readonly imageBox = viewChild<ElementRef<HTMLDivElement>>('imageBox');
-    public visible = false;
+    public readonly visible = signal(false);
     public data: IFileItem;
-    public isLoading = false;
+    public readonly isLoading = signal(false);
     public isEditting = false;
     public toolItems = ImageActionItems;
     private resizeFn: Function;
@@ -57,25 +57,25 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool, Afte
     public open(file: IFileItem, source: IFileDataSource) {
         this.dataSource = source;
         this.dataIndex = source.indexOf(file);
-        this.visible = true;
+        this.visible.set(true);
         this.changeFile(file);
     }
 
     public close() {
-        this.visible = false;
+        this.visible.set(false);
     }
 
     public tapPrevious() {
         this.dataIndex --;
         if (this.dataIndex < 0) {
-            this.dataIndex += this.dataSource.count;
+            this.dataIndex += this.dataSource.count();
         }
         this.changeFile(this.dataSource.getAt(this.dataIndex));
     }
 
     public tapNext() {
         this.dataIndex ++;
-        if (this.dataIndex >= this.dataSource.count) {
+        if (this.dataIndex >= this.dataSource.count()) {
             this.dataIndex = 0;
         }
         this.changeFile(this.dataSource.getAt(this.dataIndex));
@@ -124,11 +124,11 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool, Afte
 
     private loadImage(src: string): Subject<HTMLImageElement> {
         const task = new Subject<HTMLImageElement>();
-        this.isLoading = true;
+        this.isLoading.set(true);
         const loader = new Image();
         loader.src = assetUri(src);
         loader.onload = () => {
-            this.isLoading = false;
+            this.isLoading.set(false);
             task.next(loader);
         };
         loader.onerror = (_, __, ___, ____, err) => {

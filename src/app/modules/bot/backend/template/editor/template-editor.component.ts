@@ -24,9 +24,9 @@ export class TemplateEditorComponent implements FormValueControl<string> {
     public readonly value = model<string>('');
     public typeItems: IItem[] = [];
     public templateItems: IBotTemplate[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly hasMore = signal(true);
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         type: 0,
         keywords: '',
@@ -71,7 +71,7 @@ export class TemplateEditorComponent implements FormValueControl<string> {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.templateList(queries).subscribe({
             next: res => {
@@ -79,13 +79,13 @@ export class TemplateEditorComponent implements FormValueControl<string> {
                     i.html = this.sanitizer.bypassSecurityTrustHtml(i.content);
                     return i;
                 });
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.templateItems = page < 2 ? items : [].concat(this.templateItems, items);
-                this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.hasMore.set(res.paging.more);
+                this.total.set(res.paging.total);
             },
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

@@ -6,9 +6,9 @@ import { ShopService } from '../../../shop.service';
 
 @Component({
     standalone: false,
-  selector: 'app-order-detail',
-  templateUrl: './order-detail.component.html',
-  styleUrls: ['./order-detail.component.scss']
+    selector: 'app-order-detail',
+    templateUrl: './order-detail.component.html',
+    styleUrls: ['./order-detail.component.scss']
 })
 export class OrderDetailComponent implements OnInit {
     private readonly service = inject(ShopService);

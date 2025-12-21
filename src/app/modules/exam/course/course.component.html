@@ -22,7 +22,7 @@
         <h1>{{ data.name }}</h1>
         <h2>{{ data.description }}</h2>
     </div>
-    @for (group of items; track $index) {
+    @for (group of items(); track $index) {
     <div class="exam-group">
         <div class="group-header">
             <a routerLink="{{ group.id }}">{{ group.name }}</a>

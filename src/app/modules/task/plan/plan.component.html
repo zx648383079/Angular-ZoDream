@@ -22,7 +22,7 @@
 
     <div class="plan-box">
         @if (queries.type().value() < 1) {
-            @for (item of items; track $index) {
+            @for (item of items(); track $index) {
                 <div class="task-item">
                 <div class="name">{{ item.task.name }}</div>
                 <div class="desc">{{ item.task.description }}</div>
@@ -39,14 +39,14 @@
         @if (queries.type().value() == 1) {
             <div class="week-box">
                 <div class="week-header">
-                    @for (item of weekItems; track $index) {
+                    @for (item of weekItems(); track $index) {
                         <section>
                             {{ item.label }}
                         </section>
                     }
                 </div>
                 <div class="week-body">
-                    @for (item of weekItems; track item.label) {
+                    @for (item of weekItems(); track item.label) {
                         @for (it of item.items; track $index) {
                             <div class="task-item" [style]="it.style" [title]="it.task.name">
                                 <div class="name">{{ it.task.name }}</div>
@@ -62,7 +62,7 @@
         }
         @if (queries.type().value() == 2) {
             <div class="month-box">
-                @for (item of monthItems; track item.label) {
+                @for (item of monthItems(); track item.label) {
                     <div class="day-item">
                     <span class="day-label">{{ item.label }}</span>
                     <ul class="day-box">

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, OnInit, inject, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IDataOne } from '../../../theme/models/page';
 import { DialogService } from '../../../components/dialog';
@@ -19,7 +19,7 @@ export class PreviewComponent implements OnInit, AfterViewInit {
 
     private readonly frame = viewChild<ElementRef<HTMLIFrameElement>>('browser');
 
-    public isLoading = true;
+    public readonly isLoading = signal(true);
     public navToggle = 1;
     private isReady = false;
     private readyFn: (frame: HTMLIFrameElement) => void;
@@ -55,7 +55,7 @@ export class PreviewComponent implements OnInit, AfterViewInit {
         }
         this.isReady = true;
         frame.onload = () => {
-            this.isLoading = false;
+            this.isLoading.set(false);
         };
         this.readyFn && this.readyFn(frame);
     }

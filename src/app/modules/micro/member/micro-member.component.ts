@@ -9,9 +9,9 @@ import { SearchService } from '../../../theme/services';
 
 @Component({
     standalone: false,
-  selector: 'app-micro-member',
-  templateUrl: './micro-member.component.html',
-  styleUrls: ['./micro-member.component.scss']
+    selector: 'app-micro-member',
+    templateUrl: './micro-member.component.html',
+    styleUrls: ['./micro-member.component.scss']
 })
 export class MicroMemberComponent implements OnInit {
     private readonly service = inject(MicroService);
@@ -20,15 +20,15 @@ export class MicroMemberComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: IMicro[] = [];
+    public readonly items = signal<IMicro[]>([]);
     public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
         per_page: 20,
     }));
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
 
     ngOnInit() {
         this.route.queryParams.subscribe(res => {
@@ -56,19 +56,19 @@ export class MicroMemberComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.microList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.items = res.data;
-                this.total = res.paging.total;
+                this.isLoading.set(false);
+                this.items.set(res.data);
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -89,8 +89,10 @@ export class MicroMemberComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         });

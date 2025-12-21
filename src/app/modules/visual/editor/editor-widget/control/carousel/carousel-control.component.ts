@@ -3,14 +3,12 @@ import { Widget } from '../../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-carousel-control',
-  templateUrl: './carousel-control.component.html',
-  styleUrls: ['./carousel-control.component.scss']
+    selector: 'app-carousel-control',
+    templateUrl: './carousel-control.component.html',
+    styleUrls: ['./carousel-control.component.scss']
 })
 export class CarouselControlComponent {
 
     public readonly value = input<Widget>(undefined);
-
-    constructor() { }
 
 }

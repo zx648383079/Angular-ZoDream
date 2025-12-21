@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import {
     ActivatedRoute,
     Router
@@ -22,12 +22,14 @@ export class SearchComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
 
 
-    public items: IBook[] = [];
-    public page = 1;
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
-    public perPage = 20;
+    public readonly items = signal<IBook[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
+    public readonly queries = signal({
+        page: 1,
+        per_page: 20
+    });
 
     ngOnInit() {
         this.tapRefresh();
@@ -45,27 +47,30 @@ export class SearchComponent implements OnInit {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.page + 1);
+        this.goPage(this.queries().page + 1);
     }
 
     public goPage(page: number) {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.getBookList({
+            ...this.queries(),
             page
         }).subscribe({
             next: res => {
-                this.page = page;
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.items = res.data;
-                this.total = res.paging.total;
-                this.perPage = res.paging.limit;
+                this.isLoading.set(false);
+                this.items.set(res.data);
+                this.total.set(res.paging.total);
+                this.queries.update(v => {
+                    v.page = page;
+                    return v;
+                });
             }, 
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

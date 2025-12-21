@@ -3,9 +3,9 @@ import { EditorService } from './editor.service';
 
 @Component({
     standalone: false,
-  selector: 'app-visual-editor',
-  templateUrl: './visual-editor.component.html',
-  styleUrls: ['./visual-editor.component.scss']
+    selector: 'app-visual-editor',
+    templateUrl: './visual-editor.component.html',
+    styleUrls: ['./visual-editor.component.scss']
 })
 export class VisualEditorComponent implements OnInit, AfterViewInit {
     private readonly service = inject(EditorService);

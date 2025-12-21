@@ -9,7 +9,7 @@
     <div class="flex-body">
         <div class="container-fluid">
             <div class="row">
-                @for (item of items; track $index) {
+                @for (item of items(); track $index) {
                     <div class="col-4 col-xl-2">
                     <div class="food-item" (click)="goodsModal.open()">
                         <div class="item-thumb">

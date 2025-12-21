@@ -237,17 +237,20 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
             data.start_time = this.nextTime;
         }
         this.isLoading = true;
-        this.service.send(data).subscribe((res: any) => {
-            this.messageItems = [].concat(this.messageItems, res.data);
-            this.nextTime = res.next_time;
-            if (!this.startTime) {
-                this.startTime = this.nextTime;
+        this.service.send(data).subscribe({
+            next: (res: any) => {
+                this.messageItems = [].concat(this.messageItems, res.data);
+                this.nextTime = res.next_time;
+                if (!this.startTime) {
+                    this.startTime = this.nextTime;
+                }
+                this.spaceTime = LOOP_SPACE_TIME;
+                this.isLoading = false;
+                this.startTimer();
+            }, 
+            error: _ => {
+                this.isLoading = false;
             }
-            this.spaceTime = LOOP_SPACE_TIME;
-            this.isLoading = false;
-            this.startTimer();
-        }, _ => {
-            this.isLoading = false;
         });
     }
 
@@ -278,19 +281,22 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
         this.service.messageList({
             session_id: this.session.id,
             start_time: this.nextTime,
-        }).subscribe((res: any) => {
-            if (res.data.length > 0) {
-                this.messageItems = [].concat(this.messageItems, res.data);
+        }).subscribe({
+            next: (res: any) => {
+                if (res.data.length > 0) {
+                    this.messageItems = [].concat(this.messageItems, res.data);
+                }
+                this.nextTime = res.next_time;
+                if (!this.startTime) {
+                    this.startTime = this.nextTime;
+                }
+                this.spaceTime = LOOP_SPACE_TIME;
+                this.isLoading = false;
+                this.startTimer();
+            }, 
+            error: _ => {
+                this.isLoading = false;
             }
-            this.nextTime = res.next_time;
-            if (!this.startTime) {
-                this.startTime = this.nextTime;
-            }
-            this.spaceTime = LOOP_SPACE_TIME;
-            this.isLoading = false;
-            this.startTimer();
-        }, _ => {
-            this.isLoading = false;
         });
     }
 

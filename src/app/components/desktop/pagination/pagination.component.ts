@@ -1,4 +1,4 @@
-import { Component, computed, effect, input, model } from '@angular/core';
+import { Component, computed, effect, input, model, signal } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
@@ -17,7 +17,7 @@ export class PaginationComponent implements FormValueControl<number> {
     public readonly directionLinks = input(false);
     public readonly goto = input(false);
 
-    public items: number[] = [];
+    public readonly items = signal<number[]>([]);
     private readonly realTotal = computed(() => {
         if (this.pageTotal() >= 0) {
             return this.pageTotal();
@@ -84,7 +84,7 @@ export class PaginationComponent implements FormValueControl<number> {
         const total = this.realTotal();
         const page = this.value();
         if (total < 2 && page === 1) {
-            this.items = [];
+            this.items.set([]);
             return;
         }
         const items = [];
@@ -112,7 +112,7 @@ export class PaginationComponent implements FormValueControl<number> {
         if (total > 1) {
             items.push(total);
         }
-        this.items = items;
+        this.items.set(items);
     }
 
 }

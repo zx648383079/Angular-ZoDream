@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FileUploadService } from '../../../../theme/services';
 import { EditorModalCallback, IEditorModal } from '../../model';
 
@@ -12,13 +12,13 @@ export class EditorFileComponent implements IEditorModal {
     private readonly uploadService = inject(FileUploadService);
 
 
-    public visible = false;
+    public readonly visible = signal(false);
     public fileName = this.uploadService.uniqueGuid();
-    public isLoading = false;
+    public readonly isLoading = signal(false);
     private confirmFn: EditorModalCallback;
 
     public open(data: any, cb: EditorModalCallback) {
-        this.visible = true;
+        this.visible.set(true);
         this.confirmFn = cb;
     }
 
@@ -37,19 +37,19 @@ export class EditorFileComponent implements IEditorModal {
         if (files.length < 1) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.uploadService.uploadFile(files[0]).subscribe({
             next: res => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.tapConfirm(res.url, res.original, res.size);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         })
     }
     public tapConfirm(value: string, title: string, size: number) {
-        this.visible = false;
+        this.visible.set(false);
         if (this.confirmFn) {
             this.confirmFn({
                 value,

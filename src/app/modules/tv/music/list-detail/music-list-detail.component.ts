@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { IMusic, IMusicList } from '../../model';
 
 @Component({
@@ -10,10 +10,8 @@ import { IMusic, IMusicList } from '../../model';
 export class MusicListDetailComponent implements OnInit {
 
     public data: IMusicList;
-    public isLoading = false;
-    public items: IMusic[];
-
-    constructor() { }
+    public readonly isLoading = signal(false);
+    public readonly items = signal<IMusic[]>([]);
 
     ngOnInit() {
     }

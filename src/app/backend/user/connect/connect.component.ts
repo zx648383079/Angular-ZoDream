@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { IConnect } from '../../../theme/models/auth';
 import { UserService } from '../user.service';
 
@@ -12,7 +12,7 @@ export class ConnectComponent implements OnInit {
     private readonly service = inject(UserService);
 
 
-    public items: IConnect[] = [];
+    public readonly items = signal<IConnect[]>([]);
 
     constructor() {
         this.tapRefresh();
@@ -23,7 +23,7 @@ export class ConnectComponent implements OnInit {
 
     public tapRefresh() {
         this.service.connect().subscribe(res => {
-            this.items = res;
+            this.items.set(res);
         });
     }
 }

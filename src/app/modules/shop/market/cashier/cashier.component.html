@@ -79,7 +79,7 @@
                <div class="auto-hide">实付</div>
             </div>
             <div class="panel-body">
-                @for (group of items; track $index) {
+                @for (group of items(); track $index) {
                     <div class="group-header">
                         <div class="name">
                             {{ group.name }}

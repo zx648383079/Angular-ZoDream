@@ -2,9 +2,9 @@ import { AfterViewInit, Component, ElementRef, input, output, viewChild } from '
 
 @Component({
     standalone: false,
-  selector: 'app-gua',
-  templateUrl: './gua.component.html',
-  styleUrls: ['./gua.component.scss']
+    selector: 'app-gua',
+    templateUrl: './gua.component.html',
+    styleUrls: ['./gua.component.scss']
 })
 export class GuaComponent implements AfterViewInit {
 

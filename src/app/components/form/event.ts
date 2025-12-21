@@ -1,3 +1,4 @@
+import { WritableSignal } from '@angular/core';
 import { IUploadResult } from '../../theme/models/open';
 import { IItem } from '../../theme/models/seo';
 
@@ -63,8 +64,8 @@ export interface IFormInput {
 }
 
 export interface FormPanelEvent {
-    set items(args: IFormInput[]);
-    get value(): any;
-    get valid(): boolean;
-    get invalid(): boolean;
+    get items(): WritableSignal<IFormInput[]>;
+    value(): any;
+    valid(): boolean;
+    invalid(): boolean;
 }

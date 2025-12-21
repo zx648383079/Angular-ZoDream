@@ -19,8 +19,8 @@ export class MovieAreaComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: IMovieArea[] = [];
-    public isLoading = false;
+    public readonly items = signal<IMovieArea[]>([]);
+    public readonly isLoading = signal(false);
     public readonly editForm = form(signal<IMovieArea>({
         id: 0,
         name: '',
@@ -36,14 +36,14 @@ export class MovieAreaComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.areaList().subscribe({
             next: res => {
-                this.items = res.data;
-                this.isLoading = false;
+                this.items.set(res.data);
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -74,8 +74,10 @@ export class MovieAreaComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         })

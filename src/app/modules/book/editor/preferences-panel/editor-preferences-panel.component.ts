@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { BookService } from '../book.service';
 
 @Component({
@@ -10,20 +10,21 @@ import { BookService } from '../book.service';
 export class EditorPreferencesPanelComponent {
     private readonly service = inject(BookService);
 
-    public visible = false;
+    public readonly visible = signal(false);
     public readonly targetId = input(0);
-    public subOpen = false;
-    public items: any[] = [];
+    public readonly subOpen = signal(false);
+    public readonly items = signal<any[]>([]);
     private booted = false;
 
     public open() {
-        this.visible = true;
+        this.visible.set(true);
     }
     public close() {
-        this.subOpen = this.visible = false
+        this.subOpen.set(false);
+        this.visible.set(false);
     }
 
     public tapAdd() {
-        this.subOpen = true;
+        this.subOpen.set(true);
     }
 }

@@ -1,4 +1,4 @@
-@if (visible) {
+@if (visible()) {
     <div class="dialog-message-box" animate.enter="--fade-opened" animate.leave="--fade-closed" (transitionend)="animationDone()" [style]="boxStyle">
         <div class="dialog-body" [class]="[theme, offset > 0 ? 'is-offset' : '']">
             @if (icon) {

@@ -7,9 +7,9 @@ import { IBotMedia } from '../model';
 
 @Component({
     standalone: false,
-  selector: 'app-bot-detail',
-  templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.scss']
+    selector: 'app-bot-detail',
+    templateUrl: './detail.component.html',
+    styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
     private readonly service = inject(BotService);

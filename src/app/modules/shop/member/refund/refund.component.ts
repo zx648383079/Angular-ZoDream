@@ -9,9 +9,9 @@ import { IOrderRefund } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-refund',
-  templateUrl: './refund.component.html',
-  styleUrls: ['./refund.component.scss']
+    selector: 'app-refund',
+    templateUrl: './refund.component.html',
+    styleUrls: ['./refund.component.scss']
 })
 export class RefundComponent implements OnInit {
     private readonly service = inject(ShopService);
@@ -21,10 +21,10 @@ export class RefundComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
     public title = '售后记录';
-    public items: IOrderRefund[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IOrderRefund[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
@@ -76,13 +76,13 @@ export class RefundComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {... this.queries().value(), page};
         // this.service.orderList(queries).subscribe(res => {
-        //     this.isLoading = false;
-        //     this.items = res.data;
+        //     this.isLoading.set(false);
+        //     this.items.set(res.data);
         //     this.hasMore = res.paging.more;
-        //     this.total = res.paging.total;
+        //     this.total.set(res.paging.total);
         //     this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
         // });

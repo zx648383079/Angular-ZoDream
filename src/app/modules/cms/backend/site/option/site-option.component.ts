@@ -20,7 +20,7 @@ export class SiteOptionComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
 
 
-    public items: IOption[] = [];
+    public readonly items = signal<IOption[]>([]);
 
     public readonly editForm = form(signal({
         id: 0,
@@ -50,7 +50,7 @@ export class SiteOptionComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.id = parseInt(params.id, 10);
             this.service.option(this.id).subscribe(res => {
-                this.items = res.data.map(item => {
+                this.items.set(res.data.map(item => {
                     if (['select', 'radio', 'checkbox'].indexOf(item.type)) {
                         item.items = this.strToArr(item.default_value);
                     }
@@ -58,7 +58,7 @@ export class SiteOptionComponent implements OnInit {
                         item.values = item.value.split(',');
                     }
                     return item;
-                });
+                }));
             });
         });
     }
@@ -82,7 +82,7 @@ export class SiteOptionComponent implements OnInit {
     }
 
     public tapSubmit() {
-        this.service.optionSave(this.id, this.items).subscribe({
+        this.service.optionSave(this.id, this.items()).subscribe({
             next: res => {
                 this.toastrService.success($localize `Save Successfully`);
                 history.back();
@@ -110,8 +110,10 @@ export class SiteOptionComponent implements OnInit {
                 if (!confirm('确定删除此项')) {
                     return;
                 }
-                this.items = this.items.filter(i => {
-                    return i.code !== i.code;
+                this.items.update(v => {
+                    return v.filter(i => {
+                        return i.code !== i.code;
+                    });
                 });
                 return;
             }
@@ -119,15 +121,19 @@ export class SiteOptionComponent implements OnInit {
             if (emptyValidate(data.code)) {
                 return false;
             }
-            for (const item of this.items) {
-                if (item.code === data.code) {
-                    eachObject(data, (v, k) => {
-                        item[k] = v;
-                    });
-                    return;
+            this.items.update(v => {
+                for (const item of v) {
+                    if (item.code === data.code) {
+                        eachObject(data, (v, k) => {
+                            item[k] = v;
+                        });
+                        return v
+                    }
                 }
-            }
-            this.items.push(data as any);
+                v.push(data as any);
+                return v;
+            });
+            
         });
     }
 

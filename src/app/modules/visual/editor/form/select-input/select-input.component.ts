@@ -1,4 +1,4 @@
-import { Component, HostBinding, input, model } from '@angular/core';
+import { Component, HostBinding, input, model, signal } from '@angular/core';
 import { IItem } from '../../../../../theme/models/seo';
 import { FormValueControl } from '@angular/forms/signals';
 
@@ -20,8 +20,8 @@ export class EditorSelectInputComponent implements FormValueControl<string> {
     
     public readonly header = input<string>('');
 
-    public visible = false;
-    public isLoading = false;
+    public readonly visible = signal(false);
+    public readonly isLoading = signal(false);
 
     public isEmpty = true;
     public readonly disabled = input<boolean>(false);
@@ -32,7 +32,9 @@ export class EditorSelectInputComponent implements FormValueControl<string> {
         return this.visible ? 'select-focus' : '';
     }
 
-    constructor() { }
+    public toggle() {
+        this.visible.update(v => !v);
+    }
 
     public tapSelected(item: IItem) {
 

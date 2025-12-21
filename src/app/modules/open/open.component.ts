@@ -1,23 +1,23 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { OpenService } from './open.service';
 
 @Component({
     standalone: false,
-  selector: 'app-open',
-  templateUrl: './open.component.html',
-  styleUrls: ['./open.component.scss']
+    selector: 'app-open',
+    templateUrl: './open.component.html',
+    styleUrls: ['./open.component.scss']
 })
 export class OpenComponent implements OnInit {
     private readonly service = inject(OpenService);
 
 
-    public isLoading = true;
-    public data: any = {};
+    public readonly isLoading = signal(true);
+    public readonly data = signal<any>({});
 
     ngOnInit() {
         this.service.statistics().subscribe(res => {
-            this.isLoading = false;
-            this.data = res;
+            this.isLoading.set(false);
+            this.data.set(res);
         });
     }
 

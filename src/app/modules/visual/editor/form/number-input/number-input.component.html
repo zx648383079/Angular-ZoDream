@@ -2,11 +2,11 @@
     <div class="control-body">
         <label for="">{{ label() }}</label>
         <input type="number">
-        <span class="extra-control" (click)="visible = !visible">{{ unit }}</span>
+        <span class="extra-control" (click)="toggle()">{{ unit }}</span>
     </div>
 } @else {
     <div class="control-body">
-        <span class="extra-control" (click)="visible = !visible">{{ unit }}</span>
+        <span class="extra-control" (click)="toggle()">{{ unit }}</span>
         <input type="number">
     </div>
 }

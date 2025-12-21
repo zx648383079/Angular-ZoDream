@@ -25,7 +25,7 @@ export class ProductComponent implements OnInit {
     public data: IProduct;
     public children: IProduct[] = [];
     public channelItems: IChannel[] = [];
-    public isLoading = false;
+    public readonly isLoading = signal(false);
     public options: EChartsCoreOption;
     public channelSelected = 0;
     public productSelected = 0;
@@ -51,10 +51,10 @@ export class ProductComponent implements OnInit {
     }
 
     private load(id: number) {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.product(id).subscribe({
             next: res => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.data = res;
                 this.children = res.items ?? [];
                 this.channelItems = res.channel_items ?? [];
@@ -62,7 +62,7 @@ export class ProductComponent implements OnInit {
             },
             error: err => {
                 this.toastrService.error(err);
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.tapBack();
             }
         })
@@ -115,13 +115,13 @@ export class ProductComponent implements OnInit {
     }
 
     private loadChart(id: number, channel: number) {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.productChart({
             ...this.queries().value(),
             id,
             channel,
         }).subscribe(res => {
-            this.isLoading = false;
+            this.isLoading.set(false);
             const items = res.data;
             this.options = {
                 title: {

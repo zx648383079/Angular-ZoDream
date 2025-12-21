@@ -1,4 +1,4 @@
-import { Component, effect, input } from '@angular/core';
+import { Component, effect, input, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { INavLink } from '../../../../theme/models/seo';
 
@@ -11,7 +11,7 @@ import { INavLink } from '../../../../theme/models/seo';
 })
 export class UserMenuComponent {
 
-    public items: INavLink[] = [{
+    public readonly items = signal<INavLink[]>([{
             name: '账号管理',
             children: [{
                 name: '个人中心',
@@ -84,7 +84,7 @@ export class UserMenuComponent {
                 },
             ]
         },
-    ];
+    ]);
 
     public readonly current = input<ActivatedRoute>(undefined);
     public readonly currentUrl = input<string>(undefined);
@@ -99,12 +99,14 @@ export class UserMenuComponent {
     }
 
     public tapNav(item: INavLink) {
-        this.items = this.items.map(group => {
-            group.children = group.children.map(i => {
-                i.active = i === item;
-                return i;
+        this.items.update(v => {
+            return v.map(group => {
+                group.children = group.children.map(i => {
+                    i.active = i === item;
+                    return i;
+                });
+                return group;
             });
-            return group;
         });
     }
 
@@ -121,12 +123,14 @@ export class UserMenuComponent {
         if (!url.startsWith('/shop/')) {
             url = '/shop/' + url;
         }
-        this.items = this.items.map(group => {
-            group.children = group.children.map(i => {
-                i.active = secret ? url === i.url : url.startsWith(i.url);
-                return i;
+        this.items.update(v => {
+            return v.map(group => {
+                group.children = group.children.map(i => {
+                    i.active = secret ? url === i.url : url.startsWith(i.url);
+                    return i;
+                });
+                return group;
             });
-            return group;
         });
     }
 }

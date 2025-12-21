@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnDestroy, OnInit, inject, viewChild, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, viewChild, signal, computed } from '@angular/core';
 import {
     DiskService
 } from '../disk.service';
@@ -50,16 +50,16 @@ export class CatalogComponent implements OnInit, OnDestroy {
     public playerMode = 0; // 1 视频 2 音频 3 图片
     public viewMode = false;
     public editMode = false;
-    public checkedAll = false;
-    public items: IDisk[] = [];
+    public readonly isChecked = signal(false);
+    public readonly items = signal<IDisk[]>([]);
     public readonly queries = form(signal({
         keywords: '',
         type: '',
         page: 1,
         per_page: 20,
     }));
-    public hasMore = true;
-    public isLoading = false;
+    public readonly hasMore = signal(true);
+    public readonly isLoading = signal(false);
     public crumbs: ICrumb[] = [
         {
             name: $localize `All files`,
@@ -74,7 +74,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
         name: ''
     }));
     public playerStyle: any = {};
-    private subItems = new Subscription();
+    private readonly subItems = new Subscription();
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -110,18 +110,18 @@ export class CatalogComponent implements OnInit, OnDestroy {
         return this.crumbs[this.crumbs.length - 1].id;
     }
 
-    get checkCount() {
+    public readonly checkCount = computed(() => {
         let count = 0;
-        for (const item of this.items) {
+        for (const item of this.items()) {
             if (item.checked) {
                 count ++;
             }
         }
         return count;
-    }
+    });
 
-    public get filterItems() {
-        const items = this.items;
+    public readonly filterItems = computed(() => {
+        const items = this.items();
         if (!this.sortKey) {
             return items;
         }
@@ -141,7 +141,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
             }
             return (av as string).localeCompare(bv, $localize `en`);
         });
-    }
+    })
 
     private formatValue(item: IDisk, k: string) {
         if (k === 'size') {
@@ -180,7 +180,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
         if (this.editMode) {
             item.checked = !item.checked;
             if (!item.checked) {
-                this.checkedAll = false;
+                this.isChecked.set(false);
             } else {
                 this.checkedIfAll();
             }
@@ -197,7 +197,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
     }
 
     private play(item: IDisk) {
-        const items = this.filterItems.filter(i => i.type === item.type);
+        const items = this.filterItems().filter(i => i.type === item.type);
         this.service.files(items.map(i => i.id)).subscribe(res => {
             if (!res.data || res.data.length === 0) {
                 return;
@@ -252,7 +252,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
     }
 
     public checkedIfAll() {
-        for (const item of this.items) {
+        for (const item of this.items()) {
             if (item.type === 'group') {
                 continue;
             }
@@ -260,16 +260,17 @@ export class CatalogComponent implements OnInit, OnDestroy {
                 return;
             }
         }
-        this.checkedAll = true;
+        this.isChecked.set(true);
     }
 
     public tapCheckAll() {
-        this.checkedAll = !this.checkedAll;
-        for (const item of this.items) {
+        this.isChecked.update(v => !v);
+        const isChecked = this.isChecked();
+        for (const item of this.items()) {
             if (item.type === 'group') {
                 continue;
             }
-            item.checked = this.checkedAll;
+            item.checked = isChecked;
         }
     }
 
@@ -281,7 +282,10 @@ export class CatalogComponent implements OnInit, OnDestroy {
                 parent_id: this.lastFolder
             }).subscribe({
                 next: res => {
-                    this.items.push(this.formatItem(res));
+                    this.items.update(v => {
+                        v.push(this.formatItem(res));
+                        return v;
+                    });
                 },
                 error: err => {
                     this.toastrService.error(err);
@@ -291,7 +295,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
     }
 
     public tapUpload(e: any) {
-        this.uploader().visible = true;
+        this.uploader().visible.set(true);
         this.onUploading(e.target.files as FileList);
     }
 
@@ -327,7 +331,10 @@ export class CatalogComponent implements OnInit, OnDestroy {
                 this.uploader().formatProgress(item, p);
             })
             item.file.$finish.subscribe(res => {
-                this.items.push(this.formatItem(res));
+                this.items.update(v => {
+                    v.push(this.formatItem(res));
+                    return v;
+                });
             });
             item.file.$status.subscribe(s => {
                 switch (s) {
@@ -373,7 +380,10 @@ export class CatalogComponent implements OnInit, OnDestroy {
         }).subscribe(res => {
             if (res.code == 200) {
                 item.status = 6;
-                this.items.push(this.formatItem(res.data));
+                this.items.update(v => {
+                    v.push(this.formatItem(res.data));
+                    return v;
+                });
                 return;
             }
             if (res.code == 2) {
@@ -422,7 +432,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.pullBox()?.startLoad();
         const query = emptyValidate(this.queries.keywords().value()) && emptyValidate(this.queries.type().value()) ? this.service.getCatalog({
             id: this.lastFolder,
@@ -436,16 +446,16 @@ export class CatalogComponent implements OnInit, OnDestroy {
         query.subscribe({
             next: res => {
                 this.queries.page().value.set(page);
-                this.hasMore = res.paging.more;
-                this.isLoading = false;
+                this.hasMore.set(res.paging.more);
+                this.isLoading.set(false);
                 const items = res.data.map(i => {
                     return this.formatItem(i);
                 });
-                this.items = page < 2 ? items : [].concat(this.items, items);
+                this.items.set(page < 2 ? items : [].concat(this.items, items));
                 this.pullBox()?.endLoad();
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.pullBox()?.endLoad();
             }
         });

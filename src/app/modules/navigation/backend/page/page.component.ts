@@ -5,16 +5,15 @@ import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject,
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
-import { emptyValidate } from '../../../../theme/validators';
 import { IWebPage, IWebPageKeywords } from '../../model';
 import { formatDomain } from '../../util';
 import { NavigationService } from '../navigation.service';
 
 @Component({
     standalone: false,
-  selector: 'app-page',
-  templateUrl: './page.component.html',
-  styleUrls: ['./page.component.scss']
+    selector: 'app-page',
+    templateUrl: './page.component.html',
+    styleUrls: ['./page.component.scss']
 })
 export class PageComponent implements OnInit {
     private readonly service = inject(NavigationService);
@@ -23,10 +22,10 @@ export class PageComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: IWebPage[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IWebPage[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
@@ -133,19 +132,19 @@ export class PageComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.pageList(queries).subscribe({
             next: res => {
-                this.isLoading = false;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -162,8 +161,10 @@ export class PageComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         });

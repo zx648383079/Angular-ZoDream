@@ -1,4 +1,4 @@
-import { Component, input, model } from '@angular/core';
+import { Component, input, model, signal } from '@angular/core';
 import { IItem } from '../../../../../theme/models/seo';
 import { FormValueControl } from '@angular/forms/signals';
 
@@ -14,7 +14,7 @@ import { FormValueControl } from '@angular/forms/signals';
 export class EditorBorderPopupComponent implements FormValueControl<string> {
 
     public readonly header = input<string>('');
-    public visible = false;
+    public readonly visible = signal(false);
 
     public styleItems: IItem[] = [
         {name: '无', value: ''},
@@ -26,6 +26,10 @@ export class EditorBorderPopupComponent implements FormValueControl<string> {
     public isEmpty = true;
     public readonly disabled = input<boolean>(false);
     public readonly value = model<string>('');
+
+    public toggle() {
+        this.visible.update(v => !v);
+    }
 
     public tapEmpty() {
 

@@ -8,9 +8,9 @@ import { ShopService } from '../../shop.service';
 
 @Component({
     standalone: false,
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
     private readonly service = inject(ShopService);

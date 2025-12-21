@@ -1,4 +1,4 @@
-@for (item of items; track $index) {
+@for (item of items(); track $index) {
     <div class="order-item">
     <div class="order-header">
         <span>{{ item.id }}</span>
@@ -36,4 +36,4 @@
     </div>
 </div>
 }
-<app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+<app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />

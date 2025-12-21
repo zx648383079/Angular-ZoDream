@@ -5,9 +5,9 @@ import { ICourse, IQuestionCard, IQuestionFormat, IQuestionOption } from '../mod
 
 @Component({
     standalone: false,
-  selector: 'app-question',
-  templateUrl: './question.component.html',
-  styleUrls: ['./question.component.scss']
+    selector: 'app-question',
+    templateUrl: './question.component.html',
+    styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent implements OnInit {
     private readonly service = inject(ExamService);

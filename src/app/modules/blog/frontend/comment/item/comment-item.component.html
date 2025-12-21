@@ -47,7 +47,7 @@
             </div>
         </div>
         }
-        @if (hasMore) {
+        @if (hasMore()) {
         <div class="comment-more">
             <ng-container i18n>There are {{ moreCount | numberFormat }} more replies,</ng-container>
             <a (click)="tapMore()" i18n>Click to view </a>

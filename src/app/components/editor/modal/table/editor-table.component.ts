@@ -1,15 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { EditorModalCallback, IEditorModal } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-editor-table',
-  templateUrl: './editor-table.component.html',
-  styleUrls: ['./editor-table.component.scss']
+    selector: 'app-editor-table',
+    templateUrl: './editor-table.component.html',
+    styleUrls: ['./editor-table.component.scss']
 })
 export class EditorTableComponent implements IEditorModal {
 
-    public visible = false;
+    public readonly visible = signal(false);
     public columnItems: number[] = [];
     public rowItems: number[] = [];
     public column = 1;
@@ -31,7 +31,7 @@ export class EditorTableComponent implements IEditorModal {
     }
 
     public tapConfirm(row: number, column: number) {
-        this.visible = false;
+        this.visible.set(false);
         if (this.confirmFn) {
             this.confirmFn({
                 row,
@@ -41,7 +41,7 @@ export class EditorTableComponent implements IEditorModal {
     }
 
     public open(data: any, cb: EditorModalCallback) {
-        this.visible = true;
+        this.visible.set(true);
         this.confirmFn = cb;
     }
 

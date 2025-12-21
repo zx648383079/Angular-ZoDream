@@ -1,3 +1,3 @@
-@for (item of items; track $index) {
+@for (item of items(); track $index) {
     <a class="menu-item" [class]="{active: item.active}" [routerLink]="fullPath(item)">{{ item.name }}</a>
 }

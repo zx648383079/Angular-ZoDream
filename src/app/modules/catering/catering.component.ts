@@ -35,7 +35,7 @@ export class CateringComponent implements OnDestroy {
     public searchOpen = false;
     public scanOpen = false;
     public menuItems: IMenuItem[] = [];
-    private subItems = new Subscription();
+    private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `Catering`);

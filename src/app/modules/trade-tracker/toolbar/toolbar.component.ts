@@ -10,7 +10,7 @@ import { form } from '@angular/forms/signals';
 })
 export class ToolbarComponent {
 
-    public visible = false;
+    public readonly visible = signal(false);
     public title = 'Toolbar';
 
     public readonly dataForm = form(signal({
@@ -25,12 +25,12 @@ export class ToolbarComponent {
     private lastKey = '';
 
     public open(item: ITradeLog) {
-        this.visible = true;
+        this.visible.set(true);
         this.changePrice(item.channel.short_name, item.price);
     }
 
     public close() {
-        this.visible = false;
+        this.visible.set(false);
     }
 
     public tapReset() {

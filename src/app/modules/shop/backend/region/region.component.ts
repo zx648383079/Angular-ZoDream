@@ -27,10 +27,10 @@ export class RegionComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: IRegion[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IRegion[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public parent: IRegion;
     public readonly editForm = form(signal<IRegion>({
         id: 0,
@@ -80,13 +80,13 @@ export class RegionComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.regionList(queries).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
+            this.isLoading.set(false);
+            this.items.set(res.data);
             this.hasMore = res.paging.more;
-            this.total = res.paging.total;
+            this.total.set(res.paging.total);
             this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
         });
@@ -104,8 +104,10 @@ export class RegionComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         });

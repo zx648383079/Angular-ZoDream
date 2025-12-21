@@ -15,8 +15,8 @@ export class HomeComponent implements OnInit {
     private readonly service = inject(FinanceService);
 
 
-    public isLoading = true;
-    public data: any = {};
+    public readonly isLoading = signal(true);
+    public readonly data = signal<any>({});
     public readonly queries = form(signal({
         start_at: formatDate(new Date(), 'yyyy-mm-dd'),
         end_at: '',
@@ -33,10 +33,10 @@ export class HomeComponent implements OnInit {
     }
 
     public onQueriesChange() {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.statistics({...this.queries}).subscribe(res => {
-            this.isLoading = false;
-            this.data = res;
+            this.isLoading.set(false);
+            this.data.set(res);
             const items: any[] = res.stage_items;
             this.options = {
                 title: {

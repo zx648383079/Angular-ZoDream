@@ -1,5 +1,5 @@
 <div class="share-box">
-    @for (item of items; track $index) {
+    @for (item of items(); track $index) {
         <div class="share-item">
             <div class="avatar">
                 <img [src]="item.user.avatar">

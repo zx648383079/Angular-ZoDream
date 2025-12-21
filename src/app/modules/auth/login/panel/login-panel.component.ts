@@ -51,7 +51,7 @@ export class LoginPanelComponent implements OnDestroy {
     private qrToken = '';
     public qrImage = '';
     public qrStatus = 0;
-    private subItems = new Subscription();
+    private readonly subItems = new Subscription();
     private inputData: any = {};
 
     constructor() {

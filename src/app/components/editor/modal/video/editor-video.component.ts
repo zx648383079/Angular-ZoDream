@@ -1,28 +1,28 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FileUploadService } from '../../../../theme/services';
 import { EditorModalCallback, IEditorModal } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-editor-video',
-  templateUrl: './editor-video.component.html',
-  styleUrls: ['./editor-video.component.scss']
+    selector: 'app-editor-video',
+    templateUrl: './editor-video.component.html',
+    styleUrls: ['./editor-video.component.scss']
 })
 export class EditorVideoComponent implements IEditorModal {
     private readonly uploadService = inject(FileUploadService);
 
 
-    public visible = false;
+    public readonly visible = signal(false);
     public fileName = this.uploadService.uniqueGuid();
     public tabIndex = 0;
     public url = '';
     public code = '';
     public isAutoplay = false;
-    public isLoading = false;
+    public readonly isLoading = signal(false);
     private confirmFn: EditorModalCallback;
 
     public open(data: any, cb: EditorModalCallback) {
-        this.visible = true;
+        this.visible.set(true);
         this.confirmFn = cb;
     }
 
@@ -38,21 +38,21 @@ export class EditorVideoComponent implements IEditorModal {
         if (files.length < 1) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.uploadService.uploadVideo(files[0]).subscribe({
             next: res => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.url = res.url;
                 this.tapConfirm();
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         })
     }
 
     public tapConfirm() {
-        this.visible = false;
+        this.visible.set(false);
         if (this.confirmFn) {
             this.confirmFn(this.tabIndex === 2 ? {code: this.code} : {value: this.url, autoplay: this.isAutoplay});
         }

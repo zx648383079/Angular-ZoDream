@@ -26,7 +26,7 @@
         <a href="">评价时间</a>
     </div>
     <div class="comment-page-box">
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
             <div class="comment-item">
                 <div class="user-box">
                     <div class="avatar">
@@ -58,6 +58,6 @@
         
     </div>
 
-    <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+    <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
 </div>
 }

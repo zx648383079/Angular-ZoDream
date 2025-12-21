@@ -13,12 +13,12 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
 
-                <a class="btn pull-right" [class]="{'btn-success': isReview, 'btn-outline-success': !isReview}" (click)="isReview = !isReview">审核模式</a>
+                <a class="btn pull-right" [class]="{'btn-success': isReview(), 'btn-outline-success': !isReview()}" (click)="toggleReview()">审核模式</a>
             </form>
         </div>
     
 
-        <table class="table table-bordered" [hidden]="isReview">
+        <table class="table table-bordered" [hidden]="isReview()">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -29,7 +29,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (item of items; track $index) {
+                @for (item of items(); track $index) {
                     <tr>
                     <td>{{ item.id }}</td>
                     <td>
@@ -47,8 +47,8 @@
             </tbody>
         </table>
 
-        <app-stack-container #stack [hidden]="!isReview">
-            @for (item of items; track $index) {
+        <app-stack-container #stack [hidden]="!isReview()">
+            @for (item of items(); track $index) {
                 <app-stack-item>
                     <div class="review-body">
                         <app-rule-block [value]="item.content" [rules]="item.extra_rule" />
@@ -101,8 +101,8 @@
             }
         </app-stack-container>
 
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+        <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
     
 </div>

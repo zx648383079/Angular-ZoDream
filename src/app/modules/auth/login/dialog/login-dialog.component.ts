@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { IUser } from '../../../../theme/models/user';
 
 @Component({
@@ -12,20 +12,18 @@ export class LoginDialogComponent {
     /**
      * 是否显示
      */
-     public visible = false;
-     private onLogin: (user: IUser) => void;
-
-    constructor() { }
+    public readonly visible = signal(false);
+    private confirmFn: (user: IUser) => void;
 
     public open(cb?: (user: IUser) => void) {
-        this.visible = true;
-        this.onLogin = cb;
+        this.visible.set(true);
+        this.confirmFn = cb;
     }
 
     public close(user?: IUser) {
-        this.visible = false;
-        if (user && this.onLogin) {
-            this.onLogin(user);
+        this.visible.set(false);
+        if (user && this.confirmFn) {
+            this.confirmFn(user);
         }
     }
 }

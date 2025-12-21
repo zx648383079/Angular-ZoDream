@@ -5,7 +5,7 @@
     </div>
     <div class="search-body">
         <div class="panel-body">
-            @for (item of items; track $index) {
+            @for (item of items(); track $index) {
                 <div class="item-option" [class]="{selected: selected && selected.id === item.id}" (click)="tapSelected(item)">
                     <div class="thumb">
                         <img [src]="item.thumb">

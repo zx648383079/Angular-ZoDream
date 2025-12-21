@@ -17,7 +17,7 @@ export class BlogComponent implements OnInit, OnDestroy {
     private readonly themeService = inject(ThemeService);
 
 
-    private subItems = new Subscription();
+    private readonly subItems = new Subscription();
 
     ngOnInit() {
         this.subItems.add(

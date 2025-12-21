@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { GameMakerService } from '../game-maker.service';
 import { ActivatedRoute } from '@angular/router';
@@ -15,15 +15,15 @@ export class HomeComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
 
 
-    public isLoading = true;
-    public data: any = {};
+    public readonly isLoading = signal(true);
+    public readonly data = signal<any>({});
 
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.service.projectStatistics(params.game).subscribe({
                 next: res => {
-                    this.isLoading = false;
-                    this.data = res;
+                    this.isLoading.set(false);
+                    this.data.set(res);
                 },
                 error: err => {
                     this.toastrService.error(err);

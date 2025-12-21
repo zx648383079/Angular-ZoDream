@@ -13,10 +13,10 @@ export class TeamPiazzaComponent implements IGameScene, OnInit {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
-    public items: IGameTeam[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IGameTeam[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
@@ -59,18 +59,18 @@ export class TeamPiazzaComponent implements IGameScene, OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.router.request(GameCommand.TeamQuery, queries).subscribe({
             next: res => {
                 const data = res.data as IPage<IGameTeam>;
                 this.queries().value.set(queries);
-                this.isLoading = false;
-                this.total = data.paging.total;
+                this.isLoading.set(false);
+                this.total.set(data.paging.total);
                 this.hasMore = data.paging.more;
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         })
     }

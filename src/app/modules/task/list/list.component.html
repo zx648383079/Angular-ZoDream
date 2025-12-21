@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    @for (item of items; track $index) {
+    @for (item of items(); track $index) {
     <div class="task-item" [class]="{finished: item.status < 5}" [title]="item.tooltip">
         <i class="checkbox" [class]="{checked: item.checked}"></i>
         <div class="name">{{ item.name }}</div>
@@ -45,7 +45,7 @@
 
 
     <div class="panel-container">
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+        <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>

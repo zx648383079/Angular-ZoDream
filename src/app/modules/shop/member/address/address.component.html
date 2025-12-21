@@ -18,7 +18,7 @@
                 <div></div>
             </div>
             <div class="address-page-box">
-                @for (item of items; track $index) {
+                @for (item of items(); track $index) {
                     <div class="address-row">
                     <div class="name">{{ item.name }}</div>
                     <div class="address">{{ item.region.full_name }} {{ item.address }}</div>

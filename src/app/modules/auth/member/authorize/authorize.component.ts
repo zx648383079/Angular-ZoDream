@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { MemberService } from '../member.service';
 
 @Component({
@@ -11,8 +11,8 @@ export class AuthorizeComponent implements OnInit {
     private readonly service = inject(MemberService);
 
 
-    public items: any[] = [];
-    public isLoading = false;
+    public readonly items = signal<any[]>([]);
+    public readonly isLoading = signal(false);
 
     ngOnInit() {
         this.tapRefresh();
@@ -23,14 +23,14 @@ export class AuthorizeComponent implements OnInit {
     }
 
     public tapRefresh() {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.authorizeAppList().subscribe({
             next: res => {
-                this.items = res.data;
-                this.isLoading = false;
+                this.items.set(res.data);
+                this.isLoading.set(false);
             },
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

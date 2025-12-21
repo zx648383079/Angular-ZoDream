@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { IData } from '../../../../theme/models/page';
 import { IShopPlugin } from '../../model';
 import { DialogService } from '../../../../components/dialog';
@@ -25,7 +25,7 @@ export class PluginComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
 
 
-    public items: IPluginItem[] = [
+    public readonly items = signal<IPluginItem[]>([
         {
             code: 'taobaoke',
             name: '淘宝客',
@@ -42,7 +42,7 @@ export class PluginComponent implements OnInit {
             url: 'affiliate',
             setting_url: 'affiliate/setting'
         },
-    ];
+    ]);
 
     ngOnInit() {
         this.pluginList().subscribe(res => {
@@ -50,9 +50,12 @@ export class PluginComponent implements OnInit {
             for (const item of res.data) {
                 map[item.code] = item.status === 1;
             }
-            for (const item of this.items) {
-                item.is_actived = map[item.code] === true;
-            }
+            this.items.update(v => {
+                return v.map(i => {
+                    i.is_actived = map[i.code] === true;
+                    return i;
+                });
+            });
         });
     }
 

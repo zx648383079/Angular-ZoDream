@@ -1,18 +1,17 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService, ManageDialogEvent } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { IFriendLink } from '../../../theme/models/seo';
 import { ContactService } from '../contact.service';
 import { SearchService } from '../../../theme/services';
-import { emailValidate, emptyValidate } from '../../../theme/validators';
 
 @Component({
     standalone: false,
-  selector: 'app-contact-friend-link',
-  templateUrl: './friend-link.component.html',
-  styleUrls: ['./friend-link.component.scss']
+    selector: 'app-contact-friend-link',
+    templateUrl: './friend-link.component.html',
+    styleUrls: ['./friend-link.component.scss']
 })
 export class FriendLinkComponent implements OnInit {
     private readonly service = inject(ContactService);
@@ -21,10 +20,10 @@ export class FriendLinkComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: IFriendLink[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IFriendLink[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         keywords: '',
@@ -40,8 +39,8 @@ export class FriendLinkComponent implements OnInit {
         required(schemaPath.name);
         required(schemaPath.url);
     });
-    public isMultiple = false;
-    public isChecked = false;
+    public readonly isMultiple = signal(false);
+    public readonly isChecked = signal(false);
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -50,8 +49,12 @@ export class FriendLinkComponent implements OnInit {
         })
     }
 
-    public get checkedItems() {
-        return this.items.filter(i => i.checked);
+    public readonly checkedItems = computed(() => {
+        return this.items().filter(i => i.checked);
+    });
+
+    public toggleMultiple() {
+        this.isMultiple.update(v => !v);
     }
 
     public tapAdd(modal: DialogEvent) {
@@ -75,24 +78,28 @@ export class FriendLinkComponent implements OnInit {
 
     public toggleCheck(item?: IFriendLink) {
         if (!item) {
-            this.isChecked = !this.isChecked;
-            this.items.forEach(i => {
-                i.checked = this.isChecked;
+            this.isChecked.update(v => !v);
+            const isChecked = this.isChecked();
+            this.items.update(v => {
+                return v.map(i => {
+                    i.checked = isChecked;
+                    return i;
+                });
             });
             return;
         }
         item.checked = !item.checked;
         if (!item.checked) {
-            this.isChecked = false;
+            this.isChecked.set(false);
             return;
         }
-        if (this.checkedItems.length === this.items.length) {
-            this.isChecked = true;
+        if (this.checkedItems().length === this.items().length) {
+            this.isChecked.set(true);
         }
     }
 
     public tapRemoveMultiple() {
-        const items = this.checkedItems;
+        const items = this.checkedItems();
         if (items.length < 1) {
             this.toastrService.warning($localize `No item selected!`);
             return;
@@ -130,20 +137,20 @@ export class FriendLinkComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.friendLinkList(queries).subscribe({
             next: res => {
-                this.isLoading = false;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
-                this.isChecked = false;
+                this.total.set(res.paging.total);
+                this.isChecked.set(false);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -183,8 +190,10 @@ export class FriendLinkComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         });

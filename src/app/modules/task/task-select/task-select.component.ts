@@ -16,11 +16,11 @@ export class TaskSelectComponent {
     private readonly searchService = inject(SearchService);
 
 
-    public visible = false;
-    public items: ITask[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly visible = signal(false);
+    public readonly items = signal<ITask[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public keywords = '';
     public readonly queries = form(signal<IPageQueries>({
         keywords: '',
@@ -35,11 +35,11 @@ export class TaskSelectComponent {
 
     public open(cb: (data: ITask) => void) {
         this.confirmFn = cb;
-        this.visible = true;
+        this.visible.set(true);
     }
 
     public close() {
-        this.visible = false;
+        this.visible.set(false);
     }
 
     public tapItem(item: ITask) {
@@ -78,17 +78,17 @@ export class TaskSelectComponent {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.taskList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.items = res.data;
-                this.total = res.paging.total;
+                this.isLoading.set(false);
+                this.items.set(res.data);
+                this.total.set(res.paging.total);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

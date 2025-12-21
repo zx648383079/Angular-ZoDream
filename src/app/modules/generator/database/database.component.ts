@@ -16,7 +16,7 @@ export class DatabaseComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
 
 
-    public items: any[] = [];
+    public readonly items = signal<any[]>([]);
     public headerItems: ITableHeaderItem[] = [
         {name: 'name', label: '数据库'},
         {name: 'collation', label: '排序规则'},
@@ -26,7 +26,7 @@ export class DatabaseComponent implements OnInit {
         {name: 'UTF8编码', value: 'utf8_general_ci'},
         {name: 'UTF8M64编码', value: 'utf8mb4_general_ci'},
     ];
-    public isLoading = false;
+    public readonly isLoading = signal(false);
     public readonly editForm = form(signal({
         name: '',
         collation: '',
@@ -35,14 +35,14 @@ export class DatabaseComponent implements OnInit {
     });
 
     ngOnInit() {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.schemaList(true).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data.map(i => {
+            this.isLoading.set(false);
+            this.items.set(res.data.map(i => {
                 return {
                     name: i
                 };
-            });
+            }));
         });
     }
 

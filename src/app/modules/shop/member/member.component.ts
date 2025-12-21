@@ -10,9 +10,9 @@ import { Subscription } from 'rxjs';
 
 @Component({
     standalone: false,
-  selector: 'app-member',
-  templateUrl: './member.component.html',
-  styleUrls: ['./member.component.scss']
+    selector: 'app-member',
+    templateUrl: './member.component.html',
+    styleUrls: ['./member.component.scss']
 })
 export class MemberComponent implements OnDestroy {
     private readonly service = inject(ShopService);
@@ -22,7 +22,7 @@ export class MemberComponent implements OnDestroy {
 
     public site: ISite = {} as any;
     public title = '个人中心';
-    private subItems = new Subscription();
+    private readonly subItems = new Subscription();
 
     constructor() {
         this.subItems.add(this.store.select(selectAuth).subscribe(res => {

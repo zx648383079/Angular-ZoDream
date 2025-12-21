@@ -50,10 +50,10 @@ export class ThreadComponent implements OnInit {
     public readonly editor = viewChild(ForumEditorComponent);
 
     public thread: IThread;
-    public items: IThreadPost[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IThreadPost[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal({
         page: 1,
         per_page: 20,
@@ -130,7 +130,7 @@ export class ThreadComponent implements OnInit {
      * @param info
      */
     private markUser(userId: number, loaded: boolean, info?: IThreadUser) {
-        for (const it of this.items) {
+        for (const it of this.items()) {
             if (it.user_id == userId) {
                 it.is_loaded = loaded;
                 if (info) {
@@ -346,8 +346,10 @@ export class ThreadComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Deleted successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         });
@@ -401,19 +403,19 @@ export class ThreadComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.getPostList({...queries, thread: this.thread.id}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.items = res.data;
-                this.total = res.paging.total;
+                this.isLoading.set(false);
+                this.items.set(res.data);
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import {
     Observable
 } from 'rxjs';
@@ -21,13 +21,13 @@ export class ShopComponent implements OnInit {
     private readonly service = inject(ShopService);
 
 
-    public items: ISubtotal[];
+    public readonly items = signal<ISubtotal[]>([]);
 
-    public options: Observable < EChartsCoreOption > ;
+    public options: Observable<EChartsCoreOption>;
 
     constructor() {
         this.service.statistics().subscribe(res => {
-            this.items = res;
+            this.items.set(res);
         });
         this.options = this.service.order().pipe(map<any[], EChartsCoreOption>(data => {
             return {

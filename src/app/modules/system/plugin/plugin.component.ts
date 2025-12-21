@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, viewChild, signal } from '@angular/core';
+import { Component, OnInit, inject, viewChild, signal, computed } from '@angular/core';
 import { IPageEditItem, IPageQueries } from '../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
@@ -24,11 +24,11 @@ export class PluginComponent implements OnInit {
 
     private readonly modal = viewChild(DialogBoxComponent);
     private readonly form = viewChild(FormPanelComponent);
-    public isChecked = false;
-    public items: IPluginItem[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 120;
+    public readonly isChecked = signal(false);
+    public readonly items = signal<IPluginItem[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(120);
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         keywords: '',
@@ -42,25 +42,29 @@ export class PluginComponent implements OnInit {
         });
     }
 
-    public get checkedItems() {
-        return this.items.filter(i => i.checked);
-    }
+    public readonly checkedItems = computed(() => {
+        return this.items().filter(i => i.checked);
+    });
 
     public toggleCheck(item?: IPageEditItem) {
         if (!item) {
-            this.isChecked = !this.isChecked;
-            this.items.forEach(i => {
-                i.checked = this.isChecked;
+            this.isChecked.update(v => !v);
+            const isChecked = this.isChecked();
+            this.items.update(v => {
+                return v.map(i => {
+                    i.checked = isChecked;
+                    return i;
+                });
             });
             return;
         }
         item.checked = !item.checked;
         if (!item.checked) {
-            this.isChecked = false;
+            this.isChecked.set(false);
             return;
         }
-        if (this.checkedItems.length === this.items.length) {
-            this.isChecked = true;
+        if (this.checkedItems().length === this.items().length) {
+            this.isChecked.set(true);
         }
     }
 
@@ -97,7 +101,7 @@ export class PluginComponent implements OnInit {
     }
 
     public tapUninstall(item?: IPluginItem) {
-        const items = item ? [item.id] : this.checkedItems.map(i => i.id);
+        const items = item ? [item.id] : this.checkedItems().map(i => i.id);
         if (items.length < 1) {
             return;
         }
@@ -129,10 +133,10 @@ export class PluginComponent implements OnInit {
     }
 
     private renderForm(item: IPluginItem, items: IFormInput[]) {
-        this.form().items = items;
+        this.form().items.set(items);
         this.modal().open(() => {
             this.tapInstall(item, this.form().value);
-        }, () => this.form().valid, '快速配置');
+        }, () => this.form().valid(), '快速配置');
     }
 
     public tapRefresh() {
@@ -151,20 +155,20 @@ export class PluginComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.pluginList(queries).subscribe({
             next: res => {
-                this.isLoading = false;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
-                this.isChecked = false;
+                this.total.set(res.paging.total);
+                this.isChecked.set(false);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

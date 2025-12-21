@@ -9,7 +9,7 @@
                 <button class="btn btn-primary" i18n>Search</button>
             </form>
             <div class="search-tip-bar" i18n>
-                You found {{ total | numberFormat }} resources.
+                You found {{ total() | numberFormat }} resources.
             </div>
             <div class="sort-bar">
                 <a class="sort-clear">
@@ -100,7 +100,7 @@
         </div>
         <div class="col-md-9">
             <div class="filter-wall">
-                <ng-container i18n>{{ total | numberFormat }} items</ng-container>
+                <ng-container i18n>{{ total() | numberFormat }} items</ng-container>
 
                 @for (item of selectedFilters; track $index) {
                     <div class="filter-item">
@@ -118,7 +118,7 @@
             <div class="search-body">
                 @if (viewTable) {
                     <div class="row">
-                        @for (item of items; track $index) {
+                        @for (item of items(); track $index) {
                             <div class="col-md-3">
                             <div class="app-item item-style-column">
                                 <div class="item-thumb">
@@ -149,7 +149,7 @@
                         }
                     </div>
                 } @else {
-                    @for (item of items; track $index) {
+                    @for (item of items(); track $index) {
                         <div class="app-item">
                             <div class="item-thumb">
                                 <a [routerLink]="['category', item.cat_id, item.id]"><img [src]="item.icon|asset" alt=""></a>
@@ -180,8 +180,8 @@
             </div>
 
 
-            <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-            <app-pagination [total]="total" [value]="queries().page" [perPage]="queries().per_page" (valueChange)="tapPage($event)" />
+            <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+            <app-pagination [total]="total()" [value]="queries().page" [perPage]="queries().per_page" (valueChange)="tapPage($event)" />
         </div>
     </div>
 </div>

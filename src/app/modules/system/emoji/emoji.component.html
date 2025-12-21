@@ -26,7 +26,7 @@
                     <a (click)="tapView(modal)" class="btn btn-primary">新增表情包</a>
                     <a routerLink="./category" class="btn btn-info">管理分组</a>
                     <a (click)="tapImport(importModal)" class="btn btn-success">导入表情包</a>
-                    <a class="btn" [class]="{'btn-danger': isMultiple, 'btn-outline-info': !isMultiple}" (click)="isMultiple = !isMultiple">批量操作</a>
+                    <a class="btn" [class]="{'btn-danger': isMultiple(), 'btn-outline-info': !isMultiple()}" (click)="toggleMultiple()">批量操作</a>
                 </div>
             </form>
         </div>
@@ -34,8 +34,8 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th [hidden]="!isMultiple">
-                        <i class="checkbox" [class]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                    <th [hidden]="!isMultiple()">
+                        <i class="checkbox" [class.checked]="isChecked()" (click)="toggleCheck()"></i>
                     </th>
                    
                     <th>ID</th>
@@ -46,9 +46,9 @@
                 </tr>
             </thead>
             <tbody>
-                @for (item of items; track $index) {
+                @for (item of items(); track $index) {
                     <tr>
-                    <td [hidden]="!isMultiple">
+                    <td [hidden]="!isMultiple()">
                         <i class="checkbox" [class]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
                     </td>
                     <td>{{ item.id }}</td>
@@ -70,19 +70,19 @@
                 </tr>
                 }
             </tbody>
-            <tfoot [hidden]="!isMultiple || items.length < 1">
+            <tfoot [hidden]="!isMultiple || items().length < 1">
                 <tr>
                     <td>
-                        <i class="checkbox" [class]="{checked: isChecked}" (click)="toggleCheck()"></i>
+                        <i class="checkbox" [class.checked]="isChecked()" (click)="toggleCheck()"></i>
                     </td>
                     <td colspan="5">
-                        <button class="btn btn-danger" [disabled]="checkedItems.length < 1" (click)="tapRemoveMultiple()">删除选中项（{{ checkedItems.length }}）</button>
+                        <button class="btn btn-danger" [disabled]="checkedItems().length < 1" (click)="tapRemoveMultiple()">删除选中项（{{ checkedItems().length }}）</button>
                     </td>
                 </tr>
             </tfoot>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [perPage]="queries.per_page().value()" [field]="queries.page" (valueChange)="tapPage()" />
+        <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+        <app-pagination [total]="total()" [perPage]="queries.per_page().value()" [field]="queries.page" (valueChange)="tapPage()" />
     </div>
 </div>
 

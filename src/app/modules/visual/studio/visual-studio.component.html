@@ -1,6 +1,6 @@
 <div class="studio-container">
     <iframe #browser frameborder="0"></iframe>
-    @if (isLoading) {
+    @if (isLoading()) {
     <div class="loading-mask">
         <app-loading-ring />
     </div>

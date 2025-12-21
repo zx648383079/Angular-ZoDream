@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, IGameFarmPlot, IGameRouter, IGameScene, InvestTabItems } from '../../../model';
 
 @Component({
@@ -11,7 +11,7 @@ export class FarmComponent implements IGameScene, OnInit {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
     
-    public items: IGameFarmPlot[] = [];
+    public readonly items = signal<IGameFarmPlot[]>([]);
     public tabItems = InvestTabItems;
     public tabIndex = 0;
 
@@ -30,7 +30,7 @@ export class FarmComponent implements IGameScene, OnInit {
 
     public tapRefresh() {
         this.router.request(GameCommand.FarmQuery).subscribe(res => {
-            this.items = res.data;
+            this.items.set(res.data);
         });
     }
 }

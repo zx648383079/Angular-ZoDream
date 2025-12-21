@@ -11,7 +11,7 @@
     <div class="tip tablet-collapse" i18n>
         Authorized Applications
     </div>
-    @for (item of items; track $index) {
+    @for (item of items(); track $index) {
         <div class="app-item">
         <div class="item-icon">
             <img [src]="'assets/images/logo.png'|asset" alt="">
@@ -27,5 +27,5 @@
         </div>
     </div>
     }
-    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+    <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
 </div>

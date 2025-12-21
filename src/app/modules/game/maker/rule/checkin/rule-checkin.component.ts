@@ -9,9 +9,9 @@ interface IPlusItem {
 
 @Component({
     standalone: false,
-  selector: 'app-maker-rule-checkin',
-  templateUrl: './rule-checkin.component.html',
-  styleUrls: ['./rule-checkin.component.scss']
+    selector: 'app-maker-rule-checkin',
+    templateUrl: './rule-checkin.component.html',
+    styleUrls: ['./rule-checkin.component.scss']
 })
 export class RuleCheckinComponent implements OnInit {
     private readonly service = inject(GameMakerService);

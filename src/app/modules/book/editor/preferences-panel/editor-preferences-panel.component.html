@@ -1,4 +1,4 @@
-@if (visible) {
+@if (visible()) {
 <div class="dialog-panel" animate.enter="panel-opened" animate.leave="panel-closed">
     <div class="panel-header">
         <i class="iconfont icon-close" (click)="close()"></i>
@@ -9,15 +9,15 @@
         <i class="iconfont icon-plus" (click)="tapAdd()"></i>
     </div>
     <div class="panel-body">
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
             <div class="role-item">
             <span>{{ item.name }}</span>
         </div>
         }
-        @if (subOpen) {
+        @if (subOpen()) {
         <div class="panel-sub">
             <div class="panel-header">
-                <i class="iconfont icon-chevron-left" (click)="subOpen = false"></i>
+                <i class="iconfont icon-chevron-left" (click)="subOpen.set(false)"></i>
                 设定
             </div>
             <div class="panel-body">

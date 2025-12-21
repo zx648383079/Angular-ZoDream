@@ -9,7 +9,7 @@
   </div>
   
   <div class="container">
-    @for (group of items; track $index) {
+    @for (group of items(); track $index) {
     <div class="catalog-panel">
         <div class="panel-header">
             <a routerLink="{{ group.id }}">{{ group.name }}</a>

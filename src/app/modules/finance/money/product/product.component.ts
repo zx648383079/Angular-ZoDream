@@ -15,8 +15,8 @@ export class ProductComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
 
 
-    public items: IFinancialProduct[] = [];
-    public isLoading = false;
+    public readonly items = signal<IFinancialProduct[]>([]);
+    public readonly isLoading = signal(false);
     public readonly queries = form(signal({
         keywords: ''
     }));
@@ -40,10 +40,10 @@ export class ProductComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.productList(this.queries().value()).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
+            this.isLoading.set(false);
+            this.items.set(res.data);
         });
     }
 
@@ -52,16 +52,17 @@ export class ProductComponent implements OnInit {
     }
 
     public tapRemove(item: IFinancialProduct) {
-        if (!confirm('确定删除“' + item.name + '”产品？')) {
-            return;
-        }
-        this.service.productRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success($localize `Delete Successfully`);
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.name + '”产品？', () => {
+            this.service.productRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
+                });
             });
         });
     }

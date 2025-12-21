@@ -1,4 +1,4 @@
-import { Component, effect, input, model } from '@angular/core';
+import { Component, effect, input, model, signal } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
@@ -10,13 +10,13 @@ import { FormValueControl } from '@angular/forms/signals';
 export class LetterInputComponent implements FormValueControl<string> {
 
     public readonly length = input(4);
-    public items: string[] = ['', '', '', ''];
+    public readonly items = signal<string[]>(['', '', '', '']);
     public readonly disabled = input<boolean>(false);
     public readonly value = model<string>('');
     public isEnabled = false;
 
     constructor() {
-        effect(() => this.items = Array.from({length: this.length()}, _ => ''));
+        effect(() => this.items.set(Array.from({length: this.length()}, _ => '')));
         effect(() => this.refresh(this.value()));
     }
 

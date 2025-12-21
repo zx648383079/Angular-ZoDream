@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
@@ -12,9 +12,9 @@ import { ShopService } from '../../shop.service';
 
 @Component({
     standalone: false,
-  selector: 'app-cart',
-  templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.scss']
+    selector: 'app-shop-cart',
+    templateUrl: './cart.component.html',
+    styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
@@ -25,9 +25,9 @@ export class CartComponent implements OnInit {
     private readonly themeService = inject(ThemeService);
 
 
-    public items: ICartGroup[] = [];
+    public readonly items = signal<ICartGroup[]>([]);
     public cart: ICart;
-    public checkedAll = false;
+    public readonly isChecked = signal(false);
 
     public likeItems: IGoods[] = [];
     public guest = true;
@@ -41,7 +41,7 @@ export class CartComponent implements OnInit {
             if (!cart) {
                 return;
             }
-            this.items = cart.data.map(g => {
+            this.items.set(cart.data.map(g => {
                 return {
                     ...g,
                     goods_list: g.goods_list.map(i => {
@@ -52,7 +52,7 @@ export class CartComponent implements OnInit {
                     }),
                     checked: false,
                 };
-            });
+            }));
             this.cart = cart;
         });
     }
@@ -60,12 +60,12 @@ export class CartComponent implements OnInit {
     ngOnInit() {
     }
 
-    get total() {
+    public readonly total = computed(() => {
         let total = 0;
-        if (!this.items || this.items.length < 1) {
+        if (this.items().length < 1) {
             return total;
         }
-        for (const item of this.items) {
+        for (const item of this.items()) {
             for (const cart of item.goods_list) {
                 if (cart.is_checked && cart.price) {
                     total += cart.amount * cart.price;
@@ -73,14 +73,14 @@ export class CartComponent implements OnInit {
             }
         }
         return total;
-    }
+    });
 
-    get checkedCount() {
+    public readonly checkedCount = computed(() => {
         let total = 0;
-        if (!this.items || this.items.length < 1) {
+        if (this.items().length < 1) {
             return total;
         }
-        for (const item of this.items) {
+        for (const item of this.items()) {
             for (const cart of item.goods_list) {
                 if (cart.is_checked) {
                     total ++;
@@ -88,16 +88,20 @@ export class CartComponent implements OnInit {
             }
         }
         return total;
-    }
+    });
 
     public toggleCheckAll() {
-        this.checkedAll = !this.checkedAll;
-        for (const item of this.items) {
-            item.checked = this.checkedAll;
-            for (const cart of item.goods_list) {
-                cart.is_checked = this.checkedAll;
-            }
-        }
+        this.isChecked.update(v => !v);
+        const isChecked = this.isChecked();
+        this.items.update(v => {
+            return v.map(i => {
+                i.checked = isChecked;
+                for (const cart of i.goods_list) {
+                    cart.is_checked = isChecked;
+                }
+                return i;
+            })
+        });
     }
 
     public toggleCheckGroup(item: ICartGroup) {
@@ -106,21 +110,21 @@ export class CartComponent implements OnInit {
             cart.is_checked = item.checked;
         }
         if (!item.checked) {
-            this.checkedAll = false;
+            this.isChecked.set(false);
         }
     }
 
     public toggleCheck(item: ICartGroup, cart: ICartItem) {
         cart.is_checked = !cart.is_checked;
         if (!cart.is_checked) {
-            this.checkedAll = false;
+            this.isChecked.set(false);
             item.checked = false;
         }
     }
 
     public tapCashier() {
         const data: ICartGroup[] = [];
-        for (const item of this.items) {
+        for (const item of this.items()) {
             const items: ICartItem[] = [];
             for (const cart of item.goods_list) {
                 if (cart.is_checked) {
@@ -171,7 +175,7 @@ export class CartComponent implements OnInit {
 
     public tapRemoveChecked() {
         const items = [];
-        for (const group of this.items) {
+        for (const group of this.items()) {
             for (const item of group.goods_list) {
                 if (item.is_checked) {
                     items.push(item.id);

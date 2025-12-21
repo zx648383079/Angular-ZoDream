@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { IMessageBase } from '../../../../components/message-container';
 import { IBlockItem } from '../../../../components/link-rule';
 import { GameCommand, GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
@@ -13,18 +13,20 @@ export class ChatComponent implements IGameScene, OnInit {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
-    public items: IMessageBase[] = [];
-    public hasMore = false;
-    public page = 1;
-    public perPage = 20;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IMessageBase[]>([]);
+    public readonly hasMore = signal(false);
+    public readonly queries = signal({
+        page: 1,
+        per_page: 20
+    });
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public detailMode = false;
     public canReply = false;
     
     ngOnInit(): void {
         this.router.request(GameCommand.MessageOwn).subscribe(res => {
-            // this.items = res.data;
+            // this.items.set(res.data);
         });
     }
 
@@ -60,7 +62,7 @@ export class ChatComponent implements IGameScene, OnInit {
         //             created_at: i.created_at,
         //         };
         //     });
-        //     this.items = [].concat(items, this.items);
+        //     this.items.set([].concat(items, this.items));
         //     this.hasMore = res.paging.more;
         // });
     }

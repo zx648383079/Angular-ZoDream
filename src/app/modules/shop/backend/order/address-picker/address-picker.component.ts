@@ -26,10 +26,10 @@ export class AddressPickerComponent implements FormValueControl<IAddress> {
         page: 1,
         per_page: 20
     }));
-    public items: IAddress[] = [];
-    public hasMore = false;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IAddress[]>([]);
+    private hasMore = false;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
 
     constructor() {
         effect(() => {
@@ -83,21 +83,21 @@ export class AddressPickerComponent implements FormValueControl<IAddress> {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page, user: this.user()};
         this.service.addressSearch(queries).subscribe({
             next: res => {
-                this.isLoading = false;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.queries().value.set(queries);
-                if (this.items.length < 1 && this.total < 1) {
+                if (this.items().length < 1 && this.total() < 1) {
                     this.toggleEdit();
                 }
             },
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

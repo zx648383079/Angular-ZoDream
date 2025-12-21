@@ -6,19 +6,19 @@ import { IPageQueries } from '../../../theme/models/page';
 
 @Component({
     standalone: false,
-  selector: 'app-catering-store',
-  templateUrl: './store.component.html',
-  styleUrls: ['./store.component.scss']
+    selector: 'app-catering-store',
+    templateUrl: './store.component.html',
+    styleUrls: ['./store.component.scss']
 })
 export class StoreComponent implements OnInit {
     private readonly service = inject(CateringService);
 
 
     public categories: ICateringCategory[] = [];
-    public items: ICateringProduct[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<ICateringProduct[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         category: 0,
@@ -57,17 +57,17 @@ export class StoreComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.productList(queries).subscribe({
             next: res => {
-                this.items = page > 1 ? [].concat(this.items, res.data) : res.data;
+                this.items.set(page > 1 ? [].concat(this.items, res.data) : res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
-                this.isLoading = false;
+                this.total.set(res.paging.total);
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

@@ -5,7 +5,7 @@
         </div>
         @if (openCatalog) {
         <div class="player-catalog">
-            <app-play-list [min]="true" [height]="bodyHeight" [items]="items" (playing)="play($event)" />
+            <app-play-list [min]="true" [height]="bodyHeight" [items]="items()" (playing)="play($event)" />
         </div>
         }
         

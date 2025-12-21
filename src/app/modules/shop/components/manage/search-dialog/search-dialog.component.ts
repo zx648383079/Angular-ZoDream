@@ -23,10 +23,10 @@ export class SearchDialogComponent {
     public readonly visible = signal(false);
     public readonly propertyVisible = input(false);
     private confirmFn: (items: IGoodsResult|IGoodsResult[]) => void;
-    public items: IGoods[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IGoods[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal({
         keywords: '',
         category: '',
@@ -136,7 +136,7 @@ export class SearchDialogComponent {
     }
 
     public get formatItems(): IGoods[] {
-        return this.onlySelected ? this.selectedItems.map(i => i as IGoods) : this.items;
+        return this.onlySelected ? this.selectedItems.map(i => i as IGoods) : this.items();
     }
 
 
@@ -166,18 +166,18 @@ export class SearchDialogComponent {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.search(queries).subscribe({
             next: res => {
-                this.isLoading = false;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.queries().value.set(queries);
             },
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

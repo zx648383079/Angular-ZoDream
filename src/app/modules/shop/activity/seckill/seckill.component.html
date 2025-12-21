@@ -27,7 +27,7 @@
         </div>
 
         <div class="row">
-            @for (item of items; track $index) {
+            @for (item of items(); track $index) {
                 <div class="col-lg-3 col-md-4 col-6">
                 <div class="goods-item">
                     <div class="thumb">
@@ -53,6 +53,6 @@
             }
         </div>
 
-        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBook, IBookRecord } from '../model';
 import { BookService } from '../book.service';
@@ -19,12 +19,14 @@ export class HomeComponent implements OnInit {
 
 
     public readonly contextMenu = viewChild(ContextMenuComponent);
-    public items: IBookRecord[] = [];
-    public page = 1;
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
-    public perPage = 20;
+    public readonly items = signal<IBookRecord[]>([]);
+    public readonly hasMore = signal(false);
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
+    public readonly queries = signal({
+        page: 1,
+        per_page: 20
+    });
 
     ngOnInit() {
         this.tapRefresh();
@@ -49,8 +51,10 @@ export class HomeComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         });
@@ -68,27 +72,30 @@ export class HomeComponent implements OnInit {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.page + 1);
+        this.goPage(this.queries().page + 1);
     }
 
     public goPage(page: number) {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.getHistory({
+            ...this.queries(),
             page
         }).subscribe({
             next: res => {
-                this.page = page;
-                this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.items = res.data;
-                this.total = res.paging.total;
-                this.perPage = res.paging.limit;
+                this.hasMore.set(res.paging.more);
+                this.isLoading.set(false);
+                this.items.set(res.data);
+                this.total.set(res.paging.total);
+                this.queries.update(v => {
+                    v.page = page;
+                    return v;
+                });
             }, 
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

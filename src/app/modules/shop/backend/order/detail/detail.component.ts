@@ -30,7 +30,7 @@ export class DetailComponent implements OnInit {
 
 
     public data: IOrder;
-    public items: IOrderGoods[] = [];
+    public readonly items = signal<IOrderGoods[]>([]);
     public readonly refundForm = form(signal({
         refund_type: '0',
         money: 0,
@@ -55,7 +55,7 @@ export class DetailComponent implements OnInit {
             }
             this.service.order(params.id).subscribe((res: any) => {
                 this.data = res;
-                this.items = res.goods || res.goods_list;
+                this.items.set(res.goods || res.goods_list);
             });
         });
     }
@@ -131,7 +131,7 @@ export class DetailComponent implements OnInit {
 
     public tapShip(modal: DialogEvent) {
         this.shipForm.goods().value.update(_ => {
-            return this.items.map(i => {
+            return this.items().map(i => {
                 return <IShipGoods>{...i, ship_amount: 0};
             });
         });

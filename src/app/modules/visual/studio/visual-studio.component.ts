@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, OnInit, inject, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { assetUri, parseNumber, uriEncode } from '../../../theme/utils';
@@ -19,7 +19,7 @@ export class VisualStudioComponent implements OnInit, AfterViewInit {
 
     private readonly frame = viewChild<ElementRef<HTMLIFrameElement>>('browser');
 
-    public isLoading = true;
+    public readonly isLoading = signal(true);
     private isReady = false;
     private readyFn: (frame: HTMLIFrameElement) => void;
     private data = {
@@ -54,7 +54,7 @@ export class VisualStudioComponent implements OnInit, AfterViewInit {
         }
         this.isReady = true;
         frame.onload = () => {
-            this.isLoading = false;
+            this.isLoading.set(false);
         };
         this.readyFn && this.readyFn(frame);
     }

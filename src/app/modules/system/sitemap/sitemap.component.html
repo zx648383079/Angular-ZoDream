@@ -8,7 +8,7 @@
         <app-action-button class="btn btn-primary" (tapped)="tapMake($event)">生成SiteMap</app-action-button>
 
         <div class="cmd-box" #cmd>
-            @for (item of items; track $index) {
+            @for (item of items(); track $index) {
                 <p class="cmd-line">
                 <i class="iconfont" [class]="{'icon-check': true, 'icon-close': false}"></i>
                 {{ item }}

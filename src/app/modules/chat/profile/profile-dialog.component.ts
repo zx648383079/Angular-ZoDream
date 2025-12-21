@@ -12,20 +12,20 @@ export class ProfileDialogComponent {
     public data: IUser = null;
     public readonly remark = signal('');
     public mode = 0;
-    public visible = false;
+    public readonly visible = signal(false);
 
     private confirmFn: Function;
 
 
     public open(user: IUser, cb: (res: boolean) => void) {
         this.data = user;
-        this.visible = true;
+        this.visible.set(true);
         this.remark.set('');
         this.confirmFn = cb;
     }
 
     public close(result = false) {
-        this.visible = false;
+        this.visible.set(false);
         this.confirmFn(result);
     }
 }

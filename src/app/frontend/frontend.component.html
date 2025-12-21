@@ -1,4 +1,4 @@
-<header class="tablet-collapse" [hidden]="diplayMode > 3">
+<header class="tablet-collapse" [hidden]="diplayMode() > 3">
     <nav class="navbar navbar-expand-lg" [class]="{'fixed-top': fixedTop, 'navbar-not': !navStyle && !navExpand, 'navbar-custom': navStyle || navExpand}">
         <div class="container">
             <a class="navbar-brand" routerLink="./">ZoDream</a>
@@ -26,26 +26,26 @@
                             <i class="iconfont icon-search"></i>
                         </a>
                     </li>
-                    @if (!user || userLoading) {
+                    @if (isGuest()) {
                         <li class="nav-item">
                             <a class="nav-link" (click)="tapLogin()" i18n>
-                                {userLoading, plural, =true {Signing in...} =false {Sign in}}
+                                {userLoading(), plural, =true {Signing in...} =false {Sign in}}
                             </a>
                         </li>
                     } @else {
                         <li class="nav-item">
                             <app-checkin (checkedChange)="onCheckedChange($event)">
-                                <a class="nav-link" [class]="{disabled: todayChecked}" i18n>{todayChecked, plural, =true {Checked in} =false {Check in}}</a>
+                                <a class="nav-link" [class.disabled]="todayChecked()" i18n>{todayChecked(), plural, =true {Checked in} =false {Check in}}</a>
                             </app-checkin>
                         </li>
-                        <li class="nav-item dropdown" [class]="{show: dropDownVisible}">
+                        <li class="nav-item dropdown" [class.show]="dropVisible()">
                             <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown" role="button" (click)="toggleDropDown()">
-                                {{ user.name }}
-                                @if (user.bulletin_count > 0) {
+                                {{ user().name }}
+                                @if (user().bulletin_count > 0) {
                                     <em class="bubble-tip" title="There are unread messages" i18n-title></em>
                                 }
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown" [class]="{show: dropDownVisible}">
+                            <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown" [class.show]="dropVisible()">
                                 @for (item of dropNavItems; track $index) {
                                     @if (item.name && !item.hidden) {
                                         <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" [routerLink]="item.url">
@@ -67,7 +67,7 @@
         </div>
     </nav>
 </header>
-<header class="tablet-search-header tablet-visible" [hidden]="diplayMode > 1">
+<header class="tablet-search-header tablet-visible" [hidden]="diplayMode()> 1">
     <a class="navbar-brand" routerLink="./">ZoDream</a>
     <div class="search-entry" (click)="searchModal.open()">
         <i class="iconfont icon-search"></i>
@@ -83,12 +83,12 @@
     <router-outlet />
 </div>
 
-<footer class="--with-tablet-bottom" [hidden]="diplayMode > 0">
+<footer class="--with-tablet-bottom" [hidden]="diplayMode() > 0">
     <div class="container">
         <div class="friend-link">
             <div i18n>Friend Link</div>
             <div>
-                @for (item of friendLinks; track $index) {
+                @for (item of friendLinks(); track item.name) {
                     <a [href]="item.url" target="_blank" rel="noopener"
                         [title]="item.description || item.name">{{ item.name }}</a>
                 }
@@ -96,14 +96,14 @@
         </div>
         <div class="copyright">
             <p>Copyright ©zodream.cn, All Rights Reserved.</p>
-            @if (site?.site_icp_beian) {
-                <a href="https://beian.miit.gov.cn/" target="_blank">{{ site.site_icp_beian }}</a>
+            @if (site()?.site_icp_beian) {
+                <a href="https://beian.miit.gov.cn/" target="_blank">{{ site().site_icp_beian }}</a>
             }
-            @if (site?.site_pns_beian) {
+            @if (site()?.site_pns_beian) {
             <p>
-                <a target="_blank" [href]="'https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=' + site.site_pns_beian_no">
+                <a target="_blank" [href]="'https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=' + site().site_pns_beian_no">
                     <img [src]="'assets/images/beian.png' | asset" alt="备案图标">
-                    {{ site.site_pns_beian }}
+                    {{ site().site_pns_beian }}
                 </a>
             </p>
             }
@@ -112,7 +112,7 @@
     </div>
 </footer>
 
-<div class="tablet-tab-bar tablet-visible" [hidden]="diplayMode > 3">
+<div class="tablet-tab-bar tablet-visible" [hidden]="diplayMode() > 3">
     <a class="tab-item" routerLink="../">
         <i class="iconfont icon-home item-icon"></i>
         <span class="item-body" i18n>Home</span>
@@ -131,7 +131,7 @@
     </a>
 </div>
 
-<app-online-service class="tablet-collapse" [hidden]="diplayMode > 0" />
+<app-online-service class="tablet-collapse" [hidden]="diplayMode() > 0" />
 <app-search #searchModal />
 <app-login-dialog />
 <app-cookie-bar />

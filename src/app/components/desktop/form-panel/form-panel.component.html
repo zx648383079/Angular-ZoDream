@@ -1,4 +1,4 @@
-@for (item of items; track $index) {
+@for (item of items(); track $index) {
 <div class="input-group-control">
     <label>{{ item.label }}</label>
     @switch (item.type) {

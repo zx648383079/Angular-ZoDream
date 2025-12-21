@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, ElementRef,  OnDestroy, Renderer2, effect, inject, input, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef,  OnDestroy, Renderer2, effect, inject, input, signal, viewChild } from '@angular/core';
 import { IMediaFile, PlayerEvent, PlayerEvents, PlayerListeners, PlayerLoopMode } from '../model';
-import { assetUri, randomInt } from '../../../../theme/utils';
+import { assetUri, findIndex, randomInt } from '../../../../theme/utils';
 
 @Component({
     standalone: false,
@@ -25,7 +25,7 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
     public loop: number = PlayerLoopMode.LIST;
     public paused = true;
     public booted = false;
-    public items: IMediaFile[] = [];
+    public readonly items = signal<IMediaFile[]>([]);
     public index = -1;
     public data: IMediaFile;
     public progress = 0;
@@ -201,8 +201,11 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
         this.audio.src = this.data.source;
         this.paused = false;
         this.audio.play();
-        this.items.forEach((item, j) => {
-            item.active = i === j;
+        this.items.update(v => {
+            return v.map((item, j) => {
+                item.active = i === j;
+                return item;
+            });
         });
     }
 
@@ -230,7 +233,7 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
             this.audio.pause();
         }
         this.audio.src = '';
-        this.items = [];
+        this.items.set([]);
         this.index = -1;
         this.data = undefined;
     }
@@ -318,17 +321,16 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
     }
 
     public push(...items: IMediaFile[]): void {
-        for (const item of items) {
-            if (this.indexOf(item) >= 0) {
-                continue;
-            }
-            this.items.push(item);
-        }
+        this.items.update(v => {
+            const next = items.filter(i => findIndex(v, j => j.source == i.source) < 0);
+            return [...v, ...next];
+        });
     }
 
     public indexOf(item: IMediaFile): number {
-        for (let i = this.items.length - 1; i >= 0; i--) {
-            if (this.items[i].source === item.source) {
+        const items = this.items();
+        for (let i = items.length - 1; i >= 0; i--) {
+            if (items[i].source === item.source) {
                 return i;
             }
         }

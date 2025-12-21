@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { BlogService } from '../blog.service';
 import { IArchives } from '../../model';
 import { ThemeService } from '../../../../theme/services';
@@ -14,13 +14,13 @@ export class ArchivesComponent implements OnInit {
     private readonly themeService = inject(ThemeService);
 
 
-    public items: IArchives[] = [];
-    public isLoading = false;
+    public readonly items = signal<IArchives[]>([]);
+    public readonly isLoading = signal(false);
 
     constructor() {
         this.themeService.titleChanged.next($localize `Archives`);
         this.service.getArchives().subscribe(res => {
-            this.items = res;
+            this.items.set(res);
         });
     }
 

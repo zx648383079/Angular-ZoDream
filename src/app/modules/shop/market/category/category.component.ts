@@ -20,10 +20,10 @@ export class CategoryComponent implements OnInit {
 
 
     public category: ICategory;
-    public items: IGoods[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IGoods[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal({
         page: 1,
         per_page: 20,
@@ -108,14 +108,14 @@ export class CategoryComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.goodsList({...queries, filter: this.filterItems.length < 1}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.total = res.paging.total;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.total.set(res.paging.total);
+                this.items.set(res.data);
                 this.queries().value.set(queries);
             this.searchService.applyHistory(queries, ['category']);
                 if (res.filter) {
@@ -123,7 +123,7 @@ export class CategoryComponent implements OnInit {
                 }
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

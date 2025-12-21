@@ -17,10 +17,10 @@
     <a class="btn btn-success pull-right tablet-collapse" routerLink="create" i18n>Create Document</a>
 </div>
 
-<app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+<app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
 
 <div class="tablet-collapse">
-    @for (item of items; track $index) {
+    @for (item of items(); track $index) {
         <div class="project-item">
         <div class="item-cover">
             <img [src]="item.cover" alt="">
@@ -45,7 +45,7 @@
 
 <div class="tablet-visible">
     <app-swipe-list-control>
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
             <app-swipe-control (tapped)="tapItem(item)">
             <div class="project-item">
                 <div class="item-cover">
@@ -74,4 +74,4 @@
 
 
 
-<app-pagination [total]="total" [field]="queries.page" (valueChange)="tapPage()" [perPage]="queries.per_page().value()" />
+<app-pagination [total]="total()" [field]="queries.page" (valueChange)="tapPage()" [perPage]="queries.per_page().value()" />

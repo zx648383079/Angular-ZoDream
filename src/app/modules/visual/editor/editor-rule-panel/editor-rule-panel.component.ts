@@ -5,9 +5,9 @@ import { IRuleLine } from '../model';
 
 @Component({
     standalone: false,
-  selector: 'app-editor-rule-panel',
-  templateUrl: './editor-rule-panel.component.html',
-  styleUrls: ['./editor-rule-panel.component.scss']
+    selector: 'app-editor-rule-panel',
+    templateUrl: './editor-rule-panel.component.html',
+    styleUrls: ['./editor-rule-panel.component.scss']
 })
 export class EditorRulePanelComponent {
     private readonly zone = inject(NgZone);

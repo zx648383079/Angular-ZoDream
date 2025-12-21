@@ -1,4 +1,4 @@
-import { Component, OnInit, effect, input } from '@angular/core';
+import { Component, OnInit, computed, effect, input, signal } from '@angular/core';
 import { INavLink } from '../../../../theme/models/seo';
 
 @Component({
@@ -9,7 +9,7 @@ import { INavLink } from '../../../../theme/models/seo';
 })
 export class MerchantMenuComponent implements OnInit {
 
-    public items: INavLink[] = [
+    public readonly items = signal<INavLink[]>([
         {name: '统计', url: '', active: true},
         {name: '订单管理', url: 'order'},
         {name: '商品管理', url: 'goods'},
@@ -19,7 +19,7 @@ export class MerchantMenuComponent implements OnInit {
         {name: '员工管理', url: 'staff'},
         {name: '会员管理', url: 'users'},
         {name: '店铺设置', url: 'setting'},
-    ];
+    ]);
 
     public readonly currentUrl = input<string>('');
     private basePath = '../';
@@ -47,9 +47,11 @@ export class MerchantMenuComponent implements OnInit {
         if (url.length < 0) {
             return;
         }
-        this.items = this.items.map(i => {
-            i.active = secret ? url === i.url : url.startsWith(i.url);
-            return i;
+        this.items.update(v => {
+            return v.map(i => {
+                i.active = secret ? url === i.url : url.startsWith(i.url);
+                return i;
+            });
         });
     }
 

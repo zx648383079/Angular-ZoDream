@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IMovie, IMovieSeries } from '../model';
@@ -6,9 +6,9 @@ import { TvService } from '../tv.service';
 
 @Component({
     standalone: false,
-  selector: 'app-detail',
-  templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.scss']
+    selector: 'app-detail',
+    templateUrl: './detail.component.html',
+    styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
     private readonly service = inject(TvService);
@@ -16,10 +16,10 @@ export class DetailComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
 
 
-    public data: IMovie;
-    public seriesItems: IMovieSeries[] = [];
-    public items: IMovie[] = [];
-    public isLoading = false;
+    public readonly data =signal<IMovie>(null);
+    public readonly seriesItems = signal<IMovieSeries[]>([]);
+    public readonly items = signal<IMovie[]>([]);
+    public readonly isLoading = signal(false);
 
     ngOnInit() {
         this.route.params.subscribe(param => {
@@ -30,22 +30,22 @@ export class DetailComponent implements OnInit {
             this.load(param.id);
         });
         this.service.movieList({}).subscribe(res => {
-            this.items = res.data;
+            this.items.set(res.data);
         });
     }
 
 
     private load(id: any) {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.movie(id).subscribe({
             next: res => {
-                this.isLoading = false;
-                this.data = res;
+                this.isLoading.set(false);
+                this.data.set(res);
             },
             error: err => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.toastrService.error(err);
-                this.data = undefined;
+                this.data.set(null);
                 history.back();
             }
         });

@@ -8,9 +8,9 @@ import { ActivityService } from '../../activity.service';
 
 @Component({
     standalone: false,
-  selector: 'app-bargain-goods',
-  templateUrl: './bargain-goods.component.html',
-  styleUrls: ['./bargain-goods.component.scss']
+    selector: 'app-bargain-goods',
+    templateUrl: './bargain-goods.component.html',
+    styleUrls: ['./bargain-goods.component.scss']
 })
 export class BargainGoodsComponent implements OnInit {
     private readonly service = inject(ActivityService);

@@ -6,9 +6,9 @@ import { selectSite } from '../../shop.selectors';
 
 @Component({
     standalone: false,
-  selector: 'app-bottom-bar',
-  templateUrl: './bottom-bar.component.html',
-  styleUrls: ['./bottom-bar.component.scss']
+    selector: 'app-bottom-bar',
+    templateUrl: './bottom-bar.component.html',
+    styleUrls: ['./bottom-bar.component.scss']
 })
 export class BottomBarComponent implements OnInit {
     private readonly store = inject<Store<ShopAppState>>(Store);

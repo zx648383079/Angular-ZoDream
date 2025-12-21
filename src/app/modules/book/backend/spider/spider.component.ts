@@ -18,11 +18,11 @@ export class SpiderComponent implements OnDestroy {
     private readonly searchService = inject(SearchService);
 
 
-    public visible = false;
-    public items: IBookSpiderItem[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly visible = signal(false);
+    public readonly items = signal<IBookSpiderItem[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
@@ -42,11 +42,11 @@ export class SpiderComponent implements OnDestroy {
     }
 
     public open() {
-        this.visible = true;
+        this.visible.set(true);
     }
 
     public close() {
-        this.visible = false;
+        this.visible.set(false);
     }
 
     public tapAsync(item: IBookSpiderItem) {
@@ -117,18 +117,18 @@ export class SpiderComponent implements OnDestroy {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.spiderSearch(queries).subscribe({
             next: res => {
-                this.isLoading = false;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.items.set(res.data);
                 // this.hasMore = res.paging.more;
-                // this.total = res.paging.total;
+                // this.total.set(res.paging.total);
                 this.queries().value.set(queries);
             },
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

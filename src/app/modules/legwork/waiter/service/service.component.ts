@@ -8,9 +8,9 @@ import { IService } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-service',
-  templateUrl: './service.component.html',
-  styleUrls: ['./service.component.scss']
+    selector: 'app-service',
+    templateUrl: './service.component.html',
+    styleUrls: ['./service.component.scss']
 })
 export class ServiceComponent implements OnInit {
     private readonly service = inject(LegworkService);
@@ -18,9 +18,9 @@ export class ServiceComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: IService[] = [];
-    public hasMore = true;
-    public isLoading = false;
+    public readonly items = signal<IService[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
     public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
@@ -58,18 +58,18 @@ export class ServiceComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.waiterServiceList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.items = page < 2 ? res.data : [].concat(this.items, res.data);
+                this.isLoading.set(false);
+                this.items.set(page < 2 ? res.data : [].concat(this.items, res.data));
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

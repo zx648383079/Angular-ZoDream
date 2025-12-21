@@ -25,7 +25,7 @@ export class OptionComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.isMail = params.type === 'mail';
             this.service.option(this.isMail).subscribe(res => {
-                this.form().items = res.data;
+                this.form().items.set(res.data);
             });
         });
     }

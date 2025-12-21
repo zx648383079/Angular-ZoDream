@@ -1,9 +1,9 @@
-<div class="upload-dialog-box" [hidden]="!visible" [class]="{'dialog-min': min}">
+<div class="upload-dialog-box" [hidden]="!visible()" [class]="{'dialog-min': min}">
     <div class="dialog-header">
         <div class="header-title" (click)="min = false">{{ title() }}</div>
         <div class="header-action">
             <i class="iconfont icon-minus" (click)="min = true"></i>
-            <i class="iconfont icon-close" (click)="visible = false"></i>
+            <i class="iconfont icon-close" (click)="visible.set(false)"></i>
         </div>
     </div>
     <div class="dialog-body" appFileDrop (fileDrop)="uploadFile($event)">

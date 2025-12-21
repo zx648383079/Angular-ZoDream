@@ -19,7 +19,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (item of items; track $index) {
+                @for (item of items(); track $index) {
                     <tr>
                     <td>{{ item.id }}</td>
                     <td>{{ item.level | treeLevel }}{{ item.name }}</td>
@@ -37,7 +37,7 @@
     
             </tbody>
         </table>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
     </div>
 </div>
 
@@ -58,7 +58,7 @@
         <label>上级</label>
         <select id="parent_id" class="form-control" [field]="editForm.parent_id">
             <option [value]="0">-- 无上级分类 --</option>
-            @for (item of categories; track $index) {
+            @for (item of categories(); track $index) {
                 <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
             }
         </select>

@@ -56,7 +56,7 @@
         </div>
         <div>
             <div #box class="message-box">
-                @if (hasMore) {
+                @if (hasMore()) {
                     <p class="more" (click)="getMore()">加载更多</p>
                 }
                 @for (message of messages; track $index) {

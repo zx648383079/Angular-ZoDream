@@ -15,8 +15,8 @@ export class MoneyComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
 
 
-    public items: IAccount[] = [];
-    public isLoading = false;
+    public readonly items = signal<IAccount[]>([]);
+    public readonly isLoading = signal(false);
     public readonly queries = form(signal({
         keywords: ''
     }));
@@ -43,10 +43,10 @@ export class MoneyComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.accountList(this.queries().value()).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
+            this.isLoading.set(false);
+            this.items.set(res.data);
         });
     }
 
@@ -61,8 +61,10 @@ export class MoneyComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         });

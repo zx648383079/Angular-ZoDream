@@ -1,4 +1,4 @@
-@if (visible) {
+@if (visible()) {
 <div class="dialog-mask"></div>
 <div class="dialog-box">
     <div class="dialog-header">
@@ -6,7 +6,7 @@
         <i class="iconfont icon-close dialog-close" (click)="close()"></i>
     </div>
     <div class="dialog-body">
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
             <div class="user-item">
                 <div class="item-avatar">
                     <img [src]="item.user.avatar">

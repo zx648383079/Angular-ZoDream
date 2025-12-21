@@ -4,9 +4,9 @@ import { WidgetPreview, WidgetSource, WidgetType } from '../model';
 
 @Component({
     standalone: false,
-  selector: 'app-editor-soul',
-  templateUrl: './editor-soul.component.html',
-  styleUrls: ['./editor-soul.component.scss']
+    selector: 'app-editor-soul',
+    templateUrl: './editor-soul.component.html',
+    styleUrls: ['./editor-soul.component.scss']
 })
 export class EditorSoulComponent implements OnInit {
     private readonly service = inject(EditorService);

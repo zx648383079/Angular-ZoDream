@@ -1,4 +1,4 @@
-import { Component, effect, inject, input } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { AuthService } from '../../../auth.service';
 import { openLink } from '../../../../../../theme/utils/deeplink';
 import { Router } from '@angular/router';
@@ -17,8 +17,8 @@ export class StatisticsPanelComponent {
 
     public readonly itemId = input(0);
     public readonly init = input(false);
-    public items: IStatisticsItem[] = [];
-    public isLoading = false;
+    public readonly items = signal<IStatisticsItem[]>([]);
+    public readonly isLoading = signal(false);
     private booted = 0;
 
 
@@ -51,11 +51,11 @@ export class StatisticsPanelComponent {
             extra: 'count'
         }).subscribe({
             next: res => {
-                this.items = res.data;
-                this.isLoading = false;
+                this.items.set(res.data);
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

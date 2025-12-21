@@ -58,7 +58,7 @@
     @if (itemMode) {
     <div class="row">
         <div class="col-12">
-            @for (item of items; track $index) {
+            @for (item of items(); track $index) {
             <div class="avatar-item">
                 <div class="item-thumb">
                     <img [appLazyLoad]="item.logo" [alt]="item.name">
@@ -88,7 +88,7 @@
             </tr>
         </thead>
         <tbody>
-            @for (item of items; track $index) {
+            @for (item of items(); track $index) {
                 <tr>
                 <td>
                     <div class="item-thumb">

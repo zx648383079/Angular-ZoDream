@@ -29,10 +29,10 @@ export class ListComponent implements OnInit {
 
 
     public forum: IForum;
-    public items: IThread[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IThread[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal({
         keywords: '',
         page: 1,
@@ -154,19 +154,19 @@ export class ListComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.getThreadList({...queries, forum: this.forum.id, sort: this.sortKey, order: this.orderAsc ? 'asc' : 'desc'}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.items = this.formatItems(res.data);
-                this.total = res.paging.total;
+                this.isLoading.set(false);
+                this.items.set(this.formatItems(res.data));
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

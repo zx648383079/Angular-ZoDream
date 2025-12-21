@@ -28,7 +28,7 @@ export class PageEditorComponent implements OnInit {
 
     public readonly contextMenu = viewChild(ContextMenuComponent);
     public readonly scrollBar = viewChild<ElementRef<HTMLDivElement>>('scrollBar');
-    public items: IQuestion[] = [];
+    public readonly items = signal<IQuestion[]>([]);
     public editItem: IQuestion;
     public editIndex = -1;
     public readonly dataForm = form(signal({
@@ -70,7 +70,7 @@ export class PageEditorComponent implements OnInit {
                 this.dataForm().value.update(v => {
                     return this.searchService.getQueries(res, v);
                 });
-                this.items = res.rule_value as any;
+                this.items.set(res.rule_value as any);
                 this.onCourseChange();
                 this.tapEdit(0);
             });
@@ -107,12 +107,12 @@ export class PageEditorComponent implements OnInit {
             this.toastrService.warning('请输入试卷标题');
             return;
         }
-        if (!this.checkQuestion(this.items)) {
+        if (!this.checkQuestion(this.items())) {
             this.toastrService.warning('有部分题目未输入完整！');
             return;
         }
         const data = this.dataForm().value();
-        const items = this.items.filter(i => {
+        const items = this.items().filter(i => {
             if (emptyValidate(i.title)) {
                 return false;
             }
@@ -138,7 +138,7 @@ export class PageEditorComponent implements OnInit {
         }).subscribe({
             next: res => {
                 this.dataForm().value.update(v => this.searchService.getQueries(res, v));
-                this.items = res.rule_value as any;
+                this.items.set(res.rule_value as any);
                 e?.reset();
                 this.toastrService.success($localize `Save Successfully`);
             },
@@ -158,7 +158,10 @@ export class PageEditorComponent implements OnInit {
             content: '',
             score: '',
         } as any;
-        this.items.push(this.editItem);
+        this.items.update(v => {
+            v.push(this.editItem);
+            return v;
+        });
         this.editIndex = this.items.length - 1;
         this.scrollBottom();
     }
@@ -167,7 +170,10 @@ export class PageEditorComponent implements OnInit {
         modal.open(() => {
             for (const item of this.dialogData.items) {
                 if (item.selected && this.indexOf(item.id) < 0) {
-                    this.items.push(item);
+                    this.items.update(v => {
+                        v.push(item);
+                        return v;
+                    });
                 }
             }
         });
@@ -188,7 +194,10 @@ export class PageEditorComponent implements OnInit {
     }
 
     public tapRemove(i: number) {
-        this.items.splice(i, 1);
+        this.items.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
         if (this.items.length < 1) {
             this.tapAdd();
             return;

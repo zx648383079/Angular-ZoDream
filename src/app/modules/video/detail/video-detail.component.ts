@@ -21,8 +21,8 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public isPlaying = false;
     public data: IVideo;
-    public items: IVideo[] = [];
-    public isLoading = false;
+    public readonly items = signal<IVideo[]>([]);
+    public readonly isLoading = signal(false);
     public page = 1;
     private index = -1;
     private queries: any = {};
@@ -204,14 +204,16 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.videoList(Object.assign({page}, this.queries)).subscribe(res => {
             this.page = res.paging.offset;
-            this.isLoading = false;
-            this.items = res.paging.offset < 2 ? res.data :  [].concat(this.items as never[], res.data as never[]);
+            this.isLoading.set(false);
+            this.items.update(v => {
+                return res.paging.offset < 2 ? res.data :  [].concat(v, res.data);
+            });
             success && success();
         }, _ => {
-            this.isLoading = false;
+            this.isLoading.set(false);
         });
     }
 

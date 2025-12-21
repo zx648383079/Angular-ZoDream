@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -11,21 +11,19 @@ export class PageCardComponent {
     /**
      * 是否显示
      */
-     public visible = false;
+    public readonly visible = signal(false);
 
-     public isLoading = false;
-
-    constructor() { }
+    public readonly isLoading = signal(false);
 
     public open() {
-        this.visible = true;
+        this.visible.set(true);
     }
 
     public close() {
-        this.visible = false;
+        this.visible.set(false);
     }
 
     public tapSubmit() {
-        this.isLoading = true;
+        this.isLoading.set(true);
     }
 }

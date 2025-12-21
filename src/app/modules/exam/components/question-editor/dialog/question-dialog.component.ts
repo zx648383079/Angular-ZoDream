@@ -1,4 +1,4 @@
-import { Component, model } from '@angular/core';
+import { Component, model, signal } from '@angular/core';
 import { CustomDialogEvent } from '../../../../../components/dialog';
 import { cloneObject } from '../../../../../theme/utils';
 import { emptyValidate } from '../../../../../theme/validators';
@@ -13,7 +13,7 @@ import { formatFillOption, questionNeedOption, questionOptionIsEmpty } from '../
 })
 export class QuestionDialogComponent implements CustomDialogEvent {
 
-    public visible = false;
+    public readonly visible = signal(false);
     public typeItems = ['单选题', '多选题', '判断题', '简答题', '填空题'];
     public typeOpen = false;
     public analysisOpen = false;
@@ -78,11 +78,11 @@ export class QuestionDialogComponent implements CustomDialogEvent {
 
     public close(result?: any) {
         if (!result) {
-            this.visible = false;
+            this.visible.set(false);
             return;
         }
         if (!this.actionFn) {
-            this.visible = false;
+            this.visible.set(false);
             return;
         }
         this.actionFn();
@@ -99,7 +99,7 @@ export class QuestionDialogComponent implements CustomDialogEvent {
         this.analysisOpen = false;
         this.extendOpen = false;
         this.typeOpen = false;
-        this.visible = true;
+        this.visible.set(true);
         this.actionFn = () => {
             const valueVal = this.value();
             if (questionNeedOption(valueVal)) {
@@ -110,7 +110,7 @@ export class QuestionDialogComponent implements CustomDialogEvent {
                 return;
             }
             confirm(valueVal as any);
-            this.visible = false;
+            this.visible.set(false);
         };
     }
 }

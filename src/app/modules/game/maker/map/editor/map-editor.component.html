@@ -6,7 +6,7 @@
     </div>
     }
 
-    @for (item of items; track $index) {
+    @for (item of items(); track $index) {
         <div class="map-panel" [class]="{'map-selected': item.is_selected}" [style]="{left: item.x + 'px', top: item.y + 'px'}">
             <div class="panel-header" (mousedown)="onMoveStart(item, $event)">
                 <span>{{ item.name }}</span>

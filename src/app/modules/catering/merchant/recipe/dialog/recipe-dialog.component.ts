@@ -1,4 +1,4 @@
-import { Component, input, viewChild } from '@angular/core';
+import { Component, input, signal, viewChild } from '@angular/core';
 import { ICateringRecipe, ICateringRecipeMaterial } from '../../../model';
 import { emptyValidate } from '../../../../../theme/validators';
 import { FlipContainerComponent } from '../../../../../components/swiper';
@@ -15,9 +15,9 @@ export class RecipeDialogComponent {
     /**
      * 是否显示
      */
-     public visible = false;
+     public readonly visible = signal(false);
      public data: ICateringRecipe = {} as any;
-     public items: ICateringRecipeMaterial[] = [];
+     public readonly items = signal<ICateringRecipeMaterial[]>([]);
      public multipleEditable = false;
      public nextData: any = {
         name: '',
@@ -25,7 +25,7 @@ export class RecipeDialogComponent {
      };
      
     public open() {
-        this.visible = true;
+        this.visible.set(true);
     }
 
     public close(yes = false) {
@@ -36,7 +36,7 @@ export class RecipeDialogComponent {
             this.flipModal().back();
             return;
         }
-        this.visible = false;
+        this.visible.set(false);
     }
 
     public tapEditLine(item?: ICateringRecipeMaterial) {
@@ -46,20 +46,25 @@ export class RecipeDialogComponent {
     }
 
     public tapRemoveLine(item: ICateringRecipeMaterial) {
-        this.items = this.items.filter(i => i !== item);
+        this.items.update(v => {
+            return v.filter(i => i !== item);
+        });
     }
 
     private addLine(): boolean {
         if (emptyValidate(this.nextData.name)) {
             return false;
         }
-        for (const item of this.items) {
-            if (item.name === this.nextData.name) {
-                item.unit = this.nextData.unit;
-                return true;
+        this.items.update(v => {
+            for (const item of v) {
+                if (item.name === this.nextData.name) {
+                    item.unit = this.nextData.unit;
+                    return v;
+                }
             }
-        }
-        this.items.push({...this.nextData} as any);
+            v.push({...this.nextData} as any);
+            return v;
+        });
         return true;
     }
 

@@ -21,10 +21,10 @@ export class ContentComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: ICmsContent[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<ICmsContent[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
@@ -80,13 +80,13 @@ export class ContentComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.contentList({...queries}).subscribe(res => {
-            this.isLoading = false;
-            this.items = res.data;
+            this.isLoading.set(false);
+            this.items.set(res.data);
             this.hasMore = res.paging.more;
-            this.total = res.paging.total;
+            this.total.set(res.paging.total);
             this.queries().value.set(queries);
             this.searchService.applyHistory(queries, ['model', 'site', 'category', 'parent']);
             this.columnItems = (res as any).column;
@@ -100,18 +100,20 @@ export class ContentComponent implements OnInit {
     }
 
     public tapRemove(item: ICmsContent) {
-        if (!confirm('确定删除“' + item.title + '”内容？')) {
-            return;
-        }
-        this.service.contentRemove({...this.queries().value(), id: item.id}).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success($localize `Delete Successfully`);
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.title + '”内容？', () => {
+            this.service.contentRemove({...this.queries().value(), id: item.id}).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
+                });
             });
         });
+
     }
 
 }

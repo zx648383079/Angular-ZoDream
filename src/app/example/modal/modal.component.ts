@@ -1,5 +1,6 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogService } from '../../components/dialog';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -11,11 +12,11 @@ export class ExampleModalComponent {
     private readonly toastrService = inject(DialogService);
 
 
-    public customModal = {
+    public readonly customModal = form(signal({
         visible: false,
         page: 0,
         multipleEditable: false
-    };
+    }));
 
     public tapTip(kind = 0) {
         switch (kind) {
@@ -32,6 +33,10 @@ export class ExampleModalComponent {
                 this.toastrService.tip('消息');
                 break;
         }
+    }
+
+    public toggleMultiple() {
+        this.customModal.multipleEditable().value.update(v => !v);
     }
 
     public tapLoading() {

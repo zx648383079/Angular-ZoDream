@@ -1,5 +1,5 @@
 <div class="container">
-    @for (item of items; track $index) {
+    @for (item of items(); track $index) {
         <div class="history-item">
         <div class="item-logo">
             <img [src]="item.software.icon|asset" alt="">
@@ -20,6 +20,6 @@
     </div>
     }
 
-    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-    <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+    <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+    <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
 </div>

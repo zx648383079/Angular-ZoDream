@@ -1,8 +1,8 @@
 <div class="message-container">
-    @if (hasMore()) {
+    @if (more()) {
         <p class="message-more" (click)="tapMore()" i18n>Load more</p>
     }
-    @for (item of formatItems; track $index) {
+    @for (item of formatItems(); track $index) {
         @if (item.type === 99) {
             <p class="message-line">{{ item.content }}</p>
         } @else {

@@ -2,7 +2,7 @@
         <div class="book-sidebar">
             <div class="book-chapter">
                 <ul>
-                    @for (item of categories; track $index) {
+                    @for (item of categories(); track $index) {
                         <li [class]="{active: queries.category().value() == item.id}" (click)="tapCategory(item)">
                             <i class="iconfont icon-bookmark"></i><a>{{ item.name }}</a>
                             @if (item.blog_count > 0) {
@@ -12,27 +12,27 @@
                     }
                 </ul>
             </div>
-            @if (newItems.length > 0) {
+            @if (newItems().length > 0) {
             <div class="book-new">
                 <h3 i18n>Latest Blog</h3>
                 <ul>
-                    @for (item of newItems; track $index) {
+                    @for (item of newItems(); track $index) {
                     <li>
-                        <i class="iconfont icon-bookmark"></i><a [routerLink]="item.id + ''">{{ item.title }}</a></li>
+                        <i class="iconfont icon-bookmark"></i><a [routerLink]="[item.id]">{{ item.title }}</a></li>
                     <li>
                     }
                     
                 </ul>
             </div>
             }
-            @if (commentItems.length > 0) {
+            @if (commentItems().length > 0) {
             <div class="book-dynamic">
                 <h3 i18n>Latest Comment</h3>
-                @for (item of commentItems; track $index) {
+                @for (item of commentItems(); track item.id) {
                 <dl>
-                    <dt><a [routerLink]="item.blog_id + ''">{{ item.name }}</a> 
+                    <dt><a [routerLink]="[item.blog_id]">{{ item.name }}</a> 
                         <ng-container i18n> commented </ng-container>
-                        《<a [routerLink]="item.blog_id + ''">{{ item.blog.title }}</a>》</dt>
+                        《<a [routerLink]="[item.blog_id]">{{ item.blog.title }}</a>》</dt>
                     <dd>
                         <p>{{ item.content }}</p>
                         <span class="book-time">{{ item.created_at|ago }}</span>
@@ -65,8 +65,8 @@
             </div>
             }
             
-            <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-            @for (item of items; track $index) {
+            <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+            @for (item of items(); track $index) {
                 <div class="article-panel-item" [class]="{'--with-cover': listView == 1, '--with-right-cover': listView == 2}">
                 <div class="item-cover">
                     <img [src]="item.thumb">
@@ -113,6 +113,6 @@
             
         </div>
         <div class="book-footer mb-30">
-            <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+            <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
         </div>
 </div>

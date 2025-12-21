@@ -5,7 +5,7 @@
             <i class="iconfont icon-chevron-down"></i>
         </div>
     </div>
-    @if (panelVisible) {
+    @if (panelVisible()) {
     <div class="selector-panel-container" (click)="$event.stopPropagation()">
         <ul class="selector-header">
             @for (item of paths; track $index; let i = $index) {
@@ -17,7 +17,7 @@
         </ul>
         <div class="selector-body">
             <ul>
-                @for (item of items; track $index) {
+                @for (item of items(); track $index) {
                     <li (click)="tapCheckedItem(item)" [class]="{selected: isSelected(item)}">
                         {{ item[rangeLabel()] }}</li>
                 }

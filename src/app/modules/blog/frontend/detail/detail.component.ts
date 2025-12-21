@@ -35,7 +35,7 @@ export class DetailComponent implements OnInit {
 
     public content = '';
     public data: IBlog;
-    public isLoading = false;
+    public readonly isLoading = signal(false);
     public relationItems: IBlog[] = [];
     public commentLoaded = false;
     public readonly dataForm = form(signal({
@@ -64,14 +64,14 @@ export class DetailComponent implements OnInit {
         if (this.data && this.data.id === id) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const openKey = localStorage.getItem(BLOG_OPEN_KEY);
         this.service.batch({
             detail: {id, open_key: openKey},
             relation: {blog: id}
         }).subscribe({
             next: res => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.data = res.detail;
                 this.themeService.titleChanged.next(this.data.seo_title || this.data.title);
                 this.relationItems = res.relation;
@@ -81,7 +81,7 @@ export class DetailComponent implements OnInit {
                 document.documentElement.scrollTop = 0;
             },
             error: err => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.toastrService.error(err);
             },
         });

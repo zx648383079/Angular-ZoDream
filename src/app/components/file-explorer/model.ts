@@ -52,7 +52,7 @@ export interface IBreadcrumbItem {
 }
 
 export interface IFileDataSource {
-    get count(): number;
+    count(): number;
     indexOf(file: IFileItem): number;
     getAt(i: number): IFileItem|undefined;
 }

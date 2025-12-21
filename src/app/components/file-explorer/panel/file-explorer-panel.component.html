@@ -8,7 +8,7 @@
         }
         
         <div class="action-group flex-1">
-            @if (editable() && checkedItems.length > 0) {
+            @if (editable() && checkedItems().length > 0) {
             <div class="action-item" (click)="tapAction(1)">
                 <i class="iconfont icon-cut"></i>
             </div>
@@ -19,7 +19,7 @@
                 <i class="iconfont icon-trash"></i>
             </div>
             }
-            @if (checkedItems.length > 0) {
+            @if (checkedItems().length > 0) {
             <div class="action-item">
                 <i class="iconfont icon-exclamation-circle"></i>
             </div>
@@ -73,8 +73,8 @@
                 <i class="iconfont" [class]="{'icon-sort-alpha-asc': sortKey == 'created_at' && orderAsc, 'icon-sort-alpha-desc': sortKey == 'created_at' && !orderAsc}"></i>
             </div>
         </div>
-        <div class="file-row-body" appInfiniteScroll (scrollEnd)="tapMore()" [disabled]="!hasMore" [offset]="5">
-            @for (item of filterItems; track $index) {
+        <div class="file-row-body" appInfiniteScroll (scrollEnd)="tapMore()" [disabled]="!hasMore()" [offset]="5">
+            @for (item of filterItems(); track $index) {
                 @if (item.type === 'group') {
                     <div class="file-group">
                         {{ item.name }}
@@ -111,11 +111,11 @@
         </div>
     </div>
     <div class="panel-footer">
-        <span>{{ items.length | numberFormat }} items</span>
-        @if (checkedItems.length > 0) {
-            <span>{{ checkedItems.length  | numberFormat }} items selected</span>
+        <span>{{ items().length | numberFormat }} items</span>
+        @if (checkedItems().length > 0) {
+            <span>{{ checkedItems().length  | numberFormat }} items selected</span>
         }
         
-        <span>{{ subtotal | size }}</span>
+        <span>{{ subtotal() | size }}</span>
     </div>
 </div>

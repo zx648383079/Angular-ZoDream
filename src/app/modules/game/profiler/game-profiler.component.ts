@@ -56,7 +56,7 @@ public navItems: INavLink[] = [
             url: '/',
         }
     ];
-    private subItems = new Subscription();
+    private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `Game Profiler`);

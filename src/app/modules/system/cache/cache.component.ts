@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { IItem } from '../../../theme/models/seo';
 import { SystemService } from '../system.service';
@@ -15,11 +15,11 @@ export class CacheComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
 
 
-    public items: IItem[] = [];
+    public readonly items = signal<IItem[]>([]);
 
     constructor() {
         this.service.cacheStore().subscribe(res => {
-            this.items = res;
+            this.items.set(res);
         });
     }
 
@@ -29,7 +29,7 @@ export class CacheComponent implements OnInit {
 
     public tapSubmit(e?: ButtonEvent) {
         const store: string[] = [];
-        for (const item of this.items) {
+        for (const item of this.items()) {
             if (item.checked) {
                 store.push(item.value as string);
             }

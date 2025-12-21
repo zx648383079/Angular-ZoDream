@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, inject } from '@angular/core';
+import { Component, HostListener, OnDestroy, inject, signal } from '@angular/core';
 import { DialogPackage } from '../dialog.injector';
 import { DialogService } from '../dialog.service';
 import { DialogMessageOption } from '../model';
@@ -27,7 +27,7 @@ export class DialogMessageComponent implements OnDestroy {
     public theme = '';
     public title = '';
     public content = '';
-    public visible = true;
+    public readonly visible = signal(true);
     public offset = 0;
 
     private timeHandle: any;
@@ -46,7 +46,7 @@ export class DialogMessageComponent implements OnDestroy {
         this.content = option.content || '';
         this.applyTheme(option.type);
         this.timeHandle = setTimeout(() => {
-            this.visible = false;
+            this.visible.set(false);
             this.timeHandle = null;
         }, option.time || 2000);
     }
@@ -59,7 +59,7 @@ export class DialogMessageComponent implements OnDestroy {
 
     @HostListener('click')
     public close() {
-        this.visible = false;
+        this.visible.set(false);
         if (this.timeHandle) {
             clearTimeout(this.timeHandle);
             this.timeHandle = null;

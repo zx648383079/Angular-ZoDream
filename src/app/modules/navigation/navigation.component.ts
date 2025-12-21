@@ -35,10 +35,10 @@ export class NavigationComponent implements OnInit, OnDestroy {
     private readonly collectModal = viewChild(NavigationPanelComponent);
 
     public openType = 0;
-    public items: IWebPage[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IWebPage[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         keywords: '',
@@ -121,7 +121,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     }
 
     public tapRefresh() {
-        this.items = [];
+        this.items.set([]);
         this.goPage(1);
     }
 
@@ -140,20 +140,20 @@ export class NavigationComponent implements OnInit, OnDestroy {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.openType = 2;
         const queries = {...this.queries().value(), page};
         this.service.search(queries).subscribe({
             next: res => {
-                this.isLoading = false;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: err => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.toastrService.error(err);
             },
         });

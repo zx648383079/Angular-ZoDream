@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { EditorModalCallback, IEditorSharedModal } from '../../model';
 import { IEditorModule, IEditorOptionItem } from '../../base';
 import { IPoint } from '../../../../theme/utils/canvas';
@@ -40,8 +40,8 @@ const HeadingItems = [2.5, 2, 1.75, 1.5, 1.25, 1];
 })
 export class EditorDropdownComponent implements IEditorSharedModal {
 
-    public visible = false;
-    public items: IEditorOptionItem[] = [];
+    public readonly visible = signal(false);
+    public readonly items = signal<IEditorOptionItem[]>([]);
     public selected = '';
     public modalStyle: any = {};
     private confirmFn: EditorModalCallback;
@@ -51,12 +51,12 @@ export class EditorDropdownComponent implements IEditorSharedModal {
 
     public modalReady(module: IEditorModule) {
         if (module.name === 'font') {
-            this.items = FontItems.map(i => {
+            this.items.set(FontItems.map(i => {
                 i.style = {
                     'font-family': i.value
                 };
                 return i;
-            });
+            }));
             return;
         } else if (module.name === 'fontsize') {
             const items = [];
@@ -73,7 +73,7 @@ export class EditorDropdownComponent implements IEditorSharedModal {
                 });
                 last = value;
             }
-            this.items = items;
+            this.items.set(items);
             return;
         } else if (module.name === 'heading') {
             const items = [];
@@ -83,7 +83,7 @@ export class EditorDropdownComponent implements IEditorSharedModal {
                     value: `h${i}`,
                 });
             }
-            this.items = HeadingItems.map((i, j) => {
+            this.items.set(HeadingItems.map((i, j) => {
                     return {
                         name: `H${j+1}`,
                         value: `h${j+1}`,
@@ -92,19 +92,19 @@ export class EditorDropdownComponent implements IEditorSharedModal {
                             'font-weight': 'blod'
                         }
                     }
-                });
+                }));
             return;
         }
     }
 
     public open(data: any, cb: EditorModalCallback, position?: IPoint) {
         this.modalStyle = position ? {left: position.x + 'px', top: position.y + 'px'} : {};
-        this.visible = true;
+        this.visible.set(true);
         this.confirmFn = cb;
     }
 
     public tapConfirm(item: IEditorOptionItem) {
-        this.visible = false;
+        this.visible.set(false);
         this.selected = item.value;
         if (this.confirmFn) {
             this.confirmFn({

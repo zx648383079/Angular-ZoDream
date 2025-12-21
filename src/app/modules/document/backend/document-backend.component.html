@@ -20,7 +20,7 @@
             </form>
         </div>
 
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
         <div class="project-item">
             <div class="cover">
                 <img [src]="item.cover" alt="">
@@ -41,7 +41,7 @@
             </div>
         </div>
         }
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [field]="queries.page" (valueChange)="tapPage()" [perPage]="queries.per_page().value()" />
+        <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+        <app-pagination [total]="total()" [field]="queries.page" (valueChange)="tapPage()" [perPage]="queries.per_page().value()" />
     </div>
 </div>

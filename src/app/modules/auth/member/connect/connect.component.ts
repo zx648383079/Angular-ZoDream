@@ -19,8 +19,8 @@ export class ConnectComponent implements OnInit {
 
 
     private readonly faModal = viewChild<DialogEvent>('faModal');
-    public items: IConnect[] = [];
-    public isLoading = false;
+    public readonly items = signal<IConnect[]>([]);
+    public readonly isLoading = signal(false);
     public readonly dataForm = form(signal({
         recovery_code: '',
         twofa_code: '',
@@ -36,14 +36,14 @@ export class ConnectComponent implements OnInit {
     }
 
     public tapRefresh() {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.connect().subscribe({
             next: res => {
-                this.items = res;
-                this.isLoading = false;
+                this.items.set(res);
+                this.isLoading.set(false);
             },
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

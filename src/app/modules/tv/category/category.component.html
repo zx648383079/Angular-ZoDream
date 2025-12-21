@@ -3,7 +3,7 @@
         <i class="iconfont icon-search"></i>
     </a>
 </div>
-@for (cat of items; track $index) {
+@for (cat of items(); track $index) {
 <div class="group-row">
     <div class="row-header">
         <div class="item-name">{{ cat.name }}</div>

@@ -3,11 +3,11 @@
 <label >{{ header() }}</label>
 }
 <div class="control-popup-target">
-    <div class="color-icon" (click)="visible = !visible">
+    <div class="color-icon" (click)="toggle()">
         <i class="iconfont icon-edit"></i>
     </div>
 </div>
-<div class="control-popup" [hidden]="!visible">
+<div class="control-popup" [hidden]="!visible()">
     <div class="popup-action">
         <div class="btn btn-danger">清除</div>
     </div>

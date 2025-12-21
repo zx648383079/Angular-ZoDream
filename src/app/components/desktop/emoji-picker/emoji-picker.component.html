@@ -2,14 +2,14 @@
     <div (click)="tapButton()" class="emoji-picker__button">
         <ng-content />
     </div>
-    @if (panelVisible) {
-    <div class="emoji-picker_container" [style]="panelStyle">
+    @if (panelVisible()) {
+    <div class="emoji-picker_container" [style]="panelStyle()">
         <div class="picker-header">
-            {{ navTitle }}
-            <i class="iconfont icon-close" (click)="panelVisible = false"></i>
+            {{ navTitle() }}
+            <i class="iconfont icon-close" (click)="panelVisible.set(false)"></i>
         </div>
         <div class="picker-body">
-            @for (item of fiterItems; track $index) {
+            @for (item of fiterItems(); track $index) {
                 @if (item.type > 0) {
                     <div class="item-text" [title]="item.name" (click)="tapItem(item)">
                         {{ item.content }}
@@ -22,7 +22,7 @@
             }
         </div>
         <div class="nav-bar">
-            @for (item of navItems; track $index; let i = $index) {
+            @for (item of navItems(); track $index; let i = $index) {
                 <div class="item" [class]="{active: i === navIndex}" (click)="navIndex = i">
                     {{ item.name }}
                 </div>

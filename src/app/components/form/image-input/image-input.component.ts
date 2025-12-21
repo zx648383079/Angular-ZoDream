@@ -1,4 +1,4 @@
-import { Component, inject, input, model, output } from '@angular/core';
+import { Component, inject, input, model, output, signal } from '@angular/core';
 import { FileUploadService } from '../../../theme/services';
 import { IUploadResult, IUploadFile } from '../../../theme/models/open';
 import { assetUri } from '../../../theme/utils';
@@ -17,7 +17,7 @@ export class ImageInputComponent implements FormValueControl<string> {
     public readonly placeholder = input($localize `Select an image`);
     public readonly disabled = input<boolean>(false);
     public readonly value = model<string>('');
-    public isLoading = false;
+    public readonly isLoading = signal(false);
     public uploadFailure = false;
     public fileName = this.uploadService.uniqueGuid();
 
@@ -37,15 +37,15 @@ export class ImageInputComponent implements FormValueControl<string> {
         if (files.length < 1) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.uploadService.uploadImage(files[0]).subscribe({
             next: res => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.value.set(res.url);
                 this.fileUploaded.emit(res);
             },
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.uploadFailure = true;
             },
         });

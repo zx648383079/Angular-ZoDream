@@ -1,12 +1,12 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { EditorService } from '../editor.service';
 import { alginOptions, WidgetType } from '../model';
 
 @Component({
     standalone: false,
-  selector: 'app-editor-property',
-  templateUrl: './editor-property.component.html',
-  styleUrls: ['./editor-property.component.scss']
+    selector: 'app-editor-property',
+    templateUrl: './editor-property.component.html',
+    styleUrls: ['./editor-property.component.scss']
 })
 export class EditorPropertyComponent {
     private readonly service = inject(EditorService);
@@ -16,7 +16,7 @@ export class EditorPropertyComponent {
         
     };
 
-    public panelVisible = false;
+    public readonly panelVisible = signal(false);
     public tabIndex = 0;
     public widgetType = WidgetType.CONTROL;
 
@@ -35,16 +35,16 @@ export class EditorPropertyComponent {
         });
         this.service.selectionChanged$.subscribe(res => {
             if (res.length != 1) {
-                this.panelVisible = false;
+                this.panelVisible.set(false);
                 return;
             }
-            this.panelVisible = true;
+            this.panelVisible.set(true);
         });
     }
 
     public tapClose(e: MouseEvent) {
         e.stopPropagation();
-        this.panelVisible = false;
+        this.panelVisible.set(false);
     }
 
 }

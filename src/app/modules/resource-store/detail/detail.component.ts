@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { ThemeService } from '../../../theme/services';
@@ -20,7 +20,7 @@ export class DetailComponent implements OnInit {
 
 
     public data: IResource;
-    public isLoading = false;
+    public readonly isLoading = signal(false);
     public tabIndex = 0;
     public catalogItems: IResourceCatalog[] = [];
 
@@ -39,10 +39,10 @@ export class DetailComponent implements OnInit {
     }
 
     private load(id: any) {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.resource(id).subscribe({
             next: res => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 res.score = parseNumber(res.score);
                 this.themeService.titleChanged.next(res.title);
                 this.data = res;
@@ -50,7 +50,7 @@ export class DetailComponent implements OnInit {
                 // this.loadCatalog();
             },
             error: err => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.data = undefined;
                 this.toastrService.error(err)
                 history.back();

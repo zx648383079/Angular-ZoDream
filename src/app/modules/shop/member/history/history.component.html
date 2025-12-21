@@ -12,7 +12,7 @@
                 </a>
             </div>
             <div class="panel-body">
-                @for (group of items; track $index) {
+                @for (group of items(); track $index) {
                     <div class="date-header">
                         <div class="day-box">
                             <span class="day">{{ group.ago }}</span>

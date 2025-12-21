@@ -1,23 +1,23 @@
 <div class="detail-floor">
-    <app-loading-tip [loading]="isLoading" [visible]="!data || isLoading" />
-    @if (data) {
+    <app-loading-tip [loading]="isLoading()" [visible]="!data() || isLoading()" />
+    @if (data()) {
     <div>
         <div class="image-box">
-            <img [src]="data.cover|asset" alt="">
+            <img [src]="data().cover|asset" alt="">
         </div>
         <div class="detail-header container-fluid">
             <div class="row">
                 <div class="title-bar col-12">
-                    {{ data.title }}
+                    {{ data().title }}
                     <app-star />
                 </div>
                 <div class="detail-body col-md-8 order-last">
                     <div class="meta-bar">
-                        <p>类型：{{ data.category?.name }}</p>
-                        <p>主演：{{ data.leader }}</p>
+                        <p>类型：{{ data().category?.name }}</p>
+                        <p>主演：{{ data().leader }}</p>
                     </div>
                     <div class="description-bar">
-                        {{ data.description }}
+                        {{ data().description }}
                         <div class="bar-more">更多</div>
                     </div>
                 </div>
@@ -55,12 +55,12 @@
             </div>
         </div>
         <div class="more-container container-fluid">
-            @if (seriesItems && seriesItems.length > 0) {
+            @if (seriesItems().length > 0) {
             <div class="panel play-mini">
                 <div class="panel-header">选集</div>
                 <div class="panel-body">
-                    @for (item of seriesItems; track $index) {
-                        <a class="play-item"  [routerLink]="['play', data.id, item.id]">
+                    @for (item of seriesItems(); track $index) {
+                        <a class="play-item"  [routerLink]="['play', data().id, item.id]">
                             <span class="item-no">{{ item.episode }}</span>
                             <span class="item-label">{{ item.title }}</span>
                         </a>
@@ -75,7 +75,7 @@
                     第一季
                 </div>
                 <div class="panel-body">
-                    @for (item of items; track $index) {
+                    @for (item of items(); track $index) {
                         <div class="large-play-item" >
                         <div class="item-image">
                             <img [src]="item.cover | asset" alt="">
@@ -93,7 +93,7 @@
                     演员及工作人员
                 </div>
                 <div class="panel-body">
-                    @for (item of items; track $index) {
+                    @for (item of items(); track $index) {
                         <div class="cast-item">
                         <div class="item-image">
                             <img [src]="item.cover | asset" alt="">
@@ -109,10 +109,10 @@
     
             <div class="slider-panel">
                 <div class="panel-header">
-                    {{ data.title }}（系列）
+                    {{ data().title }}（系列）
                 </div>
                 <div class="panel-body">
-                    @for (item of items; track $index) {
+                    @for (item of items(); track $index) {
                     <div class="min-movie-item" >
                         <div class="item-image">
                             <img [src]="item.cover | asset" alt="">

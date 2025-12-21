@@ -1,13 +1,14 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, Renderer2, inject, input, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, Renderer2, inject, input, signal, viewChild } from '@angular/core';
 import { ScreenFull } from '../../util';
 import { IMediaFile, PlayerEvent, PlayerEvents, PlayerListeners } from '../model';
 import Hls from 'hls.js';
+import { findIndex } from '../../../../theme/utils';
 
 @Component({
     standalone: false,
-  selector: 'app-movie-player',
-  templateUrl: './movie-player.component.html',
-  styleUrls: ['./movie-player.component.scss']
+    selector: 'app-movie-player',
+    templateUrl: './movie-player.component.html',
+    styleUrls: ['./movie-player.component.scss']
 })
 export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestroy {
     private render = inject(Renderer2);
@@ -23,7 +24,7 @@ export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestr
     public openCatalog = false;
     public moreVisible = false;
     public morePanelVisible = false;
-    public items: IMediaFile[] = [];
+    public readonly items = signal<IMediaFile[]>([]);
     public data: IMediaFile;
     public index = -1;
     public progress = 0;
@@ -104,17 +105,16 @@ export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestr
         this.videoPlayer.src = '';
     }
     public push(...items: IMediaFile[]): void {
-        for (const item of items) {
-            if (this.indexOf(item) >= 0) {
-                continue;
-            }
-            this.items.push(item);
-        }
+        this.items.update(v => {
+            const next = items.filter(i => findIndex(v, j => j.source == i.source) < 0);
+            return [...v, ...next];
+        });
     }
 
     public indexOf(item: IMediaFile): number {
-        for (let i = this.items.length - 1; i >= 0; i--) {
-            if (this.items[i].source === item.source) {
+        const items = this.items();
+        for (let i = items.length - 1; i >= 0; i--) {
+            if (items[i].source === item.source) {
                 return i;
             }
         }

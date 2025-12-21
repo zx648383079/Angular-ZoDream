@@ -22,7 +22,7 @@ export class BroswerComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: any[] = [];
+    public readonly items = signal<any[]>([]);
     public readonly queries = form(signal({
         start_at: '',
         end_at: '',
@@ -30,7 +30,7 @@ export class BroswerComponent implements OnInit {
         page: 1,
         per_page: 20
     }));
-    public isLoading = false;
+    public readonly isLoading = signal(false);
     public tabItems = TimeTabItems;
     public tabIndex = '';
     public typeItems: IItem[] = [
@@ -81,7 +81,7 @@ export class BroswerComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries: any = {...this.queries().value(), page};
         if (this.tabIndex != '') {
             queries.start_at = this.tabIndex;
@@ -89,20 +89,20 @@ export class BroswerComponent implements OnInit {
         }
         this.service.visitClientList(queries).subscribe({
             next: res => {
-                this.items = res.data;
+                this.items.set(res.data);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.formatChart();
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
 
     private formatChart() {
-        const items = this.items;
+        const items = this.items();
         this.options = <EChartsCoreOption>{
             // title: {
             //     text: '流量趋势分析',

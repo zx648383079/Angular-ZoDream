@@ -2,6 +2,7 @@
 @use '../rfs';
 @use '../mixins';
 @use '../variables';
+@use '../functions';
 $prefix: 'bs-' !default;
 
 $nav-link-padding-y:                .5rem !default;
@@ -61,7 +62,7 @@ $navbar-light-toggler-border-color: rgba(var(--#{$prefix}emphasis-color-rgb), .1
     --#{$prefix}navbar-toggler-padding-y: #{$navbar-toggler-padding-y};
     --#{$prefix}navbar-toggler-padding-x: #{$navbar-toggler-padding-x};
     --#{$prefix}navbar-toggler-font-size: #{$navbar-toggler-font-size};
-    // --#{$prefix}navbar-toggler-icon-bg: #{escape-svg($navbar-light-toggler-icon-bg)};
+    // --#{$prefix}navbar-toggler-icon-bg: #{functions.escape-svg($navbar-light-toggler-icon-bg)};
     --#{$prefix}navbar-toggler-border-color: #{$navbar-light-toggler-border-color};
     --#{$prefix}navbar-toggler-border-radius: #{$navbar-toggler-border-radius};
     --#{$prefix}navbar-toggler-focus-width: #{$navbar-toggler-focus-width};

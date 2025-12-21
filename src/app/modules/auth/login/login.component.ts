@@ -75,7 +75,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     public captchaImage = '';
     private qrToken = '';
     public qrImage = '';
-    private subItems = new Subscription();
+    private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `Sign in`);

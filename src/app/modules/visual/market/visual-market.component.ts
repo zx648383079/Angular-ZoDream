@@ -4,9 +4,9 @@ import { VisualService } from './visual.service';
 
 @Component({
     standalone: false,
-  selector: 'app-visual-market',
-  templateUrl: './visual-market.component.html',
-  styleUrls: ['./visual-market.component.scss']
+    selector: 'app-visual-market',
+    templateUrl: './visual-market.component.html',
+    styleUrls: ['./visual-market.component.scss']
 })
 export class VisualMarketComponent implements OnInit {
     private readonly service = inject(VisualService);

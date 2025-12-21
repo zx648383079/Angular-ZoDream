@@ -16,8 +16,8 @@ export class CategoryComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
 
 
-    public items: ICategory[] = [];
-    public isLoading = false;
+    public readonly items = signal<ICategory[]>([]);
+    public readonly isLoading = signal(false);
     public readonly editForm = form(signal({
         id: 0,
         name: '',
@@ -26,7 +26,7 @@ export class CategoryComponent implements OnInit {
     }), schemaPath => {
         required(schemaPath.name);
     });
-    public categories: ICategory[] = [];
+    public readonly categories = signal<ICategory[]>([]);
 
     ngOnInit() {
         this.load();
@@ -51,7 +51,7 @@ export class CategoryComponent implements OnInit {
             v.parent_id = item?.parent_id as any ?? '';
             return v;
         });
-        this.categories = !item ? this.items : filterTree(this.items, item.id);
+        this.categories.set(!item ? this.items() : filterTree(this.items(), item.id));
         modal.open(() => {
             this.service.categorySave(this.editForm().value()).subscribe({
                 next: () => {
@@ -66,14 +66,14 @@ export class CategoryComponent implements OnInit {
     }
 
     private load() {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.categoryList().subscribe({
             next: res => {
-                this.items = res.data;
-                this.isLoading = false;
+                this.items.set(res.data);
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

@@ -29,10 +29,10 @@ export class UserComponent implements OnInit, OnDestroy {
     private readonly searchService = inject(SearchService);
 
 
-    public items: IUser[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IUser[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         keywords: '',
@@ -73,7 +73,7 @@ export class UserComponent implements OnInit, OnDestroy {
             color: 'btn-danger',
         },
     ];
-    private subItems = new Subscription();
+    private readonly subItems = new Subscription();
 
     constructor() {
         this.subItems.add(this.store.select(selectAuthRole).subscribe(roles => {
@@ -164,19 +164,19 @@ export class UserComponent implements OnInit, OnDestroy {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.userList(queries).subscribe({
             next: res => {
-                this.items = res.data;
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
-                this.isLoading = false;
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -203,18 +203,20 @@ export class UserComponent implements OnInit, OnDestroy {
         if (!this.editable) {
             return;
         }
-        if (!confirm('确定删除“' + item.name + '”用户？')) {
-            return;
-        }
-        this.service.userRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success($localize `Delete Successfully`);
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
-            });
+        this.toastrService.confirm('确定删除“' + item.name + '”用户？', () => {
+           this.service.userRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
+                });
+            }); 
         });
+        
     }
 
     public onVerify(item: IUser, modal: DialogEvent) {

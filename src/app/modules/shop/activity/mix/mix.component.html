@@ -6,7 +6,7 @@
 
     <div>
         <div class="row">
-            @for (item of items; track $index) {
+            @for (item of items(); track $index) {
                 <div class="col-md-6">
                 <div class="mix-item">
                     @if (item.thumb) {
@@ -47,6 +47,6 @@
             }
         </div>
 
-        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>

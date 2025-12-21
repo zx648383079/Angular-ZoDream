@@ -9,7 +9,7 @@
 </div>
 
 <div class="container">
-    @for (group of items; track $index) {
+    @for (group of items(); track $index) {
     <div class="catalog-panel" [class]="{min: group.min}">
         <div class="panel-header">
             <a [routerLink]="[group.id]">{{ group.name }}</a>
@@ -51,5 +51,5 @@
     }
     
 
-    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+    <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
 </div>

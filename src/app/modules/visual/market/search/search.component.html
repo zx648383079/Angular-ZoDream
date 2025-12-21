@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="row">
-                    @for (item of items; track $index) {
+                    @for (item of items(); track $index) {
                         <div class="col-md-6">
                         <div class="large-item">
                             <div class="item-cover">
@@ -66,8 +66,8 @@
                     }
                 </div>
 
-                <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-                <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+                <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+                <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
             </div>
         </div>
     </div>

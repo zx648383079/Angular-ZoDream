@@ -1,25 +1,25 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { INavLink } from '../../theme/models/seo';
 import { ThemeService } from '../../theme/services';
 import { LegworkService } from './legwork.service';
 
 @Component({
     standalone: false,
-  selector: 'app-legwork',
-  templateUrl: './legwork.component.html',
-  styleUrls: ['./legwork.component.scss']
+    selector: 'app-legwork',
+    templateUrl: './legwork.component.html',
+    styleUrls: ['./legwork.component.scss']
 })
 export class LegworkComponent implements OnInit {
     private readonly service = inject(LegworkService);
     private readonly themeService = inject(ThemeService);
 
 
-    public items: INavLink[] = this.renderNav();
+    public readonly items = signal<INavLink[]>(this.renderNav());
 
     constructor() {
         this.themeService.titleChanged.next('跑腿');
         this.service.role().subscribe(res => {
-            this.items = this.renderNav(res.is_waiter === 1, res.is_provider === 1);
+            this.items.set(this.renderNav(res.is_waiter === 1, res.is_provider === 1));
         });
     }
 
@@ -27,12 +27,14 @@ export class LegworkComponent implements OnInit {
     }
 
     public tapNav(item: INavLink) {
-        this.items = this.items.map(group => {
-            group.children = group.children.map(i => {
-                i.active = i === item;
-                return i;
+        this.items.update(v => {
+            return v.map(group => {
+                group.children = group.children.map(i => {
+                    i.active = i === item;
+                    return i;
+                });
+                return group;
             });
-            return group;
         });
     }
 

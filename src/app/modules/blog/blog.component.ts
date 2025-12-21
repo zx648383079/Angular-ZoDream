@@ -35,7 +35,7 @@ export class BlogComponent implements OnInit {
 
     public detailMode = false;
 
-    public items: IBlog[] = [];
+    public readonly items = signal<IBlog[]>([]);
 
     public categories: ICategory[] = [];
 
@@ -55,8 +55,8 @@ export class BlogComponent implements OnInit {
     public category = 0;
     public sort: 'new' | 'hot' | 'best' = 'new';
     public page = 1;
-    public hasMore = true;
-    public isLoading = false;
+    public readonly hasMore = signal(false);
+    public readonly isLoading = signal(false);
     public readonly queries = form(signal({
         keywords: ''
     }));
@@ -98,7 +98,7 @@ export class BlogComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.pullBox()?.startLoad();
         this.service.getPage({
             category: this.category,
@@ -108,13 +108,13 @@ export class BlogComponent implements OnInit {
         }).subscribe({
             next: res => {
                 this.page = page;
-                this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.items = page < 2 ? res.data : [].concat(this.items, res.data);
+                this.hasMore.set(res.paging.more);
+                this.isLoading.set(false);
+                this.items.set(page < 2 ? res.data : [].concat(this.items, res.data));
                 this.pullBox()?.endLoad();
             }, 
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.pullBox()?.endLoad();
             }
         });

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { EditorModalCallback, IEditorModal } from '../../model';
 
 @Component({
@@ -9,19 +9,19 @@ import { EditorModalCallback, IEditorModal } from '../../model';
 })
 export class EditorLinkComponent implements IEditorModal {
 
-    public visible = false;
+    public readonly visible = signal(false);
     public url = '';
     public title = '';
     public isBlank = false;
     private confirmFn: EditorModalCallback;
 
     public open(data: any, cb: EditorModalCallback) {
-        this.visible = true;
+        this.visible.set(true);
         this.confirmFn = cb;
     }
 
     public tapConfirm() {
-        this.visible = false;
+        this.visible.set(false);
         if (this.confirmFn) {
             this.confirmFn({
                 value: this.url,

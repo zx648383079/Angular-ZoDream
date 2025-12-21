@@ -8,7 +8,7 @@
             </a>
         </li>
         }
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
             <li class="page-item" [class]="{active: value() == item, disabled: item < 1}">
                 <a class="page-link" (click)="tapItem(item)">{{ item > 0 ? item : '...' }}</a>
             </li>

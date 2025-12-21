@@ -1,4 +1,4 @@
-@if (visible) {
+@if (visible()) {
     <div class="dialog-mask" (click)="close()"></div>
     <div class="dialog-box"  animate.enter="dialog-opened" animate.leave="dialog-closed">
     <div class="input-label">名称</div>
@@ -9,12 +9,12 @@
         <div class="panel-header">
             <span>权限</span>
             <div class="panel-action">
-                <i class="checkbox" [class]="{checked: isChecked}" (click)="toggleCheck()"></i>
-                {{ isChecked ? '取消全选' : '全选' }}
+                <i class="checkbox" [class.checked]="isChecked()" (click)="toggleCheck()"></i>
+                {{ isChecked() ? '取消全选' : '全选' }}
             </div>
         </div>
         <div class="panel-body">
-            @for (item of items; track $index) {
+            @for (item of items(); track $index) {
                 <div class="role-group">
                 <div class="group-header">
                     <i class="checkbox" [class]="{checked: item.checked}" (click)="toggleCheck(item)"></i>

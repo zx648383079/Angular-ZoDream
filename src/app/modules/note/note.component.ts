@@ -31,9 +31,9 @@ export class NoteComponent implements OnInit, OnDestroy {
     private readonly sanitizer = inject(DomSanitizer);
 
 
-    public items: INote[] = [];
-    public hasMore = true;
-    public isLoading = false;
+    public readonly items = signal<INote[]>([]);
+    public readonly hasMore = signal(true);
+    public readonly isLoading = signal(false);
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
@@ -49,7 +49,7 @@ export class NoteComponent implements OnInit, OnDestroy {
     });
     public authUser: IUser;
 
-    private subItems = new Subscription();
+    private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `Note`);
@@ -109,8 +109,10 @@ export class NoteComponent implements OnInit, OnDestroy {
                         return;
                     }
                     this.toastrService.success($localize `successfully deleted! `);
-                    this.items = this.items.filter(it => {
-                        return it.id !== item.id;
+                    this.items.update(v => {
+                        return v.filter(it => {
+                            return it.id !== item.id;
+                        });
                     });
                 },
                 error: err => {
@@ -139,7 +141,7 @@ export class NoteComponent implements OnInit, OnDestroy {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.getList(queries).subscribe({
             next: res => {
@@ -147,14 +149,14 @@ export class NoteComponent implements OnInit, OnDestroy {
                     i.html = this.sanitizer.bypassSecurityTrustHtml(i.html);
                     return i;
                 })
-                this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.items = page < 2 ? data : [].concat(this.items, data);
+                this.hasMore.set(res.paging.more);
+                this.isLoading.set(false);
+                this.items.set(page < 2 ? data : [].concat(this.items, data));
                 this.queries().value.set(queries);
             this.searchService.applyHistory(queries, false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

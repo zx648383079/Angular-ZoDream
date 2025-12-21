@@ -84,20 +84,20 @@
         </a>
     </div>
 </div>
-<app-pull-to-refresh class="items-box" (refreshChange)="tapRefresh()" (moreChange)="tapMore()" [more]="hasMore"
-    [loading]="isLoading">
+<app-pull-to-refresh class="items-box" (refreshChange)="tapRefresh()" (moreChange)="tapMore()" [more]="hasMore()"
+    [loading]="isLoading()">
     <div class="catalog-body" [class]="{'file-view': viewMode, 'file-edit': editMode}">
         <div class="file-header">
-            <div class="check-box" [class]="{checked: checkedAll}" (click)="tapCheckAll()"></div>
+            <div class="check-box" [class.checked]="isChecked()" (click)="tapCheckAll()"></div>
             <div class="name" [class]="{'sort-asc': sortKey == 'name' && orderAsc, 'sort-desc': sortKey == 'name' && !orderAsc}" (click)="tapSort('name')">文件名</div>
             <div class="size" [class]="{'sort-asc': sortKey == 'size' && orderAsc, 'sort-desc': sortKey == 'size' && !orderAsc}" (click)="tapSort('size')">大小</div>
             <div class="time" [class]="{'sort-asc': sortKey == 'updated_at' && orderAsc, 'sort-desc': sortKey == 'updated_at' && !orderAsc}" (click)="tapSort('updated_at')">修改日期</div>
         </div>
         @if (editMode) {
         <div class="file-edit-header">
-            <div class="check-box" [class]="{checked: checkedAll}" (click)="tapCheckAll()"></div>
+            <div class="check-box" [class.checked]="isChecked()" (click)="tapCheckAll()"></div>
             <div class="check-count">
-                已选中 {{ checkCount }} 个文件/文件夹
+                已选中 {{ checkCount() }} 个文件/文件夹
             </div>
             <div class="edit-action">
                 <i class="iconfont icon-share-alt"></i>
@@ -109,7 +109,7 @@
             </div>
         </div>
         }
-        @for (item of filterItems; track $index) {
+        @for (item of filterItems(); track $index) {
             @if (item.type === 'group') {
                 <div class="file-group">
                     {{ item.name }}

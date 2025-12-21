@@ -5,7 +5,7 @@
             <a routerLink="../tag" i18n>Tags</a>
             <a routerLink="../archives" i18n>Archives</a>
         </div>
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
             <div class="cat-item">
             <a routerLink="../" [queryParams]="{category: item.id}">{{ item.name }}</a>
             @if (item.blog_count > 0) {
@@ -14,7 +14,7 @@
             
         </div>
         }
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
     </div>
 
 </div>

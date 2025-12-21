@@ -39,7 +39,7 @@ export class EditComponent implements OnInit {
     });
 
     public data: ITask;
-    public items: ITask[] = [];
+    public readonly items = signal<ITask[]>([]);
     public readonly editForm = form(signal<ITask>({
         id: 0,
         name: '',
@@ -73,7 +73,7 @@ export class EditComponent implements OnInit {
                     start_at: res.start_at,
                 });
                 if (res.children) {
-                    this.items = res.children;
+                    this.items.set(res.children);
                 }
             });
         });
@@ -127,10 +127,14 @@ export class EditComponent implements OnInit {
                 description: this.editForm.description,
                 every_time: this.data?.every_time,
             }).subscribe({
-                    next: res => {
+                next: res => {
                     this.toastrService.success($localize `Save Successfully`);
-                    this.items.push(res);
-                }, error: err => {
+                    this.items.update(v => {
+                        v.push(res);
+                        return v;
+                    });
+                },
+                error: err => {
                     this.toastrService.warning(err.message);
                 }
             });
@@ -138,16 +142,17 @@ export class EditComponent implements OnInit {
     }
 
     public tapRemove(item: ITask) {
-        if (!confirm('确定要删除《' + item.name + '》?')) {
-            return;
-        }
-        this.service.taskRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success($localize `Delete Successfully`);
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定要删除《' + item.name + '》?', () => {
+            this.service.taskRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
+                });
             });
         });
     }

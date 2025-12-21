@@ -3,9 +3,9 @@ import { twoPad } from '../../../../../theme/utils';
 
 @Component({
     standalone: false,
-  selector: 'app-mobile-bar',
-  templateUrl: './mobile-bar.component.html',
-  styleUrls: ['./mobile-bar.component.scss']
+    selector: 'app-mobile-bar',
+    templateUrl: './mobile-bar.component.html',
+    styleUrls: ['./mobile-bar.component.scss']
 })
 export class MobileBarComponent {
 

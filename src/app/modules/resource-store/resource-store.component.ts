@@ -35,7 +35,7 @@ export class ResourceStoreComponent implements OnInit, OnDestroy {
     public user: IUser;
     public searchVisible = false;
     public navOpen = false;
-    private subItems = new Subscription();
+    private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `Resource Store`);

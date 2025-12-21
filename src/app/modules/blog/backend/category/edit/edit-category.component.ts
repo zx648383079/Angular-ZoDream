@@ -7,9 +7,9 @@ import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-  selector: 'app-edit-category',
-  templateUrl: './edit-category.component.html',
-  styleUrls: ['./edit-category.component.scss']
+    selector: 'app-edit-category',
+    templateUrl: './edit-category.component.html',
+    styleUrls: ['./edit-category.component.scss']
 })
 export class EditCategoryComponent implements OnInit {
     private readonly service = inject(BlogService);

@@ -53,7 +53,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (item of items; track $index) {
+                @for (item of items(); track $index) {
                     <tr>
                     <td>
                         {{ item.day }}<em>{{ item.week }}</em>

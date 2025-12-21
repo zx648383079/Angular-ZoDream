@@ -6,7 +6,7 @@
             <a class="active" i18n>Archives</a>
         </div>
         <div class="time-axis">
-            @for (item of items; track item.year) {
+            @for (item of items(); track item.year) {
                 <div class="time-title">
                     <div class="time-year">{{ item.year }}</div>
                 </div>
@@ -20,6 +20,6 @@
                 </div>
             }
         </div>
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+        <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
     </div>
 </div>

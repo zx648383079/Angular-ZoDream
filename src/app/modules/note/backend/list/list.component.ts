@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -21,10 +21,10 @@ export class ListComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: INote[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<INote[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
@@ -38,8 +38,8 @@ export class ListComponent implements OnInit {
     }), schemaPath => {
         required(schemaPath.content);
     });
-    public isMultiple = false;
-    public isChecked = false;
+    public readonly isMultiple = signal(false);
+    public readonly isChecked = signal(false);
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -85,30 +85,38 @@ export class ListComponent implements OnInit {
     }
 
 
-    public get checkedItems() {
-        return this.items.filter(i => i.checked);
+    public readonly checkedItems = computed(() => {
+        return this.items().filter(i => i.checked);
+    });
+
+    public toggleMultiple() {
+        this.isMultiple.update(v => !v);
     }
 
     public toggleCheck(item?: INote) {
         if (!item) {
-            this.isChecked = !this.isChecked;
-            this.items.forEach(i => {
-                i.checked = this.isChecked;
+            this.isChecked.update(v => !v);
+            const isChecked = this.isChecked();
+            this.items.update(v => {
+                return v.map(i => {
+                    i.checked = isChecked;
+                    return i;
+                });
             });
             return;
         }
         item.checked = !item.checked;
         if (!item.checked) {
-            this.isChecked = false;
+            this.isChecked.set(false);
             return;
         }
-        if (this.checkedItems.length === this.items.length) {
-            this.isChecked = true;
+        if (this.checkedItems().length === this.items().length) {
+            this.isChecked.set(true);
         }
     }
 
     public tapRemoveMultiple() {
-        const items = this.checkedItems;
+        const items = this.checkedItems();
         if (items.length < 1) {
             this.toastrService.warning($localize `No item selected!`);
             return;
@@ -139,19 +147,19 @@ export class ListComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.noteList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.items = res.data;
-                this.total = res.paging.total;
+                this.isLoading.set(false);
+                this.items.set(res.data);
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -166,16 +174,17 @@ export class ListComponent implements OnInit {
     }
 
     public tapRemove(item: INote) {
-        if (!confirm('确定删除“' + item.id + '”便签？')) {
-            return;
-        }
-        this.service.noteRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success($localize `Delete Successfully`);
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.id + '”便签？', () => {
+            this.service.noteRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
+                });
             });
         });
     }

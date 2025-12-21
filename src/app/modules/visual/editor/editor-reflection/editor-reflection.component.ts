@@ -12,9 +12,9 @@ enum EditMode {
 
 @Component({
     standalone: false,
-  selector: 'app-editor-reflection',
-  templateUrl: './editor-reflection.component.html',
-  styleUrls: ['./editor-reflection.component.scss']
+    selector: 'app-editor-reflection',
+    templateUrl: './editor-reflection.component.html',
+    styleUrls: ['./editor-reflection.component.scss']
 })
 export class EditorReflectionComponent implements OnInit {
     private readonly service = inject(EditorService);

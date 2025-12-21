@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { IArticle } from '../../../model';
@@ -6,9 +6,9 @@ import { ShopService } from '../../../shop.service';
 
 @Component({
     standalone: false,
-  selector: 'app-help',
-  templateUrl: './help.component.html',
-  styleUrls: ['./help.component.scss']
+    selector: 'app-help',
+    templateUrl: './help.component.html',
+    styleUrls: ['./help.component.scss']
 })
 export class HelpComponent implements OnInit {
     private readonly service = inject(ShopService);
@@ -16,7 +16,7 @@ export class HelpComponent implements OnInit {
     private readonly sanitizer = inject(DomSanitizer);
 
 
-    public items = [];
+    public readonly items = signal([]);
 
     public data: IArticle;
 
@@ -24,7 +24,7 @@ export class HelpComponent implements OnInit {
 
     ngOnInit() {
         this.service.help().subscribe(res => {
-            this.items = res.data;
+            this.items.set(res.data);
         });
     }
 
@@ -41,16 +41,18 @@ export class HelpComponent implements OnInit {
             this.tapItem(item.children[0]);
             return;
         }
-        this.items = this.items.map(i => {
-            if (i.children) {
-                i.children = i.children.map(it => {
-                    it.active = it === item;
-                    return it;
-                });
-            } else {
-                i.active = i === item;
-            }
-            return i;
+        this.items.update(v => {
+            return v.map(i => {
+                if (i.children) {
+                    i.children = i.children.map(it => {
+                        it.active = it === item;
+                        return it;
+                    });
+                } else {
+                    i.active = i === item;
+                }
+                return i;
+            });
         });
         this.loadArticle(item.id);
     }

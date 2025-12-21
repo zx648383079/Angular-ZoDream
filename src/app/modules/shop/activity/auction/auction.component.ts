@@ -10,9 +10,9 @@ import { ActivityService } from '../activity.service';
 
 @Component({
     standalone: false,
-  selector: 'app-auction',
-  templateUrl: './auction.component.html',
-  styleUrls: ['./auction.component.scss']
+    selector: 'app-auction',
+    templateUrl: './auction.component.html',
+    styleUrls: ['./auction.component.scss']
 })
 export class AuctionComponent implements OnInit, OnDestroy {
     private readonly themeService = inject(ThemeService);
@@ -22,10 +22,10 @@ export class AuctionComponent implements OnInit, OnDestroy {
 
 
     public readonly countItems = viewChildren(CountdownComponent);
-    public items: IActivity<IAuctionConfigure>[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IActivity<IAuctionConfigure>[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
         per_page: 20,
@@ -68,18 +68,18 @@ export class AuctionComponent implements OnInit, OnDestroy {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.auctionList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.items.set(res.data);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

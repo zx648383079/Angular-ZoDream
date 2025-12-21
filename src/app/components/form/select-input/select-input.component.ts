@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, HostListener, effect, inject, input, model } from '@angular/core';
+import { Component, HostListener, effect, inject, input, model, signal } from '@angular/core';
 import { IData } from '../../../theme/models/page';
 import { cloneObject } from '../../../theme/utils';
 import { hasElementByClass } from '../../../theme/utils/doc';
@@ -31,8 +31,8 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
     public readonly value = model<T | T[] | number | string>();
     public optionItems: T[] = [];
     public selectedItems: T[] = [];
-    public keywords = '';
-    public panelVisible = false;
+    public readonly keywords = signal('');
+    public readonly panelVisible = signal(false);
     private valueTypeT = false;
     private booted = false;
 
@@ -52,7 +52,7 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
     @HostListener('document:click', ['$event']) 
     public hideCalendar(event: any) {
         if (!event.target.closest('.select-input-container') && !hasElementByClass(event.path, 'select-input-container')) {
-            this.panelVisible = false;
+            this.panelVisible.set(false);
         }
     }
 
@@ -68,8 +68,8 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
     public tapSelected(item: T) {
         if (!this.multiple()) {
             this.selectedItems = [item];
-            this.keywords = '';
-            this.panelVisible = false;
+            this.keywords.set('');
+            this.panelVisible.set(false);
             this.output();
             return;
         }
@@ -101,7 +101,7 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
             this.optionItems = this.items().filter(i => i[this.rangeLabel()].indexOf(this.keywords) >= 0);
             return;
         }
-        this.http.get<IData<T>>(url, {params: {[this.searchKey()]: this.keywords}}).subscribe(res => {
+        this.http.get<IData<T>>(url, {params: {[this.searchKey()]: this.keywords()}}).subscribe(res => {
             const formatFn = this.formatFn();
             const items = formatFn ?  formatFn(res) : res.data;
             if (items instanceof Array) {
@@ -111,11 +111,11 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
     }
 
     public onFocus() {
-        this.panelVisible = true;
+        this.panelVisible.set(true);
     }
 
     public onBlur() {
-        // this.panelVisible = false;
+        // this.panelVisible.set(false);
     }
 
     private output() {

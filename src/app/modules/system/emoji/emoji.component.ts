@@ -22,10 +22,10 @@ export class EmojiComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public items: IEmoji[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IEmoji[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal({
         page: 1,
         per_page: 20,
@@ -43,8 +43,8 @@ export class EmojiComponent implements OnInit {
         required(schemaPath.content);
     });
     public readonly typeValue = computed(() => parseNumber(this.editForm.type().value()));
-    public isMultiple = false;
-    public isChecked = false;
+    public readonly isMultiple = signal(false);
+    public readonly isChecked = signal(false);
 
     constructor() {
         this.service.emojiCategoryList({}).subscribe(res => {
@@ -59,30 +59,38 @@ export class EmojiComponent implements OnInit {
         });
     }
 
-    public get checkedItems() {
-        return this.items.filter(i => i.checked);
+    public readonly checkedItems = computed(() => {
+        return this.items().filter(i => i.checked);
+    });
+
+    public toggleMultiple() {
+        this.isMultiple.update(v => !v);
     }
 
     public toggleCheck(item?: IEmoji) {
         if (!item) {
-            this.isChecked = !this.isChecked;
-            this.items.forEach(i => {
-                i.checked = this.isChecked;
+            this.isChecked.update(v => !v);
+            const isChecked = this.isChecked();
+            this.items.update(v => {
+                return v.map(i => {
+                    i.checked = isChecked;
+                    return i;
+                });
             });
             return;
         }
         item.checked = !item.checked;
         if (!item.checked) {
-            this.isChecked = false;
+            this.isChecked.set(false);
             return;
         }
-        if (this.checkedItems.length === this.items.length) {
-            this.isChecked = true;
+        if (this.checkedItems().length === this.items().length) {
+            this.isChecked.set(true);
         }
     }
 
     public tapRemoveMultiple() {
-        const items = this.checkedItems;
+        const items = this.checkedItems();
         if (items.length < 1) {
             this.toastrService.warning($localize `No item selected!`);
             return;
@@ -117,19 +125,19 @@ export class EmojiComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.emojiList(queries).subscribe({
             next: res => {
-                this.items = res.data;
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
-                this.isLoading = false;
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
@@ -146,8 +154,10 @@ export class EmojiComponent implements OnInit {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.items = this.items.filter(it => {
-                    return it.id !== item.id;
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
                 });
             });
         });

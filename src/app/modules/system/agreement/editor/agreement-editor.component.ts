@@ -1,4 +1,4 @@
-import { Component, effect, input, model } from '@angular/core';
+import { Component, effect, input, model, signal } from '@angular/core';
 import { IAgreementGroup } from '../../../../theme/models/seo';
 import { eachObject } from '../../../../theme/utils';
 import { FormValueControl } from '@angular/forms/signals';
@@ -17,7 +17,7 @@ export class AgreementEditorComponent implements FormValueControl<IAgreementGrou
     public readonly disabled = input<boolean>(false);
     public readonly value = model<IAgreementGroup[]|string>([]);
     public data: IAgreementGroup;
-    public items: IAgreementGroup[] = [];
+    public readonly items = signal<IAgreementGroup[]>([]);
 
     constructor() {
         effect(() => {
@@ -31,16 +31,19 @@ export class AgreementEditorComponent implements FormValueControl<IAgreementGrou
     }
 
     public tapAddGroup() {
-        this.items.push({
-            name: '',
-            title: '',
-            children: [
-                {
-                    content: '',
-                }
-            ],
+        this.items.update(v => {
+            v.push({
+                name: '',
+                title: '',
+                children: [
+                    {
+                        content: '',
+                    }
+                ],
+            });
+            return v;
         });
-        this.value.set(this.items);
+        this.value.set(this.items());
     }
 
     public tapRemoveGroup() {
@@ -49,8 +52,11 @@ export class AgreementEditorComponent implements FormValueControl<IAgreementGrou
         }
         for (let i = 0; i < this.value.length; i++) {
             if (this.value[i] === this.data) {
-                this.items.splice(i, 1);
-                this.value.set(this.items);
+                this.items.update(v => {
+                    v.splice(i, 1);
+                    return v;
+                })
+                this.value.set(this.items());
                 this.data = null;
                 return;
             }
@@ -77,16 +83,22 @@ export class AgreementEditorComponent implements FormValueControl<IAgreementGrou
         if (i < 1) {
             return;
         }
-        this.items[i] = this.items.splice(i - 1, 1, this.items[i])[0];
-        this.value.set(this.items);
+        this.items.update(v => {
+            v[i] = v.splice(i - 1, 1, v[i])[0];
+            return v;
+        });
+        this.value.set(this.items());
     }
 
     public tapMoveDown(i: number) {
-        if (i >= this.items.length - 1) {
-            return;
-        }
-        this.items[i] = this.items.splice(i + 1, 1, this.items[i])[0];
-        this.value.set(this.items);
+        this.items.update(v => {
+            if (i >= v.length - 1) {
+                return v;
+            }
+            v[i] = v.splice(i + 1, 1, v[i])[0];
+            return v;
+        });
+        this.value.set(this.items());
     }
 
     private writeValue(obj: any): void {
@@ -104,7 +116,7 @@ export class AgreementEditorComponent implements FormValueControl<IAgreementGrou
             }
             items.push(item);
         });
-        this.items = items;
+        this.items.set(items);
     }
     
 

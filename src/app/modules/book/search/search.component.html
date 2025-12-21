@@ -1,6 +1,6 @@
 <div class="container-fluid">
 
-    @for (item of items; track $index) {
+    @for (item of items(); track $index) {
         <div class="book-item" (click)="tapBook(item)">
             <div class="cover">
                 <img [src]="item.cover">

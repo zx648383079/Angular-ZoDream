@@ -1,7 +1,6 @@
 import { Component, inject, input, signal } from '@angular/core';
 import { DialogBoxComponent } from '../../../../components/dialog';
 import { MindPointSource, MindLinkSource, MindConfirmEvent, MindUpdateEvent } from '../../../../components/mind';
-import { emptyValidate } from '../../../../theme/validators';
 import { IBookRole, IBookRoleRelation } from '../../model';
 import { BookService } from '../book.service';
 import { form, required } from '@angular/forms/signals';
@@ -16,7 +15,7 @@ export class EditorRolePanelComponent {
     private readonly service = inject(BookService);
 
 
-    public visible = false;
+    public readonly visible = signal(false);
     public readonly targetId = input(0);
     public subOpen = 0;
     public linkOpen = false;
@@ -63,7 +62,7 @@ export class EditorRolePanelComponent {
     }
 
     public open() {
-        this.visible = true;
+        this.visible.set(true);
         this.subOpen = 0;
         if (this.booted) {
             return;
@@ -73,7 +72,8 @@ export class EditorRolePanelComponent {
     } 
 
     public close() {
-        this.linkOpen = this.visible = false
+        this.visible.set(false);
+        this.linkOpen = false;
     }
 
     public toggleLink() {

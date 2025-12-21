@@ -10,7 +10,7 @@
     <div class="tip" i18n>
         The latest login device: click can view the login time
     </div>
-    @for (item of items; track $index) {
+    @for (item of items(); track $index) {
         <div class="driver-item">
         <div class="item-icon">
             <i class="iconfont icon-mobile"></i>
@@ -33,5 +33,5 @@
         </div>
     </div>
     }
-    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
+    <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
 </div>

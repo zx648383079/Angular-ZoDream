@@ -18,8 +18,8 @@ export class TimeComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
 
 
-    public items: IActivityTime[] = [];
-    public isLoading = false;
+    public readonly items = signal<IActivityTime[]>([]);
+    public readonly isLoading = signal(false);
     public activity = 0;
     public readonly editForm = form(signal({
         id: 0,
@@ -40,29 +40,30 @@ export class TimeComponent implements OnInit {
     }
 
     public tapRefresh() {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.timeList().subscribe({
             next: res => {
-                this.items = res.data;
-                this.isLoading = false;
+                this.items.set(res.data);
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
 
     public tapRemove(item: any) {
-        if (!confirm('确定删除“' + item.title + '”时间段？')) {
-            return;
-        }
-        this.service.timeRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success($localize `Delete Successfully`);
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定删除“' + item.title + '”时间段？', () => {
+            this.service.timeRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
+                });
             });
         });
     }

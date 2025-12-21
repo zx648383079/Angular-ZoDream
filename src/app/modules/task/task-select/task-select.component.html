@@ -1,14 +1,14 @@
-@if (visible) {
+@if (visible()) {
 <div class="dialog-panel" animate.enter="panel-opened" animate.leave="panel-closed">
     <div class="panel-header">
-        <i class="iconfont icon-close" (click)="visible = false"></i>
+        <i class="iconfont icon-close" (click)="visible.set(false)"></i>
     </div>
     <div class="panel-search">
         <input type="text" [field]="queries.keywords" (keypress)="searchEnter($event)">
         <i class="iconfont icon-search" (click)="tapSearch()"></i>
     </div>
     <div class="panel-body">
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
             <div class="task-item">
             <div class="name">{{ item.name }}</div>
             <div class="desc">{{ item.description }}</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { IUser, IUserStatus } from '../../../theme/models/user';
 import { MemberSpaceService } from './member-space.service';
 import { ActivatedRoute } from '@angular/router';
@@ -20,7 +20,7 @@ export class MemberSpaceComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
 
 
-    public isLoading = false;
+    public readonly isLoading = signal(false);
     public data: IUserStatus;
     public authUser: IUser;
 
@@ -38,16 +38,16 @@ export class MemberSpaceComponent implements OnInit {
     }
 
     public tapRefresh() {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.user({
             user: this.data.id
         }).subscribe({
             next: res => {
                 this.data = res;
-                this.isLoading = false;
+                this.isLoading.set(false);
             },
             error: err => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.toastrService.error(err);
                 history.back();
             }

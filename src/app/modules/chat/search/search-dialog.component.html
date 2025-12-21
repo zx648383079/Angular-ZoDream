@@ -1,4 +1,4 @@
-@if (visible) {
+@if (visible()) {
 <div class="dialog-mask"></div>
 <div class="dialog-box">
     <div class="dialog-header">
@@ -17,12 +17,12 @@
             <input type="text" placeholder="搜索联系人" id="keywords" [field]="queries.keywords" (focus)="tapSearchInput()" (keypress)="onSearchKeyDown($event)">
             <i class="iconfont icon-close" (click)="tapSearchClear()"></i>
         </div>
-        <a class="route-icon" [class]="{disabled: !hasMore}" title="下一页" (click)="tapNext()">
+        <a class="route-icon" [class]="{disabled: !hasMore()}" title="下一页" (click)="tapNext()">
             <i class="iconfont icon-chevron-right"></i>
         </a>
     </div>
     <div class="search-body">
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
             <div class="user-item" (click)="tapItem(item)">
                 <div class="item-avatar">
                     <img [src]="item.avatar">

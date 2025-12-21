@@ -39,7 +39,7 @@
                         </div>
                     </div>
                 </div>
-                <app-message-container [items]="items" [hasMore]="hasMore" (loadMore)="tapMore($event)" (tapped)="onMessageTap($event)" />
+                <app-message-container [items]="items()" [more]="hasMore()" (loadMore)="tapMore($event)" (tapped)="onMessageTap($event)" />
                 <div class="message-tools">
                     <i class="iconfont icon-smile-o"></i>
                     <i class="iconfont icon-image"></i>

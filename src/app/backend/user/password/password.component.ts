@@ -19,7 +19,6 @@ export class PasswordComponent {
         old_password: '',
         password: '',
         confirm_password: '',
-    }, {
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.old_password);

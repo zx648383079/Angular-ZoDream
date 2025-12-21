@@ -1,4 +1,4 @@
-<div class="dialog-search" [hidden]="!panelVisible">
+<div class="dialog-search" [hidden]="!panelVisible()">
     <i class="iconfont icon-close dialog-close" (click)="close()"></i>
     <div class="dialog-body">
         <app-auto-suggest-box (confirm)="tapConfirm($event)" (textChange)="onSuggestChange($event)" />

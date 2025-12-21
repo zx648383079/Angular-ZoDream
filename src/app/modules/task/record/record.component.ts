@@ -20,7 +20,7 @@ export class RecordComponent implements OnInit {
         type: '0',
     }));
 
-    public items: any[] = [];
+    public readonly items = signal<any[]>([]);
     public typeItems = ['按天', '按周', '按月'];
 
     public readonly typeValue = computed(() => parseNumber(this.queries.type().value()));
@@ -35,7 +35,7 @@ export class RecordComponent implements OnInit {
         });
     }
 
-    get dayItems() {
+    public readonly dayItems = computed(() => {
         const items = [];
         for (let index = 0; index < 24; index++) {
             items.push({
@@ -44,7 +44,7 @@ export class RecordComponent implements OnInit {
             });
         }
         let i = 0;
-        for (const item of this.items) {
+        for (const item of this.items()) {
             const date = new Date(item.created_at);
             items[0].items.push(Object.assign({
                 style: {
@@ -56,9 +56,9 @@ export class RecordComponent implements OnInit {
             i ++;
         }
         return items;
-    }
+    });
 
-    get weekItems() {
+    public readonly weekItems = computed(() => {
         const items = [];
         ['一', '二', '三', '四', '五', '六', '日'].forEach(i => {
             items.push({
@@ -66,7 +66,7 @@ export class RecordComponent implements OnInit {
                 items: []
             });
         });
-        for (const item of this.items) {
+        for (const item of this.items()) {
             const date = new Date(item.created_at);
             const w = date.getDay() - 1;
             items[w].items.push(Object.assign({
@@ -77,9 +77,9 @@ export class RecordComponent implements OnInit {
             }, item));
         }
         return items;
-    }
+    });
 
-    get monthItems() {
+    public readonly monthItems = computed(() => {
         const now = new Date();
         const date = new Date(now.getFullYear(), now.getMonth() + 1, 0);
         const count = date.getDate();
@@ -98,13 +98,13 @@ export class RecordComponent implements OnInit {
                 items: []
             });
         }
-        for (const item of this.items) {
+        for (const item of this.items()) {
             const d = new Date(item.created_at);
             const i = d.getDate() + start - 1;
             items[i].items.push(Object.assign({}, item));
         }
         return items;
-    }
+    })
 
     public tapSearch() {
         this.tapRefresh();
@@ -112,7 +112,7 @@ export class RecordComponent implements OnInit {
 
     public tapRefresh() {
         this.service.record(this.queries().value()).subscribe(res => {
-            this.items = res.data;
+            this.items.set(res.data);
         });
     }
 }

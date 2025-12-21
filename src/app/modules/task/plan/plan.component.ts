@@ -1,5 +1,5 @@
 import { form, max, min } from '@angular/forms/signals';
-import { Component, OnInit, inject, viewChild, signal } from '@angular/core';
+import { Component, OnInit, inject, viewChild, signal, computed } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -26,10 +26,10 @@ export class PlanComponent implements OnInit {
     private readonly taskModal = viewChild(TaskSelectComponent);
     private readonly addModal = viewChild<DialogEvent>('addModal');
 
-    public items: ITaskPlan[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<ITaskPlan[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal({
         keywords: '',
         page: 1,
@@ -75,7 +75,7 @@ export class PlanComponent implements OnInit {
         });
     }
 
-    get weekItems() {
+    public readonly weekItems = computed(() => {
         const items = this.weekNameItems.map(i => {
             return {
                 label: i.name,
@@ -83,7 +83,7 @@ export class PlanComponent implements OnInit {
                 items: []
             }
         });
-        for (const item of this.items) {
+        for (const item of this.items()) {
             const w = item.plan_time as number - 1;
             items[w].items.push(Object.assign({
                 style: {
@@ -93,9 +93,9 @@ export class PlanComponent implements OnInit {
             }, item));
         }
         return items;
-    }
+    });
 
-    get monthItems() {
+    public readonly monthItems = computed(() => {
         const items = this.monthNameItems.map(i => {
             return {
                 label: i.name,
@@ -103,12 +103,12 @@ export class PlanComponent implements OnInit {
                 items: []
             }
         })
-        for (const item of this.items) {
+        for (const item of this.items()) {
             const i = item.plan_time as number - 1;
             items[i].items.push(Object.assign({}, item));
         }
         return items;
-    }
+    });
 
     public tapAdd() {
         this.taskModal().open(item => {
@@ -140,7 +140,10 @@ export class PlanComponent implements OnInit {
                 return;
             }
         }
-        this.items.push(item);
+        this.items.update(v => {
+            v.push(item);
+            return v;
+        });
     }
 
     public tapType(i: number) {
@@ -167,34 +170,35 @@ export class PlanComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.planList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
-                this.isLoading = false;
-                this.items = res.data;
-                this.total = res.paging.total;
+                this.isLoading.set(false);
+                this.items.set(res.data);
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }
 
     public tapRemove(item: ITaskPlan) {
-        if (!confirm('确定要删除当前计划?')) {
-            return;
-        }
-        this.service.planRemove(item.id).subscribe(res => {
-            if (!res.data) {
-                return;
-            }
-            this.toastrService.success($localize `Delete Successfully`);
-            this.items = this.items.filter(it => {
-                return it.id !== item.id;
+        this.toastrService.confirm('确定要删除当前计划?', () => {
+            this.service.planRemove(item.id).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.items.update(v => {
+                    return v.filter(it => {
+                        return it.id !== item.id;
+                    });
+                });
             });
         });
     }

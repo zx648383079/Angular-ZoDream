@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, input } from '@angular/core';
+import { Component, OnInit, ViewChild, input, signal } from '@angular/core';
 import { ICateringOrder, ICateringOrderGoods } from '../../../model';
 import { emptyValidate } from '../../../../../theme/validators';
 
@@ -12,10 +12,10 @@ export class OrderCreateDialogComponent {
     /**
      * 是否显示
      */
-     public visible = false;
+     public readonly visible = signal(false);
      public flipIndex = 0;
      public data: ICateringOrder = {} as any;
-     public items: ICateringOrderGoods[] = [];
+     public readonly items = signal<ICateringOrderGoods[]>([]);
      public multipleEditable = false;
      public nextData: any = {
         name: '',
@@ -23,7 +23,7 @@ export class OrderCreateDialogComponent {
      };
      
     public open() {
-        this.visible = true;
+        this.visible.set(true);
     }
 
     public close(yes = false) {
@@ -34,7 +34,7 @@ export class OrderCreateDialogComponent {
             this.flipIndex --;
             return;
         }
-        this.visible = false;
+        this.visible.set(false);
     }
 
     public tapEditLine(item?: ICateringOrderGoods) {
@@ -44,19 +44,22 @@ export class OrderCreateDialogComponent {
     }
 
     public tapRemoveLine(item: ICateringOrderGoods) {
-        this.items = this.items.filter(i => i !== item);
+        this.items.set(this.items().filter(i => i !== item));
     }
 
     private addLine(): boolean {
         if (emptyValidate(this.nextData.name)) {
             return false;
         }
-        for (const item of this.items) {
+        for (const item of this.items()) {
             if (item.name === this.nextData.name) {
                 return true;
             }
         }
-        this.items.push({...this.nextData} as any);
+        this.items.update(v => {
+            v.push({...this.nextData} as any);
+            return v;
+        });
         return true;
     }
 

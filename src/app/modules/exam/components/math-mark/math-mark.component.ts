@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, model, output } from '@angular/core';
+import { Component, effect, inject, input, model, output, signal } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MathMarkParser } from './parser';
 import { FormValueControl } from '@angular/forms/signals';
@@ -29,7 +29,7 @@ export class MathMarkComponent implements FormValueControl<string[]>  {
     public readonly allowInput = input(false);
     public readonly allowMath = input(true);
     public readonly disabled = input(false);
-    public items: IMarkItem[] = [];
+    public readonly items = signal<IMarkItem[]>([]);
 
     private parser: MathMarkParser = new MathMarkParser(this.sanitizer);
 
@@ -54,21 +54,25 @@ export class MathMarkComponent implements FormValueControl<string[]>  {
             input: this.allowInput(),
             math: this.allowMath(),
         };
-        this.items = this.parser.render(this.content());
+        this.items.set(this.parser.render(this.content()));
     }
 
     private applayValue() {
         const valueItems = this.formatValue(this.value());
         const rightItems = this.formatValue(this.rightValue());
         let i = 0;
-        for (const item of this.items) {
-            if (item.type !== 'input') {
-                continue;
+        this.items.update(v => {
+            for (const item of v) {
+                if (item.type !== 'input') {
+                    continue;
+                }
+                item.value = valueItems.length > i ? valueItems[i] : '';
+                item.rightValue = rightItems.length > i ? rightItems[i] : '';
+                i ++;
             }
-            item.value = valueItems.length > i ? valueItems[i] : '';
-            item.rightValue = rightItems.length > i ? rightItems[i] : '';
-            i ++;
-        }
+            return v;
+        });
+        
     }
 
     private formatValue(value: any) {
@@ -79,7 +83,7 @@ export class MathMarkComponent implements FormValueControl<string[]>  {
 
     private outputValue() {
         const items = [];
-        for (const item of this.items) {
+        for (const item of this.items()) {
             if (item.type !== 'input') {
                 continue;
             }

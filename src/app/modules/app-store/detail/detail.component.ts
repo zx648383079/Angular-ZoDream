@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { ThemeService } from '../../../theme/services';
@@ -20,7 +20,7 @@ export class DetailComponent implements OnInit {
 
     public data: ISoftware;
     public currentPackage: ISoftwarePackage;
-    public isLoading = false;
+    public readonly isLoading = signal(false);
     public tabIndex = 0;
 
     ngOnInit() {
@@ -34,16 +34,16 @@ export class DetailComponent implements OnInit {
     }
 
     private load(id: any) {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.service.app(id).subscribe({
             next: res => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.themeSerive.titleChanged.next(res.name);
                 this.data = res;
                 this.currentPackage = this.findPackage(res.packages);
             },
             error: err => {
-                this.isLoading = false;
+                this.isLoading.set(false);
                 this.data = undefined;
                 this.toastrService.error(err)
                 history.back();

@@ -1,28 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { EditorModalCallback, IEditorModal } from '../../model';
 
 @Component({
     standalone: false,
-  selector: 'app-editor-code',
-  templateUrl: './editor-code.component.html',
-  styleUrls: ['./editor-code.component.scss']
+    selector: 'app-editor-code',
+    templateUrl: './editor-code.component.html',
+    styleUrls: ['./editor-code.component.scss']
 })
 export class EditorCodeComponent implements IEditorModal {
 
-    public visible = false;
+    public readonly visible = signal(false);
     public language = '';
     public code = '';
     private confirmFn: EditorModalCallback;
 
-    constructor() { }
-
     public open(data: any, cb: EditorModalCallback) {
-        this.visible = true;
+        this.visible.set(true);
         this.confirmFn = cb;
     }
 
     public tapConfirm() {
-        this.visible = false;
+        this.visible.set(false);
         if (this.confirmFn) {
             this.confirmFn({
                 value: this.code,

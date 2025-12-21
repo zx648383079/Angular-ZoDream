@@ -1,12 +1,12 @@
-import { Component, HostListener, effect, input, output } from '@angular/core';
+import { Component, HostListener, effect, input, output, signal } from '@angular/core';
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { ButtonEvent, ButtonGroupEvent, IButton } from '../event';
 
 @Component({
     standalone: false,
-  selector: 'app-button-group',
-  templateUrl: './button-group.component.html',
-  styleUrls: ['./button-group.component.scss']
+    selector: 'app-button-group',
+    templateUrl: './button-group.component.html',
+    styleUrls: ['./button-group.component.scss']
 })
 export class ButtonGroupComponent implements ButtonEvent {
 
@@ -14,7 +14,7 @@ export class ButtonGroupComponent implements ButtonEvent {
     public readonly max = input(2);
     public readonly min = input(0);
     public dropVisible = false;
-    public isLoading = false;
+    public readonly isLoading = signal(false);
     public inlineItems: IButton[] = [];
     public dropItems: IButton[] = [];
     public readonly tapped = output<ButtonGroupEvent>();
@@ -87,13 +87,13 @@ export class ButtonGroupComponent implements ButtonEvent {
      * 开始执行加载
      */
     public enter() {
-        this.isLoading = true;
+        this.isLoading.set(true);
     }
 
     /**
      * 停止执行
      */
     public reset() {
-        this.isLoading = false;
+        this.isLoading.set(false);
     }
 }

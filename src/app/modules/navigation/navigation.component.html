@@ -19,21 +19,21 @@
 
     <app-navigation-site [visible]="openType == 1" />
     @if (openType == 2) {
-        @if (isLoading) {
+        @if (isLoading()) {
             <div class="loading-tip" i18n>
                 Loading ...
             </div>
         }
-        @if (!isLoading && total < 1) {
+        @if (!isLoading() && total() < 1) {
             <div class="empty-tip" i18n>
                 Search results are empty
             </div>
         }
 
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
              <app-navigation-page-container [value]="item" (onAction)="tapItem($event)" />
         }
-        <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     }
 </div>
 

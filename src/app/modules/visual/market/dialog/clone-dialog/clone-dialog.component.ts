@@ -23,7 +23,7 @@ export class CloneDialogComponent {
     private readonly store = inject<Store<AppState>>(Store);
 
 
-    public visible = false;
+    public readonly visible = signal(false);
     public sourceData: ISite;
     public readonly editForm = form(signal({
         name: '',
@@ -59,7 +59,7 @@ export class CloneDialogComponent {
             description: ''
         });
         this.sourceData = item;
-        this.visible = true;
+        this.visible.set(true);
     }
 
 
@@ -75,7 +75,7 @@ export class CloneDialogComponent {
         }).subscribe({
             next: _ => {
                 e?.reset();
-                this.visible = false;
+                this.visible.set(false);
                 this.toastrService.success($localize `Clone Successfully`);
             },
             error: err => {
@@ -86,6 +86,6 @@ export class CloneDialogComponent {
     }
 
     public tapCancel() {
-        this.visible = false;
+        this.visible.set(false);
     }
 }

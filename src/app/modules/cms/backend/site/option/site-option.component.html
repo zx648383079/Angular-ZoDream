@@ -2,7 +2,7 @@
 <div class="container-fluid">
     
     <div class="panel-container form-table-control">
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
             <div class="input-group-control">
             <label><i class="iconfont icon-edit" (click)="tapEditOption(optionModal, item)"></i>{{ item.name }}</label>
             @switch (item.type) {

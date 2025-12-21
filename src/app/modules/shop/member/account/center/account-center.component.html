@@ -8,7 +8,7 @@
                 <span>帐号安全</span>
             </div>
             <div class="panel-body">
-                @for (item of items; track $index) {
+                @for (item of items(); track $index) {
                     <div class="connect-item">
                     <div class="name">
                         <i class="iconfont" [class]="item.icon"></i>

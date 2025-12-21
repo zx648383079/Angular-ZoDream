@@ -6,9 +6,9 @@ import { ShopService } from './shop.service';
 
 @Component({
     standalone: false,
-  selector: 'app-shop',
-  templateUrl: './shop.component.html',
-  styleUrls: ['./shop.component.scss']
+    selector: 'app-shop',
+    templateUrl: './shop.component.html',
+    styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent implements OnInit {
     private readonly store = inject<Store<ShopAppState>>(Store);

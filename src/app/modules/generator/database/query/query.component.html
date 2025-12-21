@@ -19,9 +19,9 @@
         </div>
     </div>
 
-    <div class="panel-container" [hidden]="total < 0">
-        <app-editable-table [items]="items" [action]="actionTpl" [searchable]="false" [loading]="isLoading" 
-        [page]="queries.page().value()" [total]="total" [perPage]="queries.per_page().value()" (pageChange)="onPageChange($event)" />
+    <div class="panel-container" [hidden]="total() < 0">
+        <app-editable-table [items]="items()" [action]="actionTpl" [searchable]="false" [loading]="isLoading()" 
+        [page]="queries.page().value()" [total]="total()" [perPage]="queries.per_page().value()" (pageChange)="onPageChange($event)" />
     </div>
 </div>
 

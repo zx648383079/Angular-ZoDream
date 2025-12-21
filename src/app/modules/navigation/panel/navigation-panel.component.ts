@@ -27,7 +27,7 @@ export class NavigationPanelComponent {
     public readonly modal = viewChild<DialogEvent>('modal');
 
     public editMode = false;
-    public items: ISiteCollectGroup[] = [];
+    public readonly items = signal<ISiteCollectGroup[]>([]);
     public readonly editForm = form(signal({
         id: 0,
         name: '',
@@ -79,7 +79,7 @@ export class NavigationPanelComponent {
             }
             this.saveMode = mode;
             this.service.collectAll().subscribe(res => {
-                this.items = res.data;
+                this.items.set(res.data);
             });
             return;
         }
@@ -88,7 +88,7 @@ export class NavigationPanelComponent {
         if (!data) {
             return;
         }
-        this.items = JSON.parse(data);
+        this.items.set(JSON.parse(data));
     }
 
     public collect(name: string, link: string) {
@@ -96,10 +96,13 @@ export class NavigationPanelComponent {
             return;
         }
         if (this.items.length < 1) {
-            this.items.push({
-                id: this.generateId(false),
-                name: $localize `Default`,
-                items: []
+            this.items.update(v => {
+                v.push({
+                    id: this.generateId(false),
+                    name: $localize `Default`,
+                    items: []
+                });
+                return v;
             });
         }
         const group = this.items[0];
@@ -132,7 +135,10 @@ export class NavigationPanelComponent {
                 return;
             }
             data.items = [];
-            this.items.push(data);
+            this.items.update(v => {
+                v.push(data);
+                return v;
+            });
         });
     }
 
@@ -164,9 +170,9 @@ export class NavigationPanelComponent {
             this.saveAsync();
             return;
         }
-        this.service.collectBatchSave(this.items).subscribe({
+        this.service.collectBatchSave(this.items()).subscribe({
             next: res => {
-                this.items = res.data;
+                this.items.set(res.data);
                 this.saveAsync();
             },
             error: err => {
@@ -182,13 +188,16 @@ export class NavigationPanelComponent {
     }
 
     public tapRemove(i: number, j = -1) {
-        const item = j < 0 ? this.items[i] : this.items[i].items[j];
+        const item = j < 0 ? this.items()[i] : this.items()[i].items[j];
         this.toastrService.confirm($localize `Are you sure to delete"${item.name}"` + (j < 0 ? $localize `Group` : $localize `Link`), () => {
-            if (j < 0) {
-                this.items.splice(i, 1);
-                return;
-            }
-            this.items[i].items.splice(j, 1);
+            this.items.update(v => {
+                if (j < 0) {
+                    v.splice(i, 1);
+                } else {
+                    v[i].items.splice(j, 1)
+                }
+                return v;
+            });
             // if (j < 0) {
             //     this.service.groupRemove(item.id).subscribe(() => {
             //         this.items.splice(i, 1);
@@ -251,7 +260,7 @@ export class NavigationPanelComponent {
 
     private generateId(isLink: boolean): number {
         let max = 0;
-        for (const group of this.items) {
+        for (const group of this.items()) {
             if (!isLink) {
                 if (max < group.id) {
                     max = group.id;
@@ -269,7 +278,7 @@ export class NavigationPanelComponent {
     }
 
     private isExist(link: string, id: number) {
-        for (const group of this.items) {
+        for (const group of this.items()) {
             for (const item of group.items) {
                 if (item.id !== id && link === item.link) {
                     return true;

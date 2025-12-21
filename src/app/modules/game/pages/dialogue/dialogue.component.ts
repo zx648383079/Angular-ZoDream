@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { IGamePeople } from '../../model';
 
@@ -12,7 +12,7 @@ export class DialogueComponent {
 
     public mode = 0;
     public user: IGamePeople;
-    public items: string[] = [];
+    public readonly items = signal<string[]>([]);
     public message = '';
     private _index = -1;
     private onFinish: Subject<any>;
@@ -24,7 +24,7 @@ export class DialogueComponent {
     public select(items: string[]): Observable<number> {
         this.onFinish = new Subject<number>();
         this.mode = 1;
-        this.items = items;
+        this.items.set(items);
         return this.onFinish;
     }
 
@@ -32,7 +32,7 @@ export class DialogueComponent {
         this.onFinish = new Subject<void>();
         this.mode = 2;
         this.user = user;
-        this.items = content instanceof Array ? content : [content];
+        this.items.set(content instanceof Array ? content : [content]);
         this._index = -1;
         this.tapNext();
         return this.onFinish;

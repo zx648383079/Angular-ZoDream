@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody>
-            @for (item of items; track $index) {
+            @for (item of items(); track $index) {
                 <tr>
                     <td (click)="toggleOpen(item)">{{ item.product?.name }}</td>
                     <td [title]="item.order_count" (click)="toggleOpen(item)">{{ item.order_count | numberFormat }}</td>
@@ -45,8 +45,8 @@
             }
         </tbody>
     </table>
-    <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-    <app-pagination [total]="total" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+    <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+    <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
 </div>
 
 <app-trade-toolbar #toolbar />

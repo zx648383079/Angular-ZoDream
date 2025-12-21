@@ -11,7 +11,7 @@ import { form } from '@angular/forms/signals';
 })
 export class InvoiceDialogComponent {
 
-    public visible = false;
+    public readonly visible = signal(false);
     public readonly user = input<IUser>();
     public titleTypeItems = ['个人', '企业'];
     public typeItems = ['普通发票', '电子普通发票'];
@@ -36,11 +36,11 @@ export class InvoiceDialogComponent {
                 return v;
             });
         }
-        this.visible = true;
+        this.visible.set(true);
     }
 
     public close(result = false) {
-        this.visible = false;
+        this.visible.set(false);
         if (!result) {
             return;
         }

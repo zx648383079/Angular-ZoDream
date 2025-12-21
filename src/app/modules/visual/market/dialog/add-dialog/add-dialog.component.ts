@@ -24,12 +24,12 @@ export class AddDialogComponent {
     private readonly toastrService = inject(DialogService);
 
     public readonly multiple = input(false);
-    public visible = false;
+    public readonly visible = signal(false);
     public sourceData: IThemeComponent;
-    public items: ISite[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<ISite[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,
@@ -54,7 +54,7 @@ export class AddDialogComponent {
             return;
         }
         this.sourceData = item;
-        this.visible = true;
+        this.visible.set(true);
     }
 
     public tapToggleOnly() {
@@ -96,7 +96,7 @@ export class AddDialogComponent {
         }).subscribe({
             next: _ => {
                 e?.reset();
-                this.visible = false;
+                this.visible.set(false);
                 this.toastrService.success($localize `Add Successfully`);
             },
             error: err => {
@@ -109,11 +109,11 @@ export class AddDialogComponent {
 
     public tapCancel() {
         this.selectedItems = [];
-        this.visible = false;
+        this.visible.set(false);
     }
 
     public get formatItems(): ISite[] {
-        return this.onlySelected ? this.selectedItems.map(i => i as ISite) : this.items;
+        return this.onlySelected ? this.selectedItems.map(i => i as ISite) : this.items();
     }
 
 
@@ -143,18 +143,18 @@ export class AddDialogComponent {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.mySiteList(queries).subscribe({
             next: res => {
-                this.isLoading = false;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.queries().value.set(queries);
             },
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

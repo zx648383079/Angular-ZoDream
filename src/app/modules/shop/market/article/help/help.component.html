@@ -2,7 +2,7 @@
     <div class="container side-box">
         <div>
             <div class="menu-box">
-                @for (item of items; track $index) {
+                @for (item of items(); track $index) {
                     <div class="menu-group">
                     <div class="menu-name" (click)="tapItem(item)" [class]="{active: item.active}">
                         {{ item.name || item.title }}

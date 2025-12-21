@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ThemeService } from '../../theme/services';
 import { SuggestChangeEvent } from '../../components/form';
 
@@ -12,7 +12,7 @@ export class SearchComponent {
     private readonly themeService = inject(ThemeService);
 
 
-    public panelVisible = false;
+    public readonly panelVisible = signal(false);
 
     public tapConfirm(keywords: any) {
         this.themeService.suggestQuerySubmitted.next(keywords);
@@ -24,10 +24,10 @@ export class SearchComponent {
     }
 
     public open() {
-        this.panelVisible = true;
+        this.panelVisible.set(true);
     }
 
     public close() {
-        this.panelVisible = false;
+        this.panelVisible.set(false);
     }
 }

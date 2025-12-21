@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    @for (item of items; track $index) {
+    @for (item of items(); track $index) {
     <div class="task-item" [class]="{finished: item.task.status < 5}">
         @if (item.user) {
         <div class="avatar">
@@ -47,8 +47,8 @@
 
 
     <div class="panel-container">
-        <app-loading-tip [loading]="isLoading" [visible]="isLoading || items.length == 0" />
-        <app-pagination [total]="total" [field]="queries.page"
+        <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+        <app-pagination [total]="total()" [field]="queries.page"
             (valueChange)="tapPage()" [perPage]="queries.per_page().value()" />
     </div>
 </div>

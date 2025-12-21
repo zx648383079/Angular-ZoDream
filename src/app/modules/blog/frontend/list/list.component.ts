@@ -34,9 +34,9 @@ export class ListComponent implements OnInit, OnDestroy {
     private readonly themeService = inject(ThemeService);
     private readonly store = inject<Store<AppState>>(Store);
 
-    public categories: ICategory[] = [];
-    public newItems: IBlog[] = [];
-    public commentItems: IComment[] = [];
+    public readonly categories = signal<ICategory[]>([]);
+    public readonly newItems = signal<IBlog[]>([]);
+    public readonly commentItems = signal<IComment[]>([]);
     public sortItems = [{
             value: 'new',
             name: $localize `New`,
@@ -52,10 +52,10 @@ export class ListComponent implements OnInit, OnDestroy {
     ];
     public category: ICategory;
     public header = '';
-    public items: IBlog[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IBlog[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal({
         page: 1,
         per_page: 20,
@@ -69,16 +69,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }));
     public listView = 0;
 
-    private subItems = new Subscription();
-
-    private searchFn = res => {
-        if (typeof res === 'object') {
-            return;
-        }
-        this.queries.keywords().value.set(res);
-        this.tapRefresh();
-        return false;
-    };
+    private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `Blog`);
@@ -90,9 +81,9 @@ export class ListComponent implements OnInit, OnDestroy {
             new_comment: {},
             new_blog: {},
         }).subscribe(res => {
-            this.newItems = res.new_blog;
-            this.commentItems = res.new_comment;
-            this.categories = res.categories;
+            this.newItems.set(res.new_blog);
+            this.commentItems.set(res.new_comment);
+            this.categories.set(res.categories);
             if (!this.category) {
                 return;
             }
@@ -106,7 +97,14 @@ export class ListComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.subItems.add(
-            this.themeService.suggestQuerySubmitted.subscribe(this.searchFn)
+            this.themeService.suggestQuerySubmitted.subscribe(res => {
+                if (typeof res === 'object') {
+                    return;
+                }
+                this.queries.keywords().value.set(res);
+                this.tapRefresh();
+                return false;
+            })
         );
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
@@ -137,20 +135,20 @@ export class ListComponent implements OnInit, OnDestroy {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
-        this.items = [];
+        this.items.set([]);
         this.service.getPage(queries as any).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
-                this.items = res.data;
-                this.total = res.paging.total;
+                this.items.set(res.data);
+                this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
-                this.isLoading = false;
+                this.isLoading.set(false);
             },
             error: () => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { IUploadFile } from '../../../theme/models/open';
 import { IPageQueries } from '../../../theme/models/page';
 import { FileUploadService, SearchService } from '../../../theme/services';
@@ -22,12 +22,12 @@ export class FileOnlineComponent implements SearchDialogEvent {
     /**
      * 是否显示
      */
-    public visible = false;
+    public readonly visible = signal(false);
 
-    public items: IUploadFile[] = [];
-    public hasMore = true;
-    public isLoading = false;
-    public total = 0;
+    public readonly items = signal<IUploadFile[]>([]);
+    private hasMore = true;
+    public readonly isLoading = signal(false);
+    public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         accept: '*/*',
@@ -43,7 +43,7 @@ export class FileOnlineComponent implements SearchDialogEvent {
     constructor() {
         effect(() => {
             const accept = this.accept();
-            this.items = [];
+            this.items.set([]);
             this.selectedItems = [];
             this.queries.page().value.set(0);
             this.queries.accept().value.set(accept);
@@ -60,7 +60,7 @@ export class FileOnlineComponent implements SearchDialogEvent {
     public open(data: any|any[], confirm: (data: IUploadFile|IUploadFile[]) => void): void;
     public open(data: any|any[], confirm: (data: IUploadFile|IUploadFile[]) => void, check: (data: IUploadFile[]) => boolean): void;
     public open(data: any, confirm?: (data: IUploadFile|IUploadFile[]) => void, check?: (data: IUploadFile[]) => boolean) {
-        this.visible = true;
+        this.visible.set(true);
         if (typeof data === 'function') {
             this.confirmFn = data;
         } else {
@@ -71,7 +71,7 @@ export class FileOnlineComponent implements SearchDialogEvent {
     }
 
     public close() {
-        this.visible = false;
+        this.visible.set(false);
     }
 
     public tapToggleOnly() {
@@ -116,16 +116,16 @@ export class FileOnlineComponent implements SearchDialogEvent {
         if (this.confirmFn) {
             this.confirmFn(items);
         }
-        this.visible = false;
+        this.visible.set(false);
     }
 
     public tapCancel() {
         this.selectedItems = [];
     }
 
-    public get formatItems(): IUploadFile[] {
-        return this.onlySelected ? this.selectedItems.map(i => i as IUploadFile) : this.items;
-    }
+    public readonly formatItems = computed(() => {
+        return this.onlySelected ? this.selectedItems.map(i => i as IUploadFile) : this.items();
+    });
 
 
     public get selectedCount() {
@@ -154,19 +154,19 @@ export class FileOnlineComponent implements SearchDialogEvent {
         if (this.isLoading) {
             return;
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         const cb = this.accept().indexOf('image') >= 0 ? this.uploadService.images : this.uploadService.files;
         cb.call(this.uploadService, queries).subscribe({
             next: res => {
-                this.isLoading = false;
-                this.items = res.data;
+                this.isLoading.set(false);
+                this.items.set(res.data);
                 this.hasMore = res.paging.more;
-                this.total = res.paging.total;
+                this.total.set(res.paging.total);
                 this.queries().value.set(queries)
             },
             error: _ => {
-                this.isLoading = false;
+                this.isLoading.set(false);
             }
         });
     }

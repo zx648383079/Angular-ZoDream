@@ -1,5 +1,5 @@
 <div class="container">
-    <app-loading-tip [loading]="isLoading" [visible]="!data || isLoading" />
+    <app-loading-tip [loading]="isLoading()" [visible]="!data || isLoading()" />
     @if (data) {
     <div>
         <div class="book-title">
