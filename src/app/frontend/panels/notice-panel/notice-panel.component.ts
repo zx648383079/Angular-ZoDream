@@ -18,18 +18,23 @@ export class NoticePanelComponent {
     public readonly isLoading = signal(true);
     public readonly items = signal<any[]>([]);
 
-    public loadData() {
+    constructor() {
         this.http.get<IPage<INote>>('note', {
             params: {
                 notice: 1,
                 per_page: 10
             }
-        }).subscribe(res => {
-            this.items.set(res.data.map(i => {
-                i.html = this.sanitizer.bypassSecurityTrustHtml(i.html);
-                return i;
-            }));
-            this.isLoading.set(false);
+        }).subscribe({
+            next: res => {
+                this.isLoading.set(false);
+                this.items.set(res.data.map(i => {
+                    i.html = this.sanitizer.bypassSecurityTrustHtml(i.html);
+                    return i;
+                }));
+            },
+            error: _ => {
+                this.isLoading.set(false);
+            }
         });
     }
 }

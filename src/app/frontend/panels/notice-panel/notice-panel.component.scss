@@ -1,16 +1,23 @@
+@use '../../../theme/theme';
 .notice-list-item {
-    border-bottom: rgba(161,0,0,.1) solid 1px;
+    border-bottom: 1px solid var(--#{theme.$prefix}border);
     box-sizing: border-box;
     padding: 0.625rem;
     text-decoration: none;
     counter-increment: item-counter;
     .item-body {
         word-break: break-all;
+        .repeater {
+            height: 3rem;
+        }
     }
     .item-time {
-        color: #ccc;
+        color: var(--#{theme.$prefix}meta-text);
         font-size: 0.875rem;
         text-align: right;
+        .repeater {
+            display: inline-block;
+        }
     }
 }
 

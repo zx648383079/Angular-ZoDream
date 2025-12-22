@@ -32,7 +32,7 @@ export class EditorVideoComponent implements IEditorModal {
     }
 
     public uploadFiles(files: FileList|File[]) {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         if (files.length < 1) {

@@ -58,7 +58,7 @@ export class QueryComponent implements OnInit {
     }
 
     public onPageChange(page: number) {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         this.isLoading.set(true);

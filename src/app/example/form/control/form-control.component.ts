@@ -6,9 +6,6 @@ import { Component, OnInit } from '@angular/core';
     templateUrl: './form-control.component.html',
     styleUrls: ['./form-control.component.scss']
 })
-export class ExampleFormControlComponent implements OnInit {
-
-    ngOnInit() {
-    }
+export class ExampleFormControlComponent {
 
 }

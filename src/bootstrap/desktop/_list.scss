@@ -250,6 +250,19 @@
     }
 }
 
+.page-empty-tip {
+    font-size: 3em;
+    color: var(--#{theme.$prefix}border);
+    font-weight: 700;
+    text-align: center;
+    cursor: default;
+    user-select: none;
+    column-span: all;
+    .iconfont {
+        font-size: 2em;
+    }
+}
+
 @media (min-width: 48rem) {
     .list-table-control {
         .image-row-item {

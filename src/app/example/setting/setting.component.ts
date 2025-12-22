@@ -13,7 +13,7 @@ interface IGroupHeader {
     templateUrl: './setting.component.html',
     styleUrls: ['./setting.component.scss']
 })
-export class ExampleSettingComponent implements OnInit {
+export class ExampleSettingComponent {
 
     public data: any = {
         accept_new_bulletin: true,
@@ -39,12 +39,6 @@ export class ExampleSettingComponent implements OnInit {
 
     public crumbs: IGroupHeader[] = [
     ];
-
-
-    constructor() { }
-
-    ngOnInit() {
-    }
 
     public get tabIndex() {
         return this.crumbs.length < 1 ? 0 : this.crumbs[this.crumbs.length - 1].id;

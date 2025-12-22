@@ -7,6 +7,7 @@ import { IActivity, IAuctionConfigure } from '../../model';
 import { SearchService } from '../../../../theme/services';
 import { ThemeService } from '../../../../theme/services';
 import { ActivityService } from '../activity.service';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
     standalone: false,
@@ -31,7 +32,7 @@ export class AuctionComponent implements OnInit, OnDestroy {
         per_page: 20,
         keywords: '',
     }));
-    private timerHandle: any;
+    private $timer: Subscription;
 
     constructor() {
         this.themeService.titleChanged.next('拍卖中心');
@@ -65,7 +66,7 @@ export class AuctionComponent implements OnInit, OnDestroy {
     }
 
     public goPage(page: number) {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         this.isLoading.set(true);
@@ -86,20 +87,20 @@ export class AuctionComponent implements OnInit, OnDestroy {
 
     private startTimer() {
         this.stopTimer();
-        this.timerHandle = window.setInterval(() => {
+        this.$timer = interval(300).subscribe(() => {
             if (this.countItems().length < 1) {
                 return;
             }
             this.countItems().forEach(item => {
                 item.refresh();
             });
-        }, 300);
+        });
     }
 
     private stopTimer() {
-        if (this.timerHandle > 0) {
-            clearInterval(this.timerHandle);
-            this.timerHandle = 0;
+        if (this.$timer) {
+            this.$timer.unsubscribe();
+            this.$timer = null;
         }
     }
 

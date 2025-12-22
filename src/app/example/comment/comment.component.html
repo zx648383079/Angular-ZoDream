@@ -11,10 +11,10 @@
 
     <div class="vs-container">
         <div class="positive-bar">
-            <div class="inner-bar" [style]="{width: positiveScale + '%'}"></div>
+            <div class="inner-bar" [style]="{width: positiveScale() + '%'}"></div>
         </div>
         <div class="negative-bar">
-            <div class="inner-bar" [style]="{width: negativeScale + '%'}"></div>
+            <div class="inner-bar" [style]="{width: negativeScale() + '%'}"></div>
         </div>
         <div class="vs-icon">
             <span>v</span>
@@ -24,33 +24,17 @@
 
     <div class="comment-container">
         <p class="message-line">2.10</p>
-        <div class="message-item">
-            <div class="item-body">
-                <p>话啊啊啊</p>
+        @for (item of vsItems(); track $index) {
+            <div [class]="{'message-item': item.agreeType == 1, 'message-flip-item': item.agreeType == 2}">
+                <div class="item-body">
+                    <p>{{ item.content }}</p>
+                </div>
+                <div class="item-action">
+                    <i class="iconfont icon-thumbs-up"></i>
+                    <span>0</span>
+                </div>
             </div>
-            <div class="item-action">
-                <i class="iconfont icon-thumbs-up"></i>
-                <span>0</span>
-            </div>
-        </div>
-        <div class="message-item">
-            <div class="item-body">
-                <p>话啊啊啊</p>
-            </div>
-            <div class="item-action">
-                <i class="iconfont icon-thumbs-up"></i>
-                <span>0</span>
-            </div>
-        </div>
-        <div class="message-flip-item">
-            <div class="item-body">
-                <p>话啊啊啊</p>
-            </div>
-            <div class="item-action">
-                <i class="iconfont icon-thumbs-up"></i>
-                <span>0</span>
-            </div>
-        </div>
+        }
     </div>
     <div class="comment-panel">
         <div class="panel-header">
@@ -61,7 +45,7 @@
                 <a href="">Newest</a>
             </div>
         </div>
-        @for (item of commentItems; track $index) {
+        @for (item of commentItems(); track $index) {
         <div class="comment-item">
             <article class="item-body">
                 <div class="item-author">
@@ -72,7 +56,7 @@
                     </div>
                 </div>
                 <div class="item-content">
-                    <p>这是一条评论</p>
+                    <p>{{ item.content }}</p>
                 </div>
                 <div class="item-footer">
                     <i class="fa fa-reply"></i>
@@ -90,7 +74,7 @@
                             </div>
                         </div>
                         <div class="item-content">
-                            <p>这是一条评论</p>
+                            <p>这是一条回复</p>
                         </div>
                         <div class="item-footer">
                             <i class="fa fa-reply"></i>
@@ -111,24 +95,24 @@
             <h3>发表评论</h3>
         </div>
         <div class="panel-body">
-            <form>
+            <form (submit)="tapSubmit($event)" [class.was-validated]="commentForm.content().touched()">
                 <div class="form-group">
                     <label for="">评论内容</label>
-                    <textarea class="form-control" rows="3"></textarea>
+                    <textarea class="form-control" [field]="commentForm.content" rows="3"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="">称呼</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" [field]="commentForm.name">
                 </div>
                 <div class="form-group">
                     <label for="">邮箱</label>
-                    <input type="text" class="form-control" >
+                    <input type="email" class="form-control" [field]="commentForm.email">
                 </div>
                 <div class="form-group">
                     <label for="">网址</label>
-                    <input type="text" class="form-control" >
+                    <input type="text" class="form-control"  [field]="commentForm.url">
                 </div>
-                <button class="btn btn-primary">评论</button>
+                <button class="btn btn-primary" [disabled]="commentForm().invalid()">评论</button>
             </form>
         </div>
     </div>

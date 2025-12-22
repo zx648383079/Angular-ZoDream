@@ -37,7 +37,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (item of items(); track $index) {
+                @for (item of items(); track item.id) {
                     <tr>
                         <td [hidden]="!isMultiple()">
                             <i class="checkbox" [class]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
@@ -50,7 +50,7 @@
                             {{ item.phone }}
                         </td>
                         <td>
-                            <app-switch [value]="item.open_status" (valueChange)="onOpenToggle(item)" />
+                            <app-switch [(value)]="item.open_status" (valueChange)="onOpenToggle(item)" />
                         </td>
                         <td>{{ formatStatus(item.status) }}</td>
                         <td class="auto-hide">{{ item.created_at | ago }}</td>

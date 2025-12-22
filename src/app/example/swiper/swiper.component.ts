@@ -6,9 +6,6 @@ import { Component, OnInit } from '@angular/core';
     templateUrl: './swiper.component.html',
     styleUrls: ['./swiper.component.scss']
 })
-export class ExampleSwiperComponent implements OnInit {
-
-    ngOnInit() {
-    }
+export class ExampleSwiperComponent {
 
 }

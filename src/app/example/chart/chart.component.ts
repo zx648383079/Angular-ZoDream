@@ -12,9 +12,7 @@ import { randomInt } from '../../theme/utils';
 export class ExampleChartComponent implements OnInit {
 
     public options: Observable<EChartsCoreOption> ;
-
-    constructor() { }
-
+    
     ngOnInit() {
         const items = [];
         for (let i = 0; i < 20; i++) {

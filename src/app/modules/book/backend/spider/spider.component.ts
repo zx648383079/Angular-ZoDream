@@ -5,6 +5,7 @@ import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { IBookSpiderItem } from '../../model';
 import { BookService } from '../book.service';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
     standalone: false,
@@ -33,11 +34,12 @@ export class SpiderComponent implements OnDestroy {
     public loadProgress = 0;
     public loadTip = '';
     private loadStartAt = new Date();
-    private loadHandle = 0;
+    private $timer: Subscription;
 
     ngOnDestroy(): void {
-        if (this.loadHandle) {
-            clearInterval(this.loadHandle);
+        if (this.$timer) {
+            this.$timer.unsubscribe();
+            this.$timer = null;
         }
     }
 
@@ -66,14 +68,15 @@ export class SpiderComponent implements OnDestroy {
 
     private loadLoop(data: any) {
         this.loadProgress = data.next * 100 / data.count;
-        if (this.loadHandle > 0) {
-            clearInterval(this.loadHandle);
+        if (this.$timer) {
+            this.$timer.unsubscribe();
+            this.$timer = null;
         }
         let text = data.next + '/' + data.count + '(预计需要';
         const now = new Date();
         let diff = now.getTime() - this.loadStartAt.getTime();
         let total = Math.ceil((diff / data.next * (data.count - data.next)) / 1000);
-        this.loadHandle = window.setInterval(() => {
+        this.$timer = interval(1000).subscribe(() => {
             let tip = total + '秒';
             if (total > 60) {
                 tip = Math.floor(total / 60) + '分' + Math.ceil(total % 60) + '秒';
@@ -83,7 +86,7 @@ export class SpiderComponent implements OnDestroy {
                 return;
             }
             total --;
-        }, 1000);
+        });
         this.service.spiderAsync(data).subscribe({
             next: res => {
                 this.loadLoop(res.data);
@@ -91,8 +94,9 @@ export class SpiderComponent implements OnDestroy {
             error: err => {
                 this.toastrService.error(err);
                 this.isAsync = false;
-                if (this.loadHandle > 0) {
-                    clearInterval(this.loadHandle);
+                if (this.$timer) {
+                    this.$timer.unsubscribe();
+                    this.$timer = null;
                 }
             }
         });
@@ -114,7 +118,7 @@ export class SpiderComponent implements OnDestroy {
      * goPage
      */
     public goPage(page: number) {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         this.isLoading.set(true);

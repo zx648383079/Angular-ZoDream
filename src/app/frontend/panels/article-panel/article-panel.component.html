@@ -1,4 +1,4 @@
-<div class="panel" appLazyLoad (lazyLoading)="loadData()">
+<div class="panel">
     <div class="panel-header">
         <span i18n>Lastest Articles</span>
 
@@ -10,15 +10,29 @@
         </div>
         
     </div>
-    <div class="panel-body" [class]="{'is_loading': isLoading}">
-        @for (item of items(); track $index) {
-            <a class="article-list-item" [routerLink]="['blog', item.id]">
+    <div class="panel-body">
+        @if (isLoading()) {
+            <div class="article-list-item --with-animated">
                 <div class="item-body">
-                    <a class="item-title">{{ item.title }}</a>
-                    <div class="item-time">{{ item.created_at | ago }}</div>
+                    <a class="item-title repeater"></a>
+                    <div class="item-time repeater --with-1"></div>
                 </div>
-                <div class="item-meta">{{ item.description }}</div>
-            </a>
+                <div class="item-meta">
+                    <span class="repeater"></span>
+                </div>
+            </div>
+        } @else {
+            @for (item of items(); track $index) {
+                <a class="article-list-item" [routerLink]="['blog', item.id]">
+                    <div class="item-body">
+                        <a class="item-title">{{ item.title }}</a>
+                        <div class="item-time">{{ item.created_at | ago }}</div>
+                    </div>
+                    <div class="item-meta">{{ item.description }}</div>
+                </a>
+            } @empty {
+                <p class="page-empty-tip" i18n>Nothing is here.</p>
+            }
         }
     </div>
 </div>

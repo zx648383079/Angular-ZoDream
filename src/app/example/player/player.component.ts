@@ -6,9 +6,6 @@ import { Component, OnInit } from '@angular/core';
     templateUrl: './player.component.html',
     styleUrls: ['./player.component.scss']
 })
-export class ExamplePlayerComponent implements OnInit {
-
-    ngOnInit() {
-    }
+export class ExamplePlayerComponent {
 
 }

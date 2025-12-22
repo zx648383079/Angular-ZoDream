@@ -33,7 +33,7 @@ export class PrizeComponent implements IGameScene {
     }
 
     public tapJump() {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         let count = 0;
@@ -50,7 +50,7 @@ export class PrizeComponent implements IGameScene {
     }
 
     private lottery(count: number, msg: string) {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         if (this.isConfirmed) {

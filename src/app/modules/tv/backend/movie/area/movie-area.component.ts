@@ -33,7 +33,7 @@ export class MovieAreaComponent implements OnInit {
     }
 
     public load() {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         this.isLoading.set(true);

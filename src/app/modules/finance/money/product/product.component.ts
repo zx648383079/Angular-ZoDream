@@ -37,7 +37,7 @@ export class ProductComponent implements OnInit {
         history.back();
     }
     public tapRefresh() {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         this.isLoading.set(true);

@@ -5,6 +5,27 @@ import { ThemeService } from '../../theme/services';
 import { FrontendService } from '../frontend.service';
 import { form, required } from '@angular/forms/signals';
 
+interface IDeveloperProfile {
+    name: string;
+    avatar: string;
+    description: string;
+    links: {
+        title: string;
+        icon: string;
+        url: string;
+    }[];
+    skills: {
+        name: string;
+        proficiency: number;
+        formatted_proficiency: string;
+        duration: string;
+        links: {
+            title: string;
+            url: string;
+        }[];
+    }[];
+}
+
 @Component({
     standalone: false,
     selector: 'app-about',
@@ -26,37 +47,21 @@ export class AboutComponent implements OnInit {
         required(schemaPath.name, {message: '请输入称呼'});
         required(schemaPath.content, {message: '请输入内容'});
     });
-    public developer: {
-        name: string;
-        avatar: string;
-        description: string;
-        links: {
-            title: string;
-            icon: string;
-            url: string;
-        }[];
-        skills: {
-            name: string;
-            proficiency: number;
-            formatted_proficiency: string;
-            duration: string;
-            links: {
-                title: string;
-                url: string;
-            }[];
-        }[];
-    } = {} as any;
+    public readonly developer = signal<IDeveloperProfile>(null);
 
     ngOnInit() {
         this.themeService.titleChanged.next($localize `Abount`);
         this.service.developer().subscribe(res => {
-            this.developer = {...res, skills: res.skills.map(i => {
+            this.developer.set({...res, skills: res.skills.map(i => {
                 return {...i, proficiency: 0}
-            })};
+            })});
             setTimeout(() => {
-                for (let i = 0; i < res.skills.length; i++) {
-                    this.developer.skills[i].proficiency = res.skills[i].proficiency;
-                }
+                this.developer.update(v => {
+                    return {...v, skills: v.skills.map((item, i) => {
+                        item.proficiency = res.skills[i].proficiency;
+                        return item;
+                    })};
+                });
             }, 100);
         });
     }

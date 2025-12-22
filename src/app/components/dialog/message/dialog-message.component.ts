@@ -19,7 +19,7 @@ interface IThemeGroup {
     styleUrls: ['./dialog-message.component.scss'],
 })
 export class DialogMessageComponent implements OnDestroy {
-    private data = inject<DialogPackage<DialogMessageOption>>(DialogPackage);
+    private readonly data = inject<DialogPackage<DialogMessageOption>>(DialogPackage);
     private readonly service = inject(DialogService);
 
 

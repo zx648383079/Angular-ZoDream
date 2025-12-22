@@ -201,7 +201,7 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public goPage(page: number, success?: () => void) {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         this.isLoading.set(true);

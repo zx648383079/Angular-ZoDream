@@ -1,20 +1,37 @@
-<div class="panel" appLazyLoad (lazyLoading)="loadData()">
+<div class="panel">
     <div class="panel-header">
         <span i18n>Feedback and Messages</span>
     </div>
-    <div class="panel-body" [class]="{'is_loading': isLoading}">
-        @for (item of items(); track $index) {
-            <div class="message-list-item">
+    <div class="panel-body">
+        @if (isLoading()) {
+            <div class="message-list-item --with-animated">
                 <div class="item-body">
                     <div class="quote">
-                        {{ item.content }}
+                        <span class="repeater"></span>
                     </div>
                 </div>
                 <div class="item-footer">
-                    <a class="name">{{ item.name }}</a>
-                    <span class="time">{{ item.created_at | ago }}</span>
+                    <div class="repeater --with-8"></div>
+                    <div class="repeater --with-4"></div>
                 </div>
             </div>
+        } @else {
+            @for (item of items(); track $index) {
+                <div class="message-list-item">
+                    <div class="item-body">
+                        <div class="quote">
+                            {{ item.content }}
+                        </div>
+                    </div>
+                    <div class="item-footer">
+                        <a class="name">{{ item.name }}</a>
+                        <span class="time">{{ item.created_at | ago }}</span>
+                    </div>
+                </div>
+            } @empty {
+                <p class="page-empty-tip" i18n>Nothing is here.</p>
+            }
         }
+        
     </div>
 </div>

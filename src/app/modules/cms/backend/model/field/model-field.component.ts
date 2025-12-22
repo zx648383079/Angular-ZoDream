@@ -29,7 +29,7 @@ export class ModelFieldComponent implements OnInit {
 
 
     public tapRefresh() {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         this.isLoading.set(true);

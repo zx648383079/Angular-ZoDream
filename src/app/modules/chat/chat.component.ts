@@ -25,6 +25,7 @@ import { RenameDialogComponent } from './rename/rename-dialog.component';
 import { ProfileDialogComponent } from './profile/profile-dialog.component';
 import { SelectDialogComponent } from './select/select-dialog.component';
 import { form, required } from '@angular/forms/signals';
+import { interval, Subscription } from 'rxjs';
 
 const LOOP_SPACE_TIME = 20;
 interface IChatUser extends IChatWith {
@@ -101,7 +102,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     private nextTime = 0;
     private startTime = 0;
     private spaceTime = 0;
-    private timer = 0;
+    private $timer: Subscription;
     private recorder: Recorder;
 
 
@@ -374,11 +375,11 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     private startTimer() {
-        if (this.timer > 0) {
+        if (this.$timer) {
             return;
         }
-        this.timer = window.setInterval(() => {
-            if (this.isLoading) {
+        this.$timer = interval(1000).subscribe(() => {
+            if (this.isLoading()) {
 
             }
             if (!this.chatUser) {
@@ -388,7 +389,7 @@ export class ChatComponent implements OnInit, OnDestroy {
             if (this.spaceTime < 0) {
                 this.tapNext();
             }
-        }, 1000);
+        });
     }
 
     private tapNext() {
@@ -401,9 +402,9 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     private stopTimer() {
-        if (this.timer > 0) {
-            window.clearInterval(this.timer);
-            this.timer = 0;
+        if (this.$timer) {
+            this.$timer.unsubscribe();
+            this.$timer = null;
         }
     }
 

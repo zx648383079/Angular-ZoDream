@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { IDataOne } from '../../../theme/models/page';
 import { emailValidate } from '../../../theme/validators';
 import { DialogService } from '../../../components/dialog';
-import { form, required } from '@angular/forms/signals';
+import { email, form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -22,6 +22,7 @@ export class SubscribePanelComponent {
         email: ''
     }), schemaPath => {
         required(schemaPath.email);
+        email(schemaPath.email);
     });
 
     public tapSubmit(e?: ButtonEvent) {

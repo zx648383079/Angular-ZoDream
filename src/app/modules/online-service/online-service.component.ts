@@ -3,6 +3,7 @@ import { DialogService } from '../../components/dialog';
 import { IEmoji } from '../../theme/models/seo';
 import { OnlineService } from './online.service';
 import { form, required } from '@angular/forms/signals';
+import { interval, Subscription } from 'rxjs';
 
 const LOOP_SPACE_TIME = 20;
 const SESSION_KEY = 'session_token';
@@ -30,7 +31,7 @@ export class OnlineServiceComponent implements OnDestroy {
     private startTime = 0;
     private spaceTime = 0;
     private isLoading = false;
-    private timer = 0;
+    private $timer: Subscription;
 
     constructor() {
         this.sessionToken = window.localStorage.getItem(SESSION_KEY) || '';
@@ -120,10 +121,10 @@ export class OnlineServiceComponent implements OnDestroy {
     }
 
     private startTimer() {
-        if (this.timer > 0) {
+        if (this.$timer) {
             return;
         }
-        this.timer = window.setInterval(() => {
+        this.$timer = interval(1000).subscribe(() => {
             if (this.isLoading) {
                 return;
             }
@@ -132,7 +133,7 @@ export class OnlineServiceComponent implements OnDestroy {
                 return;
             }
             this.tapNext();
-        }, 1000);
+        });
     }
 
     private tapNext() {
@@ -164,9 +165,9 @@ export class OnlineServiceComponent implements OnDestroy {
     }
 
     private stopTimer() {
-        if (this.timer > 0) {
-            window.clearInterval(this.timer);
-            this.timer = 0;
+        if (this.$timer) {
+            this.$timer.unsubscribe();
+            this.$timer = null;
         }
     }
 

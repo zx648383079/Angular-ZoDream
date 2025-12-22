@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, input, output, viewChild } from '@angular/core';
 import { formatHour } from '../../../theme/utils';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
     standalone: false,
@@ -23,10 +24,8 @@ export class CircleProgressComponent implements AfterViewInit {
     private max = 0;
 
     private ctx: CanvasRenderingContext2D;
-    private timer = 0;
+    private $timer: Subscription;
     private startTime = 0;
-
-    constructor() { }
 
     get drawer(): HTMLCanvasElement {
         return this.drawerElement().nativeElement as HTMLCanvasElement;
@@ -43,10 +42,10 @@ export class CircleProgressComponent implements AfterViewInit {
         this.value = value;
         this.max = max;
         this.startTime = new Date().getTime() - this.value * 1000;
-        if (this.timer > 0) {
+        if (this.$timer) {
             return;
         }
-        this.timer = window.setInterval(() => {
+        this.$timer = interval(100).subscribe(() => {
             const diff = Math.ceil((new Date().getTime() - this.startTime) / 1000);
             if (this.max > 0 && diff > this.max) {
                 this.computed();
@@ -55,15 +54,15 @@ export class CircleProgressComponent implements AfterViewInit {
             }
             this.valueChange.emit(this.value = diff);
             this.computed();
-        }, 100);
+        });
     }
 
     public stop() {
-        if (this.timer < 1) {
+        if (!this.$timer) {
             return;
         }
-        clearInterval(this.timer);
-        this.timer = 0;
+        this.$timer.unsubscribe();
+        this.$timer = null;
         this.finished.emit(this);
     }
 

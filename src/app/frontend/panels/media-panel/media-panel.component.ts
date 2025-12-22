@@ -16,14 +16,19 @@ export class MediaPanelComponent {
     public readonly isLoading = signal(true);
     public readonly items = signal<any[]>([]);
 
-    public loadData() {
+    constructor() {
         this.http.get<IPage<IResource>>('res', {
             params: {
                 per_page: 10
             }
-        }).subscribe(res => {
-            this.items.set(res.data);
-            this.isLoading.set(false);
+        }).subscribe({
+            next: res => {
+                this.isLoading.set(false);
+                this.items.set(res.data);
+            },
+            error: _ => {
+                this.isLoading.set(false);
+            }
         });
     }
 }

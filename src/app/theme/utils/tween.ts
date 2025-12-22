@@ -12,7 +12,7 @@ export class AnimationFx {
         if (!this.isProgress) {
             return;
         }
-        if ( document.hidden === false && window.requestAnimationFrame) {
+        if (document.hidden === false && window.requestAnimationFrame) {
 			window.requestAnimationFrame(this.schedule.bind(this));
 		} else {
 			window.setTimeout(this.schedule.bind(this), 13);

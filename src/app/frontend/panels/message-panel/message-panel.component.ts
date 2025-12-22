@@ -12,19 +12,22 @@ import { IFeedback } from '../../../theme/models/seo';
 export class MessagePanelComponent {
     private readonly http = inject(HttpClient);
 
-
-
     public readonly isLoading = signal(true);
     public readonly items = signal<any[]>([]);
 
-    public loadData() {
+    constructor() {
         this.http.get<IPage<IFeedback>>('contact', {
             params: {
                 per_page: 10
             }
-        }).subscribe(res => {
-            this.items.set(res.data);
-            this.isLoading.set(false);
+        }).subscribe({
+            next: res => {
+                this.items.set(res.data);
+                this.isLoading.set(false);
+            },
+            error: _ => {
+                this.isLoading.set(false);
+            }
         });
     }
 

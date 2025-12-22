@@ -10,7 +10,7 @@ import { DialogConfirmOption } from '../model';
     styleUrls: ['./dialog-confirm.component.scss'],
 })
 export class DialogConfirmComponent {
-    private data = inject<DialogPackage<DialogConfirmOption>>(DialogPackage);
+    private readonly data = inject<DialogPackage<DialogConfirmOption>>(DialogPackage);
     private readonly service = inject(DialogService);
 
 
@@ -23,7 +23,6 @@ export class DialogConfirmComponent {
 
     constructor() {
         const data = this.data;
-
         const option = data.data;
         this.title = option.title || $localize `Tip`;
         this.content = option.content || '';

@@ -151,7 +151,7 @@ export class FileOnlineComponent implements SearchDialogEvent {
      * goPage
      */
     public goPage(page: number) {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         this.isLoading.set(true);

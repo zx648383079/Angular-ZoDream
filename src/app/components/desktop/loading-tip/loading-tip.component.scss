@@ -1,15 +1,4 @@
 @use '../../../../bootstrap/loading/cute';
-.page-empty-tip {
-    font-size: 3em;
-    color: rgb(226, 226, 226);
-    font-weight: 700;
-    text-align: center;
-    cursor: default;
-    user-select: none;
-    .iconfont {
-        font-size: 2em;
-    }
-}
 .loading-tip-box {
     display: flex;
     align-items: center;

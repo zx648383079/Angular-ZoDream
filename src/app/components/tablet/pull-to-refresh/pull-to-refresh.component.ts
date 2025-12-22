@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef, OnDestroy, HostListener, Renderer2, inject, input, output, viewChild, effect, model } from '@angular/core';
+import { interval } from 'rxjs';
 
 export enum ESTATE {
     NONE = 0,
@@ -217,10 +218,10 @@ export class PullToRefreshComponent implements OnInit, OnDestroy {
         start: number, end: number, endHandle ?: () => void) {
         const diff = start > end ? -1 : 1;
         let step = 1;
-        const handle = setInterval(() => {
+        const handle = interval(16).subscribe(() => {
             start += (step++) * diff;
             if ((diff > 0 && start >= end) || (diff < 0 && start <= end)) {
-                clearInterval(handle);
+                handle.unsubscribe();
                 this.topHeight.set(end);
                 if (endHandle) {
                     endHandle();
@@ -228,7 +229,7 @@ export class PullToRefreshComponent implements OnInit, OnDestroy {
                 return;
             }
             this.topHeight.set(start);
-        }, 16);
+        });
     }
 
     public reset() {

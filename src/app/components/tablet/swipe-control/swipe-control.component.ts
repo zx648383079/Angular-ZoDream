@@ -1,5 +1,6 @@
 import { Component, ElementRef, HostListener, OnInit, output, viewChild } from '@angular/core';
 import { SwipeListControlComponent } from './swipe-list-control.component';
+import { interval } from 'rxjs';
 
 @Component({
     standalone: false,
@@ -143,10 +144,10 @@ export class SwipeControlComponent {
         start: number, end: number, endHandle?: () => void) {
         const diff = start > end ? -1 : 1;
         let step = 1;
-        const handle = setInterval(() => {
+        const handle = interval(16).subscribe(() => {
             start += (step ++) * diff;
             if ((diff > 0 && start >= end) || (diff < 0 && start <= end)) {
-                clearInterval(handle);
+                handle.unsubscribe();
                 this.left = end;
                 if (typeof endHandle === 'function') {
                     endHandle();
@@ -154,7 +155,7 @@ export class SwipeControlComponent {
                 return;
             }
             this.left = start;
-        }, 16);
+        });
     }
 
     public reset() {

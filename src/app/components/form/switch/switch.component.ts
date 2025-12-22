@@ -23,7 +23,7 @@ export class SwitchComponent implements FormValueControl<boolean|number|string> 
     public readonly disabled = input(false);
 
     public readonly labelContent = computed(() => {
-        if (this.isActive) {
+        if (this.isActive()) {
             return this.onLabel() || this.label();
         }
         return this.offLabel() || this.label();
@@ -41,6 +41,11 @@ export class SwitchComponent implements FormValueControl<boolean|number|string> 
         if (this.disabled()) {
             return;
         }
-        this.value.update(v => typeof v === 'boolean' ? !v : parseNumber(v) > 0);
+        this.value.update(v => {
+            if (typeof v === 'boolean') {
+                return !v;
+            }
+            return parseNumber(v) > 0 ? 0 : 1;
+        });
     }
 }

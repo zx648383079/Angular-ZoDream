@@ -14,6 +14,4 @@ export class DialogPopupComponent {
 
     public readonly placement = input('left');
 
-    constructor() { }
-
 }

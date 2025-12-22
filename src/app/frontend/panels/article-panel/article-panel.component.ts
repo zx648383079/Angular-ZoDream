@@ -11,19 +11,22 @@ import { IBlog } from '../../../modules/blog/model';
 })
 export class ArticlePanelComponent {
     private readonly http = inject(HttpClient);
-
-
-    public readonly isLoading = signal(true);
     public readonly items = signal<any[]>([]);
+    public readonly isLoading = signal(true);
 
-    public loadData() {
+    constructor() {
         this.http.get<IPage<IBlog>>('blog', {
             params: {
                 per_page: 10
             }
-        }).subscribe(res => {
-            this.items.set(res.data);
-            this.isLoading.set(false);
+        }).subscribe({
+            next: res => {
+                this.isLoading.set(false);
+                this.items.set(res.data);
+            },
+            error: _ => {
+                this.isLoading.set(false);
+            }
         });
     }
 }

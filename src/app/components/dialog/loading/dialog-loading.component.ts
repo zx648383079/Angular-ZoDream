@@ -10,7 +10,7 @@ import { DialogService } from '../dialog.service';
     styleUrls: ['./dialog-loading.component.scss']
 })
 export class DialogLoadingComponent implements OnDestroy {
-    private data = inject<DialogPackage<DialogLoadingOption>>(DialogPackage);
+    private readonly data = inject<DialogPackage<DialogLoadingOption>>(DialogPackage);
     private readonly service = inject(DialogService);
 
 

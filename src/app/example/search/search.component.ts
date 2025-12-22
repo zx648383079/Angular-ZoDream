@@ -72,7 +72,8 @@ export class ExampleSearchComponent implements OnInit {
     }
 
     public onOpenToggle(item: IFeedback) {
-
+        console.log(item);
+        
     }
 
     public tapRemoveMultiple() {
@@ -119,7 +120,7 @@ export class ExampleSearchComponent implements OnInit {
      * goPage
      */
     public goPage(page: number) {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         this.isLoading.set(true);
@@ -135,6 +136,7 @@ export class ExampleSearchComponent implements OnInit {
                     email: '66@qq.com',
                     content: 'ddddddd',
                     status: 0,
+                    open_status: i % 2,
                     created_at: Math.floor(new Date().getTime() / 1000 - i * 100000)
                 } as any);
             }

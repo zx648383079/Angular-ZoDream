@@ -143,10 +143,7 @@ export class FrontendComponent implements OnDestroy {
 
     public onCheckedChange(checked: boolean) {
         this.user.update(v => {
-            if (v) {
-                v.today_checkin = checked;
-            }
-            return v;
+            return {...v, today_checkin: checked};
         });
     }
 

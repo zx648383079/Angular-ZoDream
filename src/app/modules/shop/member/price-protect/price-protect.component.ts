@@ -73,7 +73,7 @@ export class PriceProtectComponent implements OnInit {
      * goPage
      */
     public goPage(page: number) {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         this.isLoading.set(true);

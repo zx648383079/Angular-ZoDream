@@ -9,6 +9,7 @@ import { emptyValidate } from '../../../theme/validators';
 import { ICategory, ICategoryUser, ISession, IWord } from '../model';
 import { OnlineBackendService } from './online.service';
 import { form } from '@angular/forms/signals';
+import { interval, Subscription } from 'rxjs';
 
 const LOOP_SPACE_TIME = 20;
 const LOOP_SESSION_TIME = 120;
@@ -47,7 +48,7 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
     private spaceTime = 0;
     private sessionTime = 0;
     private isLoading = false;
-    private timer = 0;
+    private $timer: Subscription;
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
@@ -255,10 +256,10 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
     }
 
     private startTimer() {
-        if (this.timer > 0) {
+        if (this.$timer) {
             return;
         }
-        this.timer = window.setInterval(() => {
+        this.$timer = interval(1000).subscribe(() => {
             if (this.isLoading) {
 
             }
@@ -273,7 +274,7 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
             if (this.spaceTime < 0) {
                 this.tapNext();
             }
-        }, 1000);
+        });
     }
 
     private tapNext() {
@@ -309,9 +310,9 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
     }
 
     private stopTimer() {
-        if (this.timer > 0) {
-            window.clearInterval(this.timer);
-            this.timer = 0;
+        if (this.$timer) {
+            this.$timer.unsubscribe();
+            this.$timer = null;
         }
     }
 }

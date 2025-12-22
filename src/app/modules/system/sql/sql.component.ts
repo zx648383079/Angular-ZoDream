@@ -30,7 +30,7 @@ export class SqlComponent implements OnInit {
     }
 
     public tapBackup() {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         this.isLoading.set(true);

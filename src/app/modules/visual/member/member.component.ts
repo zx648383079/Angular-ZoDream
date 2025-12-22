@@ -76,7 +76,7 @@ export class MemberComponent implements OnInit {
 
 
     public goPage(page: number) {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         this.isLoading.set(true);

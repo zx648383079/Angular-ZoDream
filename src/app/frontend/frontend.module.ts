@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 
 import { frontendRoutedComponents, FrontendRoutingModule } from './frontend-routing.module';
 import { FrontendService } from './frontend.service';
@@ -18,6 +18,7 @@ import { Field } from '@angular/forms/signals';
     imports: [
         CommonModule,
         ThemeModule,
+        NgOptimizedImage,
         Field,
         CheckinModule,
         DesktopModule,

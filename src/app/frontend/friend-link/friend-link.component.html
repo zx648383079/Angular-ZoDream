@@ -36,7 +36,7 @@
                 </div>
                 <div class="link-body">
                     <div class="row">
-                        @for (item of friendLinks; track $index) {
+                        @for (item of items(); track item.name) {
                             <div class="col-lg-4">
                                 <div class="link-item" [title]="item.name">
                                     @if (item.logo) {

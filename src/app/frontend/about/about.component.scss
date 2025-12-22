@@ -42,7 +42,7 @@
             text-decoration: none;
             &:hover {
                 border-radius: 0.25rem;
-                background-color: var(--#{theme.$prefix}meta-text);
+                background-color: var(--#{theme.$prefix}body);
             }
         }
     }

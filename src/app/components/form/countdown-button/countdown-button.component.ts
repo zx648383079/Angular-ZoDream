@@ -5,6 +5,7 @@ import {
   output
 } from '@angular/core';
 import { CountdownEvent } from '../event';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
     standalone: false,
@@ -21,8 +22,7 @@ export class CountdownButtonComponent implements CountdownEvent {
     public text = this.label();
 
     public disabled = false;
-
-    public handle = 0;
+    private $timer: Subscription;
 
     constructor() {
         effect(() => {
@@ -46,27 +46,31 @@ export class CountdownButtonComponent implements CountdownEvent {
             time = this.time();
         }
         this.text = time.toString();
-        this.handle = window.setInterval(() => {
+        if (this.$timer) {
+            this.$timer.unsubscribe();
+            this.$timer = null;
+        }
+        this.$timer = interval(1000).subscribe(() => {
             time--;
             if (time <= 0) {
-                clearInterval(this.handle);
+                this.$timer.unsubscribe();
+                this.$timer = null;
                 this.disabled = false;
-                this.handle = 0;
                 this.text = this.againLabel();
                 return;
             }
             this.text = time.toString();
-        }, 1000);
+        });
     }
 
     public reset() {
         if (this.disabled) {
             this.disabled = false;
         }
-        if (this.handle > 0) {
-            clearInterval(this.handle);
+        if (this.$timer) {
+            this.$timer.unsubscribe();
+            this.$timer = null;
         }
-        this.handle = 0;
         this.text = this.label();
     }
 

@@ -6,6 +6,7 @@ import { IActivity, IAuctionConfigure, IGoods, IGoodsGallery } from '../../../mo
 import { ThemeService } from '../../../../../theme/services';
 import { ActivityService } from '../../activity.service';
 import { form, max, min } from '@angular/forms/signals';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
     standalone: false,
@@ -36,7 +37,7 @@ export class AuctionGoodsComponent implements OnInit, OnDestroy {
     });
     private spaceTime = 10;
     private isLoading = false;
-    private timer = 0;
+    private $timer: Subscription;
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -105,10 +106,10 @@ export class AuctionGoodsComponent implements OnInit, OnDestroy {
     }
 
     private startTimer() {
-        if (this.timer > 0) {
+        if (this.$timer) {
             return;
         }
-        this.timer = window.setInterval(() => {
+        this.$timer = interval(1000).subscribe(() => {
             if (this.isLoading) {
                 return;
             }
@@ -117,13 +118,13 @@ export class AuctionGoodsComponent implements OnInit, OnDestroy {
                 return;
             }
             this.tapNext();
-        }, 1000);
+        });
     }
 
     private stopTimer() {
-        if (this.timer > 0) {
-            window.clearInterval(this.timer);
-            this.timer = 0;
+        if (this.$timer) {
+            this.$timer.unsubscribe();
+            this.$timer = null;
         }
     }
 

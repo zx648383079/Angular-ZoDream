@@ -18,7 +18,7 @@ export class FriendLinkComponent implements OnInit {
     private readonly themeService = inject(ThemeService);
 
 
-    public friendLinks: ILink[] = [];
+    public readonly items = signal<ILink[]>([]);
     public readonly editForm = form(signal({
         name: '',
         url: '',
@@ -31,7 +31,7 @@ export class FriendLinkComponent implements OnInit {
 
     constructor() {
         this.service.friendLinks().subscribe(res => {
-            this.friendLinks = res;
+            this.items.set(res);
         });
     }
 

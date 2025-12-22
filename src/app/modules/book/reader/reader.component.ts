@@ -114,7 +114,7 @@ export class ReaderComponent implements OnInit, OnDestroy {
     }
 
     public onRequest(event: IRequestEvent) {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         this.isLoading.set(true);

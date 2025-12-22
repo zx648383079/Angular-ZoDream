@@ -6,9 +6,6 @@ import { Component, OnInit } from '@angular/core';
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class ExampleLoginComponent implements OnInit {
-
-    ngOnInit() {
-    }
+export class ExampleLoginComponent {
 
 }

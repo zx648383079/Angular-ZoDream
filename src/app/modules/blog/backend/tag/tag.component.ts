@@ -27,7 +27,7 @@ export class TagComponent implements OnInit {
      * tapRefresh
      */
     public tapRefresh() {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         this.isLoading.set(true);

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DialogService } from '../../components/dialog';
 
 @Component({
@@ -15,7 +15,7 @@ export class ExampleTourComponent  {
         this.toastrService.tour({
             items: [
                 {
-                    selector: '.nav-bar',
+                    selector: '.nav-pane-bar',
                     content: '这是菜单',
                 },
                 {

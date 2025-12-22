@@ -1,4 +1,4 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, computed, HostListener, inject, signal } from '@angular/core';
 import { DialogPackage } from '../dialog.injector';
 import { DialogLeadTour, DialogLeadTourStep } from '../model';
 import { DialogService } from '../dialog.service';
@@ -8,42 +8,42 @@ import { scrollTop } from '../../../theme/utils/doc';
     standalone: false,
     selector: 'app-dialog-lead-tour',
     template: `
-    <div class="lead-overlay-container" [style]="overlayStyle"></div>
-    <div class="dialog-box lead-dialog-box" [style]="dialogStyle">
+    <div class="lead-overlay-container" [style]="overlayStyle()"></div>
+    <div class="dialog-box lead-dialog-box" [style]="dialogStyle()">
         <div class="dialog-header">
-            <div class="dialog-title">{{ title }}</div>
+            <div class="dialog-title">{{ title() }}</div>
             <i class="iconfont icon-close dialog-close" (click)="close()"></i>
         </div>
         <div class="dialog-body">
-            @if (icon) {
+            @if (icon()) {
             <div class="message-icon">
-                <i class="iconfont" [class]="icon"></i>
+                <i class="iconfont" [class]="icon()"></i>
             </div>
             }
             <div class="message-body">
-                {{ content }}
+                {{ content() }}
             </div>
         </div>
         <div class="dialog-footer">
-            <div class="btn btn-primary" (click)="previous()">{{ primaryText }}</div>
-            <div class="btn btn-danger" (click)="next()">{{ secondaryText }}</div>
+            <div class="btn btn-primary" (click)="previous()">{{ primaryText() }}</div>
+            <div class="btn btn-danger" (click)="next()">{{ secondaryText() }}</div>
         </div>
     </div>
     `,
     styles: ['']
 })
 export class DialogLeadComponent {
-    private data = inject<DialogPackage<DialogLeadTour>>(DialogPackage);
+    private readonly data = inject<DialogPackage<DialogLeadTour>>(DialogPackage);
     private readonly service = inject(DialogService);
 
 
-    public overlayStyle = {};
-    public dialogStyle = {};
-    public title = '';
-    public content = '';
-    public icon = '';
-    public primaryText = '';
-    public secondaryText = '';
+    public readonly overlayStyle = signal<any>({});
+    public readonly dialogStyle = signal<any>({});
+    public readonly title = signal('');
+    public readonly content = signal('');
+    public readonly icon = signal('');
+    public readonly primaryText = signal('');
+    public readonly secondaryText = signal('');
     private index = -1;
     private option: DialogLeadTour;
 
@@ -55,22 +55,23 @@ export class DialogLeadComponent {
     @HostListener('window:resize', [])
     @HostListener('window:scoll', [])
     public onResize() {
-        if (this.index < 0) {
+        const index = this.index;
+        if (index < 0) {
             return;
         }
-        this.renderStep(this.option.items[this.index]);
+        this.renderStep(this.option.items[index]);
     }
 
-    public get canBack() {
+    public get backable() {
         return this.index > 0;
-    }
+    };
 
-    public get canNext() {
+    public get nextable() {
         return this.index < this.option.items.length - 1;
-    }
+    };
 
     public next() {
-        if (!this.canNext) {
+        if (!this.nextable) {
             this.close();
             return;
         }
@@ -79,7 +80,7 @@ export class DialogLeadComponent {
     }
 
     public previous() {
-        if (!this.canBack) {
+        if (!this.backable) {
             this.close();
             return;
         }
@@ -112,29 +113,31 @@ export class DialogLeadComponent {
     }
 
     private closeModal() {
-        this.overlayStyle = {
-            ...this.overlayStyle,
-            height: '0px',
-            width: '0px'
-        };
-        this.dialogStyle = {
+        this.overlayStyle.update(v => {
+            return {
+                ...v,
+                height: '0px',
+                width: '0px'
+            }
+        });
+        this.dialogStyle.set({
             display: 'none'
-        };
+        });
     }
 
     private openModal(offset: DOMRect, data: DialogLeadTourStep) {
-        this.overlayStyle = {
+        this.overlayStyle.set({
             left: offset.left + 'px',
             top: offset.top + 'px',
             width: offset.width + 'px',
             height: offset.height + 'px',
-        };
+        });
         const modalHeight = 190;
         const modalWidth = 320;
-        this.dialogStyle = this.computeModalStyle(offset, modalWidth, modalHeight);
-        this.content = data.content;
-        this.primaryText = this.canBack ? this.option.backText : this.option.cancelText;
-        this.secondaryText = this.canNext ? this.option.nextText : this.option.confirmText;
+        this.dialogStyle.set(this.computeModalStyle(offset, modalWidth, modalHeight));
+        this.content.set(data.content);
+        this.primaryText.set(this.backable ? this.option.backText : this.option.cancelText);
+        this.secondaryText.set(this.nextable ? this.option.nextText : this.option.confirmText);
     }
 
     private computeModalStyle(offset: DOMRect, width: number, height: number): any {

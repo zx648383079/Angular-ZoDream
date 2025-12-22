@@ -1,4 +1,5 @@
 import { Component, OnDestroy, effect, input, output } from '@angular/core';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
     standalone: false,
@@ -17,7 +18,7 @@ export class CountdownComponent implements OnDestroy {
     public minute = 0;
     public second = 0;
     private formatEnd = 0;
-    private timerHandle = 0;
+    private $timer: Subscription;
 
     constructor() {
         effect(() => {
@@ -55,15 +56,15 @@ export class CountdownComponent implements OnDestroy {
 
     private startTimer() {
         this.stopTimer();
-        this.timerHandle = window.setInterval(() => {
+        this.$timer = interval(300).subscribe(() => {
             this.refresh();
-        }, 300);
+        });
     }
 
     private stopTimer() {
-        if (this.timerHandle > 0) {
-            clearInterval(this.timerHandle);
-            this.timerHandle = 0;
+        if (this.$timer) {
+            this.$timer.unsubscribe();
+            this.$timer = null;
         }
     }
 

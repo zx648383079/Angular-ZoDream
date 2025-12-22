@@ -23,6 +23,8 @@ import {
 } from 'echarts/components';
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
+import { IMAGE_LOADER, ImageLoaderConfig } from '@angular/common';
+import { assetUri } from './theme/utils';
 
 echarts.use([
   TitleComponent,
@@ -61,7 +63,13 @@ echarts.use([
     providers: [
         provideHttpClient(withInterceptors([TransferStateInterceptorFn, TokenInterceptorFn, ResponseInterceptorFn]), withJsonpSupport()),
         // { provide: APP_BASE_HREF, useValue: '/' },
-        { provide: APP_ID, useValue: 'ng-zo' },
+        { provide: APP_ID, useValue: 'ng-zre' },
+        {
+            provide: IMAGE_LOADER,
+            useValue: (config: ImageLoaderConfig) => {
+                return assetUri(config.src);
+            },
+        },
     ],
     bootstrap: [AppComponent]
 })

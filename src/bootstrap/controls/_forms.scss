@@ -2,8 +2,36 @@
 @use '../rfs';
 @use '../mixins';
 @use '../functions';
+@use '../colors';
 @use 'sass:math';
 $prefix: 'bs-' !default;
+
+
+// scss-docs-start form-feedback-variables
+$form-feedback-icon-valid-color: colors.$green !default;
+$form-feedback-icon-invalid-color: colors.$red !default;
+$form-feedback-icon-valid:          url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'><path fill='#{$form-feedback-icon-valid-color}' d='M2.3 6.73.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1'/></svg>") !default;
+$form-feedback-icon-invalid:        url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='#{$form-feedback-icon-invalid-color}'><circle cx='6' cy='6' r='4.5'/><path stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/><circle cx='6' cy='8.2' r='.6' fill='#{$form-feedback-icon-invalid-color}' stroke='none'/></svg>") !default;
+// scss-docs-end form-feedback-variables
+
+$form-validation-states: (
+    "valid": (
+        "color": var(--#{$prefix}form-valid-text),
+        "icon": $form-feedback-icon-valid,
+        "tooltip-color": #fff,
+        "tooltip-bg-color": var(--#{$prefix}success),
+        "focus-box-shadow": 0 0 0 .25rem rgba(var(--#{$prefix}success-rgb), .25),
+        "border-color": var(--#{$prefix}form-valid-border),
+    ),
+    "invalid": (
+        "color": var(--#{$prefix}form-invalid-text),
+        "icon": $form-feedback-icon-invalid,
+        "tooltip-color": #fff,
+        "tooltip-bg-color": var(--#{$prefix}danger),
+        "focus-box-shadow": 0 0 0 .25rem rgba(var(--#{$prefix}danger-rgb), .25),
+        "border-color": var(--#{$prefix}form-invalid-border),
+    )
+) !default;
 
 $input-box-shadow:                      var(--#{$prefix}box-shadow-inset) !default;
 $input-focus-box-shadow:                0 0 0 .25rem rgba(var(--#{$prefix}primary-rgb), .25) !default;
@@ -524,4 +552,123 @@ textarea {
     >label {
         line-height: 2.25rem;
     }
+}
+
+
+@mixin form-validation-state-selector($state) {
+    @if ($state == "valid" or $state == "invalid") {
+        .was-validated #{if(&, "&", "")}:#{$state},
+        #{if(&, "&", "")}.is-#{$state} {
+            @content;
+        }
+    } @else {
+        #{if(&, "&", "")}.is-#{$state} {
+            @content;
+        }
+    }
+}
+
+@mixin form-validation-state(
+  $state,
+  $color,
+  $icon,
+  $tooltip-color: color-contrast($color),
+  $tooltip-bg-color: rgba($color, $form-feedback-tooltip-opacity),
+  $focus-box-shadow: 0 0 $input-btn-focus-blur $input-focus-width rgba($color, $input-btn-focus-color-opacity),
+  $border-color: $color
+) {
+    .#{$state}-feedback {
+        display: none;
+        width: 100%;
+        margin-top: .25rem;
+        @include rfs.font-size(.875em);
+        font-style: null;
+        color: $color;
+    }
+
+    .#{$state}-tooltip {
+        position: absolute;
+        top: 100%;
+        z-index: 5;
+        display: none;
+        max-width: 100%; // Contain to parent when possible
+        padding: .25rem .5rem;
+        margin-top: .1rem;
+        @include rfs.font-size(.875em);
+        line-height: null;
+        color: $tooltip-color;
+        background-color: $tooltip-bg-color;
+        @include mixins.border-radius(.25rem);
+    }
+
+    @include form-validation-state-selector($state) {
+        ~ .#{$state}-feedback,
+        ~ .#{$state}-tooltip {
+            display: block;
+        }
+    }
+
+    .form-control {
+        @include form-validation-state-selector($state) {
+            border-color: $border-color;
+
+            &:focus {
+                border-color: $border-color;
+                @include mixins.box-shadow($input-box-shadow, $focus-box-shadow);
+            }
+        }
+    }
+
+
+    .form-select {
+        @include form-validation-state-selector($state) {
+            border-color: $border-color;
+
+            &:focus {
+                border-color: $border-color;
+                @include mixins.box-shadow($input-box-shadow, $focus-box-shadow);
+            }
+        }
+    }
+
+    .form-check-input {
+        @include form-validation-state-selector($state) {
+            border-color: $border-color;
+
+            &:checked {
+                background-color: $color;
+            }
+
+            &:focus {
+                box-shadow: $focus-box-shadow;
+            }
+
+            ~ .form-check-label {
+                color: $color;
+            }
+        }
+    }
+    .form-check-inline .form-check-input {
+        ~ .#{$state}-feedback {
+            margin-left: .5em;
+        }
+    }
+
+    .input-group {
+        > .form-control:not(:focus),
+        > .form-select:not(:focus),
+        > .form-floating:not(:focus-within) {
+            @include form-validation-state-selector($state) {
+                @if $state == "valid" {
+                    z-index: 3;
+                } @else if $state == "invalid" {
+                    z-index: 4;
+                }
+            }
+        }
+    }
+}
+
+@each $state, $data in $form-validation-states {
+    @include form-validation-state($state, $data...);
 }

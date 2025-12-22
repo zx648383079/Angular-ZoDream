@@ -18,16 +18,36 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8">
-            <app-article-panel />
+        <div class="col-md-8" aria-live="polite" aria-atomic="true">
+            @defer (on viewport) {
+                <app-article-panel />
+            } @placeholder {
+                <p>Loading ...</p>
+            }
         </div>
-        <div class="col-md-4">
-            <app-notice-panel />
+        <div class="col-md-4" aria-live="polite" aria-atomic="true">
+            @defer (on viewport) {
+                <app-notice-panel />
+            } @placeholder {
+                <p>Loading ...</p>
+            }
+        </div>
+
+        <div class="col-12" aria-live="polite" aria-atomic="true">
+            @defer (on viewport) {
+                <app-media-panel />
+            } @placeholder {
+                <p>Loading ...</p>
+            }
+        </div>
+
+        <div class="col-12" aria-live="polite" aria-atomic="true">
+            @defer (on viewport) {
+                <app-message-panel />
+            } @placeholder {
+                <p>Loading ...</p>
+            }
         </div>
     </div>
-
-    <app-media-panel />
-
-    <app-message-panel />
 </div>
 <app-subscribe-panel />

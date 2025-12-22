@@ -13,17 +13,18 @@
         </div>
     </div>
 
+    @if (developer()) {
     <div class="row">
         <div class="col-md-4">
             <div class="person-box">
                 <div class="avatar">
-                    <img [src]="developer.avatar|asset" [alt]="developer.name">
+                    <img [src]="developer().avatar|asset" [alt]="developer().name">
                 </div>
-                <div class="name">{{ developer.name }}</div>
-                <div class="desc">{{ developer.description }}</div>
-                @if (developer.links) {
+                <div class="name">{{ developer().name }}</div>
+                <div class="desc">{{ developer().description }}</div>
+                @if (developer().links) {
                 <div class="links">
-                    @for (link of developer.links; track $index) {
+                    @for (link of developer().links; track $index) {
                         <a [href]="link.url" target="_blank" [title]="link.title">
                             <i class="iconfont" [class]="link.icon  | iconfont"></i>
                             {{ link.title }}
@@ -34,10 +35,10 @@
                 
             </div>        
         </div>
-        @if (developer.skills) {
+        @if (developer().skills) {
         <div class="col-md-8">
             <div class="simple-panel">
-                @for (item of developer.skills; track item.name) {
+                @for (item of developer().skills; track item.name) {
                 <div class="skill-progress-bar">
                     <div class="progress-header">
                         <span class="item-name">{{ item.name }}</span>
@@ -67,6 +68,7 @@
         }
         
     </div>
+    }
 
     <div class="simple-panel contact-box">
         <div class="panel-header">

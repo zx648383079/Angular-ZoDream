@@ -1,13 +1,26 @@
-<div class="panel" appLazyLoad (lazyLoading)="loadData()">
+<div class="panel">
     <div class="panel-header">
         <span i18n>Notices</span>
     </div>
-    <div class="panel-body" [class]="{'is_loading': isLoading}">
-        @for (item of items(); track $index) {
-            <div class="notice-list-item">
-                <div class="item-body" [innerHTML]="item.html"></div>
-                <div class="item-time">{{ item.created_at | ago }}</div>
+    <div class="panel-body">
+        @if (isLoading()) {
+            <div class="notice-list-item --with-animated">
+                <div class="item-body">
+                    <span class="repeater"></span>
+                </div>
+                <div class="item-time">
+                    <span class="repeater --with-quarter"></span>
+                </div>
             </div>
+        } @else {
+            @for (item of items(); track $index) {
+                <div class="notice-list-item">
+                    <div class="item-body" [innerHTML]="item.html"></div>
+                    <div class="item-time">{{ item.created_at | ago }}</div>
+                </div>
+            } @empty {
+                <p class="page-empty-tip" i18n>Nothing is here.</p>
+            }
         }
     </div>
 </div>

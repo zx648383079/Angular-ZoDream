@@ -1,21 +1,38 @@
-<div class="panel" appLazyLoad (lazyLoading)="loadData()">
+<div class="panel">
     <div class="panel-header">
         <span i18n>Lastest Resources</span>
     </div>
-    <div class="panel-body" [class]="{'is_loading': isLoading}">
-        @for (item of items(); track $index) {
-            <a class="media-list-item" [routerLink]="['/res/category', item.cat_id, item.id]">
-                <div class="item-cover">
-                    <img [src]="item.thumb" [alt]="item.title">
+    <div class="panel-body">
+        @if (isLoading()) {
+            <div class="media-list-item --with-animated">
+                <div class="item-cover repeater">
                 </div>
                 <div class="item-body">
                     <div class="item-title">
-                        <a class="name">{{ item.title }}</a>
-                        <div class="time">{{ item.created_at | ago }}</div>
+                        <div class="repeater --with-8"></div>
+                        <div class="repeater --with-4"></div>
                     </div>
-                    <div class="item-meta">{{ item.description }}</div>
+                    <div class="item-meta repeater"></div>
                 </div>
-            </a>
+            </div>
+        } @else {
+            @for (item of items(); track $index) {
+                <a class="media-list-item" [routerLink]="['/res/category', item.cat_id, item.id]">
+                    <div class="item-cover">
+                        <img [ngSrc]="item.thumb" fill [alt]="item.title" placeholder>
+                    </div>
+                    <div class="item-body">
+                        <div class="item-title">
+                            <a class="name">{{ item.title }}</a>
+                            <div class="time">{{ item.created_at | ago }}</div>
+                        </div>
+                        <div class="item-meta">{{ item.description }}</div>
+                    </div>
+                </a>
+            } @empty {
+                <p class="page-empty-tip" i18n>Nothing is here.</p>
+            }
         }
+        
     </div>
 </div>

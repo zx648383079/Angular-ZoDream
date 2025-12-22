@@ -67,7 +67,7 @@ export class LoginPanelComponent {
     }
 
     public goPage(page: number) {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         this.isLoading.set(true);

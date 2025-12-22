@@ -23,7 +23,7 @@ export class EditorFileComponent implements IEditorModal {
     }
 
     public uploadFile(e: any) {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         const files = e.target.files as FileList;
@@ -31,7 +31,7 @@ export class EditorFileComponent implements IEditorModal {
     }
 
     public uploadFiles(files: FileList|File[]) {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         if (files.length < 1) {

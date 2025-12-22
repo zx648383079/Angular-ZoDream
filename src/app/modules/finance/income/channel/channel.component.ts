@@ -36,7 +36,7 @@ export class ChannelComponent implements OnInit {
     }
 
     public tapRefresh() {
-        if (this.isLoading) {
+        if (this.isLoading()) {
             return;
         }
         this.isLoading.set(true);
