@@ -26,10 +26,10 @@ export class CaptchaComponent {
 
 
     public readonly visible = signal(false);
-    public data: ICaptcha;
-    public value: any = '';
-    public x = 0;
-    public maskItems: IPoint[] = [];
+    public readonly data = signal<ICaptcha>(null);
+    public readonly value = signal<any>('');
+    public readonly x = signal(0);
+    public readonly maskItems = signal<IPoint[]>([]);
     public readonly token = input('');
     public readonly submited = output();
     private mouseMoveListeners = {
@@ -57,18 +57,20 @@ export class CaptchaComponent {
 
     public onMoveStart(e: MouseEvent) {
         e.stopPropagation();
-        this.x = 0;
+        this.x.set(0);
         this.onMouseMove(p => {
-            this.x = Math.max(p.x - e.clientX, 0);
+            this.x.set(Math.max(p.x - e.clientX, 0));
         }, () => {
             this.submited.emit();
         });
     }
 
     public onHint(e: MouseEvent) {
-        this.maskItems.push({
-            x: e.offsetX,
-            y: e.offsetY
+        this.maskItems.update(v => {
+            return [...v, {
+                x: e.offsetX,
+                y: e.offsetY
+            }];
         });
     }
 
@@ -81,7 +83,7 @@ export class CaptchaComponent {
                 res.type = 'code';
             }
             this.visible.set(true);
-            this.data = res;
+            this.data.set(res);
         });
     }
 

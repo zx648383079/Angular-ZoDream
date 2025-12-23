@@ -1,5 +1,8 @@
+@use '../../../theme/theme';
 .panel {
-    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+    --#{theme.$prefix}panel-header: transparent;
+    --#{theme.$prefix}panel-header-text: var(--#{theme.$prefix}body-text);
+    box-shadow: 0 0 1px rgba(var(--#{theme.$prefix}mask-rgb),.125), 0 1px 3px rgba(var(--#{theme.$prefix}mask-rgb),.2);
     margin-bottom: 1rem;
     position: relative;
     display: -ms-flexbox;
@@ -7,12 +10,14 @@
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    background-color: #fff;
+    background-color: var(--#{theme.$prefix}panel);
     background-clip: border-box;
-    border: 0 solid rgba(0,0,0,.125);
+    border: 0 solid var(--#{theme.$prefix}border);
     border-radius: .25rem;
     .panel-header {
-        border-bottom: 1px solid rgba(0,0,0,.125);
+        background-color: var(--#{theme.$prefix}panel-header);
+        color: var(--#{theme.$prefix}panel-header-text);
+        border-bottom: 1px solid var(--#{theme.$prefix}border);
         padding: .75rem 1.25rem;
         position: relative;
         border-top-left-radius: .25rem;
@@ -34,7 +39,7 @@
         flex: 1 1 auto;
         padding: 5px;
     }
-    .toggle {
+    .panel-toggle-arrow {
         font-style: normal;
         &::before {
             font-family: "iconfont";
@@ -46,28 +51,22 @@
         }
     }
     &.panel-primary {
-        .panel-header {
-            background-color: #007bff;
-            color: #fff;
-        }
+        --#{theme.$prefix}panel-header: var(--#{theme.$prefix}primary);
+        --#{theme.$prefix}panel-header-text: var(--#{theme.$prefix}primary-text);
     }
     &.panel-secondary {
-        .panel-header {
-            background-color: #6c757d;
-            color: #fff;
-        }
+        --#{theme.$prefix}panel-header: var(--#{theme.$prefix}secondary);
+        --#{theme.$prefix}panel-header-text: var(--#{theme.$prefix}secondary-text);
     }
     &.panel-info {
-        .panel-header {
-            background-color: #17a2b8;
-            color: #fff;
-        }
+        --#{theme.$prefix}panel-header: var(--#{theme.$prefix}info);
+        --#{theme.$prefix}panel-header-text: var(--#{theme.$prefix}info-text);
     }
-    &.collapsed {
+    &.--with-collapsed {
         .panel-body {
             display: none;
         }
-        .toggle {
+        .panel-toggle-arrow {
             &::before {
                 content: "\e6fc";
             }
@@ -75,7 +74,7 @@
     }
 }
 
-@media (min-width: 576px) {
+@media (min-width: 36rem) {
     .panel {
         .panel-body {
             padding: 1.25rem;

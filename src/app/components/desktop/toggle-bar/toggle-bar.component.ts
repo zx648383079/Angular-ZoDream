@@ -1,4 +1,4 @@
-import { Component, effect, input, model } from '@angular/core';
+import { Component, effect, input, model, signal } from '@angular/core';
 import { IItem } from '../../../theme/models/seo';
 import { FormValueControl } from '@angular/forms/signals';
 
@@ -14,7 +14,7 @@ export class ToggleBarComponent implements FormValueControl<any> {
     public readonly disabled = input<boolean>(false);
     public readonly value = model<any>();
     public selectedIndex = 0;
-    public iconStyle: any = {};
+    public readonly iconStyle = signal<any>({});
 
     constructor() {
         effect(() => this.writeValue(this.value()));
@@ -25,7 +25,7 @@ export class ToggleBarComponent implements FormValueControl<any> {
     }
 
     public tapSelected(index: number) {
-        if (this.disabled) {
+        if (this.disabled()) {
             return;
         }
         this.updateIndex(index);
@@ -42,9 +42,9 @@ export class ToggleBarComponent implements FormValueControl<any> {
 
     private updateIndex(i: number) {
         this.selectedIndex = i;
-        this.iconStyle = {
+        this.iconStyle.set({
             left: i * 3 + 'em'
-        };
+        });
     }
 
     private writeValue(obj: any): void {

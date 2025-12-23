@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -10,10 +10,10 @@ export class PageTipComponent {
 
     public readonly title = input($localize `Tip`);
 
-    public isMin = false;
+    public readonly isMin = signal(false);
 
     public tapMin() {
-        this.isMin = !this.isMin;
+        this.isMin.update(v => !v);
     }
 
 }

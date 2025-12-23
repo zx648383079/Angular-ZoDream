@@ -1,4 +1,4 @@
-import { Component, effect, input } from '@angular/core';
+import { Component, effect, input, signal, untracked } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -11,16 +11,19 @@ export class PanelComponent {
     public readonly title = input($localize `Tip`);
     public readonly theme = input('');
     public readonly min = input(false);
-    public isOpen = true;
+    public readonly isOpen = signal(true);
 
     constructor() {
         effect(() => {
-            this.isOpen = !this.min();
+            const val = this.min();
+            untracked(() => {
+                this.isOpen.set(!val);
+            });
         });
     }
 
     public tapToggle() {
-        this.isOpen = !this.isOpen;
+        this.isOpen.update(v => !v);
     }
 
 }

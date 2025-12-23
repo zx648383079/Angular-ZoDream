@@ -23,7 +23,7 @@
         </div>
         <div class="nav-bar">
             @for (item of navItems(); track $index; let i = $index) {
-                <div class="item" [class]="{active: i === navIndex}" (click)="navIndex = i">
+                <div class="item" [class]="{active: i === navIndex()}" (click)="navIndex.set(i)">
                     {{ item.name }}
                 </div>
             }

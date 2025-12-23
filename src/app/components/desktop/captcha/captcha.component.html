@@ -1,24 +1,24 @@
-@if (visible && data && data.type === 'code') {
+@if (visible() && data()?.type === 'code') {
 <div class="code-input">
-    <input type="text" [field]="value">
+    <input type="text" [value]="value()" (input)="value.set($event.target.value)">
     <a (click)="tapRefresh()" i18n-title title="Click refresh">
-        <img [src]="data.image" i18n-alt alt="Refresh and retry">
+        <img [src]="data().image" i18n-alt alt="Refresh and retry">
         <i class="iconfont icon-refresh code-refresh-btn"></i>
     </a>
 </div>
 }
 
-@if (visible && data && data.type !== 'code') {
+@if (visible() && data()?.type !== 'code') {
 <div class="dialog-mask"></div>
 }
 
-@if (visible && data && data.type === 'slide') {
+@if (visible() && data()?.type === 'slide') {
 <div class="code-modal">
-    <div class="modal-body" [style]="{width: data.width + 'px', height: data.height + 'px'}">
-        @for (item of data.imageItems; track $index) {
-            <div class="slide-image" [style]="{'background-image': 'url(\'' + data.image+ '\')', 'background-position': item.x + 'px '+ item.y + 'px', width: item.width + 'px', height: item.height + 'px'}"></div>
+    <div class="modal-body" [style]="{width: data().width + 'px', height: data().height + 'px'}">
+        @for (item of data().imageItems; track $index) {
+            <div class="slide-image" [style]="{'background-image': 'url(\'' + data().image+ '\')', 'background-position': item.x + 'px '+ item.y + 'px', width: item.width + 'px', height: item.height + 'px'}"></div>
         }
-        <div class="slide-control" [style]="{'background-image': 'url(\'' + data.control + '\')', width: data.controlWidth + 'px', height: data.controlHeight + 'px', top: data.controlY + 'px', left: value + 'px'}"></div>
+        <div class="slide-control" [style]="{'background-image': 'url(\'' + data().control + '\')', width: data().controlWidth + 'px', height: data().controlHeight + 'px', top: data().controlY + 'px', left: value + 'px'}"></div>
         <a class=" code-refresh-btn" (click)="tapRefresh()" i18n-title title="Click refresh">
             <i class="iconfont icon-refresh"></i>
         </a>
@@ -29,18 +29,18 @@
 </div>
 }
 
-@if (visible && data && data.type === 'hint') {
+@if (visible() && data()?.type === 'hint') {
 <div class="code-modal">
     <div class="modal-body" (click)="onHint($event)">
-        <img [src]="data.image" alt="">
-        @for (item of maskItems; track $index) {
+        <img [src]="data().image" alt="">
+        @for (item of maskItems(); track $index) {
             <i class="hint-item" [style]="{left: item.x + 'px', top: item.y + 'px'}"></i>
         }
     </div>
     <div class="code-hint-bar">
         <label i18n>Click on</label>
         <a (click)="tapRefresh()" i18n-title title="Click refresh">
-            <img [src]="data.control" i18n-alt alt="Refresh and retry">
+            <img [src]="data().control" i18n-alt alt="Refresh and retry">
             <i class="iconfont icon-refresh code-refresh-btn"></i>
         </a>
     </div>

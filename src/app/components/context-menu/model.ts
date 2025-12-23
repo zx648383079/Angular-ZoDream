@@ -4,7 +4,7 @@ export interface IMenuButton {
     data?: any;
     children?: IMenuItem[];
     expand?: boolean;
-    disable?: boolean;
+    disabled?: boolean;
     onTapped?: () => void;
 }
 

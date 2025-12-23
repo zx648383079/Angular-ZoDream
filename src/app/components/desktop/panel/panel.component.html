@@ -1,11 +1,11 @@
-<div class="panel" [class]="[theme(), isOpen ? '' : 'collapsed']">
-  <div class="panel-header">
-    <div class="panel-title">{{ title() }}</div>
-    <div class="panel-action">
-      <i class="toggle" (click)="tapToggle()"></i>
+<div class="panel" [class]="[theme(), isOpen() ? '' : '--with-collapsed']">
+    <div class="panel-header">
+        <div class="panel-title">{{ title() }}</div>
+        <div class="panel-action">
+            <i class="panel-toggle-arrow" (click)="tapToggle()"></i>
+        </div>
     </div>
-  </div>
-  <div class="panel-body">
-    <ng-content />
-  </div>
+    <div class="panel-body">
+        <ng-content />
+    </div>
 </div>

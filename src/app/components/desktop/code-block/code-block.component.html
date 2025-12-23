@@ -1,7 +1,7 @@
-<div class="code-container" [class]="{'--with-minimize': screenMode == 1, '--with-full-screen': screenMode == 2}">
+<div class="code-container" [class]="{'--with-minimize': screenMode() == 1, '--with-full-screen': screenMode() == 2}">
     <div class="code-header">
-        @if (copyTip) {
-            <a class="code-tooltip">{{ copyTip }}</a>
+        @if (copyTip()) {
+            <a class="code-tooltip">{{ copyTip() }}</a>
         } @else {
             <a i18n-title title="copy" (click)="tapCopy()">
                 <i class="icon-copy"></i>
@@ -13,21 +13,21 @@
         <a i18n-title title="full screen" (click)="toggleScreen(2)">
             <i class="icon-full-screen"></i>
         </a>
-        @if (internalSrc) {
-            <a [href]="internalSrc" target="_blank" rel="noopener" i18n-title title="open url"><i class="icon-cloud"></i></a>
+        @if (internalSrc()) {
+            <a [href]="internalSrc()" target="_blank" rel="noopener" i18n-title title="open url"><i class="icon-cloud"></i></a>
         }
-        @if (internalLang) {
-            <span>{{ internalLang }}</span>
+        @if (internalLang()) {
+            <span>{{ internalLang() }}</span>
         }
     </div>
     <div class="highlight-bar">
-        @for (item of lineNo; track $index) {
-            <span [class]="{highlighted: item.checked}">&nbsp;</span>
+        @for (item of lineNo(); track $index) {
+            <span [class.highlighted]="item.checked">&nbsp;</span>
         }
     </div>
-    <pre><code [class]="'language-' + internalLang">{{ internalValue }}</code></pre>
+    <pre><code [class]="'language-' + internalLang()">{{ internalValue() }}</code></pre>
     <div class="line-number-bar">
-        @for (item of lineNo; track $index) {
+        @for (item of lineNo(); track $index) {
             <span>{{ item.value }}</span>
         }
     </div>

@@ -14,8 +14,8 @@ export class ChartDirective implements OnDestroy {
 
 
 
-    public readonly options = input<EChartsCoreOption>(undefined);
-    public readonly initOpts = input<EChartsInitOpts>(undefined);
+    public readonly options = input<EChartsCoreOption>();
+    public readonly initOpts = input<EChartsInitOpts>();
 
     private instance: ECharts;
     private resizeOb: ResizeObserver;

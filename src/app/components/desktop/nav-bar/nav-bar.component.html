@@ -1,17 +1,17 @@
-<div class="page-box" [class]="navClass">
+<div class="page-box" [class]="navClass()">
     <div class="nav-menu nav-pane-bar">
         <i class="iconfont icon-bars nav-toggle-icon" (click)="tapToggle()"></i>
         <ul class="bar-top">
             @if (hasSuggest()) {
                 <li class="search-item">
                     <div class="search-input">
-                        <input type="text" [(value)]="suggestText" (keydown)="suggestKeyPress($event)">
+                        <input type="text" [value]="suggestText()" (input)="suggestText.set($event.target.value)" (keydown)="suggestKeyPress($event)">
                         <i class="iconfont icon-search" (click)="tapSuggest()"></i>
                     </div>
                     @if (suggestItems() && suggestItems().length > 0) {
                     <ul class="search-suggestion">
                         @for (item of suggestItems(); track $index; let i = $index) {
-                            <li (click)="tapSuggestion(i)" [class]="{active: i === suggestIndex}" >{{ formatTitle(item) }}</li>
+                            <li (click)="tapSuggestion(i)" [class]="{active: i === suggestIndex()}" >{{ formatTitle(item) }}</li>
                         }
                     </ul>
                     }
@@ -82,7 +82,7 @@
     </div>
 
     <div class="tablet-tab-bar tablet-visible">
-        @for (item of tabletItems; track $index) {
+        @for (item of tabletItems(); track $index) {
             <a class="tab-item" [class]="{'active': item.active}" [routerLink]="item.url" [queryParams]="item.urlQuery || {}">
             <i class="iconfont item-icon" [class]="item.icon"></i>
             <span class="item-body">{{ item.name }}</span>
@@ -93,7 +93,7 @@
             <span class="item-body" i18n>More</span>
         </a>
     </div>
-    @if (displayMode == 3) {
+    @if (displayMode() == 3) {
         <div class="pane-mask tablet-visible" (click)="tapToggle()"></div>
     }
     

@@ -1,4 +1,4 @@
-import { Component, effect, input } from '@angular/core';
+import { Component, effect, input, signal, untracked } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -13,51 +13,62 @@ export class CodeBlockComponent {
     public readonly src = input('');
     public readonly lang = input('');
 
-    public internalValue = '';
-    public internalLang = '';
-    public internalSrc = '';
-    public lineNo: {
-        value: number;
-        checked?: boolean;
-    }[] = [];
-    public copyTip = '';
-    public screenMode = 0;
+    public readonly internalValue = signal('');
+    public readonly internalLang = signal('');
+    public readonly internalSrc = signal('');
+    public readonly lineNo = signal<{
+            value: number;
+            checked?: boolean;
+        }[]>([]);
+    public readonly copyTip = signal('');
+    public readonly screenMode = signal(0);
     private lockTime = 0;
 
     constructor() {
         effect(() => {
-            this.internalValue = this.value();
-            this.createLine(this.computeLine(this.value()));
+            const val = this.value();
+            untracked(() => {
+                this.internalValue.set(val);
+                this.createLine(this.computeLine(val));
+            });
         });
         effect(() => {
             this.parseRaw(this.raw());
         });
         effect(() => {
-            this.internalSrc = this.src();
+            const val = this.src();
+            untracked(() => {
+                this.internalSrc.set(val);
+            });
         });
         effect(() => {
-            this.internalLang = this.lang();
+            const val = this.lang();
+            untracked(() => {
+                this.internalLang.set(val);
+            });
         });
     }
 
     public toggleScreen(to: number) {
-        this.screenMode = this.screenMode !== to ? to : 0;
+        this.screenMode.update(v => {
+            return v !== to ? to : 0;
+        });
     }
 
     public tapCopy() {
         navigator.clipboard.writeText(this.value()).then(
             () => {
-                this.copyTip = $localize `Copy successfully`;
+                this.copyTip.set($localize `Copy successfully`);
             },
             () => {
-                this.copyTip = $localize `Copy failed`;
+                this.copyTip.set($localize `Copy failed`);
             }
         );
         if (this.lockTime > 0) {
             window.clearTimeout(this.lockTime);
         }
         this.lockTime = window.setTimeout(() => {
-            this.copyTip = '';
+            this.copyTip.set('');
             this.lockTime = 0;
         }, 3000);
     }
@@ -67,12 +78,13 @@ export class CodeBlockComponent {
     }
 
     private createLine(count: number, begin = 1) {
-        this.lineNo = [];
+        const items = [];
         for (let i = 0; i < count; i++) {
-            this.lineNo.push({
+            items.push({
                 value: begin + i,
             });
         }
+        this.lineNo.set(items);
     }
 
     private parseRaw(text: string) {
@@ -91,7 +103,7 @@ export class CodeBlockComponent {
         while (info.length > i && info[j] !== ' ') {
             j ++;
         }
-        this.internalLang = info.substring(i, j);
+        this.internalLang.set(info.substring(i, j));
         i = info.indexOf('(', j);
         j = info.indexOf('{', j);
         let highlight: number[][] = [];
@@ -103,28 +115,30 @@ export class CodeBlockComponent {
             if (j > 0) {
                 highlight = this.subBlock(info, j + 1, '}').split(',').map(this.parseQuoteLine);
             }
-            this.internalSrc = this.subBlock(info, i + 1, ')');
+            this.internalSrc.set(this.subBlock(info, i + 1, ')'));
         } else if (i > 0 && j < 0) {
-            this.internalSrc = this.subBlock(info, i + 1, ')');
+            this.internalSrc.set(this.subBlock(info, i + 1, ')'));
         } else if (j > 0) {
             highlight = this.subBlock(info, j + 1, '}').split(',').map(this.parseQuoteLine);
         }
         const lineBegin = lines.length > 0 ? lines[0] : 1;
         j = 0;
-        this.lineNo = [];
-        this.internalValue = '';
+        const lineItems = [];
+        let sb = '';
         for (i = begin; i <= end; i++) {
             const lineNo = j + lineBegin;
             j ++;
             if (i > begin) {
-                this.internalValue += '\n';
+                sb += '\n';
             }
-            this.internalValue += items[i];
-            this.lineNo.push({
+            sb += items[i];
+            lineItems.push({
                 value: lineNo,
                 checked: this.isInRange(lineNo, highlight)
             });
         }
+        this.lineNo.set(lineItems);
+        this.internalValue.set(sb);
     }
 
     private isInRange(index: number, ranges: number[][]): boolean {

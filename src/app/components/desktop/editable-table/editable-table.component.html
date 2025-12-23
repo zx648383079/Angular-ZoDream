@@ -8,17 +8,17 @@
                     <i class="iconfont" [class]="{'icon-square-o': !isChecked(), 'icon-check-square-o': isChecked()}" (click)="toggleCheckAll()"></i>
                 </th>
                 }
-                @for (item of nameItems; track $index) {
+                @for (item of nameItems(); track $index) {
                     <th (click)="tapSort(item.index)">
                         <span>{{ item.label }}</span>
-                        @if (sortKey == item.index) {
-                            <i class="iconfont" [class]="{'icon-sort-alpha-asc': orderAsc, 'icon-sort-alpha-desc': !orderAsc}"></i>
+                        @if (sortKey() == item.index) {
+                            <i class="iconfont" [class]="{'icon-sort-alpha-asc': orderAsc(), 'icon-sort-alpha-desc': !orderAsc()}"></i>
                         }
                     </th>
                 }
                 <th>
-                    <div class="drop-menu-btn" [class]="{'open-drop': openDrop}">
-                        <i class="iconfont icon-cog" (click)="openDrop = !openDrop"></i>
+                    <div class="drop-menu-btn" [class]="{'open-drop': openDrop()}">
+                        <i class="iconfont icon-cog" (click)="toggleDrop()"></i>
                         <div class="drop-menu-body">
                             @for (item of columnItems(); track $index; let i = $index) {
                             <div class="menu-item">
@@ -34,7 +34,7 @@
             @if (searchable()) {
             <tr>
                 <td></td>
-                @for (item of nameItems; track item.index) {
+                @for (item of nameItems(); track item.index) {
                     <td>
                         @if (item.searchable) {
                             @switch (item.inputType) {
@@ -65,7 +65,7 @@
                 <td>
                     <i class="iconfont" [class]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}" (click)="toggleCheck(item)"></i>
                 </td>
-                @for (name of nameItems; track name.index) {
+                @for (name of nameItems(); track name.index) {
                     <th>
                         @switch (name.format) {
                             @case ('img') {
@@ -103,7 +103,7 @@
                 <td>
                     <i class="iconfont" [class]="{'icon-square-o': !isChecked(), 'icon-check-square-o': isChecked()}" (click)="toggleCheckAll()"></i>
                 </td>
-                <td [attr.colspan]="nameItems.length - 1">
+                <td [attr.colspan]="nameItems().length - 1">
                     <div class="btn-group">
                         <button class="btn btn-danger" type="button" (click)="tapRemoveAll()" [disabled]="checkedItems().length < 1" i18n>
                             Delete Selected

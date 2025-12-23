@@ -1,2 +1,5 @@
 @use '../../../../bootstrap/loading/circle';
 @use '../../../../bootstrap/loading/cute';
+:host {
+    display: block;
+}

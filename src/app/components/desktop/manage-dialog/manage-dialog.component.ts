@@ -1,5 +1,6 @@
 import { Component, input, model, signal } from '@angular/core';
 import { ManageDialogEvent } from '../../../components/dialog';
+import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -20,13 +21,15 @@ export class ManageDialogComponent implements ManageDialogEvent {
     public readonly visible = signal(false);
     public readonly confirmText = input($localize `Ok`);
     public readonly cancelText = input($localize `Cancel`);
+
+    public readonly dataForm = form(signal({
+        remark: ''
+    }));
     /**
      * 确认事件
      */
     private confirmFn: (data: any) => boolean|void;
-    public data: any = {
-        remark: ''
-    };
+
 
     /**
      * 关闭弹窗
@@ -42,7 +45,7 @@ export class ManageDialogComponent implements ManageDialogEvent {
             this.visible.set(false);
             return;
         }
-        if (this.confirmFn && this.confirmFn(this.data) === false) {
+        if (this.confirmFn && this.confirmFn(this.dataForm().value()) === false) {
             return;
         }
         this.visible.set(false);

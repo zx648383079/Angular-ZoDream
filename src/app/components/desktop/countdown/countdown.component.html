@@ -4,10 +4,10 @@
     }
     
     <p class="time">
-        <span>{{ hour | twoPad }}</span>
+        <span>{{ hour() | twoPad }}</span>
         :
-        <span>{{ minute | twoPad }}</span>
+        <span>{{ minute() | twoPad }}</span>
         :
-        <span>{{ second | twoPad }}</span>
+        <span>{{ second() | twoPad }}</span>
     </p>
 </div>

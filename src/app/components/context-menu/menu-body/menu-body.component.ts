@@ -19,8 +19,6 @@ export class MenuBodyComponent {
 
     public readonly tapped = output<IMenuButton>();
 
-    constructor() { }
-
     public tapMenuItem(item: IMenuItem) {
         if (item.disable) {
             return;

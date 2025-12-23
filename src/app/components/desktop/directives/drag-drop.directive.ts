@@ -7,7 +7,7 @@ const MimeType = 'application/json';
     standalone: false,
     selector: '[appDragDrop]'
 })
-export class DragDropDirective implements AfterViewInit {
+export class DragDropDirective {
     private element = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
 
@@ -16,15 +16,13 @@ export class DragDropDirective implements AfterViewInit {
     public readonly effectAllowed = input<'none' | 'copy' | 'copyLink' | 'copyMove' | 'link' | 'linkMove' | 'move' | 'all' | 'uninitialized'>('move');
 
     public readonly appDrog = output<{
-    data: any;
-    before: boolean;
-}>();
+        data: any;
+        before: boolean;
+    }>();
 
     @HostBinding('attr.draggable') draggable = true;
     private static placeholder: HTMLElement | null = null;
 
-    ngAfterViewInit(): void {
-    }
 
     @HostListener('dragstart', ['$event']) 
     public onDragStart(event: DragEvent): boolean {

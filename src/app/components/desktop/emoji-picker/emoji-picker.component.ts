@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, computed, ElementRef, HostListener, inject, input, output, signal } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { map, single } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { IEmoji, IEmojiCategory } from '../../../theme/models/seo';
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { IData } from '../../../theme/models/page';
@@ -22,7 +22,7 @@ export class EmojiPickerComponent {
     public readonly url = input('seo/emoji');
     public readonly tapped = output<IEmoji>();
     public readonly items = signal<IEmojiCategory[]>([]);
-    public navIndex = 0;
+    public readonly navIndex = signal(0);
     public readonly panelVisible = signal(false);
     private booted = false;
 
@@ -52,17 +52,17 @@ export class EmojiPickerComponent {
     });
 
     public readonly navTitle = computed(() => {
-        if (this.navIndex >= this.items().length) {
+        if (this.navIndex() >= this.items().length) {
             return '';
         }
-        return this.items()[this.navIndex].name;
+        return this.items()[this.navIndex()].name;
     });
 
     public readonly fiterItems = computed(() => {
-        if (this.navIndex >= this.items().length) {
+        if (this.navIndex() >= this.items().length) {
             return [];
         }
-        return this.items()[this.navIndex].items;
+        return this.items()[this.navIndex()].items;
     });
 
     private load() {

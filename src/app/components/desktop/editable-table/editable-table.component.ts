@@ -23,11 +23,11 @@ export class EditableTableComponent {
     public readonly pageChange = output<number>();
     public readonly remove = output<any[]>();
 
-    public nameItems: IColumnLink[] = [];
-    public sortKey = -1;
-    public orderAsc = true;
+    public readonly nameItems = signal<IColumnLink[]>([]);
+    public readonly sortKey = signal(-1);
+    public readonly orderAsc = signal(true);
     public readonly isChecked = signal(false);
-    public openDrop = false;
+    public readonly openDrop = signal(false);
 
     public readonly checkedItems = computed(() => {
         return this.searchItems().filter(i => i.checked);
@@ -42,10 +42,10 @@ export class EditableTableComponent {
 
     public readonly filterItems = computed(() => {
         const items = this.searchItems();
-        if (this.sortKey < 0) {
+        if (this.sortKey() < 0) {
             return items;
         }
-        const column = this.columnItems()[this.sortKey];
+        const column = this.columnItems()[this.sortKey()];
         const compare = column.compare;
         return items.sort((a, b) => {
             const [av, bv] = this.orderAsc ? [a[column.name], b[column.name]] : [b[column.name], a[column.name]];
@@ -71,7 +71,7 @@ export class EditableTableComponent {
     @HostListener('document:click', ['$event']) 
     public hideCalendar(event: any) {
         if (!event.target.closest('.drop-menu-btn') && !hasElementByClass(event.path, 'drop-menu-btn')) {
-            this.openDrop = false;
+            this.openDrop.set(false);
         }
     }
 
@@ -82,6 +82,11 @@ export class EditableTableComponent {
                 this.resetColumn();
             }
         });
+    }
+
+
+    public toggleDrop() {
+        this.openDrop.update(v => !v);
     }
 
     public toggleHidden(i: number) {
@@ -95,19 +100,19 @@ export class EditableTableComponent {
             return;
         }
         item.hidden = true;
-        if (this.sortKey === i) {
-            this.sortKey = -1;
-        }
+        this.sortKey.update(v => {
+            return v === i ? -1 : v;
+        });
         this.refreshColumn();
     }
 
     public tapSort(i: number) {
-        if (this.sortKey == i) {
-            this.orderAsc = !this.orderAsc;
+        if (this.sortKey() == i) {
+            this.orderAsc.update(v => !v);
         } else {
-            this.sortKey = i;
+            this.sortKey.set(i);
             const columnItems = this.columnItems();
-            this.orderAsc = typeof columnItems[i].asc !== 'boolean' || columnItems[i].asc;
+            this.orderAsc.set(typeof columnItems[i].asc !== 'boolean' || columnItems[i].asc);
         }
     }
 
@@ -162,7 +167,7 @@ export class EditableTableComponent {
     }
 
     private inSearch(data: any): boolean {
-        for (const item of this.nameItems) {
+        for (const item of this.nameItems()) {
             if (!item.value) {
                 continue;
             }
@@ -220,7 +225,7 @@ export class EditableTableComponent {
                 format: item.format,
             });
         });
-        this.nameItems = items;
+        this.nameItems.set(items);
     }
 
     private resetColumn() {

@@ -1,4 +1,4 @@
-import { Component, HostListener, model } from '@angular/core';
+import { Component, computed, HostListener, model, signal } from '@angular/core';
 import { hasElementByClass } from '../../theme/utils/doc';
 import { IMenuButton, IMenuItem, MenuEvent } from './model';
 
@@ -12,8 +12,8 @@ export class ContextMenuComponent {
 
     public readonly items = model<IMenuItem[]>([]);
 
-    public flowLeft = false;
-    public isOpen = false;
+    public readonly flowLeft = signal(false);
+    public readonly visible = signal(false);
 
     private x: number;
     private y: number;
@@ -22,27 +22,27 @@ export class ContextMenuComponent {
     @HostListener('document:click', ['$event']) 
     public hideCalendar(event: any) {
         if (!event.target.closest('.dialog-menu') && !hasElementByClass(event.path, 'dialog-menu')) {
-            this.isOpen = false;
+            this.visible.set(false);
         }
     }
     
-    get boxStyle() {
+    public readonly boxStyle = computed(() => {
         return {
             left: this.x + 'px',
             top: this.y + 'px',
-            display: this.isOpen ? 'block' : 'none',
+            display: this.visible() ? 'block' : 'none',
         };
-    }
+    });
 
-    public show(x: number, y: number): false;
-    public show(event: MouseEvent): false;
-    public show(event: MouseEvent, nav: IMenuItem[]): false;
-    public show(x: number, y: number, nav: IMenuItem[]): false;
+    public open(x: number, y: number): false;
+    public open(event: MouseEvent): false;
+    public open(event: MouseEvent, nav: IMenuItem[]): false;
+    public open(x: number, y: number, nav: IMenuItem[]): false;
 
-    public show(event: MouseEvent, nav: IMenuItem[], cb: MenuEvent): false;
-    public show(x: number, y: number, nav: IMenuItem[], cb: MenuEvent): false;
+    public open(event: MouseEvent, nav: IMenuItem[], cb: MenuEvent): false;
+    public open(x: number, y: number, nav: IMenuItem[], cb: MenuEvent): false;
 
-    public show(x: number|MouseEvent, y?: number | IMenuItem[], nav?: IMenuItem[] | MenuEvent, cb?: MenuEvent) {
+    public open(x: number|MouseEvent, y?: number | IMenuItem[], nav?: IMenuItem[] | MenuEvent, cb?: MenuEvent) {
         if (typeof x === 'object') {
             x.stopPropagation();
             [y, nav, cb] = [x.clientY, y as IMenuItem[], nav as MenuEvent];
@@ -56,7 +56,7 @@ export class ContextMenuComponent {
         if (cb) {
             this.finished = cb;
         }
-        this.isOpen = true;
+        this.visible.set(true);
         return false;
     }
 
@@ -64,7 +64,7 @@ export class ContextMenuComponent {
         if (this.finished) {
             this.finished(item);
         }
-        this.isOpen = false;
+        this.visible.set(false);
     }
 
 }
