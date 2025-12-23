@@ -1,7 +1,7 @@
 <app-edit-header [title]="dataModel().id > 0 ? '编辑板块' : '新增板块'" (submited)="tapSubmit($event)" [disabled]="dataForm().invalid()" />
 <div class="container-fluid">
     <div class="form-table-control">
-        <form class="panel-container" (submit)="tapSubmit()">
+        <form class="panel-container" (submit)="tapSubmit2($event)">
             <div class="input-group-control">
                 <label for="name">名称</label>
                 <div>

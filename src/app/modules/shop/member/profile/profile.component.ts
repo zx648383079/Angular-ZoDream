@@ -77,7 +77,8 @@ export class ProfileComponent implements OnInit {
         this.dataForm.sex().value.set(parseNumber(item.value));
     }
 
-    public tapSubmit() {
+    public tapSubmit(e: Event) {
+        e.preventDefault();
         if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;

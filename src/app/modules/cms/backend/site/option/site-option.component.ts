@@ -7,6 +7,7 @@ import { emptyValidate } from '../../../../../theme/validators';
 import { CmsService } from '../../cms.service';
 import { form } from '@angular/forms/signals';
 import { eachObject } from '../../../../../theme/utils';
+import { ButtonEvent } from '../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -81,12 +82,15 @@ export class SiteOptionComponent implements OnInit {
         return items;
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
+        e?.enter();
         this.service.optionSave(this.id, this.items()).subscribe({
             next: res => {
+                e?.reset();
                 this.toastrService.success($localize `Save Successfully`);
                 history.back();
             }, error: err => {
+                e?.reset();
                 this.toastrService.warning(err.error.message);
             }
         });

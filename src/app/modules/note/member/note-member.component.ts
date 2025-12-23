@@ -98,8 +98,8 @@ export class NoteMemberComponent implements OnInit {
         });
     }
 
-    public tapSearch() {
-
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 

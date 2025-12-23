@@ -1,19 +1,19 @@
-<div class="action-btn" [class]="{loading: isLoading}">
+<div class="action-btn" [class.loading]="isLoading()">
     @if (items().length > 0) {
     <div class="btn-group action-body">
-        @for (item of inlineItems; track $index) {
+        @for (item of inlineItems(); track $index) {
             <a class="btn" [class]="item.color" (click)="tapItem(item)">
                 <i class="iconfont btn-icon" [class]="item.icon"></i>
                 <span class="btn-label">{{ item.name }}</span>
             </a>
         }
-        @if (dropItems.length > 0) {
-        <div class="btn-group btn-group-custom" (click)="dropVisible = !dropVisible">
-            <button class="btn btn-setting dropdown-toggle" [class]="{show: dropVisible}">
+        @if (dropItems().length > 0) {
+        <div class="btn-group btn-group-custom" (click)="toggle()">
+            <button class="btn btn-setting dropdown-toggle" [class]="{show: dropVisible()}">
                 <i class="iconfont icon-cog"></i>
             </button>
-            <ul class="dropdown-menu" [class]="{show: dropVisible}">
-                @for (item of dropItems; track $index) {
+            <ul class="dropdown-menu" [class]="{show: dropVisible()}">
+                @for (item of dropItems(); track $index) {
                 <li [class]="item.color" (click)="tapItem(item)">
                     <i class="iconfont btn-icon" [class]="item.icon"></i>
                     <span class="btn-label">{{ item.name }}</span>

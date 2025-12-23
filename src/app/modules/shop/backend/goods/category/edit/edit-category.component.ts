@@ -5,6 +5,7 @@ import { ICategory } from '../../../../model';
 import { filterTree } from '../../../../../../theme/utils';
 import { GoodsService } from '../../goods.service';
 import { form, required } from '@angular/forms/signals';
+import { ButtonEvent } from '../../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -69,15 +70,28 @@ export class EditCategoryComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit() {
+    public tapSubmit2(e: SubmitEvent) {
+        e.preventDefault();
+        this.tapSubmit();
+    }
+
+    public tapSubmit(e?: ButtonEvent) {
         if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
         const data: ICategory = this.dataForm().value() as any;
-        this.service.categorySave(data).subscribe(_ => {
-            this.toastrService.success($localize `Save Successfully`);
-            this.tapBack();
+        e.enter();
+        this.service.categorySave(data).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success($localize `Save Successfully`);
+                this.tapBack();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 

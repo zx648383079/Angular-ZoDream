@@ -6,7 +6,7 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (submit)="tapSearch()">
+            <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">用户名</label>
                     <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="用户名">

@@ -35,7 +35,7 @@
             background-color: var(--#{theme.$prefix}input-selected);
         }
     }
-    &.panel-open {
+    &.--with-open {
         .autocomplete__container {
             opacity: 1;
             display: block;

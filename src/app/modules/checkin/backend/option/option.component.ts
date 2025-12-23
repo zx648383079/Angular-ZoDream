@@ -3,6 +3,7 @@ import { DialogService } from '../../../../components/dialog';
 import { eachObject } from '../../../../theme/utils';
 import { CheckinService } from '../checkin.service';
 import { form } from '@angular/forms/signals';
+import { ButtonEvent } from '../../../../components/form';
 
 interface IPlusItem {
     day: number;
@@ -51,7 +52,7 @@ export class OptionComponent implements OnInit {
         });
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
         const data = this.dataForm().value() as any;
         data.plus = {};
         for (const item of data.items) {
@@ -60,11 +61,14 @@ export class OptionComponent implements OnInit {
             }
             data.plus[item.day] = item.plus;
         }
+        e?.enter();
         this.service.optionSave({...data, items: undefined}).subscribe({
             next: _ => {
+                e?.reset();
                 this.toastrService.success($localize `Save Successfully`);
             },
             error: err => {
+                e?.reset();
                 this.toastrService.error(err);
             }
         });

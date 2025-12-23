@@ -181,7 +181,8 @@ export class UserComponent implements OnInit, OnDestroy {
         });
     }
 
-    public tapSearch() {
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.queries.sort().value.set('id');
         this.tapRefresh();
     }

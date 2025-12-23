@@ -1,4 +1,4 @@
-import { Component, effect, ElementRef, input, model, viewChild } from '@angular/core';
+import { Component, effect, ElementRef, input, model, signal, viewChild } from '@angular/core';
 import { eachObject } from '../../../theme/utils';
 import { FormValueControl } from '@angular/forms/signals';
 
@@ -17,9 +17,9 @@ export class WordsInputComponent implements FormValueControl<string[] | number |
     
     public readonly disabled = input<boolean>(false);
     public readonly value = model<string[] | number | string>('');
-    public selectedItems: string[] = [];
-    public keywords = '';
-    public isFocus = false;
+    public readonly selectedItems = signal<string[]>([]);
+    public readonly keywords = signal('');
+    public readonly isFocus = signal(false);
 
     constructor() {
         effect(() => this.writeValue(this.value()));
@@ -27,25 +27,21 @@ export class WordsInputComponent implements FormValueControl<string[] | number |
 
     private output() {
         const join = this.join();
-        this.value.set(join ? this.selectedItems.join(join) : {...this.selectedItems});
+        this.value.set(join ? this.selectedItems().join(join) : {...this.selectedItems()});
     }
 
-    public tapUnselect(v: string) {
-        for (let i = this.selectedItems.length - 1; i >= 0; i--) {
-            if (this.selectedItems[i] === v) {
-                this.selectedItems.splice(i, 1);
-            }
-        }
+    public tapUnselect(val: string) {
+        this.selectedItems.update(v => {
+            return v.filter(i => i !== val);
+        });
         this.output();
     }
 
     public tapEdit(item: string) {
-        this.keywords = item;
-        for (let i = this.selectedItems.length - 1; i >= 0; i--) {
-            if (this.selectedItems[i] == item) {
-                this.selectedItems.splice(i, 1);
-            }
-        }
+        this.keywords.set(item);
+        this.selectedItems.update(v => {
+            return v.filter(i => i !== item);
+        });
         this.inputBoxRef().nativeElement?.focus();
     }
 
@@ -56,28 +52,30 @@ export class WordsInputComponent implements FormValueControl<string[] | number |
     }
 
     public onBlur() {
-        this.isFocus = false;
-        this.push(this.keywords);
-        this.keywords = '';
+        this.isFocus.set(false);
+        this.push(this.keywords());
+        this.keywords.set('');
         this.output();
     }
 
-    public push(v: any) {
-        if (v === null || v === undefined || v === '') {
+    public push(val: any) {
+        if (val === null || val === undefined || val === '') {
             return;
         }
-        if (typeof v !== 'string') {
-            v = `${v}`;
+        if (typeof val !== 'string') {
+            val = `${val}`;
         }
-        v = v.trim();
-        if (this.selectedItems.indexOf(v) >= 0) {
-            return;
-        }
-        this.selectedItems.push(v);
+        val = val.trim();
+        this.selectedItems.update(v => {
+            if (v.indexOf(val) < 0) {
+                v.push(val);
+            }
+            return v;
+        });
     }
 
     private writeValue(obj: any): void {
-        this.selectedItems = [];
+        this.selectedItems.set([]);
         if (typeof obj === 'undefined' || obj === null) {
             return;
         }

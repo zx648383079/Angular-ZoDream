@@ -1,4 +1,4 @@
-import { Component, HostListener,  effect, input, model, signal } from '@angular/core';
+import { Component, HostListener,  computed,  effect, input, model, signal } from '@angular/core';
 import { rangeStep, twoPad } from '../../../theme/utils';
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { FormValueControl } from '@angular/forms/signals';
@@ -37,13 +37,13 @@ export class TimeInputComponent implements FormValueControl<string> {
         });
     }
 
-    get currentHour() {
+    public readonly currentHour = computed(() => {
         return this.timeInt(this.value());
-    }
+    })
 
-    get currentMinute() {
+    public readonly currentMinute = computed(() => {
         return this.timeInt(this.value(), 1);
-    }
+    })
 
     public twoPad(val: number) {
         if (val < 10) {
@@ -62,12 +62,12 @@ export class TimeInputComponent implements FormValueControl<string> {
     }
 
     public tapHour(i: number) {
-        this.value.set([i, this.currentMinute].map(twoPad).join(':'));
+        this.value.set([i, this.currentMinute()].map(twoPad).join(':'));
         this.refreshMinutes();
     }
 
     public tapMinute(i: number) {
-        this.value.set([this.currentHour, i].map(twoPad).join(':'));
+        this.value.set([this.currentHour(), i].map(twoPad).join(':'));
         this.panelVisible.set(false);
     }
 
@@ -76,7 +76,7 @@ export class TimeInputComponent implements FormValueControl<string> {
     }
 
     private refreshMinutes() {
-        const hour = this.currentHour;
+        const hour = this.currentHour();
         const min = this.timeParse(this.minimum());
         const max = this.timeParse(this.maximum());
         let start = 0;

@@ -1,6 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { GameMakerService } from '../../game-maker.service';
 import { DialogService } from '../../../../../components/dialog';
+import { ButtonEvent } from '../../../../../components/form';
+import { form } from '@angular/forms/signals';
 
 interface IPlusItem {
     day: number;
@@ -18,12 +20,14 @@ export class RuleCheckinComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
 
 
-    public data: any = {
+    public readonly dataForm = form(signal({
         basic: 0,
         loop: 0,
-    };
-
-    public plusItems: IPlusItem[] = [];
+        items: <IPlusItem[]>[{
+            day: 0,
+            plus: 1
+        }],
+    }));
 
     ngOnInit() {
         // this.service.option().subscribe(res => {
@@ -43,10 +47,10 @@ export class RuleCheckinComponent implements OnInit {
         // });
     }
 
-    public tapSubmit() {
-        const data = {...this.data};
+    public tapSubmit(e?: ButtonEvent) {
+        const data = this.dataForm().value() as any;
         data.plus = {};
-        for (const item of this.plusItems) {
+        for (const item of data.items) {
             if (item.day < 1 || item.plus < 1) {
                 continue;
             }
@@ -63,14 +67,20 @@ export class RuleCheckinComponent implements OnInit {
     }
 
     public tapAddItem() {
-        this.plusItems.push({
-            day: 0,
-            plus: 1,
+        this.dataForm.items().value.update(v => {
+            v.push({
+                day: 0,
+                plus: 1,
+            });
+            return v;
         });
     }
 
     public tapRemoveItem(i: number) {
-        this.plusItems.splice(i, 1);
+        this.dataForm.items().value.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
     }
 
 }

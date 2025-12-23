@@ -1,10 +1,10 @@
 <div class="color-layer">
-    <div class="color-picker-sv" (touchstart)="touchStart($event)" (touchmove)="touchMove($event)" (touchend)="touchEnd($event)" (click)="tapNotTouch($event)" [style]="{'background-color': background}">
+    <div class="color-picker-sv" (touchstart)="touchStart($event)" (touchmove)="touchMove($event)" (touchend)="touchEnd($event)" (click)="tapNotTouch($event)" [style]="{'background-color': background()}">
         <div class="color-picker-white"></div>
         <div class="color-picker-black"></div>
-        <i [style]="svStyle"></i>
+        <i [style]="svStyle()"></i>
     </div>
     <div class="color-picker-h" (touchstart)="touchHStart($event)" (touchmove)="touchHMove($event)" (click)="tapHNotTouch($event)">
-        <i [style]="hStyle"></i>
+        <i [style]="hStyle()"></i>
     </div>
 </div>

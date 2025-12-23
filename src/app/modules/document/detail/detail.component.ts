@@ -187,7 +187,8 @@ export class DetailComponent implements OnInit {
         }
     }
 
-    public tapGenerate() {
+    public tapGenerate(e: SubmitEvent) {
+        e.preventDefault();
         const data = this.codeForm().value();
         this.service.apiCode({
             id: this.data.id,

@@ -86,7 +86,7 @@
 <app-dialog-box class="dialog-search-box" #searchModal>
     <i class="iconfont icon-close dialog-close" (click)="searchModal.close(false)"></i>
     <div class="search-bar">
-        <form class="form-horizontal-control" (submit)="tapDialogSearch()">
+        <form class="form-horizontal-control" (submit)="tapDialogSearch($event)">
             <div class="input-group-control">
                 <label for="keywords">关键字</label>
                 <input type="text" class="form-control" [field]="dialogQueries.keywords" placeholder="关键词">

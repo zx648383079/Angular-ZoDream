@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="search-bar">
-        <form class="form-horizontal-control" (submit)="tapSearch()">
+        <form class="form-horizontal-control" (submit)="tapSearch($event)">
             <div class="flat-input">
                 <input type="text" class="form-control" id="keywords" [field]="queries.keywords" id="keywords" i18n-placeholder placeholder="Please enter keywords to search for existing sites">
                 <button type="submit" class="btn btn-primary" i18n>Search</button>

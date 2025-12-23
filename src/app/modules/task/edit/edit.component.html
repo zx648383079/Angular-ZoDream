@@ -1,7 +1,7 @@
 <app-edit-header [title]="dataModel().id > 0 ? '编辑任务' : '新增任务'" (submited)="tapSubmit($event)" [disabled]="dataForm().invalid()" />
 
 <div class="container-fluid">
-    <form class="form-table-control panel-container" (submit)="tapSubmit()">
+    <form class="form-table-control panel-container" (submit)="tapSubmit2($event)">
         @if (dataModel().id > 0) {
         <div class="share-icon">
             <i class="iconfont icon-paper-plane" title="分享" (click)="tapShare(shareModal)"></i>

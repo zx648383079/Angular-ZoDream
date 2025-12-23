@@ -146,6 +146,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.mode = i;
     }
 
+    public tapSubmit2(e: SubmitEvent) {
+        e.preventDefault();
+        this.tapSubmit();
+    }
+
     public tapSubmit(e?: ButtonEvent) {
         if (this.dataForm().invalid()) {
             return;

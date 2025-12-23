@@ -4,6 +4,7 @@ import { DialogService } from '../../../../../../components/dialog';
 import { IActivity, IBargainConfigure } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 import { form, required } from '@angular/forms/signals';
+import { ButtonEvent } from '../../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -71,15 +72,28 @@ export class EditBargainComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit() {
+    public tapSubmit2(e: SubmitEvent) {
+        e.preventDefault();
+        this.tapSubmit();
+    }
+
+    public tapSubmit(e?: ButtonEvent) {
         if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
         const data: IActivity<any> = this.dataForm().value() as any;
-        this.service.bargainSave(data).subscribe(_ => {
-            this.toastrService.success($localize `Save Successfully`);
-            this.tapBack();
+        e?.enter();
+        this.service.bargainSave(data).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success($localize `Save Successfully`);
+                this.tapBack();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 

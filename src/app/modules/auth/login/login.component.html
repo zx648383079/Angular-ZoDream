@@ -1,4 +1,4 @@
-<form class="form-icon-control login-form" (submit)="tapSubmit()" [class]="{slided: mode > 0}" [hidden]="mode > 6">
+<form class="form-icon-control login-form" (submit)="tapSubmit2($event)" [class]="{slided: mode > 0}" [hidden]="mode > 6">
   <div class="input-box">
         <app-autocomplete [field]="dataForm.email">
             <div class="input-group-control" [class.error]="dataForm.email().touched() && dataForm.email().invalid()">

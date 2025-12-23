@@ -1,5 +1,5 @@
 <div class="calendar-input">
-    <input type="text" class="form-control" [value]="value()" (change)="onValueChange($event)" 
+    <input type="text" class="form-control" [value]="value()" (input)="onValueChange($event)" 
     [disabled]="disabled()" [placeholder]="placeholder()">
     <app-datepicker [format]="format()" [(value)]="value"
     [minimum]="minimum()" [maximum]="maximum()" [minYear]="minYear()" [maxYear]="maxYear()">

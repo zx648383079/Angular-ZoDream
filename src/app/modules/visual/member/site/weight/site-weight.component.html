@@ -1,6 +1,6 @@
 
 <div class="page-search-bar">
-    <form class="flat-input" (submit)="tapSearch()">
+    <form class="flat-input" (submit)="tapSearch($event)">
         <input type="text" class="form-control" id="keywords" [field]="queries.keywords" i18n-placeholder placeholder="Please input a keyword">
         <select [field]="queries.type" class="form-control">
             @for (item of typeItems; track $index) {

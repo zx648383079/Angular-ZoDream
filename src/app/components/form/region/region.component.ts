@@ -1,4 +1,4 @@
-import { Component, SimpleChanges, HostListener, inject, input, output, model, effect, signal } from '@angular/core';
+import { Component, SimpleChanges, HostListener, inject, input, output, model, effect, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IDataOne } from '../../../theme/models/page';
 import { cloneObject, eachObject } from '../../../theme/utils';
@@ -32,12 +32,12 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
         column: number;
         value: T;
     }>();
-    public readonly disabled = input<boolean>(false);
+    public readonly disabled = input(false);
     public readonly value = model<T[] | T>();
 
-    public paths: Array<T> = [];
+    public readonly routeItems = signal<T[]>([]);
     public readonly items = signal<T[]>([]);
-    public activeColumn = 0;
+    public readonly activeColumn = signal(0);
     public readonly panelVisible = signal(false);
 
     private data: {
@@ -51,13 +51,13 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
         effect(() => this.init(this.range()));
     }
 
-    get pathLabel() {
-        const items = this.paths.filter(i => i[this.rangeKey()]);
+    public readonly pathLabel = computed(() => {
+        const items = this.routeItems().filter(i => i[this.rangeKey()]);
         if (items.length < 1) {
             return this.placeholder();
         }
         return items.map(i => i[this.rangeLabel()]).join('/');
-    }
+    });
 
     @HostListener('document:click', ['$event']) 
     public hideCalendar(event: any) {
@@ -66,8 +66,8 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
         }
     }
 
-    public showPanel() {
-        if (this.disabled) {
+    public open() {
+        if (this.disabled()) {
             return;
         }
         this.panelVisible.set(true);
@@ -98,32 +98,30 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
         this.data = data;
         this.booted = false;
         this.formatPath();
-        this.tapColumn(this.paths.length - 1);
+        this.tapColumn(this.routeItems.length - 1);
     }
 
     public tapColumn(column: number) {
         this.items.set(this.coloumnItems(column));
-        this.activeColumn = column;
+        this.activeColumn.set(column);
     }
 
     public isSelected(item: T): boolean {
-        const id = this.paths[this.activeColumn][this.rangeKey()];
+        const id = this.routeItems[this.activeColumn()][this.rangeKey()];
         return id && item[this.rangeKey()] === id;
     }
 
-    public tapClose() {
+    public close(isOk = false) {
         this.panelVisible.set(false);
-    }
-
-    public tapYes() {
-        this.panelVisible.set(false);
-        this.output();
+        if (isOk) {
+            this.output();
+        }
     }
 
     private coloumnItems(column: number): T[] {
         let items = this.data;
         for (let i = 0; i < column; i++) {
-            const id = this.paths[i][this.rangeKey()];
+            const id = this.routeItems[i][this.rangeKey()];
             if (!id) {
                 return;
             }
@@ -140,24 +138,30 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
     }
 
     public tapCheckedItem(item: T) {
-        const column = this.activeColumn;
+        const column = this.activeColumn();
         const nextColumn = column + 1;
-        this.paths[column] = item;
+        this.routeItems[column] = item;
         this.columnChange.emit({
             column,
             value: {...item, children: undefined}
         });
-        this.paths.splice(nextColumn);
+        this.routeItems.update(v => {
+            v.splice(nextColumn);
+            return v;
+        });
         const items = this.coloumnItems(nextColumn);
         if (items.length < 1) {
-            this.tapYes();
+            this.close(true);
             return;
         }
-        this.paths.push({
-            [this.rangeLabel()]: this.placeholder()
-        } as any);
+        this.routeItems.update(v => {
+            v.push({
+                [this.rangeLabel()]: this.placeholder()
+            } as any);
+            return v;
+        });
         this.items.set(items);
-        this.activeColumn = nextColumn;
+        this.activeColumn.set(nextColumn);
     }
 
     private toArr(data: any): T[] {
@@ -234,12 +238,12 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
                 }
             ];
         }
-        this.paths = path;
+        this.routeItems.set(path);
         this.booted = true;
     }
 
     private output() {
-        const path = this.paths.filter(i => {
+        const path = this.routeItems().filter(i => {
             return i[this.rangeKey()];
         }).map(i => {
             return {

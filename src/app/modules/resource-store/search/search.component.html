@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <form class="search-input" (submit)="tapSearch()">
+            <form class="search-input" (submit)="tapSearch($event)">
                 <input type="text" class="form-control" [field]="queryForm.keywords">
                 @if (queryForm.keywords().value()) {
                     <i class="iconfont icon-close" (click)="tapClearQuery()"></i>

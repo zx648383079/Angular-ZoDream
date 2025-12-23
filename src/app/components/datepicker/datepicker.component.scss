@@ -110,7 +110,7 @@ $minBoxWidth: $minSize * 7;
                     background-color: var(--#{theme.$prefix}picker-header);
                     color: var(--#{theme.$prefix}picker-header-text);
                 }
-                &.disable {
+                &.disabled {
                     color: var(--#{theme.$prefix}picker-disabled-text);
                 }
             }

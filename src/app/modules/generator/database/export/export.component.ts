@@ -4,6 +4,7 @@ import { IItem } from '../../../../theme/models/seo';
 import { DownloadService } from '../../../../theme/services';
 import { GenerateService } from '../../generate.service';
 import { form } from '@angular/forms/signals';
+import { ButtonEvent } from '../../../../components/form';
 
 @Component({
     standalone: false,
@@ -57,9 +58,18 @@ export class ExportComponent implements OnInit {
         });
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
+        e?.enter();
         this.downloadService.export('gzo/database/export', {
             ...this.dataForm().value()
+        }).subscribe({
+            next: _ => {
+                e?.reset();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 }

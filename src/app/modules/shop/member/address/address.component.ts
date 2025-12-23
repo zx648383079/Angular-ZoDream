@@ -111,7 +111,8 @@ export class AddressComponent {
         });
     }
 
-    public tapSearch() {
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 

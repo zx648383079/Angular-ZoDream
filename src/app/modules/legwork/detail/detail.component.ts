@@ -4,6 +4,7 @@ import { DialogService } from '../../../components/dialog';
 import { LegworkService } from '../legwork.service';
 import { IService, IServiceForm } from '../model';
 import { applyEach, form, min, required } from '@angular/forms/signals';
+import { ButtonEvent } from '../../../components/form';
 
 @Component({
     standalone: false,
@@ -55,7 +56,7 @@ export class DetailComponent implements OnInit {
         });
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
         if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incorrect purchase quantity `);
             return;
@@ -68,15 +69,18 @@ export class DetailComponent implements OnInit {
             }
             remark[item.name] = item.value as any;
         }
+        e?.enter();
         this.service.orderCreate({
             service_id: this.data().id,
             amount: this.dataForm.amount().value(),
             remark
         }).subscribe({
             next: res => {
+                e?.reset();
                 this.toastrService.success($localize `The order is successfully placed, waiting for payment `);
             },
             error: err => {
+                e?.reset();
                 this.toastrService.error(err);
             }
         });

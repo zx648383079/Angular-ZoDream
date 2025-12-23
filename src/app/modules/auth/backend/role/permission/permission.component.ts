@@ -44,7 +44,8 @@ export class PermissionComponent {
         this.goPage(this.queries.page().value() + 1);
     }
 
-    public tapSearch() {
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 

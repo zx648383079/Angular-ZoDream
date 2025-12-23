@@ -7,7 +7,7 @@
 
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (submit)="tapSearch()">
+            <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label class="sr-only" for="keywords">内容</label>
                     <input type="text" class="form-control" placeholder="标题" id="keywords" [field]="queries.keywords">

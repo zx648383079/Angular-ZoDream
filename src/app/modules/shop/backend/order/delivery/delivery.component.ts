@@ -140,8 +140,8 @@ export class DeliveryComponent implements OnInit {
         });
     }
 
-    public tapSearch() {
-
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 

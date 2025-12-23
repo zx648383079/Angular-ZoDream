@@ -10,7 +10,7 @@
             <div class="scroll-column">
                 <ul>
                     @for (item of hourItems; track $index) {
-                        <li [class]="{selected: item == currentHour}" (click)="tapHour(item)">{{ twoPad(item) }}</li>
+                        <li [class.selected]="item == currentHour()" (click)="tapHour(item)">{{ twoPad(item) }}</li>
                     }
                     
                 </ul>
@@ -18,7 +18,7 @@
             <div class="scroll-column">
                 <ul>
                     @for (item of minuteItems; track $index) {
-                        <li [class]="{selected: item == currentMinute}" (click)="tapMinute(item)">{{ twoPad(item) }}</li>
+                        <li [class.selected]="item == currentMinute()" (click)="tapMinute(item)">{{ twoPad(item) }}</li>
                     }
                 </ul>
             </div>

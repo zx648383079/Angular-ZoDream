@@ -13,7 +13,7 @@
                     </div>
                </div>
                <div class="col-md-4">
-                    <form class="flat-search"  (submit)="tapSearch()">
+                    <form class="flat-search"  (submit)="tapSearch($event)">
                         <input type="text" id="keywords" [field]="queries.keywords">
                         <button>搜索</button>
                     </form>

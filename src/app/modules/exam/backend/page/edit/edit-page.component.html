@@ -1,7 +1,7 @@
-<app-edit-header [title]="dataModel().id > 0 ? '编辑试卷' : '新增试卷'" (submited)="tapSubmit()" [disabled]="dataForm().invalid()" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑试卷' : '新增试卷'" (submited)="tapSubmit($event)" [disabled]="dataForm().invalid()" />
 
 <div class="container-fluid">
-    <form class="form-table-control panel-container" (submit)="tapSubmit()">
+    <form class="form-table-control panel-container" (submit)="tapSubmit2($event)">
         <div class="input-group-control">
             <label for="name">试卷名</label>
             <div>
@@ -139,7 +139,7 @@
             }
         </div>
         <div class="btn-group">
-            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)">确认保存</app-action-button>
+            <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)" [disabled]="dataForm().invalid()">确认保存</app-action-button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
         </div>
     </form>
@@ -148,7 +148,7 @@
 <app-dialog-box class="dialog-search-box" #modal>
     <i class="iconfont icon-close dialog-close" (click)="modal.close(false)"></i>
     <div class="search-bar">
-        <form class="form-horizontal-control" (submit)="tapDialogSearch()">
+        <form class="form-horizontal-control" (submit)="tapDialogSearch($event)">
             <div class="input-group-control">
                 <label for="keywords">关键字</label>
                 <input type="text" class="form-control" [field]="dialogQueries.keywords" placeholder="关键词">

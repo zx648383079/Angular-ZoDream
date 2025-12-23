@@ -90,6 +90,11 @@ export class EditPageComponent implements OnInit {
         history.back();
     }
 
+    public tapSubmit2(e: SubmitEvent) {
+        e.preventDefault();
+        this.tapSubmit();
+    }
+
     public tapSubmit(e?: ButtonEvent) {
         if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
@@ -138,7 +143,8 @@ export class EditPageComponent implements OnInit {
         });
     }
 
-    public tapDialogSearch() {
+    public tapDialogSearch(e: SubmitEvent) {
+        e.preventDefault();
         this.dialogQueries.page().value.set(1);
         this.tapDialogPage();
     }

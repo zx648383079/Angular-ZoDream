@@ -5,6 +5,7 @@ import { IActivity, IGroupBuyStep, IPreSaleConfigure } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 import { form, required } from '@angular/forms/signals';
 import { parseNumber } from '../../../../../../theme/utils';
+import { ButtonEvent } from '../../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -86,18 +87,28 @@ export class EditPresaleComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit() {
+    public tapSubmit2(e: SubmitEvent) {
+        e.preventDefault();
+        this.tapSubmit();
+    }
+
+    public tapSubmit(e?: ButtonEvent) {
         if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
         const data: any = this.dataForm().value();
-        if (data.step) {
-            data.configure.step = data.step;
-        }
-        this.service.presaleSave(data).subscribe(_ => {
-            this.toastrService.success($localize `Save Successfully`);
-            this.tapBack();
+        e?.enter();
+        this.service.presaleSave(data).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success($localize `Save Successfully`);
+                this.tapBack();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 

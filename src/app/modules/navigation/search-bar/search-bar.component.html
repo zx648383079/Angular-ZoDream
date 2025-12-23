@@ -1,5 +1,5 @@
 <div class="search-box has-search-icon">
-    <form class="search-input" (submit)="tapConfirm()">
+    <form class="search-input" (submit)="tapConfirm($event)">
         <div class="search-icon" [title]="currentEngine.name" (click)="toggleEngine()">
             <i class="iconfont" [class]="currentEngine.icon"></i>
         </div>

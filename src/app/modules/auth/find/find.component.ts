@@ -69,7 +69,8 @@ export class FindComponent {
         return this.sended ? $localize `Reset Password ` : $localize `Send verification email`;
     }
 
-    public tapSubmit() {
+    public tapSubmit(e: Event) {
+        e.preventDefault();
         if (!this.sended) {
             this.service.sendFindEmail(this.findForm.email().value()).subscribe({
                 next: res => {

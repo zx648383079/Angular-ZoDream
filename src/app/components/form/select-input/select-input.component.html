@@ -1,21 +1,21 @@
-<div class="select-input-container" [class]="{'panel-open': panelVisible}">
+<div class="select-input-container" [class]="{'--with-open': panelVisible()}">
     <div class="input-container">
         <div class="selected-container">
-            @for (item of selectedItems; track $index) {
+            @for (item of selectedItems(); track $index) {
                 <div class="selected-item">
                     <span class="item-close" (click)="tapUnselect(item)">&times;</span>
                     <div class="item-label">{{ item[rangeLabel()] }}</div>
                 </div>
             }
         </div>
-        <input type="text" [(value)]="keywords" [placeholder]="placeholder()" (input)="onKeywordsChange()" 
+        <input type="text" [value]="keywords()" [placeholder]="placeholder()" (input)="onKeywordsChange($event.target.value)" 
         [disabled]="disabled()" (focus)="onFocus()" (blur)="onBlur()">
         <div class="input-arrow">
             <span class="arrow-icon"></span>
         </div>
     </div>
     <div class="option-container">
-        @for (item of optionItems; track $index) {
+        @for (item of optionItems(); track $index) {
             <div class="option-item" [class]="{selected: isSelected(item)}" (click)="tapSelected(item)">
                 {{ item[rangeLabel()] }}
             </div>

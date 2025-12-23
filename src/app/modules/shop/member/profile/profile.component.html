@@ -20,7 +20,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="panel-container" [hidden]="tabIndex > 0">
-                        <form class="form-table-control" (submit)="tapSubmit()">
+                        <form class="form-table-control" (submit)="tapSubmit($event)">
                             <div class="input-group-control">
                                 <label for="fileUpload">用户头像</label>
                                 <div>

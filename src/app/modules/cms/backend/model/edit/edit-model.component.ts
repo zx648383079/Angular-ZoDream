@@ -4,6 +4,7 @@ import { DialogService } from '../../../../../components/dialog';
 import { ICmsModel } from '../../../model';
 import { CmsService } from '../../cms.service';
 import { form, required } from '@angular/forms/signals';
+import { ButtonEvent } from '../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -76,15 +77,28 @@ export class EditModelComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit() {
+    public tapSubmit2(e: SubmitEvent) {
+        e.preventDefault();
+        this.tapSubmit();
+    }
+
+    public tapSubmit(e?: ButtonEvent) {
         if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
         const data: ICmsModel = this.dataForm().value() as any;
-        this.service.modelSave(data).subscribe(_ => {
-            this.toastrService.success($localize `Save Successfully`);
-            this.tapBack();
+        e?.enter();
+        this.service.modelSave(data).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success($localize `Save Successfully`);
+                this.tapBack();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 

@@ -266,7 +266,8 @@ export class PageEditorComponent implements OnInit {
         });
     }
 
-    public tapDialogSearch() {
+    public tapDialogSearch(e: SubmitEvent) {
+        e.preventDefault();
         this.dialogQueries.page().value.set(1);
         this.tapDialogPage();
     }

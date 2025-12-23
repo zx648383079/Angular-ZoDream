@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostListener, input, contentChildren, effect } from '@angular/core';
+import { AfterViewInit, Component, HostListener, input, contentChildren, effect, signal } from '@angular/core';
 import { IButton } from '../event';
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { CommandButtonComponent } from './command-button';
@@ -15,9 +15,9 @@ export class CommandBarComponent implements AfterViewInit {
     public readonly max = input(3);
     public readonly min = input(1);
     public readonly flowLeft = input(false);
-    public dropVisible = false;
-    public inlineItems: IButton[] = [];
-    public dropItems: IButton[] = [];
+    public readonly dropVisible = signal(false);
+    public readonly inlineItems = signal<IButton[]>([]);
+    public readonly dropItems = signal<IButton[]>([]);
 
     constructor() {
         effect(() => {
@@ -31,7 +31,7 @@ export class CommandBarComponent implements AfterViewInit {
     @HostListener('document:click', ['$event']) 
     public hideDrop(event: any) {
         if (!event.target.closest('.command-control-icon') && !hasElementByClass(event.path, 'command-secondary-bar')) {
-            this.dropVisible = false;
+            this.dropVisible.set(false);
         }
     }
 
@@ -46,11 +46,15 @@ export class CommandBarComponent implements AfterViewInit {
         }, 100);
     }
 
+    public toggle() {
+        this.dropVisible.update(v => !v);
+    }
+
     private splitButton() {
         const items = this.items().filter(i => !i.disabled);
         if (items.length < 1) {
-            this.inlineItems = [];
-            this.dropItems = [];
+            this.inlineItems.set([]);
+            this.dropItems.set([]);
             return;
         }
         let i = this.min();
@@ -58,11 +62,11 @@ export class CommandBarComponent implements AfterViewInit {
             i = this.max();
         }
         if (i > 0) {
-            this.inlineItems = items.slice(0, i);
-            this.dropItems = items.slice(i);
+            this.inlineItems.set(items.slice(0, i));
+            this.dropItems.set(items.slice(i));
         } else {
-            this.inlineItems = [];
-            this.dropItems = items;
+            this.inlineItems.set([]);
+            this.dropItems.set(items);
         }
     }
 

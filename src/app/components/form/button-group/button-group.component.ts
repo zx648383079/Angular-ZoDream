@@ -13,16 +13,16 @@ export class ButtonGroupComponent implements ButtonEvent {
     public readonly items = input<IButton[]>([]);
     public readonly max = input(2);
     public readonly min = input(0);
-    public dropVisible = false;
+    public readonly dropVisible = signal(false);
     public readonly isLoading = signal(false);
-    public inlineItems: IButton[] = [];
-    public dropItems: IButton[] = [];
+    public readonly inlineItems = signal<IButton[]>([]);
+    public readonly dropItems = signal<IButton[]>([]);
     public readonly tapped = output<ButtonGroupEvent>();
 
     @HostListener('document:click', ['$event']) 
     public hideDrop(event: any) {
         if (!event.target.closest('.btn-group-custom') && !hasElementByClass(event.path, 'dropdown-menu')) {
-            this.dropVisible = false;
+            this.dropVisible.set(false);
         }
     }
 
@@ -40,11 +40,15 @@ export class ButtonGroupComponent implements ButtonEvent {
         });
     }
 
+    public toggle() {
+        this.dropVisible.update(v => !v);
+    }
+
     private splitButton() {
         const items = this.items().filter(i => !i.disable);
         if (items.length < 1) {
-            this.inlineItems = [];
-            this.dropItems = [];
+            this.inlineItems.set([]);
+            this.dropItems.set([]);
             return;
         }
         let i = this.min();
@@ -52,11 +56,11 @@ export class ButtonGroupComponent implements ButtonEvent {
             i = this.max();
         }
         if (i > 0) {
-            this.inlineItems = items.slice(0, i);
-            this.dropItems = items.slice(i);
+            this.inlineItems.set(items.slice(0, i));
+            this.dropItems.set(items.slice(i));
         } else {
-            this.inlineItems = [];
-            this.dropItems = items;
+            this.inlineItems.set([]);
+            this.dropItems.set(items);
         }
     }
 

@@ -79,8 +79,8 @@ export class EvaluateComponent implements OnInit {
         });
     }
 
-    public tapSearch() {
-
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 

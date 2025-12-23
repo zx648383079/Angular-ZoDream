@@ -1,8 +1,8 @@
 <div class="color-picker">
-    <div (click)="showPicker()" class="color-input-container">
+    <div (click)="open()" class="color-input-container">
         <ng-content />
     </div>
-    <div class="color-picker-calendar" [hidden]="!visibility" (click)="stopPropagation($event)">
+    <div class="color-picker-calendar" [hidden]="!visible()" (click)="stopPropagation($event)">
         <app-color-layer [disabled]="disabled()" [(value)]="value" />
     </div>
 </div>

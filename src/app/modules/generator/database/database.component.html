@@ -15,7 +15,7 @@
                     <ng-select [field]="editForm.collation" [items]="collationItems" bindValue="value" bindLabel="name" placeholder="排序规则" />
                 </div>
                 <div class="col-md-4">
-                    <div class="btn btn-primary" (click)="tapSubmit()">新建</div>
+                    <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="editForm().invalid()">新建</app-action-button>
                 </div>
             </div>
         </div>

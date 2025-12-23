@@ -80,8 +80,8 @@ export class MaterialPanelComponent {
         });
     }
 
-    public tapSearch() {
-
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
         this.tabIndex = false;
     }

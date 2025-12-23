@@ -61,8 +61,8 @@ export class UserComponent implements OnInit {
         }, () => this.dataForm.users().value().length > 0);
     }
 
-    public tapSearch() {
-
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 

@@ -1,5 +1,5 @@
-import { Component, OnInit, HostListener, ElementRef, inject, input, model, effect } from '@angular/core';
-import { formatDate } from '../../theme/utils';
+import { Component, OnInit, HostListener, ElementRef, inject, input, model, effect, signal, untracked } from '@angular/core';
+import { formatDate, twoPad } from '../../theme/utils';
 import { IDay, DayMode } from './datepicker.base';
 import { hasElementByClass } from '../../theme/utils/doc';
 
@@ -10,52 +10,55 @@ import { hasElementByClass } from '../../theme/utils/doc';
     styleUrls: ['./datepicker.component.scss']
 })
 export class DatepickerComponent implements OnInit {
-    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
+    private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
-    readonly minimum = input(new Date('1900/01/01 00:00:00'), {transform: this.transformMin});
-    readonly maximum = input(new Date('2099/12/31 23:59:59'), {transform: this.transformMax});
-    readonly minYear = input(1900);
-    readonly maxYear = input(2099);
-    readonly titleFormat = input($localize `y-mm-dd`);
-    readonly format = input('y-mm-dd hh:ii:ss');
+    public readonly minimum = input(new Date('1900/01/01 00:00:00'), {transform: this.transformMin.bind(this)});
+    public readonly maximum = input(new Date('2099/12/31 23:59:59'), {transform: this.transformMax.bind(this)});
+    public readonly minYear = input(1900);
+    public readonly maxYear = input(2099);
+    public readonly titleFormat = input($localize `y-mm-dd`);
+    public readonly format = input('y-mm-dd hh:ii:ss');
     public readonly value = model<string | Date>(undefined);
     private currentDate: Date = new Date();
 
-    public title = '-';
+    public readonly title = signal('-');
 
-    dayItems: IDay[] = [];
+    public readonly dayItems = signal<IDay[]>([]);
 
-    yearItems: Array<number> = [];
+    public readonly yearItems = signal<number[]>([]);
 
-    monthItems: Array<number> = [];
+    public readonly monthItems = signal<number[]>([]);
 
-    hourItems: Array<number> = [];
+    public readonly hourItems = signal<number[]>([]);
 
-    minuteItems: Array<number> = [];
+    public readonly minuteItems = signal<number[]>([]);
 
-    secondItems: Array<number> = [];
+    public readonly secondItems = signal<number[]>([]);
 
-    currentYear: number;
+    public readonly currentYear = signal(0);
 
-    currentMonth: number;
+    public readonly currentMonth = signal(0);
 
-    currentDay: number;
+    public readonly currentDay = signal(0);
 
-    currentHour: number;
+    public readonly currentHour = signal(0);
 
-    currentMinute: number;
+    public readonly currentMinute = signal(0);
 
-    currentSecond: number;
+    public readonly currentSecond = signal(0);
 
-    hasTime = true;
+    public readonly hasTime = signal(true);
 
-    calendarVisible = false;
+    public readonly visible = signal(false);
 
-    gridMode: DayMode = DayMode.Day;
+    public readonly gridMode = signal(DayMode.Day);
 
     constructor() {
         effect(() => {
-            this.hasTime = this.format().indexOf('h') > 0;
+            const format = this.format();
+            untracked(() => {
+                this.hasTime.set(format.indexOf('h') >= 0);
+            });
         });
         effect(() => {
             this.currentDate = this.parseDate(this.value());
@@ -89,11 +92,11 @@ export class DatepickerComponent implements OnInit {
     @HostListener('document:click', ['$event']) 
     public hideCalendar(event: any) {
         if (!event.target.closest('.datepicker') && !hasElementByClass(event.path, 'datepicker__calendar')) {
-            this.calendarVisible = false;
+            this.visible.set(false);
         }
     }
 
-    get calendarStyle() {
+    public get calendarStyle() {
         if (window.innerWidth < 400) {
             return;
         }
@@ -120,16 +123,13 @@ export class DatepickerComponent implements OnInit {
     }
 
     public twoPad(val: number) {
-        if (val < 10) {
-            return '0' + val;
-        }
-        return val;
+        return twoPad(val);
     }
 
     /**
      * 转化date
      */
-    parseDate(date: any): Date {
+    private parseDate(date: any): Date {
         if (!date) {
             return new Date();
         }
@@ -145,7 +145,7 @@ export class DatepickerComponent implements OnInit {
     /**
      * 验证Date
      */
-     checkDate(date: Date): boolean {
+    private checkDate(date: Date): boolean {
         const min = this.minimum();
         if (min && date <= min) {
             return false;
@@ -157,70 +157,79 @@ export class DatepickerComponent implements OnInit {
     /**
      * 刷新变化部分
      */
-    refresh() {
-        this.hasTime = this.format().indexOf('h') > 0;
+    private refresh() {
+        this.hasTime.set(this.format().indexOf('h') >= 0);
         this.refreshCurrent();
         this.initDays();
     }
 
-    refreshCurrent() {
-        this.currentYear = this.currentDate.getFullYear();
-        this.currentMonth = this.currentDate.getMonth() + 1;
-        this.currentDay = this.currentDate.getDate();
+    private refreshCurrent() {
+        this.currentYear.set(this.currentDate.getFullYear());
+        this.currentMonth.set(this.currentDate.getMonth() + 1);
+        this.currentDay.set(this.currentDate.getDate());
         if (this.hasTime) {
-            this.currentHour = this.currentDate.getHours();
-            this.currentMinute = this.currentDate.getMinutes();
-            this.currentSecond = this.currentDate.getSeconds();
+            this.currentHour.set(this.currentDate.getHours());
+            this.currentMinute.set(this.currentDate.getMinutes());
+            this.currentSecond.set(this.currentDate.getSeconds());
         }
-        this.title = formatDate(this.currentDate, this.titleFormat());
+        this.title.set(formatDate(this.currentDate, this.titleFormat()));
     }
 
-    initHours() {
-        this.hourItems = [];
+    private initHours() {
+        const items = [];
         for (let i = 0; i < 24; i++) {
-            this.hourItems.push(i);
+            items.push(i);
         }
+        this.hourItems.set(items);
     }
 
-    initMinutes() {
-        this.minuteItems = [];
+    private initMinutes() {
+        const items = [];
         for (let i = 0; i < 60; i++) {
-            this.minuteItems.push(i);
+            items.push(i);
         }
+        this.minuteItems.set(items);
     }
 
-    initSeconds() {
-        this.secondItems = [];
+    private initSeconds() {
+        const items = [];
         for (let i = 0; i < 60; i++) {
-            this.secondItems.push(i);
+            items.push(i);
         }
+        this.secondItems.set(items);
     }
 
-    initMonths() {
-        this.monthItems = [];
+    private initMonths() {
+        const items = [];
         for (let i = 1; i < 13; i++) {
-            this.monthItems.push(i);
+            items.push(i);
         }
+        this.monthItems.set(items);
     }
 
-    initYears() {
-        this.yearItems = [];
+    private initYears() {
+        const items = [];
         for (let i = this.minYear(); i <= this.maxYear(); i++) {
-            this.yearItems.push(i);
+            items.push(i);
         }
+        this.yearItems.set(items);
     }
 
-    initDays() {
-        this.dayItems = this.getDaysOfMonth(this.currentMonth, this.currentYear);
+    private initDays() {
+        this.dayItems.set(this.getDaysOfMonth(this.currentMonth(), this.currentYear()));
     }
 
-    toggleYear() {
-        this.gridMode = this.gridMode === DayMode.Year ? DayMode.Day : DayMode.Year;
+    public toggleYear() {
+        this.gridMode.update(v => {
+            return v === DayMode.Year ? DayMode.Day : DayMode.Year;
+        });
     }
 
-    toggleTime(e?: Event) {
+    public toggleTime(e?: Event) {
         e?.stopPropagation();
-        this.gridMode = this.gridMode === DayMode.Hour ? DayMode.Day : DayMode.Hour;
+        this.gridMode.update(v => {
+            return v === DayMode.Hour ? DayMode.Day : DayMode.Hour;
+        });
     }
 
 
@@ -284,51 +293,51 @@ export class DatepickerComponent implements OnInit {
     /**
      * 上一年
      */
-    previousYear() {
-        this.changeYear(this.currentYear - 1);
+    public previousYear() {
+        this.changeYear(this.currentYear() - 1);
     }
     /**
      * 下一年
      */
-    nextYear() {
-        this.changeYear(this.currentYear + 1);
+    public nextYear() {
+        this.changeYear(this.currentYear() + 1);
     }
     /**
      * 上月
      */
-    previousMonth() {
-        this.changeMonth(this.currentMonth - 1);
+    public previousMonth() {
+        this.changeMonth(this.currentMonth() - 1);
     }
     /**
      * 下月
      */
-    nextMonth() {
-        this.changeMonth(this.currentMonth + 1);
+    public nextMonth() {
+        this.changeMonth(this.currentMonth() + 1);
     }
 
-    applyCurrent() {
-        this.currentDate.setFullYear(this.currentYear, this.currentMonth - 1, this.currentDay);
+    private applyCurrent() {
+        this.currentDate.setFullYear(this.currentYear(), this.currentMonth() - 1, this.currentDay());
         if (this.hasTime) {
-            this.currentDate.setHours(this.currentHour, this.currentMinute, this.currentSecond);
+            this.currentDate.setHours(this.currentHour(), this.currentMinute(), this.currentSecond());
         }
-        this.title = formatDate(this.currentDate, this.titleFormat());
+        this.title.set(formatDate(this.currentDate, this.titleFormat()));
     }
 
-    changeYear(year: number) {
-        this.currentYear = year;
+    public changeYear(year: number) {
+        this.currentYear.set(year);
         this.initDays();
         this.applyCurrent();
     }
 
-    changeMonth(month: number) {
-        this.currentMonth = month;
+    public changeMonth(month: number) {
+        this.currentMonth.set(month);
         this.initDays();
         this.applyCurrent();
     }
 
-    changeDay(day: IDay) {
+    public changeDay(day: IDay) {
         const date = new Date(this.currentDate.getTime());
-        if (day.disable) {
+        if (day.disabled) {
             if (day.val < 15) {
                 date.setMonth(date.getMonth() + 1);
             } else {
@@ -342,41 +351,45 @@ export class DatepickerComponent implements OnInit {
         this.currentDate = date;
         this.refreshCurrent();
         if (!this.hasTime) {
-            this.enterChange();
+            this.close(true);
             return;
         }
     }
 
-    changeHour(hour: number) {
-        this.currentHour = hour;
+    public changeHour(hour: number) {
+        this.currentHour.set(hour);
     }
 
-    changeMinute(minute: number) {
-        this.currentMinute = minute;
+    public changeMinute(minute: number) {
+        this.currentMinute.set(minute);
     }
 
-    changeSecond(second: number) {
-        this.currentSecond = second;
+    public changeSecond(second: number) {
+        this.currentSecond.set(second);
     }
 
     /**
      * 确认改变
      */
-    enterChange() {
+    public close(isOk = false) {
+        if (!isOk) {
+            this.visible.set(false);
+            return;
+        }
         this.applyCurrent();
         if (!this.checkDate(this.currentDate)) {
             return;
         }
         this.output();
-        this.calendarVisible = false;
+        this.visible.set(false);
     }
 
-    output() {
+    private output() {
         this.value.set(formatDate(this.currentDate, this.format()));
     }
 
-    showCalendar() {
-        this.calendarVisible = true;
+    public open() {
+        this.visible.set(true);
         this.refresh();
     }
 }

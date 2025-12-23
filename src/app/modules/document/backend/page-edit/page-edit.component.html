@@ -15,7 +15,7 @@
             </div>
             <div class="col-md-8">
                 @if (data) {
-                <form class="form-table-control" (submit)="tapSubmit()">
+                <form class="form-table-control" (submit)="tapSubmit2($event)">
                     <div class="title-input">
                         <label for="name">名称</label>
                         <input type="text" id="name" class="form-control" [field]="dataForm.name">

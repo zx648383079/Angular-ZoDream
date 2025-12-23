@@ -6,6 +6,7 @@ import { FinanceService } from '../../finance.service';
 import { IAccount, IBudget, IConsumptionChannel, IFinancialProject, ILog } from '../../model';
 import { form, required } from '@angular/forms/signals';
 import { parseNumber } from '../../../../theme/utils';
+import { ButtonEvent } from '../../../../components/form';
 
 @Component({
     standalone: false,
@@ -104,7 +105,7 @@ export class EditIncomeComponent implements OnInit {
         this.mode.set(mode);
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
         if (this.dataForm().invalid()) {
             return;
         }
@@ -116,9 +117,17 @@ export class EditIncomeComponent implements OnInit {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        this.service.logDaySave(this.dataForm().value()).subscribe(_ => {
-            this.toastrService.success($localize `Save Successfully`);
-            this.tapBack();
+        e?.enter();
+        this.service.logDaySave(this.dataForm().value()).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success($localize `Save Successfully`);
+                this.tapBack();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 

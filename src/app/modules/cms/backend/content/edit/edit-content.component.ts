@@ -6,6 +6,7 @@ import { eachObject } from '../../../../../theme/utils';
 import { ICmsContent, ICmsFormGroup } from '../../../model';
 import { CmsService } from '../../cms.service';
 import { form } from '@angular/forms/signals';
+import { ButtonEvent } from '../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -47,7 +48,12 @@ export class EditContentComponent implements OnInit {
     }
 
 
-    public tapSubmit() {
+    public tapSubmit2(e: SubmitEvent) {
+        e.preventDefault();
+        this.tapSubmit();
+    }
+
+    public tapSubmit(e?: ButtonEvent) {
         const data: any = {};
         eachObject(this.queries().value(), (v, k) => {
             if (k === 'id') {
@@ -63,9 +69,17 @@ export class EditContentComponent implements OnInit {
         if (this.data && this.data.id > 0) {
             data.id = this.data.id;
         }
-        this.service.contentSave(data).subscribe(_ => {
-            this.toastrService.success($localize `Save Successfully`);
-            history.back();
+        e?.enter();
+        this.service.contentSave(data).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success($localize `Save Successfully`);
+                history.back();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 

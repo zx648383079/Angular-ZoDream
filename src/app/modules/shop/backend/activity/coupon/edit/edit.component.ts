@@ -7,6 +7,7 @@ import { ICoupon } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 import { ActivityRuleItems } from '../../model';
 import { form, required } from '@angular/forms/signals';
+import { ButtonEvent } from '../../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -101,7 +102,12 @@ export class EditCouponComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit() {
+    public tapSubmit2(e: SubmitEvent) {
+        e.preventDefault();
+        this.tapSubmit();
+    }
+
+    public tapSubmit(e?: ButtonEvent) {
         if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
@@ -112,9 +118,17 @@ export class EditCouponComponent implements OnInit {
         } else if (typeof data.rule_value === 'object') {
             data.rule_value = (data.rule_value as number[]).join(',');
         }
-        this.service.couponSave(data).subscribe(_ => {
-            this.toastrService.success($localize `Save Successfully`);
-            this.tapBack();
+        e?.enter();
+        this.service.couponSave(data).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success($localize `Save Successfully`);
+                this.tapBack();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 

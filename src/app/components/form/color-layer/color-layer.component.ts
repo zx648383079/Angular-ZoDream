@@ -1,4 +1,4 @@
-import { Component, SimpleChanges, effect, input, model} from '@angular/core';
+import { Component, computed, effect, input, model, signal} from '@angular/core';
 
 @Component({
     standalone: false,
@@ -10,10 +10,10 @@ export class ColorLayerComponent {
 
     public readonly disabled = input(false);
     public readonly value = model('');
-    public hY = 0;
-    public x = 0;
-    public y = 0;
-    public background = '#fff';
+    private hY = 0;
+    private x = 0;
+    private y = 0;
+    public readonly background = signal('#fff');
     private hsv = [0, 0, 0];
 
     constructor() {
@@ -23,13 +23,13 @@ export class ColorLayerComponent {
         });
     }
 
-    get svStyle() {
+    public readonly svStyle = computed(() => {
         return {left: this.x - 5 + 'px', top: this.y - 5 + 'px'};
-    }
+    });
 
-    get hStyle() {
+    public readonly hStyle = computed(() => {
         return {top: this.hY - 3 + 'px'};
-    }
+    });
 
 
     public tapNotTouch(e: MouseEvent) {
@@ -107,7 +107,7 @@ export class ColorLayerComponent {
     private setBackground(off: number) {
         this.hsv[0] = off;
         const b = this.HSV2RGB([off, 1, 1]);
-        this.background = 'rgb(' + b.join(',') + ')';
+        this.background.set('rgb(' + b.join(',') + ')');
     }
     private triggerChange() {
         this.value.set('#' + this.HSV2HEX(this.hsv));

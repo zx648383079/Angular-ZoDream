@@ -7,7 +7,7 @@
 
     <div class="row">
         <div class="col-md-4">
-            <app-action-button class="btn btn-primary">包含加载动画的按钮</app-action-button>
+            <app-action-button class="btn btn-primary" (tapped)="$event.enter()">包含加载动画的按钮</app-action-button>
         </div>
         <div class="col-md-4">
             <app-auto-suggest-box />
@@ -25,7 +25,7 @@
             <app-color-picker />
         </div>
         <div class="col-md-4">
-            <app-countdown-button class="btn btn-primary" />
+            <app-countdown-button class="btn btn-primary" (tapped)="$event.start()"/>
         </div>
         <div class="col-md-4">
             <app-data-size />

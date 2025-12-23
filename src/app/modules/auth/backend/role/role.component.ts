@@ -66,7 +66,8 @@ export class RoleComponent {
         });
     }
 
-    public tapSearch() {
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 

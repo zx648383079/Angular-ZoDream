@@ -1,5 +1,5 @@
 <div class="number-box">
-    <i class="iconfont icon-minus" [class]="{disabled: minDisabled}" (click)="tapMinus()"></i>
-    <input type="text" class="number-input" [value]="value()" (change)="onValueChange($event)" [disabled]="disabled()">
-    <i class="iconfont icon-plus" [class]="{disabled: maxDisabled}" (click)="tapPlus()"></i>
+    <i class="iconfont icon-minus" [class.disabled]="minDisabled()" (click)="tapMinus()"></i>
+    <input type="text" class="number-input" [value]="value()" (input)="onValueChange($event)" [disabled]="disabled()">
+    <i class="iconfont icon-plus" [class.disabled]="maxDisabled()" (click)="tapPlus()"></i>
 </div>

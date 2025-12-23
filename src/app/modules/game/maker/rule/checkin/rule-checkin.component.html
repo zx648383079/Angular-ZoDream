@@ -1,4 +1,4 @@
-<app-edit-header [title]="'签到设置'" (submited)="tapSubmit()" />
+<app-edit-header [title]="'签到设置'" (submited)="tapSubmit($event)" />
 
 <div class="container-fluid">
     <div class="panel-container">
@@ -6,13 +6,13 @@
             <div class="input-group-control">
                 <label for="option_checkin_basic">基本奖励</label>
                 <div>
-                    <input type="text" id="option_checkin_basic" class="form-control" [field]="data.basic">
+                    <input type="number" id="option_checkin_basic" class="form-control" [field]="dataForm.basic">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="option_checkin_loop">几天循环</label>
                 <div>
-                    <input type="text" id="option_checkin_loop" class="form-control" [field]="data.loop">
+                    <input type="number" id="option_checkin_loop" class="form-control" [field]="dataForm.loop">
                 </div>
             </div>
             <div class="input-group-control">
@@ -27,13 +27,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for (item of plusItems; track $index; let i = $index) {
+                            @for (item of dataForm.items; track $index; let i = $index) {
                             <tr>
                                 <td>
-                                    <input type="text" class="form-control" placeholder="天" [(value)]="item.day">
+                                    <input type="number" class="form-control" placeholder="天" [field]="item.day">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" placeholder="奖励" [(value)]="item.plus">
+                                    <input type="number" class="form-control" placeholder="奖励" [field]="item.plus">
                                 </td>
                                 <td>
                                     <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>
@@ -54,7 +54,7 @@
             </div>
         </div>
         <div class="btn-group">
-            <button (click)="tapSubmit()" class="btn btn-success">确认保存</button>
+            <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="dataForm().invalid()">确认保存</app-action-button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
         </div>
     </div>

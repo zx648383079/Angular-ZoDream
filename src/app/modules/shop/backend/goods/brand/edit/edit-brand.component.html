@@ -1,6 +1,6 @@
-<app-edit-header [title]="dataModel().id > 0 ? '编辑品牌' : '新增品牌'" (submited)="tapSubmit()" [disabled]="dataForm().invalid()" />
+<app-edit-header [title]="dataModel().id > 0 ? '编辑品牌' : '新增品牌'" (submited)="tapSubmit($event)" [disabled]="dataForm().invalid()" />
 <div class="container-fluid">
-    <form class="form-table-control panel-container" (submit)="tapSubmit()">
+    <form class="form-table-control panel-container" (submit)="tapSubmit2($event)">
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="btn-group">
-            <button type="submit" class="btn btn-success">确认保存</button>
+            <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="dataForm().invalid()">确认保存</app-action-button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
         </div>
     </form>

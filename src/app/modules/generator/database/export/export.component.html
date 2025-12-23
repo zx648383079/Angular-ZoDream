@@ -60,7 +60,7 @@
             </div>
         </div>
         <div class="btn-group">
-            <div class="btn btn-primary" (click)="tapSubmit()">执行</div>
+            <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="dataForm().invalid()">执行</app-action-button>
         </div>
     </div>
 </div>

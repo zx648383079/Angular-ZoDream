@@ -106,7 +106,8 @@ export class RecordComponent implements OnInit {
         return items;
     })
 
-    public tapSearch() {
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 

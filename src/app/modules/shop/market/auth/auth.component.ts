@@ -76,7 +76,8 @@ export class AuthComponent implements OnInit {
         });
     }
 
-    public tapSignIn() {
+    public tapSubmit(e: SubmitEvent) {
+        e.preventDefault();
         if (this.tabIndex < 1) {
             if (this.mobileForm().invalid()) {
                 return;

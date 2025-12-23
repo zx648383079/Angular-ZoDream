@@ -5,6 +5,7 @@ import { IItem } from '../../../../../../theme/models/seo';
 import { ICmsFormInput, ICmsModelField } from '../../../../model';
 import { CmsService } from '../../../cms.service';
 import { form, required } from '@angular/forms/signals';
+import { ButtonEvent } from '../../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -102,7 +103,12 @@ export class EditFieldComponent implements OnInit {
         });
     }
 
-    public tapSubmit() {
+    public tapSubmit2(e: SubmitEvent) {
+        e.preventDefault();
+        this.tapSubmit();
+    }
+
+    public tapSubmit(e?: ButtonEvent) {
         if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
@@ -112,12 +118,15 @@ export class EditFieldComponent implements OnInit {
         data.options.forEach(i => {
             option[i.name] = i.value;
         });
+        e?.enter();
         this.service.fieldSave({...data, options: undefined, setting: {option}}).subscribe({
             next: _ => {
+                e?.reset();
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapBack();
             },
             error: err => {
+                e?.reset();
                 this.toastrService.error(err);
             }
         });

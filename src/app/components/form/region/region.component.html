@@ -1,15 +1,15 @@
-<div class="selector" data-type="selector" [class]="{disabled: disabled}">
-    <div (click)="showPanel()" class="selector-input-container">
-        <div class="select-header" [class]="{open: panelVisible}">
-            {{ pathLabel }}
+<div class="selector" data-type="selector" [class.disabled]="disabled()">
+    <div (click)="open()" class="selector-input-container">
+        <div class="select-header" [class]="{'--with-open': panelVisible()}">
+            {{ pathLabel() }}
             <i class="iconfont icon-chevron-down"></i>
         </div>
     </div>
     @if (panelVisible()) {
     <div class="selector-panel-container" (click)="$event.stopPropagation()">
         <ul class="selector-header">
-            @for (item of paths; track $index; let i = $index) {
-                <li class="select-header"  [class]="{open: i == activeColumn}" (click)="tapColumn(i)">
+            @for (item of routeItems(); track $index; let i = $index) {
+                <li class="select-header"  [class]="{'--with-open': i == activeColumn()}" (click)="tapColumn(i)">
                     {{ item[rangeLabel()] }}
                     <i class="iconfont icon-chevron-down"></i>
                 </li>
@@ -18,18 +18,18 @@
         <div class="selector-body">
             <ul>
                 @for (item of items(); track $index) {
-                    <li (click)="tapCheckedItem(item)" [class]="{selected: isSelected(item)}">
+                    <li (click)="tapCheckedItem(item)" [class.selected]="isSelected(item)">
                         {{ item[rangeLabel()] }}</li>
                 }
             </ul>
         </div>
         @if (canYes()) {
         <div class="selector-footer">
-            <button class="selector-yes btn-primary" (click)="tapYes()" i18n>Ok</button>
+            <button class="selector-yes btn-primary" (click)="close(true)" i18n>Ok</button>
         </div>
         }
         
-        <i class="iconfont icon-close" (click)="tapClose()"></i>
+        <i class="iconfont icon-close" (click)="close()"></i>
     </div>
     }
     

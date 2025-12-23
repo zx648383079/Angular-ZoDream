@@ -64,8 +64,8 @@ export class AccountComponent implements OnInit, OnDestroy {
         this.tapRefresh();
     }
 
-    public tapSearch() {
-
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 

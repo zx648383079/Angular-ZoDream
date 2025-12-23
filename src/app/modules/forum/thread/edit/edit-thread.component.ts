@@ -55,6 +55,11 @@ export class EditThreadComponent implements OnInit {
         });
     }
 
+    public tapSubmit2(e: SubmitEvent) {
+        e.preventDefault();
+        this.tapSubmit();
+    }
+
     public tapSubmit(e?: ButtonEvent) {
         if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `The content is not filled out completely`);

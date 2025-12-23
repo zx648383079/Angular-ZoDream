@@ -73,7 +73,8 @@ export class ResourceStoreComponent implements OnInit, OnDestroy {
     }
 
 
-    public tapSearch() {
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.router.navigate(['search'], {relativeTo: this.route, queryParams: this.queries().value()});
     }
 

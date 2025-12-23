@@ -22,7 +22,7 @@
     .selected-container {
         max-width: 70%;
     }
-    &.input-focus {
+    &.--with-focus {
         border-color: var(--#{theme.$prefix}input-focus-border);
         outline: 0;
         box-shadow: 0 0 0 0.2rem rgba(var(--#{theme.$prefix}mask-rgb), .075);

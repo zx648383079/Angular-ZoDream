@@ -79,7 +79,6 @@ export class SearchComponent implements OnInit {
     }
 
     public tapSearch() {
-
         this.tapRefresh();
     }
 

@@ -6,7 +6,7 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="page-search-bar">
-            <form class="form-horizontal-control" (submit)="tapSearch()">
+            <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">时间</label>
                             <input type="date" class="form-control" [field]="queries.start_at" id="start_at" placeholder="开始时间">

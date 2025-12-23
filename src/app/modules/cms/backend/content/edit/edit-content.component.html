@@ -1,4 +1,4 @@
-<app-edit-header [title]="data?.id > 0 ? '编辑文章' : '新增文章'" (submited)="tapSubmit()" />
+<app-edit-header [title]="data?.id > 0 ? '编辑文章' : '新增文章'" (submited)="tapSubmit($event)" />
 
 <div class="container-fluid">
     <div class="panel-container form-table-control">
@@ -101,7 +101,7 @@
             </div>
         </div>
         <div class="btn-group">
-            <button (click)="tapSubmit()" class="btn btn-success">确认保存</button>
+            <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)">确认保存</app-action-button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
         </div>
         

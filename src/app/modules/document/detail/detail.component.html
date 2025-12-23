@@ -218,7 +218,7 @@
 </div>
 
 <app-dialog-box #codeModal i18n-title title="Code generation" [footerVisible]="false">
-    <form class="search-bar" (submit)="tapGenerate()">
+    <form class="search-bar" (submit)="tapGenerate($event)">
         <select [field]="codeForm.kind" class="form-control">
             @for (item of kindItems; track $index;let i = $index) {
                 <option [value]="i">{{ item }}</option>

@@ -90,7 +90,8 @@ export class CateringComponent implements OnDestroy {
         this.tabIndex = i;
     }
 
-    public tapSearch() {
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.searchOpen = true;
     }
 

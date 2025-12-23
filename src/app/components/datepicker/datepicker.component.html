@@ -1,97 +1,99 @@
-@if (calendarVisible) {
-<div class="tablet-mask tablet-visible" (click)="calendarVisible = false"></div>
+@if (visible()) {
+<div class="tablet-mask tablet-visible" (click)="close()"></div>
 }
 
 <div class="datepicker">
-    <div (click)="showCalendar()" class="datepicker__input-container">
+    <div (click)="open()" class="datepicker__input-container">
         <ng-content />
     </div>
-    @if (calendarVisible) {
+    @if (visible()) {
     <div class="datepicker__calendar datepicker__calendar_animate_slide-in" [style]="calendarStyle">
         <div class="picker-header">
             <i class="iconfont icon-backward previousYear" (click)="previousYear()"></i>
             <i class="iconfont icon-chevron-left previousMonth" (click)="previousMonth()"></i>
-            <span (click)="toggleYear()">{{ title }}</span>
+            <span (click)="toggleYear()">{{ title() }}</span>
             <i class="iconfont icon-chevron-right nextMonth" (click)="nextMonth()"></i>
             <i class="iconfont icon-forward nextYear" (click)="nextYear()"></i>
         </div>
         <div class="picker-body">
-            @if (gridMode == 0) {
-            <div class="picker-month-grid">
-                <ol><li i18n>Mon</li><li i18n>Tue</li><li i18n>Wed</li><li i18n>Thu</li><li i18n>Fri</li><li i18n>Sat</li><li i18n>Sun</li></ol>
-                <ul>
-                    @for (item of dayItems; track $index) {
-                        <li [class]="{disable: item.disable, active: item.val == currentDay && !item.disable}" (click)="changeDay(item)">{{ twoPad(item.val) }}</li>
+            @switch(gridMode()) {
+                @case(1) {
+                    <div class="picker-year-grid">
+                        <div class="list-group year">
+                            <div class="picker-title" i18n>Year</div>
+                            <ul>
+                                @for (item of yearItems(); track $index) {
+                                    <li [class.active]="item == currentYear()" (click)="changeYear(item)">{{ item }}</li>
+                                }
+                                
+                            </ul>
+                        </div>
+                        <div class="list-group month">
+                        <div class="title" i18n>Month</div>
+                        <ul>
+                            @for (item of monthItems(); track $index) {
+                                <li [class.active]="item == currentMonth()" (click)="changeMonth(item)">{{ twoPad(item) }}</li>
+                            }
+                            
+                        </ul>
+                        </div>
+                        <i class="iconfont icon-close" (click)="toggleYear()"></i>
+                    </div>
+                }
+                @case(2) {
+                    @if (hasTime()) {
+                    <div class="picker-day-grid">
+                        <div class="list-group hour">
+                        <div class="title" i18n>Hour</div>
+                        <ul>
+                            @for (item of hourItems(); track $index) {
+                                <li [class.active]="item == currentHour()" (click)="changeHour(item)">{{ twoPad(item) }}</li>
+                            }
+                            
+                        </ul>
+                        </div>
+                        <div class="list-group minute">
+                        <div class="title" i18n>Minute</div>
+                        <ul>
+                            @for (item of minuteItems(); track $index) {
+                                <li [class.active]="item == currentMinute()" (click)="changeMinute(item)">{{ twoPad(item) }}</li>
+                            }
+                            
+                        </ul>
+                        </div>
+                        <div class="list-group second">
+                        <div class="title" i18n>Second</div>
+                            <ul>
+                                @for (item of secondItems(); track $index) {
+                                    <li [class.active]="item == currentSecond()" (click)="changeSecond(item)">{{ twoPad(item) }}</li>
+                                }
+                            </ul>
+                        </div>
+                        <i class="iconfont icon-close" (click)="toggleTime($event)"></i>
+                    </div>
                     }
-                </ul>
-            </div>
-            }
-            
-            @if (gridMode == 1) {
-            <div class="picker-year-grid">
-                <div class="list-group year">
-                    <div class="picker-title" i18n>Year</div>
-                    <ul>
-                        @for (item of yearItems; track $index) {
-                            <li [class]="{active: item == currentYear}" (click)="changeYear(item)">{{ item }}</li>
-                        }
-                        
-                    </ul>
-                </div>
-                <div class="list-group month">
-                <div class="title" i18n>Month</div>
-                <ul>
-                    @for (item of monthItems; track $index) {
-                        <li [class]="{active: item == currentMonth}" (click)="changeMonth(item)">{{ twoPad(item) }}</li>
-                    }
-                    
-                </ul>
-                </div>
-                <i class="iconfont icon-close" (click)="toggleYear()"></i>
-            </div>
-            }
-
-            @if (hasTime && gridMode == 2) {
-            <div class="picker-day-grid">
-                <div class="list-group hour">
-                <div class="title" i18n>Hour</div>
-                <ul>
-                    @for (item of hourItems; track $index) {
-                        <li [class]="{active: item == currentHour}" (click)="changeHour(item)">{{ twoPad(item) }}</li>
-                    }
-                    
-                </ul>
-                </div>
-                <div class="list-group minute">
-                <div class="title" i18n>Minute</div>
-                <ul>
-                    @for (item of minuteItems; track $index) {
-                        <li [class]="{active: item == currentMinute}" (click)="changeMinute(item)">{{ twoPad(item) }}</li>
-                    }
-                    
-                </ul>
-                </div>
-                <div class="list-group second">
-                <div class="title" i18n>Second</div>
-                    <ul>
-                        @for (item of secondItems; track $index) {
-                            <li [class]="{active: item == currentSecond}" (click)="changeSecond(item)">{{ twoPad(item) }}</li>
-                        }
-                    </ul>
-                </div>
-                <i class="iconfont icon-close" (click)="toggleTime($event)"></i>
-            </div>
+                }
+                @default {
+                    <div class="picker-month-grid">
+                        <ol><li i18n>Mon</li><li i18n>Tue</li><li i18n>Wed</li><li i18n>Thu</li><li i18n>Fri</li><li i18n>Sat</li><li i18n>Sun</li></ol>
+                        <ul>
+                            @for (item of dayItems(); track $index) {
+                                <li [class]="{disabled: item.disabled, active: item.val == currentDay() && !item.disabled}" (click)="changeDay(item)">{{ twoPad(item.val) }}</li>
+                            }
+                        </ul>
+                    </div>
+                }
             }
             
         </div>
-        @if (hasTime) {
+        @if (hasTime()) {
         <div class="picker-footer">
             <div class="picker-time-box" (click)="toggleTime()">
-                <span>{{ twoPad(currentHour) }}</span>:
-                <span>{{ twoPad(currentMinute) }}</span>:
-                <span>{{ twoPad(currentSecond) }}</span>
+                <span>{{ twoPad(currentHour()) }}</span>:
+                <span>{{ twoPad(currentMinute()) }}</span>:
+                <span>{{ twoPad(currentSecond()) }}</span>
             </div>
-            <button type="button" (click)="enterChange()" i18n>Ok</button>
+            <button type="button" (click)="close(true)" i18n>Ok</button>
         </div>
         }
 

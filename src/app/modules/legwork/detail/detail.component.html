@@ -29,6 +29,6 @@
         <span i18n>Service charge</span>
         <span class="name">￥{{ total() }}</span>
     </div>
-    <button class="btn btn-primary" (click)="tapSubmit()" i18n>Place order</button>
+    <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="dataForm().invalid()"i18n>Place order</app-action-button>
 </div>
 }

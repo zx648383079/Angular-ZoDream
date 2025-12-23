@@ -2,7 +2,7 @@
 <div class="dialog-mask"></div>
 <div class="search-dialog-container">
     <div class="search-bar">
-        <form class="form-horizontal-control" (submit)="tapSearch()">
+        <form class="form-horizontal-control" (submit)="tapSearch($event)">
             <div class="flat-input">
                 <input type="text" class="form-control" id="keywords" [field]="queries.keywords" id="keywords" [placeholder]="placeholder()">
                 @if (typeItems && typeItems.length > 0) {

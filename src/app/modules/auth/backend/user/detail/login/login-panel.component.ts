@@ -46,8 +46,8 @@ export class LoginPanelComponent {
         this.tapRefresh();
     }
 
-    public tapSearch() {
-
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 

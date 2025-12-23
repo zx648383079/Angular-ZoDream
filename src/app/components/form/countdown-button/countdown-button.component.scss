@@ -1,8 +1,8 @@
-.countdown-btn {
-    line-height: 40px;
+@use '../../../theme/theme';
+:host {
     cursor: pointer;
     text-align: center;
-    &.disable {
-        background-color: #ccc;
+    &.disabled {
+        background-color: var(--#{theme.$prefix}input-disabled);
     }
 }

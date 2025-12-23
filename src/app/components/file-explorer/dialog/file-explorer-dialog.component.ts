@@ -84,13 +84,15 @@ export class FileExplorerDialogComponent {
         this.enterPath(item.path);
     }
 
-    public tapConfirmPath() {
+    public tapConfirmPath(e: SubmitEvent) {
+        e.preventDefault();
         this.pathIsInputing = false;
         this.enterPath(this.queries.path().value());
     }
 
 
-    public tapConfirmSearch() {
+    public tapConfirmSearch(e?: SubmitEvent) {
+        e?.preventDefault();
         this.pathIsInputing = false;
         this.panel().search(this.queries.path().value(), this.queries.keywords().value());
     }

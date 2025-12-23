@@ -171,8 +171,8 @@ export class FileOnlineComponent implements SearchDialogEvent {
         });
     }
 
-    public tapSearch() {
-
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 

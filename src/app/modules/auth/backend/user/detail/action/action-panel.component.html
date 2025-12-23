@@ -1,5 +1,5 @@
 <div class="page-search-bar">
-    <form class="form-horizontal-control" (submit)="tapSearch()">
+    <form class="form-horizontal-control" (submit)="tapSearch($event)">
         <div class="input-group-control">
             <label for="keywords">关键字</label>
             <input type="text" class="form-control" placeholder="搜索关键字" id="keywords" [field]="queries.keywords">

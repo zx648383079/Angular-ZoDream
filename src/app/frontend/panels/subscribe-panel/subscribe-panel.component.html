@@ -3,7 +3,7 @@
         <h3 class="title-bar" i18n>Free subscription to「ZoDream Weekly」</h3>
         <p i18n>Each weekend, a simple and informative weekly newsletter is sent to you.</p>
 
-        <form class="subscribe-form" (submit)="tapSubmit()">
+        <form class="subscribe-form" (submit)="tapSubmit2($event)">
             <input type="text" class="form-control" [field]="dataForm.name" i18n-placeholder placeholder="What do I call you?">
             <input type="email" class="form-control" [field]="dataForm.email" i18n-placeholder placeholder="Your Email">
             <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" i18n>Free Subscribe</app-action-button>

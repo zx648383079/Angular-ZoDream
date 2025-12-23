@@ -6,6 +6,7 @@ import { ThemeModule } from '../../../../theme/theme.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DesktopModule } from '../../../../components/desktop';
 import { Field } from '@angular/forms/signals';
+import { ZreFormModule } from '../../../../components/form';
 
 @NgModule({
     imports: [
@@ -13,6 +14,7 @@ import { Field } from '@angular/forms/signals';
         DesktopModule,
         ThemeModule,
         Field,
+        ZreFormModule,
         NgSelectModule,
         RoleRoutingModule
     ],

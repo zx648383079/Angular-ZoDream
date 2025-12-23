@@ -76,8 +76,8 @@ export class OrderComponent implements OnInit {
         this.router.navigate(['../../market/cashier/pay', item.id], {relativeTo: this.route});
     }
 
-    public tapSearch() {
-
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 

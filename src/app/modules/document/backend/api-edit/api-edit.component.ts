@@ -118,6 +118,11 @@ export class ApiEditComponent implements OnInit {
         });
     }
 
+    public tapSubmit2(e: SubmitEvent) {
+        e.preventDefault();
+        this.tapSubmit();
+    }
+
     public tapSubmit(e?: ButtonEvent) {
         if (!this.dataForm().valid()) {
             return;

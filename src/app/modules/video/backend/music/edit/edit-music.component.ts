@@ -6,6 +6,7 @@ import { FileUploadService } from '../../../../../theme/services/file-upload.ser
 import { IMusic } from '../../../model';
 import { VideoService } from '../../video.service';
 import { form, required } from '@angular/forms/signals';
+import { ButtonEvent } from '../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -62,7 +63,12 @@ export class EditMusicComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit() {
+    public tapSubmit2(e: SubmitEvent) {
+        e.preventDefault();
+        this.tapSubmit();
+    }
+
+    public tapSubmit(e?: ButtonEvent) {
         if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;

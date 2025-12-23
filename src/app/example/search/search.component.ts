@@ -149,8 +149,8 @@ export class ExampleSearchComponent implements OnInit {
         }, 2000);
     }
 
-    public tapSearch() {
-
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 

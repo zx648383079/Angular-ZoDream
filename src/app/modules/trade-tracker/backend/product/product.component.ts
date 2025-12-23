@@ -129,8 +129,8 @@ export class ProductComponent implements OnInit {
         this.goPage(this.queries.page().value());
     }
 
-    public tapSearch() {
-
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 

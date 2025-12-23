@@ -147,7 +147,7 @@
 
             <a class="pull-right" routerLink="create" i18n>Full mode&gt;</a>
         </div>
-        <form (submit)="tapSubmit()">
+        <form (submit)="tapSubmit2($event)">
             <div class="title">
                 @if (forum.classifies && forum.classifies.length > 0) {
                 <select [field]="dataForm.classify" class="form-control">

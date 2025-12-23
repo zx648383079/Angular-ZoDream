@@ -1,4 +1,4 @@
-<form class="form-icon-control login-form" (submit)="tapSubmit()">
+<form class="form-icon-control login-form" (submit)="tapSubmit($event)">
     <div class="input-group-control" [class.error]="findForm.email().touched() && findForm.email().invalid()">
         <input type="email" [field]="findForm.email" i18n-placeholder placeholder="Please input your email" >
         <i class="iconfont icon-at" aria-hidden="true"></i>

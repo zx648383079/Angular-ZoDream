@@ -10,7 +10,7 @@
 </div>
 @if (user) {
 <div class="container">
-    <form class="form-table-control" [hidden]="tabIndex > 0" (submit)="tapSubmit()">
+    <form class="form-table-control" [hidden]="tabIndex > 0" (submit)="tapSubmit($event)">
         <div class="input-group-control">
             <label for="fileUpload" i18n>Avatar</label>
             <div>

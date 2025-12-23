@@ -181,7 +181,7 @@
                 </div>
             </div>
             <div id="post-editor" class="item-body">
-                <form (submit)="tapSubmit()">
+                <form (submit)="tapSubmit2($event)">
                     <app-forum-editor [field]="dataForm.content" i18n-placeholder placeholder="Please input content" />
                     <div class="item-footer">
                         <app-action-button class="btn btn-primary" [disabled]="dataForm().invalid()" (tapped)="tapSubmit($event)" i18n>Post Reply</app-action-button>

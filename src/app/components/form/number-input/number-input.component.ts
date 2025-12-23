@@ -1,4 +1,4 @@
-import { Component, input, model } from '@angular/core';
+import { Component, computed, input, model } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
@@ -19,19 +19,19 @@ export class NumberInputComponent implements FormValueControl<number|string> {
     public readonly disabled = input<boolean>(false);
     public readonly value = model<number|string>(1);
 
-    public get minDisabled() {
+    public readonly minDisabled = computed(() => {
         if (this.disabled()) {
             return true;
         }
         return this.valueInt <= this.min();
-    }
+    });
 
-    public get maxDisabled() {
+    public readonly maxDisabled = computed(() => {
         if (this.disabled()) {
             return true;
         }
         return this.max() > 0 && this.valueInt >= this.max();
-    }
+    });
 
     public get valueInt(): number {
         return this.parseInt(this.value());

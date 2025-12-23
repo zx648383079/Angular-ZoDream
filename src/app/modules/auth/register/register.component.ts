@@ -83,7 +83,8 @@ export class RegisterComponent implements OnDestroy {
         this.subItems.unsubscribe();
     }
 
-    public tapSubmit() {
+    public tapSubmit(e: Event) {
+        e.preventDefault();
         if (this.openStatus == 2) {
             this.toastrService.error($localize `Sorry, membership registration is closed, opening hours are undecided!`);
             return;

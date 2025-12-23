@@ -9,7 +9,7 @@
                     </div>
                     <div class="box-tab">
                           <div class="tab-item" [class]="{active: tabIndex < 1}">
-                                <form (submit)="tapSignIn()">
+                                <form (submit)="tapSubmit($event)">
                                     <div class="input-group-control">
                                         <input type="text" i18n-placeholder placeholder="Please input phone number" [field]="mobileForm.mobile" autocomplete="off">
                                         <i class="iconfont icon-user" aria-hidden="true"></i>
@@ -24,7 +24,7 @@
                                 </form>
                           </div>
                           <div class="tab-item" [class]="{active: tabIndex == 1}">
-                                <form (submit)="tapSignIn()">
+                                <form (submit)="tapSubmit($event)">
                                     <div class="input-group-control">
                                         <input type="email" [field]="emailForm.email" i18n-placeholder placeholder="Please input username" autocomplete="off">
                                         <i class="iconfont icon-user" aria-hidden="true"></i>

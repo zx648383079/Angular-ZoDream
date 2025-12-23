@@ -218,7 +218,8 @@ export class SearchComponent implements OnInit {
         });
     }
 
-    public tapSearch() {
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.queries.update(v => {
             v.keywords = this.queryForm.keywords().value();
             return v;

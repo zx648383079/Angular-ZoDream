@@ -159,8 +159,8 @@ export class AddDialogComponent {
         });
     }
 
-    public tapSearch() {
-
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 }

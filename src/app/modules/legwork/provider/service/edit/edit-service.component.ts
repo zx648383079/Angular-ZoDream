@@ -106,7 +106,8 @@ export class EditServiceComponent implements OnInit {
         });
     }
 
-    public tapSubmit() {
+    public tapSubmit(e: Event) {
+        e.preventDefault();
         if (this.dataForm().invalid()) {
             return;
         }

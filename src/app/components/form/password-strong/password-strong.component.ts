@@ -1,4 +1,4 @@
-import { Component, effect, input } from '@angular/core';
+import { Component, computed, effect, input, signal } from '@angular/core';
 import { emptyValidate } from '../../../theme/validators';
 
 interface IRatingItem {
@@ -15,8 +15,7 @@ interface IRatingItem {
 export class PasswordStrongComponent {
 
     public readonly value = input('');
-
-    public score = 0;
+    public readonly score = signal(0);
 
     private ratingItems: IRatingItem[] = [
         {
@@ -45,7 +44,7 @@ export class PasswordStrongComponent {
         }
     ];
 
-    public get formatLabel() {
+    public readonly formatLabel = computed(() => {
         const maps = [
             '',
             $localize `weak`,
@@ -53,36 +52,35 @@ export class PasswordStrongComponent {
             $localize `strong`,
             $localize `stronger`
         ];
-        return maps[this.formatRating];
-    }
+        return maps[this.formatRating()];
+    });
 
-    public get formatRating() {
-        if (this.score <= 0) {
+    public readonly formatRating = computed(() => {
+        const score = this.score();
+        if (score <= 0) {
             return 0;
         }
-        if (this.score <= 3) {
+        if (score <= 3) {
             return 1;
         }
-        if (this.score < 6) {
+        if (score < 6) {
             return 2;
         }
-        if (this.score > 9) {
+        if (score > 9) {
             return 4;
         }
         return 3;
-    }
+    });
 
     constructor() {
         effect(() => {
-            this.value();
-            this.refresh();
+            this.refresh(this.value());
         });
     }
 
-    public refresh() {
-        const value = this.value();
+    private refresh(value: string) {
         if (emptyValidate(value)) {
-            this.score = 0;
+            this.score.set(0);
             return;
         }
         let score = 0;
@@ -95,6 +93,6 @@ export class PasswordStrongComponent {
                 score += item.score;
             }
         }
-        this.score = score;
+        this.score.set(score);
     }
 }

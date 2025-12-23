@@ -4,6 +4,7 @@ import { IItem } from '../../../theme/models/seo';
 import { GenerateService } from '../generate.service';
 import { ITableHeaderItem } from '../../../components/desktop/editable-table/model';
 import { form, required } from '@angular/forms/signals';
+import { ButtonEvent } from '../../../components/form';
 
 @Component({
     standalone: false,
@@ -46,17 +47,20 @@ export class DatabaseComponent implements OnInit {
         });
     }
 
-    public tapSubmit() {
+    public tapSubmit(e?: ButtonEvent) {
         if (this.editForm().invalid()) {
             this.toastrService.warning('请输入数据库名');
             return;
         }
+        e?.enter();
         this.service.schemaCreate({...this.editForm}).subscribe({
             next: _ => {
+                e?.reset();
                 this.toastrService.success('创建成功');
                 this.editForm.name().value.set('');
             },
             error: err => {
+                e?.reset();
                 this.toastrService.error(err);
             }
         })

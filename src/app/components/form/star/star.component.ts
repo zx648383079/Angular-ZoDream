@@ -15,7 +15,7 @@ export class StarComponent implements FormValueControl<number> {
 
     public readonly disabled = input(true);
     public readonly labelVisible = input(false);
-    public value = model(10);
+    public readonly value = model(10);
     public items = [2, 4, 6, 8, 10];
 
     public tapChange(i: number) {

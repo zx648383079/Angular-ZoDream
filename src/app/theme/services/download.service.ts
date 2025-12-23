@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class DownloadService {
@@ -48,10 +48,18 @@ export class DownloadService {
      * @param fileName 备选，以 headers 获取的为首选项  
      * @param fileType 可不填，自动获取
      */
-    public export(url: string, data: any, fileName?: string, fileType?: any) {
-        this.requestBlob(url, data).subscribe((res: HttpResponse<Blob>) => {
-            this.downFile(res, fileName, fileType);
+    public export(url: string, data: any, fileName?: string, fileType?: any): Observable<boolean> {
+        const subject = new Subject<boolean>();
+        this.requestBlob(url, data).subscribe({
+            next: (res: HttpResponse<Blob>) => {
+                this.downFile(res, fileName, fileType);
+                subject.next(true);
+            },
+            error: err => {
+                subject.error(err);
+            }
         });
+        return subject;
     }
 
     private parseFileName(header: string, def?: string): string {

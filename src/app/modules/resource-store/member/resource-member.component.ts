@@ -77,8 +77,8 @@ public readonly items = signal<IResource[]>([]);
         });
     }
 
-    public tapSearch() {
-
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 

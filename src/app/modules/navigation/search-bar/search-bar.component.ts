@@ -128,7 +128,8 @@ export class SearchBarComponent implements SuggestEvent, ISearchBar {
         this.openType = 0;
     }
 
-    public tapConfirm() {
+    public tapConfirm(e: SubmitEvent) {
+        e.preventDefault();
         let text = this.openType === 1 && this.dropIndex >= 0 ? this.suggestItems[this.dropIndex] : this.value();
         this.gotoSearch(text);
         this.openType = 0;

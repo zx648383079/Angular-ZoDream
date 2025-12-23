@@ -1,41 +1,41 @@
 <div class="search-box">
-    <form class="search-input" (submit)="tapConfirm()">
+    <form class="search-input" (submit)="tapConfirm($event)">
         <button class="search-btn">
             <i class="iconfont icon-search"></i>
         </button>
-        <input type="text" name="keywords" [(value)]="value" [placeholder]="placeholder()" (input)="onSuggestChange()" autocomplete="off" (keydown)="suggestKeyPress($event)" (focus)="onFocus()" (blur)="onBlur()">
+        <input type="text" name="keywords" [value]="value()" [placeholder]="placeholder()" (input)="onSuggestChange($event.target.value)" autocomplete="off" (keydown)="suggestKeyPress($event)" (focus)="onFocus()" (blur)="onBlur()">
         <div class="clear-btn" [hidden]="value().length < 1" (click)="tapClear()">
             <i class="iconfont icon-close"></i>
         </div>
     </form>
-    @if (openType == 1) {
-    <div class="suggest-body">
-        <ul>
-            @for (item of suggestItems; track $index; let i=$index) {
-            <li [class]="{'active': i == dropIndex}" (click)="tapItem(item)">
-                <span class="item-no">{{ i + 1 }}</span>
-                <span class="item-text">{{ formatTitle(item) }}</span>
-            </li>
-            }
-            
-        </ul>
-    </div>
+    @switch(openType()) {
+        @case(1) {
+            <div class="suggest-body">
+                <ul>
+                    @for (item of suggestItems(); track $index; let i = $index) {
+                    <li [class.active]="i == dropIndex()" (click)="tapItem(item)">
+                        <span class="item-no">{{ i + 1 }}</span>
+                        <span class="item-text">{{ formatTitle(item) }}</span>
+                    </li>
+                    }
+                    
+                </ul>
+            </div>
+        }
+        @case(2) {
+            <div class="history-body">
+                <ul>
+                    @for (item of histories(); track $index; let i = $index) {
+                    <li [class.active]="i == dropIndex()" (click)="tapHistory(item)">
+                        <i class="iconfont icon-history"></i>
+                        <span class="item-text">{{ item }}</span>
+                        <i class="iconfont icon-close" (click)="tapRemoveHistory(i, $event)"></i>
+                    </li>
+                    }
+                    
+                    <li class="clear-line" (click)="tapClearHistory()" i18n>Clear</li>
+                </ul>
+            </div>
+        }
     }
-    
-    @if (openType == 2) {
-    <div class="history-body">
-        <ul>
-            @for (item of histories; track $index; let i = $index) {
-            <li [class]="{'active': i == dropIndex}" (click)="tapHistory(item)">
-                <i class="iconfont icon-history"></i>
-                <span class="item-text">{{ item }}</span>
-                <i class="iconfont icon-close" (click)="tapRemoveHistory(i, $event)"></i>
-            </li>
-            }
-            
-            <li class="clear-line" (click)="tapClearHistory()" i18n>Clear</li>
-        </ul>
-    </div>
-    }
-
 </div>

@@ -1,4 +1,4 @@
-<div class="action-btn" [class]="{disabled: disabled, loading: isLoading}">
+<div class="action-btn" [class]="{disabled: disabled(), loading: isLoading()}">
     @if (value()) {
         <div class="action-body">
             <img [src]="formatAsset(value())" alt="">
@@ -21,5 +21,5 @@
         <span></span>
         <span></span>
     </div>
-    <input type="file" name="file" [id]="fileName" (change)="uploadFile($event)" accept="image/*" [disabled]="disabled || isLoading"/>
+    <input type="file" name="file" [id]="fileName" (change)="uploadFile($event)" accept="image/*" [disabled]="disabled() || isLoading()"/>
 </div>

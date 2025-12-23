@@ -1,4 +1,4 @@
-import { Component, effect, input, model } from '@angular/core';
+import { Component, effect, input, model, signal } from '@angular/core';
 import { parseNumber } from '../../../theme/utils';
 import { FormValueControl } from '@angular/forms/signals';
 
@@ -13,8 +13,8 @@ export class DataSizeComponent implements FormValueControl<string|number> {
     public readonly placeholder = input($localize `Please input`);
     public readonly unitItems = input(['B', 'KB', 'MB', 'GB', 'TB', 'PB']);
     public readonly unitBase = input(1024);
-    public unitIndex = 0;
-    public unitValue: any = 0;
+    public readonly unitIndex = signal(0);
+    public readonly unitValue = signal(0);
     public readonly disabled = input<boolean>(false);
     public readonly value = model<string|number>(0);
     private formattedValue = 0;
@@ -23,12 +23,14 @@ export class DataSizeComponent implements FormValueControl<string|number> {
         effect(() => this.writeValue(this.value()));
     }
 
-    public onValueChange() {
-        this.value.set(Math.pow(this.unitBase(), this.unitIndex) * parseNumber(this.unitValue));
+    public onValueChange(val: number|string) {
+        this.unitValue.set(parseNumber(val));
+        this.value.set(Math.pow(this.unitBase(), this.unitIndex()) * this.unitValue());
     }
 
-    public onUnitChange() {
-        this.unitValue = this.formatFloat(this.formattedValue / Math.pow(this.unitBase(), this.unitIndex), 2);
+    public onUnitChange(e: Event) {
+        this.unitIndex.set(parseNumber((e.target as HTMLSelectElement).value));
+        this.unitValue.set(this.formatFloat(this.formattedValue / Math.pow(this.unitBase(), this.unitIndex()), 2));
     }
 
     private formatFloat(src: number, pos: number) {
@@ -49,8 +51,8 @@ export class DataSizeComponent implements FormValueControl<string|number> {
         const oldVal = this.formattedValue;
         this.formattedValue = parseNumber(obj);
         if (oldVal === 0 && this.formattedValue > 0) {
-            this.unitIndex = this.formatUnit(this.formattedValue);
+            this.unitIndex.set(this.formatUnit(this.formattedValue));
         }
-        this.onUnitChange();
+        this.unitValue.set(this.formatFloat(this.formattedValue / Math.pow(this.unitBase(), this.unitIndex()), 2));
     }
 }

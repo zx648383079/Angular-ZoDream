@@ -1,4 +1,4 @@
-import { Component, HostListener, effect, input, model, output } from '@angular/core';
+import { Component, HostListener, effect, input, model, output, signal } from '@angular/core';
 import { SuggestChangeEvent } from '../event';
 import { hasElementByClass } from '../../../theme/utils/doc';
 
@@ -13,10 +13,10 @@ export class AutoSuggestBoxComponent implements SuggestChangeEvent {
     public readonly value = model('');
     public readonly placeholder = input($localize `Please enter a keyword, press Enter to search`);
     public readonly historyKey = input('');
-    public suggestItems: any[] = [];
-    public dropIndex = -1;
-    public histories: string[] = [];
-    public openType = 0;
+    public readonly suggestItems = signal<any[]>([]);
+    public readonly dropIndex = signal(-1);
+    public readonly histories = signal<string[]>([]);
+    public readonly openType = signal(0);
 
     public readonly textChange = output<SuggestChangeEvent>();
     public readonly confirm = output<any>();
@@ -35,7 +35,7 @@ export class AutoSuggestBoxComponent implements SuggestChangeEvent {
     @HostListener('document:click', ['$event']) 
     public hideSearchBar(event: any) {
         if (!event.target.closest('.search-box') && !hasElementByClass(event.path, 'search-box')) {
-            this.openType = 0;
+            this.openType.set(0);
         }
     }
 
@@ -50,7 +50,7 @@ export class AutoSuggestBoxComponent implements SuggestChangeEvent {
         if (this.value().length > 0) {
             return;
         }
-        this.openType = this.histories.length > 0 ? 2 : 0;
+        this.openType.set(this.histories.length > 0 ? 2 : 0);
     }
 
     public onBlur() {
@@ -60,9 +60,9 @@ export class AutoSuggestBoxComponent implements SuggestChangeEvent {
     }
 
     public suggest(items: any[]) {
-        this.suggestItems = items;
-        this.dropIndex = -1;
-        this.openType = items.length > 0 ? 1 : 0; 
+        this.suggestItems.set(items);
+        this.dropIndex.set(-1);
+        this.openType.set(items.length > 0 ? 1 : 0); 
     }
 
     public suggestKeyPress(event: KeyboardEvent) {
@@ -71,13 +71,13 @@ export class AutoSuggestBoxComponent implements SuggestChangeEvent {
             return;
         }
         if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') {
-            this.dropIndex = -1;
+            this.dropIndex.set(-1);
             return;
         }
-        if (this.openType === 1) {
-            this.moveDrop(this.suggestItems, event.key === 'ArrowUp');
-        } else if (this.openType === 2) {
-            this.moveDrop(this.histories, event.key === 'ArrowUp');
+        if (this.openType() === 1) {
+            this.moveDrop(this.suggestItems(), event.key === 'ArrowUp');
+        } else if (this.openType() === 2) {
+            this.moveDrop(this.histories(), event.key === 'ArrowUp');
         }
     }
 
@@ -85,43 +85,45 @@ export class AutoSuggestBoxComponent implements SuggestChangeEvent {
         if (items.length < 0) {
             return;
         }
-        let i = this.dropIndex;
+        let i = this.dropIndex();
         if (up) {
             i = (i < 1 ? items.length: i) - 1;
         } else {
             i = i < items.length - 1 ? i + 1 : 0;
         }
-        this.dropIndex = i;
+        this.dropIndex.set(i);
         this.value.set(this.formatTitle(items[i]));
     }
 
     public tapItem(value: any) {
         this.value.set(this.formatTitle(value));
-        this.dropIndex = this.suggestItems.indexOf(value);
+        this.dropIndex.set(this.suggestItems().indexOf(value));
         this.confirm.emit(value);
-        this.openType = 0;
+        this.openType.set(0);
     }
 
-    public tapConfirm() {
-        let text = this.openType === 1 && this.dropIndex >= 0 ? this.suggestItems[this.dropIndex] : this.value();
+    public tapConfirm(e: SubmitEvent) {
+        e.preventDefault();
+        let text = this.openType() === 1 && this.dropIndex() >= 0 ? this.suggestItems()[this.dropIndex()] : this.value();
         this.confirm.emit(text);
-        this.openType = 0;
+        this.openType.set(0);
         this.addHistory(text);
     }
 
     public tapClear() {
         this.value.set('');
-        this.suggestItems = [];
-        this.openType = 0;
+        this.suggestItems.set([]);
+        this.openType.set(0);
     }
 
-    public onSuggestChange() {
-        if (this.dropIndex >= 0) {
+    public onSuggestChange(val: string) {
+        this.value.set(val);
+        if (this.dropIndex() >= 0) {
             return;
         }
         if (this.value().length < 1) {
-            this.suggestItems = [];
-            this.dropIndex = -1;
+            this.suggestItems.set([]);
+            this.dropIndex.set(-1);
             return;
         }
         this.textChange.emit({
@@ -133,33 +135,39 @@ export class AutoSuggestBoxComponent implements SuggestChangeEvent {
     public tapHistory(v: string) {
         this.confirm.emit(v);
         this.value.set(v);
-        this.openType = 0;
+        this.openType.set(0);
     }
 
     public tapRemoveHistory(i: number, e: MouseEvent) {
         e.stopPropagation();
-        this.histories.splice(i, 1);
+        this.histories.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
         this.saveHistory();
-        if (this.histories.length < 1) {
-            this.openType = 0;
+        if (this.histories().length < 1) {
+            this.openType.set(0);
         }
     }
 
     public tapClearHistory() {
-        this.histories = [];
+        this.histories.set([]);
         this.saveHistory();
-        this.openType = 0;
+        this.openType.set(0);
     }
 
     private addHistory(item: string) {
         item = item.trim();
-        if (item.length < 1 || this.histories.indexOf(item) >= 0) {
+        if (item.length < 1 || this.histories().indexOf(item) >= 0) {
             return;
         }
-        this.histories.push(item);
-        if (this.histories.length > 8) {
-            this.histories.splice(8);
-        }
+        this.histories.update(v => {
+            v.push(item);
+            if (v.length > 8) {
+                v.splice(8);
+            }
+            return v;
+        });
         this.saveHistory();
     }
 
@@ -168,11 +176,11 @@ export class AutoSuggestBoxComponent implements SuggestChangeEvent {
         if (!historyKey) {
             return;
         }
-        if (this.histories.length === 0) {
+        if (this.histories().length === 0) {
             window.localStorage.removeItem(historyKey);
             return;
         }
-        window.localStorage.setItem(historyKey, JSON.stringify(this.histories));
+        window.localStorage.setItem(historyKey, JSON.stringify(this.histories()));
     }
 
     private loadHistory() {
@@ -184,7 +192,7 @@ export class AutoSuggestBoxComponent implements SuggestChangeEvent {
         if (!text) {
             return;
         }
-        this.histories = JSON.parse(text) || [];
+        this.histories.set(JSON.parse(text) || []);
     }
 
 }

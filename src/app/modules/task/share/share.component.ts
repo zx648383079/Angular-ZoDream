@@ -53,8 +53,8 @@ export class ShareComponent implements OnInit {
         this.router.navigateByUrl('task/share/' + item.id);
     }
 
-    public tapSearch() {
-
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 

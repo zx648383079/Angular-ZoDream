@@ -1,6 +1,6 @@
 <app-edit-header [title]="dataModel().id > 0 ? '编辑商品' : '新增商品'" (submited)="tapSubmit()" [disabled]="dataForm().invalid()" />
 <div class="container-fluid">
-    <form class="form-table-control" (submit)="tapSubmit()">
+    <form class="form-table-control" (submit)="tapSubmit2($event)">
         <div class="row">
             <div class="col-md-6">
                 <app-panel title="基本信息">
@@ -177,7 +177,7 @@
 
 
         <div class="btn-group">
-            <app-action-button (tapped)="tapSubmit($event)" class="btn btn-success">确认保存</app-action-button>
+            <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="dataForm().invalid()">确认保存</app-action-button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
         </div>
     </form>

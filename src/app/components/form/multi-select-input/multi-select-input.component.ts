@@ -34,7 +34,7 @@ export class MultiSelectInputComponent<T = any> implements FormValueControl<T> {
      */
     public readonly formatFn = input<(data: any) => T[]>(undefined);
     public readonly items = signal<ISelectColumn[]>([
-        {items: [], searchable: true}
+        {items: [], searchable: true, keywords: ''}
     ]);
 
     public readonly disabled = input<boolean>(false);

@@ -67,12 +67,12 @@ export class WarehouseComponent implements OnInit {
             this.hasMore = res.paging.more;
             this.total.set(res.paging.total);
             this.searchService.applyHistory(queries);
-                this.queries().value.set(queries);
+            this.queries().value.set(queries);
         });
     }
 
-    public tapSearch() {
-
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 

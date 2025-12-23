@@ -5,6 +5,7 @@ import { checkInBackendRoutingComponents, CheckInBackendRoutingModule } from './
 import { CheckinService } from './checkin.service';
 import { DesktopModule } from '../../../components/desktop';
 import { Field } from '@angular/forms/signals';
+import { ZreFormModule } from '../../../components/form';
 
 @NgModule({
     imports: [
@@ -12,6 +13,7 @@ import { Field } from '@angular/forms/signals';
         ThemeModule,
         Field,
         DesktopModule,
+        ZreFormModule,
         CheckInBackendRoutingModule,
     ],
     declarations: [...checkInBackendRoutingComponents],

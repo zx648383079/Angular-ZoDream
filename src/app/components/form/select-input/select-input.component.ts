@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, HostListener, effect, inject, input, model, signal } from '@angular/core';
+import { Component, HostListener, effect, inject, input, model, signal, untracked } from '@angular/core';
 import { IData } from '../../../theme/models/page';
 import { cloneObject } from '../../../theme/utils';
 import { hasElementByClass } from '../../../theme/utils/doc';
@@ -29,8 +29,8 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
 
     public readonly disabled = input<boolean>(false);
     public readonly value = model<T | T[] | number | string>();
-    public optionItems: T[] = [];
-    public selectedItems: T[] = [];
+    public readonly optionItems = signal<T[]>([]);
+    public readonly selectedItems = signal<T[]>([]);
     public readonly keywords = signal('');
     public readonly panelVisible = signal(false);
     private valueTypeT = false;
@@ -45,7 +45,12 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
             this.readerType(obj);
             this.formatSelected(obj);
         });
-        effect(() => this.optionItems = this.items());
+        effect(() => {
+            const items = this.items();
+            untracked(() => {
+                this.optionItems.set(items);
+            });
+        });
     }
 
 
@@ -57,7 +62,7 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
     }
 
     public isSelected(item: T) {
-        for (const i of this.selectedItems) {
+        for (const i of this.selectedItems()) {
             if (item[this.rangeKey()] === i[this.rangeKey()]) {
                 return true;
             }
@@ -67,45 +72,50 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
 
     public tapSelected(item: T) {
         if (!this.multiple()) {
-            this.selectedItems = [item];
+            this.selectedItems.set([item]);
             this.keywords.set('');
             this.panelVisible.set(false);
             this.output();
             return;
         }
-        for (let i = 0; i < this.selectedItems.length; i++) {
-            if (item[this.rangeKey()] === this.selectedItems[i][this.rangeKey()]) {
-                this.selectedItems.splice(i, 1);
-                this.output();
-                return;
+        this.selectedItems.update(v => {
+            for (let i = 0; i < v.length; i++) {
+                if (item[this.rangeKey()] === v[i][this.rangeKey()]) {
+                    v.splice(i, 1);
+                    return v;
+                }
             }
-        }
-        this.selectedItems.push(item);
-        this.output();
-    }
-
-    public tapUnselect(item: T) {
-        this.selectedItems = this.selectedItems.filter(i => {
-            return item[this.rangeKey()] !== i[this.rangeKey()];
+            v.push(item);
+            return v;
         });
         this.output();
     }
 
-    public onKeywordsChange() {
-        if (!this.keywords) {
-            this.optionItems = [];
+    public tapUnselect(item: T) {
+        this.selectedItems.update(v => {
+            return v.filter(i => {
+                return item[this.rangeKey()] !== i[this.rangeKey()];
+            });
+        });
+        this.output();
+    }
+
+    public onKeywordsChange(val: string) {
+        this.keywords.set(val);
+        if (!this.keywords()) {
+            this.optionItems.set([]);
             return;
         }
         const url = this.url();
         if (!url) {
-            this.optionItems = this.items().filter(i => i[this.rangeLabel()].indexOf(this.keywords) >= 0);
+            this.optionItems.set(this.items().filter(i => i[this.rangeLabel()].indexOf(this.keywords) >= 0));
             return;
         }
         this.http.get<IData<T>>(url, {params: {[this.searchKey()]: this.keywords()}}).subscribe(res => {
             const formatFn = this.formatFn();
             const items = formatFn ?  formatFn(res) : res.data;
             if (items instanceof Array) {
-                this.optionItems = items;
+                this.optionItems.set(items);
             }
         });
     }
@@ -119,10 +129,10 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
     }
 
     private output() {
-        const items = this.selectedItems.map(i => {
+        const items = this.selectedItems().map(i => {
             return this.valueTypeT ? i[this.rangeKey()] : {...i};
         });
-        this.value.set( this.multiple() ? items : (items.length > 0 ? items[0] : 0));
+        this.value.set(this.multiple() ? items : (items.length > 0 ? items[0] : 0));
     }
 
     private readerType(obj: any) {
@@ -138,11 +148,11 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
 
     private formatSelected(obj: any, loop = 0) {
         if (!obj || (obj instanceof Array && obj.length < 1)) {
-            this.selectedItems = [];
+            this.selectedItems.set([]);
             return;
         }
         if (!this.valueTypeT) {
-            this.selectedItems = obj instanceof Array ? cloneObject(obj) : [cloneObject(obj)];
+            this.selectedItems.set(obj instanceof Array ? cloneObject(obj) : [cloneObject(obj)]);
         }
         const url = this.url();
         if (!url || !this.valueTypeT) {
@@ -155,7 +165,7 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
             return;
         }
         this.http.get<IData<T>>(url, {params: {[this.rangeKey()]: obj}}).subscribe(res => {
-            this.selectedItems = res.data;
+            this.selectedItems.set(res.data);
         });
     }
 

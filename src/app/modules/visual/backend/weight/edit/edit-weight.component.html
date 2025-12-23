@@ -1,7 +1,7 @@
 <app-edit-header [title]="dataModel().id > 0 ? '编辑组件' : '新增组件'" (submited)="tapSubmit($event)" [disabled]="dataForm().invalid()" />
 
 <div class="container-fluid">
-    <form class="form-table-control" (submit)="tapSubmit()">
+    <form class="form-table-control" (submit)="tapSubmit2($event)">
         <div class="panel-container">
             <div class="input-group-control">
                 <label for="title">名称</label>

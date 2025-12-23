@@ -1,11 +1,14 @@
-<div class="words-input" [class]="{'input-focus': isFocus}">
+<div class="words-input" [class]="{'--with-focus': isFocus()}">
     <div class="selected-container">
-        @for (item of selectedItems; track $index) {
+        @for (item of selectedItems(); track $index) {
             <div class="selected-item">
                 <span class="item-close" (click)="tapUnselect(item)">&times;</span>
                 <div class="item-label" (click)="tapEdit(item)">{{ item }}</div>
             </div>
         }
     </div>
-    <input #inputBox type="text" [(value)]="keywords" [placeholder]="placeholder()" [disabled]="disabled()" (keydown)="onKeydown($event)" (focus)="isFocus = true" (blur)="onBlur()">
+    <input #inputBox type="text" [value]="keywords()" 
+        [placeholder]="placeholder()" [disabled]="disabled()" 
+        (input)="keywords.set($event.target.value)"
+        (keydown)="onKeydown($event)" (focus)="isFocus.set(true)" (blur)="onBlur()">
 </div>

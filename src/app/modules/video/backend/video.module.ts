@@ -6,12 +6,14 @@ import { VideoService } from './video.service';
 import { DurationPipe } from './duration.pipe';
 import { DesktopModule } from '../../../components/desktop';
 import { Field } from '@angular/forms/signals';
+import { ZreFormModule } from '../../../components/form';
 
 @NgModule({
     imports: [
         CommonModule,
         Field,
         ThemeModule,
+        ZreFormModule,
         DesktopModule,
         VideoRoutingModule,
     ],

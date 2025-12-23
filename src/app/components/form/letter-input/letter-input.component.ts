@@ -1,4 +1,4 @@
-import { Component, effect, input, model, signal } from '@angular/core';
+import { Component, computed, effect, input, model, signal, untracked } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
@@ -13,32 +13,48 @@ export class LetterInputComponent implements FormValueControl<string> {
     public readonly items = signal<string[]>(['', '', '', '']);
     public readonly disabled = input<boolean>(false);
     public readonly value = model<string>('');
-    public isEnabled = false;
+    public readonly isEnabled = signal(false);
+
+
+    public readonly letterCount = computed(() => {
+        const items = this.items();
+        for (let i = 0; i < items.length; i++) {
+            if (items[i] === '') {
+                return i;
+            }
+        }
+        return items.length;
+    });
 
     constructor() {
-        effect(() => this.items.set(Array.from({length: this.length()}, _ => '')));
+        effect(() => {
+            const length = this.length();
+            untracked(() => {
+                this.items.set(Array.from({length}, _ => ''))
+            });
+        });
         effect(() => this.refresh(this.value()));
     }
 
     public onValueChanged(value: string) {
         this.refresh(value);
-        if (value.length == this.length()) 
+        if (value.length === this.length()) 
         {
             this.value.set(value);
         }
     }
 
     public onFocus() {
-        this.isEnabled = true;
+        this.isEnabled.set(true);
     }
 
     public onBlur() {
-        this.isEnabled = false;
+        this.isEnabled.set(false);
     }
 
     private refresh(value: string) {
-        for (let i = 0; i < this.items.length; i++) {
-            this.items[i] = i >= value.length ? '' : value.charAt(i);
-        }
+        this.items.update(v => {
+            return v.map((_, i) => i >= value.length ? '' : value.charAt(i));
+        });
     }
 }

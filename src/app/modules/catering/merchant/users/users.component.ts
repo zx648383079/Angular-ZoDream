@@ -77,8 +77,8 @@ export class UsersComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapSearch() {
-
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 

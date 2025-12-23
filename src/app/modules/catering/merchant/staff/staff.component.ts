@@ -76,8 +76,8 @@ export class StaffComponent implements OnInit {
         this.inviteModal().open();
     }
 
-    public tapSearch() {
-
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 

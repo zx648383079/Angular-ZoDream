@@ -5,6 +5,7 @@ import { IActivity, IGoods, ILotteryConfigure, ILotteryGift } from '../../../../
 import { ActivityService } from '../../activity.service';
 import { SearchDialogComponent } from '../../../../components';
 import { form, required } from '@angular/forms/signals';
+import { ButtonEvent } from '../../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -87,7 +88,12 @@ export class EditLotteryComponent implements OnInit {
         history.back();
     }
 
-    public tapSubmit() {
+    public tapSubmit2(e: SubmitEvent) {
+        e.preventDefault();
+        this.tapSubmit();
+    }
+
+    public tapSubmit(e?: ButtonEvent) {
         if (this.dataForm().invalid()) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
@@ -105,9 +111,17 @@ export class EditLotteryComponent implements OnInit {
             this.toastrService.warning('组合中商品至少两种,最多8种');
             return;
         }
-        this.service.lotterySave(data).subscribe(_ => {
-            this.toastrService.success($localize `Save Successfully`);
-            this.tapBack();
+        e?.enter();
+        this.service.lotterySave(data).subscribe({
+            next: _ => {
+                e?.reset();
+                this.toastrService.success($localize `Save Successfully`);
+                this.tapBack();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
         });
     }
 

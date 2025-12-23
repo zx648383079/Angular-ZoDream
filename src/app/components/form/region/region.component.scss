@@ -22,7 +22,7 @@
         .iconfont {
             color: var(--#{theme.$prefix}input-icon);
         }
-        &.open {
+        &.--with-open {
             border-bottom: none;
         }
     }
@@ -34,7 +34,7 @@
         padding: 0.625rem;
         z-index: 2;
         .select-header {
-            &.open {
+            &.--with-open {
                 border-color: var(--#{theme.$prefix}input-border);
                 border-width: 2px;
                 border-bottom: none;

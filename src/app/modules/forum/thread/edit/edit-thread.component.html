@@ -11,7 +11,7 @@
     </ul>
 </div>
 <div class="container">
-    <form class="thread-new-box" (submit)="tapSubmit()">
+    <form class="thread-new-box" (submit)="tapSubmit2($event)">
         <div class="title">
             @if (forum && forum.classifies && forum.classifies.length > 0) {
             <select [field]="dataForm.classify_id" class="form-control">

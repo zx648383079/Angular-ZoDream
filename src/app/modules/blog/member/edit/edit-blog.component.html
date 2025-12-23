@@ -28,7 +28,7 @@
             </div>
         </div>
     </div>
-    <form class="editor-body" (submit)="tapSubmit()">
+    <form class="editor-body" (submit)="tapSubmit2($event)">
         <app-blog-add-panel [visible]="addToggle" (toolTapped)="tapTool($event)" (command)="tapCommand($event)" />
         <div class="editor-area">
             <div class="editor-input-wrapper">

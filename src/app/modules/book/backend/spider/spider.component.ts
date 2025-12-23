@@ -137,8 +137,8 @@ export class SpiderComponent implements OnDestroy {
         });
     }
 
-    public tapSearch() {
-
+    public tapSearch(e: Event) {
+        e.preventDefault();
         this.tapRefresh();
     }
 }
