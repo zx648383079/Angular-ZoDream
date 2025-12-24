@@ -11,7 +11,7 @@
     margin-top: 1.25rem;
 
     .box-title {
-        border-bottom: 1px solid #767676;
+        border-bottom: 1px solid var(--#{theme.$prefix}border);
     }
 
     a {
@@ -53,7 +53,7 @@
             top: 7.875rem;
             left: 8.0625rem;
             font-size: 3.125rem;
-            color: red;
+            color: var(--#{theme.$prefix}danger);
             display: none;
         }
     }
@@ -63,8 +63,8 @@
     .failure-box {
         display: none;
         min-height: 15.625rem;
-        background: rgba(#fff, .9);
-        color: #333;
+        background-color: var(--#{theme.$prefix}panel);
+        color: var(--#{theme.$prefix}body-text);
         .iconfont {
             font-size: 5rem;
             padding-top: 2.5rem;
@@ -132,7 +132,7 @@
     .btn {
         position: absolute;
         right: 0;
-        top: 0;
+        top: .4rem;
         width: 5rem;
         height: 1.875rem;
         padding: 0;

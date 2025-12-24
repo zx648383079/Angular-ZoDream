@@ -209,7 +209,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     public tapContextMenu(e: MouseEvent, user?: IUser) {
-        this.contextMenu().show(e, !user ? [
+        this.contextMenu().open(e, !user ? [
             {
                 name: '新建分组',
                 icon: 'icon-plus',

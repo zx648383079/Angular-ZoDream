@@ -25,8 +25,8 @@ export class LoginPanelComponent implements OnDestroy {
     private readonly store = inject<Store<AppState>>(Store);
     private readonly toastrService = inject(DialogService);
     private readonly authService = inject(AuthService);
-    private encryptor = inject(EncryptorService);
-    private webAuthn = inject(WebAuthn);
+    private readonly encryptor = inject(EncryptorService);
+    private readonly webAuthn = inject(WebAuthn);
 
 
     public readonly logined = output<IUser>();

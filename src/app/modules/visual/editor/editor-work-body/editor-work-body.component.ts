@@ -134,7 +134,7 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
     public onContext(e: MouseEvent, item?: Widget|boolean) {
         const items: Widget[] = item && item instanceof Widget ? [item] : (item === true ? this.service.selectionChanged$.value : filterItems(this.widgetItems$.value, this.getPosition({x: e.clientX, y: e.clientY})));
         const navItems = items.length > 0 ? menu.EditorSelected(isMergeable(items), isSplitable(items)) : menu.EditorNotSelected;
-        return this.contextMenu().show(e, navItems, menu => {
+        return this.contextMenu().open(e, navItems, menu => {
             if (typeof menu.data === 'undefined') {
                 return;
             }

@@ -31,7 +31,7 @@ import { DialogService } from '../../../components/dialog';
 import { ButtonEvent, CountdownEvent } from '../../../components/form';
 import { selectSystemConfig } from '../../../theme/reducers/system.selectors';
 import { EncryptorService } from '../../../theme/services/encryptor.service';
-import { email, form, minLength } from '@angular/forms/signals';
+import { email, form, minLength, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
@@ -46,12 +46,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
     private readonly authService = inject(AuthService);
-    private encryptor = inject(EncryptorService);
-    private webAuthn = inject(WebAuthn);
+    private readonly encryptor = inject(EncryptorService);
+    private readonly webAuthn = inject(WebAuthn);
 
 
-    public mode = 0;
-    public redirectUri: string;
+    public readonly mode = signal(0);
+    private redirectUri: string;
     public isObserve = false;
 
     public dataModel = signal({
@@ -65,26 +65,28 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
 
     public dataForm = form(this.dataModel, schemaPath => {
+        required(schemaPath.email, {message: 'Email is required'});
+        required(schemaPath.password, {message: 'Password is required'});
         email(schemaPath.email, {message: 'Please enter a valid email address'});
         minLength(schemaPath.password, 6, {message: 'Password must be at least 6 characters'});
     });
 
-    public openAuth = false;
-    public openWebAuthn = true;
+    public readonly openAuth = signal(false);
+    public readonly openWebAuthn = signal(true);
     private captchaToken = '';
-    public captchaImage = '';
+    public readonly captchaImage = signal('');
     private qrToken = '';
-    public qrImage = '';
+    public readonly qrImage = signal('');
     private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `Sign in`);
         this.subItems.add(
             this.store.select(selectSystemConfig).subscribe(res => {
-                this.openAuth = res && res.auth_oauth;
+                this.openAuth.set(res && res.auth_oauth);
             })
         );
-        this.openWebAuthn = this.webAuthn.enabled;
+        this.openWebAuthn.set(this.webAuthn.enabled);
     }
 
     ngOnInit() {
@@ -101,9 +103,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     public tapQr() {
         this.authService.qrRefresh().subscribe({
             next: res => {
-                this.qrImage = res.qr;
+                this.qrImage.set(res.qr);
                 this.qrToken = res.token;
-                this.mode = 1;
+                this.mode.set(1);
                 this.loopCheckQr();
             }, 
             error: err => {
@@ -113,13 +115,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     private loopCheckQr() {
-        if (this.mode < 1 || this.mode > 2) {
+        if (this.mode() < 1 || this.mode() > 2) {
             return;
         }
         window.setTimeout(() => {
             this.authService.qrCheck(this.qrToken).subscribe({
                 next: _ => {
-                    this.mode = 5;
+                    this.mode.set(5);
                 },
                 error: (err: IErrorResult) => {
                     if (err.error.code === 201) {
@@ -127,15 +129,15 @@ export class LoginComponent implements OnInit, OnDestroy {
                         return;
                     }
                     if (err.error.code === 204) {
-                        this.mode = 3;
+                        this.mode.set(3);
                         return;
                     }
                     if (err.error.code === 202) {
-                        this.mode = 2;
+                        this.mode.set(2);
                         this.loopCheckQr();
                         return;
                     }
-                    this.mode = 4;
+                    this.mode.set(4);
                 }
             }
             );
@@ -143,7 +145,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     public tapMode(i: number) {
-        this.mode = i;
+        this.mode.set(i);
     }
 
     public tapSubmit2(e: SubmitEvent) {
@@ -162,12 +164,12 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (this.captchaToken) {
             data.captcha_token = this.captchaToken;
         }
-        if (this.mode === 8) {
+        if (this.mode() === 8) {
             if (emptyValidate(data.twofa_code)) {
                 this.toastrService.warning($localize `Please input the authentication code`);
                 return;
             }
-        } else if (this.mode === 9) {
+        } else if (this.mode() === 9) {
             if (emptyValidate(data.recovery_code)) {
                 this.toastrService.warning($localize `Please input the recovery code`);
                 return;
@@ -186,7 +188,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                     }
                     this.tapCaptcha();
                     if (res.code === 1015) {
-                        this.mode = 8;
+                        this.mode.set(8);
                     }
                 },
                 next: () => {
@@ -224,10 +226,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     public tapCaptcha() {
         if (!this.captchaToken) {
-            this.captchaImage = '';
+            this.captchaImage.set('');
             return;
         }
-        this.captchaImage = assetUri('auth/captcha?captcha_token=' + this.captchaToken + '&v=' + Math.random());
+        this.captchaImage.set(assetUri('auth/captcha?captcha_token=' + this.captchaToken + '&v=' + Math.random()));
     }
 
     public tapSendCode(event: CountdownEvent) {

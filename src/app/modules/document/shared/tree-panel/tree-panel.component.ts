@@ -23,7 +23,7 @@ export class TreePanelComponent {
 
     public tapContextMenu(e: MouseEvent, parent?: IDocTreeItem) {
         e.stopPropagation();
-        this.contextMenu().show(e, [
+        this.contextMenu().open(e, [
             {
                 name: '新建文件夹',
                 icon: 'icon-folder-o',

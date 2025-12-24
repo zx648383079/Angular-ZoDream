@@ -174,7 +174,7 @@ export class MindComponent implements AfterViewInit, OnInit {
     }
 
     public onContext(event: MouseEvent, i: number) {
-        return this.contextMenu().show(event, [
+        return this.contextMenu().open(event, [
             {
                 name: $localize `Delete`,
                 icon: 'icon-trash',

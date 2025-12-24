@@ -155,7 +155,7 @@ export class DialogService {
             element: dialogRef
         });
         if (isMessage) {
-            (dialogRef as any).instance.offset = this.messageOuterHeight * this.messageCount;
+            (dialogRef as any).instance.offset.set(this.messageOuterHeight * this.messageCount);
             this.messageCount ++;
         }
         return dialogId;
@@ -186,7 +186,7 @@ export class DialogService {
                 continue;
             }
             i ++;
-            (item.element as any).instance.offset = this.messageOuterHeight * i;
+            (item.element as any).instance.offset.set(this.messageOuterHeight * i);
         }
     }
 

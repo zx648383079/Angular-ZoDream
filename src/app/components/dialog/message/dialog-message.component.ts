@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, inject, signal } from '@angular/core';
+import { Component, HostListener, OnDestroy, computed, inject, signal } from '@angular/core';
 import { DialogPackage } from '../dialog.injector';
 import { DialogService } from '../dialog.service';
 import { DialogMessageOption } from '../model';
@@ -28,19 +28,18 @@ export class DialogMessageComponent implements OnDestroy {
     public title = '';
     public content = '';
     public readonly visible = signal(true);
-    public offset = 0;
+    public readonly offset = signal(0);
 
     private timeHandle: any;
 
-    public get boxStyle() {
+    public readonly boxStyle = computed(() => {
         return {
-            top: this.offset + 'px'
+            top: this.offset() + 'px'
         };
-    }
+    });
 
     constructor() {
         const data = this.data;
-
         const option = data.data;
         this.title = option.title || '';
         this.content = option.content || '';
@@ -67,7 +66,7 @@ export class DialogMessageComponent implements OnDestroy {
     }
 
     public animationDone() {
-        if (this.visible) {
+        if (this.visible()) {
             return;
         }
         this.service.remove(this.data.dialogId);

@@ -91,7 +91,7 @@ export class AutocompleteComponent implements FormValueControl<string>, OnInit {
 
     private output(i: number) {
         this.selectedIndex = i;
-        this.value.set(this.optionItems[i]);
+        this.value.set(this.optionItems()[i]);
     }
 
     private realValue(value: string) {

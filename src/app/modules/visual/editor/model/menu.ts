@@ -25,13 +25,13 @@ export const EditorSelected = (canMerge = false, canSplit = false): IMenuItem[] 
         {
             name: '组合',
             icon: 'icon-zuhe',
-            disable: !canMerge,
+            disabled: !canMerge,
             data: MENU_ACTION.MERGE
         },
         {
             name: '打散',
             icon: 'icon-quxiaozuhe',
-            disable: !canSplit,
+            disabled: !canSplit,
             data: MENU_ACTION.SPLIT
         },
         {},

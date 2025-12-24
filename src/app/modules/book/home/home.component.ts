@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
     }
 
     public tapContextMenu(e: MouseEvent, item: IBookRecord) {
-        return this.contextMenu().show(e, [
+        return this.contextMenu().open(e, [
             {
                 icon: 'icon-trash',
                 name: '删除',

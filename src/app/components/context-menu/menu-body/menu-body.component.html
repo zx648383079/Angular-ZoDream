@@ -1,6 +1,6 @@
 @for (item of items(); track $index) {
     @if (item.icon || item.name) {
-        <div class="menu-flyout-item" [class]="{disabled: item.disable}">
+        <div class="menu-flyout-item" [class]="{disabled: item.disabled}">
             <a class="menu-item-body" (click)="tapMenuItem(item)">
                 <i class="iconfont menu-item-icon" [class]="item.icon"></i>
                 <span class="menu-item-text">{{ item.name }}</span>

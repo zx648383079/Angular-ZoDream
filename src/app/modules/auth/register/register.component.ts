@@ -27,14 +27,14 @@ export class RegisterComponent implements OnDestroy {
     private readonly toastrService = inject(DialogService);
     private readonly authService = inject(AuthService);
     private readonly themeService = inject(ThemeService);
-    private encryptor = inject(EncryptorService);
+    private readonly encryptor = inject(EncryptorService);
     private readonly store = inject<Store<AppState>>(Store);
 
 
     public isObserve = false;
     public openStatus = 0;
 
-    public registerModel = signal({
+    public dataModel = signal({
         name: '',
         email: '',
         password: '',
@@ -42,11 +42,11 @@ export class RegisterComponent implements OnDestroy {
         invite_code: '',
         agree: false
     });
-    public registerForm = form(this.registerModel, schemaPath => {
+    public dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name, {message: 'Name is required'});
-        // required(schemaPath.email, {message: 'Email is required'});
+        required(schemaPath.email, {message: 'Email is required'});
         email(schemaPath.email, {message: 'Please enter a valid email address'});
-        // required(schemaPath.password, {message: 'Email is required'});
+        required(schemaPath.password, {message: 'Password is required'});
         minLength(schemaPath.password, 6, {message: 'Password must be at least 6 characters'});
         required(schemaPath.agree, {message: 'Agreement is required'});
         validate(schemaPath.confirm_password, ({value, valueOf}) => {
@@ -89,10 +89,10 @@ export class RegisterComponent implements OnDestroy {
             this.toastrService.error($localize `Sorry, membership registration is closed, opening hours are undecided!`);
             return;
         }
-        if (this.registerForm().invalid()) {
+        if (this.dataForm().invalid()) {
             return;
         }
-        const data = Object.assign({}, this.registerForm().value());
+        const data = Object.assign({}, this.dataForm().value());
         this.authService
             .register({
                 ...data,

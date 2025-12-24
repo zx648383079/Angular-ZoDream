@@ -20,7 +20,7 @@ export class MenuBodyComponent {
     public readonly tapped = output<IMenuButton>();
 
     public tapMenuItem(item: IMenuItem) {
-        if (item.disable) {
+        if (item.disabled) {
             return;
         }
         if (item.children && item.children.length > 0) {

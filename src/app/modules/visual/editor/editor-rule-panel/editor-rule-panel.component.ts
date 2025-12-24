@@ -23,7 +23,7 @@ export class EditorRulePanelComponent {
     public lineVisible = true;
 
     public tapIcon(event: MouseEvent) {
-        this.contextMenu().show(event, [
+        this.contextMenu().open(event, [
             {
                 name: this.lineVisible ? '隐藏辅助线' : '显示辅助线',
                 icon: this.lineVisible ? 'icon-eye-slash' : 'icon-eye',

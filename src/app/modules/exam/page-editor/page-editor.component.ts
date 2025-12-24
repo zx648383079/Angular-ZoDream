@@ -213,7 +213,7 @@ export class PageEditorComponent implements OnInit {
     }
 
     public tapContextMenu(event: MouseEvent, i: number) {
-        return this.contextMenu().show(event, [
+        return this.contextMenu().open(event, [
             {
                 name: '新增',
                 icon: 'icon-plus',

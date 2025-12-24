@@ -89,7 +89,7 @@ export class EditorLayerComponent implements OnInit {
             return;
         }
         if (e.action === TREE_ACTION.CONTEXT) {
-            this.contextMenu().show(e.event, EditorLayer)
+            this.contextMenu().open(e.event, EditorLayer)
             return;
         }
     }

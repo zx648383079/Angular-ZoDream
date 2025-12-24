@@ -155,7 +155,7 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public tapContextMenu(event: MouseEvent, parent?: IChapter) {
-        return this.contextMenu().show(event, <IMenuItem[]>[
+        return this.contextMenu().open(event, <IMenuItem[]>[
             {
                 name: '新建卷',
                 icon: 'icon-folder-o',
