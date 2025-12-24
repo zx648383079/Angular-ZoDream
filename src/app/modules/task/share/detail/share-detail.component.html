@@ -1,14 +1,14 @@
-@if (data) {
+@if (data()) {
 <div class="container-fluid">
     
     <div class="fixed-icon">
-        <i class="iconfont icon-cog" (click)="panelOpen = true"></i>
+        <i class="iconfont icon-cog" (click)="panelOpen.set(true)"></i>
     </div>
 
     <div class="detail-box">
-        <div class="timer-box">{{ timeLength }}</div>
-        <div class="timer-name">{{ data.name }}</div>
-        <div class="timer-desc">{{ data.description }}</div>
+        <div class="timer-box">{{ timeLength() }}</div>
+        <div class="timer-name">{{ data().name }}</div>
+        <div class="timer-desc">{{ data().description }}</div>
     </div>
 
     @if (items().length > 0) {
@@ -34,7 +34,7 @@
                 <input type="file" name="file" id="file-upload" (change)="uploadFile($event)" accept="image/*"/>
             </label>
         </div>
-        @for (item of commentItems; track $index) {
+        @for (item of commentItems(); track $index) {
         <div class="comment-item">
             @if (item.user) {
             <div class="avatar">
@@ -62,10 +62,10 @@
 </div>
 }
 
-@if (panelOpen) {
+@if (panelOpen()) {
 <div class="dialog-panel" animate.enter="panel-opened" animate.leave="panel-closed">
     <div class="panel-header">
-        <i class="iconfont icon-close" (click)="panelOpen = false"></i>
+        <i class="iconfont icon-close" (click)="panelOpen.set(false)"></i>
     </div>
     <div class="panel-search">
         <input type="text" [field]="userForm.keywords">

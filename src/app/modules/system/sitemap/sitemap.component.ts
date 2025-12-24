@@ -5,7 +5,7 @@ import { interval } from 'rxjs';
 
 @Component({
     standalone: false,
-    selector: 'app-sitemap',
+    selector: 'app-system-sitemap',
     templateUrl: './sitemap.component.html',
     styleUrls: ['./sitemap.component.scss']
 })

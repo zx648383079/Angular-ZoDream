@@ -18,13 +18,13 @@ export class ShareDetailComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
 
 
-    public data: ITask;
+    public readonly data = signal<ITask>(null);
     public share: IShare;
     public readonly items = signal<ITask[]>([]);
 
-    public panelOpen = false;
+    public readonly panelOpen = signal(false);
 
-    public commentItems: ITaskComment[] = [];
+    public readonly commentItems = signal<ITaskComment[]>([]);
     public readonly commentForm = form(signal({
         content: ''
     }));
@@ -47,7 +47,7 @@ export class ShareDetailComponent implements OnInit {
                 return;
             }
             this.service.share(params.id).subscribe(res => {
-                this.data = res.task;
+                this.data.set(res.task);
                 this.share = res;
                 if (res.task && res.task.children) {
                     this.items.set(res.task.children);
@@ -58,9 +58,9 @@ export class ShareDetailComponent implements OnInit {
         });
     }
 
-    get timeLength() {
-        return formatHour(this.data?.time_length);
-    }
+    public readonly timeLength = computed(() => {
+        return formatHour(this.data()?.time_length);
+    })
 
     public readonly userFilterItems = computed(() => {
         const keywords = this.userForm.keywords().value();
@@ -93,10 +93,10 @@ export class ShareDetailComponent implements OnInit {
         this.service.commentList({
             ...this.queries(),
             page,
-            task_id: this.data.id
+            task_id: this.data().id
         }).subscribe({
             next: res => {
-                this.commentItems = res.data;
+                this.commentItems.set(res.data);
                 this.hasMore = res.paging.more;
                 this.isLoading.set(false);
                 this.total.set(res.paging.total);
@@ -125,7 +125,7 @@ export class ShareDetailComponent implements OnInit {
             return;
         }
         this.service.commenSave({
-            task_id: this.data.id,
+            task_id: this.data().id,
             content: comment
         }).subscribe(_ => {
             this.commentForm.content().value.set('');
@@ -137,7 +137,7 @@ export class ShareDetailComponent implements OnInit {
     public uploadFile(event: any) {
         const files = event.target.files as FileList;
         const form = new FormData();
-        form.append('task_id', this.data.id.toString());
+        form.append('task_id', this.data().id.toString());
         form.append('file', files[0], files[0].name);
         this.service.commenSave(form).subscribe(_ => {
             this.toastrService.success('评论成功');

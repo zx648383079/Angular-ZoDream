@@ -18,7 +18,7 @@ export class SystemComponent {
     private readonly toastrService = inject(DialogService);
 
 
-    public groups: IOption[] = [];
+    public readonly groups = signal<IOption[]>([]);
     public readonly editForm = form(signal({
         id: 0,
         name: '',
@@ -54,13 +54,13 @@ export class SystemComponent {
 
     constructor() {
         this.service.optionList().subscribe(res => {
-            this.groups = res.data.map(group => {
+            this.groups.set(res.data.map(group => {
                 if (!group.children) {
                     group.children = [];
                 }
                 group.children = group.children.map(item => this.formatOptionItem(item));
                 return group;
-            });
+            }));
         });
     }
 
@@ -127,7 +127,7 @@ export class SystemComponent {
 
     public tapSubmit(e?: ButtonEvent) {
         const option: any = {};
-        for (const group of this.groups) {
+        for (const group of this.groups()) {
             for (const item of group.children) {
                 option[item.id] = item.value;
             }
@@ -244,15 +244,17 @@ export class SystemComponent {
             return;
         }
         item.children = [];
-        this.groups.push(item);
+        this.groups.update(v => {
+            return [...v, item];
+        });
     }
 
 
     private removeOption(item: IOption) {
-        const groups = this.groups;
+        const groups = this.groups();
         all:
             for (let i = 0; i < groups.length; i++) {
-                const group = this.groups[i];
+                const group = groups[i];
                 if (group.id === item.id) {
                     groups.splice(i, 1);
                     break;
@@ -264,6 +266,6 @@ export class SystemComponent {
                     }
                 }
             }
-        this.groups = groups;
+        this.groups.set(groups);
     }
 }

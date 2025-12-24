@@ -1,7 +1,7 @@
 <app-edit-header [title]="'系统基本设置'" (submited)="tapSubmit()" />
 <div class="container-fluid">
     <div class="row">
-            @for (group of groups; track $index) {
+            @for (group of groups(); track $index) {
             <div class="col-md-6 form-table-control">
                 <app-panel [title]="group.name">
                     @for (item of group.children; track $index) {
@@ -116,7 +116,7 @@
                 <label for="field_parent_id">分组</label>
                 <div>
                     <select id="field_parent_id" class="form-control" [field]="editForm.parent_id">
-                        @for (item of groups; track $index) {
+                        @for (item of groups(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                         }
                     </select>

@@ -11,7 +11,7 @@ import { parseNumber } from '../../../theme/utils';
 
 @Component({
     standalone: false,
-    selector: 'app-emoji',
+    selector: 'app-system-emoji',
     templateUrl: './emoji.component.html',
     styleUrls: ['./emoji.component.scss']
 })

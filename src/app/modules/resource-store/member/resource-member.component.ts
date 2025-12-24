@@ -14,13 +14,13 @@ import { SearchService } from '../../../theme/services';
     styleUrls: ['./resource-member.component.scss']
 })
 export class ResourceMemberComponent implements OnInit {
-private readonly service = inject(ResourceService);
-private readonly toastrService = inject(DialogService);
-private readonly route = inject(ActivatedRoute);
-private readonly searchService = inject(SearchService);
+    private readonly service = inject(ResourceService);
+    private readonly toastrService = inject(DialogService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly searchService = inject(SearchService);
 
 
-public readonly items = signal<IResource[]>([]);
+    public readonly items = signal<IResource[]>([]);
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { EChartsCoreOption } from 'echarts/core';
 import { TrendService } from '../trend.service';
 import { ITrendStatistics, TimeTabItems } from '../model';
@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
 
     public trendToggle = false;
     public todayData: any = {};
-    public options: EChartsCoreOption;
+    public readonly options = signal<EChartsCoreOption>(null);
     public wordItems: any[] = [];
     public sourceItems: any[] = [];
     public enterItems: any[] = [];
@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
 
     private refreshTrendChart() {
         if (!this.trendData) {
-            this.options = undefined;
+            this.options.set(null);
             return;
         }
         const data = this.trendData;
@@ -97,7 +97,7 @@ export class HomeComponent implements OnInit {
                 }),
             });
         }
-        this.options = option;
+        this.options.set(option);
     }
 
 

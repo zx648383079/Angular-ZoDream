@@ -1,4 +1,4 @@
-@if (data) {
+@if (data()) {
 <div class="container">
     <div class="row">
         <div class="col-12">
@@ -6,29 +6,29 @@
                 <div class="back-btn" (click)="tapBack()">
                     <i class="iconfont icon-arrow-left"></i>
                 </div>
-                <h2>{{ data.name }}</h2>
+                <h2>{{ data().name }}</h2>
             </div>
         </div>
     </div>
 
-    @if (children.length > 0) {
+    @if (children().length > 0) {
     <div class="row">
         <div class="col-12">
             <div class="tab-bar">
-                @for (item of children; track $index) {
-                    <a class="item" [class]="{active: productSelected == item.id}" (click)="tapProduct(item.id)">{{ item.name }}</a>
+                @for (item of children(); track $index) {
+                    <a class="item" [class]="{active: productSelected() == item.id}" (click)="tapProduct(item.id)">{{ item.name }}</a>
                 }
             </div>
         </div>
     </div>
     }
     
-    @if (channelItems.length > 0) {
+    @if (channelItems().length > 0) {
     <div class="row">
         <div class="col-12">
             <div class="tab-bar">
-                @for (item of channelItems; track $index) {
-                    <a class="item" [class]="{active: channelSelected == item.id}" (click)="tapChannel(item.id)">{{ item.name }}</a>
+                @for (item of channelItems(); track $index) {
+                    <a class="item" [class]="{active: channelSelected() == item.id}" (click)="tapChannel(item.id)">{{ item.name }}</a>
                 }
             </div>
         </div>
@@ -45,7 +45,7 @@
             
         </div>
         <div class="col-md-12">
-            <div appChart [options]="options" class="chart-lg"></div>
+            <div appChart [options]="options()" class="chart-lg"></div>
         </div>
     </div>
     }

@@ -21,7 +21,6 @@ export class TaskSelectComponent {
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public keywords = '';
     public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         page: 1,

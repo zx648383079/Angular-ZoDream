@@ -9,7 +9,7 @@ import { SystemService } from '../system.service';
 
 @Component({
     standalone: false,
-    selector: 'app-agreement',
+    selector: 'app-system-agreement',
     templateUrl: './agreement.component.html',
     styleUrls: ['./agreement.component.scss']
 })

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, input, output, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, input, output, signal, viewChild } from '@angular/core';
 import { formatHour } from '../../../theme/utils';
 import { interval, Subscription } from 'rxjs';
 
@@ -19,7 +19,7 @@ export class CircleProgressComponent implements AfterViewInit {
     public readonly finished = output<CircleProgressComponent>();
     public readonly valueChange = output<number>();
 
-    public label = '';
+    public readonly label = signal('');
     private value = 0;
     private max = 0;
 
@@ -68,12 +68,12 @@ export class CircleProgressComponent implements AfterViewInit {
 
     private computed(value = this.value, max = this.max) {
         if (max > 0) {
-            this.label = formatHour(Math.max(max - value, 0), undefined, true);
+            this.label.set(formatHour(Math.max(max - value, 0), undefined, true));
             this.drawProgress(this.ctx, 100 - value * 100 / max);
             return;
         }
         max = Math.ceil(Math.max(value, 1) / 3600) * 3600;
-        this.label = formatHour(value, undefined, true);
+        this.label.set(formatHour(value, undefined, true));
         this.drawProgress(this.ctx, value * 100 / max);
     }
 

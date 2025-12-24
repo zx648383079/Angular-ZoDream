@@ -1,7 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
-import { emptyValidate } from '../../theme/validators';
 import { IShortLink } from './model';
 import { ShortLinkService } from './short-link.service';
 import { form, required } from '@angular/forms/signals';
@@ -22,7 +21,7 @@ export class ShortLinkComponent {
     }), schemaPath => {
         required(schemaPath.source_url);
     });
-    public result: IShortLink;
+    public readonly result = signal<IShortLink>(null);
 
     public tapGenerate(e: ButtonEvent) {
         if (this.dataForm().invalid()) {
@@ -36,7 +35,7 @@ export class ShortLinkComponent {
         }).subscribe({
             next: res => {
                 e?.reset();
-                this.result = res;
+                this.result.set(res);
                 this.toastrService.success($localize `Generate successfull!`);
             },
             error: err => {

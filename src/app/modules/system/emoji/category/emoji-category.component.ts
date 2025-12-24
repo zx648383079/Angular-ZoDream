@@ -7,7 +7,7 @@ import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-    selector: 'app-emoji-category',
+    selector: 'app-system-emoji-category',
     templateUrl: './emoji-category.component.html',
     styleUrls: ['./emoji-category.component.scss']
 })

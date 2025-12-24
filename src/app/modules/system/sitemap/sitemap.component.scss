@@ -1,23 +1,25 @@
+@use '../../../theme/theme';
+
 .cmd-box {
     overflow-y: auto;
     height: 18.75rem;
-    border: 1px solid #777;
-    border-radius: 5px;
-    padding: 5px;
-    box-shadow: rgba(100, 100, 100, .3) 0 0 10px inset;
+    border: 1px solid var(--#{theme.$prefix}border);
+    border-radius: 0.3125rem;
+    padding: 0.3125rem;
+    box-shadow: rgba(var(--#{theme.$prefix}mask-rgb), .15) 0 0 10px inset;
     .cmd-line {
         line-height: 1.5625rem;
-        color: #333;
+        color: var(--#{theme.$prefix}body-text);
         word-break: break-all;
         margin-bottom: 0;
         .iconfont {
             margin-right: .8rem;
         }
         .icon-check {
-            color: green;
+            color: var(--#{theme.$prefix}success);
         }
         .icon-close {
-            color: red;
+            color: var(--#{theme.$prefix}danger);
         }
     }
 }

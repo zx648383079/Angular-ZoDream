@@ -4,11 +4,11 @@ import { SystemService } from '../system.service';
 
 @Component({
     standalone: false,
-    selector: 'app-seo-sql',
+    selector: 'app-system-sql',
     templateUrl: './sql.component.html',
     styleUrls: ['./sql.component.scss']
 })
-export class SqlComponent implements OnInit {
+export class SqlComponent {
     private readonly service = inject(SystemService);
     private readonly toastrService = inject(DialogService);
 
@@ -18,9 +18,6 @@ export class SqlComponent implements OnInit {
 
     constructor() {
         this.tapRefresh();
-    }
-
-    ngOnInit() {
     }
 
     public tapRefresh() {

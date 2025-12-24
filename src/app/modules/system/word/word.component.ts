@@ -10,7 +10,7 @@ import { SystemService } from '../system.service';
 
 @Component({
     standalone: false,
-    selector: 'app-sys-word',
+    selector: 'app-system-word',
     templateUrl: './word.component.html',
     styleUrls: ['./word.component.scss']
 })

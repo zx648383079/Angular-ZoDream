@@ -6,11 +6,11 @@ import { ButtonEvent } from '../../../components/form';
 
 @Component({
     standalone: false,
-    selector: 'app-cache',
+    selector: 'app-system-cache',
     templateUrl: './cache.component.html',
     styleUrls: ['./cache.component.scss']
 })
-export class CacheComponent implements OnInit {
+export class CacheComponent {
     private readonly service = inject(SystemService);
     private readonly toastrService = inject(DialogService);
 
@@ -22,10 +22,6 @@ export class CacheComponent implements OnInit {
             this.items.set(res);
         });
     }
-
-    ngOnInit() {
-    }
-
 
     public tapSubmit(e?: ButtonEvent) {
         const store: string[] = [];

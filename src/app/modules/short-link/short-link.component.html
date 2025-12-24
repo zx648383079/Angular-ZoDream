@@ -7,12 +7,12 @@
             </div>
         </div>
     </div>
-    @if (result) {
+    @if (result()) {
     <div class="row">
         <div class="col-12">
             <div class="result-input">
                 <p i18n>Generate successfull!</p>
-                <input type="text" class="form-control" [value]="result.complete_short_url" readonly>
+                <input type="text" class="form-control" [value]="result().complete_short_url" readonly>
             </div>
 
         </div>

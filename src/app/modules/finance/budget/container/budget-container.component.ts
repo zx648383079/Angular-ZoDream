@@ -18,7 +18,7 @@ export class BudgetContainerComponent implements OnInit {
 
     public readonly isLoading = signal(true);
     public data: IBudget;
-    public options: EChartsCoreOption;
+    public readonly options = signal<EChartsCoreOption>(null);
     public cycleFormat = '';
     public readonly total = signal(0);
     public budgetTotal = 0;
@@ -44,7 +44,7 @@ export class BudgetContainerComponent implements OnInit {
             this.overTotal = Math.max(this.total() - this.budgetTotal, 0);
             this.cycleFormat = mapFormat(this.data.cycle, ['次', '天', '周', '月', '年']);
             const items: any[] = res.log_list;
-            this.options = {
+            this.options.set({
                 title: {
                     text: '预算支出环比图',
                     left: 'center',
@@ -77,7 +77,7 @@ export class BudgetContainerComponent implements OnInit {
                         data: items.map(item => item.budget),
                     }
                 ]
-            };
+            });
         });
     }
 

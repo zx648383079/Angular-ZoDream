@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
     }));
     public typeItems = ['天', '月', '季度', '年'];
     public logTypeItems = ['收入', '支出', '其他'];
-    public options: EChartsCoreOption;
+    public readonly options = signal<EChartsCoreOption>(null);
 
 
     ngOnInit() {
@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
             this.isLoading.set(false);
             this.data.set(res);
             const items: any[] = res.stage_items;
-            this.options = {
+            this.options.set({
                 title: {
                     text: '统计表统计',
                     left: 'center',
@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit {
                         data: items.map(item => item.expenditure),
                     }
                 ]
-            };
+            });
         });
     }
 

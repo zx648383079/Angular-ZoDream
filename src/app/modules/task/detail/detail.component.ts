@@ -27,10 +27,10 @@ export class DetailComponent implements OnInit {
     public maxProgress = 0;
     public progress = 0;
 
-    public data: ITaskDay;
-    public current: ITask;
+    public readonly data = signal<ITaskDay>(null);
+    public readonly current = signal<ITask>(null);
     public readonly items = signal<ITask[]>([]);
-    public expanded = false;
+    public readonly expanded = signal(false);
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -38,8 +38,8 @@ export class DetailComponent implements OnInit {
                 return;
             }
             this.service.day(params.id).subscribe(res => {
-                this.data = res;
-                this.current = res.task;
+                this.data.set(res);
+                this.current.set(res.task);
                 if (res.task && res.task.children) {
                     this.items.set(res.task.children);
                 }
@@ -67,16 +67,21 @@ export class DetailComponent implements OnInit {
     // }
 
 
+    public toggleExpand() {
+        this.expanded.update(v => !v);
+    }
+
+
     public tapPlay(task?: ITask) {
-        this.current = task || this.data.task;
+        this.current.set(task || this.data().task);
         this.service.taskPlay({
-            id: this.data.id,
-            task_id: this.data.task_id,
-            child_id: this.current.id !== this.data.task_id ? this.current.id : 0,
+            id: this.data().id,
+            task_id: this.data().task_id,
+            child_id: this.current().id !== this.data().task_id ? this.current().id : 0,
         }).subscribe({
             next: res => {
                 this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Collapse);
-                this.data = res;
+                this.data.set(res);
                 this.maxProgress = res.task.every_time * 60;
                 this.progress = res.log?.time;
                 this.progressor().start(this.progress, this.maxProgress);
@@ -89,9 +94,9 @@ export class DetailComponent implements OnInit {
 
     public tapPause() {
         this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
-        this.service.taskPause(this.data.id).subscribe({
+        this.service.taskPause(this.data().id).subscribe({
             next: res => {
-                this.data = res;
+                this.data.set(res);
                 this.progressor().stop();
             },
             error: err => {
@@ -102,9 +107,9 @@ export class DetailComponent implements OnInit {
 
     public tapStop() {
         this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
-        this.service.taskStop(this.data.id).subscribe({
+        this.service.taskStop(this.data().id).subscribe({
             next: res => {
-                this.data = res;
+                this.data.set(res);
                 this.progressor().stop();
                 if (res.amount < 1) {
                     history.back();
@@ -117,20 +122,20 @@ export class DetailComponent implements OnInit {
     }
 
     public tapCheck() {
-        this.service.taskCheck(this.data.id).subscribe({
+        this.service.taskCheck(this.data().id).subscribe({
             next: res => {
                 if (!res.data) {
                     return;
                 }
                 this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
-                this.data = res.data;
+                this.data.set(res.data);
                 this.toastrService.success(res.message);
                 this.toastrService.notify({
                     title: '提示',
                     content: res.message
                 });
                 this.progressor().stop();
-                if (this.data.amount < 1) {
+                if (this.data().amount < 1) {
                     history.back();
                 }
             },
