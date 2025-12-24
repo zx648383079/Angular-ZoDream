@@ -9,8 +9,8 @@
         <div class="filter-box">
             <div class="filter-item">
                 <ul>
-                    @for (item of categories; track $index) {
-                        <li [class]="{active: item.id == category}" (click)="tapCategory(item)">
+                    @for (item of categories(); track $index) {
+                        <li [class]="{active: item.id == category()}" (click)="tapCategory(item)">
                             {{ item.name }}
                         </li>
                     }
@@ -19,7 +19,7 @@
             <div class="filter-item">
                 <ul>
                     @for (item of sortItems; track $index) {
-                        <li [class]="{active: item.value == sort}" (click)="tapSort(item)">
+                        <li [class]="{active: item.value == sort()}" (click)="tapSort(item)">
                             {{ item.name }}
                         </li>
                     }
@@ -56,58 +56,58 @@
         </app-pull-to-refresh>
     </div>
     <div class="detail-box">
-        @if (!blog) {
+        @if (!data()) {
             <div class="detail-loading">
 
             </div>
         } @else {
             <div class="title">
-                <i class="iconfont icon-arrow-left" (click)="detailMode = false"></i>
-                <span>{{ blog.title }}</span>
+                <i class="iconfont icon-arrow-left" (click)="detailMode.set(false)"></i>
+                <span>{{ data().title }}</span>
             </div>
             <div class="detail-body">
                 <div class="info">
-                    @if (blog.user) {
-                        <a class="author" (click)="tapUser(blog.user)"><i class="iconfont icon-edit"></i><b>{{ blog.user.name }}</b></a>
+                    @if (data().user) {
+                        <a class="author" (click)="tapUser(data().user)"><i class="iconfont icon-edit"></i><b>{{ data().user.name }}</b></a>
                     }
-                    @if (blog.term) {
-                        <a class="category" (click)="tapCategory(blog.term)"><i class="iconfont icon-bookmark"></i><b>{{ blog.term.name }}</b></a>
+                    @if (data().term) {
+                        <a class="category" (click)="tapCategory(data().term)"><i class="iconfont icon-bookmark"></i><b>{{ data().term.name }}</b></a>
                     }
-                    @if (blog.programming_language) {
-                        <a class="language" (click)="tapLanguage(blog.programming_language)"><i
-                            class="iconfont icon-code"></i><b>{{ blog.programming_language }}</b></a>
+                    @if (data().programming_language) {
+                        <a class="language" (click)="tapLanguage(data().programming_language)"><i
+                            class="iconfont icon-code"></i><b>{{ data().programming_language }}</b></a>
                     }
                     
-                    <span class="time"><i class="iconfont icon-calendar-check"></i><b>{{ blog.created_at | ago }}</b></span>
+                    <span class="time"><i class="iconfont icon-calendar-check"></i><b>{{ data().created_at | ago }}</b></span>
                 </div>
                 <article id="content" class="content">
-                    @if (blog.audio_url) {
-                        <app-audio-player [src]="blog.audio_url" />
-                    } @else if (blog.video_url) {
-                        <app-video-player [src]="blog.video_url" />
+                    @if (data().audio_url) {
+                        <app-audio-player [src]="data().audio_url" />
+                    } @else if (data().video_url) {
+                        <app-video-player [src]="data().video_url" />
                     }
-                    <app-markdown-block [value]="content" />
-                    @if (blog.url) {
+                    <app-markdown-block [value]="content()" />
+                    @if (data().url) {
                         <p class="book-copyright">
                             <ng-container i18n>Please keep the original link for reprinting:</ng-container>
-                            <a [href]="blog.url" [title]="blog.title">{{ blog.url }}</a>
+                            <a [href]="data().url" [title]="data().title">{{ data().url }}</a>
                         </p>
                     }
                     
                   </article>
                   <div class="book-bottom">
-                        @if (blog.type == 1) {
+                        @if (data().type == 1) {
                         <div class="book-source">
                             <span i18n>Reprinted in:</span>
-                            <a [href]="blog.source_url"
+                            <a [href]="data().source_url"
                                 target="_blank" i18n-title title="This article is reprinted, click to view the original page">
-                                {{blog.source_url}} </a>
+                                {{data().source_url}} </a>
                         </div>
                         }
-                        @if (blog.tags) {
+                        @if (data().tags) {
                         <div class="book-tags">
                             <span i18n>Tags:</span>
-                            @for (tag of blog.tags; track $index) {
+                            @for (tag of data().tags; track $index) {
                                 <a (click)="tapTag(tag.name)">{{ tag.name }}</a>，
                             }
                        </div>
@@ -115,9 +115,9 @@
                         
                   </div>
                   <div class="tools">
-                      <span class="comment"><i class="iconfont icon-comments"></i><b>{{ blog.comment_count }}</b></span>
-                      <span class="click"><i class="iconfont icon-eye"></i><b>{{ blog.click_count }}</b></span>
-                      <span class="agree recommend-blog" (click)="tapRecommend()"><i class="iconfont icon-thumbs-up"></i><b>{{ blog.recommend_count }}</b></span>
+                      <span class="comment"><i class="iconfont icon-comments"></i><b>{{ data().comment_count }}</b></span>
+                      <span class="click"><i class="iconfont icon-eye"></i><b>{{ data().click_count }}</b></span>
+                      <span class="agree recommend-blog" (click)="tapRecommend()"><i class="iconfont icon-thumbs-up"></i><b>{{ data().recommend_count }}</b></span>
                   </div>
               </div>
         }

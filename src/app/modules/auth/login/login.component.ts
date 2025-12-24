@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private redirectUri: string;
     public isObserve = false;
 
-    public dataModel = signal({
+    public readonly dataModel = signal({
         email: '',
         password: '',
         code: '',
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         recovery_code: ''
     });
 
-    public dataForm = form(this.dataModel, schemaPath => {
+    public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.email, {message: 'Email is required'});
         required(schemaPath.password, {message: 'Password is required'});
         email(schemaPath.email, {message: 'Please enter a valid email address'});

@@ -1,46 +1,46 @@
 <div class="container">
-    @if (data) {
+    @if (data()) {
     <div class="space-container">
         <div class="space-image">
-            <img [src]="data.background|asset" alt="">
+            <img [src]="data().background|asset" alt="">
         </div>
         <div class="space-header">
             <div class="user-avatar">
-                <img [src]="data.avatar|asset" alt="">
+                <img [src]="data().avatar|asset" alt="">
             </div>
             <div class="user-info">
-                <div class="user-name">{{ data.name }}
-                    @if (data.is_verified) {
+                <div class="user-name">{{ data().name }}
+                    @if (data().is_verified) {
                     <i class="iconfont icon-shield" i18n-title title="This user is verified"></i>
                     }
                 </div>
-                <div class="user-meta">uid: {{ data.id }}</div>
+                <div class="user-meta">uid: {{ data().id }}</div>
             </div>
-            @if (!authUser || data.id != authUser.id) {
+            @if (!authUser() || data().id != authUser().id) {
             <div class="space-action-bar">
-                @if (data.follow_status < 1) {
+                @if (data().follow_status < 1) {
                 <a class="action-item" i18n-title title="Follow user" (click)="tapFollow()">
                     <i class="iconfont icon-star-o"></i>
                     <ng-container i18n>Follow</ng-container>
                 </a>
-                } @else if (data.follow_status == 1) {
+                } @else if (data().follow_status == 1) {
                 <a class="action-item active" i18n-title title="Followed, click to cancel follow user" (click)="tapFollow()">
                     <i class="iconfont icon-star"></i>
                     <ng-container i18n>Unfollow</ng-container>
                 </a>
-                } @else if (data.follow_status == 2) {
+                } @else if (data().follow_status == 2) {
                 <a class="action-item active" i18n-title title="Followed each other, click to cancel follow user" (click)="tapFollow()">
                     <i class="iconfont icon-exchange"></i>
                     <ng-container i18n>Unfollow</ng-container>
                 </a>
                 }
-                <a class="action-item" routerLink="../../user/message" [queryParams]="{user: data.id}">
+                <a class="action-item" routerLink="../../user/message" [queryParams]="{user: data().id}">
                     <i class="iconfont icon-commenting"></i>
                 </a>
                 <div class="action-item">
                     <i class="iconfont icon-ellipsis-h"></i>
                     <div class="action-drop-bar">
-                        @if (data.mark_status < 1) {
+                        @if (data().mark_status < 1) {
                         <a class="action-item" (click)="tapMark()">
                             <i class="iconfont icon-eye-slash"></i>
                             <span class="item-label" i18n>Marked user</span>
@@ -63,24 +63,24 @@
         <div class="space-body">
             <div class="line-icon-item">
                 <i class="iconfont icon-calendar"></i>
-                <span i18n>Joined {{ data.created_at | ago }}</span>
+                <span i18n>Joined {{ data().created_at | ago }}</span>
             </div>
             <div class="count-bar">
                 <div class="count-item">
-                    <div class="count">{{ data.following_count| numberFormat }}</div>
+                    <div class="count">{{ data().following_count| numberFormat }}</div>
                     <span i18n>Following</span>
                 </div>
                 <div class="count-item">
-                    <div class="count">{{ data.follower_count| numberFormat }}</div>
+                    <div class="count">{{ data().follower_count| numberFormat }}</div>
                     <span i18n>Followers</span>
                 </div>
                 <div class="count-item">
-                    <div class="count">{{ data.post_count| numberFormat }}</div>
+                    <div class="count">{{ data().post_count| numberFormat }}</div>
                     <span i18n>Posts</span>
                 </div>
             </div>
             <div class="remark-bar">
-                {{ data.remark }}
+                {{ data().remark }}
             </div>
         </div>
     </div>

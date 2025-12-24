@@ -2,8 +2,8 @@
     <app-page-tip>
         <ul>
             <li>权益卡购买记录列表</li>
-            @if (user) {
-                <li>会员：{{ user.name }}</li>
+            @if (user()) {
+                <li>会员：{{ user().name }}</li>
             }
             
         </ul>
@@ -60,7 +60,7 @@
         <div class="input-group-control">
             <label for="">权益卡</label>
             <div>
-                <ng-select [items]="cardItems" bindValue="id" bindLabel="name" [field]="editForm.card_id" placeholder="权益卡" />
+                <ng-select [items]="cardItems()" bindValue="id" bindLabel="name" [field]="editForm.card_id" placeholder="权益卡" />
             </div>
         </div>
         <div class="input-group-control">

@@ -9,7 +9,7 @@ import { ThemeService } from '../../../../theme/services';
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent {
     private readonly service = inject(BlogService);
     private readonly themeService = inject(ThemeService);
 
@@ -22,9 +22,6 @@ export class CategoryComponent implements OnInit {
         this.service.getCategories().subscribe(res => {
             this.items.set(res);
         });
-    }
-
-    ngOnInit() {
     }
 
 }

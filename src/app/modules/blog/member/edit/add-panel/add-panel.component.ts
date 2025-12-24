@@ -60,10 +60,10 @@ export class AddPanelComponent {
     }[] = [
         {name: $localize `Images`}
     ];
-    public mediaOpen = false;
+    public readonly mediaOpen = signal(false);
     public readonly isLoading = signal(false);
     private hasMore = false;
-    public mediaItems: IUploadFile[] = [];
+    public readonly mediaItems = signal<IUploadFile[]>([]);
     public readonly mediaQueries = form(signal({
         keywords: '',
         accept: '*/*',
@@ -73,7 +73,7 @@ export class AddPanelComponent {
 
     public tapTab(i: number) {
         this.tabIndex.set(i);
-        this.mediaOpen = false;
+        this.mediaOpen.set(false);
     }
 
 
@@ -82,12 +82,12 @@ export class AddPanelComponent {
     }
 
     public openMedia(item: any) {
-        this.mediaOpen = true;
+        this.mediaOpen.set(true);
         this.tapRefresh();
     }
 
     public tapMedia(item: IUploadFile) {
-        this.mediaOpen = false;
+        this.mediaOpen.set(false);
         this.command.emit({
             type: EditorBlockType.AddImage,
             value: item.url,
@@ -115,7 +115,9 @@ export class AddPanelComponent {
         this.uploadService.images.call(this.uploadService, queries).subscribe({
             next: res => {
                 this.isLoading.set(false);
-                this.mediaItems = page > 1 ? [].concat(this.mediaItems, res.data) : res.data;
+                this.mediaItems.update(v => {
+                    return page > 1 ? [].concat(v, res.data) : res.data
+                });
                 this.hasMore = res.paging.more;
                 this.mediaQueries().value.set(queries)
             }, 

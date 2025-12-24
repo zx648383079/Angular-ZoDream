@@ -9,7 +9,7 @@ import { ThemeService } from '../../../../theme/services';
     templateUrl: './archives.component.html',
     styleUrls: ['./archives.component.scss']
 })
-export class ArchivesComponent implements OnInit {
+export class ArchivesComponent {
     private readonly service = inject(BlogService);
     private readonly themeService = inject(ThemeService);
 
@@ -22,9 +22,6 @@ export class ArchivesComponent implements OnInit {
         this.service.getArchives().subscribe(res => {
             this.items.set(res);
         });
-    }
-
-    ngOnInit() {
     }
 
 }

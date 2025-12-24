@@ -12,8 +12,8 @@
     </div>
     <div class="group-body">
         @for (item of items; track $index;let i = $index) {
-            <div class="item" [class]="{active: selectedIndex == i}" (click)="selectedIndex = i">
-                <i class="iconfont" [class]="{'icon-square-o': selectedIndex != i, 'icon-check-square-o': selectedIndex == i}"></i>
+            <div class="item" [class]="{active: selectedIndex() == i}" (click)="selectedIndex.set(i)">
+                <i class="iconfont" [class]="{'icon-square-o': selectedIndex() != i, 'icon-check-square-o': selectedIndex() == i}"></i>
                 <span>{{ item }}</span>
             </div>
         }

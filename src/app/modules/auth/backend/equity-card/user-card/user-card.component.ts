@@ -28,24 +28,24 @@ export class UserCardComponent implements OnInit {
         page: 1,
         per_page: 20,
     }));
-    public user: IUser;
+    public readonly user = signal<IUser>(null);
     public readonly editForm = form(signal({
         card_id: 0,
         expired_at: '',
     }), schemaPath => {
         required(schemaPath.card_id);
     });
-    public cardItems: IEquityCard[] = [];
+    public readonly cardItems = signal<IEquityCard[]>([]);
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.user = {id: params.user} as any;
+            this.user.set({id: params.user} as any);
             this.service.user(params.user).subscribe(user => {
-                this.user = user;
+                this.user.set(user);
             });
         });
         this.service.cardSearch({}).subscribe(res => {
-            this.cardItems = res.data;
+            this.cardItems.set(res.data);
         });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
@@ -60,7 +60,7 @@ export class UserCardComponent implements OnInit {
             return v;
         });
         modal.open(() => {
-            this.service.userCardUpdate({...this.editForm().value(), user_id: this.user.id}).subscribe(_ => {
+            this.service.userCardUpdate({...this.editForm().value(), user_id: this.user().id}).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
@@ -89,7 +89,7 @@ export class UserCardComponent implements OnInit {
         }
         this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
-        this.service.userCardList({...queries, user: this.user.id}).subscribe({
+        this.service.userCardList({...queries, user: this.user().id}).subscribe({
             next: res => {
                 this.items.set(res.data);
                 this.hasMore = res.paging.more;

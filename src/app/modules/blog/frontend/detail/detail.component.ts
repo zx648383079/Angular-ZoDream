@@ -30,14 +30,13 @@ export class DetailComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
     private readonly searchService = inject(SearchService);
-    private ngZoon = inject(NgZone);
+    private readonly ngZoon = inject(NgZone);
 
 
-    public content = '';
-    public data: IBlog;
+    public readonly content = signal('');
+    public readonly data = signal<IBlog>(null);
     public readonly isLoading = signal(false);
-    public relationItems: IBlog[] = [];
-    public commentLoaded = false;
+    public readonly relationItems = signal<IBlog[]>([]);
     public readonly dataForm = form(signal({
         open_key: ''
     }));
@@ -61,7 +60,7 @@ export class DetailComponent implements OnInit {
     }
 
     loadBlog(id: number) {
-        if (this.data && this.data.id === id) {
+        if (this.data()?.id === id) {
             return;
         }
         this.isLoading.set(true);
@@ -72,12 +71,12 @@ export class DetailComponent implements OnInit {
         }).subscribe({
             next: res => {
                 this.isLoading.set(false);
-                this.data = res.detail;
-                this.themeService.titleChanged.next(this.data.seo_title || this.data.title);
-                this.relationItems = res.relation;
-                this.renderContent(this.data.content);
-                this.searchService.pushHistoryState(this.data.title,
-                    window.location.href.replace(/blog.*$/, 'blog/' + this.data.id.toString()));
+                this.data.set(res.detail);
+                this.themeService.titleChanged.next(res.detail.seo_title || res.detail.title);
+                this.relationItems.set(res.relation);
+                this.renderContent(res.detail.content);
+                this.searchService.pushHistoryState(res.detail.title,
+                    window.location.href.replace(/blog.*$/, 'blog/' + res.detail.id.toString()));
                 document.documentElement.scrollTop = 0;
             },
             error: err => {
@@ -88,28 +87,30 @@ export class DetailComponent implements OnInit {
     }
 
     public tapOpen() {
-        if (this.data.can_read) {
+        if (this.data().can_read) {
             return;
         }
-        if (this.data.open_type === 1) {
+        if (this.data().open_type === 1) {
             this.themeService.emitLogin(true);
             return;
         }
         const openKey = this.dataForm.open_key().value();
-        if (this.data.open_type === 5) {
+        if (this.data().open_type === 5) {
             if (emptyValidate(openKey)) {
                 this.toastrService.warning($localize `Please input password`);
                 return;
             }
         }
         this.service.openBody({
-            id: this.data.id,
+            id: this.data().id,
             open_key: openKey
         }).subscribe({
             next: res => {
-                this.data.can_read = res.can_read;
+                this.data.update(v => {
+                    return {...v, can_read: res.can_read};
+                });
                 this.renderContent(res.content);
-                if (this.data.open_type === 5) {
+                if (this.data().open_type === 5) {
                     localStorage.setItem(BLOG_OPEN_KEY, openKey);
                 }
             },
@@ -123,10 +124,11 @@ export class DetailComponent implements OnInit {
     }
 
     public tapRecommend() {
-        this.service.blogRecommend(this.data.id).subscribe({
+        this.service.blogRecommend(this.data().id).subscribe({
             next: res => {
-                this.data.recommend_count = res.recommend_count;
-                this.data.is_recommended = res.is_recommended;
+                this.data.update(v => {
+                    return {...v, recommend_count: res.recommend_count, is_recommended: res.is_recommended}
+                });
             }, 
             error: err => {
                 this.toastrService.warning(err);
@@ -136,6 +138,6 @@ export class DetailComponent implements OnInit {
 
     public renderContent(html: string) {
         const reg = new RegExp(`href="(${DEEPLINK_SCHEMA}://.+?)"`, 'g');
-        this.content = html.replace(reg, 'href="javascript:deeplinkOpen(\'$1\');"');
+        this.content.set(html.replace(reg, 'href="javascript:deeplinkOpen(\'$1\');"'));
     }
 }

@@ -19,7 +19,7 @@
             </div>
             <div class="col-md-5">
                 <div class="banner-inner-body">
-                    <img [src]="'assets/images/banner.jpg' | asset" alt="">
+                    <img ngSrc="assets/images/banner.jpg" alt="" fill priority>
                 </div>
             </div>
         </div>
@@ -43,10 +43,10 @@
                     }
                     <div class="item-body">
                         <div class="item-icon">
-                            <img [src]="item.thumb|asset" alt="">
+                            <img [ngSrc]="item.thumb" width="80" height="80" alt="">
                         </div>
                         <div class="item-cover">
-                            <img [src]="'assets/images/banner.jpg'|asset" alt="">
+                            <img ngSrc="assets/images/banner.jpg" alt="" fill>
                         </div>
                     </div>
                 </div>

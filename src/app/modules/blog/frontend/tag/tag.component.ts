@@ -15,7 +15,7 @@ export class TagComponent {
     private readonly themeService = inject(ThemeService);
 
 
-    public tagItems: ITag[] = [];
+    public readonly items = signal<ITag[]>([]);
     public readonly isLoading = signal(false);
 
     constructor() {
@@ -23,10 +23,10 @@ export class TagComponent {
         this.isLoading.set(true);
         this.service.getTags().subscribe({
             next: res => {
-                this.tagItems = res.map(item => {
+                this.items.set(res.map(item => {
                     item.style = 'font-size:' + (Math.sqrt(item.blog_count) + 12) + 'px';
                     return item;
-                });
+                }));
                 this.isLoading.set(false);
             },
             error: () => {

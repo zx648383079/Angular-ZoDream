@@ -1,32 +1,32 @@
-<div class="member-container" [class]="{container: diplayMode < 3, 'container-full': diplayMode >= 3}">
+<div class="member-container" [class]="{container: diplayMode() < 3, 'container-full': diplayMode() >= 3}">
     <div class="row">
-        <div class="col-md-3" [hidden]="diplayMode >= 1">
-            @if (user) {
-                 <div class="person-box" >
+        <div class="col-md-3" [hidden]="diplayMode() >= 1">
+            @if (user()) {
+            <div class="person-box" >
                 <div class="control-avatar">
-                    <img [src]="user.avatar|asset" [alt]="user.name">
+                    <img [ngSrc]="user().avatar" [alt]="user().name">
                 </div>
                 <div class="control-name">
-                    {{ user.name }}
-                    @if (user.is_verified) {
+                    {{ user().name }}
+                    @if (user().is_verified) {
                         <i class="iconfont icon-shield" i18n-title title="This user is verified"></i>
                     }
                     
                 </div>
-                <div class="control-meta">uid: {{ user.id }}</div>
+                <div class="control-meta">uid: {{ user().id }}</div>
                 <div class="control-desc"></div>
                 <a routerLink="account/profile" class="btn btn-primary" i18n>Edit Profile</a>
                 <div class="count-bar">
                     <div class="count-item">
-                        <div class="count">{{ user.following_count| numberFormat }}</div>
+                        <div class="count">{{ user().following_count| numberFormat }}</div>
                         <span i18n>Following</span>
                     </div>
                     <div class="count-item">
-                        <div class="count">{{ user.follower_count| numberFormat }}</div>
+                        <div class="count">{{ user().follower_count| numberFormat }}</div>
                         <span i18n>Followers</span>
                     </div>
                     <div class="count-item">
-                        <div class="count">{{ user.post_count| numberFormat }}</div>
+                        <div class="count">{{ user().post_count| numberFormat }}</div>
                         <span i18n>Posts</span>
                     </div>
                 </div>
@@ -34,38 +34,64 @@
                 <div class="link-panel tablet-collapse">
                     <a>
                         <i class="iconfont icon-map-marker"></i>
-                        {{ user.country }}
+                        {{ user().country }}
                     </a>
-                    @if (user.mobile) {
+                    @if (user().mobile) {
                     <a>
                         <i class="iconfont icon-mobile"></i>
-                        {{ user.mobile }}
+                        {{ user().mobile }}
                     </a>
                     }
                     
                     <a>
                         <i class="iconfont icon-mail"></i>
-                        {{ user.email }}
+                        {{ user().email }}
                     </a>
                 </div>
             </div>  
+            } @else {
+            <div class="person-box" >
+                <div class="control-avatar">
+                    <img ngSrc="assets/images/logo.png" width="160" height="160" alt="Login" priority>
+                </div>
+                <a class="control-name" routerLink="/auth" i18n>
+                    Hi, Guest
+                </a>
+                <div class="control-desc"></div>
+                <a routerLink="/auth" class="btn btn-primary" i18n>Login</a>
+                <div class="count-bar">
+                    <div class="count-item">
+                        <div class="count">0</div>
+                        <span i18n>Following</span>
+                    </div>
+                    <div class="count-item">
+                        <div class="count">0</div>
+                        <span i18n>Followers</span>
+                    </div>
+                    <div class="count-item">
+                        <div class="count">0</div>
+                        <span i18n>Posts</span>
+                    </div>
+                </div>
+            </div> 
             }
            
         </div>
-        <div class="col-12" [class]="{'col-md-9': diplayMode < 1}">
-            <div class="tab-nav-bar" [class]="{'nav-more-open': moreVisible}">
-                <div class="tab-bar" (click)="moreVisible = false">
-                    @for (item of tabItems; track $index) {
+        <div class="col-12" [class]="{'col-md-9': diplayMode() < 1}">
+            @if (user()) {
+            <div class="tab-nav-bar" [class]="{'nav-more-open': moreVisible()}">
+                <div class="tab-bar" (click)="moreVisible.set(false)">
+                    @for (item of tabItems(); track $index) {
                         <a class="item" [routerLink]="item.url" [class]="{active: item.active}">{{ item.name }}</a>
                     }
                 </div>
-                @if (moreItems && moreItems.length > 0) {
+                @if (moreItems().length > 0) {
                 <div class="nav-more-bar">
-                    <div class="more-icon" (click)="moreVisible = !moreVisible">
+                    <div class="more-icon" (click)="toggelMore()">
                         <i class="iconfont icon-ellipsis-v"></i>
                     </div>
-                    <div class="more-pane" (click)="moreVisible = false">
-                        @for (item of moreItems; track $index) {
+                    <div class="more-pane" (click)="moreVisible.set(false)">
+                        @for (item of moreItems(); track $index) {
                             <a class="item" [routerLink]="item.url" [class]="{active: item.active}">
                                 <i class="iconfont" [class]="item.icon"></i>
                                 <span>{{ item.name }}</span>
@@ -76,14 +102,15 @@
                 }
                 
             </div>
+            }
             <div class="tab-nav-body">
                 <router-outlet />
             </div>
         </div>
     </div>
 </div>
-@if (moreVisible) {
-    <div class="tablet-mask tablet-visible" (click)="moreVisible = false"></div>
+@if (moreVisible()) {
+    <div class="tablet-mask tablet-visible" (click)="moreVisible.set(false)"></div>
 }
 
 

@@ -43,12 +43,12 @@
             
         </div>
     </div>
-    <div class="editor-panel-popup" [hidden]="!mediaOpen" appInfiniteScroll (scrollEnd)="tapMore()">
+    <div class="editor-panel-popup" [hidden]="!mediaOpen()" appInfiniteScroll (scrollEnd)="tapMore()">
         <div class="search-input">
             <input type="text" [field]="mediaQueries.keywords">
             <i class="iconfont icon-search"></i>
         </div>
-        @for (item of mediaItems; track $index) {
+        @for (item of mediaItems(); track $index) {
             <div class="image-option-item" [title]="item.title" (click)="tapMedia(item)">
                 <img [src]="item.url | asset" [alt]="item.title">
             </div>

@@ -1,13 +1,13 @@
 <div class="container">
-    @if (data) {
+    @if (data()) {
     <div class="agreement-box">
         <div class="update-date">
             <ng-container i18n>Published on:</ng-container>
-            <span class="date-value">{{ data.created_at }}</span>
+            <span class="date-value">{{ data().created_at }}</span>
         </div>
         <div class="update-date">
             <ng-container i18n>Effective Date:</ng-container>
-            <span class="date-value">{{ data.updated_at }}</span>
+            <span class="date-value">{{ data().updated_at }}</span>
         </div>
 
         <div class="print-bar">
@@ -17,17 +17,17 @@
             </div>
         </div>
 
-        <div class="title" id="top">{{ data.title }}</div>
+        <div class="title" id="top">{{ data().title }}</div>
 
         <div class="row">
             <div class="col-md-12">
-                {{ data.description }}
+                {{ data().description }}
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3" [hidden]="!navVisible">
+            <div class="col-md-3" [hidden]="!navVisible()">
                 <ul class="nav-list">
-                    @for (item of data.content; track $index) {
+                    @for (item of data().content; track $index) {
                     <li>
                         <a (click)="tapScrollTo(item)">{{ item.title }}</a>
                     </li>
@@ -36,7 +36,7 @@
                 </ul>
             </div>
             <div class="col-12" [class]="{'col-md-9': navVisible}">
-                @for (group of data.content; track group.name) {
+                @for (group of data().content; track group.name) {
                 <div class="nav-panel" [id]="group.name">
                     <div class="nav-header" >
                         {{ group.title }}
@@ -51,7 +51,7 @@
                 }
                 
 
-                <a class="goto-top" (click)="tapToTop()" i18n-title title="Back to Top" [hidden]="!navVisible">
+                <a class="goto-top" (click)="tapToTop()" i18n-title title="Back to Top" [hidden]="!navVisible()">
                     <i class="iconfont icon-arrow-up"></i>
                     <ng-container i18n>Back to Top</ng-container>
                 </a>

@@ -1,30 +1,30 @@
 <form class="form-icon-control login-form" (submit)="tapSubmit($event)">
-    <div class="input-group-control" [class.error]="findForm.email().touched() && findForm.email().invalid()">
-        <input type="email" [field]="findForm.email" i18n-placeholder placeholder="Please input your email" >
+    <div class="input-group-control" [class.error]="dataForm.email().touched() && dataForm.email().invalid()">
+        <input type="email" [field]="dataForm.email" i18n-placeholder placeholder="Please input your email" >
         <i class="iconfont icon-at" aria-hidden="true"></i>
     </div>
-    @if (sended) {
-        <div class="input-group-control" [class.error]="findForm.code().touched() && findForm.code().invalid()">
-            <input type="text" [field]="findForm.code" i18n-placeholder placeholder="Please input the security code" >
+    @if (sended()) {
+        <div class="input-group-control" [class.error]="dataForm.code().touched() && dataForm.code().invalid()">
+            <input type="text" [field]="dataForm.code" i18n-placeholder placeholder="Please input the security code" >
             <i class="iconfont icon-shield" aria-hidden="true"></i>
         </div>
-        <div class="input-group-control" [class.error]="findForm.password().touched() && findForm.password().invalid()">
+        <div class="input-group-control" [class.error]="dataForm.password().touched() && dataForm.password().invalid()">
             <input type="password" i18n-placeholder placeholder="Please input the password" 
-            [field]="findForm.password">
+            [field]="dataForm.password">
             <i class="iconfont icon-lock" aria-hidden="true"></i>
         </div>
         <div class="input-tip">
-            <app-password-strong [value]="findForm.password().value()" />
+            <app-password-strong [value]="dataForm.password().value()" />
         </div>
-        <div class="input-group-control" [class.error]="findForm.confirm_password().touched() && findForm.confirm_password().invalid()">
+        <div class="input-group-control" [class.error]="dataForm.confirm_password().touched() && dataForm.confirm_password().invalid()">
             <input type="password" i18n-placeholder placeholder="Please confirm your password" 
-             [field]="findForm.confirm_password">
+             [field]="dataForm.confirm_password">
             <i class="iconfont icon-check" aria-hidden="true"></i>
         </div>
     }
 
 
-    <button type="submit" class="btn btn-full" [disabled]="findForm().invalid()">{{ btnLabel }}</button>
+    <button type="submit" class="btn btn-full" [disabled]="dataForm().invalid()">{{ btnLabel() }}</button>
     <div class="other-box">
         <a routerLink="../" i18n>Back</a>
     </div>

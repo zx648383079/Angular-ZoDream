@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../components/dialog';
 import { IErrorResult } from '../../theme/models/page';
@@ -20,14 +20,14 @@ export class AgreementComponent implements OnInit {
     private readonly themeService = inject(ThemeService);
 
 
-    public data: IAgreement;
-    public navVisible = true;
+    public readonly data = signal<IAgreement>(null);
+    public readonly navVisible = signal(true);
 
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.service.agreement(params.name || 'agreement').subscribe({
                 next: res => {
-                    this.data = res;
+                    this.data.set(res);
                     this.themeService.titleChanged.next(res.title);
                 }, 
                 error: (err: IErrorResult) => {
@@ -45,12 +45,12 @@ export class AgreementComponent implements OnInit {
     }
 
     public tapPrint() {
-        this.navVisible = false;
+        this.navVisible.set(false);
         this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Collapse);
         setTimeout(() => {
             window.print();
             this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
-            this.navVisible = true;
+            this.navVisible.set(true);
         }, 100);
     }
 

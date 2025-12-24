@@ -3,6 +3,9 @@ import { IStatisticsItem } from '../../../theme/models/seo';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 import { openLink } from '../../../theme/utils/deeplink';
+import { AppState } from '../../../theme/interfaces';
+import { Store } from '@ngrx/store';
+import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
 
 @Component({
     standalone: false,
@@ -10,15 +13,26 @@ import { openLink } from '../../../theme/utils/deeplink';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
+    private readonly store = inject<Store<AppState>>(Store);
     private readonly service = inject(UserService);
     private readonly router = inject(Router);
 
 
     public readonly items = signal<IStatisticsItem[]>([]);
-    public readonly isLoading = signal(true);
+    public readonly isLoading = signal(false);
 
-    ngOnInit() {
+    constructor() {
+        this.store.select(selectAuthUser).subscribe(user => {
+            if (!user) {
+                return;
+            }
+            this.loadStatistics();
+        });
+    }
+
+    private loadStatistics() {
+        this.isLoading.set(true);
         this.service.statistics().subscribe({
             next: res => {
                 this.items.set(res.data);
@@ -29,7 +43,6 @@ export class HomeComponent implements OnInit {
             }
         });
     }
-
 
     public tapItem(item: any) {
         if (!item.url) {

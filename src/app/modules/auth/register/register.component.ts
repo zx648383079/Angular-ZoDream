@@ -34,7 +34,7 @@ export class RegisterComponent implements OnDestroy {
     public isObserve = false;
     public openStatus = 0;
 
-    public dataModel = signal({
+    public readonly dataModel = signal({
         name: '',
         email: '',
         password: '',
@@ -42,7 +42,7 @@ export class RegisterComponent implements OnDestroy {
         invite_code: '',
         agree: false
     });
-    public dataForm = form(this.dataModel, schemaPath => {
+    public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name, {message: 'Name is required'});
         required(schemaPath.email, {message: 'Email is required'});
         email(schemaPath.email, {message: 'Please enter a valid email address'});

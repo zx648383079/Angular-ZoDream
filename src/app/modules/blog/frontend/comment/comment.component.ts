@@ -30,11 +30,10 @@ export class CommentComponent {
     private readonly store = inject<Store<AppState>>(Store);
 
 
-    public readonly itemId = input(0);
-    public readonly init = input(false);
+    public readonly itemId = input.required<number>();
     public readonly status = input(0);
 
-    public hotItems: IComment[] = [];
+    public readonly hotItems = signal<IComment[]>([]);
     public readonly items = signal<IComment[]>([]);
     public readonly hasMore = signal(true);
     public readonly isLoading = signal(false);
@@ -47,7 +46,7 @@ export class CommentComponent {
         order: 'desc',
     }));
     private booted = 0;
-    public user: IUser;
+    public readonly user = signal<IUser>(null);
 
     public readonly commentForm = form(signal({
         content: '',
@@ -62,11 +61,11 @@ export class CommentComponent {
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
-            this.user = user;
+            this.user.set(user);
         });
         this.loadGuestUser();
         effect(() => {
-            if (this.init() && this.itemId() > 0 && this.booted !== this.itemId()) {
+            if (this.itemId() > 0 && this.booted !== this.itemId()) {
                 this.boot();
             }
         });
@@ -82,7 +81,7 @@ export class CommentComponent {
             is_hot: true,
             per_page: 5,
         }).subscribe(res => {
-            this.hotItems = res.data;
+            this.hotItems.set(res.data);
         });
         this.tapRefresh();
     }

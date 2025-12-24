@@ -21,18 +21,18 @@ export class MemberSpaceComponent implements OnInit {
 
 
     public readonly isLoading = signal(false);
-    public data: IUserStatus;
-    public authUser: IUser;
+    public readonly data = signal<IUserStatus>(null);
+    public readonly authUser = signal<IUser>(null);
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
-            this.authUser = user;
+            this.authUser.set(user);
         });
     }
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.data = {id: params.user} as any;
+            this.data.set({id: params.user} as any);
             this.tapRefresh();
         });
     }
@@ -40,10 +40,10 @@ export class MemberSpaceComponent implements OnInit {
     public tapRefresh() {
         this.isLoading.set(true);
         this.service.user({
-            user: this.data.id
+            user: this.data().id
         }).subscribe({
             next: res => {
-                this.data = res;
+                this.data.set(res);
                 this.isLoading.set(false);
             },
             error: err => {
@@ -55,12 +55,15 @@ export class MemberSpaceComponent implements OnInit {
     }
 
     public tapFollow() {
-        this.service.toggleFollow(this.data.id).subscribe({
+        this.service.toggleFollow(this.data().id).subscribe({
             next: res => {
-                this.data.follow_status = res.data;
-                if (res.data > 0) {
-                    this.data.mark_status = 0;
-                }
+                this.data.update(v => {
+                    v.follow_status = res.data;
+                    if (res.data > 0) {
+                        v.mark_status = 0;
+                    }
+                    return {...v}
+                });
             },
             error: err => {
                 this.toastrService.error(err.error);
@@ -74,7 +77,7 @@ export class MemberSpaceComponent implements OnInit {
                 return false;
             }
             this.service.report({
-                user: this.data.id,
+                user: this.data().id,
                 reason: data.remark
             }).subscribe({
                 next: _ => {
@@ -88,12 +91,15 @@ export class MemberSpaceComponent implements OnInit {
     }
 
     public tapMark() {
-        this.service.toggleMark(this.data.id).subscribe({
+        this.service.toggleMark(this.data().id).subscribe({
             next: res => {
-                this.data.mark_status = res.data;
-                if (res.data > 0) {
-                    this.data.follow_status = 0;
-                }
+                this.data.update(v => {
+                    v.mark_status = res.data;
+                    if (res.data > 0) {
+                        v.follow_status = 0;
+                    }
+                    return {...v}
+                });
             },
             error: err => {
                 this.toastrService.error(err.error);

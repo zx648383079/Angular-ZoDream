@@ -25,8 +25,7 @@ const routes: Routes = [
                 component: HomeComponent,
             },
             {
-                path: 'user', 
-                canActivate: [CanActivateViaAuthGuard],
+                path: 'user',
                 loadChildren: () => import('./user/user.module').then(m => m.UserModule) 
             },
             { path: 'blog', loadChildren: () => import('../modules/blog/frontend/blog.module').then(m => m.BlogModule) },

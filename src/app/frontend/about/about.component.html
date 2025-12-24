@@ -18,7 +18,7 @@
         <div class="col-md-4">
             <div class="person-box">
                 <div class="avatar">
-                    <img [src]="developer().avatar|asset" [alt]="developer().name">
+                    <img [ngSrc]="developer().avatar" width="160" height="160" [alt]="developer().name">
                 </div>
                 <div class="name">{{ developer().name }}</div>
                 <div class="desc">{{ developer().description }}</div>

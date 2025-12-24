@@ -26,7 +26,7 @@ export class AuthorDetailComponent implements OnInit {
         avatar: '',
         description: '',
     });
-    public dataForm = form(this.dataModel, schemaPath => {
+    public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name);
     });
 

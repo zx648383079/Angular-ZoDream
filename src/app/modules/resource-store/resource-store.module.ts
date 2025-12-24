@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { resourceStoreRoutedComponents, ResourceStoreRoutingModule } from './resource-routing.module';
 import { ThemeModule } from '../../theme/theme.module';
 import { ZreFormModule } from '../../components/form';
@@ -15,6 +15,7 @@ import { Field } from '@angular/forms/signals';
         CommonModule,
         ThemeModule,
         Field,
+        NgOptimizedImage,
         DesktopModule,
         ZreFormModule,
         ZreEditorModule,

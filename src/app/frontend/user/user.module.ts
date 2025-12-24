@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { userRoutedComponents, UserRoutingModule } from './user-routing.module';
 import { ThemeModule } from '../../theme/theme.module';
 import { UserService } from './user.service';
@@ -13,16 +13,17 @@ import { Field } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
-        CommonModule,
-        ThemeModule,
-        Field,
-        ZreFormModule,
-        LinkRuleModule,
-        DesktopModule,
-        DialogModule,
-        MessageContainerModule,
-        UserRoutingModule
-    ],
+    CommonModule,
+    ThemeModule,
+    Field,
+    ZreFormModule,
+    LinkRuleModule,
+    DesktopModule,
+    DialogModule,
+    MessageContainerModule,
+    UserRoutingModule,
+    NgOptimizedImage
+],
     declarations: [...userRoutedComponents],
     providers: [
         UserService,

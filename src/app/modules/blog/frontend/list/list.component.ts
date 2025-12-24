@@ -50,8 +50,8 @@ export class ListComponent implements OnInit, OnDestroy {
             value: 'best',
         }
     ];
-    public category: ICategory;
-    public header = '';
+    public readonly category = signal<ICategory>(null);
+    public readonly header = signal('');
     public readonly items = signal<IBlog[]>([]);
     private hasMore = true;
     public readonly isLoading = signal(false);
@@ -88,8 +88,8 @@ export class ListComponent implements OnInit, OnDestroy {
                 return;
             }
             res.categories.forEach(item => {
-                if (item.id === this.category.id) {
-                    this.category = item;
+                if (item.id === this.category().id) {
+                    this.category.set(item);
                 }
             });
         });
@@ -110,7 +110,7 @@ export class ListComponent implements OnInit, OnDestroy {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             const tag = this.queries.tag().value();
             if (tag) {
-                this.header = tag;
+                this.header.set(tag);
             }
             this.tapRefresh();
         });
@@ -170,13 +170,13 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     public tapCategory(item: ICategory) {
-        this.category = item;
+        this.category.set(item);
         this.queries.category().value.set(item.id);
         this.tapRefresh();
     }
 
     public tapLanguage(item: string) {
-        this.header = item;
+        this.header.set(item);
         this.queries.programming_language().value.set(item);
         this.tapRefresh();
     }

@@ -33,10 +33,10 @@
         </div>
     </div>
     <div class="btn-group mt-30">
-        @if (activatedAt > 0) {
-            <app-countdown class="btn btn-danger disabled" [end]="activatedAt" [auto]="true" label="Next Change:" (finished)="activatedAt = 0" />
+        @if (activatedAt() > 0) {
+            <app-countdown class="btn btn-danger disabled" [end]="activatedAt()" [auto]="true" label="Next Change:" (finished)="activatedAt.set(0)" />
         } @else {
-            <app-action-button class="btn btn-danger" [disabled]="selectedItems.length == 0" (tapped)="tapSubmit($event)" i18n>Save Zone</app-action-button>
+            <app-action-button class="btn btn-danger" [disabled]="selectedItems().length == 0" (tapped)="tapSubmit($event)" i18n>Save Zone</app-action-button>
         }
     </div>
 </div>

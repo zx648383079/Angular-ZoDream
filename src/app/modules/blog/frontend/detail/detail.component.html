@@ -1,45 +1,45 @@
 <div class="container">
-    <app-loading-tip [loading]="isLoading()" [visible]="!data || isLoading()" />
-    @if (data) {
+    <app-loading-tip [loading]="isLoading()" [visible]="!data() || isLoading()" />
+    @if (data()) {
     <div>
         <div class="book-title">
-            {{ data.title }}
+            {{ data().title }}
         </div>
         <div class="panel-sort-container">
             <div class="info">
-                @if (data.languages && data.languages.length > 1) {
+                @if (data().languages && data().languages.length > 1) {
                 <div class="language-toggle">
-                    @for (item of data.languages; track $index) {
-                        <a (click)="loadBlog(item.id)" [class]="{active: item.id === data.id}">{{ item.name }}</a>
+                    @for (item of data().languages; track $index) {
+                        <a (click)="loadBlog(item.id)" [class]="{active: item.id === data().id}">{{ item.name }}</a>
                     }
                 </div>
                 }
-                @if (data.user) {
-                    <a class="author" routerLink="../" [queryParams]="{user: data.user.id}"><i
-                        class="iconfont icon-edit"></i><b>{{ data.user.name }}</b></a>
+                @if (data().user) {
+                    <a class="author" routerLink="../" [queryParams]="{user: data().user.id}"><i
+                        class="iconfont icon-edit"></i><b>{{ data().user.name }}</b></a>
                 }
-                @if (data.term) {
-                    <a class="category" routerLink="../" [queryParams]="{category: data.term.id}"><i
-                        class="iconfont icon-bookmark"></i><b>{{ data.term.name }}</b></a>
+                @if (data().term) {
+                    <a class="category" routerLink="../" [queryParams]="{category: data().term.id}"><i
+                        class="iconfont icon-bookmark"></i><b>{{ data().term.name }}</b></a>
                 }
-                @if (data.programming_language) {
+                @if (data().programming_language) {
                     <a class="language" routerLink="../"
-                    [queryParams]="{programming_language: data.programming_language}"><i
-                        class="iconfont icon-code"></i><b>{{ data.programming_language }}</b></a>
+                    [queryParams]="{programming_language: data().programming_language}"><i
+                        class="iconfont icon-code"></i><b>{{ data().programming_language }}</b></a>
                 }
                 
-                <span class="time"><i class="iconfont icon-calendar-check"></i><b>{{ data.created_at | ago }}</b></span>
+                <span class="time"><i class="iconfont icon-calendar-check"></i><b>{{ data().created_at | ago }}</b></span>
             </div>
             <article id="content" class="content">
-                @if (data.video_url) {
-                     <app-video-player [src]="data.video_url" />
-                } @else if (data.audio_url) {
-                    <app-audio-player [src]="data.audio_url" />
+                @if (data().video_url) {
+                     <app-video-player [src]="data().video_url" />
+                } @else if (data().audio_url) {
+                    <app-audio-player [src]="data().audio_url" />
                 }
-                <app-markdown-block [value]="content" />
+                <app-markdown-block [value]="content()" />
 
-                @if (!data.can_read) {
-                    @switch (data.open_type) {
+                @if (!data().can_read) {
+                    @switch (data().open_type) {
                         @case (1) {
                             <div class="rule-box rule-login">
                                 <div class="rule-tip">
@@ -64,7 +64,7 @@
                         @case (6) {
                             <div class="rule-box rule-buy">
                                 <div class="rule-header">
-                                    <ng-container i18n>Articles must be pay</ng-container><b i18n>{{ data.open_rule }} Coins</b><ng-container i18n>to continue reading</ng-container>
+                                    <ng-container i18n>Articles must be pay</ng-container><b i18n>{{ data().open_rule }} Coins</b><ng-container i18n>to continue reading</ng-container>
                                 </div>
                                 <button class="btn btn-danger" (click)="tapOpen()" i18n>Confirm purchase</button>
                             </div>
@@ -75,26 +75,26 @@
                     
                 }
                 
-                @if (data.url) {
+                @if (data().url) {
                 <p class="book-copyright">
                     <ng-container i18n>Please keep the original link for reprinting:</ng-container>
-                    <a [href]="data.url" [title]="data.title">{{ data.url }}</a>
+                    <a [href]="data().url" [title]="data().title">{{ data().url }}</a>
                 </p>
                 }
                 
             </article>
             <div class="book-bottom">
-                @if (data.type == 1) {
+                @if (data().type == 1) {
                     <div class="book-source">
                         <span i18n>Reprinted in:</span>
-                        <a [href]="data.source_url" target="_blank" i18n-title title="This article is reprinted, click to view the original page">
-                            {{data.source_url}} </a>
+                        <a [href]="data().source_url" target="_blank" i18n-title title="This article is reprinted, click to view the original page">
+                            {{data().source_url}} </a>
                     </div>
                 }
-                @if (data.tags) {
+                @if (data().tags) {
                     <div class="book-tags">
                         <span i18n>Tags:</span>
-                        @for (tag of data.tags; track $index; let f = $first) {
+                        @for (tag of data().tags; track $index; let f = $first) {
                             @if (!f) {
                                 , 
                             }
@@ -105,41 +105,41 @@
                 
             </div>
             <div class="tools">
-                <span class="comment"><i class="iconfont icon-comments"></i><b>{{ data.comment_count }}</b></span>
-                <span class="click"><i class="iconfont icon-eye"></i><b>{{ data.click_count }}</b></span>
-                <span class="agree recommend-blog" [class]="{active: data.is_recommended}" (click)="tapRecommend()" i18n-title title="Your support is the author's motivation to create"><i
-                        class="iconfont icon-thumbs-up"></i><b>{{ data.recommend_count }}</b></span>
+                <span class="comment"><i class="iconfont icon-comments"></i><b>{{ data().comment_count }}</b></span>
+                <span class="click"><i class="iconfont icon-eye"></i><b>{{ data().click_count }}</b></span>
+                <span class="agree recommend-blog" [class]="{active: data().is_recommended}" (click)="tapRecommend()" i18n-title title="Your support is the author's motivation to create"><i
+                        class="iconfont icon-thumbs-up"></i><b>{{ data().recommend_count }}</b></span>
             </div>
         </div>
 
         <div class="book-navigation">
-            @if (data.previous) {
-                <a class="prev" (click)="loadBlog(data.previous.id)" i18n-title [title]="'Previous: ' + data.previous.title">
+            @if (data().previous) {
+                <a class="prev" (click)="loadBlog(data().previous.id)" i18n-title [title]="'Previous: ' + data().previous.title">
                     <i class="iconfont icon-chevron-left"></i>
                     <div class="prev-text">
                         <span class="prev-label" i18n>Previous</span>
-                        <span class="prev-title">{{ data.previous.title }}</span>
+                        <span class="prev-title">{{ data().previous.title }}</span>
                     </div>
                 </a>
             }
-            @if (data.next) {
-                <a class="next" (click)="loadBlog(data.next.id)" i18n-title [title]="'Next: ' + data.next.title">
+            @if (data().next) {
+                <a class="next" (click)="loadBlog(data().next.id)" i18n-title [title]="'Next: ' + data().next.title">
                     <div class="next-text">
                         <span class="next-label" i18n>Next</span>
-                        <span class="next-title">{{ data.next.title }}</span>
+                        <span class="next-title">{{ data().next.title }}</span>
                     </div>
                     <i class="iconfont icon-chevron-right"></i>
                 </a>
             }
             
         </div>
-        @if (relationItems && relationItems.length > 0) {
+        @if (relationItems().length > 0) {
             <div class="panel">
                 <div class="panel-header">
                     <a routerLink="../" i18n>Related Articles</a>
                 </div>
                 <div class="panel-body">
-                    @for (item of relationItems; track $index) {
+                    @for (item of relationItems(); track $index) {
                         <div class="article-list-item" (click)="loadBlog(item.id)">
                             <div class="item-body">
                                 <a class="item-title">{{ item.title }}</a>
@@ -153,9 +153,13 @@
         }
         
 
-        @if (data.comment_status > 0) {
-            <div class="template-lazy" appLazyLoad (lazyLoading)="commentLoaded = true">
-                <app-comment [itemId]="data.id" [init]="commentLoaded" [status]="data.comment_status" />
+        @if (data().comment_status > 0) {
+            <div aria-live="polite" aria-atomic="true">
+                @defer (on viewport) {
+                    <app-comment [itemId]="data().id" [status]="data().comment_status" />
+                } @placeholder {
+                    <p>Loading ...</p>
+                }
             </div>
         }
         

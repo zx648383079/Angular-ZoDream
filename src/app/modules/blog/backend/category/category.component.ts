@@ -9,7 +9,7 @@ import { BlogService } from '../blog.service';
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent {
     private readonly service = inject(BlogService);
     private readonly toastrService = inject(DialogService);
 
@@ -20,8 +20,6 @@ export class CategoryComponent implements OnInit {
     constructor() {
         this.tapRefresh();
     }
-
-    ngOnInit() {}
 
     /**
      * tapRefresh

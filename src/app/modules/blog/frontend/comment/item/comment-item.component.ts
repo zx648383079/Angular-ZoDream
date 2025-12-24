@@ -39,7 +39,7 @@ export class CommentItemComponent {
         order: 'asc',
     }));
 
-    public expanded = false;
+    public readonly expanded = signal(false);
     public readonly editForm = form(signal({
         content: '',
         parent_id: 0,
@@ -72,7 +72,7 @@ export class CommentItemComponent {
     }
 
     public toggleExpand() {
-        this.expanded = !this.expanded;
+        this.expanded.update(v => !v);
     }
 
     public tapBlock(item: IBlockItem) {

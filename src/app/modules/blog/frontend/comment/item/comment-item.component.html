@@ -9,7 +9,7 @@
             <app-rule-block [value]="value().content" [rules]="value().extra_rule" (tapped)="tapBlock($event)" />
         </div>
         @if (value().reply_count && value().reply_count > 0) {
-            @if (expanded) {
+            @if (expanded()) {
                 <span class="expand-icon" (click)="toggleExpand()" i18n>Fold</span>
             } @else {
                 <span class="expand-icon" (click)="toggleExpand()" i18n>Expand({{ value().reply_count }})</span>
@@ -24,7 +24,7 @@
             <span class="disagree-icon" (click)="tapDisagree(value())"><i class="iconfont icon-thumbs-down"></i><b>{{ value().disagree_count }}</b></span>
         </div>
     </div>
-    @if (expanded || editForm.parent_id().value() > 0) {
+    @if (expanded() || editForm.parent_id().value() > 0) {
     <div class="item-children">
         @for (it of value().replies; track $index) {
         <div class="comment-item" [id]="'comment-' + it.id">

@@ -2,7 +2,7 @@
     @if (commentForm.parent_id().value() < 1) {
     <div class="book-comment-form">
         <div class="title" i18n>Post a comment</div>
-        @if (status() != 2 && !user) {
+        @if (status() != 2 && !user()) {
         <div class="form-table-control">
             <div class="form-group">
                 <label i18n>Nickname</label>
@@ -19,13 +19,13 @@
         </div>
         }
         
-        @if (status() == 2 && !user) {
+        @if (status() == 2 && !user()) {
             <div class="comment-mask" i18n>
                 Please 
                 <a (click)="tapLogin()">login in</a>
                 first.
             </div>
-        } @else if (user) {
+        } @else if (user()) {
             <textarea class="form-control" [field]="commentForm.content" i18n-placeholder placeholder="Please input content"></textarea>
         }
         
@@ -33,14 +33,14 @@
     </div>
     }
     
-    @if (hotItems.length > 0) {
+    @if (hotItems().length > 0) {
     <div class="book-comments hot-comments">
         <div class="title" i18n>
             Hot comments
         </div>
         <div id="comment-box">
-            @for (item of hotItems; track $index) {
-                <app-comment-item [value]="item" [user]="user" />
+            @for (item of hotItems(); track $index) {
+                <app-comment-item [value]="item" [user]="user()" />
             }
         </div>
     </div>
@@ -58,7 +58,7 @@
         <div id="comment-box">
             <app-pull-to-refresh [more]="hasMore()" [loading]="isLoading()" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
                 @for (item of items(); track $index) {
-                    <app-comment-item [value]="item" [user]="user" [status]="status()" [guestUser]="guestForm().value()" (commenting)="onReply($event)" />
+                    <app-comment-item [value]="item" [user]="user()" [status]="status()" [guestUser]="guestForm().value()" (commenting)="onReply($event)" />
                 }
             </app-pull-to-refresh>
         </div>

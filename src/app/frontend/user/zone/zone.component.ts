@@ -20,7 +20,7 @@ export class ZoneComponent implements OnInit {
 
     public readonly selectedItems = signal<IUserZone[]>([]);
     public readonly items = signal<IUserZone[]>([]);
-    public activatedAt = 0;
+    public readonly activatedAt = signal(0);
 
     constructor() {
         this.themeService.titleChanged.next($localize `Zone Selection`);
@@ -30,7 +30,7 @@ export class ZoneComponent implements OnInit {
         this.service.zoneList().subscribe(res => {
             this.items.set(res.data);
             this.selectedItems.set(res.selected);
-            this.activatedAt = res.activated_at;
+            this.activatedAt.set(res.activated_at);
         });
     }
 
@@ -48,14 +48,14 @@ export class ZoneComponent implements OnInit {
     }
 
     public tapSelect(item: IUserZone) {
-        if (this.activatedAt > 0) {
+        if (this.activatedAt() > 0) {
             return;
         }
         this.selectedItems.set([item]);
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (this.selectedItems.length === 0 || this.activatedAt > 0) {
+        if (this.selectedItems().length === 0 || this.activatedAt() > 0) {
             return;
         }
         e?.enter();

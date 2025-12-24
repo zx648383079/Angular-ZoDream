@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, signal } from '@angular/core';
 import { MemberService } from '../member.service';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -24,7 +24,7 @@ export class CancelAccountComponent implements AfterViewInit {
         $localize `Security/Privacy Concerns`,
         $localize `It's a redundant account`,
     ];
-    public selectedIndex = 0;
+    public readonly selectedIndex = signal(0);
 
     ngAfterViewInit(): void {
         this.toastrService.confirm({
@@ -46,7 +46,7 @@ export class CancelAccountComponent implements AfterViewInit {
         this.toastrService.confirm($localize `Confirming account cancellation? You can't log in again after submitting!`, () => {
             e?.enter();
             this.service.cancelAccount({
-                reason: this.items[this.selectedIndex],
+                reason: this.items[this.selectedIndex()],
             }).subscribe({
                 next: _ => {
                     e?.reset();

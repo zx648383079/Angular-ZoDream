@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
 import { IUserStatus } from '../../theme/models/user';
@@ -23,29 +23,29 @@ export class UserComponent implements OnInit, OnDestroy {
     private readonly themeService = inject(ThemeService);
 
 
-    public user: IUserStatus;
-    public tabItems: INavLink[] = [];
-    public moreItems: INavLink[] = [];
-    public moreVisible = false;
-    public diplayMode = NavigationDisplayMode.Inline;
+    public readonly user = signal<IUserStatus>(null);
+    public readonly tabItems = signal<INavLink[]>([]);
+    public readonly moreItems = signal<INavLink[]>([]);
+    public readonly moreVisible = signal(false);
+    public readonly diplayMode = signal(NavigationDisplayMode.Inline);
 
     private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `My`);
         this.store.select(selectAuthUser).subscribe(user => {
-            this.user = user as any;
+            this.user.set(user as any);
         });
         this.menuService.change$.subscribe(res => {
-            this.tabItems = res.tab;
-            this.moreItems = res.more;
+            this.tabItems.set(res.tab);
+            this.moreItems.set(res.more);
         });
     }
 
     ngOnInit() {
         this.subItems.add(
             this.themeService.navigationChanged.pipe(debounceTime(100)).subscribe(res => {
-                this.diplayMode = res.mode;
+                this.diplayMode.set(res.mode);
             })
         );
         this.subItems.add(this.router.events.subscribe(event => {
@@ -65,4 +65,8 @@ export class UserComponent implements OnInit, OnDestroy {
         this.subItems.unsubscribe();
     }
 
+
+    public toggelMore() {
+        this.moreVisible.update(v => !v);
+    }
 }
