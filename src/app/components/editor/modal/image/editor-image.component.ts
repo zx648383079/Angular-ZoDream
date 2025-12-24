@@ -14,7 +14,7 @@ export class EditorImageComponent implements IEditorModal {
 
     public readonly visible = signal(false);
     public fileName = this.uploadService.uniqueGuid();
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public url = '';
     public readonly isLoading = signal(false);
     private confirmFn: EditorModalCallback;

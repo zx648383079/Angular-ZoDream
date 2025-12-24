@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { EditorService } from '../editor.service';
 import { WidgetPreview, WidgetSource, WidgetType } from '../model';
 
@@ -12,7 +12,7 @@ export class EditorSoulComponent implements OnInit {
     private readonly service = inject(EditorService);
 
 
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public controlItems: WidgetPreview[] = [];
     public panelItems: WidgetPreview[] = [];
     public bodyStyle: any = {};

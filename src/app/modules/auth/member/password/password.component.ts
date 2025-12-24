@@ -21,9 +21,9 @@ export class PasswordComponent {
     private readonly toastrService = inject(DialogService);
 
 
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public user: IUser;
-    public stepIndex = 0;
+    public readonly stepIndex = signal(0);
     public readonly dataForm = form(signal({
         old_password: '',
         password: '',
@@ -39,8 +39,8 @@ export class PasswordComponent {
     }
 
     public tapBack() {
-        if (this.tabIndex > 0) {
-            this.tabIndex = 0;
+        if (this.tabIndex() > 0) {
+            this.tabIndex.set(0);
             return;
         }
         history.back();
@@ -49,7 +49,7 @@ export class PasswordComponent {
     public tapSendCode(e: CountdownEvent) {
         // 获取新的验证码
         this.service.sendCode({
-            to_type: this.tabIndex === 1 ? 'email' : 'mobile',
+            to_type: this.tabIndex() === 1 ? 'email' : 'mobile',
             event: 'verify_old',
         }).subscribe({
             next: _ => {
@@ -62,12 +62,12 @@ export class PasswordComponent {
     }
 
     public tapNext() {
-        if (this.tabIndex < 1) {
+        if (this.tabIndex() < 1) {
             // 验证验证码
             this.verifyRole();
             return;
         }
-        if (this.stepIndex == 1) {
+        if (this.stepIndex() == 1) {
             //
             this.service.passwordUpdate({
                 verify_type: '',
@@ -76,7 +76,7 @@ export class PasswordComponent {
                 confirm_password: '',
             }).subscribe({
                 next: res => {
-                    this.stepIndex = 2;
+                    this.stepIndex.set(2);
                 },
                 error: err => {
                     this.toastrService.error(err);
@@ -96,7 +96,7 @@ export class PasswordComponent {
             event: 'verify_old',
         }).subscribe({
             next: _ => {
-                this.stepIndex = 1;
+                this.stepIndex.set(1);
             },
             error: err => {
                 this.toastrService.error(err);

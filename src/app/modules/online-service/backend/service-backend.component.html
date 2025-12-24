@@ -107,11 +107,11 @@
             <div class="col-md-3">
                 <div class="tab-box">
                     <div class="tab-header">
-                        <div class="tab-item" [class]="{active: tabIndex < 1}" (click)="tabIndex = 0">用户信息</div>
-                        <div class="tab-item" [class]="{active: tabIndex == 1}" (click)="tabIndex = 1">常用语</div>
+                        <div class="tab-item" [class]="{active: tabIndex() < 1}" (click)="tabIndex.set(0)">用户信息</div>
+                        <div class="tab-item" [class]="{active: tabIndex() == 1}" (click)="tabIndex.set(1)">常用语</div>
                     </div>
                     <div class="tab-body">
-                        <div class="tab-item" [class]="{active: tabIndex < 1}">
+                        <div class="tab-item" [class]="{active: tabIndex() < 1}">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -141,7 +141,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="tab-item" [class]="{active: tabIndex == 1}">
+                        <div class="tab-item" [class]="{active: tabIndex() == 1}">
                             <ul class="tree-box">
                                 @for (item of categories; track $index) {
                                 <li class="tree-item">

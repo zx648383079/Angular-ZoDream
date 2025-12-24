@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -24,7 +24,7 @@ export class BargainGoodsComponent implements OnInit {
     public activity: IActivity<IBargainConfigure>;
     public galleryItems: IGoodsGallery[] = [];
     public content: SafeHtml;
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public amount = 1;
     public dataType: 0|1|2 = 0; // 0 没有记录 1 别人的记录 2 自己的记录
     public log: any;

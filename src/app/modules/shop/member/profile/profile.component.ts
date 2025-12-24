@@ -17,7 +17,7 @@ import { form, required } from '@angular/forms/signals';
 export class ProfileComponent implements OnInit {
     private readonly service = inject(ShopService);
     private readonly toastrService = inject(DialogService);
-    route = inject(ActivatedRoute);
+    private readonly route = inject(ActivatedRoute);
 
 
     public sexItems: IItem[] = [
@@ -44,7 +44,7 @@ export class ProfileComponent implements OnInit {
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name);
     });
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public stepData = {
         name: '',
     };
@@ -66,7 +66,7 @@ export class ProfileComponent implements OnInit {
     }
 
     public tapStepEdit(name = 'email') {
-        this.tabIndex = 2;
+        this.tabIndex.set(2);
         this.stepData.name = name;
     }
 

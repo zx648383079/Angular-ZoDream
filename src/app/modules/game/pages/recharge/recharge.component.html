@@ -3,15 +3,15 @@
         <i class="iconfont icon-arrow-left"></i>
     </div>
     <div class="title-tab-bar">
-        <a class="item" [class]="{active: tabIndex < 1}" (click)="tabIndex = 0">充值</a>
-        <a class="item" [class]="{active: tabIndex == 1}" (click)="tabIndex = 1">提现</a>
+        <a class="item" [class]="{active: tabIndex() < 1}" (click)="tabIndex.set(0)">充值</a>
+        <a class="item" [class]="{active: tabIndex() == 1}" (click)="tabIndex.set(1)">提现</a>
     </div>
     <a class="right-item" (click)="modalVisible = true">
         规则
     </a>
 </div>
 
-<div [hidden]="tabIndex > 0">
+<div [hidden]="tabIndex() > 0">
     <p>站点账户余额：0</p>
 
     <div class="charge-line">
@@ -29,7 +29,7 @@
     </div>
 </div>
 
-<div [hidden]="tabIndex < 1">
+<div [hidden]="tabIndex() < 1">
     <p>游戏账户余额：0</p>
     <div class="charge-line">
         <div class="line-item">
@@ -46,7 +46,7 @@
     </div>
 </div>
 
-<app-action-button class="btn btn-primary">{{ tabIndex < 1 ? '充值' : '提现' }}</app-action-button>
+<app-action-button class="btn btn-primary">{{ tabIndex() < 1 ? '充值' : '提现' }}</app-action-button>
 
 @if (modalVisible) {
 <div class="dialog-mask"></div>

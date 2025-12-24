@@ -17,7 +17,7 @@ export class EditorPropertyComponent {
     };
 
     public readonly panelVisible = signal(false);
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public widgetType = WidgetType.CONTROL;
 
     public alginItems = alginOptions;

@@ -1,11 +1,11 @@
 <div class="soul-main">
     <div class="tab-box">
         <div class="tab-header">
-            <div class="tab-item" [class]="{active: tabIndex < 1}" (click)="tabIndex = 0">页面</div>
-            <div class="tab-item" [class]="{active: tabIndex == 1}" (click)="tabIndex = 1">图层</div>
+            <div class="tab-item" [class]="{active: tabIndex() < 1}" (click)="tabIndex.set(0)">页面</div>
+            <div class="tab-item" [class]="{active: tabIndex() == 1}" (click)="tabIndex.set(1)">图层</div>
         </div>
         <div class="tab-body" [style]="bodyStyle">
-            <div class="tab-item" [class]="{active: tabIndex < 1}">
+            <div class="tab-item" [class]="{active: tabIndex() < 1}">
                 <div class="row">
                     <div class="col-6">
                         <div class="add-btn" (click)="tapNewCatalog(false)">
@@ -24,7 +24,7 @@
                     <app-catalog-list [items]="catalogItems" (tapped)="onCatalogTap($event)" />
                 </div>
             </div>
-            <div class="tab-item" [class]="{active: tabIndex == 1}">
+            <div class="tab-item" [class]="{active: tabIndex() == 1}">
                 <div class="catalog-box">
                     <app-catalog-list [items]="weightItems" (tapped)="onWidgetTap($event)" />
                 </div>

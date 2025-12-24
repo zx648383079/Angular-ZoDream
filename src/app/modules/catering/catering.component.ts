@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, inject, viewChild } from '@angular/core';
+import { Component, HostListener, OnDestroy, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { LoginDialogComponent } from '../auth/login/dialog/login-dialog.component';
@@ -29,7 +29,7 @@ export class CateringComponent implements OnDestroy {
     public readonly loginModal = viewChild(LoginDialogComponent);
     public readonly cartModal = viewChild(CartDialogComponent);
 
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public user: IUser;
     public authOpen = false;
     public searchOpen = false;
@@ -87,7 +87,7 @@ export class CateringComponent implements OnDestroy {
     }
 
     public tapTab(i: number) {
-        this.tabIndex = i;
+        this.tabIndex.set(i);
     }
 
     public tapSearch(e: Event) {

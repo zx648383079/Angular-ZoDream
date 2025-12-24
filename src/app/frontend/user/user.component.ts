@@ -19,7 +19,7 @@ import { debounceTime, Subscription } from 'rxjs';
 export class UserComponent implements OnInit, OnDestroy {
     private readonly store = inject<Store<AppState>>(Store);
     private readonly router = inject(Router);
-    private menuService = inject(MenuService);
+    private readonly menuService = inject(MenuService);
     private readonly themeService = inject(ThemeService);
 
 

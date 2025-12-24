@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
 
 @Component({
@@ -11,7 +11,7 @@ export class RechargeComponent implements IGameScene {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public modalVisible = false;
 
     public tapBack() {

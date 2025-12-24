@@ -3,12 +3,12 @@
         <i class="iconfont icon-arrow-left"></i>
     </div>
     <div class="title-tab-bar">
-        <a class="item" [class]="{active: tabIndex < 1}" (click)="tabIndex = 0">主页</a>
-        <a class="item" [class]="{active: tabIndex == 1}" (click)="tapTab(1)">成员</a>
+        <a class="item" [class]="{active: tabIndex() < 1}" (click)="tabIndex.set(0)">主页</a>
+        <a class="item" [class]="{active: tabIndex() == 1}" (click)="tapTab(1)">成员</a>
     </div>
     <a class="right-item" (click)="tapExit()">退出</a>
 </div>
-@if (tabIndex < 1) {
+@if (tabIndex() < 1) {
 <div class="organize-body">
     <h2>名称</h2>
 
@@ -39,7 +39,7 @@
         }
     </div>    
 </div>
-} @else if (tabIndex == 1) {
+} @else if (tabIndex() == 1) {
 <div class="users-body">
     <div class="user-item">
         <div class="item-avatar">

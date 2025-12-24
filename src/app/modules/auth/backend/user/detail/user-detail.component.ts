@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { IUserStatus } from '../../../../../theme/models/user';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../auth.service';
@@ -17,7 +17,7 @@ export class UserDetailComponent implements OnInit {
 
 
     public user: IUserStatus;
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public tabItems = ['账户信息', '账户变动记录', '账号操作记录', '账号登录记录', '数据中心'];
 
     ngOnInit() {
@@ -33,7 +33,7 @@ export class UserDetailComponent implements OnInit {
     }
 
     public tapTab(i: number) {
-        this.tabIndex = i;
+        this.tabIndex.set(i);
     }
 
 }

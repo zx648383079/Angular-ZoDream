@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import {
     AppState
 } from '../theme/interfaces';
@@ -25,24 +25,24 @@ import { INavLink } from '../theme/models/seo';
     templateUrl: './backend.component.html',
     styleUrls: ['./backend.component.scss']
 })
-export class BackendComponent implements OnInit, OnDestroy {
+export class BackendComponent implements OnDestroy {
     private readonly store = inject<Store<AppState>>(Store);
-    private actions = inject(AuthActions);
+    private readonly actions = inject(AuthActions);
     private readonly service = inject(BackendService);
     private readonly toastrService = inject(DialogService);
-    private menuService = inject(MenuService);
+    private readonly menuService = inject(MenuService);
     private readonly themeService = inject(ThemeService);
 
 
-    public navItems: INavLink[] = [];
-    public bottomNavs: INavLink[] = [];
+    public readonly navItems = signal<INavLink[]>([]);
+    public readonly bottomNavs = signal<INavLink[]>([]);
     private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next('管理平台');
         this.menuService.change$.subscribe(res => {
-            this.navItems = res.items;
-            this.bottomNavs = res.bottom;
+            this.navItems.set(res.items);
+            this.bottomNavs.set(res.bottom);
         });
         this.subItems.add(this.store.select(selectAuthUser).subscribe(user => {
             this.menuService.setUser(user);
@@ -59,9 +59,6 @@ export class BackendComponent implements OnInit, OnDestroy {
             }
         });
     }
-
-    ngOnInit(): void {}
-
     ngOnDestroy(): void {
         this.subItems.unsubscribe();
     }

@@ -25,7 +25,7 @@ export class PresaleGoodsComponent implements OnInit {
     public activity: IActivity<IPreSaleConfigure>;
     public galleryItems: IGoodsGallery[] = [];
     public content: SafeHtml;
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public readonly dataForm = form(signal({
         stock: 0,
         amount: 1

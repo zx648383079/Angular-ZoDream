@@ -13,7 +13,7 @@ export class FarmComponent implements IGameScene, OnInit {
     
     public readonly items = signal<IGameFarmPlot[]>([]);
     public tabItems = InvestTabItems;
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
 
     ngOnInit(): void {
         this.tapRefresh();
@@ -24,7 +24,7 @@ export class FarmComponent implements IGameScene, OnInit {
     }
 
     public tapTab(i: number) {
-        // this.tabIndex = i;
+        // this.tabIndex.set(i);
         this.router.navigateReplace(this.tabItems[i].value);
     }
 

@@ -16,18 +16,18 @@
     </div>
 
     <div class="tab-bar">
-        <div class="tab-item" [class]="{active: tabIndex < 1}" (click)="tapTab(0)" i18n>
+        <div class="tab-item" [class]="{active: tabIndex() < 1}" (click)="tapTab(0)" i18n>
             Summary
         </div>
-        <div class="tab-item" [class]="{active: tabIndex == 1}" (click)="tapTab(1)" i18n>
+        <div class="tab-item" [class]="{active: tabIndex() == 1}" (click)="tapTab(1)" i18n>
             Catalog
         </div>
     </div>
 
-    <div class="content" [hidden]="tabIndex > 0">
+    <div class="content" [hidden]="tabIndex() > 0">
         
     </div>
-    <div class="catalog" [hidden]="tabIndex != 1">
+    <div class="catalog" [hidden]="tabIndex() != 1">
         <ul class="tree-box">
             @for (item of catalog; track $index) {
             <li class="tree-item">

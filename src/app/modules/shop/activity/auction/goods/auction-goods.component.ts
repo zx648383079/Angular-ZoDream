@@ -26,7 +26,7 @@ export class AuctionGoodsComponent implements OnInit, OnDestroy {
     public activity: IActivity<IAuctionConfigure>;
     public galleryItems: IGoodsGallery[] = [];
     public content: SafeHtml;
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public readonly dataForm = form(signal({
         min: 0,
         max: 0,

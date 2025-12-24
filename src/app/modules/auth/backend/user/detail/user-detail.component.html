@@ -121,12 +121,12 @@
 <div class="container-fluid">
     <div class="tab-bar">
         @for (item of tabItems; track $index;let i = $index) {
-            <a class="item" [class]="{active: tabIndex == i}" (click)="tapTab(i)">{{ item }}</a>
+            <a class="item" [class]="{active: tabIndex() == i}" (click)="tapTab(i)">{{ item }}</a>
         }
     </div>
     @if (user) {
     <div class="panel-container">
-        <div [hidden]="tabIndex > 0">
+        <div [hidden]="tabIndex() > 0">
             <div class="line-group-item">
                 <div class="item-header">角色组：</div>
                 <div class="item-body">
@@ -161,17 +161,17 @@
                 </div>
             </div>
         </div>
-        <div [hidden]="tabIndex != 1">
-            <app-log-account-panel [itemId]="user.id" [init]="tabIndex == 1" />
+        <div [hidden]="tabIndex() != 1">
+            <app-log-account-panel [itemId]="user.id" [init]="tabIndex() == 1" />
         </div>
-        <div [hidden]="tabIndex != 2">
-            <app-log-action-panel [itemId]="user.id" [init]="tabIndex == 2" />
+        <div [hidden]="tabIndex() != 2">
+            <app-log-action-panel [itemId]="user.id" [init]="tabIndex() == 2" />
         </div>
-        <div [hidden]="tabIndex != 3">
-            <app-log-login-panel [itemId]="user.id" [init]="tabIndex == 3" />
+        <div [hidden]="tabIndex() != 3">
+            <app-log-login-panel [itemId]="user.id" [init]="tabIndex() == 3" />
         </div>
-        <div [hidden]="tabIndex != 4">
-            <app-log-statistics-panel [itemId]="user.id" [init]="tabIndex == 4" />
+        <div [hidden]="tabIndex() != 4">
+            <app-log-statistics-panel [itemId]="user.id" [init]="tabIndex() == 4" />
         </div>
     </div>
     }

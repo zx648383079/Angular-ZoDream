@@ -21,7 +21,7 @@ export class AccountComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
-    private menuService = inject(MenuService);
+    private readonly menuService = inject(MenuService);
     private readonly searchService = inject(SearchService);
 
 

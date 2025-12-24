@@ -1,16 +1,16 @@
 <div class="editor-modal-box" [class]="{'modal-visible': visible,'modal-loading': isLoading}" appFileDrop (fileDrop)="uploadFiles($event)">
     <div class="tab-bar">
-        <a class="item" [class]="{active: tabIndex == 1}" (click)="tabIndex = 1" title="链接">
+        <a class="item" [class]="{active: tabIndex() == 1}" (click)="tabIndex.set(1)" title="链接">
             <i class="iconfont icon-chain"></i>
         </a>
-        <a class="item" [class]="{active: tabIndex == 2}" (click)="tabIndex = 2" title="代码">
+        <a class="item" [class]="{active: tabIndex() == 2}" (click)="tabIndex.set(2)" title="代码">
             <i class="iconfont icon-code"></i>
         </a>
-        <a class="item" [class]="{active: tabIndex < 1}" (click)="tabIndex = 0" title="上传">
+        <a class="item" [class]="{active: tabIndex() < 1}" (click)="tabIndex.set(0)" title="上传">
             <i class="iconfont icon-upload"></i>
         </a>
     </div>
-    @switch (tabIndex) {
+    @switch (tabIndex()) {
         @case (1) {
             <div>
                 <div class="input-header-block" [class]="{'input-not-empty': !!url}">

@@ -8,14 +8,14 @@
         </span>
     </div>
 </div>
-@if (user) {
+@if (user()) {
 <div class="container">
-    <form class="form-table-control" [hidden]="tabIndex > 0" (submit)="tapSubmit($event)">
+    <form class="form-table-control" [hidden]="tabIndex() > 0" (submit)="tapSubmit($event)">
         <div class="input-group-control">
             <label for="fileUpload" i18n>Avatar</label>
             <div>
                 <div class="avatar-input">
-                    <img [src]="user.avatar">
+                    <img [src]="user().avatar">
                     <label class="iconfont icon-camera" for="fileUpload"></label>
                     <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*"/>
                 </div>
@@ -30,7 +30,7 @@
         <div class="input-group-control">
             <label for="email" i18n>Email</label>
             <div>
-                <input type="email" id="email" class="form-control" i18n-placeholder placeholder="Please input email" [value]="user?.email" (click)="tapStepEdit()" readonly>
+                <input type="email" id="email" class="form-control" i18n-placeholder placeholder="Please input email" [value]="user()?.email" (click)="tapStepEdit()" readonly>
             </div>
         </div>
         <div class="input-group-control">
@@ -42,7 +42,7 @@
         <div class="input-group-control">
             <label for="mobile" i18n>Phone</label>
             <div>
-                <input type="text" id="mobile" class="form-control" [value]="user?.mobile" (click)="tapStepEdit('mobile')" readonly>
+                <input type="text" id="mobile" class="form-control" [value]="user()?.mobile" (click)="tapStepEdit('mobile')" readonly>
             </div>
         </div>
         <div class="input-group-control">
@@ -55,9 +55,9 @@
             <button class="btn btn-primary" i18n>Save</button>
         </div>
     </form>
-    @if (tabIndex == 2) {
+    @if (tabIndex() == 2) {
     <div class="inner-container">
-        <app-member-bind-step [name]="stepData.name" [user]="user" />
+        <app-member-bind-step [name]="stepData.name" [user]="user()" />
     </div>
     }
 </div>

@@ -1,21 +1,21 @@
 <div class="step-header">
-    <a class="step-item" [class.active]="stepIndex < 1">
+    <a class="step-item" [class.active]="stepIndex() < 1">
         <span class="step-badge">1</span>
         <span class="step-title" i18n>Verify</span>
         <i class="step-line"></i>
     </a>
-    <a class="step-item" [class.active]="stepIndex == 1">
+    <a class="step-item" [class.active]="stepIndex() == 1">
         <span class="step-badge">2</span>
         <span class="step-title" i18n>Binding {{ nameLabel() }}</span>
         <i class="step-line"></i>
     </a>
-    <a class="step-item" [class.active]="stepIndex > 1">
+    <a class="step-item" [class.active]="stepIndex() > 1">
         <span class="step-badge">3</span>
         <span class="step-title" i18n>Finish</span>
     </a>
 </div>
 
-@if (stepIndex < 1) {
+@if (stepIndex() < 1) {
 <div class="step-body min-body">
     <div class="inline-input disabled" (click)="tapToggleVerify()">
         <label>{{ verifyLabel() }}</label>
@@ -28,7 +28,7 @@
 
     <div class="btn btn-primary line-btn" (click)="tapNext()" i18n>Next</div>
 </div>
-} @else if (stepIndex == 1) {
+} @else if (stepIndex() == 1) {
 <div class="step-body min-body">
     <div class="inline-input">
         <label for="" i18n>New {{ nameLabel() }}</label>
@@ -41,7 +41,7 @@
 
     <div class="btn btn-primary line-btn" (click)="tapNext()" i18n>Next</div>
 </div>
-} @else if (stepIndex > 1) {
+} @else if (stepIndex() > 1) {
 <div class="step-body min-body">
     <div class="step-tip">
         <i class="iconfont icon-check"></i>

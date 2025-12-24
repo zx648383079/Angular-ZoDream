@@ -33,7 +33,7 @@ export class EditComponent implements OnInit {
 
     public data: IProject;
 
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
 
     ngOnInit() {
         this.route.params.subscribe(params => {

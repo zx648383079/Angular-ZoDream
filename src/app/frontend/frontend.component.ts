@@ -79,7 +79,7 @@ export class FrontendComponent implements OnDestroy {
     constructor() {
         this.subItems.add(
             this.store.select(selectAuth).subscribe(res => {
-                if (this.userLoading() === res.isLoading && !this.user === res.guest) {
+                if (this.userLoading() === res.isLoading && !this.user() === res.guest) {
                     return;
                 }
                 this.userLoading.set(res.isLoading);

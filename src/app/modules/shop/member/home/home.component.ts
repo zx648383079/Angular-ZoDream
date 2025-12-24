@@ -15,7 +15,7 @@ import { ShopService } from '../../shop.service';
 export class HomeComponent implements OnInit {
     private readonly service = inject(ShopService);
     private readonly toastrService = inject(DialogService);
-    route = inject(ActivatedRoute);
+    private readonly route = inject(ActivatedRoute);
 
 
     public user: IUser;

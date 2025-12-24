@@ -20,7 +20,7 @@ export class EditorLayerComponent implements OnInit {
 
     public readonly catalogModal = viewChild<DialogBoxComponent>("catalogModal");
     public readonly contextMenu = viewChild(ContextMenuComponent);
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public catalogItems: ICatalogItem[] = [];
     public weightItems: Widget[] = [];
     public readonly editForm = form(signal({

@@ -6,43 +6,43 @@
 
 <div class="panel-container">
     <div class="step-header">
-        <a class="step-item" [class]="{active: stepIndex < 1}">
+        <a class="step-item" [class]="{active: stepIndex() < 1}">
             <span class="step-badge">1</span>
             <span class="step-title">选择账户</span>
             <i class="step-line"></i>
         </a>
-        <a class="step-item" [class]="{active: stepIndex == 1}">
+        <a class="step-item" [class]="{active: stepIndex() == 1}">
             <span class="step-badge">2</span>
             <span class="step-title">选择收货地址</span>
             <i class="step-line"></i>
         </a>
-        <a class="step-item" [class]="{active: stepIndex == 2}">
+        <a class="step-item" [class]="{active: stepIndex() == 2}">
             <span class="step-badge">3</span>
             <span class="step-title">选择商品</span>
             <i class="step-line"></i>
         </a>
-        <a class="step-item" [class]="{active: stepIndex == 3}">
+        <a class="step-item" [class]="{active: stepIndex() == 3}">
             <span class="step-badge">4</span>
             <span class="step-title">选择优惠</span>
             <i class="step-line"></i>
         </a>
-        <a class="step-item" [class]="{active: stepIndex == 4}">
+        <a class="step-item" [class]="{active: stepIndex() == 4}">
             <span class="step-badge">5</span>
             <span class="step-title">选择配送/支付方式</span>
             <i class="step-line"></i>
         </a>
-        <a class="step-item" [class]="{active: stepIndex > 4}">
+        <a class="step-item" [class]="{active: stepIndex() > 4}">
             <span class="step-badge">6</span>
             <span class="step-title">下单成功</span>
         </a>
     </div>
 
-    <div class="step-body min-body" [hidden]="stepIndex > 0">
+    <div class="step-body min-body" [hidden]="stepIndex() > 0">
         <app-user-picker [field]="dataForm.user" />
 
         <button class="btn btn-primary" [disabled]="invalid()" (click)="tapNext()">下一步</button>
     </div>
-    <div class="step-body" [hidden]="stepIndex != 1">
+    <div class="step-body" [hidden]="stepIndex() != 1">
         <app-address-picker [field]="dataForm.address" [user]="dataForm.user().value()?.id" />
 
         <div class="btn-group">
@@ -50,7 +50,7 @@
             <button class="btn btn-primary" [disabled]="invalid()" (click)="tapNext()">下一步</button>
         </div>
     </div>
-    <div class="step-body" [hidden]="stepIndex != 2">
+    <div class="step-body" [hidden]="stepIndex() != 2">
         <div class="items-table">
             <a class="btn btn-primary" (click)="tapAddGoods()">添加商品</a>
             <table class="table table-hover">
@@ -96,7 +96,7 @@
             <button class="btn btn-primary" [disabled]="invalid()" (click)="tapNext()">下一步</button>
         </div>
     </div>
-    <div class="step-body" [hidden]="stepIndex != 3">
+    <div class="step-body" [hidden]="stepIndex() != 3">
         <app-coupon-picker [(value)]="coupon" [user]="dataForm.user().value()?.id" />
 
         <div class="btn-group">
@@ -104,7 +104,7 @@
             <button class="btn btn-primary" [disabled]="invalid()" (click)="tapNext()">下一步</button>
         </div>
     </div>
-    <div class="step-body" [hidden]="stepIndex != 4">
+    <div class="step-body" [hidden]="stepIndex() != 4">
         <div class="shipping-box">
             <h4>配送方式：</h4>
             @for (item of shippingItems; track $index) {
@@ -129,7 +129,7 @@
             <app-action-button class="btn btn-primary" [disabled]="invalid()" (tapped)="tapCheckout($event)">下一步</app-action-button>
         </div>
     </div>
-    @if (stepIndex > 4) {
+    @if (stepIndex() > 4) {
     <div class="step-body min-body">
         <div class="step-tip">
             <i class="iconfont icon-check"></i>

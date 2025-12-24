@@ -45,12 +45,12 @@ const USER_KEY = 'user';
 export class AuthService {
 
     private readonly http = inject(HttpClient);
-    private actions = inject(AuthActions);
+    private readonly actions = inject(AuthActions);
     private readonly store = inject(Store<AppState>);
     private readonly router = inject(Router);
     private readonly toastrService = inject(DialogService);
-    private cookieService = inject(CookieService);
-    private platformId = inject(PLATFORM_ID);
+    private readonly cookieService = inject(CookieService);
+    private readonly platformId = inject(PLATFORM_ID);
     
     /**
      * 是否能跳转到路径

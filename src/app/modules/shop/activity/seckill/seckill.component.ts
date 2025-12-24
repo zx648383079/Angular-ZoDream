@@ -28,7 +28,7 @@ export class SeckillComponent implements OnInit, OnDestroy {
     public readonly items = signal<ISeckillGoods[]>([]);
     private hasMore = true;
     public readonly isLoading = signal(false);
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
         page: 1,
@@ -67,7 +67,7 @@ export class SeckillComponent implements OnInit, OnDestroy {
     }
 
     public tapTab(i: number) {
-        this.tabIndex = i;
+        this.tabIndex.set(i);
         this.tapRefresh();
     }
 

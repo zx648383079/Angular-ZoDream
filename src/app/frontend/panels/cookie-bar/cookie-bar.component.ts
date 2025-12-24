@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 
 interface ICookieGroup {
     name: string;
@@ -22,7 +22,7 @@ const CookiePolicyKey = 'cookie_policy';
     styleUrls: ['./cookie-bar.component.scss']
 })
 export class CookieBarComponent implements OnInit {
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
 
     public items: ICookieGroup[] = [
         {
@@ -60,11 +60,11 @@ export class CookieBarComponent implements OnInit {
     ];
 
     ngOnInit() {
-        this.tabIndex = window.localStorage.getItem(CookiePolicyKey) ? 0 : 1;
+        this.tabIndex.set(window.localStorage.getItem(CookiePolicyKey) ? 0 : 1);
     }
 
     public tapAccept() {
         window.localStorage.setItem(CookiePolicyKey, this.tabIndex.toString());
-        this.tabIndex = 0;
+        this.tabIndex.set(0);
     }
 }

@@ -34,7 +34,7 @@ export class EditComponent implements OnInit {
 
     public data: IProject;
     public categories: ICategory[] = [];
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
 
     ngOnInit() {
         this.service.categoryTree().subscribe(res => {

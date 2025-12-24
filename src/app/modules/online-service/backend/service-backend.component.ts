@@ -33,7 +33,7 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
         user_keywords: ''
     }));
 
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public expandIndex = 0;
     public categories: ICategory[] = [];
     public sessionItems: ISession[] = [];

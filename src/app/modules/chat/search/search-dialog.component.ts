@@ -25,7 +25,7 @@ export class SearchDialogComponent {
     }));
     public readonly hasMore = signal(false);
     public readonly items = signal<IUser[]>([]);
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public readonly visible = signal(false);
 
     private confirmFn: Function;
@@ -54,14 +54,14 @@ export class SearchDialogComponent {
                 return;
             }
             this.service.apply({
-                [this.tabIndex > 0 ? 'group' : 'user']: item.id,
+                [this.tabIndex() > 0 ? 'group' : 'user']: item.id,
                 remark: this.profileModal().remark
             }).subscribe(_ => item.checked = true)
         });
     }
 
     public tapSearchTab(i: number) {
-        this.tabIndex = i;
+        this.tabIndex.set(i);
     }
 
     public tapSearchInput() {

@@ -1,8 +1,8 @@
 <div class="header-bar">
     <div class="container-fluid">
         <div class="tab-bar">
-            <a [class]="{active: tabIndex < 1}" (click)="tapTab(0)" routerLink="./">推荐</a>
-            <a [class]="{active: tabIndex == 1}" (click)="tapTab(1)" routerLink="store">商品</a>
+            <a [class]="{active: tabIndex() < 1}" (click)="tapTab(0)" routerLink="./">推荐</a>
+            <a [class]="{active: tabIndex() == 1}" (click)="tapTab(1)" routerLink="store">商品</a>
             <a>
                 <app-catering-search-input />
             </a>

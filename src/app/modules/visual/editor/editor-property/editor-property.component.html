@@ -6,12 +6,12 @@
     <div class="panel-body" >
         <div class="tab-box">
             <div class="tab-header">
-                <div class="tab-item" [class]="{active: tabIndex < 1}" (click)="tabIndex = 0">基本</div>
-                <div class="tab-item" [class]="{active: tabIndex == 1}" (click)="tabIndex = 1">高级</div>
-                <div class="tab-item" [class]="{active: tabIndex == 2}" (click)="tabIndex = 2">样式</div>
+                <div class="tab-item" [class]="{active: tabIndex() < 1}" (click)="tabIndex.set(0)">基本</div>
+                <div class="tab-item" [class]="{active: tabIndex() == 1}" (click)="tabIndex.set(1)">高级</div>
+                <div class="tab-item" [class]="{active: tabIndex() == 2}" (click)="tabIndex.set(2)">样式</div>
             </div>
             <div class="tab-body" [style]="boxStyle">
-                <div class="tab-item" [class]="{active: tabIndex < 1}">
+                <div class="tab-item" [class]="{active: tabIndex() < 1}">
                     <app-editor-text-input header="标题" />
                     <app-editor-switch-input header="懒加载" />
                     <div class="control-row">
@@ -43,7 +43,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-item" [class]="{active: tabIndex == 1}">
+                <div class="tab-item" [class]="{active: tabIndex() == 1}">
                     <app-editor-position-input header="定位" />
                     <app-editor-number-slider-input header="透明度" [hasUnit]="false" />
                     <div class="control-panel" [class]="{open: panelToggle.box}">
@@ -114,7 +114,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-item" [class]="{active: tabIndex == 2}" (click)="tabIndex = 2">
+                <div class="tab-item" [class]="{active: tabIndex() == 2}" (click)="tabIndex.set(2)">
                     <div class="style-item active">无</div>
                 </div>
             </div>

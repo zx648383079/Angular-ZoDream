@@ -14,7 +14,7 @@ export class EditorVideoComponent implements IEditorModal {
 
     public readonly visible = signal(false);
     public fileName = this.uploadService.uniqueGuid();
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public url = '';
     public code = '';
     public isAutoplay = false;
@@ -54,7 +54,7 @@ export class EditorVideoComponent implements IEditorModal {
     public tapConfirm() {
         this.visible.set(false);
         if (this.confirmFn) {
-            this.confirmFn(this.tabIndex === 2 ? {code: this.code} : {value: this.url, autoplay: this.isAutoplay});
+            this.confirmFn(this.tabIndex() === 2 ? {code: this.code} : {value: this.url, autoplay: this.isAutoplay});
         }
     }
 

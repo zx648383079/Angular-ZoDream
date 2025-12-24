@@ -72,7 +72,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     /**
      * 切换分组
      */
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     /**
      * 进入搜索用户
      */

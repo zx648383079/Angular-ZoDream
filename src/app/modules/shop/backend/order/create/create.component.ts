@@ -27,7 +27,7 @@ export class CreateComponent {
         user: null,
         address: null
     }));
-    public stepIndex = 0;
+    public readonly stepIndex = signal(0);
     public goodsItems: ICartItem[] = [];
     public coupon?: ICoupon;
     public paymentItems: IPayment[] = [];
@@ -37,10 +37,10 @@ export class CreateComponent {
     public order: IOrder;
 
     public readonly invalid = computed(() => {
-        if (this.stepIndex < 1) {
+        if (this.stepIndex() < 1) {
             return !this.dataForm.user().value();
         }
-        if (this.stepIndex == 1) {
+        if (this.stepIndex() == 1) {
             const address = this.dataForm.address().value();
             if (!address) {
                 return true;
@@ -50,10 +50,10 @@ export class CreateComponent {
             }
             return emptyValidate(address.name) || address.region_id < 1 || emptyValidate(address.address) || !mobileValidate(address.tel);
         }
-        if (this.stepIndex == 2) {
+        if (this.stepIndex() == 2) {
             return this.goodsItems.length < 1;
         }
-        if (this.stepIndex == 4) {
+        if (this.stepIndex() == 4) {
             return !this.payment || !this.shipping;
         }
         return false;
@@ -65,15 +65,15 @@ export class CreateComponent {
         if (this.invalid) {
             return;
         }
-        this.stepIndex ++;
-        if (this.stepIndex == 4) {
+        this.stepIndex.update(v => v + 1);
+        if (this.stepIndex() == 4) {
             this.loadShipping();
         }
     }
 
     public tapPrevious() {
-        if (this.stepIndex > 0) {
-            this.stepIndex -- ;
+        if (this.stepIndex() > 0) {
+            this.stepIndex.update(v => v - 1);
         }
     }
 
@@ -167,7 +167,7 @@ export class CreateComponent {
             next: res => {
                 e?.reset();
                 // 清空结算，同时需要修改购物车的商品
-                this.stepIndex ++;
+                this.stepIndex.update(v => v + 1);
                 this.order = undefined;
             },
             error: err => {

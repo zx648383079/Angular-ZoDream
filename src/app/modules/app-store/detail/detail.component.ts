@@ -21,7 +21,7 @@ export class DetailComponent implements OnInit {
     public data: ISoftware;
     public currentPackage: ISoftwarePackage;
     public readonly isLoading = signal(false);
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
 
     ngOnInit() {
         this.route.params.subscribe(param => {

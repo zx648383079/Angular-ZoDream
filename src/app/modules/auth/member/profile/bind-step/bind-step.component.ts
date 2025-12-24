@@ -21,7 +21,7 @@ export class BindStepComponent {
     public readonly user = input<IUser>();
 
     public verify_value = '';
-    public stepIndex = 0;
+    public readonly stepIndex = signal(0);
     public readonly dataForm = form(signal({
         name: '',
         verify_type: '',
@@ -44,7 +44,7 @@ export class BindStepComponent {
                     this.tapToggleVerify();
                 }
                 if (!this.verify_value) {
-                    this.stepIndex = 1;
+                    this.stepIndex.set(1);
                 }
             });
             
@@ -83,7 +83,7 @@ export class BindStepComponent {
     }
 
     public tapSendCode(e: CountdownEvent) {
-        if (this.stepIndex < 1) {
+        if (this.stepIndex() < 1) {
             // 直接获取验证码
             this.service.sendCode({
                 to_type: this.dataForm.verify_type().value() as any,
@@ -117,11 +117,11 @@ export class BindStepComponent {
     }
 
     public tapNext() {
-        if (this.stepIndex < 1) {
+        if (this.stepIndex() < 1) {
             this.verifyRole();
             return;
         }
-        if (this.stepIndex == 1) {
+        if (this.stepIndex() == 1) {
             this.verifyData();
         }
     }
@@ -154,7 +154,7 @@ export class BindStepComponent {
         // 提交数据进行更改
         this.service.updateAccount(this.dataForm().value()).subscribe({
             next: _ => {
-                this.stepIndex = 2;
+                this.stepIndex.set(2);
             },
             error: err => {
                 this.toastrService.error(err);
@@ -173,7 +173,7 @@ export class BindStepComponent {
             event: 'verify_old',
         }).subscribe({
             next: _ => {
-                this.stepIndex = 1;
+                this.stepIndex.set(1);
             },
             error: err => {
                 this.toastrService.error(err);

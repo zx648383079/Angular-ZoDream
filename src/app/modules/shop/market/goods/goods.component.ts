@@ -30,7 +30,7 @@ export class GoodsComponent implements OnInit {
     public data: IGoods;
     public galleryItems: IGoodsGallery[] = [];
     public content: SafeHtml;
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public recommendItems: IGoods[] = [];
     public hotItems: IGoods[] = [];
     public activity: IActivity<any>;

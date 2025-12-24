@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameRouter, IGameScene, IGmeRoute } from '../../model';
 
 @Component({
@@ -11,7 +11,7 @@ export class OrganizeComponent implements IGameScene, OnInit {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public modalVisible = false;
     public bottomItems: IGmeRoute[] = [
         {name: '商店', path: GameScenePath.OrganizeStore},
@@ -26,7 +26,7 @@ export class OrganizeComponent implements IGameScene, OnInit {
     }
 
     public tapTab(i: number) {
-        this.tabIndex = i;
+        this.tabIndex.set(i);
     }
 
     public tapBack() {

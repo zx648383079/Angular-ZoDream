@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentService } from '../document.service';
 import { IDocApi, IDocPage, IProject } from '../model';
@@ -17,7 +17,7 @@ export class ProjectComponent implements OnInit {
 
     public data: IProject;
     public catalog: IDocPage[]&IDocApi[] = [];
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -32,7 +32,7 @@ export class ProjectComponent implements OnInit {
     }
 
     public tapTab(i: number) {
-        this.tabIndex = i;
+        this.tabIndex.set(i);
         if (i == 1 && this.catalog.length < 1) {
             this.loadCatalog();
         }

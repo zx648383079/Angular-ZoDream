@@ -40,21 +40,21 @@
         </div>
         <div class="tab-box">
             <div class="tab-header">
-                <a [class]="{active: tabIndex < 1}" (click)="tabIndex = 0">
+                <a [class]="{active: tabIndex() < 1}" (click)="tabIndex.set(0)">
                     <i class="iconfont icon-commenting"></i>
                     <span>聊天</span>
                 </a>
-                <a [class]="{active: tabIndex == 1}" (click)="tabIndex = 1">
+                <a [class]="{active: tabIndex() == 1}" (click)="tabIndex.set(1)">
                     <i class="iconfont icon-user"></i>
                     <span>联系人</span>
                 </a>
-                <a [class]="{active: tabIndex == 2}" (click)="tabIndex = 2">
+                <a [class]="{active: tabIndex() == 2}" (click)="tabIndex.set(2)">
                     <i class="iconfont icon-group"></i>
                     <span>群组</span>
                 </a>
             </div>
             <div class="tab-body">
-                <div class="tab-item" [class]="{active: tabIndex < 1}">
+                <div class="tab-item" [class]="{active: tabIndex() < 1}">
                     @for (item of histories; track $index) {
                         <div class="user-item" (click)="tapHistory(item)"  (contextmenu)="tapContextMenu($event, item.user)">
                             <div class="user-avatar">
@@ -80,7 +80,7 @@
                         </div>
                     }
                 </div>
-                <div class="tab-item" [class]="{active: tabIndex == 1}" (contextmenu)="tapContextMenu($event)">
+                <div class="tab-item" [class]="{active: tabIndex() == 1}" (contextmenu)="tapContextMenu($event)">
                     @for (group of friends; track $index) {
                         <div class="expand-box" [class]="{open: group.expand}">
                             <div class="expand-header" (click)="group.expand = !group.expand">
@@ -107,7 +107,7 @@
                         </div>
                     }
                 </div>
-                <div class="tab-item" [class]="{active: tabIndex == 2}">
+                <div class="tab-item" [class]="{active: tabIndex() == 2}">
 
                 </div>
             </div>

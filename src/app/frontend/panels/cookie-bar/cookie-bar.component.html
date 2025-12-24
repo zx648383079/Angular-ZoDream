@@ -1,13 +1,13 @@
-@if (tabIndex > 0) {
+@if (tabIndex() > 0) {
 <div class="dialog-cookie-bar">
-    @if (tabIndex > 1) {
+    @if (tabIndex() > 1) {
         <div class="dialog-header" i18n>Cookie Settings</div>
     }
     
     <div class="dialog-body">
         <ng-container i18n>Our website uses some cookies and records your IP address for the purposes of accessibility, security, and managing your access to the telecommunication network. You can disable data collection and cookies by changing your browser settings, but it may affect how this website functions.</ng-container>
         <a href="" i18n>Learn more</a>
-        @if (tabIndex > 1) {
+        @if (tabIndex() > 1) {
             @for (group of items; track $index) {
             <div class="expand-card"[class]="{open: group.open}">
                 <div class="card-header" (click)="group.open = !group.open">
@@ -53,9 +53,9 @@
         }
     </div>
     <div class="dialog-footer">
-        @if (tabIndex == 1) {
+        @if (tabIndex() == 1) {
             <div class="btn-group">
-                <a class="btn btn-secondary" (click)="tabIndex = 2" i18n>Cookie Settings</a>
+                <a class="btn btn-secondary" (click)="tabIndex.set(2)" i18n>Cookie Settings</a>
                 <a class="btn btn-primary" (click)="tapAccept()" i18n>Accept All</a>
             </div>
         } @else {

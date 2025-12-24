@@ -19,7 +19,7 @@ export class AddPanelComponent {
     public readonly visible = input(false);
     public readonly toolTapped = output<string>();
     public readonly command = output<IEditorBlock>();
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public tabItems = ['组件', '模板', '资源'];
     public toolItems: {
         header: string;
@@ -72,7 +72,7 @@ export class AddPanelComponent {
     }));
 
     public tapTab(i: number) {
-        this.tabIndex = i;
+        this.tabIndex.set(i);
         this.mediaOpen = false;
     }
 

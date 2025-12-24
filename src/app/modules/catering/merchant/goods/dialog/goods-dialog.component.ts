@@ -17,7 +17,7 @@ export class GoodsDialogComponent {
      * 是否显示
      */
     public readonly visible = signal(false);
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public readonly items = signal<ICateringRecipeMaterial[]>([]);
     public multipleEditable = false;
     public nextData: any = {

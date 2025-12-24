@@ -23,7 +23,7 @@ export class CouponComponent implements OnInit {
     });
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
 
     constructor() {
         this.tapRefresh();
@@ -33,7 +33,7 @@ export class CouponComponent implements OnInit {
 
 
     public tapTab(i: number) {
-        this.tabIndex = i;
+        this.tabIndex.set(i);
         this.tapRefresh();
     }
 

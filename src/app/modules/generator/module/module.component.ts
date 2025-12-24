@@ -21,7 +21,7 @@ export class ModuleComponent implements OnInit {
 
 
     public readonly modal = viewChild(DialogBoxComponent);
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public moduleItems: IItem[] = [];
     public tableItems: IItem[] = [];
     public readonly installForm = form(signal({
@@ -62,7 +62,7 @@ export class ModuleComponent implements OnInit {
     }
 
     public tapTab(i: number) {
-        this.tabIndex = i;
+        this.tabIndex.set(i);
     }
 
     public tapInstall(e: ButtonEvent) {

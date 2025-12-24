@@ -26,7 +26,7 @@ export class AuthComponent implements OnInit {
     private readonly store = inject<Store<ShopAppState>>(Store);
 
 
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     private redirectUri: string;
     public isObserve = false;
 
@@ -78,14 +78,14 @@ export class AuthComponent implements OnInit {
 
     public tapSubmit(e: SubmitEvent) {
         e.preventDefault();
-        if (this.tabIndex < 1) {
+        if (this.tabIndex() < 1) {
             if (this.mobileForm().invalid()) {
                 return;
             }
         } else if (this.emailForm().invalid()) {
             return;
         }
-        const data = this.tabIndex < 1 ? this.mobileForm().value() : this.emailForm().value();
+        const data = this.tabIndex() < 1 ? this.mobileForm().value() : this.emailForm().value();
         this.authService
             .login(data)
             .subscribe({

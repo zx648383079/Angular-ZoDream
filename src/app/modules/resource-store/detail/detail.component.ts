@@ -21,7 +21,7 @@ export class DetailComponent implements OnInit {
 
     public data: IResource;
     public readonly isLoading = signal(false);
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public catalogItems: IResourceCatalog[] = [];
 
     ngOnInit() {

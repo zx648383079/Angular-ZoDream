@@ -16,11 +16,11 @@ import { form, required } from '@angular/forms/signals';
 export class ProfileComponent implements OnInit {
     private readonly service = inject(MemberService);
     private readonly toastrService = inject(DialogService);
-    route = inject(ActivatedRoute);
+    private readonly route = inject(ActivatedRoute);
 
 
     public sexItems = SexItems;
-    public user: IUser;
+    public readonly user = signal<IUser>(null);
     public readonly dataModel = signal({
         name: '',
         sex: 0,
@@ -29,7 +29,7 @@ export class ProfileComponent implements OnInit {
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name);
     });
-    public tabIndex = 0;
+    public readonly tabIndex = signal(0);
     public stepData = {
         name: '',
     };
@@ -37,7 +37,7 @@ export class ProfileComponent implements OnInit {
     ngOnInit() {
         this.service.profile().subscribe({
             next: user => {
-                this.user = user;
+                this.user.set(user);
                 this.dataModel.set({
                     name: user.name,
                     sex: user.sex,
@@ -54,14 +54,15 @@ export class ProfileComponent implements OnInit {
     }
 
     public tapStepEdit(name = 'email') {
-        this.tabIndex = 2;
+        this.tabIndex.set(2);
         this.stepData.name = name;
     }
 
 
     public tapSex(item: IItem) {
-        this.user.sex = item.value as number;
-        this.user.sex_label = item.name;
+        this.user.update(v => {
+            return {...v, sex: item.value, sex_label: item.name};
+        });
         this.dataForm.sex().value.set(parseNumber(item.value));
     }
 
@@ -84,7 +85,9 @@ export class ProfileComponent implements OnInit {
     public uploadFile(event: any) {
         const files = event.target.files as FileList;
         this.service.uploadAvatar(files[0]).subscribe(res => {
-            this.user = res;
+            this.user.update(v => {
+                return {...v, avatar: res.avatar};
+            });
             this.toastrService.success($localize `Avatar has been changed`);
         });
     }
