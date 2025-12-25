@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
 import { ISiteCategory } from '../../model';
 
 @Component({
@@ -12,18 +12,16 @@ export class CategoryPanelComponent {
     public readonly items = input<ISiteCategory[]>([]);
     public readonly changed = output<ISiteCategory>();
 
-    // public current: ISiteCategory|undefined = undefined;
-    // public kidItems: ISiteCategory[] = [];
-    public crumbs: number[] = [];
+    // public readonly current = signal<ISiteCategory>(null);
+    // public readonly kidItems = signal<ISiteCategory[]>([]);
+    public readonly crumbs = signal<number[]>([]);
 
-    constructor() { }
-
-    public get current(): ISiteCategory|undefined {
-        if (this.crumbs.length < 1 || this.items().length < 1) {
+    public readonly current = computed(() => {
+        if (this.crumbs().length < 1 || this.items().length < 1) {
             return undefined;
         }
         let item: ISiteCategory = undefined;
-        for (const i of this.crumbs) {
+        for (const i of this.crumbs()) {
             if (!item) {
                 item = this.items()[i];
                 continue;
@@ -35,32 +33,37 @@ export class CategoryPanelComponent {
             break;
         }
         return item;
-    }
+    });
 
-    public get kidItems(): ISiteCategory[] {
-        if (this.crumbs.length < 1) {
+    public readonly kidItems = computed(() => {
+        if (this.crumbs().length < 1) {
             return this.items();
         }
-        const item = this.current;
+        const item = this.current();
         if (!item) {
             return this.items();
         }
         return item.children || [];
-    }
+    });
 
     public tapBack() {
-        if (this.crumbs.length < 1) {
+        if (this.crumbs().length < 1) {
             return;
         }
-        this.crumbs.pop();
+        this.crumbs.update(v => {
+            v.pop();
+            return v;
+        });
     }
 
     public tapItem(i: number) {
-        const item = this.kidItems[i];
+        const item = this.kidItems()[i];
         if (!item.children || item.children.length < 1) {
             this.changed.emit(item);
             return;
         }
-        this.crumbs.push(i);
+        this.crumbs.update(v => {
+            return [...v, i];
+        });
     }
 }

@@ -12,7 +12,7 @@
                   <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="搜索应用">
               </div>
               <button type="submit" class="btn btn-primary">搜索</button>
-              @if (!reviewable) {
+              @if (!reviewable()) {
               <a routerLink="./create" class="pull-right btn btn-primary">新增应用</a>
               }
           </form>

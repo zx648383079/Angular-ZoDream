@@ -59,7 +59,7 @@
         <div class="input-group-control">
             <label for="">应用</label>
             <div>
-                <ng-select [field]="editForm.platform_id" [items]="platformItems" bindValue="id" bindLabel="name" />
+                <ng-select [field]="editForm.platform_id" [items]="platformItems()" bindValue="id" bindLabel="name" />
             </div>
         </div>
         <div class="input-group-control">

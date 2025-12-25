@@ -1,9 +1,9 @@
 <div class="row" [hidden]="!visible()">
     <div class="col-md-4">
-        <app-navigation-category-panel [items]="categories" (changed)="tapCategory($event)" />
+        <app-navigation-category-panel [items]="categories()" (changed)="tapCategory($event)" />
     </div>
     <div class="col-md-8">
-        @for (item of selectedItems; track $index) {
+        @for (item of selectedItems(); track $index) {
             <div class="lazy-panel" appLazyLoad (lazyLoading)="loadItem(item)">
                 <app-navigation-site-group [header]="item.name" [category]="item.id" [items]="item.items" [init]="!!item.lazy_booted" />
             </div>

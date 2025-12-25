@@ -29,7 +29,7 @@ export class AuthorizeComponent implements OnInit {
         per_page: 20,
         keywords: ''
     }));
-    public platformItems: IPlatform[] = [];
+    public readonly platformItems = signal<IPlatform[]>([]);
     public readonly editForm = form(signal({
         platform_id: 0,
         expired_at: '',
@@ -43,7 +43,7 @@ export class AuthorizeComponent implements OnInit {
             this.tapPage();
         });
         this.service.authorizePlatform().subscribe(res => {
-            this.platformItems = res.data;
+            this.platformItems.set(res.data);
         });
     }
 

@@ -1,12 +1,12 @@
 <div class="panel">
-    @if (current) {
+    @if (current()) {
     <div class="panel-header">
         <i class="iconfont icon-chevron-left" (click)="tapBack()"></i>
-        {{ current.name }}
+        {{ current().name }}
     </div>
     }
     <div class="panel-body">
-        @for (item of kidItems; track $index; let i = $index) {
+        @for (item of kidItems(); track $index; let i = $index) {
             <div class="cat-item" (click)="tapItem(i)">
                 <div class="item-icon">
                     <img [appLazyLoad]="item.icon">

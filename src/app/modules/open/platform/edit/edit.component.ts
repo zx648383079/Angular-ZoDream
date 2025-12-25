@@ -76,11 +76,11 @@ export class EditComponent implements OnInit {
             value: 9,
         },
     ];
-    public reviewable = false;
+    public readonly reviewable = signal(false);
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.reviewable = window.location.href.indexOf('review') > 0;
+            this.reviewable.set(window.location.href.indexOf('review') > 0);
             if (!params.id) {
                 return;
             }

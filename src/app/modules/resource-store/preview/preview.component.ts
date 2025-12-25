@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
@@ -26,7 +26,7 @@ export class PreviewComponent implements OnInit {
     private readonly sanitizer = inject(DomSanitizer);
 
 
-    public data: IResource;
+    public readonly data = signal<IResource>(null);
     public readonly isLoading = signal(false);
     public previewSrc: SafeResourceUrl;
     public resizeItems: ISizeItem[] = [
@@ -36,18 +36,18 @@ export class PreviewComponent implements OnInit {
         {name: '375x812', width: 375, height: 812},
         {name: '812x375', width: 812, height: 375},
     ];
-    public resizeIndex = -1;
+    public readonly resizeIndex = signal(-1);
 
-    public get frameStyle() {
-        if (this.resizeIndex < 1) {
+    public readonly frameStyle = computed(() => {
+        if (this.resizeIndex() < 1) {
             return {};
         }
-        const item = this.resizeItems[this.resizeIndex];
+        const item = this.resizeItems[this.resizeIndex()];
         return {
             width: item.width + 'px',
             height: item.height + 'px'
         };
-    }
+    });
 
     ngOnInit() {
         this.route.params.subscribe(param => {
@@ -65,12 +65,12 @@ export class PreviewComponent implements OnInit {
             next: res => {
                 this.isLoading.set(false);
                 this.themeService.titleChanged.next(res.title);
-                this.data = res;
+                this.data.set(res);
                 this.previewSrc = this.sanitizer.bypassSecurityTrustResourceUrl(res.preview_url);
             },
             error: err => {
                 this.isLoading.set(false);
-                this.data = undefined;
+                this.data.set(null);
                 this.toastrService.error(err)
                 history.back();
             }

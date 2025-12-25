@@ -1,7 +1,7 @@
 <div class="comment-container">
     <div class="title-bar">
         <h3 i18n>Leave a Comment</h3>
-        @if (!user) {
+        @if (!user()) {
         <p class="bar-text" i18n>Please login in first *</p>
         }
     </div>

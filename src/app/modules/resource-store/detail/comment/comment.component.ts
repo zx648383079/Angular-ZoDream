@@ -7,9 +7,9 @@ import { AppState } from '../../../../theme/interfaces';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IUser } from '../../../../theme/models/user';
 import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
-import { emptyValidate } from '../../../../theme/validators';
 import { IComment } from '../../model';
 import { ResourceService } from '../../resource.service';
+import { ICommentSubtotal } from '../../../shop/model';
 
 @Component({
     standalone: false,
@@ -23,9 +23,8 @@ export class CommentComponent {
     private readonly toastrService = inject(DialogService);
 
     public readonly itemId = input(0);
-    public readonly init = input(false);
     public readonly items = signal<IComment[]>([]);
-    public subtotal: any;
+    public readonly subtotal = signal<ICommentSubtotal>(null);
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
@@ -44,14 +43,14 @@ export class CommentComponent {
         required(schemaPath.content);
         disabled(schemaPath, () => !this.user);
     });
-    public user: IUser;
+    public readonly user = signal<IUser>(null);
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
-            this.user = user;
+            this.user.set(user);
         });
         effect(() => {
-            if (this.init() && this.itemId() > 0 && this.booted !== this.itemId()) {
+            if (this.itemId() > 0 && this.booted !== this.itemId()) {
                 this.boot();
             }
         });

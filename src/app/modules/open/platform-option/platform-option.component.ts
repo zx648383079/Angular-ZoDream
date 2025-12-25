@@ -33,7 +33,7 @@ export class PlatformOptionComponent implements OnInit {
 
     public readonly url = input<string>('');
 
-    public platformItems: IPlatform[] = [];
+    public readonly platformItems = signal<IPlatform[]>([]);
     public readonly dataModel = signal<{
         platform: string,
         items: IOptionGroup[]
@@ -45,7 +45,7 @@ export class PlatformOptionComponent implements OnInit {
 
     ngOnInit() {
         this.http.get<IData<IPlatform>>(this.url() + '/platform').subscribe(res => {
-            this.platformItems = res.data;
+            this.platformItems.set(res.data);
             if (res.data.length > 0) {
                 this.dataForm.platform().value.set(res.data[0].id as any);
                 this.tapPlatformChange();

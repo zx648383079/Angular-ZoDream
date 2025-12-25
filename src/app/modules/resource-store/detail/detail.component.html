@@ -1,27 +1,27 @@
-@if (data) {
+@if (data()) {
 <div class="container-fluid header-bg">
     <div class="row">
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a routerLink="/res" i18n>Home</a></li>
-                    <li class="breadcrumb-item"><a routerLink="../">{{ data.category?.name }}</a></li>
+                    <li class="breadcrumb-item"><a routerLink="../">{{ data().category?.name }}</a></li>
                     <li class="breadcrumb-item active" aria-current="page" i18n>Details</li>
                 </ol>
             </nav>
         </div>
         <div class="col-md-12">
             <div class="title-bar">
-                {{ data.title }}
+                {{ data().title }}
             </div>
 
             <div class="tag-bar">
-                <a href="">
-                    By {{ data.user.name }}
+                <a >
+                    By {{ data().user.name }}
                 </a>
-                <a href="">
+                <a>
                     <i class="iconfont icon-shopping-cart"></i>
-                    {{ data.download_count | numberFormat }} Sales
+                    {{ data().download_count | numberFormat }} Sales
                 </a>
 
             </div>
@@ -32,12 +32,12 @@
                 <a [class]="{active: tabIndex() == 2}" (click)="tabIndex.set(2)" i18n>Download</a>
                 <a [class]="{active: tabIndex() == 3}" (click)="tabIndex.set(3)">
                     <ng-container i18n>Reviews</ng-container>
-                    <app-star [value]="data.score" />
-                    <div class="count-label">{{ data.download_count | numberFormat }}</div>
+                    <app-star [value]="data().score" />
+                    <div class="count-label">{{ data().download_count | numberFormat }}</div>
                 </a>
                 <a [class]="{active: tabIndex() == 4}" (click)="tabIndex.set(4)">
                     <ng-container i18n>Comments</ng-container>
-                    <div class="count-label">{{ data.comment_count | numberFormat }}</div>
+                    <div class="count-label">{{ data().comment_count | numberFormat }}</div>
                 </a>
                 <a [class]="{active: tabIndex() == 5}" (click)="tabIndex.set(5)" i18n>Support</a>
             </div>
@@ -47,17 +47,17 @@
 }
 <div class="container-fluid detail-body">
     <app-loading-tip [loading]="isLoading()" [visible]="!data || isLoading()" />
-    @if (data) {
+    @if (data()) {
     <div class="row">
         <div class="col-md-8">
             <div class="tab-target-body">
                 <div class="tab-item" [class.active]="tabIndex() < 1">
                     <div class="group-box">
                         <div class="group-image">
-                            <img [src]="data.thumb|asset" alt="">
+                            <img [src]="data().thumb|asset" alt="">
                             <div class="box-hat"></div>
                         </div>
-                        @if (data.preview_type > 0) {
+                        @if (data().preview_type > 0) {
                         <div class="group-footer">
                             <a class="btn btn-primary" routerLink="preview">
                                 <ng-container i18n>Live Preview</ng-container>
@@ -67,15 +67,15 @@
                         }
                     </div>
                     <div class="content-body">
-                        <app-markdown-block [value]="data.content" />
+                        <app-markdown-block [value]="data().content" />
                         <div class="body-memu-bar">
                             <a (click)="tapCollect()" i18n-title title="Collect this resource">
-                                <i class="iconfont" [class]="{'icon-heart': data.is_collected, 'icon-heart-o': !data.is_collected}"></i>
+                                <i class="iconfont" [class]="{'icon-heart': data().is_collected, 'icon-heart-o': !data().is_collected}"></i>
                             </a>
                             <a>
                                 <i class="iconfont icon-qrcode"></i>
                                 <div class="hover-popup">
-                                    <img [src]="'assets/images/wx.jpg'|asset" alt="">
+                                    <img ngSrc="assets/images/wx.jpg" width="160" height="160" alt="">
                                 </div>
                             </a>
                         </div>
@@ -83,13 +83,13 @@
                 </div>
                 <div class="tab-item" [class.active]="tabIndex() == 1">
                     <div class="group-box">
-                        <app-catalog [items]="catalogItems" />
+                        <app-catalog [items]="catalogItems()" />
                     </div>
                 </div>
                 <div class="tab-item" [class.active]="tabIndex() == 2">
                     <div class="group-box">
                         <ul class="file-panel">
-                            @for (item of data.files; track $index) {
+                            @for (item of data().files; track $index) {
                             <li>
                                 <span>{{ formatType(item.file_type) }}</span>
                                 @if (item.file_type < 1) {
@@ -104,12 +104,21 @@
                         </ul>
                     </div>
                 </div>
-                <div class="tab-item" [class.active]="tabIndex() == 3">
-                    <app-score [itemId]="data.id" [init]="tabIndex() == 3" />
+                <div class="tab-item" [class.active]="tabIndex() == 3" aria-live="polite" aria-atomic="true">
+                    @defer (on viewport) {
+                        <app-score [itemId]="data().id"/>
+                    } @placeholder {
+                        <p>Loading...</p>
+                    }
                 </div>
                 <div class="tab-item" [class.active]="tabIndex() == 4">
-                    <div class="group-box">
-                        <app-comment [itemId]="data.id" [init]="tabIndex() == 4" />
+                    <div class="group-box" aria-live="polite" aria-atomic="true">
+                        @defer (on viewport) {
+                            <app-comment [itemId]="data().id"/>
+                        } @placeholder {
+                            <p>Loading...</p>
+                        }
+                        
                     </div>
                 </div>
             </div>
@@ -117,21 +126,21 @@
         <div class="col-md-4">
             <div class="group-box">
                 <div class="price" >
-                    @if (data.price > 0) {
-                        {{ data.price | currency }}
+                    @if (data().price > 0) {
+                        {{ data().price | currency }}
                     } @else {
                         <ng-container i18n>Free</ng-container>
                     }
                 </div>
                 <div class="btn btn-success">
-                    {{ data.price > 0 ? 'Buy' : 'Download' }}
+                    {{ data().price > 0 ? 'Buy' : 'Download' }}
                 </div>
             </div>
             <div class="group-box">
                 <table class="table">
                     <tr>
                         <td class="line-label" i18n>Commercial License</td>
-                        @if (data.is_commercial) {
+                        @if (data().is_commercial) {
                             <td class="line-body">
                                 <h3 i18n>Enable</h3>
                                 <ul class="rule-panel">
@@ -145,7 +154,7 @@
                     </tr>
                     <tr>
                         <td class="line-label" i18n>Reprint</td>
-                        @if (data.is_reprint) {
+                        @if (data().is_reprint) {
                             <td class="line-body" i18n>Enable</td>
                         } @else {
                             <td class="line-body" i18n>Disable</td>
@@ -153,17 +162,17 @@
                     </tr>
                     <tr>
                         <td class="line-label" i18n>Last Update</td>
-                        <td class="line-body">{{ data.updated_at|ago }}</td>
+                        <td class="line-body">{{ data().updated_at|ago }}</td>
                     </tr>
                     <tr>
                         <td class="line-label" i18n>Size</td>
-                        <td class="line-body">{{ data.size|size }}</td>
+                        <td class="line-body">{{ data().size|size }}</td>
                     </tr>
-                    @if (data.tags && data.tags.length > 0) {
+                    @if (data().tags && data().tags.length > 0) {
                     <tr class="tag-line-bar">
                         <td class="line-label" i18n>Tags</td>
                         <td class="line-body">
-                            @for (item of data.tags; track $index) {
+                            @for (item of data().tags; track $index) {
                                 <a routerLink="../../../search" [queryParams]="{tag: item.name}">{{ item.name }}</a>
                             }
                         </td>

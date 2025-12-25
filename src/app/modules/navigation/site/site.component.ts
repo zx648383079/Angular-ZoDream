@@ -1,4 +1,4 @@
-import { Component, effect, inject, input } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { cloneObject } from '../../../theme/utils';
 import { ISiteCategory } from '../model';
 import { NavigationService } from '../navigation.service';
@@ -14,8 +14,8 @@ export class SiteComponent {
 
 
     public readonly visible = input(false);
-    public categories: ISiteCategory[] = [];
-    public selectedItems: ISiteCategory[] = [];
+    public readonly categories = signal<ISiteCategory[]>([]);
+    public readonly selectedItems = signal<ISiteCategory[]>([]);
     private booted = false;
 
     constructor() {
@@ -28,10 +28,10 @@ export class SiteComponent {
 
     public tapCategory(item: ISiteCategory) {
         if (item.children && item.children.length > 0) {
-            this.selectedItems = cloneObject(item.children).map(this.formatItem);
+            this.selectedItems.set(cloneObject(item.children).map(this.formatItem));
             return;
         }
-        this.selectedItems = [cloneObject(item)].map(this.formatItem);
+        this.selectedItems.set([cloneObject(item)].map(this.formatItem));
     }
 
     public loadItem(item: ISiteCategory) {
@@ -62,8 +62,8 @@ export class SiteComponent {
             site_category: {},
             site_recommend: {},
         }).subscribe(res => {
-            this.categories = res.site_category;
-            this.selectedItems = res.site_recommend.map(this.formatItem);
+            this.categories.set(res.site_category);
+            this.selectedItems.set(res.site_recommend.map(this.formatItem));
         });
     }
 

@@ -1,23 +1,23 @@
 
-@if (data) {
+@if (data()) {
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a routerLink="/res">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ data.title }}</li>
+                <li class="breadcrumb-item"><a routerLink="/res" i18n>Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ data().title }}</li>
               </ol>
             </nav>
         </div>
         <div class="col-md-12">
             <div class="frame-resize">
-                <a [href]="data.preview_url" target="_blank">
+                <a [href]="data().preview_url" target="_blank">
                     <i class="iconfont icon-close"></i>
                     移除其他内容
                 </a>
                 @for (item of resizeItems; track $index; let i = $index) {
-                    <a (click)="resizeIndex = i" [class]="{active: resizeIndex == i}">{{ item.name }}</a>
+                    <a (click)="resizeIndex.set(i)" [class]="{active: resizeIndex() == i}">{{ item.name }}</a>
                 }
             </div>
         </div>
@@ -25,6 +25,6 @@
 </div>
 
 <div class="frame-box">
-    <iframe id="main-frame" [src]="previewSrc" frameborder="0" [style]="frameStyle"></iframe>
+    <iframe id="main-frame" [src]="previewSrc" frameborder="0" [style]="frameStyle()"></iframe>
 </div>
 }

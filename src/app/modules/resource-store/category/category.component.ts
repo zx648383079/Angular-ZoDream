@@ -30,12 +30,12 @@ export class CategoryComponent implements OnInit {
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public data: ICategory;
-    public categories: ICategory[] = [];
+    public readonly data = signal<ICategory>(null);
+    public readonly categories = signal<ICategory[]>([]);
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.data = {id: params.id} as any;
+            this.data.set({id: params.id} as any);
             if (params.id) {
                 this.load(parseNumber(params.id));
             }
@@ -48,15 +48,15 @@ export class CategoryComponent implements OnInit {
 
     private load(id: number) {
         this.service.category(id).subscribe(res => {
-            this.data = res;
-            this.categories = res.children;
+            this.data.set(res);
+            this.categories.set(res.children);
         });
     }
 
     public tapCategory(item: ICategory) {
-        this.data = item;
+        this.data.set(item);
         this.service.categoryList({parent: item.id}).subscribe(res => {
-            this.categories = res.data;
+            this.categories.set(res.data);
         });
         this.tapRefresh();
         this.searchService.pushHistoryState(item.name, window.location.href.replace(/\d+(\?.+)*$/, item.id.toString()));
@@ -83,7 +83,7 @@ export class CategoryComponent implements OnInit {
         }
         this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
-        this.service.resourceList({...queries, category: this.data?.id}).subscribe({
+        this.service.resourceList({...queries, category: this.data()?.id}).subscribe({
             next: res => {
                 this.items.set(res.data);
                 this.hasMore = res.paging.more;

@@ -47,14 +47,14 @@ export class NoteComponent implements OnInit, OnDestroy {
     }), schemaPath => {
         required(schemaPath.content);
     });
-    public authUser: IUser;
+    public readonly authUser = signal<IUser>(null);
 
     private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `Note`);
         this.store.select(selectAuthUser).subscribe(user => {
-            this.authUser = user;
+            this.authUser.set(user);
         });
     }
 

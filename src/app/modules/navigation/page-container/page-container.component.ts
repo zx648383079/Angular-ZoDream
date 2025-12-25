@@ -1,4 +1,4 @@
-import { Component, effect, input, output } from '@angular/core';
+import { Component, effect, input, output, signal, untracked } from '@angular/core';
 import { IExtraRule } from '../../../components/link-rule';
 import { ISite, IWebPage } from '../model';
 import { formatDomain } from '../util';
@@ -12,9 +12,9 @@ import { formatDomain } from '../util';
 export class PageContainerComponent {
 
     public readonly value = input<IWebPage>(undefined);
-    public rules: IExtraRule[] = [];
+    public readonly rules = signal<IExtraRule[]>([]);
     public menuItems = [$localize `Collect`, $localize `Share`, $localize `Report`];
-    public menuOpen = false;
+    public readonly menuOpen = signal(false);
 
     public readonly onAction = output<{
         type: number;
@@ -24,12 +24,15 @@ export class PageContainerComponent {
     constructor() {
         effect(() => {
             const value = this.value();
-            this.rules = value.keywords ? value.keywords.map(i => {
-                return {
-                    s: i.word,
-                    type: 9
-                };
-            }) : [];
+            untracked(() => {
+                this.rules.set(value.keywords ? value.keywords.map(i => {
+                    return {
+                        s: i.word,
+                        type: 9
+                    };
+                }) : []);
+            });
+            
         });
     }
 

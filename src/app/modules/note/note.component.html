@@ -1,7 +1,7 @@
 <div class="container">
     <app-pull-to-refresh [loading]="isLoading()" [more]="hasMore()" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
         <div class="row">
-            @if (authUser) {
+            @if (authUser()) {
             <div class="col-md-4">
                 <div class="note-form">
                     <div class="item-body">

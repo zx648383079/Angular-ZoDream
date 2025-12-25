@@ -34,7 +34,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     private readonly reportModal = viewChild(ReportDialogComponent);
     private readonly collectModal = viewChild(NavigationPanelComponent);
 
-    public openType = 0;
+    public readonly openType = signal(0);
     public readonly items = signal<IWebPage[]>([]);
     private hasMore = true;
     public readonly isLoading = signal(false);
@@ -99,11 +99,15 @@ export class NavigationComponent implements OnInit, OnDestroy {
     }
 
     public toggleOpen() {
-        if (this.openType < 1) {
-            this.openType = 1;
-        } else if (this.openType === 1) {
-            this.openType = 0;
-        }
+        this.openType.update(v => {
+            if (v < 1) {
+                return 1;
+            } else if (v === 1) {
+                return 0;
+            }
+            return v;
+        });
+        
     }
 
     public tapSearch(val: string) {
@@ -116,7 +120,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
             this.tapRefresh();
             return;
         }
-        this.openType = 0;
+        this.openType.set(0);
         this.searchService.applyHistory(this.queries);
     }
 
@@ -141,7 +145,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
             return;
         }
         this.isLoading.set(true);
-        this.openType = 2;
+        this.openType.set(2);
         const queries = {...this.queries().value(), page};
         this.service.search(queries).subscribe({
             next: res => {

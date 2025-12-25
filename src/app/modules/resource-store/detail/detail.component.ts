@@ -19,10 +19,10 @@ export class DetailComponent implements OnInit {
     private readonly themeService = inject(ThemeService);
 
 
-    public data: IResource;
+    public readonly data = signal<IResource>(null);
     public readonly isLoading = signal(false);
     public readonly tabIndex = signal(0);
-    public catalogItems: IResourceCatalog[] = [];
+    public readonly catalogItems = signal<IResourceCatalog[]>([]);
 
     ngOnInit() {
         this.route.params.subscribe(param => {
@@ -45,13 +45,13 @@ export class DetailComponent implements OnInit {
                 this.isLoading.set(false);
                 res.score = parseNumber(res.score);
                 this.themeService.titleChanged.next(res.title);
-                this.data = res;
-                this.catalogItems = res.file_catalog;
+                this.data.set(res);
+                this.catalogItems.set(res.file_catalog);
                 // this.loadCatalog();
             },
             error: err => {
                 this.isLoading.set(false);
-                this.data = undefined;
+                this.data.set(null);
                 this.toastrService.error(err)
                 history.back();
             }
@@ -59,13 +59,14 @@ export class DetailComponent implements OnInit {
     }
 
     public tapCollect() {
-        if (!this.data) {
+        if (!this.data()) {
             return;
         }
-        this.service.collect(this.data.id).subscribe({
+        this.service.collect(this.data().id).subscribe({
             next: res => {
-                this.data.is_collected = res.is_collected;
-                this.data.collect_count = res.collect_count;
+                this.data.update(v => {
+                    return {...v, is_collected: res.is_collected, collect_count: res.collect_count};
+                });
             }, error: err => {
                 this.toastrService.warning(err);
             }
@@ -73,8 +74,8 @@ export class DetailComponent implements OnInit {
     }
 
     private loadCatalog() {
-        this.service.resourceCatalog(this.data.id).subscribe(res => {
-            this.catalogItems = res.data;
+        this.service.resourceCatalog(this.data().id).subscribe(res => {
+            this.catalogItems.set(res.data);
         });
     }
 

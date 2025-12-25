@@ -30,11 +30,11 @@ export class PlatformComponent implements OnInit {
         per_page: 20,
         keywords: ''
     }));
-    public reviewable = false;
+    public readonly reviewable = signal(false);
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.reviewable = window.location.href.indexOf('review') > 0;
+            this.reviewable.set(window.location.href.indexOf('review') > 0);
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });

@@ -1,12 +1,12 @@
-@if (subtotal) {
+@if (subtotal()) {
 <div class="score-panel">
     <div class="row">
         <div class="col-4">
             <div class="align-center" i18n>Favorable rate</div>
             <div class="align-center">
-                <div class="rate">{{ subtotal.favorable_rate }}%</div>
+                <div class="rate">{{ subtotal().favorable_rate }}%</div>
                 <div class="score">
-                    <app-star [value]="subtotal.avg" />
+                    <app-star [value]="subtotal().avg" />
                 </div>
             </div>
         </div>
@@ -14,8 +14,8 @@
             <div i18n>Customer reviews:</div>
             
             <div class="tag-box">
-                <span class="active" i18n>All({{ subtotal.total }})</span>
-                @for (item of subtotal.tags; track $index) {
+                <span class="active" i18n>All({{ subtotal().total }})</span>
+                @for (item of subtotal().tags; track $index) {
                     <span>{{ item.label }}({{ item.count }})</span>
                 }
             </div>

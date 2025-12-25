@@ -1,4 +1,4 @@
-import { Component, inject, signal, viewChild } from '@angular/core';
+import { Component, computed, inject, signal, viewChild } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { emptyValidate } from '../../../theme/validators';
 import { ISiteCollect, ISiteCollectGroup } from '../model';
@@ -26,7 +26,7 @@ export class NavigationPanelComponent {
 
     public readonly modal = viewChild<DialogEvent>('modal');
 
-    public editMode = false;
+    public readonly editMode = signal(false);
     public readonly items = signal<ISiteCollectGroup[]>([]);
     public readonly editForm = form(signal({
         id: 0,
@@ -36,7 +36,7 @@ export class NavigationPanelComponent {
     }), schemaPath => {
         required(schemaPath.name);
     });
-    public isGuest = true;
+    public readonly isGuest = signal(true);
     private saveMode = 0;
     private isUpdated = false;
 
@@ -52,9 +52,9 @@ export class NavigationPanelComponent {
         }
     }
 
-    public get isSaveCloud() {
+    public readonly isSaveCloud = computed(() => {
         return this.saveMode === 2;
-    }
+    });
 
     private loadAsync(mode: number);
     private loadAsync(isGuest: boolean);
@@ -62,7 +62,7 @@ export class NavigationPanelComponent {
         this.isUpdated = false;
         let mode = 0;
         if (typeof isGuest === 'boolean') {
-            this.isGuest = isGuest;
+            this.isGuest.set(isGuest);
             mode = parseNumber(window.localStorage.getItem(NavSaveModekey));
         } else {
             mode = isGuest;
@@ -120,11 +120,11 @@ export class NavigationPanelComponent {
             toggle = !this.editMode;
         }
         if (!this.isUpdated || toggle) {
-            this.editMode = toggle;
+            this.editMode.set(toggle);
             return;
         }
         this.toastrService.confirm($localize `You haven't saved and confirmed to leave?`, () => {
-            this.editMode = toggle;
+            this.editMode.set(toggle);
         });
     }
 
@@ -156,7 +156,7 @@ export class NavigationPanelComponent {
     public tapReset() {
         this.toastrService.confirm($localize `Are you sure to reset?`, () => {
             window.localStorage.removeItem(NavSaveModekey);
-            this.loadAsync(this.isGuest);
+            this.loadAsync(this.isGuest());
         });
     }
 

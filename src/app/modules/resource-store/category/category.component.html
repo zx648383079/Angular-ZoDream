@@ -6,29 +6,38 @@
                 <li class="breadcrumb-item">
                     <a routerLink="/res" i18n>Home</a>
                 </li>
-                <li class="breadcrumb-item active" aria-current="page">{{ data.id > 0 ? data.name : 'All categories' }}</li>
+                @if (data().id > 0) {
+                    <li class="breadcrumb-item active" aria-current="page">{{ data().name }}</li>
+                } @else {
+                    <li class="breadcrumb-item active" aria-current="page" i18n>All categories</li>
+                }
+                
               </ol>
             </nav>
         </div>
         <div class="col-md-12">
-            <div class="title-bar">
-                {{ data ? data.name : 'All categories' }}
-            </div>
+            @if (data()) {
+                <div class="title-bar">{{ data().name }}</div>
+            } @else {
+                <div class="title-bar" i18n>All categories</div>
+            }
         </div>
     </div>
 </div>
 
-@if (categories.length > 0) {
+@if (categories().length > 0) {
 <div class="container-fluid">
     <div class="panel">
         <div class="panel-header">
-            <div class="inner-header">
-                {{ data ? data.name : 'All categories' }}
-            </div>
+            @if (data()) {
+                <div class="inner-header">{{ data().name }}</div>
+            } @else {
+                <div class="inner-header" i18n>All categories</div>
+            }
         </div>
         <div class="panel-body">
             <div class="row">
-                @for (item of categories; track $index) {
+                @for (item of categories(); track $index) {
                 <div class="col-md-3">
                     <a class="link-item" (click)="tapCategory(item)">
                         <span>{{ item.name }}</span>
@@ -39,8 +48,8 @@
             </div>
         </div>
         <div class="panel-footer">
-            <a routerLink="/res/search" [queryParams]="{category: data?.id, sort: 'new'}" i18n>Browse New</a>
-            <a routerLink="/res/search" [queryParams]="{category: data?.id, sort: 'hot'}" i18n>Browse Bestsellers</a>
+            <a routerLink="/res/search" [queryParams]="{category: data()?.id, sort: 'new'}" i18n>Browse New</a>
+            <a routerLink="/res/search" [queryParams]="{category: data()?.id, sort: 'hot'}" i18n>Browse Bestsellers</a>
         </div>
     </div>
 </div>

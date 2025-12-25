@@ -1,7 +1,7 @@
 <div class="page-container" [class]="{'page-not-thumb': !value().thumb}">
     <div class="page-header">
         <a [href]="value().link" target="_blank" rel="noopener">
-            <app-rule-block [value]="value().title" [rules]="rules" />
+            <app-rule-block [value]="value().title" [rules]="rules()" />
         </a>
         @if (value().score >= 80) {
             <i class="iconfont icon-shield" i18n-title title="This page is safe"></i>
@@ -19,7 +19,7 @@
         }
         <div class="page-body">
             <span class="page-time">{{ value().updated_at | ago }}</span> <span class="page-content">
-                <app-rule-block [value]="value().description" [rules]="rules" />
+                <app-rule-block [value]="value().description" [rules]="rules()" />
             </span>
             <div class="page-footer">
                 @if (value().site) {
@@ -36,16 +36,16 @@
                     <span class="site-name">{{ formatDomain(value().link) }}</span>
                 </a>
                 }
-                <div class="page-action" (mouseenter)="menuOpen = true" (mouseleave)="menuOpen = false">
-                    <div class="drop-icon" (click)="menuOpen = true">
+                <div class="page-action" (mouseenter)="menuOpen.set(true)" (mouseleave)="menuOpen.set(false)">
+                    <div class="drop-icon" (click)="menuOpen.set(true)">
                         <i class="iconfont icon-ellipsis-h"></i>
                     </div>
-                    <div class="drop-body" [class]="{open: menuOpen}" (click)="menuOpen = false">
+                    <div class="drop-body" [class]="{open: menuOpen}" (click)="menuOpen.set(false)">
                         <div class="menu-body" (click)="$event.stopPropagation()">
                             @for (item of menuItems; track $index; let i = $index) {
                             <div class="menu-item" (click)="tapMenu(i)">{{ item }}</div>
                             }
-                            <div class="menu-item menu-item-close" (click)="menuOpen = false" i18n>Cancel</div>
+                            <div class="menu-item menu-item-close" (click)="menuOpen.set(false)" i18n>Cancel</div>
                         </div>
                     </div>
                 </div>

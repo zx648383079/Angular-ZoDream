@@ -3,7 +3,7 @@
         <label for="platform_id">应用</label>
         <div>
             <select id="platform_id" class="form-control" [field]="dataForm.platform" (change)="tapPlatformChange()">
-                @for (item of platformItems; track $index) {
+                @for (item of platformItems(); track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
                 }
             </select>

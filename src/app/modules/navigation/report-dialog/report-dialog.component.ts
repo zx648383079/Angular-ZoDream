@@ -22,7 +22,7 @@ export class ReportDialogComponent {
      * 是否显示
      */
     public readonly visible = signal(false);
-    public data: IWebPage;
+    public readonly data = signal<IWebPage>(null);
     private confirmFn: DialogConfirmFn;
 
 
@@ -45,7 +45,7 @@ export class ReportDialogComponent {
             {name: $localize `Patent`, value: 21},
         ]},
     ];
-    public typeIndex = 0;
+    public readonly typeIndex = signal(0);
     public readonly dataForm = form(signal({
         email: '',
         content: ''
@@ -54,9 +54,9 @@ export class ReportDialogComponent {
         maxLength(schemaPath.content, 500);
     });
 
-    public get typeOptionItems() {
-        return this.typeItems[this.typeIndex].items;
-    }
+    public readonly typeOptionItems = computed(() => {
+        return this.typeItems[this.typeIndex()].items;
+    });
 
     public readonly wordSize = computed(() => {
         return Math.max(0, 500 - this.dataForm.content().value().length);
@@ -64,7 +64,7 @@ export class ReportDialogComponent {
 
     public open(data: IWebPage, cb?: DialogConfirmFn) {
         this.confirmFn = cb;
-        this.data = data;
+        this.data.set(data);
         this.visible.set(true);
         this.dataForm.content().value.set('');
     }
@@ -81,14 +81,14 @@ export class ReportDialogComponent {
         const val = this.dataForm().value();
         const data = {
             item_type: 31,
-            item_id: this.data.id,
+            item_id: this.data().id,
             type: 99,
             title: '',
-            content: `[${this.data.title}](${this.data.link}):${val.content}`,
+            content: `[${this.data().title}](${this.data().link}):${val.content}`,
             email: val.email
         };
         const option = [];
-        for (const item of this.typeOptionItems) {
+        for (const item of this.typeOptionItems()) {
             if (item.checked) {
                 data.type = item.value as number;
                 option.push(item.name);
