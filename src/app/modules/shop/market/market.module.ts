@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 
 import { marketRoutingComponents, MarketRoutingModule } from './market-routing.module';
 import { ThemeModule } from '../../../theme/theme.module';
@@ -15,6 +15,7 @@ import { Field } from '@angular/forms/signals';
     imports: [
         CommonModule,
         Field,
+        NgOptimizedImage,
         MarketRoutingModule,
         ThemeModule,
         DesktopModule,

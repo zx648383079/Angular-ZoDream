@@ -1,37 +1,37 @@
-@if (data) {
+@if (data()) {
 <div class="article-page">
     <div class="container">
         <nav class="breadcrumb">
             <a class="breadcrumb-item" routerLink="../../" i18n>Home</a>
-            @if (data.category) {
-            <a class="breadcrumb-item" [routerLink]="'../' + data.cat_id">{{ data.category.name }}</a>
+            @if (data().category) {
+            <a class="breadcrumb-item" [routerLink]="'../' + data().cat_id">{{ data().category.name }}</a>
             }
-            <span class="breadcrumb-item active">{{ data.title }}</span>
+            <span class="breadcrumb-item active">{{ data().title }}</span>
         </nav>
     </div>
     <div class="container side-box">
         <div>
             <div class="menu-box">
                 <div class="menu-group">
-                    @if (data.category) {
+                    @if (data().category) {
                     <div class="menu-name">
-                        {{ data.category.name }}
+                        {{ data().category.name }}
                     </div>
                     }
                     <ul>
                         <li class="active">
-                            <a>{{ data.title }}</a>
+                            <a>{{ data().title }}</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="main">
-            <div class="title">{{ data.title }}</div>
+            <div class="title">{{ data().title }}</div>
             <div class="desc">
-                <a>发布时间：{{ data.created_at }}</a>
+                <a>发布时间：{{ data().created_at }}</a>
             </div>
-            <div class="content" [innerHTML]="content"></div>
+            <div class="content" [innerHTML]="content()"></div>
         </div>
     </div>
 </div>

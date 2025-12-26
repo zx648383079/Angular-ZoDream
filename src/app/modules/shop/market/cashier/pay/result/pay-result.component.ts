@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -6,13 +6,7 @@ import { Component, OnInit } from '@angular/core';
     templateUrl: './pay-result.component.html',
     styleUrls: ['./pay-result.component.scss']
 })
-export class PayResultComponent implements OnInit {
+export class PayResultComponent {
 
-    public log: any;
-
-    constructor() { }
-
-    ngOnInit() {
-    }
-
+    public readonly log = signal<any>(null);
 }

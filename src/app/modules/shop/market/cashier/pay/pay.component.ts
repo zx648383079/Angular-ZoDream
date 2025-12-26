@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IOrder, IPayment, ORDER_STATUS } from '../../../model';
@@ -11,7 +11,7 @@ import { ShopService } from '../../../shop.service';
     templateUrl: './pay.component.html',
     styleUrls: ['./pay.component.scss']
 })
-export class PayComponent implements OnInit {
+export class PayComponent {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly service = inject(ShopService);
@@ -19,20 +19,17 @@ export class PayComponent implements OnInit {
     private readonly themeService = inject(ThemeService);
 
 
-    public data: IOrder;
-    public paymentItems: IPayment[] = [];
-    public payment: IPayment;
+    public readonly data = signal<IOrder>(null);
+    public readonly paymentItems = signal<IPayment[]>([]);
+    public readonly payment = signal<IPayment>(null);
 
     constructor() {
         this.themeService.titleChanged.next('订单支付');
-    }
-
-    ngOnInit() {
         this.route.params.subscribe(params => {
             this.loadOrder(params.id);
         });
         this.service.paymentList().subscribe(res => {
-            this.paymentItems = res.data;
+            this.paymentItems.set(res.data);
         });
     }
 
@@ -44,11 +41,11 @@ export class PayComponent implements OnInit {
                     this.goToOrder(res);
                     return;
                 }
-                this.data = res;
-                this.payment = {
+                this.data.set(res);
+                this.payment.set({
                     code: res.payment_id,
                     name: res.payment_name
-                } as any;
+                } as any);
             },
             error: err => {
                 this.toastrService.error(err);
@@ -57,12 +54,12 @@ export class PayComponent implements OnInit {
     }
 
     public paymentChanged(item: IPayment) {
-        this.payment = item;
+        this.payment.set(item);
     }
 
     public onExpired() {
         this.toastrService.warning('您的订单已失效！');
-        this.goToOrder(this.data);
+        this.goToOrder(this.data());
     }
 
     private goToOrder(res: IOrder) {

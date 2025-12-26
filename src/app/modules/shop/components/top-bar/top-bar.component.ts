@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IArticle } from '../../model';
 import { IUser } from '../../../../theme/models/user';
@@ -19,18 +19,18 @@ export class TopBarComponent implements OnInit {
     private readonly authService = inject(AuthService);
 
 
-    public noticeItems: IArticle[] = [];
-    public user: IUser;
+    public readonly noticeItems = signal<IArticle[]>([]);
+    public readonly user = signal<IUser>(null);
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
-            this.user = user;
+            this.user.set(user);
         });
     }
 
     ngOnInit() {
         this.service.notice().subscribe(res => {
-            this.noticeItems = res.data;
+            this.noticeItems.set(res.data);
         });
     }
 

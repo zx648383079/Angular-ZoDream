@@ -1,20 +1,20 @@
-@if (category) {
+@if (category()) {
 <div class="category-page">
   <div class="container">
         <nav class="breadcrumb">
             <a class="breadcrumb-item" routerLink="../">Home</a>
-            <span class="breadcrumb-item active">{{ category.name }}</span>
+            <span class="breadcrumb-item active">{{ category().name }}</span>
         </nav>
 
-      @if (category.banner) {
+      @if (category().banner) {
       <div class="banner">
-          <img [src]="category.banner" alt="">
+          <img [src]="category().banner" alt="">
       </div>
       }
 
       <div class="goods-area">
           <div class="filter-box">
-              @for (item of filterItems; track $index) {
+              @for (item of filterItems(); track $index) {
               <div class="filter-line">
                     <div class="filter-header">
                         {{ item.label }}
@@ -25,9 +25,9 @@
                         }
                         @if (item.name == 'price') {
                             <div class="price-input">
-                                <input type="number" class="form-control" [(value)]="price.min">
+                                <input type="number" class="form-control" [field]="priceForm.min">
                                 -
-                                <input type="number" class="form-control" [(value)]="price.max">
+                                <input type="number" class="form-control" [field]="priceForm.max">
                             </div>
                         }
                     </div>
@@ -39,9 +39,9 @@
                 </div>
                 <div class="filter-body">
                     @for (item of sortItems; track $index) {
-                        <a [class]="{active: item.value == sortKey}" (click)="tapSort(item)">{{ item.name }}
-                            @if (item.value && sortKey == item.value) {
-                            <i class="iconfont" [class]="{'icon-sort-alpha-asc': orderAsc, 'icon-sort-alpha-desc': !orderAsc}"></i>
+                        <a [class]="{active: item.value == sortKey()}" (click)="tapSort(item)">{{ item.name }}
+                            @if (item.value && sortKey() == item.value) {
+                            <i class="iconfont" [class]="{'icon-sort-alpha-asc': orderAsc(), 'icon-sort-alpha-desc': !orderAsc()}"></i>
                             }
                         </a>
                     }
@@ -50,9 +50,9 @@
           </div>
           <div class="category-header">
               <div class="title">
-                {{ category.name }}
+                {{ category().name }}
               </div>
-              <p class="desc">{{ category.description }}</p>
+              <p class="desc">{{ category().description }}</p>
           </div>
           <div class="row">
                 @for (item of items(); track $index) {

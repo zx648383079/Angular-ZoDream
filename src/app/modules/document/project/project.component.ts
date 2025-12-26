@@ -15,8 +15,8 @@ export class ProjectComponent implements OnInit {
     private readonly router = inject(Router);
 
 
-    public data: IProject;
-    public catalog: IDocPage[]&IDocApi[] = [];
+    public readonly data = signal<IProject>(null);
+    public readonly catalog = signal<IDocPage[]&IDocApi[]>([]);
     public readonly tabIndex = signal(0);
 
     ngOnInit() {
@@ -25,7 +25,7 @@ export class ProjectComponent implements OnInit {
                 return;
             }
             this.service.project(params.id).subscribe(res => {
-                this.data = res;
+                this.data.set(res);
                 this.loadCatalog();
             });
         });
@@ -39,7 +39,7 @@ export class ProjectComponent implements OnInit {
     }
 
     public tapRead(item?: IDocApi|IDocPage) {
-        const route = [this.data.type > 0 ? '../../api' : '../../page', this.data.id];
+        const route = [this.data().type > 0 ? '../../api' : '../../page', this.data().id];
         if (item) {
             route.push(0, item.id);
         }
@@ -47,8 +47,8 @@ export class ProjectComponent implements OnInit {
     }
 
     private loadCatalog() {
-        this.service.catalogAll(this.data.id, 0).subscribe(res => {
-            this.catalog = res.data;
+        this.service.catalogAll(this.data().id, 0).subscribe(res => {
+            this.catalog.set(res.data);
         });
     }
 

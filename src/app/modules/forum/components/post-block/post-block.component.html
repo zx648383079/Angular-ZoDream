@@ -4,7 +4,7 @@
         <ng-container i18n>The content of this post is only visible to the owner</ng-container>
     </div>
 } @else {
-    @for (block of blcokItems; track $index) {
+    @for (block of blcokItems(); track $index) {
         @if (!block.type || block.type < 1) {
             {{ block.content }}
         } @else if (block.type == 1) {

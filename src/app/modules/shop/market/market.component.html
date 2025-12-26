@@ -2,9 +2,9 @@
     <app-top-bar />
     <div class="header-main" appScrollFixed="top-fixed">
         <div class="container">
-            @if (site) {
+            @if (site()) {
             <div class="header-logo">
-                <img [src]="site.logo" alt="">
+                <img [src]="site().logo" alt="">
             </div>
             }
             <ul class="header-nav">
@@ -20,7 +20,7 @@
                 <li>
                     <a routerLink="./activity/coupon" i18n>Coupon</a>
                 </li>
-                @for (item of categories; track $index) {
+                @for (item of categories(); track $index) {
                 <li>
                     <a [routerLink]="'./category/' + item.id">{{ item.name }}</a>
                     @if (item.children) {
@@ -48,12 +48,12 @@
                 }
             </ul>
             <div class="header-search">
-                <input type="text" i18n-placeholder placeholder="Search ..." [(value)]="keywords" (input)="onKeywordsChange()" (keypress)="onSearchKeyDown($event)">
+                <input type="text" i18n-placeholder placeholder="Search ..." [value]="keywords()" (input)="onKeywordsChange($event.target.value)" (keypress)="onSearchKeyDown($event)">
                 <i class="iconfont icon-search" (click)="tapSearch()"></i>
-                @if (hotItems.length > 0) {
+                @if (hotItems().length > 0) {
                 <div class="search-hot">
                     <ul>
-                        @for (item of hotItems; track $index) {
+                        @for (item of hotItems(); track $index) {
                         <li (click)="tapSearch(item)">
                             {{ item }}
                         </li>
@@ -61,10 +61,10 @@
                     </ul>
                 </div>
                 }
-                @if (tipItems.length > 0) {
+                @if (tipItems().length > 0) {
                 <div class="search-tip">
                     <ul>
-                        @for (item of tipItems; track $index) {
+                        @for (item of tipItems(); track $index) {
                         <li (click)="tapSearch(item)">
                             {{ item }}
                         </li>

@@ -3,7 +3,7 @@
     <div class="container">
         @if (items().length < 1) {
             <div class="empty-cart-box">
-                @if (guest) {
+                @if (guest()) {
                     <p i18n>After login, you can synchronize the products in the shopping cart</p>
                     <a class="btn btn-primary" routerLink="../auth" i18n>Sign up now</a>
                 } @else {
@@ -86,8 +86,8 @@
                 <div class="money">
                     <span>应付总额：</span>
                     <span class="price">{{ total() | price }}</span>
-                    @if (cart.promotion_cell.length > 0) {
-                    <div class="tip">{{ cart.promotion_cell[0].popup_tip }}></div>
+                    @if (cart().promotion_cell.length > 0) {
+                    <div class="tip">{{ cart().promotion_cell[0].popup_tip }}></div>
                     }
                 </div>
                 <div class="checkout">
@@ -101,9 +101,9 @@
             <div class="panel-header" i18n>
             You like
             </div>
-            @if (likeItems.length > 0) {
+            @if (likeItems().length > 0) {
             <div class="panel-body">
-                <app-goods-slider [items]="likeItems" />
+                <app-goods-slider [items]="likeItems()" />
             </div>
             }
         </div>

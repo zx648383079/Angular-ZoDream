@@ -27,7 +27,7 @@ export class VideoComponent implements OnInit {
     public readonly hasMore = signal(true);
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public isFixed = false;
+    public readonly isFixed = signal(false);
     public readonly queries = form(signal<IPageQueries>({
         keywords: '',
         per_page: 20,
@@ -45,7 +45,7 @@ export class VideoComponent implements OnInit {
         event: Event
     ): void {
         const target = event.target as HTMLElement;
-        this.isFixed = target.scrollTop > window.innerHeight / 2;
+        this.isFixed.set(target.scrollTop > window.innerHeight / 2);
     }
 
     ngOnInit() {

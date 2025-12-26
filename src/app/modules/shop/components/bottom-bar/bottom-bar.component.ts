@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ISite } from '../../../../theme/models/seo';
 import { ShopAppState } from '../../shop.reducer';
@@ -10,19 +10,16 @@ import { selectSite } from '../../shop.selectors';
     templateUrl: './bottom-bar.component.html',
     styleUrls: ['./bottom-bar.component.scss']
 })
-export class BottomBarComponent implements OnInit {
+export class BottomBarComponent {
     private readonly store = inject<Store<ShopAppState>>(Store);
 
 
-    public site: ISite = {} as any;
+    public readonly site = signal<ISite>({} as any);
 
     constructor() {
         this.store.select(selectSite).subscribe(site => {
-            this.site = site || {} as any;
+            this.site.set(site || {} as any);
         });
-    }
-
-    ngOnInit() {
     }
 
     public tapToTop() {

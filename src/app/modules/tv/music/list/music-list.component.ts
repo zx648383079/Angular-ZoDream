@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { IFilter, IPageQueries } from '../../../../theme/models/page';
 import { ISortItem } from '../../../../theme/models/seo';
 import { IMusicList } from '../../model';
@@ -21,26 +21,30 @@ export class MusicListComponent {
         per_page: 20,
         category: 0,
     }));
-    public filterVisible = false;
-    public filterItems: IFilter[] = [];
+    public readonly filterVisible = signal(false);
+    public readonly filterItems = signal<IFilter[]>([]);
     public sortItems: ISortItem[] = [
         {name: '默认', value: ''},
         {name: '播放量', value: 'play_count', asc: false},
         {name: '评价', value: 'comment', asc: false},
     ];
-    public sortKey = '';
-    public orderAsc = true;
+    public readonly sortKey = signal('');
+    public readonly orderAsc = signal(true);
 
     public tapBack() {
         history.back();
     }
 
+    public toggleFilter() {
+        this.filterVisible.update(v => !v);
+    }
+
     public tapSort(item: ISortItem) {
-        if (this.sortKey === item.value) {
-            this.orderAsc = !this.orderAsc;
+        if (this.sortKey() === item.value) {
+            this.orderAsc.update(v => !v);
         } else {
-            this.sortKey = item.value as string;
-            this.orderAsc = !!item.asc;
+            this.sortKey.set(item.value as string);
+            this.orderAsc.set(!!item.asc);
         }
     }
 
@@ -49,7 +53,7 @@ export class MusicListComponent {
             v[key] = val;
             return v;
         })
-        for (const item of this.filterItems) {
+        for (const item of this.filterItems()) {
             if (item.name !== key) {
                 continue;
             }

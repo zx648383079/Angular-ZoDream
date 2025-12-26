@@ -1,12 +1,12 @@
 <div class="cart-button">
     <a (click)="tapCart()">
         <i class="iconfont icon-shopping-cart"></i>
-        <i class="cart-num">{{ cart ? cart.subtotal.count : 0 }}</i>
+        <i class="cart-num">{{ cart() ? cart().subtotal.count : 0 }}</i>
     </a>
-    @if (cart && cartOpen) {
+    @if (cart() && cartOpen()) {
     <div class="cart-dialog">
         <div class="dialog-body">
-            @for (group of cart.data; track $index) {
+            @for (group of cart().data; track $index) {
                 @for (item of group.goods_list; track $index) {
                 <div class="cart-item">
                     <div class="thumb">
@@ -32,7 +32,7 @@
         <div class="dialog-footer">
             <div class="total">
                 <span i18n>SUBTOTAL:</span>
-                <span>{{ cart.subtotal.total | price }}</span>
+                <span>{{ cart().subtotal.total | price }}</span>
             </div>
             <a (click)="tapViewCart()" class="btn" i18n>VIEW CART</a>
         </div>

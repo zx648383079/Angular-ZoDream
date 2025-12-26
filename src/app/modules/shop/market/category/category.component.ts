@@ -19,7 +19,7 @@ export class CategoryComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public category: ICategory;
+    public readonly category = signal<ICategory>(null);
     public readonly items = signal<IGoods[]>([]);
     private hasMore = true;
     public readonly isLoading = signal(false);
@@ -29,19 +29,19 @@ export class CategoryComponent implements OnInit {
         per_page: 20,
         category: 0,
     }));
-    public filterItems: IFilter[] = [];
+    public readonly filterItems = signal<IFilter[]>([]);
     public sortItems: ISortItem[] = [
         {name: '默认', value: ''},
         {name: '价格', value: 'price', asc: true},
         {name: '销量', value: 'sale', asc: false},
         {name: '评价', value: 'comment', asc: false},
     ];
-    public sortKey = '';
-    public orderAsc = true;
-    public price = {
-        min: '',
-        max: ''
-    };
+    public readonly sortKey = signal('');
+    public readonly orderAsc = signal(true);
+    public readonly priceForm = form(signal({
+        min: 0,
+        max: 0
+    }));
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -52,7 +52,7 @@ export class CategoryComponent implements OnInit {
             }
             this.tapRefresh();
             this.service.category(category).subscribe(res => {
-                this.category = res;
+                this.category.set(res);
             });
         });
         this.route.queryParams.subscribe(params => {
@@ -61,18 +61,18 @@ export class CategoryComponent implements OnInit {
             const category = this.queries.category().value();
             if (category > 0) {
                 this.service.category(category).subscribe(res => {
-                    this.category = res;
+                    this.category.set(res);
                 });
             }
         });
     }
 
     public tapSort(item: ISortItem) {
-        if (this.sortKey === item.value) {
-            this.orderAsc = !this.orderAsc;
+        if (this.sortKey() === item.value) {
+            this.orderAsc.update(v => !v);
         } else {
-            this.sortKey = item.value as string;
-            this.orderAsc = !!item.asc;
+            this.sortKey.set(item.value as string);
+            this.orderAsc.set(!!item.asc);
         }
     }
 

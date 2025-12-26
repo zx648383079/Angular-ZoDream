@@ -1,11 +1,11 @@
-@if (log) {
+@if (log()) {
 <div class="pay-result-page">
     <div class="container">
-        @if (log.status == 2) {
+        @if (log().status == 2) {
             <div class="pay-success">
                 <i class="fa fa-check-circle"></i>
                 <p>您的订单  
-                    <span class="red">{{ log.data }}</span>
+                    <span class="red">{{ log().data }}</span>
                     已经支付成功，感谢您的参与！
                 </p>
                 <a class="btn btn-primary">继续购买</a>

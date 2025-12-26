@@ -1,46 +1,46 @@
-@if (data) {
+@if (data()) {
 <div class="goods-page">
   <div class="container">
       <nav class="breadcrumb">
           <a class="breadcrumb-item" routerLink="../../" i18n>Home</a>
-          @if (data.category) {
-          <a class="breadcrumb-item" [routerLink]="'../../category/' + data.cat_id">{{ data.category.name }}</a>
+          @if (data().category) {
+          <a class="breadcrumb-item" [routerLink]="'../../category/' + data().cat_id">{{ data().category.name }}</a>
           }
-          <span class="breadcrumb-item active">{{ data.name }}</span>
+          <span class="breadcrumb-item active">{{ data().name }}</span>
       </nav>
 
       <div class="row info-box">
           <div class="col-md-6">
-            <app-gallery-slider [items]="galleryItems" />
+            <app-gallery-slider [items]="galleryItems()" />
           </div>
           <div class="col-md-6">
             <div class="bg-white">
                 <div class="intro">
                     <div class="name">
-                        {{ data.name }}
-                        @if (data.favorable_rate) {
+                        {{ data().name }}
+                        @if (data().favorable_rate) {
                         <a class="comment">
-                            <span>{{ data.favorable_rate }}%</span>
+                            <span>{{ data().favorable_rate }}%</span>
                             <span>好评率</span>
                         </a>
                         }
                     </div>
                     <div class="desc">
-                        {{ data.brief }}
+                        {{ data().brief }}
                     </div>
                 </div>
                 <div class="price-box">
                     <div class="flex-group">
                         <div class="group-header">活动价</div>
                         <div class="group-body">
-                            <div class="price">{{ data.price | price }}</div>
+                            <div class="price">{{ data().price | price }}</div>
                         </div>
                     </div>
-                    @if (couponItems.length > 0) {
+                    @if (couponItems().length > 0) {
                     <div class="flex-group">
                         <div class="group-header">领券</div>
                         <div class="group-body">
-                            @for (item of couponItems; track $index) {
+                            @for (item of couponItems(); track $index) {
                               <div class="coupon-item">
                                   <div class="item-body">
                                     {{ item.name }}
@@ -53,11 +53,11 @@
                         </div>
                     </div>
                     }
-                    @if (promoteItems.length > 0) {
+                    @if (promoteItems().length > 0) {
                     <div class="flex-group">
                         <div class="group-header">促销</div>
                         <div class="group-body">
-                            @for (item of promoteItems; track $index) {
+                            @for (item of promoteItems(); track $index) {
                                 <a class="promote-item">
                                     <div class="item-name">{{ formatPromote(item.type) }}</div>
                                     <div class="item-body">
@@ -83,7 +83,7 @@
                         <div class="group-header">服务</div>
                         <div class="group-body">
                             <ul class="service-panel">
-                                @for (item of data.services; track $index) {
+                                @for (item of data().services; track $index) {
                                 <li>{{ item }}</li>
                                 }
                             </ul>
@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <div class="property-box">
-                    @for (item of properties; track $index; let i = $index) {
+                    @for (item of properties(); track $index; let i = $index) {
                       <div class="flex-group" [class]="{'multi-group': item.type == 2}">
                           <div class="group-header">{{ item.name }}</div>
                           <div class="group-body">
@@ -124,8 +124,8 @@
                                 Insufficient inventory cannot be purchased 
                             </a>
                         }
-                        <a class="btn btn-collect" [class]="{active: data.is_collect}" (click)="tapCollect()">
-                            <i class="iconfont" [class]="{'icon-heart-o': !data.is_collect, 'icon-heart': data.is_collect}"></i>
+                        <a class="btn btn-collect" [class]="{active: data().is_collect}" (click)="tapCollect()">
+                            <i class="iconfont" [class]="{'icon-heart-o': !data().is_collect, 'icon-heart': data().is_collect}"></i>
                             <ng-container i18n>LIKE</ng-container>
                         </a>
                         <a class="btn btn-share" (click)="shareModal.open()">
@@ -138,13 +138,13 @@
       </div>
 
       <div class="template-lazy" appLazyLoad (lazyLoading)="loadRecommend()">
-            @if (recommendItems.length > 0) {
+            @if (recommendItems().length > 0) {
             <div class="panel">
                 <div class="panel-header" i18n>
                     People who viewed this also viewed
                 </div>
                 <div class="panel-body">
-                    <app-goods-slider [items]="recommendItems" />
+                    <app-goods-slider [items]="recommendItems()" />
                 </div>
             </div>
             }
@@ -169,11 +169,11 @@
                 </div>
                 <div class="tab-body bg-white">
                     <div class="tab-item" [class]="{active: tabIndex() < 1}">
-                        <div class="content-box" [innerHTML]="content">
+                        <div class="content-box" [innerHTML]="content()">
                         </div>
                     </div>
                     <div class="tab-item" [class]="{active: tabIndex() == 1}">
-                        @for (group of data.static_properties; track $index) {
+                        @for (group of data().static_properties; track $index) {
                         <div class="line-group">
                             @if (group.name) {
                             <div class="line-group-header">{{ group.name }}</div>
@@ -192,10 +192,10 @@
                         }
                     </div>
                     <div id="comment-tab" class="tab-item" [class]="{active: tabIndex() == 2}">
-                        <app-comment-page [itemId]="data.id" [init]="tabIndex() == 2" />
+                        <app-comment-page [itemId]="data().id" [init]="tabIndex() == 2" />
                     </div>
                     <div class="tab-item issue-box" [class]="{active: tabIndex() == 3}">
-                        <app-issue-page [itemId]="data.id" [init]="tabIndex() == 3" />
+                        <app-issue-page [itemId]="data().id" [init]="tabIndex() == 3" />
                     </div>
                 </div>
             </div>
@@ -203,13 +203,13 @@
 
           <div class="col-md-4">
             <div class="template-lazy" appLazyLoad (lazyLoading)="loadHot()">
-                @if (hotItems.length > 0) {
+                @if (hotItems().length > 0) {
                 <div class="panel">
                     <div class="panel-header" i18n>
                         TOP/24
                     </div>
                     <div class="panel-body">
-                        @for (item of hotItems; track $index) {
+                        @for (item of hotItems(); track $index) {
                         <div  class="goods-item">
                             <div class="thumb">
                                 <a [routerLink]="'../' + item.id">

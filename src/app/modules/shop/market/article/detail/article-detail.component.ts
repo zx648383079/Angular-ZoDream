@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { IArticle, IArticleCategory } from '../../../model';
@@ -16,8 +16,8 @@ export class ArticleDetailComponent implements OnInit {
     private readonly sanitizer = inject(DomSanitizer);
 
 
-    public data: IArticle;
-    public content: SafeHtml;
+    public readonly data = signal<IArticle>(null);
+    public readonly content = signal<SafeHtml>(null);
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -27,8 +27,8 @@ export class ArticleDetailComponent implements OnInit {
 
     public loadArticle(id: any) {
         this.service.article(id).subscribe(res => {
-            this.data = res;
-            this.content = this.sanitizer.bypassSecurityTrustHtml(res.content);
+            this.data.set(res);
+            this.content.set(this.sanitizer.bypassSecurityTrustHtml(res.content));
         });
     }
 }

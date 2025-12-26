@@ -16,11 +16,9 @@ export class HelpComponent implements OnInit {
     private readonly sanitizer = inject(DomSanitizer);
 
 
-    public readonly items = signal([]);
-
-    public data: IArticle;
-
-    public content: SafeHtml;
+    public readonly items = signal<any[]>([]);
+    public readonly data = signal<IArticle>(null);
+    public readonly content = signal<SafeHtml>(null);
 
     ngOnInit() {
         this.service.help().subscribe(res => {
@@ -30,8 +28,8 @@ export class HelpComponent implements OnInit {
 
     public loadArticle(id: any) {
         this.service.article(id).subscribe(res => {
-            this.data = res;
-            this.content = this.sanitizer.bypassSecurityTrustHtml(res.content);
+            this.data.set(res);
+            this.content.set(this.sanitizer.bypassSecurityTrustHtml(res.content));
         });
     }
 

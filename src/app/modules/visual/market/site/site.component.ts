@@ -34,8 +34,8 @@ export class SiteComponent implements OnInit {
         {name: $localize `Sales`, value: 'sale', asc: false},
         {name: $localize `Evaluation`, value: 'comment', asc: false},
     ];
-    public sortKey = '';
-    public orderAsc = true;
+    public readonly sortKey = signal('');
+    public readonly orderAsc = signal(true);
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -45,11 +45,11 @@ export class SiteComponent implements OnInit {
     }
 
     public tapSort(item: ISortItem) {
-        if (this.sortKey === item.value) {
-            this.orderAsc = !this.orderAsc;
+        if (this.sortKey() === item.value) {
+            this.orderAsc.update(v => !v);
         } else {
-            this.sortKey = item.value as string;
-            this.orderAsc = !!item.asc;
+            this.sortKey.set(item.value as string);
+            this.orderAsc.set(!!item.asc);
         }
     }
 

@@ -1,8 +1,8 @@
 
-@if (bannerItems && bannerItems.length > 0) {
+@if (bannerItems().length > 0) {
 <div class="banner">
     <app-swiper>
-        @for (item of bannerItems; track $index) {
+        @for (item of bannerItems(); track $index) {
         <app-swiper-item>
             <div class="picsum-img-wrapper">
                 <img [src]="item.content" style="width: 100%;">
@@ -27,9 +27,9 @@
                     <ng-container i18n>More</ng-container>
                     &gt;</a>
             </div>
-            @if (brandItems.length > 0) {
+            @if (brandItems().length > 0) {
             <div class="floor-grid">
-                @for (item of brandItems; track $index) {
+                @for (item of brandItems(); track $index) {
                 <a>
                     <div class="name">{{ item.name }}</div>
                     <div class="price">{{ item.price | price }}</div>
@@ -49,8 +49,8 @@
                 <small></small>
                 <a class="header-right"><ng-container i18n>More</ng-container>&gt;</a>
             </div>
-            @if (newItems.length > 0) {
-            <app-goods-slider [items]="newItems" />
+            @if (newItems().length > 0) {
+            <app-goods-slider [items]="newItems()" />
             }
         </div>
     </div>
@@ -63,9 +63,9 @@
                 <small></small>
                 <a class="header-right"><ng-container i18n>More</ng-container>&gt;</a>
             </div>
-            @if (bestItems.length > 0) {
+            @if (bestItems().length > 0) {
             <div class="first-goods-list">
-                @for (item of bestItems; track $index) {
+                @for (item of bestItems(); track $index) {
                   <a [routerLink]="'./goods/' + item.id" class="goods-item">
                     <div class="thumb">
                         <img [src]="item.thumb" alt="">
@@ -82,7 +82,7 @@
 
 
 <div class="template-lazy" appLazyLoad (lazyLoading)="loadFloor()">
-    @for (floor of floorItems; track $index) {
+    @for (floor of floorItems(); track $index) {
     <div class="floor category-floor">
         <div class="container">
             <div class="floor-header">
@@ -128,8 +128,8 @@
                 <h3 i18n>Customer reviews</h3>
                 <small></small>
             </div>
-            @if (commentItems.length > 0) {
-            <app-goods-slider [items]="commentItems" />
+            @if (commentItems().length > 0) {
+            <app-goods-slider [items]="commentItems()" />
             }
         </div>
     </div>

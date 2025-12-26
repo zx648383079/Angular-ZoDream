@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -28,6 +28,7 @@ const PIPES = [
     imports: [
         CommonModule,
         RouterModule,
+        NgOptimizedImage,
         Field,
         ZreFormModule,
         DesktopModule,

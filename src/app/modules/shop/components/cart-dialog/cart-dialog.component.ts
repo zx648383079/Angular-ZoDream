@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, inject } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ICart, ICartItem } from '../../model';
@@ -20,27 +20,24 @@ export class CartDialogComponent {
     private readonly router = inject(Router);
 
 
-    public cart: ICart;
-    public cartOpen = false;
+    public readonly cart = signal<ICart>(null);
+    public readonly cartOpen = signal(false);
 
     constructor() {
         this.store.select(selectShopCart).subscribe(cart => {
-            this.cart = cart;
+            this.cart.set(cart);
         });
     }
 
     @HostListener('document:click', ['$event']) hideCalendar(event: any) {
         if (!event.target.closest('.cart-button') && !hasElementByClass(event.path, 'cart-button')) {
-            this.cartOpen = false;
+            this.cartOpen.set(false);
         }
     }
 
-    ngOnInit() {
-    }
-
     public tapCart() {
-        if (this.cart && this.cart.data.length > 0) {
-            this.cartOpen = !this.cartOpen;
+        if (this.cart() && this.cart().data.length > 0) {
+            this.cartOpen.update(v => !v);
             return;
         }
         this.tapViewCart();
@@ -50,7 +47,7 @@ export class CartDialogComponent {
      * tapViewCart
      */
     public tapViewCart() {
-        this.cartOpen = false;
+        this.cartOpen.set(false);
         this.router.navigate(['/shop/market/cart']);
     }
 
@@ -61,7 +58,7 @@ export class CartDialogComponent {
         this.service.cartDeleteItem(item.id).subscribe(cart => {
             this.store.dispatch(setCart({cart}));
             if (cart.data.length < 1) {
-                this.cartOpen = false;
+                this.cartOpen.set(false);
             }
         });
     }

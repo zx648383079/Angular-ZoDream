@@ -8,7 +8,7 @@
 
       <div class="goods-area">
           <div class="filter-container pt-30">
-            @for (item of filterItems; track $index) {
+            @for (item of filterItems(); track $index) {
             <div class="filter-group">
                 <div class="group-header">
                     {{ item.label }}
@@ -41,9 +41,9 @@
                 </div>
                 <div class="group-body">
                     @for (item of sortItems; track $index) {
-                        <a [class]="{active: item.value == sortKey}" (click)="tapSort(item)">{{ item.name }}
-                            @if (item.value && sortKey == item.value) {
-                            <i class="iconfont" [class]="{'icon-sort-alpha-asc': orderAsc, 'icon-sort-alpha-desc': !orderAsc}"></i>
+                        <a [class]="{active: item.value == sortKey()}" (click)="tapSort(item)">{{ item.name }}
+                            @if (item.value && sortKey() == item.value) {
+                            <i class="iconfont" [class]="{'icon-sort-alpha-asc': orderAsc(), 'icon-sort-alpha-desc': !orderAsc()}"></i>
                             }
                         </a>
                     }

@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
@@ -16,7 +16,7 @@ import { ShopService } from '../../shop.service';
     templateUrl: './cart.component.html',
     styleUrls: ['./cart.component.scss']
 })
-export class CartComponent implements OnInit {
+export class CartComponent {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly service = inject(ShopService);
@@ -26,16 +26,16 @@ export class CartComponent implements OnInit {
 
 
     public readonly items = signal<ICartGroup[]>([]);
-    public cart: ICart;
+    public readonly cart = signal<ICart>(null);
     public readonly isChecked = signal(false);
 
-    public likeItems: IGoods[] = [];
-    public guest = true;
+    public readonly likeItems = signal<IGoods[]>([]);
+    public readonly guest = signal(true);
 
     constructor() {
         this.themeService.titleChanged.next('购物车');
         this.store.select(selectAuthStatus).subscribe(res => {
-            this.guest = res.guest;
+            this.guest.set(res.guest);
         });
         this.store.select(selectShopCart).subscribe(cart => {
             if (!cart) {
@@ -53,11 +53,8 @@ export class CartComponent implements OnInit {
                     checked: false,
                 };
             }));
-            this.cart = cart;
+            this.cart.set(cart);
         });
-    }
-
-    ngOnInit() {
     }
 
     public readonly total = computed(() => {
@@ -148,7 +145,7 @@ export class CartComponent implements OnInit {
 
     public loadLike() {
         this.service.cartRecommendList().subscribe(res => {
-            this.likeItems = res.data;
+            this.likeItems.set(res.data);
         });
     }
 

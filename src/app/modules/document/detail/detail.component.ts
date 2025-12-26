@@ -22,13 +22,13 @@ export class DetailComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public navToggle = false;
-    public project: IProject;
-    public data: IDocApi&IDocPage;
-    public catalog: IDocPage[]&IDocApi[] = [];
-    public versionItems: IProjectVersion[] = [];
-    public previous: IDocApi&IDocPage;
-    public next: IDocApi&IDocPage;
+    public readonly navToggle = signal(false);
+    public readonly project = signal<IProject>(null);
+    public readonly data = signal<IDocApi&IDocPage>(null);
+    public readonly catalog = signal<IDocPage[]&IDocApi[]>([]);
+    public readonly versionItems = signal<IProjectVersion[]>([]);
+    public readonly previous = signal<IDocApi&IDocPage>(null);
+    public readonly next = signal<IDocApi&IDocPage>(null);
     public readonly queries = form(signal({
         version: '0',
         keywords: ''
@@ -38,7 +38,7 @@ export class DetailComponent implements OnInit {
         $localize `Request`,
         $localize `Response`,
     ];
-    public langItems: string[] = [];
+    public readonly langItems = signal<string[]>([]);
     public readonly codeForm = form(signal({
         kind: '',
         lang: '',
@@ -59,16 +59,20 @@ export class DetailComponent implements OnInit {
     public readonly formatCatalog = computed(() => {
         const keywords = this.queries.keywords().value();
         if (emptyValidate(keywords)) {
-            return this.catalog;
+            return this.catalog();
         }
         const items = [];
-        this.eachCatalog(this.catalog, item => {
+        this.eachCatalog(this.catalog(), item => {
             if (item.type < 1 && item.name.indexOf(keywords) >= 0) {
                 items.push(item);
             }
         });
         return items;
     });
+
+    public toggle() {
+        this.navToggle.update(v => !v);
+    }
 
     public openCode(modal: DialogBoxComponent) {
         this.codeForm.content().value.set('');
@@ -82,14 +86,14 @@ export class DetailComponent implements OnInit {
         }
         item.expanded = true;
         if (window.innerWidth < 770) {
-            this.navToggle = false;
+            this.navToggle.set(false);
         }
         this.loadData(item.id);
     }
 
     public onVersionChange() {
-        this.service.catalogAll(this.project.id, this.queries.version().value()).subscribe(res => {
-            this.catalog = res.data;
+        this.service.catalogAll(this.project().id, this.queries.version().value()).subscribe(res => {
+            this.catalog.set(res.data);
             this.loadData(0);
         });
     }
@@ -114,44 +118,50 @@ export class DetailComponent implements OnInit {
                 id
             };
         }
-        this.service.batch(data).subscribe(res => {
-            this.project = res.project;
-            this.versionItems = res.version;
-            this.catalog = res.catalog.data;
-            this.langItems = res.language.data;
-            if (res.page) {
-                this.setPageData(res.page);
-                return;
+        this.service.batch(data).subscribe({
+            next: res => {
+                this.project.set(res.project);
+                this.versionItems.set(res.version);
+                this.catalog.set(res.catalog.data);
+                this.langItems.set(res.language.data);
+                if (res.page) {
+                    this.setPageData(res.page);
+                    return;
+                }
+                if (!this.catalog()[0].children) {
+                    this.loadData(this.catalog()[0].id);
+                    return;
+                }
+                this.catalog()[0].expanded = true;
+                this.loadData(this.catalog()[0].children[0].id);
+            }, 
+            error: err => {
+                this.toastrService.warning(err);
             }
-            if (!this.catalog[0].children) {
-                this.loadData(this.catalog[0].id);
-                return;
-            }
-            this.catalog[0].expanded = true;
-            this.loadData(this.catalog[0].children[0].id);
-        }, (err: IErrorResult) => {
-            this.toastrService.warning(err.error.message);
         });
     }
 
     private loadData(id: any) {
-        if (this.catalog.length < 1) {
+        if (this.catalog().length < 1) {
             return;
         }
-        this.service.projectPage(this.project.id, id).subscribe(res => {
+        this.service.projectPage(this.project().id, id).subscribe(res => {
             this.setPageData(res);
         });
     }
 
     private setPageData(res: IDocApi&IDocPage) {
-        this.data = res;
-        if (this.project.type < 1) {
+        this.data.set(res);
+        if (this.project().type < 1) {
         } else {
-            this.data.example = JSON.stringify(this.data.example, null, 4);
+            this.data.update(v => {
+                v.example = JSON.stringify(v.example, null, 4);
+                return v;
+            });
         }
         this.findNavigation(res.id);
         this.searchService.pushHistoryState(res.name,
-            window.location.href.replace(/\/\d+.*/, ['', this.project.id, this.queries.version().value(), res.id].join('/')));
+            window.location.href.replace(/\/\d+.*/, ['', this.project().id, this.queries.version().value(), res.id].join('/')));
         document.documentElement.scrollTop = 0;
     }
 
@@ -159,7 +169,7 @@ export class DetailComponent implements OnInit {
         let previous: IDocApi&IDocPage;
         let next: IDocApi&IDocPage;
         let found = false;
-        this.eachCatalog(this.catalog, item => {
+        this.eachCatalog(this.catalog(), item => {
             if (found && item.type < 1) {
                 next = item;
                 return false;
@@ -172,8 +182,8 @@ export class DetailComponent implements OnInit {
                 previous = item;
             }
         });
-        this.previous = previous;
-        this.next = next;
+        this.previous.set(previous);
+        this.next.set(next);
     }
 
     private eachCatalog(items: IDocApi[]&IDocPage[], cb: (item: IDocApi&IDocPage) => any) {
@@ -191,15 +201,15 @@ export class DetailComponent implements OnInit {
         e.preventDefault();
         const data = this.codeForm().value();
         this.service.apiCode({
-            id: this.data.id,
+            id: this.data().id,
             lang: data.lang,
             kind: data.kind,
         }).subscribe({
             next: res => {
                 this.codeForm.content().value.set(res.data);
             }, 
-            error: (err: IErrorResult) => {
-                this.toastrService.warning(err.error.message);
+            error: err => {
+                this.toastrService.warning(err);
             }
         });
     }

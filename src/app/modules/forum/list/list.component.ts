@@ -85,13 +85,12 @@ export class ListComponent implements OnInit {
     }
 
     public tapSort(item: ISortItem) {
-        if (this.sortKey === item.value) {
+        if (this.sortKey() === item.value) {
             this.orderAsc.update(v => !v);
         } else {
             this.sortKey.set(item.value as string);
             this.orderAsc.set(!!item.asc);
         }
-        this.tapRefresh();
     }
 
     public tapSearch(params: any) {

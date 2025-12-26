@@ -9,7 +9,7 @@
                 <div class="top-notice">
                     <i class="iconfont icon-volume-up"></i>
                     <ul class="notice-list">
-                        @for (item of noticeItems; track $index) {
+                        @for (item of noticeItems(); track $index) {
                         <li>
                             <a [routerLink]="'/shop/market/article/' + item.id">{{ item.title }}</a>
                         </li>
@@ -20,8 +20,8 @@
             </div>
             <div class="top-right">
                 <div class="top-item">
-                    @if (user) {
-                        <a routerLink="/shop/member">{{ user.name }}</a>
+                    @if (user()) {
+                        <a routerLink="/shop/member">{{ user().name }}</a>
                         <a (click)="tapLogout()" i18n>Sign out</a>
                     } @else {
                         <a routerLink="/shop/market/auth" i18n>Sign in</a>

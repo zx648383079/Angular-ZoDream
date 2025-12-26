@@ -1,24 +1,24 @@
-<div class="container main-container" [class]="{'on-search': openType > 0}">
+<div class="container main-container" [class]="{'on-search': openType() > 0}">
     <div class="row">
-        <div class="col-12" [class]="{'col-lg-6 offset-lg-3': openType < 1}">
+        <div class="col-12" [class]="{'col-lg-6 offset-lg-3': openType() < 1}">
             <div class="search-bar">
                 <app-navigation-search-bar id="keywords" [field]="queries.keywords" (confirm)="tapSearch($event)" (textChange)="onSuggestChange($event)" />
             </div>
         </div>
     </div>
 
-    <div [hidden]="openType > 0">
+    <div [hidden]="openType() > 0">
         <app-navigation-panel />
     </div>
 
-    @if (openType < 2) {
-        <div class="open-icon" [class]="{'opened': openType == 1}" (click)="toggleOpen()" i18n-title title="More sites">
+    @if (openType() < 2) {
+        <div class="open-icon" [class]="{'opened': openType() == 1}" (click)="toggleOpen()" i18n-title title="More sites">
         </div>
     }
     
 
-    <app-navigation-site [visible]="openType == 1" />
-    @if (openType == 2) {
+    <app-navigation-site [visible]="openType() == 1" />
+    @if (openType() == 2) {
         @if (isLoading()) {
             <div class="loading-tip" i18n>
                 Loading ...

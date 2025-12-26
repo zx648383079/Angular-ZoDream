@@ -1,10 +1,10 @@
-<div class="page-box" [class]="{'nav-toggle': navToggle}">
+<div class="page-box" [class]="{'nav-toggle': navToggle()}">
     <div class="nav-bar">
-        <i class="iconfont icon-bars nav-toggle-icon" (click)="navToggle = !navToggle"></i>
+        <i class="iconfont icon-bars nav-toggle-icon" (click)="toggle()"></i>
         <div class="bar-version">
             <label for="version" i18n>Version</label>
             <select id="version" [field]="queries.version" (change)="onVersionChange()">
-                @for (item of versionItems; track $index) {
+                @for (item of versionItems(); track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
                 }
             </select>
@@ -16,14 +16,14 @@
         <div class="bar-top">
             <ul class="tree-box">
                 @for (item of formatCatalog(); track $index) {
-                <li class="tree-item" [class]="{open: item.expanded, active: data && item.id == data.id}">
+                <li class="tree-item" [class]="{open: item.expanded, active: data && item.id == data().id}">
                     <div class="tree-name" (click)="tapRead(item)">
                         <i class="iconfont" [class]="{'icon-chevron-right': item.children && !item.expanded, 'icon-chevron-down': item.children && item.expanded}"></i>
                         {{ item.name }}
                     </div>
                     <ul class="tree-body">
                         @for (it of item.children; track $index) {
-                        <li class="tree-item" [class]="{active: data && it.id == data.id}">
+                        <li class="tree-item" [class]="{active: data && it.id == data().id}">
                             <div class="tree-name" (click)="tapRead(it)">{{ it.name }}</div>
                         </li>
                         }
@@ -37,18 +37,18 @@
     </div>
   
     <div class="page-body">
-        @if (data) {
+        @if (data()) {
         <div class="container-fluid">
-            @if (!data.response) {
+            @if (!data().response) {
                 <div class="title">
-                    {{ data.name }}
+                    {{ data().name }}
                 </div>
                 <div class="content">
-                    <app-markdown-block [value]="data.content" />
+                    <app-markdown-block [value]="data().content" />
                 </div>
             } @else {
                 <div class="title">
-                    {{ data.name }}
+                    {{ data().name }}
                     <div class="pull-right">
                         <div class="btn btn-primary" (click)="openCode(codeModal)" i18n>Code</div>
                     </div>
@@ -58,10 +58,10 @@
                         Interface detail
                     </div>
                     <div class="panel-body">
-                        <p class="text-muted"><label i18n>Name:</label>{{ data.name }}</p>
-                        <p class="text-muted"><label i18n>Project:</label>{{ project.name }}</p>
-                        <p class="text-muted"><label i18n>Method:</label>{{ data.method }}</p>
-                        <p class="text-muted"><label i18n>Brief:</label>{{ data.description }}</p>
+                        <p class="text-muted"><label i18n>Name:</label>{{ data().name }}</p>
+                        <p class="text-muted"><label i18n>Project:</label>{{ project().name }}</p>
+                        <p class="text-muted"><label i18n>Method:</label>{{ data().method }}</p>
+                        <p class="text-muted"><label i18n>Brief:</label>{{ data().description }}</p>
                     </div>
                 </div>
                 <div class="panel">
@@ -71,11 +71,11 @@
                     <div class="panel-body">
                         <table class="table table-hover">
                             <tbody>
-                                @for (item of project.environment; track $index) {
+                                @for (item of project().environment; track $index) {
                                 <tr>
                                     <td style="width: 20%;">{{ item.title }}({{ item.name }})</td>
                                     <td style="width: 50%;">
-                                        <code>{{ item.domain }}{{ data.uri }}</code></td>
+                                        <code>{{ item.domain }}{{ data().uri }}</code></td>
                                     <td style="width: 15%;">
                                         <button type="button" class="btn btn-xs btn-success btn-copy">
                                             <i class="fa fa-fw fa-copy"></i>
@@ -90,7 +90,7 @@
                         </table>
                     </div>
                 </div>
-                @if (data.header && data.header.length > 0) {
+                @if (data().header && data().header.length > 0) {
                 <div class="panel">
                     <div class="panel-header" i18n>
                         Header parameters
@@ -105,7 +105,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @for (item of data.header; track $index) {
+                                @for (item of data().header; track $index) {
                                 <tr>
                                     <td>{{ item.name }}</td>
                                     <td>{{ item.default_value }}</td>
@@ -117,7 +117,7 @@
                     </div>
                 </div>
                 }
-                @if (data.request && data.request.length > 0) {
+                @if (data().request && data().request.length > 0) {
                 <div class="panel">
                     <div class="panel-header" i18n>
                         Request parameters
@@ -135,7 +135,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @for (item of data.request; track $index) {
+                                @for (item of data().request; track $index) {
                                 <tr>
                                     <td>{{ item.name }}</td>
                                     <td>{{ item.title }}</td>
@@ -152,7 +152,7 @@
                     </div>
                 </div>
                 }
-                @if (data.response && data.response.length > 0) {
+                @if (data().response && data().response.length > 0) {
                 <div class="panel">
                     <div class="panel-header" i18n>
                         Response parameters
@@ -169,7 +169,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @for (item of data.response; track $index) {
+                                @for (item of data().response; track $index) {
                                 <tr>
                                     <td class="line-name">
                                         {{ item.level | treeLevel }}
@@ -187,27 +187,27 @@
                     </div>
                 </div>
                 }
-                @if (data.example) {
+                @if (data().example) {
                 <div class="panel">
                     <div class="panel-header" i18n>
                         Example
                     </div>
                     <div class="panel-body code-box">
-                        <pre><code class="language-json">{{ data.example }}</code></pre>
+                        <pre><code class="language-json">{{ data().example }}</code></pre>
                     </div>
                 </div>
                 }
             }
 
             <div class="navigation-bar">
-                @if (previous) {
-                <span class="prev" (click)="tapRead(previous)" i18n>
-                    Previous: {{ previous.name }}
+                @if (previous()) {
+                <span class="prev" (click)="tapRead(previous())" i18n>
+                    Previous: {{ previous().name }}
                 </span>
                 }
-                @if (next) {
-                <span class="next" (click)="tapRead(next)" i18n>
-                    Next: {{ next.name }}
+                @if (next()) {
+                <span class="next" (click)="tapRead(next())" i18n>
+                    Next: {{ next().name }}
                 </span>
                 }
             </div>
@@ -225,7 +225,7 @@
             }
         </select>
         <select [field]="codeForm.lang" class="form-control">
-            @for (item of langItems; track $index) {
+            @for (item of langItems(); track $index) {
                 <option [value]="item">{{ item }}</option>
             }
         </select>

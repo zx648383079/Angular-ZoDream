@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../components/dialog';
@@ -23,15 +23,15 @@ export class MarketComponent implements OnInit {
     private readonly store = inject<Store<ShopAppState>>(Store);
 
 
-    public categories: ICategory[] = [];
-    public tipItems: string[] =  [];
-    public hotItems: string[] = [];
-    public keywords = '';
-    public site: ISite = {} as any;
+    public readonly categories = signal<ICategory[]>([]);
+    public readonly tipItems = signal<string[]>([]);
+    public readonly hotItems = signal<string[]>([]);
+    public readonly keywords = signal('');
+    public readonly site = signal<ISite>({} as any);
 
     constructor() {
         this.store.select(selectSite).subscribe(site => {
-            this.site = site || {} as any;
+            this.site.set(site || {} as any);
         });
     }
 
@@ -44,8 +44,8 @@ export class MarketComponent implements OnInit {
         }).subscribe({
             next: res => {
                 this.store.dispatch(setCart({cart: res.cart}));
-                this.categories = res.category;
-                this.hotItems = res.hot_keywords;
+                this.categories.set(res.category);
+                this.hotItems.set(res.hot_keywords);
             },
             error: err => {
                 this.toastrService.error(err);
@@ -53,13 +53,14 @@ export class MarketComponent implements OnInit {
         });
     }
 
-    public onKeywordsChange() {
-        if (this.keywords.trim().length < 1) {
-            this.tipItems = [];
+    public onKeywordsChange(value: string) {
+        this.keywords.set(value);
+        if (value.trim().length < 1) {
+            this.tipItems.set([]);
             return;
         }
-        this.service.searchTips(this.keywords).subscribe(res => {
-            this.tipItems = res.data;
+        this.service.searchTips(value).subscribe(res => {
+            this.tipItems.set(res.data);
         });
     }
 
@@ -70,14 +71,14 @@ export class MarketComponent implements OnInit {
         this.tapSearch();
     }
 
-    public tapSearch(keywords: string = this.keywords) {
+    public tapSearch(keywords: string = this.keywords()) {
         if (keywords.trim().length < 1) {
             this.toastrService.warning('请输入内容');
             document.documentElement.scrollTop = 0;
             return;
         }
-        this.keywords = keywords;
-        this.tipItems = [];
+        this.keywords.set(keywords);
+        this.tipItems.set([]);
         this.router.navigate(['./search'], {
             queryParams: {
                 keywords

@@ -20,12 +20,12 @@
             </div>
         </div>
         <div class="panel help-panel">
-            @if (data) {
+            @if (data()) {
                 <div class="panel-header">
-                    {{ data.title }}
+                    {{ data().title }}
                 </div>
                 <div class="panel-body">
-                    <div [innerHTML]="content">
+                    <div [innerHTML]="content()">
 
                     </div>
                 </div>

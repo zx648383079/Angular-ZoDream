@@ -27,17 +27,17 @@ export class GoodsComponent implements OnInit {
     private readonly themeService = inject(ThemeService);
 
 
-    public data: IGoods;
-    public galleryItems: IGoodsGallery[] = [];
-    public content: SafeHtml;
+    public readonly data = signal<IGoods>(null);
+    public readonly galleryItems = signal<IGoodsGallery[]>([]);
+    public readonly content = signal<SafeHtml>(null);
     public readonly tabIndex = signal(0);
-    public recommendItems: IGoods[] = [];
-    public hotItems: IGoods[] = [];
-    public activity: IActivity<any>;
-    public couponItems: ICoupon[] = [];
-    public promoteItems: IActivity[] = [];
-    public productItems: IProduct[] = [];
-    public properties: IGoodsProperty[] = [];
+    public readonly recommendItems = signal<IGoods[]>([]);
+    public readonly hotItems = signal<IGoods[]>([]);
+    public readonly activity = signal<IActivity<any>>(null);
+    public readonly couponItems = signal<ICoupon[]>([]);
+    public readonly promoteItems = signal<IActivity[]>([]);
+    public readonly productItems = signal<IProduct[]>([]);
+    public readonly properties = signal<IGoodsProperty[]>([]);
     public readonly dataForm = form(signal({
         region: 0,
         amount: 1,
@@ -60,19 +60,19 @@ export class GoodsComponent implements OnInit {
         this.service.goods(id, product).subscribe({
             next: res => {
                 this.themeService.titleChanged.next(res.seo_title || res.name);
-                this.data = res;
+                this.data.set(res);
                 this.dataForm.stock().value.set(res.stock);
-                this.content = this.sanitizer.bypassSecurityTrustHtml(res.content);
-                this.galleryItems = [].concat([{thumb: res.thumb, type: 0, file: res.picture}], res.gallery ? res.gallery.map(i => {
+                this.content.set(this.sanitizer.bypassSecurityTrustHtml(res.content));
+                this.galleryItems.set([].concat([{thumb: res.thumb, type: 0, file: res.picture}], res.gallery ? res.gallery.map(i => {
                     if (!i.thumb) {
                         i.thumb = i.file;
                     }
                     return i;
-                }) : []);
-                this.properties = res.properties || [];
-                this.couponItems = res.coupons || [];
-                this.promoteItems = res.promotes || [];
-                this.productItems = res.products || [];
+                }) : []));
+                this.properties.set(res.properties || []);
+                this.couponItems.set(res.coupons || []);
+                this.promoteItems.set(res.promotes || []);
+                this.productItems.set(res.products || []);
                 if (product > 0) {
                     this.selectProduct(product);
                 }
@@ -90,7 +90,7 @@ export class GoodsComponent implements OnInit {
 
     public onRegionChange() {
         this.service.regionId = this.dataForm.region().value();
-        this.service.goodsStock(this.data.id).subscribe({
+        this.service.goodsStock(this.data().id).subscribe({
             next: res => {
                 this.dataForm.stock().value.set(res.stock);
             },
@@ -101,14 +101,14 @@ export class GoodsComponent implements OnInit {
     }
 
     public loadRecommend() {
-        this.service.recommendList(this.data.id).subscribe(res => {
-            this.recommendItems = res.data;
+        this.service.recommendList(this.data().id).subscribe(res => {
+            this.recommendItems.set(res.data);
         });
     }
 
     public loadHot() {
-        this.service.hotList(this.data.id).subscribe(res => {
-            this.hotItems = res.data;
+        this.service.hotList(this.data().id).subscribe(res => {
+            this.hotItems.set(res.data);
         });
     }
 
@@ -130,13 +130,13 @@ export class GoodsComponent implements OnInit {
         const amount = this.dataForm.amount().value();
         const data: ICartGroup[] = [
             {
-                name: this.data.shop as any,
+                name: this.data().shop as any,
                 goods_list: [
                     {
-                        goods_id: this.data.id,
+                        goods_id: this.data().id,
                         amount,
-                        goods: this.data,
-                        price: this.data.price,
+                        goods: this.data(),
+                        price: this.data().price,
                         product_id: product?.id,
                         attribute_id: this.selectedProperties.join(','),
                         attribute_value: this.selectedPropertiesLabel
@@ -152,7 +152,7 @@ export class GoodsComponent implements OnInit {
 
     public tapAddToCart() {
         const amount = this.dataForm.amount().value();
-        this.service.cartAddGoods(this.data.id, amount, this.selectedProperties).subscribe(cart => {
+        this.service.cartAddGoods(this.data().id, amount, this.selectedProperties).subscribe(cart => {
             if (cart.dialog) {
                 return;
             }
@@ -165,13 +165,15 @@ export class GoodsComponent implements OnInit {
      * tapCollect
      */
     public tapCollect() {
-        this.service.toggleCollect(this.data.id).subscribe(res => {
-            this.data.is_collect = res.data;
+        this.service.toggleCollect(this.data().id).subscribe(res => {
+            this.data.update(v => {
+                return {...v, is_collect: res.data};
+            });
         });
     }
 
     private eachSelectedProperty(cb: (item: IGoodsAttr, type: number) => void) {
-        for (const item of this.properties) {
+        for (const item of this.properties()) {
             for (const attr of item.attr_items) {
                 if (attr.checked) {
                     cb(attr, item.type);
@@ -182,7 +184,7 @@ export class GoodsComponent implements OnInit {
 
     private get selectedPropertiesLabel(): string {
         const items = [];
-        for (const item of this.properties) {
+        for (const item of this.properties()) {
             const labels = [];
             for (const attr of item.attr_items) {
                 if (attr.checked) {
@@ -206,7 +208,7 @@ export class GoodsComponent implements OnInit {
 
     private get selectedProduct(): IProduct|undefined {
         const items = [];
-        for (const item of this.properties) {
+        for (const item of this.properties()) {
             if (item.type === 2) {
                 continue;
             }
@@ -220,7 +222,7 @@ export class GoodsComponent implements OnInit {
     }
 
     private selectProduct(product: number) {
-        for (const item of this.productItems) {
+        for (const item of this.productItems()) {
             if (item.id === product) {
                 this.selectAttribute(item.attributes.split(','));
                 return;
@@ -229,7 +231,7 @@ export class GoodsComponent implements OnInit {
     }
 
     private selectAttribute(attrs: string[]|number[]) {
-        for (const item of this.properties) {
+        for (const item of this.properties()) {
             for (const attr of item.attr_items) {
                 attr.checked = this.indexOf(attrs, attr.id) >= 0;
             }
@@ -241,7 +243,7 @@ export class GoodsComponent implements OnInit {
             return;
         }
         const label = attrs.sort().join(',');
-        for (const item of this.productItems) {
+        for (const item of this.productItems()) {
             if (item.attributes === label) {
                 return item;
             }
