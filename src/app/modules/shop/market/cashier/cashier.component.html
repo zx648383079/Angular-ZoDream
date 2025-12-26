@@ -6,7 +6,7 @@
             收货信息
             </div>
             <div class="panel-body">
-                @if (addressIsEdit) {
+                @if (addressIsEdit()) {
                     <div class="address-edit">
                         <div class="edit-body">
                             <div>*所在地区:</div>
@@ -44,21 +44,21 @@
                         <div class="address-body">
                             <div>
                                 <i class="iconfont icon-map-marker"></i>
-                                @if (address.is_default) {
+                                @if (address().is_default) {
                                     默认地址
                                 }
                                 
-                                <a class="btn btn-primary" (click)="tapEditAddress(address)">修改</a>
+                                <a class="btn btn-primary" (click)="tapEditAddress(address())">修改</a>
                             </div>
                             <div>
                                 <span>收 货 人: </span>
-                                {{ address.name }}</div>
+                                {{ address().name }}</div>
                             <div>
                                 <span>联系方式 : </span>    
-                                {{ address.tel }}</div>
+                                {{ address().tel }}</div>
                             <div>
                                 <span>收货地址 : </span>    
-                                {{ address.region.full_name }} {{ address.address }}</div>
+                                {{ address().region.full_name }} {{ address().address }}</div>
                         </div>
                         <div class="right">
                             <p><a (click)="tapChooseAddress()">地址切换</a></p>
@@ -108,18 +108,18 @@
             <div class="panel-footer">
                 <div class="shipping-box">
                     <h4>配送方式：</h4>
-                    @for (item of shippingItems; track $index) {
-                        <span class="radio-label" [class]="{checked: shipping && item.id == shipping.id}" (click)="shippingChanged(item)">
-                            <i class="iconfont" [class]="{'icon-check': shipping && item.id == shipping.id, 'icon-circle': !shipping || item.id != shipping.id}"></i>
+                    @for (item of shippingItems(); track $index) {
+                        <span class="radio-label" [class]="{checked: item.id == shipping()?.id}" (click)="shippingChanged(item)">
+                            <i class="iconfont" [class]="{'icon-check': item.id == shipping()?.id, 'icon-circle': item.id != shipping()?.id}"></i>
                             {{ item.name }}
                         </span>
                     }
                 </div>
                 <div class="payment-box">
                     <h4>支付方式：</h4>
-                    @for (item of paymentItems; track $index) {
-                        <span class="radio-label" [class]="{checked: payment && item.id == payment.id}" (click)="paymentChanged(item)">
-                            <i class="iconfont" [class]="{'icon-check': payment && item.id == payment.id, 'icon-circle': !payment || item.id != payment.id}"></i>
+                    @for (item of paymentItems(); track $index) {
+                        <span class="radio-label" [class]="{checked: item.id == payment()?.id}" (click)="paymentChanged(item)">
+                            <i class="iconfont" [class]="{'icon-check': item.id == payment()?.id, 'icon-circle': item.id != payment()?.id}"></i>
                             {{ item.name }}
                         </span>
                     }
@@ -127,21 +127,21 @@
                 <div class="invoice-box">
                     <h4>发票信息：</h4>
                     <div class="invoice-line">
-                        <input type="checkbox">{{ invoice ? '发票抬头：' + invoice.title : '我要开发票' }}
+                        <input type="checkbox">{{ invoice() ? '发票抬头：' + invoice().title : '我要开发票' }}
                         <a (click)="tapEditInvoice()">修改</a>
                     </div>
                 </div>
                 <div class="coupon-box">
-                    <h4>使用优惠券({{ couponItems.length }}张)</h4>
+                    <h4>使用优惠券({{ couponItems().length }}张)</h4>
                     <div class="tab-box">
                         <div class="tab-header">
-                            <div class="tab-item" [class]="{active: couponIndex < 1}" (click)="couponIndex = 0">商品优惠券</div>
-                            <div class="tab-item" [class]="{active: couponIndex == 1}" (click)="couponIndex = 1">优惠码兑换</div>
+                            <div class="tab-item" [class]="{active: couponIndex() < 1}" (click)="couponIndex.set(0)">商品优惠券</div>
+                            <div class="tab-item" [class]="{active: couponIndex() == 1}" (click)="couponIndex.set(1)">优惠码兑换</div>
                         </div>
                         <div class="tab-body">
-                            <div class="tab-item" [class]="{active: couponIndex < 1}">
-                                @for (item of couponItems; track $index) {
-                                    <div class="coupon-item" [class]="{active: item.id == coupon?.id, expired: item.expired}" (click)="couponChanged(item)">
+                            <div class="tab-item" [class]="{active: couponIndex() < 1}">
+                                @for (item of couponItems(); track $index) {
+                                    <div class="coupon-item" [class]="{active: item.id == coupon()?.id, expired: item.expired}" (click)="couponChanged(item)">
                                         <div class="item-body">
                                             <div class="money">
                                                 @if (item.type > 0) {
@@ -165,7 +165,7 @@
                                     </div>
                                 }
                             </div>
-                            <div class="tab-item" [class]="{active: couponIndex == 1}">
+                            <div class="tab-item" [class]="{active: couponIndex() == 1}">
                                 <div class="flat-input">
                                     <input type="text" class="form-control" [field]="couponForm.code">
                                     <button class="btn btn-primary" (click)="tapExchange()">兑换</button>
@@ -179,23 +179,23 @@
                     <h4>使用礼品卡</h4>
                     <input type="checkbox">可用余额
                 </div>
-                @if (order) {
+                @if (order()) {
                 <div class="checkout-footer">
                     <div class="amount-box">
                         <div>商品合计:
-                            <span class="price">{{ order.goods_amount | price }}</span>
+                            <span class="price">{{ order().goods_amount | price }}</span>
                         </div>
                         <div>运费:
-                            <span class="price">{{ order.shipping_fee | price }}</span>
+                            <span class="price">{{ order().shipping_fee | price }}</span>
                         </div>
                         <div>应付总额:
-                            <span class="price">{{ order.order_amount | price }}</span>
+                            <span class="price">{{ order().order_amount | price }}</span>
                         </div>
                     </div>
                     <app-action-button class="btn btn-primary" (tapped)="tapCheckout($event)">去付款</app-action-button>
-                    @if (order.address) {
-                        <div>{{ order.address.name }} {{ order.address.tel }}</div>
-                        <div>{{ order.address.region_name }} {{ order.address.address }}</div>
+                    @if (order().address) {
+                        <div>{{ order().address.name }} {{ order().address.tel }}</div>
+                        <div>{{ order().address.region_name }} {{ order().address.address }}</div>
                     }
                 </div>
                 }
@@ -203,15 +203,15 @@
     </div>
 </div>
 
-@if (dialogOpen == 1) {
+@if (dialogOpen() == 1) {
 <div id="address-dialog" class="dialog dialog-box"   animate.enter="dialog-opened" animate.leave="dialog-closed">
     <div class="dialog-header">
         <div class="dialog-title">选择地址</div>
-        <i class="iconfont icon-close dialog-close" (click)="dialogOpen = 0"></i>
+        <i class="iconfont icon-close dialog-close" (click)="dialogOpen.set(0)"></i>
     </div>
     <div class="dialog-body">
-        @for (item of addressItems; track $index) {
-            <div class="address-item" [class]="{active: dialogSelected && item.id == dialogSelected.id}" (click)="tapDialogSelect(item)">
+        @for (item of addressItems(); track $index) {
+            <div class="address-item" [class]="{active: item.id == dialogSelected()?.id}" (click)="tapDialogSelect(item)">
                 <div>收货人: {{ item.name }}</div>
                 <div>联系方式：{{ item.tel }}</div>
                 <div>收货地址：{{ item.region.full_name }} {{ item.address }}</div>
@@ -224,11 +224,11 @@
     <div class="dialog-footer">
         <div class="btn-group">
             <button type="button" class="btn btn-primary" (click)="tapDialogYes()">确认</button>
-            <button type="button" class="btn btn-danger" (click)="dialogOpen = 0">取消</button>
+            <button type="button" class="btn btn-danger" (click)="dialogOpen.set(0)">取消</button>
         </div>
     </div>
 </div>
 }
 
 
-<app-invoice-dialog [user]="user" />
+<app-invoice-dialog [user]="user()" />

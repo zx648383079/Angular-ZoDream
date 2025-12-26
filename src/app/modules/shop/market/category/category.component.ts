@@ -47,7 +47,7 @@ export class CategoryComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             const category = this.queries.category().value();
-            if (!this.category || category == this.category.id) {
+            if (!this.category() || category == this.category().id) {
                 return;
             }
             this.tapRefresh();
@@ -78,7 +78,7 @@ export class CategoryComponent implements OnInit {
 
     public tapFilter(key: string, val: string) {
         this.queries[key] = val;
-        for (const item of this.filterItems) {
+        for (const item of this.filterItems()) {
             if (item.name !== key) {
                 continue;
             }
@@ -117,9 +117,9 @@ export class CategoryComponent implements OnInit {
                 this.total.set(res.paging.total);
                 this.items.set(res.data);
                 this.queries().value.set(queries);
-            this.searchService.applyHistory(queries, ['category']);
+                this.searchService.applyHistory(queries, ['category']);
                 if (res.filter) {
-                    this.filterItems = res.filter;
+                    this.filterItems.set(res.filter);
                 }
             },
             error: () => {

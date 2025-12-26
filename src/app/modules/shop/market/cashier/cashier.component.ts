@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
@@ -8,7 +8,6 @@ import { IAddress, ICartGroup, ICartItem, ICoupon, IInvoiceTitle, IOrder, IPayme
 import { IUser } from '../../../../theme/models/user';
 import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
 import { ThemeService } from '../../../../theme/services';
-import { emptyValidate } from '../../../../theme/validators';
 import { setCart, setCheckoutCart } from '../../shop.actions';
 import { ShopAppState } from '../../shop.reducer';
 import { selectShopCheckout } from '../../shop.selectors';
@@ -38,27 +37,27 @@ export class CashierComponent {
 
     private readonly invoiceModal = viewChild(InvoiceDialogComponent);
 
-    public user: IUser;
-    public address: IAddress;
-    public addressItems: IAddress[] = [];
+    public readonly user = signal<IUser>(null);
+    public readonly address = signal<IAddress>(null);
+    public readonly addressItems = signal<IAddress[]>([]);
     public readonly items = signal<ICartGroup[]>([]);
-    public order: IOrder;
-    public paymentItems: IPayment[] = [];
-    public payment: IPayment;
-    public shippingItems: IShipping[] = [];
-    public shipping: IShipping;
-    public couponItems: ICoupon[] = [];
+    public readonly order = signal<IOrder>(null);
+    public readonly paymentItems = signal<IPayment[]>([]);
+    public readonly payment = signal<IPayment>(null);
+    public readonly shippingItems = signal<IShipping[]>([]);
+    public readonly shipping = signal<IShipping>(null);
+    public readonly couponItems = signal<ICoupon[]>([]);
     private couponLoaded = false;
-    public couponIndex = 0;
-    public invoice: IInvoiceTitle;
-    public invoiceItems: IInvoiceTitle[] = [];
-    public coupon: ICoupon;
+    public readonly couponIndex = signal(0);
+    public readonly invoice = signal<IInvoiceTitle>(null);
+    public readonly invoiceItems = signal<IInvoiceTitle[]>([]);
+    public readonly coupon = signal<ICoupon>(null);
     public readonly couponForm = form(signal({
         code: ''
     }), schemaPath => {
         required(schemaPath.code);
     });
-    public addressIsEdit = true;
+    public readonly addressIsEdit = signal(true);
     public readonly editForm = form(signal<IAddress>({
         id: 0,
         name: '',
@@ -67,8 +66,8 @@ export class CashierComponent {
         address: ''
     }));
     private cartData: ICartData;
-    public dialogOpen = 0;
-    public dialogSelected;
+    public readonly dialogOpen = signal(0);
+    public readonly dialogSelected = signal<any>(null);
 
     constructor() {
         this.themeService.titleChanged.next('结算');
@@ -92,15 +91,15 @@ export class CashierComponent {
 
     private load() {
         this.store.select(selectAuthUser).subscribe(user => {
-            this.user = user;
+            this.user.set(user);
         });
         this.service.addressList({}).subscribe(res => {
-            this.addressItems = res.data;
+            this.addressItems.set(res.data);
             if (res.data.length < 1) {
                 return;
             }
-            this.address = res.data[0];
-            this.addressIsEdit = false;
+            this.address.set(res.data[0]);
+            this.addressIsEdit.set(false);
             this.onAddressChanged();
         });
     }
@@ -110,10 +109,10 @@ export class CashierComponent {
         if (!this.address || !this.cartData) {
             return;
         }
-        this.service.shippingList(this.cartData.goods, this.address.id, this.cartData.type).subscribe({
+        this.service.shippingList(this.cartData.goods, this.address().id, this.cartData.type).subscribe({
             next: res => {
                 if (res.data && res.data.length > 0) {
-                    this.shippingItems = res.data;
+                    this.shippingItems.set(res.data);
                     return;
                 }
                 this.toastrService.warning('当前地址不支持配送');
@@ -125,27 +124,27 @@ export class CashierComponent {
     }
 
     public tapEditInvoice() {
-        this.dialogOpen = 0;
-        this.invoiceModal().open(this.invoice, data => {
-            this.invoice = data;
+        this.dialogOpen.set(0);
+        this.invoiceModal().open(this.invoice(), data => {
+            this.invoice.set(data);
         });
     }
 
     public couponChanged(item: ICoupon) {
-        this.coupon = {...item};
+        this.coupon.set({...item});
         this.refreshPrice();
     }
 
     public paymentChanged(item: IPayment) {
-        this.payment = item;
+        this.payment.set(item);
         this.refreshPrice();
     }
 
     public shippingChanged(item: IShipping) {
-        this.shipping = item;
+        this.shipping.set(item);
         this.refreshPrice();
         this.service.paymentList(this.cartData.goods, item.code, this.cartData.type).subscribe(res => {
-            this.paymentItems = res.data;
+            this.paymentItems.set(res.data);
         });
         if (this.couponLoaded) {
             return;
@@ -156,7 +155,7 @@ export class CashierComponent {
     private loadCoupon() {
         this.couponLoaded = true;
         this.service.orderCouponList(this.cartData.goods, this.cartData.type).subscribe(res => {
-            this.couponItems = res.data;
+            this.couponItems.set(res.data);
         });
     }
 
@@ -170,7 +169,7 @@ export class CashierComponent {
                 this.toastrService.success('兑换成功');
                 this.loadCoupon();
                 this.couponForm.code().value.set('');
-                this.couponIndex = 0;
+                this.couponIndex.set(0);
             },
             error: err => {
                 this.toastrService.error(err);
@@ -179,20 +178,20 @@ export class CashierComponent {
     }
 
     public refreshPrice() {
-        if (!this.address || !this.cartData) {
+        if (!this.address() || !this.cartData) {
             return;
         }
         this.service.previewOrder({
             goods: this.cartData.goods,
-            address: this.address.id,
-            shipping: this.shipping ? this.shipping.code : '',
-            payment: this.payment ? this.payment.code : '',
+            address: this.address().id,
+            shipping: this.shipping()?.code ?? '',
+            payment: this.payment()?.code ?? '',
             type: this.cartData.type,
-            coupon: this.coupon ? this.coupon.id : 0,
-            invoice: this.invoice || 0
+            coupon: this.coupon()?.id ?? 0,
+            invoice: this.invoice() || 0
         }).subscribe({
             next: res => {
-                this.order = res;
+                this.order.set(res);
             },
             error: err => {
                 this.toastrService.error(err);
@@ -201,7 +200,7 @@ export class CashierComponent {
     }
 
     public tapCheckout(e?: ButtonEvent) {
-        if (!this.address) {
+        if (!this.address()) {
             this.toastrService.warning('请选择收货地址');
             return;
         }
@@ -209,23 +208,23 @@ export class CashierComponent {
             this.toastrService.warning('请选择结算商品');
             return;
         }
-        if (!this.shipping) {
+        if (!this.shipping()) {
             this.toastrService.warning('请选择配送方式');
             return;
         }
-        if (!this.payment) {
+        if (!this.payment()) {
             this.toastrService.warning('请选择支付方式');
             return;
         }
         e?.enter();
         this.service.checkoutOrder({
             goods: this.cartData.goods,
-            address: this.address.id,
-            shipping: this.shipping.code,
-            payment: this.payment.code,
+            address: this.address().id,
+            shipping: this.shipping().code,
+            payment: this.payment().code,
             type: this.cartData.type,
-            coupon: this.coupon ? this.coupon.id : 0,
-            invoice: this.invoice || 0
+            coupon: this.coupon()?.id ?? 0,
+            invoice: this.invoice() || 0
         }).subscribe({
             next: res => {
                 e?.reset();
@@ -241,7 +240,7 @@ export class CashierComponent {
     }
 
     public tapEditAddress(item?: IAddress) {
-        this.addressIsEdit = true;
+        this.addressIsEdit.set(true);
         this.editForm().value.update(v => {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';
@@ -260,10 +259,12 @@ export class CashierComponent {
         }
         this.service.addressSave(data).subscribe({
             next: res => {
-                this.addressIsEdit = false;
-                this.address = res;
-                this.addressItems = this.addressItems.map(i => {
-                    return i.id === res.id ? res : i;
+                this.addressIsEdit.set(false);
+                this.address.set(res);
+                this.addressItems.update(v => {
+                    return v.map(i => {
+                        return i.id === res.id ? res : i;
+                    });
                 });
                 this.onAddressChanged();
             }, error: err => {
@@ -274,22 +275,22 @@ export class CashierComponent {
     }
 
     public tapEditCancel() {
-        this.addressIsEdit = false;
+        this.addressIsEdit.set(false);
     }
 
     public tapChooseAddress() {
-        this.dialogSelected = this.address;
-        this.dialogOpen = 1;
+        this.dialogSelected.set(this.address());
+        this.dialogOpen.set(1);
     }
 
     public tapDialogYes() {
-        this.address = this.dialogSelected;
-        this.dialogOpen = 0;
+        this.address.set(this.dialogSelected());
+        this.dialogOpen.set(0);
         this.onAddressChanged();
     }
 
     public tapDialogSelect(item: any) {
-        this.dialogSelected = item;
+        this.dialogSelected.set(item);
     }
 
     private getGoodsIds(carts: ICartGroup[]): ICartData {
