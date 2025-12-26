@@ -1,4 +1,4 @@
-import { Component, effect, input, output } from '@angular/core';
+import { Component, effect, input, output, signal, untracked } from '@angular/core';
 import { formatLinkRule } from '../util';
 import { IBlockItem, IExtraRule } from './model';
 
@@ -10,19 +10,23 @@ import { IBlockItem, IExtraRule } from './model';
 })
 export class RuleBlockComponent {
 
-    public readonly value = input<string>(undefined);
-    public readonly rules = input<IExtraRule[]>(undefined);
+    public readonly value = input.required<string>();
+    public readonly rules = input<IExtraRule[]>([]);
     /**
      * 是否允许换行
      */
     public readonly newLine = input(true);
     public readonly tapped = output<IBlockItem>();
 
-    public blcokItems: IBlockItem[];
+    public readonly blcokItems = signal<IBlockItem[]>([]);
 
     constructor() {
         effect(() => {
-            this.blcokItems = this.renderRule(this.value(), this.rules());
+            const value = this.value();
+            const rules = this.rules()
+            untracked(() => {
+                this.blcokItems.set(this.renderRule(value, rules));
+            });
         });
     }
 

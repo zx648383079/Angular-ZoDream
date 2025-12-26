@@ -49,7 +49,7 @@ export class ThreadComponent implements OnInit {
 
     public readonly editor = viewChild(ForumEditorComponent);
 
-    public thread: IThread;
+    public readonly thread = signal<IThread>(null);
     public readonly items = signal<IThreadPost[]>([]);
     private hasMore = true;
     public readonly isLoading = signal(false);
@@ -62,7 +62,7 @@ export class ThreadComponent implements OnInit {
         status: '0',
     }));
 
-    public user: IUser;
+    public readonly user = signal<IUser>(null);
     public readonly dataModel = signal({
         content: '',
     });
@@ -87,7 +87,7 @@ export class ThreadComponent implements OnInit {
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
-            this.user = user;
+            this.user.set(user);
         });
     }
 
@@ -101,7 +101,7 @@ export class ThreadComponent implements OnInit {
                 if (res.classify && res.classify instanceof Array) {
                     res.classify = undefined;
                 }
-                this.thread = res;
+                this.thread.set(res);
                 this.tapRefresh();
             });
         });
@@ -174,7 +174,7 @@ export class ThreadComponent implements OnInit {
             }
         });
         modal.open(() => {
-            this.service.threadAction(this.thread.id, this.editForm()).subscribe(res => {
+            this.service.threadAction(this.thread().id, this.editForm()).subscribe(res => {
                 eachObject(maps, i => {
                     this.thread[i] = res[i];
                 });
@@ -259,7 +259,7 @@ export class ThreadComponent implements OnInit {
     }
 
     public tapChange(modal: DialogEvent, item: IThreadPost) {
-        if (!this.thread.editable) {
+        if (!this.thread().editable) {
             return;
         }
         this.statusForm.selected().value.set(item.status || 0);
@@ -286,11 +286,13 @@ export class ThreadComponent implements OnInit {
     }
 
     public toggleLike() {
-        this.service.threadAction(this.thread.id, [
+        this.service.threadAction(this.thread().id, [
             'like'
         ]).subscribe({
             next: res => {
-                this.thread.like_type = res.like_type;
+                this.thread.update(v => {
+                    return {...v, like_type: res.like_type};
+                });
             },
             error: err => {
                 this.toastrService.warning(err.error.message);
@@ -299,11 +301,13 @@ export class ThreadComponent implements OnInit {
     }
 
     public toggleCollect() {
-        this.service.threadAction(this.thread.id, [
+        this.service.threadAction(this.thread().id, [
             'collect'
         ]).subscribe({
             next: res => {
-                this.thread.is_collected = res.is_collected;
+                this.thread.update(v => {
+                    return {...v, is_collected: res.is_collected};
+                });
             },
             error: err => {
                 this.toastrService.warning(err.error.message);
@@ -313,11 +317,13 @@ export class ThreadComponent implements OnInit {
 
     public tapReward(modal: DialogEvent) {
         modal.open(() => {
-            this.service.threadAction(this.thread.id, {
+            this.service.threadAction(this.thread().id, {
                 reward: this.rewardForm.amount().value()
             }).subscribe({
                 next: res => {
-                    this.thread.is_reward = res.is_reward;
+                    this.thread.update(v => {
+                        return {...v, is_reward: res.is_reward};
+                    });
                 },
                 error: err => {
                     this.toastrService.warning(err.error.message);
@@ -329,9 +335,11 @@ export class ThreadComponent implements OnInit {
 
 
     public toggeTop() {
-        this.service.threadAction(this.thread.id, ['top_type']).subscribe({
+        this.service.threadAction(this.thread().id, ['top_type']).subscribe({
             next: res => {
-                this.thread.top_type = res.top_type;
+                this.thread.update(v => {
+                    return {...v, top_type: res.top_type};
+                });
             },
             error: (err: IErrorResult) => {
                 this.toastrService.warning(err.error.message);
@@ -365,7 +373,7 @@ export class ThreadComponent implements OnInit {
             this.toastrService.warning($localize `The content is not filled out completely`);
             return;
         }
-        const data = {...this.dataForm().value(), thread: this.thread.id};
+        const data = {...this.dataForm().value(), thread: this.thread().id};
         e?.enter();
         this.service.postCreate(data).subscribe({
             next: res => {
@@ -410,7 +418,7 @@ export class ThreadComponent implements OnInit {
         }
         this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
-        this.service.getPostList({...queries, thread: this.thread.id}).subscribe({
+        this.service.getPostList({...queries, thread: this.thread().id}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading.set(false);

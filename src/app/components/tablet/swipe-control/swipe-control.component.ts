@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, output, viewChild } from '@angular/core';
+import { Component, computed, ElementRef, HostListener, OnInit, output, viewChild } from '@angular/core';
 import { SwipeListControlComponent } from './swipe-list-control.component';
 import { interval } from 'rxjs';
 
@@ -42,20 +42,20 @@ export class SwipeControlComponent {
         this.touchMove(e.clientX);
     }
 
-    public get boxStyle() {
+    public readonly boxStyle = computed(() => {
         return {
             transform: `translateX(${this.left - this.leftWidth}px)`,
         };
-    }
+    });
 
-    public get bodyStyle() {
+    public readonly bodyStyle = computed(() => {
         if (this.left >= 0) {
             return {};
         }
         return {
             "padding-left": `${-this.left}px`
         };
-    }
+    });
 
     private get leftWidth(): number {
         const ele = this.leftItemsRef()?.nativeElement;

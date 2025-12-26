@@ -28,7 +28,7 @@ export class ListComponent implements OnInit {
     private readonly themeService = inject(ThemeService);
 
 
-    public forum: IForum;
+    public readonly forum = signal<IForum>(null);
     public readonly items = signal<IThread[]>([]);
     private hasMore = true;
     public readonly isLoading = signal(false);
@@ -49,11 +49,11 @@ export class ListComponent implements OnInit {
         required(schemaPath.title);
         required(schemaPath.content);
     });
-    public user: IUser;
-    public sortKey = 'updated_at';
-    public orderAsc = false;
+    public readonly user = signal<IUser>(null);
+    public readonly sortKey = signal('updated_at');
+    public readonly orderAsc = signal(false);
 
-    public unreadCount = 0;
+    public readonly unreadCount = signal(0);
     public sortItems: ISortItem[] = [
         {name: $localize `Publish time`, value: 'created_at', asc: false},
         {name: $localize `Reply time`, value: 'updated_at', asc: false},
@@ -63,7 +63,7 @@ export class ListComponent implements OnInit {
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
-            this.user = user;
+            this.user.set(user);
         });
     }
 
@@ -72,9 +72,9 @@ export class ListComponent implements OnInit {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
         });
         this.route.params.subscribe(params => {
-            this.forum = {id: params.id} as any;
+            this.forum.set({id: params.id} as any);
             this.service.getForum(params.id).subscribe(res => {
-                this.forum = res;
+                this.forum.set(res);
                 this.themeService.titleChanged.next(res.name);
                 if (res.thread_top) {
                     res.thread_top = this.formatItems(res.thread_top);
@@ -86,10 +86,10 @@ export class ListComponent implements OnInit {
 
     public tapSort(item: ISortItem) {
         if (this.sortKey === item.value) {
-            this.orderAsc = !this.orderAsc;
+            this.orderAsc.update(v => !v);
         } else {
-            this.sortKey = item.value as string;
-            this.orderAsc = !!item.asc;
+            this.sortKey.set(item.value as string);
+            this.orderAsc.set(!!item.asc);
         }
         this.tapRefresh();
     }
@@ -114,7 +114,7 @@ export class ListComponent implements OnInit {
             this.toastrService.warning($localize `The content is not filled in completely`);
             return;
         }
-        const data = {...this.dataForm().value(), forum: this.forum.id};
+        const data = {...this.dataForm().value(), forum: this.forum().id};
         e?.enter();
         this.service.threadSave(data).subscribe({
             next: res => {
@@ -161,7 +161,7 @@ export class ListComponent implements OnInit {
         }
         this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
-        this.service.getThreadList({...queries, forum: this.forum.id, sort: this.sortKey, order: this.orderAsc ? 'asc' : 'desc'}).subscribe({
+        this.service.getThreadList({...queries, forum: this.forum().id, sort: this.sortKey, order: this.orderAsc ? 'asc' : 'desc'}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading.set(false);

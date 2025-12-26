@@ -30,20 +30,20 @@ export class EditThreadComponent implements OnInit {
         required(schemaPath.title);
         required(schemaPath.content);
     });
-    public data: IThread = {} as any;
-    public forum: IForum;
+    public readonly data = signal<IThread>(null);
+    public readonly forum = signal<IForum>(null);
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.data.forum_id = parseInt(params.forum, 10);
-            this.service.getForum(this.data.forum_id, false).subscribe(res => {
-                this.forum = res;
+            const forum_id = parseInt(params.forum, 10);
+            this.service.getForum(forum_id, false).subscribe(res => {
+                this.forum.set(res);
             });
             if (!params.id) {
                 return;
             }
             this.service.threadEdit(params.id).subscribe(res => {
-                this.data = res;
+                this.data.set(res);
                 this.dataModel.set({
                     id: res.id,
                     title: res.title,
@@ -65,9 +65,9 @@ export class EditThreadComponent implements OnInit {
             this.toastrService.warning($localize `The content is not filled out completely`);
             return;
         }
-        const data: any = {...this.dataForm().value(), forum: this.data.forum_id};
-        if (this.data.id) {
-            data.id = this.data.id;
+        const data: any = {...this.dataForm().value(), forum: this.data().forum_id};
+        if (this.data().id) {
+            data.id = this.data().id;
         }
         e?.enter();
         this.service.threadSave(data).subscribe({

@@ -41,7 +41,7 @@
     <div class="editor-area">
         <textarea #editorArea [style]="areaStyle" [(value)]="value"
         [disabled]="disabled()"  spellcheck="false" [placeholder]="placeholder()"></textarea>
-        <div class="editor-footer" i18n>{{ size }} words</div>
+        <div class="editor-footer" i18n>{{ size() }} words</div>
     </div>
 </div>
 
@@ -92,8 +92,7 @@
         </div>
         @for (item of dialogData.items; track $index; let i = $index) {
         <div class="vote-item">
-            <input type="text"
-              class="form-control" [field]="item.content" id="content" i18n-placeholder placeholder="Content of options">
+            <input type="text" class="form-control" [field]="item.content" id="content" i18n-placeholder placeholder="Content of options">
             <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>
         </div>
         }

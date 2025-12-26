@@ -1,4 +1,4 @@
-@if (thread) {
+@if (thread()) {
 <div class="container tablet-collapse">
     <ul  class="breadcrumb">
         <li class="breadcrumb-item">
@@ -6,13 +6,13 @@
         </li><li class="breadcrumb-item">
             <a routerLink="../../" i18n>Home</a>
         </li>
-        @for (item of thread.path; track $index) {
+        @for (item of thread().path; track $index) {
             <li class="breadcrumb-item">
             <a [routerLink]="'../../' + item.id">{{ item.name }}</a>
             </li>
         }
 
-        <li class="breadcrumb-item active">{{ thread.title }}
+        <li class="breadcrumb-item active">{{ thread().title }}
         </li>
     </ul>
 </div>
@@ -21,30 +21,30 @@
 
 <div class="container">
     <div class="thread-box">
-        @if (thread) {
-        <div class="thread-title-bar" [class]="{'thread-highlight': thread.is_highlight}">
+        @if (thread()) {
+        <div class="thread-title-bar" [class]="{'thread-highlight': thread().is_highlight}">
             <div class="item-count">
-                <span i18n>View: {{ thread.view_count | numberFormat }}</span>
-                <span i18n>Reply: {{ thread.post_count | numberFormat }}</span>
+                <span i18n>View: {{ thread().view_count | numberFormat }}</span>
+                <span i18n>Reply: {{ thread().post_count | numberFormat }}</span>
             </div>
             <div class="item-title">
-                @if (thread.is_closed) {
+                @if (thread().is_closed) {
                     <i class="iconfont icon-lock" i18n-title title="Thread is closed "></i>
                 } @else {
                     <i class="iconfont icon-file-o"></i>
                 }
-                @if (thread.classify) {
+                @if (thread().classify) {
                 <em class="tag-item">
-                    [<a>{{ thread.classify.name }}</a>]
+                    [<a>{{ thread().classify.name }}</a>]
                 </em>
                 }
 
-                <span class="title-text">{{ thread.title }} </span>
-                @if (thread.is_digest) {
+                <span class="title-text">{{ thread().title }} </span>
+                @if (thread().is_digest) {
                     <i class="iconfont icon-fire"></i>
                 }
 
-                @if (thread.is_new) {
+                @if (thread().is_new) {
                     <a class="new-tag">New</a>
                 }
                 <div class="pull-right">
@@ -90,7 +90,7 @@
                             <app-post-block [value]="item.content" (tapped)="tapBlock($event, item)" />
                         </div>
                         <div class="item-action-bar">
-                            @if (thread.like_type == 1) {
+                            @if (thread().like_type == 1) {
                                 <div class="action-btn active" i18n-title title="Cancel Like" (click)="toggleLike()">
                                     <i class="iconfont icon-thumbs-o-up"></i>
                                 </div>
@@ -99,10 +99,10 @@
                                     <i class="iconfont icon-thumbs-o-up"></i>
                                 </div>
                             }
-                            <div class="action-btn"  [class]="{active: thread.is_reward}" i18n-title title="Reward" (click)="tapReward(rewardModal)" i18n>
-                                {thread.is_reward, plural, =true {Rewarded} =false {Reward}}
+                            <div class="action-btn"  [class]="{active: thread().is_reward}" i18n-title title="Reward" (click)="tapReward(rewardModal)" i18n>
+                                {thread().is_reward, plural, =true {Rewarded} =false {Reward}}
                             </div>
-                            @if (thread.is_collected) {
+                            @if (thread().is_collected) {
                                 <div class="action-btn active" i18n-title title="Cancel Collect" (click)="toggleCollect()">
                                     <i class="iconfont icon-heart"></i>
                                 </div>
@@ -114,10 +114,10 @@
                         </div>
                         <div class="item-footer">
                             <app-command-bar [flowLeft]="true">
-                                @if (user) {
+                                @if (user()) {
                                     <app-command-button icon="icon-undo" label="Reply" i18n-label (tapped)="tapReply(item)" />
                                 }
-                                @if (thread.digestable || thread.highlightable || thread.closeable || thread.topable) {
+                                @if (thread().digestable || thread().highlightable || thread().closeable || thread().topable) {
                                     <app-command-button icon="icon-edit" label="Edit" i18n-label (tapped)="open(modal)" />
                                 }
                             </app-command-bar>
@@ -151,10 +151,10 @@
                           </div>
                         <div class="item-footer">
                             <app-command-bar [flowLeft]="true">
-                                @if (user && item.is_public_post) {
+                                @if (user() && item.is_public_post) {
                                     <app-command-button icon="icon-undo" label="Reply" i18n-label (tapped)="tapReply(item)" />
                                 }
-                                @if (thread.editable) {
+                                @if (thread().editable) {
                                     <app-command-button icon="icon-edit" label="Edit" i18n-label (tapped)="tapChange(statusModal, item)" />
                                 }
                                 @if (item.deleteable) {
@@ -172,12 +172,12 @@
         <div class="paging-box">
             <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
         </div>
-        @if (user && thread && !thread.is_closed) {
+        @if (user() && thread() && !thread().is_closed) {
         <div class="post-item --with-new">
             <div class="item-user-header">
-                <div class="control-name">{{ user.name }}</div>
+                <div class="control-name">{{ user().name }}</div>
                 <div class="control-avatar">
-                    <img [src]="user.avatar" alt="">
+                    <img [src]="user().avatar" alt="">
                 </div>
             </div>
             <div id="post-editor" class="item-body">
@@ -236,8 +236,8 @@
 
 
 <app-dialog-box #modal i18n-title title="Edit">
-    @if (thread) {
-        @if (thread.topable) {
+    @if (thread()) {
+        @if (thread().topable) {
         <div class="link-item">
             <div class="label" i18n>Topest</div>
             <div class="value">
@@ -246,7 +246,7 @@
         </div>
         }
 
-        @if (thread.digestable) {
+        @if (thread().digestable) {
         <div class="link-item">
             <div class="label" i18n>Digest</div>
             <div class="value">
@@ -255,7 +255,7 @@
         </div>
         }
 
-        @if (thread.highlightable) {
+        @if (thread().highlightable) {
         <div class="link-item">
             <div class="label" i18n>Highlight</div>
             <div class="value">
@@ -264,7 +264,7 @@
         </div>
         }
 
-        @if (thread.closeable) {
+        @if (thread().closeable) {
         <div class="link-item">
             <div class="label" i18n>Close</div>
             <div class="value">
@@ -274,8 +274,8 @@
         }
 
         <div class="form-group">
-          <label for="remark" i18n>Operating Instructions*</label>
-          <textarea class="form-control" id="remark" [field]="editForm.remark"></textarea>
+            <label for="remark" i18n>Operating Instructions*</label>
+            <textarea class="form-control" id="remark" [field]="editForm.remark"></textarea>
         </div>
     }
 </app-dialog-box>

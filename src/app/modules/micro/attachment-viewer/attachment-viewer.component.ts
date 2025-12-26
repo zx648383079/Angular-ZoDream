@@ -1,4 +1,4 @@
-import { Component, effect, input } from '@angular/core';
+import { Component, computed, effect, input, signal, untracked } from '@angular/core';
 import { IAttachment } from '../model';
 
 @Component({
@@ -14,20 +14,24 @@ export class AttachmentViewerComponent {
     /**
      * 0 表示没有， 1 表示单张图片，2 多张图片 3 音频 4 视频
      */
-    public attachmentType = 0;
-    public open = false;
+    public readonly attachmentType = signal(0);
+    public readonly open = signal(false);
     public current = 0;
 
     constructor() {
         effect(() => {
-            this.attachmentType = this.formatType(this.items());
+            const items = this.items();
+            untracked(() => {
+                this.attachmentType.set(this.formatType(items));
+            });
+            
         });
     }
 
     
-    public get largeImage(): string {
+    public readonly largeImage = computed(() => {
         return this.items()[this.current].file;
-    }
+    });
 
     public tapPrevious() {
         if (this.current === 0) {
@@ -46,7 +50,7 @@ export class AttachmentViewerComponent {
     }
 
     public tapAttachment(i: number) {
-        this.open = true;
+        this.open.set(true);
         this.current = i;
     }
 

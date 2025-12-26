@@ -43,7 +43,7 @@ export class MicroComponent implements OnInit, OnDestroy {
         topic: 0,
         sort: 'new',
     }));
-    public forwardItem: IMicro;
+    public readonly forwardItem = signal<IMicro>(null);
     public readonly editForm = form(signal({
         content: '',
         is_comment: false,
@@ -52,9 +52,9 @@ export class MicroComponent implements OnInit, OnDestroy {
         required(schemaPath.content);
     });
 
-    public user: any;
-    public topic: ITopic;
-    public authUser: IUser;
+    public readonly user = signal<any>(null);
+    public readonly topic = signal<ITopic>(null);
+    public readonly authUser = signal<IUser>(null);
     public tabItems: IItem[] = [
         {
             name: $localize `Recommend`,
@@ -74,7 +74,7 @@ export class MicroComponent implements OnInit, OnDestroy {
     constructor() {
         this.themeService.titleChanged.next($localize `Micro Blog`);
         this.store.select(selectAuthUser).subscribe(user => {
-            this.authUser = user;
+            this.authUser.set(user);
         });
     }
 
@@ -115,12 +115,12 @@ export class MicroComponent implements OnInit, OnDestroy {
     }
 
     private loadUser(user: number) {
-        if (user < 1 || this.user?.id === user) {
+        if (user < 1 || this.user()?.id === user) {
             return;
         }
         this.service.user(user).subscribe({
             next: res => {
-                this.user = res;
+                this.user.set(res);
             },
             error: err => {
                 this.toastrService.warning(err.error.message);
@@ -129,12 +129,12 @@ export class MicroComponent implements OnInit, OnDestroy {
     }
 
     private loadTopic(topic: number) {
-        if (topic < 1 || this.topic?.id === topic) {
+        if (topic < 1 || this.topic()?.id === topic) {
             return;
         }
         this.service.topic(topic).subscribe({
             next: res => {
-                this.topic = res;
+                this.topic.set(res);
             },
             error: err => {
                 this.toastrService.warning(err.error.message);
@@ -219,7 +219,7 @@ export class MicroComponent implements OnInit, OnDestroy {
     }
 
     public tapForward(modal: DialogEvent, item: IMicro) {
-        this.forwardItem = item;
+        this.forwardItem.set(item);
         this.editForm().value.update(v => {
             v.content = '';
             v.id = item.id,

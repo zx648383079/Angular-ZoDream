@@ -27,8 +27,7 @@ export class PublishFormComponent {
 
     public fileType = 0;
 
-    public fileItems: IUploadResult[] = [
-    ];
+    public readonly fileItems = signal<IUploadResult[]>([]);
 
     public readonly dataForm = form(signal({
         content: '',
@@ -45,7 +44,7 @@ export class PublishFormComponent {
     ];
 
     public readonly topic = signal('');
-    public topicItems: ITopic[] = [];
+    public readonly topicItems = signal<ITopic[]>([]);
 
     public readonly published = output<IMicro>();
 
@@ -55,7 +54,7 @@ export class PublishFormComponent {
             keywords: this.topic(),
             per_page: 10,
         }).subscribe(res => {
-            this.topicItems = res.data;
+            this.topicItems.set(res.data);
         });
     }
 
@@ -73,7 +72,10 @@ export class PublishFormComponent {
     }
 
     public tapRemoveFile(i: number) {
-        this.fileItems.splice(i, 1);
+        this.fileItems.update(v => {
+            v.splice(i, 1);
+            return v;
+        });
     }
 
     public tapPublish(e?: ButtonEvent) {
@@ -84,7 +86,7 @@ export class PublishFormComponent {
         e?.enter();
         this.service.create({
             ...this.dataForm().value(),
-            file: this.fileItems.map(i => {
+            file: this.fileItems().map(i => {
                 return {
                     thumb: i.thumb,
                     file: i.url,
@@ -94,7 +96,7 @@ export class PublishFormComponent {
             next: res => {
                 e?.reset();
                 this.toastrService.success($localize `Successfully released!`);
-                this.fileItems = [];
+                this.fileItems.set([]);
                 this.dataForm.content().value.set('');
                 this.published.emit(res);
             }, error: err => {
@@ -113,10 +115,12 @@ export class PublishFormComponent {
         const files = event.target.files as FileList;
         this.uploadService.uploadImages(files).subscribe(res => {
             if (this.fileType > 0) {
-                this.fileItems = [];
+                this.fileItems.set([]);
             }
             this.fileType = 0;
-            this.fileItems.push(...res);
+            this.fileItems.update(v => {
+                return [...v, ...res];
+            });
         });
     }
 
@@ -124,10 +128,12 @@ export class PublishFormComponent {
         const files = event.target.files as FileList;
         this.uploadService.uploadAudio(files[0]).subscribe(res => {
             if (this.fileType != 1) {
-                this.fileItems = [];
+                this.fileItems.set([]);
             }
             this.fileType = 1;
-            this.fileItems.push(res);
+            this.fileItems.update(v => {
+                return [...v, res];
+            });
         });
     }
 
@@ -135,10 +141,12 @@ export class PublishFormComponent {
         const files = event.target.files as FileList;
         this.uploadService.uploadVideo(files[0]).subscribe(res => {
             if (this.fileType != 2) {
-                this.fileItems = [];
+                this.fileItems.set([]);
             }
             this.fileType = 2;
-            this.fileItems.push(res);
+            this.fileItems.update(v => {
+                return [...v, res];
+            });
         });
     }
 }

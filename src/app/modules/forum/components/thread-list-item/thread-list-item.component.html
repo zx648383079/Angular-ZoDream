@@ -4,11 +4,11 @@
             <img [appLazyLoad]="value().user.avatar">
             <span>{{ value().user.name }}</span>
         </div>
-        <div class="item-dropdown-bar" [class]="{'--with-open': dropdownVisible}">
-            <div class="dropdown-toggle-arrow" (click)="dropdownVisible = !dropdownVisible">
+        <div class="item-dropdown-bar" [class]="{'--with-open': dropdownVisible()}">
+            <div class="dropdown-toggle-arrow" (click)="toggleDrop()">
                 <i class="iconfont icon-ellipsis-h"></i>
             </div>
-            <div class="tablet-mask" (click)="dropdownVisible = false"></div>
+            <div class="tablet-mask" (click)="dropdownVisible.set(false)"></div>
             <div class="dropdowm-pane">
                 <a href="">
                     <i class="iconfont icon-eye-slash"></i>

@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, output } from '@angular/core';
+import { Component, effect, inject, input, output, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { IBlockItem, IExtraRule, formatLinkRule } from '../../../../components/link-rule';
 
@@ -12,15 +12,15 @@ export class PostBlockComponent {
     private readonly toastrService = inject(DialogService);
 
 
-    public readonly value = input<any>(undefined);
+    public readonly value = input<any>();
     public readonly readable = input(true);
     public readonly tapped = output<IBlockItem>();
 
-    public blcokItems: IBlockItem[];
+    public readonly blcokItems = signal<IBlockItem[]>([]);
 
     constructor() {
         effect(() => {
-            this.formatContent(this.value);
+            this.formatContent(this.value());
         });
     }
 
@@ -66,10 +66,10 @@ export class PostBlockComponent {
             return [];
         }
         if (typeof conent !== 'object') {
-            this.blcokItems = this.renderRule(conent, []);
+            this.blcokItems.set(this.renderRule(conent, []));
             return;
         }
-        this.blcokItems = this.renderRule(conent.content, conent.extra_rule);
+        this.blcokItems.set(this.renderRule(conent.content, conent.extra_rule));
     }
 
     public tapBlock(item: IBlockItem) {

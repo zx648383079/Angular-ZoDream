@@ -1,58 +1,58 @@
 <div class="container">
     
-    @if (data) {
+    @if (data()) {
     <div class="micro-item">
         <div class="body">
             <div class="avatar">
-                <img [src]="data.user.avatar" alt="">
+                <img [src]="data().user.avatar" alt="">
             </div>
             <div>
-                <div class="name">{{ data.user.name }}</div>
+                <div class="name">{{ data().user.name }}</div>
                 <p>
-                    <span class="time">{{ data.created_at | ago }}</span>
-                    @if (data.source) {
-                        <span class="from" i18n>From {{ data.source }}</span>
+                    <span class="time">{{ data().created_at | ago }}</span>
+                    @if (data().source) {
+                        <span class="from" i18n>From {{ data().source }}</span>
                     }
-                    @if (data.editable) {
-                        <a class="remove" (click)="tapRemove(data)" i18n>[Delete]</a>
+                    @if (data().editable) {
+                        <a class="remove" (click)="tapRemove(data())" i18n>[Delete]</a>
                     }
                 </p>
                 <div class="content">
-                    <app-rule-block [value]="data.content" [rules]="data.extra_rule" (tapped)="tapBlock($event)" />
+                    <app-rule-block [value]="data().content" [rules]="data().extra_rule" (tapped)="tapBlock($event)" />
                 </div>
-                <app-attachment-viewer [items]="data.attachment" />
+                <app-attachment-viewer [items]="data().attachment" />
             </div>
         </div>
 
         <div class="ations">
-            <a [class]="{active: data.is_collected}" (click)="tapCollect()">
-                <ng-container i18n>{data.is_collected, plural, =true {Collected} =false {Collect}}</ng-container>
-                @if (data.collect_count > 0) {
-                    ({{ data.collect_count | numberFormat }})
+            <a [class]="{active: data().is_collected}" (click)="tapCollect()">
+                <ng-container i18n>{data().is_collected, plural, =true {Collected} =false {Collect}}</ng-container>
+                @if (data().collect_count > 0) {
+                    ({{ data().collect_count | numberFormat }})
                 }
             </a>
             <a (click)="tapForward(modal)">
                 <ng-container i18n>Forward</ng-container>
-                @if (data.collect_count > 0) {
-                    ({{ data.forward_count | numberFormat }})
+                @if (data().collect_count > 0) {
+                    ({{ data().forward_count | numberFormat }})
                 }
             </a>
             <a >
                 <ng-container i18n>Comment</ng-container>
-                @if (data.comment_count > 0) {
-                    ({{ data.comment_count | numberFormat }})
+                @if (data().comment_count > 0) {
+                    ({{ data().comment_count | numberFormat }})
                 }
             </a>
-            <a [class]="{active: data.is_recommended}" (click)="tapRecommend()">
-                <ng-container i18n>{data.is_recommended, plural, =true {Liked} =false {Like}}</ng-container>
-                @if (data.recommend_count > 0) {
-                    ({{ data.recommend_count | numberFormat }})
+            <a [class]="{active: data().is_recommended}" (click)="tapRecommend()">
+                <ng-container i18n>{data().is_recommended, plural, =true {Liked} =false {Like}}</ng-container>
+                @if (data().recommend_count > 0) {
+                    ({{ data().recommend_count | numberFormat }})
                 }
             </a>
         </div>
     </div>
     <div class="comment-box">
-        <app-comment-viewer [user]="authUser" [micro]="data.id" [open]="true" [auto]="true" />
+        <app-comment-viewer [user]="authUser()" [micro]="data().id" [open]="true" [auto]="true" />
     </div>
     }
     
@@ -60,9 +60,9 @@
 
 <app-dialog-box #modal  i18n-confirmText confirmText="Forward" i18n-title title="Forward">
     <div class="forward-box">
-        @if (data) {
+        @if (data()) {
         <div class="simple">
-            &#64;{{ data.user.name }} ：{{ data.content }}
+            &#64;{{ data().user.name }} ：{{ data().content }}
         </div>
         }
         <div class="input">
@@ -71,7 +71,7 @@
         <div class="actions">
             <app-switch [field]="editForm.is_comment" />
             <ng-container i18n>
-                Also comment to {{ data ? data.user.name : '' }}
+                Also comment to {{ data() ? data().user.name : '' }}
             </ng-container>
         </div>
     </div>

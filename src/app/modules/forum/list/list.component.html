@@ -1,4 +1,4 @@
-@if (forum) {
+@if (forum()) {
 <div class="container tablet-collapse">
     <app-search-bar [value]="queries.keywords().value()" [type]="queries.type().value()" (confirm)="tapSearch($event)" />
     <ul  class="breadcrumb">
@@ -7,28 +7,28 @@
         </li><li class="breadcrumb-item">
             <a routerLink="../" i18n>Home</a>
         </li>
-        @for (item of forum.path; track $index) {
+        @for (item of forum().path; track $index) {
         <li class="breadcrumb-item">
             <a [routerLink]="['../', item.id]">{{ item.name }}</a>
         </li>
         }
-        <li class="breadcrumb-item active">{{ forum.name }}
+        <li class="breadcrumb-item active">{{ forum().name }}
         </li>
     </ul>
 </div>
 }
 
 <div class="container">
-    @if (forum) {
+    @if (forum()) {
     <div class="catalog-panel">
         <div class="panel-header">
-            {{ forum.name }}
+            {{ forum().name }}
         </div>
         <div class="group-content">
-            @if (forum.moderators && forum.moderators.length > 0) {
+            @if (forum().moderators && forum().moderators.length > 0) {
             <p class="moderator-line">
                 <ng-container i18n>Moderators:</ng-container>
-                @for (item of forum.moderators; track $index;let f = $first) {
+                @for (item of forum().moderators; track $index;let f = $first) {
                     @if (!f) {
                          ,
                     }
@@ -38,13 +38,13 @@
             }
 
             <div>
-                {{ forum.description }}
+                {{ forum().description }}
             </div>
         </div>
-        @if (forum.children && forum.children.length > 0) {
+        @if (forum()?.children && forum().children.length > 0) {
         <div class="panel-body">
             <div class="row">
-                @for (item of forum.children; track $index) {
+                @for (item of forum().children; track $index) {
                     <div class="col-md-4 col-sm-12">
                         <div class="catalog-item">
                             <div class="cover">
@@ -79,12 +79,12 @@
     </div>
     }
 
-    @if (forum && forum.classifies && forum.classifies.length > 0) {
+    @if (forum()?.classifies && forum().classifies.length > 0) {
     <div class="classify-bar">
         <div class="item" [class.active]="0 === queries.classify().value()" (click)="tapClassify()" i18n>
             All
         </div>
-        @for (item of forum.classifies; track $index) {
+        @for (item of forum().classifies; track $index) {
             <div class="item" [class.active]="item.id === queries.classify().value()" (click)="tapClassify(item)">
                 {{ item.name }}
             </div>
@@ -99,7 +99,7 @@
                 <ng-container i18n>Topic</ng-container>
                 <div class="sort-bar">
                     @for (item of sortItems; track $index) {
-                        <a [class]="{active: item.value === sortKey}" (click)="tapSort(item)">{{ item.name }}</a>
+                        <a [class]="{active: item.value === sortKey()}" (click)="tapSort(item)">{{ item.name }}</a>
                     }
                 </div>
             </div>
@@ -113,17 +113,17 @@
                 Activity
             </div>
         </div>
-        @if (forum && forum.thread_top && forum.thread_top.length > 0) {
-            @for (item of forum.thread_top; track $index) {
+        @if (forum()?.thread_top && forum().thread_top.length > 0) {
+            @for (item of forum().thread_top; track $index) {
                 <app-thread-list-item [value]="item" (classifyChanged)="tapClassify($event)" />
             }
             <div class="split-line"></div>
         }
 
-        @if (unreadCount) {
+        @if (unreadCount()) {
         <div class="align-center">
             <a class="new-post-bar">
-                There are {{ unreadCount | numberFormat}} new or updated topics
+                There are {{ unreadCount() | numberFormat}} new or updated topics
             </a>
         </div>
         }
@@ -139,7 +139,7 @@
 
 
     </div>
-    @if (forum && user) {
+    @if (forum() && user()) {
     <div class="thread-new-box">
         <div class="header">
             <ng-container i18n>Quickly post</ng-container>
@@ -149,10 +149,10 @@
         </div>
         <form (submit)="tapSubmit2($event)">
             <div class="title">
-                @if (forum.classifies && forum.classifies.length > 0) {
+                @if (forum()?.classifies && forum().classifies.length > 0) {
                 <select [field]="dataForm.classify" class="form-control">
                     <option [value]="0" i18n>Select classify</option>
-                    @for (item of forum.classifies; track $index) {
+                    @for (item of forum().classifies; track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                     }
                 </select>

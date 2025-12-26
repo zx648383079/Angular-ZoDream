@@ -27,8 +27,8 @@ export class DetailComponent implements OnInit {
     private readonly store = inject<Store<AppState>>(Store);
 
 
-    public data: IMicro;
-    public authUser: IUser;
+    public readonly data = signal<IMicro>(null);
+    public readonly authUser = signal<IUser>(null);
     public readonly editForm = form(signal({
         content: '',
         is_comment: false,
@@ -39,7 +39,7 @@ export class DetailComponent implements OnInit {
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
-            this.authUser = user;
+            this.authUser.set(user);
         });
     }
 
@@ -53,9 +53,9 @@ export class DetailComponent implements OnInit {
         });
     }
 
-    loadDetail(id: number) {
+    private loadDetail(id: number) {
         this.service.get(id).subscribe(res => {
-            this.data = res;
+            this.data.set(res);
         });
     }
 
@@ -81,10 +81,11 @@ export class DetailComponent implements OnInit {
         if (!this.data) {
             return;
         }
-        this.service.collect(this.data.id).subscribe({
+        this.service.collect(this.data().id).subscribe({
             next: res => {
-                this.data.is_collected = res.is_collected;
-                this.data.collect_count = res.collect_count;
+                this.data.update(v => {
+                    return {...v, is_collected: res.is_collected, collect_count: res.collect_count};
+                });
             }, error: err => {
                 this.toastrService.warning(err);
             }
@@ -95,10 +96,11 @@ export class DetailComponent implements OnInit {
         if (!this.data) {
             return;
         }
-        this.service.recommend(this.data.id).subscribe({
+        this.service.recommend(this.data().id).subscribe({
             next: res => {
-                this.data.is_recommended = res.is_recommended;
-                this.data.recommend_count = res.recommend_count;
+                this.data.update(v => {
+                    return {...v, is_recommended: res.is_recommended, recommend_count: res.recommend_count};
+                });
             }, 
             error: err => {
                 this.toastrService.warning(err);
@@ -107,11 +109,11 @@ export class DetailComponent implements OnInit {
     }
 
     public tapForward(modal: DialogBoxComponent) {
-        if (!this.data) {
+        if (!this.data()) {
             return;
         }
         this.editForm().value.update(v => {
-            v.id = this.data.id;
+            v.id = this.data().id;
             v.content = '';
             v.is_comment = false;
             return v;

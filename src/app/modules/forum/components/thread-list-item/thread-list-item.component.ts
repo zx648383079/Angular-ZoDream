@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { IForumClassify, IThread } from '../../model';
 
 @Component({
@@ -9,7 +9,12 @@ import { IForumClassify, IThread } from '../../model';
 })
 export class ThreadListItemComponent {
 
-    public dropdownVisible = false;
-    public readonly value = input<IThread>(undefined);
+    public readonly dropdownVisible = signal(false);
+    public readonly value = input.required<IThread>();
     public readonly classifyChanged = output<IForumClassify>();
+
+
+    public toggleDrop() {
+        this.dropdownVisible.update(v => !v);
+    }
 }

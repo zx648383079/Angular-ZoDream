@@ -10,15 +10,15 @@
             </div>
         </div>
         <div class="col-md-8">
-            @if (!topic && user) {
+            @if (!topic() && user()) {
             <div class="user-card">
                 <div class="avatar">
-                    <img [src]="user.avatar" alt="">
+                    <img [src]="user().avatar" alt="">
                 </div>
                 <div class="name">
-                    {{ user.name }}
-                    @if (!authUser || user.id != authUser.id) {
-                        @switch (user.follow_status) {
+                    {{ user().name }}
+                    @if (!authUser() || user().id != authUser().id) {
+                        @switch (user().follow_status) {
                             @case (1) {
                                  <a class="follow-btn active" i18n-title title="Followed, click to cancel follow user" (click)="tapFollow(user)">
                                     <i class="iconfont icon-star"></i>
@@ -43,26 +43,26 @@
                 <div class="remark"></div>
                 <div class="count-bar">
                     <div class="count-item">
-                        <div class="count">{{ user.following_count | numberFormat }}</div>
+                        <div class="count">{{ user().following_count | numberFormat }}</div>
                         <span i18n>Following</span>
                     </div>
                     <div class="count-item">
-                        <div class="count">{{ user.follower_count | numberFormat }}</div>
+                        <div class="count">{{ user().follower_count | numberFormat }}</div>
                         <span i18n>Followers</span>
                     </div>
                     <div class="count-item">
-                        <div class="count">{{ user.micro_count | numberFormat }}</div>
+                        <div class="count">{{ user().micro_count | numberFormat }}</div>
                         <span i18n>Posts</span>
                     </div>
                 </div>
             </div>
             }
             
-            @if (topic) {
+            @if (topic()) {
             <div class="topic-card">
-                <div class="name">#{{ topic.name }}#</div>
+                <div class="name">#{{ topic().name }}#</div>
                 <div class="count-bar" i18n>
-                    {{ topic.micro_count | numberFormat }}Posts
+                    {{ topic().micro_count | numberFormat }}Posts
                 </div>
             </div>
             }
@@ -120,7 +120,7 @@
                             </a>
                         </div>
                         <div class="comment-box">
-                            <app-comment-viewer [micro]="item.id" [open]="item.comment_open" [user]="authUser" (loadMore)="tapViewDetail(item)" />
+                            <app-comment-viewer [micro]="item.id" [open]="item.comment_open" [user]="authUser()" (loadMore)="tapViewDetail(item)" />
                         </div>
                     </div>
                 }
@@ -131,9 +131,9 @@
 
 <app-dialog-box #modal i18n-confirmText confirmText="Forward" i18n-title title="Forward">
     <div class="forward-box">
-        @if (forwardItem) {
+        @if (forwardItem()) {
         <div class="simple">
-            &#64;{{ forwardItem.user.name }} ：{{ forwardItem.content }}
+            &#64;{{ forwardItem().user.name }} ：{{ forwardItem().content }}
         </div>
         }
         
@@ -143,7 +143,7 @@
         <div class="actions">
             <app-switch [field]="editForm.is_comment" />
             <ng-container i18n>
-                Also comment to {{ forwardItem ? forwardItem.user.name : '' }}
+                Also comment to {{ forwardItem() ? forwardItem().user.name : '' }}
             </ng-container>
         </div>
     </div>

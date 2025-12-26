@@ -36,9 +36,9 @@
         </select>
         <app-action-button class="btn btn-primary" (tapped)="tapPublish($event)" i18n>Publish</app-action-button>
     </div>
-    @if (fileItems.length > 0) {
+    @if (fileItems().length > 0) {
     <div class="multi-image-box">
-        @for (item of fileItems; track $index; let i = $index) {
+        @for (item of fileItems(); track $index; let i = $index) {
         <div class="image-item">
             <img [src]="item.thumb">
             <i class="iconfont icon-close" (click)="tapRemoveFile(i)"></i>
@@ -56,7 +56,7 @@
             <i class="iconfont icon-plus"></i>
         </div>
     </div>
-    @for (item of topicItems; track $index) {
+    @for (item of topicItems(); track $index) {
     <div class="topic-item" (click)="topicModal.close(item.name)">
         <div class="item-title">#{{ item.name }}#</div>
         <div class="item-count" i18n>{{ item.micro_count | numberFormat }}Posts</div>

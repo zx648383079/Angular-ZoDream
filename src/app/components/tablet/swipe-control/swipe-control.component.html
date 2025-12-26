@@ -1,5 +1,5 @@
 <div class="swipe-control">
-    <div class="control-scroll-body" [style]="boxStyle">
+    <div class="control-scroll-body" [style]="boxStyle()">
         <div class="control-left" #leftBox>
             <ng-content select="[name=left]" />
         </div>
@@ -8,7 +8,7 @@
             (touchstart)="onTouchStart($event)"
             (touchmove)="onTouchMove($event)"
             (touchend)="onTouchEnd()"
-            [style]="bodyStyle">
+            [style]="bodyStyle()">
             <ng-content />
         </div>
         <div class="control-right" #rightBox>

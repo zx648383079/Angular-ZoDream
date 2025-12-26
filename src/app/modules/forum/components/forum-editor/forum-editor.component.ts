@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, input, viewChild, model } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, input, viewChild, model, computed } from '@angular/core';
 import { DialogBoxComponent } from '../../../../components/dialog';
 import { IEmoji } from '../../../../theme/models/seo';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
@@ -34,9 +34,9 @@ export class ForumEditorComponent implements AfterViewInit, FormValueControl<str
     };
     public uploadKey = this.uploadService.uniqueId();
 
-    get size() {
+    public readonly size = computed(() => {
         return wordLength(this.value());
-    }
+    });
 
     get areaStyle() {
         return {

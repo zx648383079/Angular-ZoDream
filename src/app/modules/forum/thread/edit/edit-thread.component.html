@@ -6,17 +6,17 @@
             <a routerLink="../" i18n>Home</a>
         </li>
         <li class="breadcrumb-item active" i18n>
-            {data.id, plural, =true {Edit thread} =false {New thread}}
+            {data().id, plural, =true {Edit thread} =false {New thread}}
         </li>
     </ul>
 </div>
 <div class="container">
     <form class="thread-new-box" (submit)="tapSubmit2($event)">
         <div class="title">
-            @if (forum && forum.classifies && forum.classifies.length > 0) {
+            @if (forum()?.classifies && forum().classifies.length > 0) {
             <select [field]="dataForm.classify_id" class="form-control">
                 <option [value]="0" i18n>Select classify</option>
-                @for (item of forum.classifies; track $index) {
+                @for (item of forum().classifies; track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
                 }
             </select>
