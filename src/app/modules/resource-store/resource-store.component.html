@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="top-bar">
             <div class="brand-logo">
-                <img [src]="'assets/images/logo.png' | asset" alt="">
+                <img ngSrc="assets/images/logo.png" alt="" fill priority>
             </div>
             <div class="more-bar">
                 <a routerLink="/frontend/forum" i18n>Forums</a>
@@ -15,10 +15,10 @@
                     <a href="">
                         <i class="iconfont icon-shopping-cart"></i>
                     </a>
-                    @if (!user) {
+                    @if (!user()) {
                         <a (click)="loginModal.open()" i18n>Sign In</a>
                     } @else {
-                        <a routerLink="/frontend/user/res">{{ user.name }}</a>
+                        <a routerLink="/frontend/user/res">{{ user().name }}</a>
                     }
                     <div class="navbar-icon" (click)="toggleNav()">
                         <i class="iconfont icon-bars"></i>
@@ -27,11 +27,11 @@
             </div>
         </div>
     </div>
-    <div class="navbar" [class]="{open: navOpen}">
+    <div class="navbar" [class]="{open: navOpen()}">
         <div class="container-fluid">
             <ul class="navbar-main">
-                @for (item of navItems; track $index; let i = $index) {
-                    <li [class]="{active: i == navIndex}" (click)="navIndex = i">
+                @for (item of navItems(); track $index; let i = $index) {
+                    <li [class]="{active: i == navIndex()}" (click)="navIndex.set(i)">
                         <a >{{ item.name }}</a>
                     </li>
                 }
@@ -39,7 +39,7 @@
         </div>
         <div class="container-fluid navbar-next-bar">
             <ul class="navbar-next">
-                @for (item of subNavItems; track $index) {
+                @for (item of subNavItems(); track $index) {
                     <li [class]="{active: item.active}">
                         <a [routerLink]="['category', item.id]">{{ item.name }}</a>
                         @if (item.children) {
@@ -60,7 +60,7 @@
                     </li>
                 }
             </ul>
-            @if (searchVisible) {
+            @if (searchVisible()) {
             <form class="search-inline" (submit)="tapSearch($event)">
                 <i class="iconfont icon-search"></i>
                 <input type="text" class="form-control" placeholder="Search ..." [field]="queries.keywords">

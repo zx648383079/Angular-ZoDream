@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
     Observable
 } from 'rxjs';
@@ -17,12 +17,11 @@ import {
     templateUrl: './shop.component.html',
     styleUrls: ['./shop.component.scss']
 })
-export class ShopComponent implements OnInit {
+export class ShopComponent {
     private readonly service = inject(ShopService);
 
 
     public readonly items = signal<ISubtotal[]>([]);
-
     public options: Observable<EChartsCoreOption>;
 
     constructor() {
@@ -78,7 +77,5 @@ export class ShopComponent implements OnInit {
             };
         }));
     }
-
-    ngOnInit(): void {}
 
 }

@@ -8,12 +8,12 @@ import { css } from '../../theme/utils/doc';
     selector: '[appPopup]'
 })
 export class PopupDirective implements OnInit {
-    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
-    private renderer = inject(Renderer2);
-    private injector = inject(Injector);
-    private viewContainerRef = inject(ViewContainerRef);
-    private applicationRef = inject(ApplicationRef);
-    private zoon = inject(NgZone);
+    private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
+    private readonly renderer = inject(Renderer2);
+    private readonly injector = inject(Injector);
+    private readonly viewContainerRef = inject(ViewContainerRef);
+    private readonly applicationRef = inject(ApplicationRef);
+    private readonly zoon = inject(NgZone);
 
 
     public readonly placement = input('left');

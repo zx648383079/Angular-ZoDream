@@ -52,7 +52,7 @@ export class CategoryPanelComponent {
         }
         this.crumbs.update(v => {
             v.pop();
-            return v;
+            return [...v];
         });
     }
 

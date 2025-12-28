@@ -1,8 +1,17 @@
 @use '../../../theme/theme';
 :host {
+    --#{theme.$prefix}btn-color: var(--#{theme.$prefix}primary-text);
+    --#{theme.$prefix}btn-bg: var(--#{theme.$prefix}primary);
+    --#{theme.$prefix}btn-disabled-bg: var(--#{theme.$prefix}input-disabled);
     cursor: pointer;
     text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--#{theme.$prefix}btn-bg);
+    color: var(--#{theme.$prefix}btn-color);
+    padding: 0 .75rem;
     &.disabled {
-        background-color: var(--#{theme.$prefix}input-disabled);
+        background-color: var(--#{theme.$prefix}btn-disabled-bg);
     }
 }

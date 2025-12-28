@@ -25,9 +25,11 @@ footer {
     justify-content: space-between;
     .brand-logo {
         height: 2.5rem;
+        width: 4rem;
         padding-left: .6rem;
+        position: relative;
         img {
-            height: 100%;
+            object-fit: contain;
         }
     }
     .more-bar {
@@ -133,6 +135,7 @@ footer {
             height: 15rem;
             overflow: hidden;
             border-radius: 0.5rem .5rem 0 0;
+            position: relative;
             img {
                 object-fit: contain;
                 min-width: 100%;

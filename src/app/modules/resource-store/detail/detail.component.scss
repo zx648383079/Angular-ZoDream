@@ -56,8 +56,10 @@ $panel: #ebebeb;
 }
 
 .group-image {
+    position: relative;
+    height: 30rem;
     img {
-        width: 100%;
+        object-fit: contain;
     }
 }
 

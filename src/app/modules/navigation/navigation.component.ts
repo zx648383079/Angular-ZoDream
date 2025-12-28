@@ -62,7 +62,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
-            if (!this.queries.keywords) {
+            if (!this.queries.keywords().value()) {
                 return;
             }
             this.tapPage();

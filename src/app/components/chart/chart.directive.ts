@@ -8,15 +8,16 @@ import { asyncScheduler, Subject, throttleTime } from 'rxjs';
     selector: '[appChart]'
 })
 export class ChartDirective implements OnDestroy {
-    private zone = inject(NgZone);
-    private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-    private configs = inject<ChartConfigs>(CHART_TOKEN);
+    private readonly zone = inject(NgZone);
+    private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+    private readonly configs = inject<ChartConfigs>(CHART_TOKEN);
 
 
 
     public readonly options = input<EChartsCoreOption>();
     public readonly initOpts = input<EChartsInitOpts>();
 
+    private booted = false;
     private instance: ECharts;
     private resizeOb: ResizeObserver;
     private resize$ = new Subject<void>();
@@ -60,8 +61,11 @@ export class ChartDirective implements OnDestroy {
     // }
 
     private createChart() {
+        if (this.booted) {
+            return;
+        }
+        this.booted = true;
         const dom = this.elementRef.nativeElement;
-
         if (window && window.getComputedStyle) {
             const prop = window.getComputedStyle(dom, null).getPropertyValue('height');
             if ((!prop || prop === '0px') && (!dom.style.height || dom.style.height === '0px')) {

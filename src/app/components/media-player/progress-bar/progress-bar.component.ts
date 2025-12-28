@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, input, model, viewChild } from '@angular/core';
+import { Component, computed, ElementRef, HostListener, input, model, viewChild } from '@angular/core';
 import { formatHour } from '../../../theme/utils';
 
 @Component({
@@ -28,26 +28,24 @@ export class ProgressBarComponent {
     public readonly min = input(0);
     private isMouseMove = false;
 
-    constructor() {}
-
-    public get titleTip() {
+    public readonly titleTip = computed(() => {
         if (!this.formatValue()) {
             return this.value();
         }
         return formatHour(this.value(), undefined, true) + '/' + formatHour(this.max(), undefined, true);
-    }
+    })
 
-    public get progressStyle() {
+    public readonly progressStyle = computed(() => {
         return {
             width: this.max() < 1 ? 0 : (this.value() * 100 / this.max())  + '%'
         };
-    }
+    });
 
-    public get loadStyle() {
+    public readonly loadStyle = computed(() => {
         return {
             width: this.max() < 1 ? 0 : (this.loaded() * 100 / this.max())  + '%'
         };
-    }
+    });
 
     @HostListener('document:mousemove', ['$event'])
     public onMouseMove(event: any) {

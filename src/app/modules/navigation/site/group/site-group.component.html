@@ -8,7 +8,7 @@
                 <div class="col-md-4">
                 <div class="site-item" [title]="item.name">
                     <div class="item-name">
-                        <a [href]="formatLink(item)" target="_blank" rel="noopener"><img class="lazy" [appLazyLoad]="item.logo" [alt]="item.name"></a>
+                        <a [href]="formatLink(item)" target="_blank" rel="noopener"><img class="lazy" [ngSrc]="item.logo" width="30" height="30" [alt]="item.name"></a>
                         <a [href]="formatLink(item)" target="_blank" rel="noopener">{{ item.name }}</a>
                     </div>
                     <div class="item-desc">

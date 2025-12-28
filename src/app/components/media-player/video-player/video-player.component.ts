@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, Renderer2, effect, inject, input, model, output, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, Renderer2, effect, inject, input, model, output, signal, untracked, viewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ScreenFull, mediaIsFrame } from '../util';
 
@@ -14,18 +14,18 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
 
 
     private readonly videoElement = viewChild<ElementRef<HTMLVideoElement>>('playerVideo');
-    public readonly src = model<string>();
-    public readonly cover = input<string>(undefined);
+    public readonly src = model<string>('');
+    public readonly cover = input<string>();
     public readonly ended = output<void>();
-    public paused = true;
-    public booted = false;
-    public isFrame = false;
-    public formatSrc: SafeResourceUrl;
-    public progress = 0;
-    public duration = 0;
-    public loaded = 0;
-    public volume = 100;
-    public isFull = false;
+    public readonly paused = signal(true);
+    public readonly booted = signal(false);
+    public readonly isFrame = signal(false);
+    public readonly formatSrc = signal<SafeResourceUrl>(null);
+    public readonly progress = signal(0);
+    public readonly duration = signal(0);
+    public readonly loaded = signal(0);
+    public readonly volume = signal(100);
+    public readonly isFull = signal(false);
     private volumeLast = 100;
     private bootedEvent = false;
 
@@ -37,16 +37,18 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
     constructor() {
         effect(() => {
             const src = this.src();
-            this.booted = false;
-            this.isFrame = mediaIsFrame(src);
-            if (this.isFrame) {
-                this.formatSrc = this.sanitizer.bypassSecurityTrustResourceUrl(src);
-            }
+            untracked(() => {
+                this.booted.set(false);
+                this.isFrame.set(mediaIsFrame(src));
+                if (this.isFrame()) {
+                    this.formatSrc.set(this.sanitizer.bypassSecurityTrustResourceUrl(src));
+                }
+            });
         });
     }
 
     ngOnDestroy() {
-        if (this.paused || !this.videoPlayer) {
+        if (this.paused() || !this.videoPlayer) {
             return;
         }
         this.videoPlayer.pause();
@@ -55,16 +57,16 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
     ngAfterViewInit() {
         this.bindVideoEvent();
         this.render.listen(document, ScreenFull.changeEvent, () => {
-            this.isFull = ScreenFull.isFullScreen;
+            this.isFull.set(ScreenFull.isFullScreen);
         });
     }
 
     public tapPlay() {
-        if (!this.booted) {
+        if (!this.booted()) {
             this.initVideo();
             return;
         }
-        if (this.paused) {
+        if (this.paused()) {
             this.play();
             return;
         }
@@ -72,8 +74,8 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
     }
 
     private initVideo() {
-        this.booted = true;
-        if (this.isFrame) {
+        this.booted.set(true);
+        if (this.isFrame()) {
             return;
         }
         setTimeout(() => {
@@ -83,21 +85,21 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
     }
 
     private play() {
-        if (this.isFrame || !this.videoPlayer) {
+        if (this.isFrame() || !this.videoPlayer) {
             return;
         }
         this.videoPlayer.play();
     }
 
     private pause() {
-        if (this.isFrame || !this.videoPlayer) {
+        if (this.isFrame() || !this.videoPlayer) {
             return;
         }
         this.videoPlayer.pause();
     }
 
     private stop() {
-        if (this.isFrame || !this.videoPlayer) {
+        if (this.isFrame() || !this.videoPlayer) {
             return;
         }
         this.videoPlayer.pause();
@@ -105,18 +107,18 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
     }
 
     public tapVolume() {
-        if (this.volume <= 0) {
+        if (this.volume() <= 0) {
             this.onVolumeChange(this.volumeLast);
             return;
         }
-        this.volumeLast = this.volume;
+        this.volumeLast = this.volume();
         this.onVolumeChange(0);
     }
 
     public onVolumeChange(v: number) {
-        this.volume = v;
+        this.volume.set(v);
         if (this.videoPlayer) {
-            this.videoPlayer.volume = this.volume / 100;
+            this.videoPlayer.volume = this.volume() / 100;
         }
     }
 
@@ -129,13 +131,13 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
     }
 
     public tapFullScreen() {
-        if (this.isFull) {
+        if (this.isFull()) {
             this.exitFullscreen();
-            this.isFull = false;
+            this.isFull.set(false);
             return;
         }
         this.fullScreen();
-        this.isFull = true;
+        this.isFull.set(true);
     }
 
     private fullScreen() {
@@ -157,35 +159,35 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
         this.bootedEvent = true;
         video.addEventListener('timeupdate', () => {
             if (isNaN(video.duration) || !isFinite(video.duration) || video.duration <= 0) {
-                this.progress = 0;
-                this.duration = 0;
-                this.loaded = 0;
+                this.progress.set(0);
+                this.duration.set(0);
+                this.loaded.set(0);
                 return;
             }
-            this.progress = video.currentTime;
-            this.duration = video.duration;
+            this.progress.set(video.currentTime);
+            this.duration.set(video.duration);
         });
         video.addEventListener('progress', () => {
-            this.loaded = video.buffered.length ? video.buffered.end(video.buffered.length - 1) : 0;
+            this.loaded.set(video.buffered.length ? video.buffered.end(video.buffered.length - 1) : 0);
         });
         video.addEventListener('canplay', () => {
-            this.loaded = video.buffered.length ? video.buffered.end(video.buffered.length - 1) : 0;
+            this.loaded.set(video.buffered.length ? video.buffered.end(video.buffered.length - 1) : 0);
         });
         video.addEventListener('ended', () => {
-            this.paused = true;
+            this.paused.set(true);
             this.ended.emit();
         });
         video.addEventListener('pause', () => {
-            this.paused = true;
+            this.paused.set(true);
         });
         video.addEventListener('error', e => {
-            this.paused = true;
+            this.paused.set(true);
         });
         video.addEventListener('play', () => {
-            this.paused = false;
+            this.paused.set(false);
         });
-        if (this.volume > 0) {
-            this.volume = video.volume * 100;
+        if (this.volume() > 0) {
+            this.volume.set(video.volume * 100);
         }
     }
 }

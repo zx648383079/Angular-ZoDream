@@ -88,7 +88,7 @@ export class ListComponent implements OnInit, OnDestroy {
                 return;
             }
             res.categories.forEach(item => {
-                if (item.id === this.category().id) {
+                if (item.id === this.category()?.id) {
                     this.category.set(item);
                 }
             });

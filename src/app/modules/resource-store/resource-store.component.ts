@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
@@ -28,34 +28,34 @@ export class ResourceStoreComponent implements OnInit, OnDestroy {
     }));
 
 
-    public navItems: ICategory[] = [
+    public readonly navItems = signal<ICategory[]>([
         {name: '推荐'} as any,
-    ];
-    public navIndex = 0;
-    public user: IUser;
-    public searchVisible = false;
-    public navOpen = false;
+    ]);
+    public readonly navIndex = signal(0);
+    public readonly user = signal<IUser>(null);
+    public readonly searchVisible = signal(false);
+    public readonly navOpen = signal(false);
     private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `Resource Store`);
         this.subItems.add(
             this.store.select(selectAuthUser).subscribe(user => {
-                this.user = user;
+                this.user.set(user);
             }),
         );
     }
 
-    public get subNavItems(): ICategory[] {
-        return this.navItems[this.navIndex].children;
-    }
+    public readonly subNavItems = computed(() => {
+        return this.navItems[this.navIndex()]?.children ?? [];
+    });
 
     ngOnInit() {
-        this.searchVisible = window.location.pathname.indexOf('category') > 0;
+        this.searchVisible.set(window.location.pathname.indexOf('category') > 0);
         this.subItems.add(
             this.router.events.subscribe(event => {
                 if (event instanceof NavigationStart) {
-                    this.searchVisible = event.url.indexOf('category') > 0;
+                    this.searchVisible.set(event.url.indexOf('category') > 0);
                 }
             })
         );
@@ -63,8 +63,10 @@ export class ResourceStoreComponent implements OnInit, OnDestroy {
             categories: {},
             recommend: {}
         }).subscribe(res => {
-            this.navItems = [this.navItems[0]].concat(res.categories);
-            this.navItems[0].children = res.recommend;
+            this.navItems.update(v => {
+                v[0].children = res.recommend;
+                return [v[0], ...res.categories];
+            });
         });
     }
 
@@ -79,7 +81,7 @@ export class ResourceStoreComponent implements OnInit, OnDestroy {
     }
 
     public toggleNav() {
-        this.navOpen = !this.navOpen;
+        this.navOpen.update(v => !v);
     }
 
 }

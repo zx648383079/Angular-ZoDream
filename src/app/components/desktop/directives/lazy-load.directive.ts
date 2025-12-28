@@ -1,5 +1,5 @@
 import { isPlatformServer } from '@angular/common';
-import { Directive, ElementRef, HostListener, OnDestroy, OnInit, PLATFORM_ID, Renderer2, inject, input, output } from '@angular/core';
+import { Directive, ElementRef, HostListener, OnInit, PLATFORM_ID, inject, input, output } from '@angular/core';
 import { assetUri } from '../../../theme/utils';
 
 interface IRect {
@@ -13,9 +13,9 @@ interface IRect {
     standalone: false,
     selector: '[appLazyLoad]'
 })
-export class LazyLoadDirective implements OnInit, OnDestroy {
-    private elementRef = inject(ElementRef);
-    private platformId = inject(PLATFORM_ID);
+export class LazyLoadDirective implements OnInit {
+    private readonly elementRef = inject(ElementRef);
+    private readonly platformId = inject(PLATFORM_ID);
 
 
     /** 指定屏幕宽度最小值 */
@@ -24,7 +24,7 @@ export class LazyLoadDirective implements OnInit, OnDestroy {
     public readonly max = input(0);
     /** 指定加载次数 */
     public loadTime = 1;
-    public readonly scrollTarget = input<any>(undefined);
+    public readonly scrollTarget = input<any>();
     public readonly offset = input(0);
     public readonly appLazyLoad = input('');
     public readonly lazyLoading = output<void>();
@@ -33,10 +33,6 @@ export class LazyLoadDirective implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.emitInit();
-    }
-
-    ngOnDestroy() {
-
     }
 
     private emitInit() {

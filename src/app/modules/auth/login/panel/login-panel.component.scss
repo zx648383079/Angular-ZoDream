@@ -70,9 +70,8 @@ a {
     }
     .code-input {
         .send-btn {
-            background-color: var(--#{theme.$prefix}panel);
-            color: var(--#{theme.$prefix}body-text);
-            padding: 0 .625rem;
+            --#{theme.$prefix}btn-bg: var(--#{theme.$prefix}panel);
+            --#{theme.$prefix}btn-color: var(--#{theme.$prefix}body-text);
         }
     }
     .captcha-input {

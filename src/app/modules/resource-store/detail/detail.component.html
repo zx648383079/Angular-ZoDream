@@ -54,8 +54,9 @@
                 <div class="tab-item" [class.active]="tabIndex() < 1">
                     <div class="group-box">
                         <div class="group-image">
-                            <img [src]="data().thumb|asset" alt="">
+                            <img [ngSrc]="data().thumb" alt="" fill priority>
                             <div class="box-hat"></div>
+                            
                         </div>
                         @if (data().preview_type > 0) {
                         <div class="group-footer">

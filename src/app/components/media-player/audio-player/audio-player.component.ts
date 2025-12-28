@@ -1,4 +1,4 @@
-import { Component, OnDestroy, effect, input, output } from '@angular/core';
+import { Component, OnDestroy, effect, input, output, signal } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -12,11 +12,11 @@ export class AudioPlayerComponent implements OnDestroy {
     public readonly mini = input(false);
     public readonly cover = input<string>(undefined);
     public readonly ended = output<void>();
-    public progress = 0;
-    public duration = 0;
-    public loaded = 0;
-    public paused = true;
-    public volume = 100;
+    public readonly progress = signal(0);
+    public readonly duration = signal(0);
+    public readonly loaded = signal(0);
+    public readonly paused = signal(true);
+    public readonly volume = signal(100);
     private audioElement: HTMLAudioElement;
     private booted = false;
     private volumeLast = 100;
@@ -40,30 +40,30 @@ export class AudioPlayerComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
-        if (this.paused) {
+        if (this.paused()) {
             return;
         }
         this.audio.pause();
     }
 
     public tapVolume() {
-        if (this.volume <= 0) {
+        if (this.volume() <= 0) {
             this.onVolumeChange(this.volumeLast);
             return;
         }
-        this.volumeLast = this.volume;
+        this.volumeLast = this.volume();
         this.onVolumeChange(0);
     }
 
     public onVolumeChange(v: number) {
-        this.volume = v;
+        this.volume.set(v);
         if (this.audioElement) {
-            this.audioElement.volume = this.volume / 100;
+            this.audioElement.volume = this.volume() / 100;
         }
     }
 
     public tapPlay() {
-        if (!this.paused) {
+        if (!this.paused()) {
             this.audio.pause();
             return;
         }
@@ -87,41 +87,41 @@ export class AudioPlayerComponent implements OnDestroy {
         const audio = this.audioElement;
         audio.addEventListener('timeupdate', () => {
             if (isNaN(audio.duration) || !isFinite(audio.duration) || audio.duration <= 0) {
-                this.progress = 0;
-                this.duration = 0;
-                this.loaded = 0;
+                this.progress.set(0);
+                this.duration.set(0);
+                this.loaded.set(0);
                 return;
             }
-            this.progress = audio.currentTime;
-            this.duration = audio.duration;
+            this.progress.set(audio.currentTime);
+            this.duration.set(audio.duration);
         });
         audio.addEventListener('loadedmetadata', () => {
             audio.currentTime = 0;
-            if (!this.paused) {
+            if (!this.paused()) {
                 audio.play();
             }
         })
         audio.addEventListener('progress', () => {
-            this.loaded = audio.buffered.length ? audio.buffered.end(audio.buffered.length - 1) : 0;
+            this.loaded.set(audio.buffered.length ? audio.buffered.end(audio.buffered.length - 1) : 0);
         });
         audio.addEventListener('canplay', () => {
-            this.loaded = audio.buffered.length ? audio.buffered.end(audio.buffered.length - 1) : 0;
+            this.loaded.set(audio.buffered.length ? audio.buffered.end(audio.buffered.length - 1) : 0);
         });
         audio.addEventListener('ended', () => {
-            this.paused = true;
+            this.paused.set(true);
             this.ended.emit();
         });
         audio.addEventListener('error', e => {
-            this.paused = true;
+            this.paused.set(true);
         });
         audio.addEventListener('pause', () => {
-            this.paused = true;
+            this.paused.set(true);
         });
         audio.addEventListener('play', () => {
-            this.paused = false;
+            this.paused.set(false);
         });
-        if (this.volume > 0) {
-            this.volume = audio.volume * 100;
+        if (this.volume() > 0) {
+            this.volume.set(audio.volume * 100);
         }
     }
 

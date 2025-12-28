@@ -12,7 +12,6 @@ import { NavigationService } from '../navigation.service';
 export class SiteComponent {
     private readonly service = inject(NavigationService);
 
-
     public readonly visible = input(false);
     public readonly categories = signal<ISiteCategory[]>([]);
     public readonly selectedItems = signal<ISiteCategory[]>([]);
@@ -27,20 +26,31 @@ export class SiteComponent {
     }
 
     public tapCategory(item: ISiteCategory) {
-        if (item.children && item.children.length > 0) {
-            this.selectedItems.set(cloneObject(item.children).map(this.formatItem));
-            return;
-        }
-        this.selectedItems.set([cloneObject(item)].map(this.formatItem));
+        const next = item.children && item.children.length > 0 
+            ? item.children.map(this.formatItem)
+            : [this.formatItem(item)];
+        this.loadItem(next[0]);
+        this.selectedItems.set(next);
     }
 
     public loadItem(item: ISiteCategory) {
         if (item.lazy_booted) {
             return;
         }
-        setTimeout(() => {
-            item.lazy_booted = true;
-        }, 100);
+        item.lazy_booted = true;
+        this.service.siteList({
+            category: item.id
+        }).subscribe({
+            next: res => {
+                item.items = res.data;
+                this.selectedItems.update(v => {
+                    return [...v];
+                });
+            },
+            error: _ => {
+                item.lazy_booted = false;
+            }
+        });
     }
 
     private formatItem(i: ISiteCategory) {

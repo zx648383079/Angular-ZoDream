@@ -30,7 +30,7 @@
     <div class="panel">
         <div class="panel-header">
             @if (data()) {
-                <div class="inner-header">{{ data().name }}</div>
+                <div class="inner-header">{{ data()?.name }}</div>
             } @else {
                 <div class="inner-header" i18n>All categories</div>
             }
@@ -63,7 +63,7 @@
                     <div class="col-md-3">
                     <div class="res-item">
                         <div class="item-thumb">
-                            <a [routerLink]="[item.id]"><img [src]="item.thumb|asset" alt=""></a>
+                            <a [routerLink]="[item.id]"><img [ngSrc]="item.thumb" alt="" fill priority></a>
                             <div class="item-hat"></div>
                         </div>
                         <div class="item-body">
