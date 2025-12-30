@@ -31,11 +31,11 @@ export class LogComponent implements OnInit {
         per_page: 20,
         keywords: ''
     }));
-    public typeItems = [];
+    public readonly typeItems = signal([]);
 
     constructor() {
         this.service.typeItems().subscribe(res => {
-            this.typeItems = res;
+            this.typeItems.set(res);
         });
     }
 

@@ -1,11 +1,14 @@
-import { AfterViewInit, Directive, ElementRef, HostBinding, HostListener, inject, input, output } from '@angular/core';
+import { Directive, ElementRef, HostListener, inject, input, output, signal } from '@angular/core';
 import { EditorHelper } from '../../editor/base/util';
 
 const MimeType = 'application/json';
 
 @Directive({
     standalone: false,
-    selector: '[appDragDrop]'
+    selector: '[appDragDrop]',
+    host: {
+        '[attr.draggable]': "draggable()"
+    }
 })
 export class DragDropDirective {
     private element = inject<ElementRef<HTMLDivElement>>(ElementRef);
@@ -20,13 +23,13 @@ export class DragDropDirective {
         before: boolean;
     }>();
 
-    @HostBinding('attr.draggable') draggable = true;
+    public readonly draggable = signal(true);
     private static placeholder: HTMLElement | null = null;
 
 
     @HostListener('dragstart', ['$event']) 
     public onDragStart(event: DragEvent): boolean {
-        if (!this.draggable) {
+        if (!this.draggable()) {
             return false;
         }
         event.stopPropagation();
@@ -38,7 +41,7 @@ export class DragDropDirective {
 
     @HostListener('dragover', ['$event']) 
     public onDragOver(event: DragEvent): boolean {
-        if (!this.draggable) {
+        if (!this.draggable()) {
             return false;
         }
         event.preventDefault();

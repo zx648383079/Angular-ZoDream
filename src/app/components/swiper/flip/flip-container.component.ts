@@ -1,5 +1,6 @@
 import { AfterContentInit, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, 
-    ViewEncapsulation, inject, contentChildren, model, effect } from '@angular/core';
+    ViewEncapsulation, inject, contentChildren, model, effect, 
+    computed} from '@angular/core';
 import { FlipItemComponent } from './flip-item.component';
 import { SwiperEvent } from '../model';
 
@@ -9,7 +10,7 @@ import { SwiperEvent } from '../model';
     encapsulation: ViewEncapsulation.None,
     // changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <div class="flip-container" [style]="flipStyle">
+    <div class="flip-container" [style]="flipStyle()">
         <ng-content />
     </div>
     `,
@@ -36,7 +37,7 @@ export class FlipContainerComponent implements OnInit, AfterContentInit, AfterVi
     }
     
 
-    public get flipStyle() {
+    public readonly flipStyle = computed(() => {
         if (this.itemWidth <= 0) {
             return {};
         }
@@ -44,7 +45,7 @@ export class FlipContainerComponent implements OnInit, AfterContentInit, AfterVi
             transform: 'translateX(-' + this.index() * this.itemWidth + 'px)', 
             width: this.itemWidth * this.itemCount + 'px'
         };
-    };
+    });
 
     ngOnInit() {
         this.resize$ = new ResizeObserver(entries => {
@@ -119,7 +120,7 @@ export class FlipContainerComponent implements OnInit, AfterContentInit, AfterVi
         this.index.set(to);
         const item = this.items().at(to);
         if (item) {
-            item.backable = this.historyItems.length > 1;
+            item.backable.set(this.historyItems.length > 1);
             item.parent = this;
         }
     }
@@ -129,9 +130,9 @@ export class FlipContainerComponent implements OnInit, AfterContentInit, AfterVi
             return;
         }
         this.items().forEach(item => {
-            item.boxStyle = {
+            item.boxStyle.set({
                 width: this.itemWidth + 'px'
-            };
+            });
         });
     }
 

@@ -1,9 +1,9 @@
 <div class="editor-box">
     <div class="editor-area">
-        <textarea #editorArea [style]="areaStyle" [(value)]="value" 
+        <textarea #editorArea [style]="areaStyle()" [value]="value()" (input)="onValueChange($event)" 
         [disabled]="disabled()" [placeholder]="placeholder()"></textarea>
         <div class="editor-footer">
-            <ng-container i18n>{{ size }} words</ng-container>
+            <ng-container i18n>{{ size() }} words</ng-container>
             @if (maxLength() > 0) {
                 /{{ maxLength() }}
             }

@@ -33,12 +33,12 @@ export class EditTemplateComponent implements OnInit {
     });
 
     public data: ITemplate;
-    public typeItems = [];
-    public keyItems: string[] = [];
+    public readonly typeItems = signal([]);
+    public readonly keyItems = signal<string[]>([]);
 
     constructor() {
         this.service.typeItems().subscribe(res => {
-            this.typeItems = res;
+            this.typeItems.set(res);
         });
     }
 
@@ -50,9 +50,9 @@ export class EditTemplateComponent implements OnInit {
             this.service.template(params.id).subscribe(res => {
                 this.data = res;
                 if (typeof res.data === 'string') {
-                    this.keyItems = JSON.parse(res.data);
+                    this.keyItems.set(JSON.parse(res.data));
                 } else if (res.data instanceof Array) {
-                    this.keyItems = res.data;
+                    this.keyItems.set(res.data);
                 }
                 this.dataModel.set({
                     id: res.id,
@@ -72,22 +72,26 @@ export class EditTemplateComponent implements OnInit {
 
     public onContentChange() {
         const val = this.dataForm.content().value();
-        this.keyItems = [];
+        const items = [];
         if (!val) {
+            this.keyItems.set(items);
             return;
         }
         let match: RegExpMatchArray;
         const pattern = /\{(\w+)\}/g;
         while (null !== (match = pattern.exec(val))) {
-            if (this.keyItems.indexOf(match[1]) >= 0) {
+            if (items.indexOf(match[1]) >= 0) {
                 continue;
             }
-            this.keyItems.push(match[1]);
+            items.push(match[1]);
         }
+        this.keyItems.set(items);
     }
 
     public tapRemoveKey(item: string) {
-        this.keyItems = this.keyItems.filter(i => i !== item);
+        this.keyItems.update(v => {
+            return v.filter(i => i !== item);
+        });
     }
 
     public tapSubmit2(e: SubmitEvent) {

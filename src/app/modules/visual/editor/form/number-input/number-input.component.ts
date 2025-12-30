@@ -1,4 +1,4 @@
-import { Component, HostBinding, input, model, signal } from '@angular/core';
+import { Component, computed, input, model, signal } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
@@ -7,7 +7,8 @@ import { FormValueControl } from '@angular/forms/signals';
     templateUrl: './number-input.component.html',
     styleUrls: ['./number-input.component.scss'],
     host: {
-        class: 'select-with-control'
+        class: 'select-with-control',
+        '[class]': 'ngClass()'
     },
 })
 export class EditorNumberInputComponent implements FormValueControl<string> {
@@ -20,10 +21,9 @@ export class EditorNumberInputComponent implements FormValueControl<string> {
     public readonly disabled = input<boolean>(false);
     public readonly value = model<string>('');
 
-    @HostBinding('class')
-    public get ngClass() {
-        return this.visible ? 'select-focus' : '';
-    }
+    public readonly ngClass = computed(() => {
+        return this.visible() ? 'select-focus' : '';
+    });
 
     public toggle() {
         this.visible.update(v => !v);

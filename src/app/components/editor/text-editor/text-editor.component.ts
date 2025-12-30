@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, input, model, viewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, ElementRef, input, model, viewChild } from '@angular/core';
 import { wordLength } from '../../../theme/utils';
 import { IEditorRange } from '../model';
 import { FormValueControl } from '@angular/forms/signals';
@@ -19,25 +19,28 @@ export class TextEditorComponent implements AfterViewInit, FormValueControl<stri
     public readonly disabled = input<boolean>(false);
     public readonly value = model<string>('');
     private range: IEditorRange;
-
     
-    get size() {
+    public readonly size = computed(() => {
         return wordLength(this.value());
-    }
+    });
 
-    get areaStyle() {
+    public readonly areaStyle = computed(() => {
         const height = this.height();
         return {
             height: typeof height === 'number' || /^[\d\.]+$/.test(height) ? height + 'px' : height,
         };
-    }
+    });
 
-    get area(): HTMLTextAreaElement {
+    private get area(): HTMLTextAreaElement {
         return this.areaElement().nativeElement as HTMLTextAreaElement;
     }
 
     ngAfterViewInit() {
         this.bindAreaEvent();
+    }
+
+    public onValueChange(e: Event) {
+        this.value.set((e.target as HTMLTextAreaElement).value);
     }
 
     private bindAreaEvent() {

@@ -10,10 +10,12 @@ import { Component, HostBinding, input } from '@angular/core';
     <span></span>
     <span></span>`,
     styleUrls: ['./loading-ring.component.scss'],
+    host: {
+        '[class]': 'ringName()'
+    }
 })
 export class LoadingRingComponent {
 
-    @HostBinding('class')
     public readonly ringName = input('loading-ring1');
 
 }

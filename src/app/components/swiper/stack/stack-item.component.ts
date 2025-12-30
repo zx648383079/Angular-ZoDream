@@ -1,4 +1,4 @@
-import { Component, HostBinding, ViewEncapsulation } from '@angular/core';
+import { Component, signal, ViewEncapsulation } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -8,26 +8,26 @@ import { Component, HostBinding, ViewEncapsulation } from '@angular/core';
     styles: [''],
     host: {
         class: 'stack-item',
+        '[class]': 'itemClass()'
     }
 })
 export class StackItemComponent {
 
-    @HostBinding('class')
-    public itemClass = '';
+    public readonly itemClass = signal('');
 
     public set index(arg: number) {
         if (arg < 0) {
-            this.itemClass = 'stack-item-fade-out';
+            this.itemClass.set('stack-item-fade-out');
             return;
         }
         if (arg === 0) {
-            this.itemClass = 'stack-item-active';
+            this.itemClass.set('stack-item-active');
             return;
         }
         if (arg > 3) {
-            this.itemClass = 'stack-item-next';
+            this.itemClass.set('stack-item-next');
             return;
         }
-        this.itemClass = `stack-item-next${arg}`;
+        this.itemClass.set(`stack-item-next${arg}`);
     }
 }

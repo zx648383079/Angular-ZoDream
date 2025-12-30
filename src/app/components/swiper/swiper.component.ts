@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, ElementRef, HostBinding, HostListener, 
+import { AfterContentInit, AfterViewInit, Component, ElementRef, HostListener, 
     OnDestroy, Renderer2, ViewEncapsulation, inject, input, contentChildren, effect } from '@angular/core';
 import { SwiperItemComponent } from './swiper-item.component';
 import { checkLoopRange } from '../../theme/utils';
@@ -15,6 +15,7 @@ import { SwiperEvent } from './model';
     styleUrls: ['./swiper.component.scss'],
     host: {
         'class': 'swiper',
+        '[class]': 'theme()'
     },
 })
 export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestroy, SwiperEvent {
@@ -31,7 +32,6 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
     public readonly pauseOnOver = input(true);
     public readonly keyboard = input(true);
     public readonly touchable = input(true);
-    @HostBinding('class')
     public readonly theme = input('swiper-theme-default');
     public navigationVisible = false;
     public previousVisible = false;
@@ -159,9 +159,9 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
         if (this.index === lastIndex) {
             return;
         }
-        this.items().at(this.index).active = true;
+        this.items().at(this.index).active.set(true);
         if (lastIndex >= 0 && lastIndex < this.items().length) {
-            this.items().at(lastIndex).active = false;
+            this.items().at(lastIndex).active.set(false);
         }
         if (this.autoplay()) {
             this.tween.next();

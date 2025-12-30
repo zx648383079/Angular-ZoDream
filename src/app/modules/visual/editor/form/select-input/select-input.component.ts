@@ -1,4 +1,4 @@
-import { Component, HostBinding, input, model, signal } from '@angular/core';
+import { Component, computed, input, model, signal } from '@angular/core';
 import { IItem } from '../../../../../theme/models/seo';
 import { FormValueControl } from '@angular/forms/signals';
 
@@ -9,6 +9,7 @@ import { FormValueControl } from '@angular/forms/signals';
     styleUrls: ['./select-input.component.scss'],
     host: {
         class: 'control-line-group',
+        '[class]': 'ngClass()'
     },
 })
 export class EditorSelectInputComponent implements FormValueControl<string> {
@@ -27,10 +28,9 @@ export class EditorSelectInputComponent implements FormValueControl<string> {
     public readonly disabled = input<boolean>(false);
     public readonly value = model<string>('');
 
-    @HostBinding('class')
-    public get ngClass() {
-        return this.visible ? 'select-focus' : '';
-    }
+    public readonly ngClass = computed(() => {
+        return this.visible() ? 'select-focus' : '';
+    });
 
     public toggle() {
         this.visible.update(v => !v);

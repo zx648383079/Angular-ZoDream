@@ -1,4 +1,4 @@
-import { Component, HostBinding, input, model } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -7,11 +7,11 @@ import { Component, HostBinding, input, model } from '@angular/core';
     styleUrls: ['./expand-card.component.scss'],
     host: {
         class: 'expand-card',
+        '[class.open]': 'toggle()'
     }
 })
 export class ExpandCardComponent {
 
-    @HostBinding('class.open')
     public readonly toggle = model(false);
     public readonly header = input('Header');
 

@@ -4,7 +4,7 @@
             @if (user()) {
             <div class="person-box" >
                 <div class="control-avatar">
-                    <img [ngSrc]="user().avatar" [alt]="user().name">
+                    <img [ngSrc]="user().avatar" width="160" height="160" [alt]="user().name" priority>
                 </div>
                 <div class="control-name">
                     {{ user().name }}

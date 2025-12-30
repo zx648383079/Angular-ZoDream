@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import { MessageServiceService } from '../ms.service';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
@@ -19,12 +19,12 @@ export class OptionComponent implements OnInit {
 
     private readonly form = viewChild(FormPanelComponent);
 
-    public isMail = true;
+    public readonly isMail = signal(true);
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.isMail = params.type === 'mail';
-            this.service.option(this.isMail).subscribe(res => {
+            this.isMail.set(params.type === 'mail');
+            this.service.option(this.isMail()).subscribe(res => {
                 this.form().items.set(res.data);
             });
         });
@@ -39,7 +39,7 @@ export class OptionComponent implements OnInit {
         }
         const data = form.value;
         e?.enter();
-        this.service.optionSave(data, this.isMail).subscribe({
+        this.service.optionSave(data, this.isMail()).subscribe({
             next: _ => {
                 e?.reset();
                 this.toastrService.success($localize `Save Successfully`);

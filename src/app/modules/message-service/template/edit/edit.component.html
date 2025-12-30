@@ -23,7 +23,7 @@
             <label for="type">类型</label>
             <div>
                 <select id="type" [field]="dataForm.type" class="form-control" >
-                    @for (item of typeItems; track $index) {
+                    @for (item of typeItems(); track $index) {
                     <option [value]="item.value">{{ item.name }}</option>
                     }
                 </select>
@@ -45,7 +45,7 @@
         <div class="input-group-control">
             <label for="content">字段</label>
             <div class="tab-header-bar">
-                @for (item of keyItems; track $index) {
+                @for (item of keyItems(); track $index) {
                 <div class="tab-item btn-info">
                     <span>{{ item }}</span>
                     <i class="iconfont icon-close" (click)="tapRemoveKey(item)"></i>

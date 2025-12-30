@@ -31,11 +31,11 @@ export class TemplateComponent implements OnInit {
         per_page: 20,
         keywords: ''
     }));
-    public typeItems = [];
+    public readonly typeItems = signal([]);
 
     constructor() {
         this.service.typeItems().subscribe(res => {
-            this.typeItems = res;
+            this.typeItems.set(res);
         });
     }
 
@@ -47,7 +47,7 @@ export class TemplateComponent implements OnInit {
     }
 
     public formatType(val: number) {
-        return mapFormat(val, this.typeItems);
+        return mapFormat(val, this.typeItems());
     }
 
     public tapRefresh() {

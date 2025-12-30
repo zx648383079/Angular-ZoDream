@@ -1,4 +1,4 @@
-import { Component, HostBinding, input, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { IMenuButton, IMenuItem } from '../model';
 
 @Component({
@@ -7,14 +7,14 @@ import { IMenuButton, IMenuItem } from '../model';
     templateUrl: './menu-body.component.html',
     styleUrls: ['./menu-body.component.scss'],
     host: {
-        class: 'menu-flyout-body'
+        class: 'menu-flyout-body',
+        '[class.menu-flow-left]': 'flowLeft()'
     }
 })
 export class MenuBodyComponent {
 
     public readonly items = input<IMenuItem[]>([]);
 
-    @HostBinding('class.menu-flow-left')
     public readonly flowLeft = input(false);
 
     public readonly tapped = output<IMenuButton>();

@@ -3,7 +3,8 @@
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
         display: inline-block;
-        width: auto;
+        // width: 0;
+        // flex: 1;
     }
     input[type='file'] {
         width: 0;
