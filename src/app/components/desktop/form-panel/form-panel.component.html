@@ -1,25 +1,25 @@
 @for (item of items(); track $index) {
-<div class="input-group-control">
-    <label>{{ item.label }}</label>
+<div class="input-group-control" [formGroup]="form()">
+    <label [attr.for]="item.name">{{ item.label }}</label>
     @switch (item.type) {
         @case ('number') {
         <div>
-            <input type="number" class="form-control" [(value)]="item.value">
+            <input type="number" class="form-control" [formControlName]="item.name" [id]="item.name">
         </div>
         }
         @case ('password') {
         <div>
-            <input type="password" class="form-control" [(value)]="item.value">
+            <input type="password" class="form-control" [formControlName]="item.name" [id]="item.name">
         </div>
         }
         @case ('textarea') {
         <div>
-            <textarea class="form-control" [(value)]="item.value"></textarea>
+            <textarea class="form-control" [formControlName]="item.name" [id]="item.name"></textarea>
         </div>
         }
         @case ('select') {
             <div>
-                <select class="form-control" [(value)]="item.value">
+                <select class="form-control" [formControlName]="item.name" [id]="item.name">
                     @for (val of item.items; track val.value) {
                         <option [value]="val.value">{{ val.name }}</option>
                     }
@@ -28,47 +28,47 @@
         }
         @case ('radio') {
             <div>
-                <app-check-input rangeKey="value" [items]="item.items" [(value)]="item.value" />
+                <app-check-input rangeKey="value" [items]="item.items" [formControlName]="item.name" [id]="item.name"/>
             </div>
         }
         @case ('checkbox') {
             <div>
-                <app-check-input rangeKey="value" [items]="item.items" [(value)]="item.value" [multiple]="true" />
+                <app-check-input rangeKey="value" [items]="item.items" [formControlName]="item.name" [id]="item.name" [multiple]="true" />
             </div>
         }
         @case ('switch') {
             <div>
-                <app-switch [(value)]="item.value" onLabel="On" offLabel="Off" />
+                <app-switch [formControlName]="item.name" [id]="item.name" onLabel="On" offLabel="Off" />
             </div>
         }
         @case ('image') {
             <div>
-                <app-file-input [(value)]="item.value" />
+                <app-file-input [formControlName]="item.name" [id]="item.name"/>
             </div>
         }
         @case ('file') {
             <div>
-                <app-file-input [(value)]="item.value" accept="*" />
+                <app-file-input [formControlName]="item.name" [id]="item.name" accept="*" />
             </div>
         }
         @case ('editor') {
             <div>
-                <textarea class="form-control"  [(value)]="item.value"></textarea>
+                <textarea class="form-control" [formControlName]="item.name" [id]="item.name"></textarea>
             </div>
         }
         @case ('basic_editor') {
             <div>
-                <textarea class="form-control"  [(value)]="item.value"></textarea>
+                <textarea class="form-control" [formControlName]="item.name" [id]="item.name"></textarea>
             </div>
         }
         @case ('json') {
             <div>
-                <textarea class="form-control"  [(value)]="item.value"></textarea>
+                <textarea class="form-control" [formControlName]="item.name" [id]="item.name"></textarea>
             </div>
         }
         @default {
         <div>
-            <input type="text" class="form-control" [(value)]="item.value">
+            <input type="text" class="form-control" [formControlName]="item.name" [id]="item.name">
         </div>
         }
     }

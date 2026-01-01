@@ -1,10 +1,10 @@
-<div class="editor-modal-box" [class]="{'modal-visible': visible}">
-    <div class="input-header-block" [class]="{'input-not-empty': !!language}">
-        <input type="text" [(value)]="language">
+<div class="editor-modal-box" [class]="{'modal-visible': visible()}">
+    <div class="input-header-block" [class]="{'input-not-empty': !!language()}">
+        <input type="text" [value]="language()" (input)="language.set($event.target.value)">
         <label for="">代码语言</label>
     </div>
-    <div class="input-header-block" [class]="{'input-not-empty': !!code}">
-        <textarea [(value)]="code" rows="10"></textarea>
+    <div class="input-header-block" [class]="{'input-not-empty': !!code()}">
+        <textarea [value]="code()" (input)="onValueChange($event)" rows="10"></textarea>
         <label for="">代码内容</label>
     </div>
     <div class="modal-action">

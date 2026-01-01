@@ -1,31 +1,52 @@
 @use '../../../../../bootstrap/desktop/scrollbar';
+@use '../../../../theme/theme';
+.left-panel {
+    .icon-plus {
+        display: block;
+        text-align: center;
+        line-height: 2.5rem;
+    }
+}
+.group-action-bar {
+    display: inline-block;
+    line-height: 2rem;
+    .iconfont {
+        display: inline-block;
+        padding: 0 .4rem;
+        color: var(--#{theme.$prefix}btn-bg);
+        &:hover {
+            background-color: var(--#{theme.$prefix}btn-hover-bg);
+            color: var(--#{theme.$prefix}btn-hover-color);
+        }
+    }
+}
 .editor-panel {
-    min-height: 300px;
-    border: 1px solid #f4f4f4;
+    min-height: 18.75rem;
+    border: 1px solid var(--#{theme.$prefix}border);
     border-radius: 5px;
     .scroll-box {
-        max-height: 400px;
-        border-left: 1px solid #f4f4f4;
+        max-height: 25rem;
+        border-left: 1px solid var(--#{theme.$prefix}border);
         overflow-y: auto;
         @include scrollbar.scrollbar();
     }
     .line-item {
-        line-height: 40px;
-        min-height: 40px;
-        color: #777;
+        line-height: 2.5rem;
+        min-height: 2.5rem;
+        color: var(--#{theme.$prefix}meta-text);
         display: flex;
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid var(--#{theme.$prefix}border);
         span {
             flex: 1;
         }
         &:hover {
-            background-color: #f4f4f4;
+            background-color: var(--#{theme.$prefix}input-hovered);
         }
         &.active {
-            background-color: #f4f4f4;
-            color: #333;
+            background-color: var(--#{theme.$prefix}input-selected);
         }
     }
+
     .mini-editor {
         .tool-bar {
             i {
@@ -35,7 +56,7 @@
                 cursor: pointer;
                 border-radius: 2px;
                 &.checked {
-                    background-color: #ccc;
+                    background-color: var(--#{theme.$prefix}input-selected);
                 }
             }
         }

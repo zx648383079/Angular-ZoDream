@@ -1,6 +1,6 @@
-<div class="editor-modal-box" [class]="{'modal-visible': visible}">
+<div class="editor-modal-box" [class]="{'modal-visible': visible()}">
     <div class="modal-search-header">
-        <input type="text">
+        <input type="text" [value]="keywords()" (input)="keywords.set($event.target.value)">
         <i class="iconfont icon-search"></i>
     </div>
     <ul class="modal-search-body">

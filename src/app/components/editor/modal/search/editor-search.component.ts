@@ -11,7 +11,7 @@ import { IEditorOptionItem } from '../../base';
 export class EditorSearchComponent implements IEditorModal {
 
     public readonly visible = signal(false);
-    public keywords = '';
+    public readonly keywords = signal('');
     public readonly items = signal<IEditorOptionItem[]>([]);
     public selectedItems: IEditorOptionItem[] = [];
     private multiple = true;
@@ -29,7 +29,7 @@ export class EditorSearchComponent implements IEditorModal {
     public tapSelect(item: IEditorOptionItem) {
         if (!this.multiple) {
             this.selectedItems = [item];
-            this.keywords = '';
+            this.keywords.set('');
             this.visible.set(false);
             this.tapConfirm();
             return;

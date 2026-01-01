@@ -7,7 +7,7 @@
 
     <div class="row">
         <div class="col-md-4">
-            <app-action-button class="btn btn-primary" (tapped)="$event.enter()">包含加载动画的按钮</app-action-button>
+            <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)">包含加载动画的按钮</app-action-button>
         </div>
         <div class="col-md-4">
             <app-auto-suggest-box />
@@ -31,7 +31,9 @@
             <app-data-size />
         </div>
         <div class="col-md-4">
-            <app-date-input />
+            <app-date-input [(value)]="value"/>
+            <input type="text" [value]="inputValue()" (input)="inputValue.set($event.target.value)">
+            <textarea [value]="inputValue()"></textarea>
         </div>
         <div class="col-md-4">
             <app-multi-select-input />

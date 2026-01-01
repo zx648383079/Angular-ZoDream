@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, computed, HostListener, signal } from '@angular/core';
 import { EditorUpdatedCallback } from '../../base';
 import { EditorBlockType, IEditorResizeBlock } from '../../model';
 import { IBound, IPoint } from '../../../../theme/utils/canvas';
@@ -11,7 +11,7 @@ import { IBound, IPoint } from '../../../../theme/utils/canvas';
 })
 export class EditorResizerComponent {
 
-    public toolType = 0;
+    public readonly toolType = signal(0);
     private rectBound?: IBound;
     private mouseMoveListeners = {
         move: undefined,
@@ -19,8 +19,8 @@ export class EditorResizerComponent {
     };
     private updatedHandler: EditorUpdatedCallback;
 
-    public get boxStyle() {
-        if (this.toolType !== 1) {
+    public readonly boxStyle = computed(() => {
+        if (this.toolType() !== 1) {
             return {
                 display: 'none',
             };
@@ -32,10 +32,10 @@ export class EditorResizerComponent {
             width: this.rectBound.width + 'px',
             height: this.rectBound.height + 'px',
         };
-    }
+    });
 
-    public get horizontalStyle() {
-        if (this.toolType !== 2) {
+    public readonly horizontalStyle = computed(() => {
+        if (this.toolType() !== 2) {
             return {
                 display: 'none',
             };
@@ -46,10 +46,10 @@ export class EditorResizerComponent {
             top: this.rectBound.y + 'px',
             height: this.rectBound.height + 'px',
         };
-    }
+    });
 
-    public get verticalStyle() {
-        if (this.toolType !== 3) {
+    public readonly verticalStyle = computed(() => {
+        if (this.toolType() !== 3) {
             return {
                 display: 'none',
             };
@@ -60,7 +60,7 @@ export class EditorResizerComponent {
             top: this.rectBound.y + 'px',
             width: this.rectBound.width + 'px',
         };
-    }
+    });
 
     @HostListener('document:mousemove', ['$event'])
     public docMouseMove(e: MouseEvent) {
@@ -77,13 +77,13 @@ export class EditorResizerComponent {
     }
 
     public openResize(bound: IBound, cb: EditorUpdatedCallback) {
-        this.toolType = 1;
+        this.toolType.set(1);
         this.updatedHandler = cb;
         this.rectBound = bound;
     }
 
     public openHorizontalResize(bound: IBound, cb: EditorUpdatedCallback) {
-        this.toolType = 2;
+        this.toolType.set(2);
         this.updatedHandler = cb;
         this.rectBound = bound;
         this.mouseMove(undefined, (b, x, y) => {
@@ -96,7 +96,7 @@ export class EditorResizerComponent {
 
     
     public openVerticalResize(bound: IBound, cb: EditorUpdatedCallback) {
-        this.toolType = 3;
+        this.toolType.set(3);
         this.updatedHandler = cb;
         this.rectBound = bound;
         this.mouseMove(undefined, (b, x, y) => {
@@ -108,7 +108,7 @@ export class EditorResizerComponent {
     }
 
     public close() {
-        this.toolType = 0;
+        this.toolType.set(0);
     }
 
 
@@ -187,7 +187,7 @@ export class EditorResizerComponent {
     }
 
     private mouseMove(start: MouseEvent|undefined, move: (last: IBound, x: number, y: number) => IBound) {
-        if (this.toolType < 1) {
+        if (this.toolType() < 1) {
             return;
         }
         let last: IPoint
@@ -205,8 +205,8 @@ export class EditorResizerComponent {
             this.rectBound = move(this.rectBound, offsetX, offsetY);
             last = p;
         }, _ => {
-            const toolType = this.toolType;
-            this.toolType = 0;
+            const toolType = this.toolType();
+            this.toolType.set(0);
             if (!this.updatedHandler) {
                 return;
             }

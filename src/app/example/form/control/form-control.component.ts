@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, OnInit, signal } from '@angular/core';
+import { ButtonEvent } from '../../../components/form';
 
 @Component({
     standalone: false,
@@ -7,5 +8,20 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./form-control.component.scss']
 })
 export class ExampleFormControlComponent {
+    public value = '';
+    public readonly inputValue = signal('');
 
+    constructor() {
+        effect(() => {
+            console.log(this.inputValue());
+        });
+    }
+
+    public tapSubmit(e?: ButtonEvent) {
+        e.enter();
+        console.log([this.value, this.inputValue()]);
+        setTimeout(() => {
+            e?.reset();
+        }, 2000);
+    }
 }

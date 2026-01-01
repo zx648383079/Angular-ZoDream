@@ -8,11 +8,13 @@ import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
 import { DesktopModule } from '../../../components/desktop';
 import { Field } from '@angular/forms/signals';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
+        ReactiveFormsModule,
         Field,
         DesktopModule,
         CMSBackendRoutingModule,

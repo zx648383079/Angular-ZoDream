@@ -12,8 +12,8 @@ export class EditorTableComponent implements IEditorModal {
     public readonly visible = signal(false);
     public columnItems: number[] = [];
     public rowItems: number[] = [];
-    public column = 1;
-    public row = 1;
+    public readonly column = signal(1);
+    public readonly row = signal(1);
     private confirmFn: EditorModalCallback;
 
     constructor() {
@@ -22,8 +22,8 @@ export class EditorTableComponent implements IEditorModal {
     }
 
     public tapCell(row: number, col: number) {
-        this.column = col;
-        this.row = row;
+        this.column.set(col);
+        this.row.set(row);
         if (row >= 9 && this.rowItems.length == 10) {
             return;
         }

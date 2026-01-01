@@ -15,7 +15,7 @@ export class EditorImageComponent implements IEditorModal {
     public readonly visible = signal(false);
     public fileName = this.uploadService.uniqueGuid();
     public readonly tabIndex = signal(0);
-    public url = '';
+    public readonly url = signal('');
     public readonly isLoading = signal(false);
     private confirmFn: EditorModalCallback;
 
@@ -43,7 +43,7 @@ export class EditorImageComponent implements IEditorModal {
         this.uploadService.uploadImage(files[0]).subscribe({
             next: res => {
                 this.isLoading.set(false);
-                this.url = res.url;
+                this.url.set(res.url);
                 this.output({
                     value: res.url,
                     title: res.original
@@ -57,7 +57,7 @@ export class EditorImageComponent implements IEditorModal {
 
     public tapConfirm() {
         this.output({
-            value: this.url
+            value: this.url()
         });
     }
 

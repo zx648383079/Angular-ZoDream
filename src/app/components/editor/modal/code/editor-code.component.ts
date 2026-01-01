@@ -10,8 +10,8 @@ import { EditorModalCallback, IEditorModal } from '../../model';
 export class EditorCodeComponent implements IEditorModal {
 
     public readonly visible = signal(false);
-    public language = '';
-    public code = '';
+    public readonly language = signal('');
+    public readonly code = signal('');
     private confirmFn: EditorModalCallback;
 
     public open(data: any, cb: EditorModalCallback) {
@@ -23,9 +23,13 @@ export class EditorCodeComponent implements IEditorModal {
         this.visible.set(false);
         if (this.confirmFn) {
             this.confirmFn({
-                value: this.code,
-                language: this.language
+                value: this.code(),
+                language: this.language()
             });
         }
+    }
+
+    public onValueChange(e: Event) {
+        this.code.set((e.target as HTMLTextAreaElement).value);
     }
 }

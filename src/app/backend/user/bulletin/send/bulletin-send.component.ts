@@ -10,12 +10,12 @@ import { form, required } from '@angular/forms/signals';
 export class BulletinSendComponent {
 
     private readonly box = viewChild<ElementRef>('box');
-    public lastUsers: any[] = [];
-    public users: any[] = [];
-    public messages: any[] = [];
-    public currentUser: any;
+    public readonly lastUsers = signal<any[]>([]);
+    public readonly users = signal<any[]>([]);
+    public readonly messages = signal<any[]>([]);
+    public readonly currentUser = signal<any>(null);
     public readonly hasMore = signal(false);
-    public isList = false;
+    public readonly isListMode = signal(false);
     public page = 0;
     public readonly dataForm = form(signal({
         content: ''
@@ -24,9 +24,9 @@ export class BulletinSendComponent {
     });
 
     public change(user: any) {
-        this.currentUser = user;
+        this.currentUser.set(user);
         this.page = 0;
-        this.messages = [];
+        this.messages.set([]);
         this.getMore();
     }
 

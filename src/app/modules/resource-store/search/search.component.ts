@@ -45,6 +45,10 @@ export class SearchComponent implements OnInit {
     public readonly filterItems = signal<IFilter[]>([]);
     public readonly viewTable = signal(true);
     public readonly filterOpen = signal(true);
+    public readonly priceForm = form(signal({
+        min: 0,
+        max: 0,
+    }));
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -83,7 +87,11 @@ export class SearchComponent implements OnInit {
         for (const it of item.items) {
             it.selected = false;
         }
-        this.queries().price = `${item.min}-${item.max}`;
+        const data = this.priceForm().value();
+        this.queries.update(v => {
+            v.price = `${data.min}-${data.max}`;
+            return v;
+        });
         this.tapRefresh();
     }
 

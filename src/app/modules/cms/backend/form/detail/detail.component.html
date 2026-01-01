@@ -1,35 +1,35 @@
-<app-edit-header [title]="data.id > 0 ? '编辑表单' : '新增表单'" (submited)="tapSubmit($event)" />
+<app-edit-header [title]="data.id > 0 ? '编辑表单' : '新增表单'" (submited)="tapSubmit($event)" [disabled]="!form().valid" />
 
 <div class="container-fluid">
     <div class="panel-container form-table-control">
         <div class="tab-box">
             <div class="tab-header">
-                @for (item of formItems; track $index) {
-                <div class="tab-item" [class]="{active: item.active}" (click)="tapTab(item)">
+                @for (item of formItems(); track $index; let j = $index) {
+                <div class="tab-item" [class.active]="tabIndex() == j" (click)="tapTab(j)">
                     {{ item.name }}
                 </div>
                 }
             </div>
             <div class="tab-body">
-                @for (group of formItems; track $index) {
-                <div class="tab-item" [class]="{active: group.active}">
+                @for (group of formItems(); track $index; let j = $index) {
+                <div class="tab-item" [class.active]="tabIndex() == j">
                     @for (item of group.items; track $index) {
-                    <div class="input-group-control">
-                        <label>{{ item.label }}</label>
+                    <div class="input-group-control" [formGroup]="form()">
+                        <label [attr.for]="item.name">{{ item.label }}</label>
                         @switch (item.type) {
                             @case ('password') {
                                 <div>
-                                    <input type="password" class="form-control" [(value)]="item.value">
+                                    <input type="password" class="form-control" [formControlName]="item.name" [id]="item.name">
                                 </div>
                             }
                             @case ('textarea') {
                                 <div>
-                                    <textarea class="form-control" [(value)]="item.value"></textarea>
+                                    <textarea class="form-control" [formControlName]="item.name" [id]="item.name"></textarea>
                                 </div>
                             }
                             @case ('select') {
                                 <div>
-                                    <select class="form-control" [(value)]="item.value">
+                                    <select class="form-control" [formControlName]="item.name" [id]="item.name">
                                         @for (val of item.items; track $index) {
                                             <option [value]="val">{{ val }}</option>
                                         }
@@ -38,57 +38,57 @@
                             }
                             @case ('radio') {
                                 <div>
-                                    <app-check-input [items]="item.items" [(value)]="item.value" />
+                                    <app-check-input [items]="item.items" [formControlName]="item.name" [id]="item.name"/>
                                 </div>
                             }
                             @case ('checkbox') {
                                 <div>
-                                    <app-check-input [items]="item.items" [(value)]="item.value" [multiple]="true" />
+                                    <app-check-input [items]="item.items" [formControlName]="item.name" [id]="item.name" [multiple]="true" />
                                 </div>
                             }
                             @case ('switch') {
                                 <div>
-                                    <app-switch [(value)]="item.value" />
+                                    <app-switch [formControlName]="item.name" [id]="item.name"/>
                                 </div>
                             }
                             @case ('image') {
                                 <div>
-                                    <app-file-input [(value)]="item.value" />
+                                    <app-file-input [formControlName]="item.name" [id]="item.name"/>
                                 </div>
                             }
                             @case ('images') {
                                 <div>
-                                    <app-file-input [(value)]="item.value" />
+                                    <app-file-input [formControlName]="item.name" [id]="item.name"/>
                                 </div>
                             }
                             @case ('file') {
                                 <div>
-                                    <app-file-input [(value)]="item.value" accept="*" />
+                                    <app-file-input [formControlName]="item.name" [id]="item.name" accept="*" />
                                 </div>
                             }
                             @case ('files') {
                                 <div>
-                                    <app-file-input [(value)]="item.value" accept="*" />
+                                    <app-file-input [formControlName]="item.name" [id]="item.name" accept="*" />
                                 </div>
                             }
                             @case ('editor') {
                                 <div>
-                                    <app-zre-editor [(value)]="item.value" />
+                                    <app-zre-editor [formControlName]="item.name" [id]="item.name"/>
                                 </div>
                             } 
                             @case ('basic_editor') {
                                 <div>
-                                    <app-zre-editor [(value)]="item.value" />
+                                    <app-zre-editor [formControlName]="item.name" [id]="item.name"/>
                                 </div>
                             }
                             @case ('markdown') {
                                 <div>
-                                    <app-markdown-editor [(value)]="item.value" />
+                                    <app-markdown-editor [formControlName]="item.name" [id]="item.name"/>
                                 </div>
                             }
                             @default {
                                 <div>
-                                    <input type="text" class="form-control" [(value)]="item.value">
+                                    <input type="text" class="form-control" [formControlName]="item.name" [id]="item.name">
                                 </div>
                             }
                         }
@@ -99,7 +99,7 @@
             </div>
         </div>
         <div class="btn-group">
-            <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" >确认保存</app-action-button>
+            <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="!form().valid">确认保存</app-action-button>
             <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
         </div>
         

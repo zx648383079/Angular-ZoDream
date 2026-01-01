@@ -1,14 +1,14 @@
-<div class="editor-modal-box" [class]="{'modal-visible': visible}">
-    <div class="input-header-block" [class]="{'input-not-empty': !!url}">
-        <input type="url" [(value)]="url">
+<div class="editor-modal-box" [class]="{'modal-visible': visible()}">
+    <div class="input-header-block" [class]="{'input-not-empty': !!url()}">
+        <input type="url" [value]="url()" (input)="url.set($event.target.value)">
         <label for="">网址</label>
     </div>
-    <div class="input-header-block" [class]="{'input-not-empty': !!title}">
-        <input type="text" [(value)]="title">
+    <div class="input-header-block" [class]="{'input-not-empty': !!title()}">
+        <input type="text" [value]="title()" (input)="title.set($event.target.value)">
         <label for="">标题</label>
     </div>
     <div class="input-flex-line">
-        <i class="iconfont" [class]="{'icon-check-square-o': isBlank, 'icon-square-o': !isBlank}" (click)="isBlank = !isBlank"></i>
+        <i class="iconfont" [class]="{'icon-check-square-o': isBlank(), 'icon-square-o': !isBlank()}" (click)="toggleBlank()"></i>
         在新标签页打开
     </div>
     <div class="modal-action">

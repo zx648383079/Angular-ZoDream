@@ -1,26 +1,26 @@
-<app-edit-header [title]="'系统基本设置'" (submited)="tapSubmit()" />
+<app-edit-header [title]="'系统基本设置'" (submited)="tapSubmit()" [disabled]="!form().valid" />
 <div class="container-fluid">
-    <div class="row">
+    <div class="row" [formGroup]="form()">
             @for (group of groups(); track $index) {
             <div class="col-md-6 form-table-control">
                 <app-panel [title]="group.name">
                     @for (item of group.children; track $index) {
                     <div class="input-group-control">
-                        <label><i class="iconfont icon-edit" (click)="tapEditOption(optionModal, item)"></i>{{ item.name }}</label>
+                        <label [attr.for]="item.code"><i class="iconfont icon-edit" (click)="tapEditOption(optionModal, item)"></i>{{ item.name }}</label>
                         @switch (item.type) {
                             @case ('text') {
                                 <div>
-                                    <input type="text" class="form-control" [(value)]="item.value">
+                                    <input type="text" class="form-control" [formControlName]="item.code" [id]="item.code">
                                 </div>
                             }
                             @case ('textarea') {
                                 <div>
-                                    <textarea class="form-control" [(value)]="item.value"></textarea>
+                                    <textarea class="form-control" [formControlName]="item.code" [id]="item.code"></textarea>
                                 </div>
                             }
                             @case ('select') {
                                 <div>
-                                    <select class="form-control" [(value)]="item.value">
+                                    <select class="form-control" [formControlName]="item.code" [id]="item.code">
                                         @if (item.itemKey == 1) {
                                             @for (val of item.items; track $index; let i = $index) {
                                                 <option [value]="i">{{ val }}</option>
@@ -35,42 +35,42 @@
                             }
                             @case ('radio') {
                                 <div>
-                                    <app-check-input [rangeKey]="item.itemKey" [items]="item.items" [(value)]="item.value" />
+                                    <app-check-input [rangeKey]="item.itemKey" [items]="item.items" [formControlName]="item.code" [id]="item.code" />
                                 </div>
                             }
                             @case ('checkbox') {
                                 <div>
-                                    <app-check-input [rangeKey]="item.itemKey" [items]="item.items" [(value)]="item.value" [multiple]="true" />
+                                    <app-check-input [rangeKey]="item.itemKey" [items]="item.items" [formControlName]="item.code" [id]="item.code" [multiple]="true" />
                                 </div>
                             }
                             @case ('switch') {
                                 <div>
-                                    <app-switch [(value)]="item.value" onLabel="On" offLabel="Off" />
+                                    <app-switch [formControlName]="item.code" [id]="item.code" onLabel="On" offLabel="Off" />
                                 </div>
                             }
                             @case ('image') {
                                 <div>
-                                    <app-file-input [(value)]="item.value" />
+                                    <app-file-input [formControlName]="item.code" [id]="item.code"/>
                                 </div>
                             }
                             @case ('file') {
                                 <div>
-                                    <app-file-input [(value)]="item.value" accept="*" />
+                                    <app-file-input [formControlName]="item.code" [id]="item.code" accept="*" />
                                 </div>
                             }
                             @case ('editor') {
                                 <div>
-                                    <textarea class="form-control" [(value)]="item.value"></textarea>
+                                    <textarea class="form-control" [formControlName]="item.code" [id]="item.code"></textarea>
                                 </div>
                             }
                             @case ('basic_editor') {
                                 <div>
-                                    <textarea class="form-control" [(value)]="item.value"></textarea>
+                                    <textarea class="form-control" [formControlName]="item.code" [id]="item.code"></textarea>
                                 </div>
                             }
                             @case ('json') {
                                 <div>
-                                    <textarea class="form-control" [(value)]="item.value"></textarea>
+                                    <textarea class="form-control" [formControlName]="item.code" [id]="item.code"></textarea>
                                 </div>
                             }
                         }
@@ -83,7 +83,7 @@
     
 
     <div class="btn-group">
-        <app-action-button (tapped)="tapSubmit($event)" class="btn btn-success">确认保存</app-action-button>
+        <app-action-button (tapped)="tapSubmit($event)" class="btn btn-success" [disabled]="!form().valid">确认保存</app-action-button>
         <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
         <a class="btn btn-info" (click)="tapAddGroup(optionModal)">新增设置项</a>
     </div>

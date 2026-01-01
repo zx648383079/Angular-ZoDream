@@ -1,6 +1,8 @@
 <div class="container main-container" [class.on-search]="openType() > 0">
     <div class="row">
-        <div class="col-12" [class]="{'col-lg-6 offset-lg-3': openType() < 1}">
+        <div class="col-12" 
+        [class.col-lg-6]="openType() < 1"
+        [class.offset-lg-3]="openType() < 1">
             <div class="search-bar">
                 <app-navigation-search-bar id="keywords" [field]="queries.keywords" (confirm)="tapSearch($event)" (textChange)="onSuggestChange($event)" />
             </div>
@@ -12,7 +14,7 @@
     </div>
 
     @if (openType() < 2) {
-        <div class="open-icon" [class]="{'opened': openType() == 1}" (click)="toggleOpen()" i18n-title title="More sites">
+        <div class="open-icon" [class.opened]="openType() == 1" (click)="toggleOpen()" i18n-title title="More sites">
         </div>
     }
     

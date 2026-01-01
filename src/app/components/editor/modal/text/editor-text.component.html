@@ -1,12 +1,12 @@
-<div class="editor-modal-box" [class]="{'modal-visible': visible}">
+<div class="editor-modal-box" [class]="{'modal-visible': visible()}">
     <div class="tab-bar">
         <a class="item" (click)="tapBack()">
             <i class="iconfont icon-back"></i>
         </a>
     </div>
-    <div class="input-header-block" [class]="{'input-not-empty': !!value}">
-        <input type="text" [(value)]="value">
-        <label for="">{{ label }}</label>
+    <div class="input-header-block" [class]="{'input-not-empty': !!value()}">
+        <input type="text" [value]="value()" (input)="value.set($event.target.value)">
+        <label for="">{{ label() }}</label>
     </div>
     <div class="modal-action">
         <div class="btn btn-outline-primary" (click)="tapConfirm()">更新</div>

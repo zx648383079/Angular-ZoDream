@@ -15,9 +15,9 @@ export class EditorVideoComponent implements IEditorModal {
     public readonly visible = signal(false);
     public fileName = this.uploadService.uniqueGuid();
     public readonly tabIndex = signal(0);
-    public url = '';
-    public code = '';
-    public isAutoplay = false;
+    public readonly url = signal('');
+    public readonly code = signal('');
+    public readonly isAutoplay = signal(false);
     public readonly isLoading = signal(false);
     private confirmFn: EditorModalCallback;
 
@@ -42,7 +42,7 @@ export class EditorVideoComponent implements IEditorModal {
         this.uploadService.uploadVideo(files[0]).subscribe({
             next: res => {
                 this.isLoading.set(false);
-                this.url = res.url;
+                this.url.set(res.url);
                 this.tapConfirm();
             },
             error: () => {
@@ -54,8 +54,15 @@ export class EditorVideoComponent implements IEditorModal {
     public tapConfirm() {
         this.visible.set(false);
         if (this.confirmFn) {
-            this.confirmFn(this.tabIndex() === 2 ? {code: this.code} : {value: this.url, autoplay: this.isAutoplay});
+            this.confirmFn(this.tabIndex() === 2 ? {code: this.code()} : {value: this.url(), autoplay: this.isAutoplay()});
         }
     }
 
+    public togglePlay() {
+        this.isAutoplay.update(v => !v);
+    }
+
+    public onValueChange(e: Event) {
+        this.code.set((e.target as HTMLTextAreaElement).value);
+    }
 }

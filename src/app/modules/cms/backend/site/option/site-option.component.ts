@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { DialogBoxComponent } from '../../../../../components/dialog';
@@ -8,6 +8,7 @@ import { CmsService } from '../../cms.service';
 import { form } from '@angular/forms/signals';
 import { eachObject } from '../../../../../theme/utils';
 import { ButtonEvent } from '../../../../../components/form';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
     standalone: false,
@@ -19,7 +20,6 @@ export class SiteOptionComponent implements OnInit {
     private readonly service = inject(CmsService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-
 
     public readonly items = signal<IOption[]>([]);
 
@@ -46,6 +46,15 @@ export class SiteOptionComponent implements OnInit {
     ];
 
     private id = 0;
+
+    public readonly form = computed(() => {
+        const items = this.items();
+        const groups: any = {};
+        for (const item of items) {
+            groups[item.code] = new FormControl(item.value || '');
+        }
+        return new FormGroup(groups);
+    });
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -84,7 +93,12 @@ export class SiteOptionComponent implements OnInit {
 
     public tapSubmit(e?: ButtonEvent) {
         e?.enter();
-        this.service.optionSave(this.id, this.items()).subscribe({
+        const data = this.form().getRawValue();
+        this.service.optionSave(this.id, this.items().map(item => {
+            return {
+                ...item, value: data[item.code]
+            }
+        })).subscribe({
             next: res => {
                 e?.reset();
                 this.toastrService.success($localize `Save Successfully`);

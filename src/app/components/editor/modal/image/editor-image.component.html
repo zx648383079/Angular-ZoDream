@@ -1,4 +1,4 @@
-<div class="editor-modal-box" [class]="{'modal-visible': visible, 'modal-loading': isLoading}" appFileDrop (fileDrop)="uploadFiles($event)">
+<div class="editor-modal-box" [class]="{'modal-visible': visible(), 'modal-loading': isLoading()}" appFileDrop (fileDrop)="uploadFiles($event)">
     <div class="tab-bar">
         <a class="item" [class]="{active: tabIndex() < 1}" (click)="tabIndex.set(0)" title="上传">
             <i class="iconfont icon-upload"></i>
@@ -18,8 +18,8 @@
     </label>
     } @else if (tabIndex() == 1) {
     <div>
-        <div class="input-header-block" [class]="{'input-not-empty': !!url}">
-            <input type="text" [(value)]="url">
+        <div class="input-header-block" [class]="{'input-not-empty': !!url()}">
+            <input type="text" [value]="url()" (input)="url.set($event.target.value)">
             <label for="">链接</label>
         </div>
         <div class="modal-action">

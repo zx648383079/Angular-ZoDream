@@ -1,12 +1,12 @@
 <div class="row editor-panel">
-    <div class="col-sm-4">
-        @for (item of items(); track $index; let i = $index) {
-        <div class="line-item" [class]="{active: data && item === data}">
-            <span (click)="tapEditItem(item)">{{ item.title }}</span>
-            @if (i > 0) {
+    <div class="col-sm-4 left-panel">
+        @for (item of items(); track $index; let i = $index, f = $first, l = $last) {
+        <div class="line-item" [class.active]="selectedIndex() == i">
+            <span (click)="tapEditItem(i)">{{ item.title }}</span>
+            @if (!f) {
             <i class="iconfont icon-arrow-up" title="上移" (click)="tapMoveUp(i)"></i>
             }
-            @if (i >= 0 && i < value.length - 1) {
+            @if (!l) {
             <i class="iconfont icon-arrow-down" title="下移"  (click)="tapMoveDown(i)"></i>
             }
         </div>
@@ -14,30 +14,36 @@
         <i class="iconfont icon-plus" (click)="tapAddGroup()"></i>
     </div>
     <div class="col-sm-8">
-        @if (data) {
         <div>
             <div class="group-header">
                 <div class="form-group">
-                    <label for="name">简称</label>
-                    <i class="iconfont icon-close" (click)="tapRemoveGroup()" title="删除当前组"></i>
-                    <input type="text" class="form-control" [(value)]="data.name" id="name" placeholder="例如：service">
+                    <div>
+                        <label for="name">简称</label>
+                        <div class="group-action-bar">
+                            <i class="iconfont icon-close btn-danger" (click)="tapRemoveGroup()" title="删除当前组"></i>
+                            <i class="iconfont icon-check btn-primary" (click)="tapSaveGroup()" title="保存当前组"></i>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control" [field]="dataForm.name" id="name" placeholder="例如：service">
                 </div>
                 <div class="form-group">
                     <label for="title">标题</label>
-                    <input type="text" class="form-control" [(value)]="data.title" id="title" placeholder="例如：服务条款">
+                    <input type="text" class="form-control" [field]="dataForm.title" id="title" placeholder="例如：服务条款">
                 </div>
             </div>
             <div class="form-group">
-                <label>具体条款</label>
-                <i class="iconfont icon-plus" title="添加条款" (click)="tapAddItem()"></i>
+                <div>
+                    <label>具体条款</label>
+                    <i class="iconfont icon-plus" title="添加条款" (click)="tapAddItem()"></i>
+                </div>
                 <div class="scroll-box">
-                    @for (item of data.children; track $index; let i = $index) {
+                    @for (item of dataForm.children; track $index; let i = $index) {
                     <div class="mini-editor">
                         <div class="tool-bar">
-                            <i title="加粗" [class]="{checked: item.b}" (click)="item.b = !item.b">b</i>
+                            <i title="加粗" [class.checked]="item.b().value()" (click)="toggle(item.b().value)">b</i>
                             <i class="iconfont icon-close" (click)="tapRemoveItem(i)" title="删除"></i>
                         </div>
-                        <textarea class="form-control" [(value)]="item.content"></textarea>
+                        <textarea class="form-control" [field]="item.content"></textarea>
                     </div>
                     }
                 </div>
@@ -45,6 +51,5 @@
             </div>
             
         </div>
-        }
     </div>
 </div>

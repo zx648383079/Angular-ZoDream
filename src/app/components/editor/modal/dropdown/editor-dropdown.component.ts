@@ -42,8 +42,8 @@ export class EditorDropdownComponent implements IEditorSharedModal {
 
     public readonly visible = signal(false);
     public readonly items = signal<IEditorOptionItem[]>([]);
-    public selected = '';
-    public modalStyle: any = {};
+    public readonly selected = signal('');
+    public readonly modalStyle = signal<any>({});
     private confirmFn: EditorModalCallback;
 
     constructor() {
@@ -98,17 +98,17 @@ export class EditorDropdownComponent implements IEditorSharedModal {
     }
 
     public open(data: any, cb: EditorModalCallback, position?: IPoint) {
-        this.modalStyle = position ? {left: position.x + 'px', top: position.y + 'px'} : {};
+        this.modalStyle.set(position ? {left: position.x + 'px', top: position.y + 'px'} : {});
         this.visible.set(true);
         this.confirmFn = cb;
     }
 
     public tapConfirm(item: IEditorOptionItem) {
         this.visible.set(false);
-        this.selected = item.value;
+        this.selected.set(item.value);
         if (this.confirmFn) {
             this.confirmFn({
-                value: this.selected
+                value: this.selected()
             });
         }
     }

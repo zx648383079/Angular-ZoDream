@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
 import { IItem, IOption } from '../../theme/models/seo';
@@ -6,6 +6,7 @@ import { eachObject, parseNumber, splitStr } from '../../theme/utils';
 import { emptyValidate } from '../../theme/validators';
 import { SystemService } from './system.service';
 import { form, required } from '@angular/forms/signals';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
     standalone: false,
@@ -51,6 +52,16 @@ export class SystemComponent {
         {value: 'hide', name: '隐藏'}
     ];
     public visibleItems = ['隐藏', '后台可见', '前台可见'];
+    public readonly form = computed(() => {
+        const items = this.groups();
+        const groups: any = {};
+        for (const group of items) {
+            for (const item of group.children) {
+                groups[item.code] = new FormControl(item.value || '');
+            }
+        }
+        return new FormGroup(groups);
+    });
 
     constructor() {
         this.service.optionList().subscribe(res => {
@@ -126,12 +137,7 @@ export class SystemComponent {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        const option: any = {};
-        for (const group of this.groups()) {
-            for (const item of group.children) {
-                option[item.id] = item.value;
-            }
-        }
+        const option = this.form().getRawValue();
         e?.enter();
         this.service.optionSave({
             option

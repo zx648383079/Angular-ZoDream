@@ -1,81 +1,83 @@
-<app-edit-header [title]="'站点配置'" (submited)="tapSubmit($event)" />
+<app-edit-header [title]="'站点配置'" (submited)="tapSubmit($event)" [disabled]="!form().valid"/>
 <div class="container-fluid">
-    
-    <div class="panel-container form-table-control">
-        @for (item of items(); track $index) {
-            <div class="input-group-control">
-            <label><i class="iconfont icon-edit" (click)="tapEditOption(optionModal, item)"></i>{{ item.name }}</label>
-            @switch (item.type) {
-                @case ('text') {
-                    <div>
-                        <input type="text" class="form-control" [(value)]="item.value">
-                    </div>
+    <form (ngSubmit)="tapSubmit()" [formGroup]="form()">
+        <div class="panel-container form-table-control">
+            @for (item of items(); track $index) {
+                <div class="input-group-control">
+                <label [attr.for]="item.code"><i class="iconfont icon-edit" (click)="tapEditOption(optionModal, item)"></i>{{ item.name }}</label>
+                @switch (item.type) {
+                    @case ('text') {
+                        <div>
+                            <input type="text" class="form-control" [formControlName]="item.code" [id]="item.code">
+                        </div>
+                    }
+                    @case ('textarea') {
+                        <div>
+                            <textarea class="form-control" [formControlName]="item.code" [id]="item.code"></textarea>
+                        </div>
+                    }
+                    @case ('select') {
+                        <div>
+                            <select class="form-control" [formControlName]="item.code" [id]="item.code">
+                                @for (val of item.items; track $index) {
+                                <option [value]="val">{{ val }}</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                    @case ('radio') {
+                        <div>
+                            <app-check-input [items]="item.items" [formControlName]="item.code" [id]="item.code"/>
+                        </div>
+                    }
+                    @case ('checkbox') {
+                        <div>
+                            <app-check-input [items]="item.items" [formControlName]="item.code" [id]="item.code" [multiple]="true" />
+                        </div>
+                    }
+                    @case ('switch') {
+                        <div>
+                            <app-switch [formControlName]="item.code" [id]="item.code"/>
+                        </div>
+                    }
+                    @case ('image') {
+                        <div>
+                            <app-file-input [formControlName]="item.code" [id]="item.code"/>
+                        </div>
+                    }
+                    @case ('file') {
+                        <div>
+                            <app-file-input [formControlName]="item.code" [id]="item.code" accept="*" />
+                        </div>
+                    }
+                    @case ('editor') {
+                        <div>
+                            <textarea class="form-control" [formControlName]="item.code" [id]="item.code"></textarea>
+                        </div>
+                    }
+                    @case ('basic_editor') {
+                        <div>
+                            <textarea class="form-control" [formControlName]="item.code" [id]="item.code"></textarea>
+                        </div>
+                    }
+                    @case ('json') {
+                        <div>
+                            <textarea class="form-control" [formControlName]="item.code" [id]="item.code"></textarea>
+                        </div>
+                    }
                 }
-                @case ('textarea') {
-                    <div>
-                        <textarea class="form-control" [(value)]="item.value"></textarea>
-                    </div>
-                }
-                @case ('select') {
-                    <div>
-                        <select class="form-control" [(value)]="item.value">
-                            @for (val of item.items; track $index) {
-                            <option [value]="val">{{ val }}</option>
-                            }
-                        </select>
-                    </div>
-                }
-                @case ('radio') {
-                    <div>
-                        <app-check-input [items]="item.items" [(value)]="item.value" />
-                    </div>
-                }
-                @case ('checkbox') {
-                    <div>
-                        <app-check-input [items]="item.items" [(value)]="item.value" [multiple]="true" />
-                    </div>
-                }
-                @case ('switch') {
-                    <div>
-                        <app-switch [(value)]="item.value" />
-                    </div>
-                }
-                @case ('image') {
-                    <div>
-                        <app-file-input [(value)]="item.value" />
-                    </div>
-                }
-                @case ('file') {
-                    <div>
-                        <app-file-input [(value)]="item.value" accept="*" />
-                    </div>
-                }
-                @case ('editor') {
-                    <div>
-                        <textarea class="form-control" [(value)]="item.value"></textarea>
-                    </div>
-                }
-                @case ('basic_editor') {
-                    <div>
-                        <textarea class="form-control" [(value)]="item.value"></textarea>
-                    </div>
-                }
-                @case ('json') {
-                    <div>
-                       <textarea class="form-control" [(value)]="item.value"></textarea>
-                    </div>
-                }
+            </div>
             }
         </div>
-        }
-    </div>
-    
+        
 
-    <div class="btn-group">
-        <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="editForm().invalid()">确认保存</app-action-button>
-        <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
-        <a class="btn btn-info" (click)="tapEditOption(optionModal)">新增设置项</a>
-    </div>
+        <div class="btn-group">
+            <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="!form().valid">确认保存</app-action-button>
+            <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+            <a class="btn btn-info" (click)="tapEditOption(optionModal)">新增设置项</a>
+        </div>
+    </form>
+    
     
 </div>
 

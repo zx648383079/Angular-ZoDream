@@ -10,7 +10,7 @@ import { EditorModalCallback, IEditorModal } from '../../model';
 export class EditorColorComponent implements IEditorModal {
 
     public readonly visible = signal(false);
-    public color = '';
+    public readonly color = signal('');
     private confirmFn: EditorModalCallback;
 
     public open(data: any, cb: EditorModalCallback) {
@@ -22,7 +22,7 @@ export class EditorColorComponent implements IEditorModal {
         this.visible.set(false);
         if (this.confirmFn) {
             this.confirmFn({
-                value: this.color
+                value: this.color()
             });
         }
     }

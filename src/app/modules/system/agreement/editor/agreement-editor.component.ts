@@ -1,7 +1,7 @@
-import { Component, effect, input, model, signal } from '@angular/core';
+import { Component, effect, input, model, signal, WritableSignal } from '@angular/core';
 import { IAgreementGroup } from '../../../../theme/models/seo';
 import { eachObject } from '../../../../theme/utils';
-import { FormValueControl } from '@angular/forms/signals';
+import { form, FormValueControl } from '@angular/forms/signals';
 
 
 
@@ -16,7 +16,12 @@ export class AgreementEditorComponent implements FormValueControl<IAgreementGrou
 
     public readonly disabled = input<boolean>(false);
     public readonly value = model<IAgreementGroup[]|string>([]);
-    public data: IAgreementGroup;
+    public readonly dataForm = form(signal<IAgreementGroup>({
+        name: '',
+        title: '',
+        children: [],
+    }));
+    public readonly selectedIndex = signal(-1);
     public readonly items = signal<IAgreementGroup[]>([]);
 
     constructor() {
@@ -25,57 +30,62 @@ export class AgreementEditorComponent implements FormValueControl<IAgreementGrou
         });
     }
 
+    public toggle(item: WritableSignal<boolean>) {
+        item.update(v => !v);
+    }
 
-    public tapEditItem(item: IAgreementGroup) {
-        this.data = item;
+    public tapEditItem(index: number) {
+        this.save();
+        if (this.selectedIndex() === index) {
+            return;
+        }
+        this.selectedIndex.set(index);
+        this.dataForm().value.set(this.items()[index]);
     }
 
     public tapAddGroup() {
-        this.items.update(v => {
-            v.push({
+        this.save();
+        if (this.selectedIndex() >= 0) {
+            this.selectedIndex.set(-1);
+            this.dataForm().value.set({
                 name: '',
                 title: '',
-                children: [
-                    {
-                        content: '',
-                    }
-                ],
+                children: [],
             });
-            return v;
-        });
+        }
         this.value.set(this.items());
     }
 
     public tapRemoveGroup() {
-        if (!this.data) {
+        const index = this.selectedIndex();
+        if (index < 0) {
             return;
         }
-        for (let i = 0; i < this.value.length; i++) {
-            if (this.value[i] === this.data) {
-                this.items.update(v => {
-                    v.splice(i, 1);
-                    return v;
-                })
-                this.value.set(this.items());
-                this.data = null;
-                return;
-            }
-        }
+        this.items.update(v => {
+            return v.filter((_, i) => i !== index);
+        });
+        this.selectedIndex.set(-1);
+        this.dataForm().value.set({
+            name: '',
+            title: '',
+            children: [],
+        });
+        this.value.set(this.items());
     }
 
     public tapRemoveItem(i: number) {
-        if (!this.data) {
-            return;
-        }
-        this.data.children.splice(i, 1);
+        this.dataForm.children().value.update(v => {
+            v.splice(i, 1);
+            return [...v];
+        });
     }
 
     public tapAddItem() {
-        if (!this.data) {
-            return;
-        }
-        this.data.children.push({
-            content: '',
+        this.dataForm.children().value.update(v => {
+            return [...v, {
+                content: '',
+                b: false
+            }];
         });
     }
 
@@ -99,6 +109,31 @@ export class AgreementEditorComponent implements FormValueControl<IAgreementGrou
             return v;
         });
         this.value.set(this.items());
+    }
+
+    public tapSaveGroup() {
+        this.save();
+        this.value.set(this.items());
+    }
+
+    private save() {
+        const data = this.dataForm().value();
+        data.children = data.children.filter(i => i.content);
+        if (data.name === '' && data.title === '' && data.children.length === 0) {
+            return;
+        }
+        const last = this.selectedIndex();
+        this.items.update(v => {
+            if (last >= 0) {
+                v[last] = data;
+            } else {
+                v.push(data);
+            }
+            return [...v];
+        });
+        if (last < 0) {
+            this.selectedIndex.set(this.items().length - 1);
+        }
     }
 
     private writeValue(obj: any): void {

@@ -10,8 +10,8 @@ import { EditorModalCallback, IEditorModal } from '../../model';
 export class EditorSizeComponent implements IEditorModal {
 
     public readonly visible = signal(false);
-    public width = '';
-    public height = '';
+    public readonly width = signal('');
+    public readonly height = signal('');
     private confirmFn: EditorModalCallback;
 
     public tapBack() {
@@ -27,8 +27,8 @@ export class EditorSizeComponent implements IEditorModal {
         this.visible.set(false);
         if (this.confirmFn) {
             this.confirmFn({
-                height: this.height,
-                width: this.width
+                height: this.height(),
+                width: this.width()
             });
         }
     }

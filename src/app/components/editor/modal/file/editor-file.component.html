@@ -1,4 +1,4 @@
-<div class="editor-modal-box" [class]="{'modal-visible': visible, 'modal-loading': isLoading}" appFileDrop (fileDrop)="uploadFiles($event)">
+<div class="editor-modal-box" [class]="{'modal-visible': visible(), 'modal-loading': isLoading()}" appFileDrop (fileDrop)="uploadFiles($event)">
     <label class="drag-input" [for]="fileName">
         拖放文件
         <p>(或点击)</p>

@@ -10,9 +10,9 @@ import { EditorModalCallback, IEditorModal } from '../../model';
 export class EditorLinkComponent implements IEditorModal {
 
     public readonly visible = signal(false);
-    public url = '';
-    public title = '';
-    public isBlank = false;
+    public readonly url = signal('');
+    public readonly title = signal('');
+    public readonly isBlank = signal(false);
     private confirmFn: EditorModalCallback;
 
     public open(data: any, cb: EditorModalCallback) {
@@ -24,10 +24,14 @@ export class EditorLinkComponent implements IEditorModal {
         this.visible.set(false);
         if (this.confirmFn) {
             this.confirmFn({
-                value: this.url,
-                title: this.title,
-                target: this.isBlank
+                value: this.url(),
+                title: this.title(),
+                target: this.isBlank()
             });
         }
+    }
+
+    public toggleBlank() {
+        this.isBlank.update(v => !v);
     }
 }

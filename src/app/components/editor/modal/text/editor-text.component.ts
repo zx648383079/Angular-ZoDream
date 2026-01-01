@@ -10,8 +10,8 @@ import { EditorModalCallback, IEditorModal } from '../../model';
 export class EditorTextComponent implements IEditorModal {
 
     public readonly visible = signal(false);
-    public value = '';
-    public label = '文字';
+    public readonly value = signal('');
+    public readonly label = signal('文字');
     private confirmFn: EditorModalCallback;
 
     public tapBack() {
@@ -27,7 +27,7 @@ export class EditorTextComponent implements IEditorModal {
         this.visible.set(false);
         if (this.confirmFn) {
             this.confirmFn({
-                value: this.value
+                value: this.value()
             });
         }
     }

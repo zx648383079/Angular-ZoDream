@@ -2,18 +2,18 @@
   <div class="row">
     <div class="col-md-4 tab users">
         <div class="tab-head">
-            <div [class]="{'active': !isList}" (click)="isList = false">
+            <div [class.active]="!isListMode()" (click)="isListMode.set(false)">
                 <i class="iconfont icon-comment" aria-hidden="true"></i>
             </div>
-            <div [class]="{'active': isList}" (click)="isList = true">
+            <div [class.active]="isListMode()" (click)="isListMode.set(true)">
                 <i class="iconfont icon-user"></i>
             </div>
         </div>
         <div class="tab-content">
-            <div class="list-view" [class]="{'active': !isList}">
+            <div class="list-view" [class.active]="!isListMode()">
                 <ul>
-                    @for (user of lastUsers; track $index) {
-                    <li (click)="change(user)" [class]="{'active': currentUser && user.user_id == currentUser.user_id}">
+                    @for (user of lastUsers(); track $index) {
+                    <li (click)="change(user)" [class]="{'active': user.user_id == currentUser()?.user_id}">
                         <div class="avatar">
                             <img [src]="user.avatar" alt="">
                         </div>
@@ -31,10 +31,10 @@
                     
                 </ul>
             </div>
-            <div class="list-view" [class]="{'active': isList}">
+            <div class="list-view" [class.active]="isListMode()">
                 <ul>
-                    @for (user of users; track $index) {
-                    <li (click)="change(user)" [class]="{'active': currentUser && user.user_id == currentUser.user_id}">
+                    @for (user of users(); track $index) {
+                    <li (click)="change(user)" [class]="{'active': user.user_id == currentUser()?.user_id}">
                         <div class="avatar">
                             <img [src]="user.avatar" alt="">
                         </div>
@@ -49,17 +49,17 @@
             </div>
         </div>
     </div>
-    @if (currentUser) {
+    @if (currentUser()) {
     <div class="col-md-8">
         <div class="title">
-            {{ currentUser.username }}
+            {{ currentUser()?.username }}
         </div>
         <div>
             <div #box class="message-box">
                 @if (hasMore()) {
                     <p class="more" (click)="getMore()">加载更多</p>
                 }
-                @for (message of messages; track $index) {
+                @for (message of messages(); track $index) {
                 <div [class]="{'left': message.type == 0, 'right': message.type == 1, 'line': message.type == -1}">
                     
                     @if (message.type >= 0) {

@@ -44,6 +44,7 @@ import { CodeBlockComponent } from './code-block/code-block.component';
 import { Field } from '@angular/forms/signals';
 import { ZreFormModule } from '../form';
 import { FormPanelComponent } from './form-panel/form-panel.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 const COMPONENTS = [
@@ -94,6 +95,7 @@ const DIRECTIVES = [
     imports: [
         CommonModule,
         ZreFormModule,
+        ReactiveFormsModule,
         Field,
         RouterModule,
         MediaPlayerModule

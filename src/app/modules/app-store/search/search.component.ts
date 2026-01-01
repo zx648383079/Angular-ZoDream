@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IFilter, IFilterOptionItem, IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
@@ -42,8 +42,12 @@ export class SearchComponent implements OnInit {
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public filterItems: IFilter[] = [];
-    public viewTable = true;
+    public readonly filterItems = signal<IFilter[]>([]);
+    public readonly viewTable = signal(true);
+    public readonly priceForm = form(signal({
+        min: 0,
+        max: 0,
+    }));
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -53,7 +57,7 @@ export class SearchComponent implements OnInit {
         });
     }
 
-    public get selectedFilters() {
+    public readonly selectedFilters = computed(() => {
         const items: IFilterTag[] = [];
         if (!emptyValidate(this.queries().keywords)) {
             items.push({
@@ -61,7 +65,7 @@ export class SearchComponent implements OnInit {
                 label: `${this.queries().keywords}`
             });
         }
-        for (const item of this.filterItems) {
+        for (const item of this.filterItems()) {
             const labels: string[] = [];
             for (const it of item.items) {
                 if (it.selected) {
@@ -76,13 +80,17 @@ export class SearchComponent implements OnInit {
             }
         }
         return items;
-    }
+    });
 
     public tapPrice(item: IFilter) {
         for (const it of item.items) {
             it.selected = false;
         }
-        this.queries().price = `${item.min}-${item.max}`;
+        const data = this.priceForm().value();
+        this.queries.update(v => {
+            v.price = `${data.min}-${data.max}`;
+            return v;
+        });
         this.tapRefresh();
     }
 
@@ -124,7 +132,7 @@ export class SearchComponent implements OnInit {
 
     public tapRemoveFilter(name: string) {
         this.queries[name] = name === 'category' || name === 'user' ? 0 : '';
-        for (const item of this.filterItems) {
+        for (const item of this.filterItems()) {
             if (item.name !== name) {
                 continue;
             }
@@ -147,7 +155,7 @@ export class SearchComponent implements OnInit {
             sort: '',
             order: '',
         });
-        for (const item of this.filterItems) {
+        for (const item of this.filterItems()) {
             for (const it of item.items) {
                 it.selected = false;
             }
@@ -200,7 +208,7 @@ export class SearchComponent implements OnInit {
         }
         this.isLoading.set(true);
         const queries = {...this.queries(), page};
-        this.service.appList({...queries, filter: this.filterItems.length < 1}).subscribe({
+        this.service.appList({...queries, filter: this.filterItems().length < 1}).subscribe({
             next: res => {
                 this.items.set(res.data);
                 this.hasMore = res.paging.more;
@@ -209,7 +217,7 @@ export class SearchComponent implements OnInit {
                 this.queries.set(queries);
                 this.isLoading.set(false);
                 if (res.filter) {
-                    this.filterItems = res.filter;
+                    this.filterItems.set(res.filter);
                 }
             },
             error: () => {
