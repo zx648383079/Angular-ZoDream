@@ -57,7 +57,7 @@ export class SystemComponent {
         const groups: any = {};
         for (const group of items) {
             for (const item of group.children) {
-                groups[item.code] = new FormControl(item.value || '');
+                groups[item.code] = new FormControl(typeof item.value === 'undefined' ? '' : item.value);
             }
         }
         return new FormGroup(groups);
@@ -80,7 +80,7 @@ export class SystemComponent {
         if (['select', 'radio', 'checkbox'].indexOf(item.type) >= 0) {
             item.items = this.strToArr(item.default_value);
             item.itemKey = 1;
-            if (item.items instanceof Array && typeof item.items === 'object') {
+            if (item.items instanceof Array && typeof item.items[0] === 'object') {
                 item.itemKey = 'value';
             }
             isInt = this.isIntValue(item.items);

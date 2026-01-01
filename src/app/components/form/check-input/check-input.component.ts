@@ -1,4 +1,5 @@
-import { Component, effect, input, model } from '@angular/core';
+import { Component, effect, forwardRef, input, model } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
@@ -6,8 +7,13 @@ import { FormValueControl } from '@angular/forms/signals';
     selector: 'app-check-input',
     templateUrl: './check-input.component.html',
     styleUrls: ['./check-input.component.scss'],
+    providers: [{
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => CheckInputComponent),
+        multi: true
+    }]
 })
-export class CheckInputComponent implements FormValueControl<any> {
+export class CheckInputComponent implements ControlValueAccessor, FormValueControl<any> {
 
     public readonly items = input<any[]>([]);
     public readonly multiple = input(false);
@@ -20,9 +26,16 @@ export class CheckInputComponent implements FormValueControl<any> {
     private selectedItems: any[] = [];
     public readonly disabled = input<boolean>(false);
     public readonly value = model<any>();
+    private changeFn: any = () => {};
 
     constructor() {
-        effect(() => this.writeValue(this.value()));
+        effect(() => {
+            const val = this.value();
+            if (typeof val === 'undefined' && this.selectedItems.length === 0) {
+                return;
+            }
+            this.formatValue(val);
+        });
     }
 
     public format(item: any) {
@@ -80,13 +93,24 @@ export class CheckInputComponent implements FormValueControl<any> {
     private output() {
         const def = typeof this.rangeKey() === 'number' ? -1 : null;
         this.value.set(this.multiple() ? [...this.selectedItems] : (this.selectedItems.length > 0 ? this.selectedItems[0] : def));
+        this.changeFn(this.value());
     }
 
-    private writeValue(obj: any): void {
+    private formatValue(obj: any) {
         if (typeof obj === 'object' && obj instanceof Array) {
             this.selectedItems = obj;
             return;
         }
         this.selectedItems = [typeof this.rangeKey() === 'number' && !obj ? 0 : obj];
     }
+
+    writeValue(obj: any): void {
+        this.value.set(obj);
+    }
+
+    registerOnChange(fn: any): void {
+        this.changeFn = fn;
+    }
+    registerOnTouched(fn: any): void {}
+    setDisabledState?(isDisabled: boolean): void {}
 }

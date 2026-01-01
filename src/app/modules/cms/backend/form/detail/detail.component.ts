@@ -37,7 +37,7 @@ export class FormDetailComponent implements OnInit {
         const groups: any = {};
         for (const group of items) {
             for (const item of group.items) {
-                groups[item.name] = new FormControl(item.value || '');
+                groups[item.name] = new FormControl(typeof item.value === 'undefined' ? '' : item.value);
             }
         }
         return new FormGroup(groups);

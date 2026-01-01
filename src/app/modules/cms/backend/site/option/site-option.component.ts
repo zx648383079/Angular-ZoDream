@@ -51,7 +51,7 @@ export class SiteOptionComponent implements OnInit {
         const items = this.items();
         const groups: any = {};
         for (const item of items) {
-            groups[item.code] = new FormControl(item.value || '');
+            groups[item.code] = new FormControl(typeof item.value === 'undefined' ? '' : item.value);
         }
         return new FormGroup(groups);
     });

@@ -16,7 +16,9 @@ export class FormPanelComponent implements FormPanelEvent {
         const items = this.items();
         const groups: any = {};
         for (const item of items) {
-            groups[item.name] = item.required ? new FormControl(item.value || '', Validators.required) : new FormControl(item.value || '');
+            const val = typeof item.value === 'undefined' ? '' : item.value;
+            groups[item.name] = item.required ? new FormControl(val, Validators.required) 
+            : new FormControl(val);
         }
         return new FormGroup(groups);
     });

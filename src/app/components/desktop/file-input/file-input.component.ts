@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, model, output, signal } from '@angular/core';
+import { Component, computed, forwardRef, inject, input, model, output, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IUploadFile, IUploadResult } from '../../../theme/models/open';
 import { FileUploadService } from '../../../theme/services/file-upload.service';
@@ -6,14 +6,20 @@ import { assetUri } from '../../../theme/utils';
 import { FileOnlineComponent } from '../file-online/file-online.component';
 import { UploadCustomEvent } from '../../form';
 import { FormValueControl } from '@angular/forms/signals';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
     standalone: false,
     selector: 'app-file-input',
     templateUrl: './file-input.component.html',
     styleUrls: ['./file-input.component.scss'],
+    providers: [{
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => FileInputComponent),
+        multi: true
+    }]
 })
-export class FileInputComponent implements FormValueControl<string|any> {
+export class FileInputComponent implements ControlValueAccessor, FormValueControl<string|any> {
     private readonly uploadService = inject(FileUploadService);
 
 
@@ -33,7 +39,7 @@ export class FileInputComponent implements FormValueControl<string|any> {
 
     public readonly fileUploaded = output<IUploadResult | IUploadFile>();
     public readonly customUpload = output<UploadCustomEvent>();
-
+    private changeFn: any = () => {};
 
     public readonly canPreview = computed(() => {
         return !this.custom() && this.accept().indexOf('image') >= 0;
@@ -46,6 +52,7 @@ export class FileInputComponent implements FormValueControl<string|any> {
         }
         modal.open((item: IUploadFile) => {
             this.value.set(item.url);
+            this.changeFn(this.value());
             this.fileUploaded.emit(item);
         });
     }
@@ -64,6 +71,7 @@ export class FileInputComponent implements FormValueControl<string|any> {
                     this.isLoading.set(false);
                     if (res) {
                         this.value.set(res.url);
+                        this.changeFn(this.value());
                         this.fileUploaded.emit(res);
                     }
                 }
@@ -85,6 +93,7 @@ export class FileInputComponent implements FormValueControl<string|any> {
             next: res => {
                 this.isLoading.set(false);
                 this.value.set(res.url);
+                this.changeFn(this.value());
                 this.fileUploaded.emit(res);
             },
             error: _ => {
@@ -102,4 +111,13 @@ export class FileInputComponent implements FormValueControl<string|any> {
         }
         window.open(assetUri(value), '_blank');
     }
+
+    writeValue(obj: any): void {
+        this.value.set(obj);
+    }
+    registerOnChange(fn: any): void {
+        this.changeFn = fn;
+    }
+    registerOnTouched(fn: any): void {}
+    setDisabledState?(isDisabled: boolean): void {}
 }
