@@ -1,4 +1,5 @@
 @use '../../app/theme/theme';
+@use '../variables';
 
 .code-snippet {
     --#{theme.$prefix}code: var(--#{theme.$prefix}body);
@@ -21,6 +22,7 @@
     --#{theme.$prefix}code-text: #fff;
     --#{theme.$prefix}code-line: hsla(0, 0%, 100%, .3);
     --#{theme.$prefix}code-light: rgba(0,0,0,.66);
+    --#{theme.$prefix}code-zindex: #{variables.$zindex-offcanvas};
     position: relative;
     background-color: var(--#{theme.$prefix}code);
     border-radius: 0.375rem;
@@ -169,7 +171,7 @@
         top: 0;
         bottom: 0;
         right: 0;
-        z-index: 99;
+        z-index: var(--#{theme.$prefix}code-zindex);
         overflow-y: auto;
         .icon-full-screen::before {
             content: "\e693";

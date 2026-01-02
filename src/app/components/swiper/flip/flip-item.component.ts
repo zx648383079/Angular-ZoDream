@@ -14,8 +14,7 @@ import { FlipContainerComponent } from './flip-container.component';
             <span>{{ header() }}</span>
         </div>
     }
-    
-<ng-content />`,
+    <ng-content />`,
     styles: [''],
     host: {
         class: 'flip-item',

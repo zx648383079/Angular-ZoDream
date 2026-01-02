@@ -275,6 +275,8 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
 }
 
 .dialog-popup {
+    --#{theme.$prefix}popup: var(--#{theme.$prefix}dialog);
+    --#{theme.$prefix}popup-text: var(--#{theme.$prefix}dialog-text);
     position: absolute;
     display: block;
     font-style: normal;
@@ -291,12 +293,14 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
     word-spacing: normal;
     line-break: auto;
     word-wrap: break-word;
-    background-color: var(--#{theme.$prefix}dialog);
-    color: var(--#{theme.$prefix}dialog-text);
+    background-color: var(--#{theme.$prefix}popup);
+    color: var(--#{theme.$prefix}popup-text);
     border-radius: .25rem;
     max-width: 18rem;
     z-index: variables.$zindex-popover;
-    box-shadow: 0 6px 16px 0 rgba(var(--#{theme.$prefix}mask-rgb), 0.08), 0 3px 6px -4px rgba(var(--#{theme.$prefix}mask-rgb), 0.12), 0 9px 28px 8px rgba(var(--#{theme.$prefix}mask-rgb), 0.05);
+    box-shadow: 0 6px 16px 0 rgba(var(--#{theme.$prefix}mask-rgb), 0.08), 
+        0 3px 6px -4px rgba(var(--#{theme.$prefix}mask-rgb), 0.12), 
+        0 9px 28px 8px rgba(var(--#{theme.$prefix}mask-rgb), 0.05);
     .popup-arrow {
         position: absolute;
         z-index: 1;
@@ -324,7 +328,7 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
         }
         &::after {
             border-width: .5rem .5rem 0;
-            border-top-color: var(--#{theme.$prefix}border);
+            border-top-color: var(--#{theme.$prefix}popup);;
         }
     }
     &.dialog-popup-top {
@@ -403,6 +407,7 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
         }
         .dialog-action {
             color: var(--#{theme.$prefix}meta-text);
+            cursor: pointer;
         }
     }
     .title-bar {

@@ -1,6 +1,7 @@
 import { AfterContentInit, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, 
     ViewEncapsulation, inject, contentChildren, model, effect, 
-    computed} from '@angular/core';
+    computed,
+    signal} from '@angular/core';
 import { FlipItemComponent } from './flip-item.component';
 import { SwiperEvent } from '../model';
 
@@ -24,7 +25,7 @@ export class FlipContainerComponent implements OnInit, AfterContentInit, AfterVi
     public readonly index = model(0);
     public itemCount = 0;
     private resize$: ResizeObserver;
-    public itemWidth = 0;
+    public readonly itemWidth = signal(0);
     private historyItems: number[] = [0];
 
     constructor() {
@@ -38,22 +39,23 @@ export class FlipContainerComponent implements OnInit, AfterContentInit, AfterVi
     
 
     public readonly flipStyle = computed(() => {
-        if (this.itemWidth <= 0) {
+        const width = this.itemWidth();
+        if (width <= 0) {
             return {};
         }
         return {
-            transform: 'translateX(-' + this.index() * this.itemWidth + 'px)', 
-            width: this.itemWidth * this.itemCount + 'px'
+            transform: 'translateX(-' + this.index() * width + 'px)', 
+            width: width * this.itemCount + 'px'
         };
     });
 
     ngOnInit() {
         this.resize$ = new ResizeObserver(entries => {
             for (const item of entries) {
-                if (item.contentRect.width === this.itemWidth) {
+                if (item.contentRect.width === this.itemWidth()) {
                     return;
                 }
-                this.itemWidth = item.contentRect.width;
+                this.itemWidth.set(item.contentRect.width);
                 this.updateWidth();
             }
         });
@@ -126,12 +128,13 @@ export class FlipContainerComponent implements OnInit, AfterContentInit, AfterVi
     }
 
     private updateWidth() {
-        if (this.itemCount < 1 || this.itemWidth <= 0) {
+        const width = this.itemWidth();
+        if (this.itemCount < 1 || width <= 0) {
             return;
         }
         this.items().forEach(item => {
             item.boxStyle.set({
-                width: this.itemWidth + 'px'
+                width: width + 'px'
             });
         });
     }

@@ -125,6 +125,7 @@
     }
     ::ng-deep {
         .file-input {
+            --#{theme.$prefix}control-width: 100%;
             display: flex;
         }
     }

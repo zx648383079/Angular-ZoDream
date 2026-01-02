@@ -1,9 +1,11 @@
+@use '../../../theme/theme';
 .file-input {
+    --#{theme.$prefix}control-width: auto;
     .form-control {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
         display: inline-block;
-        // width: 0;
+        width: var(--#{theme.$prefix}control-width);
         // flex: 1;
     }
     input[type='file'] {
