@@ -67,14 +67,14 @@ export class NavigationPanelComponent {
         } else {
             mode = isGuest;
         }
-        if (mode < 1 && !this.isGuest) {
+        if (mode < 1 && !this.isGuest()) {
             mode = 2;
         }
         if (mode === this.saveMode) {
             return;
         }
         if (mode === 2) {
-            if (this.isGuest) {
+            if (this.isGuest()) {
                 return;
             }
             this.saveMode = mode;
@@ -115,9 +115,9 @@ export class NavigationPanelComponent {
         this.tapSave(0);
     }
 
-    public toggleEdit(toggle?:boolean) {
+    public toggleEdit(toggle?: boolean) {
         if (typeof toggle === 'undefined') {
-            toggle = !this.editMode;
+            toggle = !this.editMode();
         }
         if (!this.isUpdated || toggle) {
             this.editMode.set(toggle);
@@ -183,7 +183,7 @@ export class NavigationPanelComponent {
 
     private saveAsync() {
         window.localStorage.setItem(NavSaveModekey, this.saveMode.toString());
-        window.localStorage.setItem(NavSaveKey, JSON.stringify(this.items));
+        window.localStorage.setItem(NavSaveKey, JSON.stringify(this.items()));
         this.toastrService.success($localize `Save collection successfully`);
     }
 
