@@ -114,8 +114,10 @@
                     </span><span class="radio-label">
                         <input type="radio" id="configure_deposit_scale3" [field]="dataForm.configure.deposit_scale" value="0">
                         <label for="configure_deposit_scale3">自定义</label>
-                    </span><input type="number" class="form-control" [field]="dataForm.configure.deposit_scale_other" placeholder="自定义"
-                        [hidden]="depositScale() > 0">
+                    </span>
+                    @if (depositScale() > 0) {
+                        <input type="number" class="form-control" [field]="dataForm.configure.deposit_scale_other" placeholder="自定义">
+                    }
                 </div>
             </div>
         </div>
