@@ -6,7 +6,7 @@
 <div class="form-group">
     <label for="course_id6">科目</label>
     <select class="form-control" id="course_id6" [value]="value().course_id" (change)="onCourseChange($event)">
-        <option [value]="0">请选择</option>
+        <option value="0">请选择</option>
         @for (item of courseItems(); track $index) {
             <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
         }

@@ -128,7 +128,7 @@ export class EditLotteryComponent implements OnInit {
     public tapRemoveItem(i: number) {
         this.dataForm.configure.items().value.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
     }
 
@@ -173,7 +173,7 @@ export class EditLotteryComponent implements OnInit {
         }
         this.dataForm.configure.items().value.update(v => {
             v[i] = v.splice(i - 1, 1, v[i])[0];
-            return v;
+            return [...v];
         });
         
     }
@@ -183,7 +183,7 @@ export class EditLotteryComponent implements OnInit {
             if (i < v.length - 1) {
                 v[i] = v.splice(i + 1, 1, v[i])[0];
             }
-            return v;
+            return [...v];
         });
         
     }

@@ -58,7 +58,7 @@ export class CommentItemComponent {
                     v.blog_id = value.blog_id;
                     v.parent_id = value.id;
                     v.page = 1;
-                    return v;
+                    return {...v};
                 });
             });
         });
@@ -98,7 +98,7 @@ export class CommentItemComponent {
                 this.editForm().value.update(v => {
                     v.content = '';
                     v.parent_id = 0;
-                    return v;
+                    return {...v};
                 });
             },
             error: () => {
@@ -116,7 +116,7 @@ export class CommentItemComponent {
                 }
             }
             v.parent_id = item?.id || 0;
-            return v;
+            return {...v};
         });
        
     }

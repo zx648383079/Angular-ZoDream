@@ -64,7 +64,7 @@ export class CharacterIdentityComponent implements OnInit {
             v.mp = item?.mp ?? 0;
             v.att = item?.att ?? 0;
             v.def = item?.def ?? 0;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.characterIdentitySave({...this.editForm().value(), project_id: this.queries.project}).subscribe({

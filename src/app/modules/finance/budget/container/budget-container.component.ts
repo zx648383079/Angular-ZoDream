@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EChartsCoreOption } from 'echarts/core';
 import { mapFormat } from '../../../../theme/utils';
@@ -17,12 +17,17 @@ export class BudgetContainerComponent implements OnInit {
 
 
     public readonly isLoading = signal(true);
-    public data: IBudget;
+    public readonly data = signal<IBudget>(null);
     public readonly options = signal<EChartsCoreOption>(null);
-    public cycleFormat = '';
+    
     public readonly total = signal(0);
-    public budgetTotal = 0;
-    public overTotal = 0;
+    public readonly budgetTotal = signal(0);
+    public readonly overTotal = computed(() => {
+        return Math.max(this.total() - this.budgetTotal(), 0);
+    });
+    public readonly cycleFormat = computed(() => {
+        return mapFormat(this.data().cycle, ['次', '天', '周', '月', '年']);
+    });
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -38,11 +43,9 @@ export class BudgetContainerComponent implements OnInit {
         this.isLoading.set(true);
         this.service.budgetStatistics(id).subscribe(res => {
             this.isLoading.set(false);
-            this.data = res.data;
+            this.data.set(res.data);
             this.total.set(res.sum);
-            this.budgetTotal = res.budget_sum;
-            this.overTotal = Math.max(this.total() - this.budgetTotal, 0);
-            this.cycleFormat = mapFormat(this.data.cycle, ['次', '天', '周', '月', '年']);
+            this.budgetTotal.set(res.budget_sum);
             const items: any[] = res.log_list;
             this.options.set({
                 title: {

@@ -218,7 +218,7 @@ export class ReaderComponent implements OnInit, OnDestroy {
                 v.color = '#fff';
                 v.theme = 7;
             }
-            return v;
+            return {...v};
         });
     }
 

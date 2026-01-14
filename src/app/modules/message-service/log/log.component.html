@@ -14,7 +14,7 @@
                 <div class="input-group-control">
                     <label for="type">类型</label>
                     <select class="form-control" [field]="queries.type">
-                        <option [value]="0">请选择</option>
+                        <option value="0">请选择</option>
                         @for (item of typeItems(); track $index) {
                             <option [value]="item.value">{{ item.name }}</option>
                         }

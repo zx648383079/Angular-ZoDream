@@ -80,7 +80,7 @@ export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestr
             this.push(item);
             i = this.indexOf(item);
         }
-        if (i < 0 || i >= this.items.length) {
+        if (i < 0 || i >= this.items().length) {
             return;
         }
         if (!this.videoPlayer) {

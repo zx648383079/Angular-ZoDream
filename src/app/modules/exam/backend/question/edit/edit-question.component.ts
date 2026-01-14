@@ -221,7 +221,7 @@ export class EditQuestionComponent implements OnInit {
     public tapRemoveItem(i: number) {
         this.dataForm.option_items().value.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
     }
 

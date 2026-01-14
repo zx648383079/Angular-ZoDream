@@ -36,7 +36,7 @@ export class QuestionChildrenComponent {
         }
         this.value.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
         
     }

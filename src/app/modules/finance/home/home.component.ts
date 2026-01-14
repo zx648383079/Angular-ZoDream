@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
     public readonly isLoading = signal(true);
     public readonly data = signal<any>({});
     public readonly queries = form(signal({
-        start_at: formatDate(new Date(), 'yyyy-mm-dd'),
+        start_at: formatDate(new Date(), 'yyyy-mm-01'),
         end_at: '',
         type: 1,
         log_type: 0
@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
 
     public onQueriesChange() {
         this.isLoading.set(true);
-        this.service.statistics({...this.queries}).subscribe(res => {
+        this.service.statistics({...this.queries().value()}).subscribe(res => {
             this.isLoading.set(false);
             this.data.set(res);
             const items: any[] = res.stage_items;

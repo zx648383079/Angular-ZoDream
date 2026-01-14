@@ -65,7 +65,7 @@ export class SiteComponent implements OnInit {
             v.is_share = item?.is_share ?? false;
             v.share_price = item?.share_price ?? 0;
             v.status = item?.status ?? 0;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.siteSave(this.editForm().value()).subscribe({

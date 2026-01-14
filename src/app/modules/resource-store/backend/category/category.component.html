@@ -61,7 +61,7 @@
     <div class="form-group">
         <label>上级</label>
         <select id="parent_id" class="form-control" [field]="editForm.parent_id">
-            <option [value]="0">-- 无上级分类 --</option>
+            <option value="0">-- 无上级分类 --</option>
             @for (item of categories(); track $index) {
             <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
             }

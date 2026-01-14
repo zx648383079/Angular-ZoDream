@@ -78,7 +78,7 @@ export class EmojiCategoryComponent {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';
             v.icon = item?.icon ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.emojiCategorySave(this.editForm().value()).subscribe(res => {

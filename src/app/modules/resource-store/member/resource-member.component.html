@@ -2,7 +2,7 @@
     <form class="flat-input" (submit)="tapSearch($event)">
         <input type="text" class="form-control" id="keywords" [field]="queries.keywords" i18n-placeholder placeholder="Please input a keyword">
         <select [field]="queries.category" class="form-control">
-            <option [value]="0" i18n>Select...</option>
+            <option value="0" i18n>Select...</option>
             @for (item of categories; track $index) {
                 <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
             }

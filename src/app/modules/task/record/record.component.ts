@@ -6,7 +6,7 @@ import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-    selector: 'app-record',
+    selector: 'app-task-record',
     templateUrl: './record.component.html',
     styleUrls: ['./record.component.scss']
 })

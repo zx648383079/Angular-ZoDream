@@ -60,7 +60,7 @@ export class AuctionGoodsComponent implements OnInit, OnDestroy {
                 this.dataForm().value.update(v => {
                     v.min = this.minBid;
                     v.max = this.activity.configure.fixed_price;
-                    return v;
+                    return {...v};
                 });
                 this.startTimer();
             });

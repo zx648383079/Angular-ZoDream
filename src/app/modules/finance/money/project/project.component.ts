@@ -21,7 +21,7 @@ export class ProjectComponent implements OnInit {
         keywords: ''
     }));
     public readonly editForm = form(signal({
-        id: undefined,
+        id: 0,
         name: '',
         alias: '',
         money: 0,
@@ -102,10 +102,10 @@ export class ProjectComponent implements OnInit {
             v.start_at = item?.start_at ?? '';
             v.end_at = item?.end_at ?? '';
             v.remark = item?.remark ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
-            this.service.projectSave({...this.editForm}).subscribe(_ => {
+            this.service.projectSave({...this.editForm().value()}).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
@@ -118,7 +118,7 @@ export class ProjectComponent implements OnInit {
             v.name = item.name;
             v.money = item.money;
             v.earnings = 0;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.projectEarnings({

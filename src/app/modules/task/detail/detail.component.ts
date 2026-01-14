@@ -12,7 +12,7 @@ import { NavigationDisplayMode } from '../../../theme/models/event';
 
 @Component({
     standalone: false,
-    selector: 'app-detail',
+    selector: 'app-task-detail',
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss']
 })

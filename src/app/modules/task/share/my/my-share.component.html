@@ -16,7 +16,7 @@
                 <div class="input-group-control">
                     <label>状态</label>
                     <select [field]="queries.status" class="form-control">
-                        <option [value]="0">请选择</option>
+                        <option value="0">请选择</option>
                         @for (item of statusItems; track $index) {
                             <option [value]="item.value">{{ item.name }}</option>
                         }

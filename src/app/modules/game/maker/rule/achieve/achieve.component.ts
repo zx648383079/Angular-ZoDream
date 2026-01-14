@@ -58,7 +58,7 @@ export class AchieveComponent implements OnInit {
             v.icon = item?.icon ?? '';
             v.description = item?.description ?? '';
             v.demand = item?.demand ?? 0;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.achieveSave({...this.editForm().value(), project_id: this.queries.project}).subscribe({

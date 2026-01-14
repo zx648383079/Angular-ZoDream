@@ -71,10 +71,10 @@ export class ChannelComponent implements OnInit {
         this.editForm().value.update(v => {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
-            this.service.channelSave({...this.editForm}).subscribe(_ => {
+            this.service.channelSave({...this.editForm().value()}).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });

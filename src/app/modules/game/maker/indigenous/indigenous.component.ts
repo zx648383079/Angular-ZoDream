@@ -56,7 +56,7 @@ export class IndigenousComponent implements OnInit {
             v.name = item?.name ?? '';
             v.avatar = item?.avatar ?? '';
             v.description = item?.description ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.characterIdentitySave({...this.editForm().value(), project_id: this.queries.project}).subscribe({

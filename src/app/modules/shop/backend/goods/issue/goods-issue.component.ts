@@ -67,10 +67,10 @@ export class GoodsIssueComponent implements OnInit {
             v.answer = item?.answer ?? '';
             v.status = item?.status as any ?? '0';
             v.goods_id = this.queries.goods().value() as number;
-            return v;
+            return {...v};
         });
         modal.open(() => {
-            this.service.issueSave({...this.editForm}).subscribe({
+            this.service.issueSave({...this.editForm().value()}).subscribe({
                 next: _ => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();
@@ -111,7 +111,7 @@ export class GoodsIssueComponent implements OnInit {
             this.isChecked.set(false);
             return;
         }
-        if (this.checkedItems().length === this.items.length) {
+        if (this.checkedItems().length === this.items().length) {
             this.isChecked.set(true);
         }
     }

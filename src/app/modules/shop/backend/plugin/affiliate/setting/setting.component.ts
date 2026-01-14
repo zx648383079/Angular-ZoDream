@@ -58,14 +58,14 @@ export class SettingComponent implements OnInit {
             v.push({
                 scale: 0
             })
-            return v;
+            return [...v];
         });
     }
 
     public tapRemoveItem(i: number) {
         this.dataForm.by_user_grade().value.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
     }
 

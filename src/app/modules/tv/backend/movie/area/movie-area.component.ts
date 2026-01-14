@@ -52,7 +52,7 @@ export class MovieAreaComponent implements OnInit {
         this.editForm().value.update(v => {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.areaSave(this.editForm().value()).subscribe({

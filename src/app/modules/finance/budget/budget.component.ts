@@ -120,10 +120,10 @@ export class BudgetComponent implements OnInit {
             v.name = item?.name ?? '';
             v.cycle = item?.cycle as any ?? '0';
             v.budget = item?.budget ?? 0;
-            return v;
+            return {...v};
         });
         modal.open(() => {
-            this.service.budgetSave({...this.editForm}).subscribe(_ => {
+            this.service.budgetSave({...this.editForm().value()}).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapPage();
             });

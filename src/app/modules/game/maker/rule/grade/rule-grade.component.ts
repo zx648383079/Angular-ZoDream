@@ -65,7 +65,7 @@ export class RuleGradeComponent implements OnInit {
             v.name = item?.name ?? '';
             v.grade = item?.grade ?? 0;
             v.exp = item?.exp ?? 0;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.ruleGradeSave({...this.editForm().value(), project_id: this.queries.project}).subscribe({

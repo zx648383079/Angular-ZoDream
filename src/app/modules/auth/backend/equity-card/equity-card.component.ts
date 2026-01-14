@@ -51,7 +51,7 @@ export class EquityCardComponent implements OnInit {
             v.name = item?.name ?? '';
             v.icon = item?.icon ?? '';
             v.status = item?.status ?? 0;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.cardSave(this.editForm().value()).subscribe(_ => {

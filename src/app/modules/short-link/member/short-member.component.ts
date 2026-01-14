@@ -49,7 +49,7 @@ export class ShortMemberComponent implements OnInit {
             v.id = item?.id ?? 0;
             v.title = item?.title ?? '';
             v.source_url = item?.source_url ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.linkSave(this.editForm().value()).subscribe({

@@ -66,7 +66,7 @@ export class EditAgreementComponent implements OnInit {
                 this.dataModel.update(v => {
                     v.id = 0;
                     v.language = lang;
-                    return v;
+                    return {...v};
                 })
             },
             onCancel: () => {
@@ -76,7 +76,7 @@ export class EditAgreementComponent implements OnInit {
                     v.title = '';
                     v.description = '';
                     v.content = [];
-                    return v;
+                    return {...v};
                 });
             }
         });

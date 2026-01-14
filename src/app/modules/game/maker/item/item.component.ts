@@ -62,7 +62,7 @@ export class ItemComponent implements OnInit {
             v.type = item?.type ?? 0;
             v.sub_type = item?.sub_type ?? 0;
             v.description = item?.description ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.itemSave({...this.editForm().value(), project_id: this.queries.project}).subscribe({

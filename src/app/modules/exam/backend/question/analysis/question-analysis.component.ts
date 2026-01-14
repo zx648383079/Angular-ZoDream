@@ -26,7 +26,7 @@ export class QuestionAnalysisComponent {
         this.analysisForm().value.update(v => {
             v.type = i >= 0 ? val.type as any : '0';
             v.content = i >= 0 ? val.content : '';
-            return v;
+            return {...v};
         });
 
         modal.open(() => {
@@ -38,7 +38,7 @@ export class QuestionAnalysisComponent {
                 } else {
                     v.push({...data});
                 }
-                return v;
+                return [...v];
             });
             
         }, () => this.analysisForm().valid(), i >= 0 ? '编辑解析' : '新增解析');
@@ -47,7 +47,7 @@ export class QuestionAnalysisComponent {
     public tapRemove(i: number) {
         this.value.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
     }
 }

@@ -36,7 +36,7 @@ export class GalleryPanelComponent implements FormValueControl<any>, AfterViewIn
         if (this.disabled) {
             return false;
         }
-        return this.max() <= 0 || this.max() > this.items.length;
+        return this.max() <= 0 || this.max() > this.items().length;
     }
 
     get imageBox() {
@@ -57,7 +57,7 @@ export class GalleryPanelComponent implements FormValueControl<any>, AfterViewIn
         }
         this.items.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
         this.output();
     }

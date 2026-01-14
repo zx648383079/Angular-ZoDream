@@ -74,7 +74,7 @@ export class TimeComponent implements OnInit {
             v.title = item?.title ?? '';
             v.start_at = item?.start_at as any ?? '';
             v.end_at = item?.end_at as any ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.timeSave({

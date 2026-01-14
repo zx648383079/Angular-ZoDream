@@ -65,7 +65,7 @@ export class VersionComponent implements OnInit {
             v.name = '';
             v.description = '';
             v.app_id = this.software.id;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.versionSave(this.editForm().value()).subscribe({

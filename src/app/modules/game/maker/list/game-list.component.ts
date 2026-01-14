@@ -54,10 +54,10 @@ export class GameListComponent implements OnInit {
             v.name = item?.name ?? '';
             v.logo = item?.logo ?? '';
             v.description = item?.description ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
-            this.service.projectSave({...this.editForm}).subscribe({
+            this.service.projectSave({...this.editForm().value()}).subscribe({
                 next: _ => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();

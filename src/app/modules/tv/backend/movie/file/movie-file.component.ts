@@ -122,7 +122,7 @@ export class MovieFileComponent implements OnInit {
             v.definition = item?.definition as any ?? '';
             v.file = item?.file ?? '';
             v.size = item?.size ?? 0;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.movieFileSave(this.editForm().value()).subscribe({

@@ -89,7 +89,7 @@ export class FileExplorerPanelComponent implements IFileDataSource {
         this.queries().value.update(v => {
             v.path = path;
             v.keywords = keywords ? keywords : '';
-            return v;
+            return {...v};
         });
         this.tapRefresh();
     }

@@ -86,10 +86,10 @@ export class MoneyComponent implements OnInit {
             v.frozen_money = item?.frozen_money ?? 0;
             v.status = item?.status as any ?? 1;
             v.remark = item?.remark ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
-            this.service.accountSave({...this.editForm}).subscribe(_ => {
+            this.service.accountSave({...this.editForm().value()}).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });

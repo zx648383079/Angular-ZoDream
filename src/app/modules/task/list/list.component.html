@@ -14,10 +14,10 @@
                 </div>
                 <div class="input-group-control">
                     <label>状态</label>
-                    <select name="status" ngModel>
+                    <select [field]="queries.status" class="form-control">
                         <option value="0">请选择</option>
                         @for (item of statusItems; track $index) {
-                            <option [value]="item.value" [selected]="queries.status == item.value">{{ item.name }}</option>
+                            <option [value]="item.value">{{ item.name }}</option>
                         }
                     </select>
                 </div>

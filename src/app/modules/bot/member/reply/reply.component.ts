@@ -65,7 +65,7 @@ export class ReplyComponent implements OnInit {
         this.editForm().value.update(v => {
             v.event = item?.event ?? '';
             v.type = item?.type ?? 0;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.replySave(this.editForm().value()).subscribe({

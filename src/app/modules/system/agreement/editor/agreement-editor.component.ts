@@ -106,7 +106,7 @@ export class AgreementEditorComponent implements FormValueControl<IAgreementGrou
                 return v;
             }
             v[i] = v.splice(i + 1, 1, v[i])[0];
-            return v;
+            return [...v];
         });
         this.value.set(this.items());
     }

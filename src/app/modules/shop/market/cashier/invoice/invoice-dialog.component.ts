@@ -33,7 +33,7 @@ export class InvoiceDialogComponent {
                 v.type = invoice?.type ?? 0;
                 v.title = invoice?.title ?? '';
                 v.tax_no = invoice?.tax_no ?? '';
-                return v;
+                return {...v};
             });
         }
         this.visible.set(true);

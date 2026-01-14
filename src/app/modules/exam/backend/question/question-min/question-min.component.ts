@@ -52,7 +52,7 @@ export class QuestionMinComponent {
     public onAnalysisChange(items: IQuestionAnalysis[]) {
         this.value.update(v => {
             v.analysis_items = items;
-            return v;
+            return {...v};
         });
     }
 }

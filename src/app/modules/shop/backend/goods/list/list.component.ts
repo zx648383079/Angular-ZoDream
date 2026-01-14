@@ -72,7 +72,7 @@ export class ListComponent implements OnInit {
                 v.sort = key;
                 v.order = 'desc';
             }
-            return v;
+            return {...v};
         });
         this.tapRefresh();
     }

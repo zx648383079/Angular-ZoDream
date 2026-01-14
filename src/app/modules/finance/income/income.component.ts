@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { DialogBoxComponent } from '../../../components/dialog';
 import { UploadButtonEvent } from '../../../components/form';
-import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
 import { DownloadService } from '../../../theme/services';
 import { emptyValidate } from '../../../theme/validators';
@@ -44,11 +43,11 @@ export class IncomeComponent implements OnInit {
     }));
 
     public typeItems = ['全部', '支出', '收入', '借出', '借入'];
-    public accountItems: IAccount[] = [];
-    public channelItems: IConsumptionChannel[] = [];
-    public projectItems: IFinancialProject[] = [];
-    public budgetItems: IBudget[] = [];
-    public panelOpen = false;
+    public readonly accountItems = signal<IAccount[]>([]);
+    public readonly channelItems = signal<IConsumptionChannel[]>([]);
+    public readonly projectItems = signal<IFinancialProject[]>([]);
+    public readonly budgetItems = signal<IBudget[]>([]);
+    public readonly panelOpen = signal(false);
 
     public previewData: ILog = {} as any;
     public readonly editForm = form(signal({
@@ -62,7 +61,7 @@ export class IncomeComponent implements OnInit {
         required(schemaPath.keywords);
     });
 
-    public groupItems: ILogGroup[] = [];
+    public readonly groupItems = signal<ILogGroup[]>([]);
 
     constructor() {
         this.service.batch({
@@ -71,10 +70,10 @@ export class IncomeComponent implements OnInit {
             project: {},
             budget: {}
         }).subscribe(res => {
-            this.accountItems = res.account;
-            this.channelItems = res.channel;
-            this.projectItems = res.project;
-            this.budgetItems = res.budget;
+            this.accountItems.set(res.account);
+            this.channelItems.set(res.channel);
+            this.projectItems.set(res.project);
+            this.budgetItems.set(res.budget);
         });
     }
 
@@ -143,7 +142,7 @@ export class IncomeComponent implements OnInit {
         this.service.logList(queries).subscribe({
             next: res => {
                 this.items.set(res.data);
-                this.groupItems = this.formatGroup();
+                this.groupItems.set(this.formatGroup());
                 this.hasMore = res.paging.more;
                 this.total.set(res.paging.total);
                 this.isLoading.set(false);
@@ -158,7 +157,7 @@ export class IncomeComponent implements OnInit {
 
     public tapSearch(e: Event) {
         e.preventDefault();
-        this.panelOpen = false;
+        this.panelOpen.set(false);
         this.tapRefresh();
     }
 
@@ -232,19 +231,19 @@ export class IncomeComponent implements OnInit {
     }
 
     public formatAccount(id: number) {
-        return this.formatNameFrom(id, this.accountItems);
+        return this.formatNameFrom(id, this.accountItems());
     }
 
     public formatChannel(id: number) {
-        return this.formatNameFrom(id, this.channelItems);
+        return this.formatNameFrom(id, this.channelItems());
     }
 
     public formatProject(id: number) {
-        return this.formatNameFrom(id, this.projectItems);
+        return this.formatNameFrom(id, this.projectItems());
     }
 
     public formatBudget(id: number) {
-        return this.formatNameFrom(id, this.budgetItems);
+        return this.formatNameFrom(id, this.budgetItems());
     }
 
     private formatNameFrom(id: number, items: any[]) {

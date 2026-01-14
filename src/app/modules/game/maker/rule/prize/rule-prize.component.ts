@@ -58,7 +58,7 @@ export class RulePrizeComponent implements OnInit {
             v.type = item?.type ?? 0;
             v.amount = item?.amount ?? 0;
             v.thumb = item?.thumb ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.storeSave({...this.editForm().value(), project_id: this.queries.project}).subscribe({

@@ -66,7 +66,7 @@ export class SitePageComponent implements OnInit {
             v.description = item?.description ?? '';
             v.site_id = item?.site_id ?? 0;
             v.settings = item?.settings ?? {};
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.sitePageSave(this.editForm().value()).subscribe({

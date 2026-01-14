@@ -145,7 +145,7 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
     }
 
     public tapAdd(e: MouseEvent) {
-        if (this.items.length > 0) {
+        if (this.items().length > 0) {
             this.items.update(v => {
                 return v.map(i => {
                     i.is_selected = false;
@@ -158,7 +158,7 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
             this.service.mapSave({...this.editForm().value(), project_id: this.queries.project, ...this.formatPoint(e)}).subscribe(res => {
                 this.items.update(v => {
                     v.push(res);
-                    return v;
+                    return [...v];
                 });
             });
         }, () => this.editForm().valid(), '添加地图');

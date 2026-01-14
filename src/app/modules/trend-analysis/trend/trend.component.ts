@@ -89,7 +89,7 @@ export class TrendComponent implements OnInit {
         this.queries().value.update(v => {
             v.start_at = range[0];
             v.end_at = range[1];
-            return v;
+            return {...v};
         });
         this.tapRefresh();
     }

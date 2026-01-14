@@ -199,7 +199,7 @@ export class SearchBarComponent implements SuggestEvent, ISearchBar {
         e.stopPropagation();
         this.histories.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
         this.saveHistory();
         if (this.histories().length < 1) {
@@ -223,7 +223,7 @@ export class SearchBarComponent implements SuggestEvent, ISearchBar {
             if (v.length > 8) {
                 v.splice(8);
             }
-            return v;
+            return [...v];
         });
         
         this.saveHistory();

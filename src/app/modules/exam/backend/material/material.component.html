@@ -14,7 +14,7 @@
                 <div class="input-group-control">
                     <label for="course_id">科目</label>
                     <select id="course_id" [field]="queries.course" class="form-control">
-                        <option [value]="0">请选择</option>
+                        <option value="0">请选择</option>
                         @for (item of courseItems; track $index) {
                             <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                         }

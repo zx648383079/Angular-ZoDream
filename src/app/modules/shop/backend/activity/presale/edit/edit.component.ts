@@ -115,7 +115,7 @@ export class EditPresaleComponent implements OnInit {
     public tapRemoveStep(i: number) {
         this.dataForm.configure.step().value.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
     }
 
@@ -125,7 +125,7 @@ export class EditPresaleComponent implements OnInit {
                 amount: 0,
                 price: 0
             });
-            return v;
+            return [...v];
         });
     }
 

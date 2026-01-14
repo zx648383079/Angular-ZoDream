@@ -29,7 +29,7 @@
                         <label for="model_id">模型</label>
                         <div>
                             <select id="model_id" class="form-control" [field]="dataForm.model_id">
-                                <option [value]="0">-- 无 --</option>
+                                <option value="0">-- 无 --</option>
                                 @for (item of modelItems; track $index) {
                                 <option [value]="item.id">{{ item.name }}</option>
                                 }
@@ -41,7 +41,7 @@
                     <div class="input-group-control">
                         <label>上级</label>
                         <select class="form-control" [field]="dataForm.parent_id">
-                            <option [value]="0">-- 无上级分类 --</option>
+                            <option value="0">-- 无上级分类 --</option>
                             @for (item of categories; track $index) {
                             <option [value]="item.id">{{ item.level | treeLevel }}{{ item.title }}</option>
                             }

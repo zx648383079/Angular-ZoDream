@@ -54,7 +54,7 @@ export class ApiFieldTrComponent {
     public tapRemoveItem(i: number) {
         this.items.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
     }
 
@@ -91,7 +91,7 @@ export class ApiFieldTrComponent {
             } else {
                 v.push(item);
             };
-            return v;
+            return [...v];
         });
     }
 }

@@ -45,7 +45,7 @@ export class SitemapComponent {
             } else {
                 this.items.update(v => {
                     v.push(lines[i ++]);
-                    return v;
+                    return [...v];
                 });
             }
             this.box().nativeElement.scrollTop = this.box().nativeElement.scrollHeight;

@@ -37,7 +37,7 @@ export class OptionInputComponent implements FormValueControl<IQuestionOption[]>
                     v.is_right = false;
                 });
             }
-            return v;
+            return {...v};
         });
         
     }
@@ -117,7 +117,7 @@ export class OptionInputComponent implements FormValueControl<IQuestionOption[]>
         }
         this.value.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
     }
 }

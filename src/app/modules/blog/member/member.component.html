@@ -14,13 +14,13 @@
     <form class="flat-input" (submit)="tapSearch($event)">
         <input type="text" class="form-control" id="keywords" [field]="queries.keywords" i18n-placeholder placeholder="Please input a keyword">
         <select [field]="queries.term" class="form-control">
-            <option [value]="0" i18n>Select...</option>
+            <option value="0" i18n>Select...</option>
             @for (item of categories; track $index) {
                 <option [value]="item.id">{{ item.name }}</option>
             }
         </select>
         <select [field]="queries.status" class="form-control tablet-collapse">
-            <option [value]="0" i18n>Select...</option>
+            <option value="0" i18n>Select...</option>
             @for (item of statusItems; track $index) {
                 <option [value]="item.value + 1">{{ item.name }}</option>
             }

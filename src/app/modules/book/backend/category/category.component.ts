@@ -32,7 +32,7 @@ export class CategoryComponent implements OnInit {
         this.editForm().value.update(v => {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.categorySave(this.editForm().value()).subscribe(_ => {

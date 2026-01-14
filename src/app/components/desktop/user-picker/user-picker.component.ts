@@ -59,7 +59,7 @@ export class UserPickerComponent implements FormValueControl<IUser> {
     public onKeywordsChange(e: Event) {
         this.queries.update(v => {
             v.keywords = (e.target as HTMLInputElement).value;
-            return v;
+            return {...v};
         });
         this.tapRefresh();
     }

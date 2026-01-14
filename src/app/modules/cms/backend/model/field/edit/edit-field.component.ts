@@ -57,7 +57,7 @@ export class EditFieldComponent implements OnInit {
                 this.dataModel.update(v => {
                     v.tab_name = this.tabItems[1];
                     v.model_id = model;
-                    return v;
+                    return {...v};
                 });
             });
             if (!params.id) {

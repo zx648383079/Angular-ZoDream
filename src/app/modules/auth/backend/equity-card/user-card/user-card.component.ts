@@ -57,7 +57,7 @@ export class UserCardComponent implements OnInit {
         this.editForm().value.update(v => {
             v.card_id = item?.card_id ?? 0;
             v.expired_at = item?.expired_at ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.userCardUpdate({...this.editForm().value(), user_id: this.user().id}).subscribe(_ => {

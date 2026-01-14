@@ -99,7 +99,7 @@ export class CommentViewerComponent {
                 this.editForm().value.update(v => {
                     v.parent_id = 0;
                     v.content = '';
-                    return v;
+                    return {...v};
                 });
             }, 
             error: err => {
@@ -113,7 +113,7 @@ export class CommentViewerComponent {
         this.editForm().value.update(v => {
             v.parent_id = item?.id || 0;
             v.content = '回复 @' + item.user.name;
-            return v;
+            return {...v};
         });
     }
 

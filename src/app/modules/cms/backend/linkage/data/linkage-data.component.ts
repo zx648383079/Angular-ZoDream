@@ -74,7 +74,7 @@ export class LinkageDataComponent implements OnInit {
             v.position = item?.position ?? 99;
             v.parent_id = item?.parent_id ?? this.parentId;
             v.linkage_id = this.queries.linkage().value() as any;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.linkageDataSave(this.editForm().value()).subscribe(_ => {

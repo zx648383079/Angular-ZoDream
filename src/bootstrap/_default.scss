@@ -100,7 +100,7 @@ $input:                              var(--#{$prefix}panel) !default;
 $input-disabled:                     var(--#{$prefix}secondary) !default;
 $input-hovered: #f4f4f4 !default;
 $input-selected: #ccc !default;
-$input-placeholder:               var(--#{$prefix}secondary-text) !default;
+$input-placeholder:               var(--#{$prefix}meta-text) !default;
 $input-focus-border:              functions.tint-color($primary, 50%) !default;
 $input-border: $border !default;
 $input-icon: $input-text !default;

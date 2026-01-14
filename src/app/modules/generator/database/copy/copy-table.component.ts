@@ -162,7 +162,7 @@ export class CopyTableComponent implements OnInit {
         this.tableForm().value.update(v => {
             v.type = this.srcTable.length > 0 ? 2 : 1;
             v.table = '';
-            return v;
+            return {...v};
         })
         modal.open(() => {
             const data = this.tableForm().value();

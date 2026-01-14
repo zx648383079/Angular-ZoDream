@@ -55,7 +55,7 @@ export class ZoneComponent implements OnInit {
             v.decsription = item?.decsription ?? '';
             v.is_open = item?.is_open ?? 1;
             v.status = item?.status ?? 1;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.zoneSave(this.editForm().value()).subscribe({

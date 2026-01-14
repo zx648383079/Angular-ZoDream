@@ -61,7 +61,7 @@ export class QuestionDialogComponent implements CustomDialogEvent {
     public onScoreChange(val: any) {
         this.value.update(v => {
             v.score = val;
-            return v;
+            return {...v};
         });
     }
 
@@ -72,7 +72,7 @@ export class QuestionDialogComponent implements CustomDialogEvent {
     public onTitleChange(val: any) {
         this.value.update(v => {
             v.title = val;
-            return v;
+            return {...v};
         });
     }
 

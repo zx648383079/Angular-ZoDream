@@ -56,7 +56,7 @@ export class KeywordComponent implements OnInit {
             v.id = item?.id ?? 0;
             v.word = item?.word ?? '';
             v.type = item?.type as any ?? '0';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.keywordSave(this.editForm().value()).subscribe({

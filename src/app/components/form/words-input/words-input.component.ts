@@ -70,7 +70,7 @@ export class WordsInputComponent implements FormValueControl<string[] | number |
             if (v.indexOf(val) < 0) {
                 v.push(val);
             }
-            return v;
+            return [...v];
         });
     }
 

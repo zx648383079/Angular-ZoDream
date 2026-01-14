@@ -61,10 +61,10 @@ export class MaterialComponent implements OnInit {
             v.description = item?.description ?? '';
             v.type = item?.type ?? 0;
             v.content = item?.content ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
-            this.service.materialSave({...this.editForm}).subscribe(res => {
+            this.service.materialSave({...this.editForm().value()}).subscribe(res => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapPage();
             });

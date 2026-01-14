@@ -45,7 +45,7 @@ export class FileExplorerCatalogComponent implements OnInit {
 
     ngOnInit() {
         this.service.driveList().subscribe(data => {
-            for (let i = this.items.length - 1; i >= 0; i--) {
+            for (let i = this.items().length - 1; i >= 0; i--) {
                 const item = this.items[i];
                 if (item.expandable) {
                     item.children = data.map(i => this.formatFile(i, 1))

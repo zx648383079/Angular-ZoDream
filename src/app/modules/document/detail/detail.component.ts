@@ -156,7 +156,7 @@ export class DetailComponent implements OnInit {
         } else {
             this.data.update(v => {
                 v.example = JSON.stringify(v.example, null, 4);
-                return v;
+                return {...v};
             });
         }
         this.findNavigation(res.id);

@@ -67,14 +67,14 @@ export class EditServiceComponent implements OnInit {
                 required: false,
                 only: false,
             });
-            return v;
+            return [...v];
         });
     }
 
     public removeForm(i: number) {
         this.dataForm.form().value.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
     }
 

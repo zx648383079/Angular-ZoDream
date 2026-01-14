@@ -45,7 +45,7 @@ export class DialogueComponent {
 
     public tapNext() {
         this._index ++;
-        if (this._index >= this.items.length) {
+        if (this._index >= this.items().length) {
             this.mode = 0;
             this.onFinish.next(0);
             return;

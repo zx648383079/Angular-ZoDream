@@ -54,7 +54,7 @@ export class LinkageComponent implements OnInit {
             v.code = item?.code ?? '';
             v.type = item?.type ?? 0;
             v.language = item?.language ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.linkageSave(this.editForm().value()).subscribe(_ => {

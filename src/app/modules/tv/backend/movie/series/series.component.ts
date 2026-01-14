@@ -90,7 +90,7 @@ export class SeriesComponent implements OnInit {
             v.movie_id = item?.movie_id ?? 0;
             v.title = item?.title ?? '';
             v.episode = item?.episode ?? 0;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.seriesSave(this.editForm().value()).subscribe({

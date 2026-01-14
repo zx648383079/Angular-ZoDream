@@ -99,7 +99,7 @@ export class CommentComponent {
             this.guestForm().value.update(v => {
                 v.name = res.name;
                 v.url = res.url;
-                return v;
+                return {...v};
             });
         });
     }

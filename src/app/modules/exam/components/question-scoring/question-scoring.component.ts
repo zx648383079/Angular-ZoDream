@@ -56,7 +56,7 @@ export class QuestionScoringComponent {
             this.value.update(v => {
                 v.log.score = this.editForm.score().value();
                 v.log.remark = this.editForm.remark().value();
-                return v;
+                return {...v};
             });
         });
     }

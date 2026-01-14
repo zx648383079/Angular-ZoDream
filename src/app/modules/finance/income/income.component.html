@@ -21,7 +21,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="pull-right btn-group">
-                    <a class="btn btn-info" (click)="panelOpen = true">高级搜索</a>
+                    <a class="btn btn-info" (click)="panelOpen.set(true)">高级搜索</a>
                     <a class="btn btn-primary" routerLink="create">新增流水</a>
                     <app-upload-button class="btn btn-info" accept=".csv" (uploading)="tapImport($event)">导入</app-upload-button>
                     <a class="btn btn-success" (click)="tapExport()">导出</a>
@@ -62,7 +62,7 @@
                     <td>
                         <div class="btn-group">
                             <a class="btn btn-info" (click)="tapPreview(previewModal, item)">预览</a>
-                            <a class="btn btn-primary">克隆</a>
+                            <a class="btn btn-primary" [routerLink]="['clone', item.id]">克隆</a>
                             @if (item.type == 2 || item.type == 3) {
                                 <a class="btn btn-success">还款</a>
                             }
@@ -98,7 +98,7 @@
 
     <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
     <app-swipe-list-control>
-        @for (group of groupItems; track $index) {
+        @for (group of groupItems(); track $index) {
             <div class="group-header-bar">
                 <div class="item-title">{{ group.name }}</div>
                 <div class="item-meta">支 {{ group.expenditure | numberFormat}} 收 {{ group.income | numberFormat }}</div>
@@ -136,10 +136,10 @@
     </app-swipe-list-control>
 </div>
 
-@if (panelOpen) {
+@if (panelOpen()) {
 <div class="dialog-panel" animate.enter="panel-opened" animate.leave="panel-closed">
     <div class="panel-header">
-        <i class="iconfont icon-close" (click)="panelOpen = false"></i>
+        <i class="iconfont icon-close" (click)="panelOpen.set(false)"></i>
     </div>
     <form class="panel-body" (submit)="tapSearch($event)">
         <div class="form-group">
@@ -156,8 +156,8 @@
             <label for="account">账户</label>
             <div class="input-group-control">
                 <select class="form-control" [field]="queries.account" id="account">
-                    <option [value]="0">请选择</option>
-                    @for (item of accountItems; track $index) {
+                    <option value="0">请选择</option>
+                    @for (item of accountItems(); track $index) {
                         <option [value]="item.id" >{{ item.name }}</option>
                     }
                 </select>
@@ -167,8 +167,8 @@
             <label for="project">项目</label>
             <div class="input-group-control">
                 <select class="form-control" id="project" [field]="queries.project">
-                    <option [value]="0">请选择</option>
-                    @for (item of projectItems; track $index) {
+                    <option value="0">请选择</option>
+                    @for (item of projectItems(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                     }
                 </select>
@@ -178,8 +178,8 @@
             <label for="channel">渠道</label>
             <div class="input-group-control">
                 <select class="form-control" id="channel" [field]="queries.channel">
-                    <option [value]="0">请选择</option>
-                    @for (item of channelItems; track $index) {
+                    <option value="0">请选择</option>
+                    @for (item of channelItems(); track $index) {
                         <option [value]="item.id" >{{ item.name }}</option>
                     }
                 </select>
@@ -189,8 +189,8 @@
             <label for="budget">预算</label>
             <div class="input-group-control">
                 <select class="form-control" id="budget" [field]="queries.budget">
-                    <option [value]="0">请选择</option>
-                    @for (item of budgetItems; track $index) {
+                    <option value="0">请选择</option>
+                    @for (item of budgetItems(); track $index) {
                         <option [value]="item.id" >{{ item.name }}</option>
                     }
                 </select>
@@ -238,8 +238,8 @@
         <label for="account">账户</label>
         <div class="input-group-control">
             <select class="form-control" id="account" [field]="editForm.account_id">
-                <option [value]="0">请选择</option>
-                @for (item of accountItems; track $index) {
+                <option value="0">请选择</option>
+                @for (item of accountItems(); track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
                 }
             </select>
@@ -249,8 +249,8 @@
         <label for="project">项目</label>
         <div class="input-group-control">
             <select class="form-control" id="project" [field]="editForm.project_id">
-                <option [value]="0">请选择</option>
-                @for (item of projectItems; track $index) {
+                <option value="0">请选择</option>
+                @for (item of projectItems(); track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
                 }
             </select>
@@ -260,8 +260,8 @@
         <label for="channel">渠道</label>
         <div class="input-group-control">
             <select class="form-control" id="channel" [field]="editForm.channel_id">
-                <option [value]="0">请选择</option>
-                @for (item of channelItems; track $index) {
+                <option value="0">请选择</option>
+                @for (item of channelItems(); track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
                 }
             </select>
@@ -271,8 +271,8 @@
         <label for="budget">预算</label>
         <div class="input-group-control">
             <select class="form-control" id="budget" [field]="editForm.budget_id">
-                <option [value]="0">请选择</option>
-                @for (item of budgetItems; track $index) {
+                <option value="0">请选择</option>
+                @for (item of budgetItems(); track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
                 }
             </select>

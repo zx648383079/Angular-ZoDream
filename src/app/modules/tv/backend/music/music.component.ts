@@ -73,7 +73,7 @@ export class MusicComponent implements OnInit {
     public tapRemoveFile(i: number) {
         this.editForm.files().value.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
     }
 
@@ -83,7 +83,7 @@ export class MusicComponent implements OnInit {
                 file_type: '0',
                 file: '',
             } as any);
-            return v;
+            return [...v];
         });
     }
 

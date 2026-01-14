@@ -73,7 +73,7 @@ export class ListComponent implements OnInit {
                 this.total.set(res.paging.total);
                 this.queries.update(v => {
                     v.page = page;
-                    return v;
+                    return {...v};
                 });
             },
             error: () => {

@@ -107,7 +107,7 @@ export class WordComponent implements OnInit {
             v.id = item?.id ?? 0;
             v.words = item?.words ?? '';
             v.replace_words = item?.replace_words ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.wordSave(Object.assign({}, this.editForm)).subscribe(res => {

@@ -23,7 +23,7 @@ export class EditorPositionInputComponent implements FormValueControl<any> {
     public onValueChange(e: Event) {
         this.value.update(v => {
             v.position_type = (e.target as HTMLSelectElement).value;
-            return v;
+            return {...v};
         });
     }
 

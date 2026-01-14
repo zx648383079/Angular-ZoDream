@@ -114,7 +114,7 @@ export class DebugComponent implements OnInit {
                     };
                 });
             }
-            return v;
+            return {...v};
         });
         this.requestIndex = 1;
         
@@ -182,14 +182,14 @@ export class DebugComponent implements OnInit {
                 key: '',
                 value: ''
             });
-            return v;
+            return [...v];
         });
     }
 
     public tapRemoveHeader(i: number) {
         this.dataForm.headers().value.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
     }
 
@@ -204,14 +204,14 @@ export class DebugComponent implements OnInit {
                 value: '',
                 type: '0',
             });
-            return v;
+            return [...v];
         });
     }
 
     public tapRemoveBody(i: number) {
         this.dataForm.bodies().value.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
     }
 
@@ -221,7 +221,7 @@ export class DebugComponent implements OnInit {
             item().value.update(v => {
                 v.valueFile = files[0];
                 v.type = '1';
-                return v;
+                return {...v};
             });
             return;
         }

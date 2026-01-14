@@ -14,7 +14,7 @@
                 <div class="input-group-control">
                     <label>分类</label>
                     <select [field]="queries.category" class="form-control">
-                        <option [value]="0">请选择</option>
+                        <option value="0">请选择</option>
                         @for (item of categories; track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                         }
@@ -23,7 +23,7 @@
                 <div class="input-group-control">
                     <label>品牌</label>
                     <select [field]="queries.brand" class="form-control">
-                        <option [value]="0">请选择</option>
+                        <option value="0">请选择</option>
                         @for (item of brandItems; track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                         }
@@ -127,7 +127,7 @@
             <label for="type1">分类</label>
             <div class="input-group-control">
                 <select id="type1" [field]="queries.category" class="form-control">
-                    <option [value]="0">请选择</option>
+                    <option value="0">请选择</option>
                     @for (item of categories; track $index) {
                     <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                     }
@@ -138,7 +138,7 @@
             <label for="brand1">品牌</label>
             <div class="input-group-control">
                 <select id="brand1" [field]="queries.brand" class="form-control">
-                    <option [value]="0">请选择</option>
+                    <option value="0">请选择</option>
                     @for (item of brandItems; track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
                     }

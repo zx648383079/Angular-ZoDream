@@ -87,7 +87,7 @@ export class CreateComponent {
     public tapRemoveItem(i: number) {
         this.dataForm.environment().value.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
     }
 
@@ -98,7 +98,7 @@ export class CreateComponent {
                 title: '',
                 domain: ''
             });
-            return v;
+            return [...v];
         });
     }
 }

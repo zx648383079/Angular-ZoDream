@@ -116,7 +116,7 @@ export class DetailComponent implements OnInit {
             v.id = this.data().id;
             v.content = '';
             v.is_comment = false;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.forward(this.editForm).subscribe(res => {

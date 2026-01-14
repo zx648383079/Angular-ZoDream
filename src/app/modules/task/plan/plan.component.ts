@@ -2,7 +2,6 @@ import { form, max, min } from '@angular/forms/signals';
 import { Component, OnInit, inject, viewChild, signal, computed } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
-import { IPageQueries } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
 import { SearchService } from '../../../theme/services';
 import { twoPad } from '../../../theme/utils';
@@ -12,7 +11,7 @@ import { TaskService } from '../task.service';
 
 @Component({
     standalone: false,
-    selector: 'app-plan',
+    selector: 'app-task-plan',
     templateUrl: './plan.component.html',
     styleUrls: ['./plan.component.scss'],
 })
@@ -134,7 +133,7 @@ export class PlanComponent implements OnInit {
     }
 
     private pushPlan(item: ITaskPlan) {
-        for (let i = 0; i < this.items.length; i++) {
+        for (let i = 0; i < this.items().length; i++) {
             if (this.items[i].id == item.id) {
                 this.items[i] = item;
                 return;
@@ -142,7 +141,7 @@ export class PlanComponent implements OnInit {
         }
         this.items.update(v => {
             v.push(item);
-            return v;
+            return [...v];
         });
     }
 

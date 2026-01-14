@@ -284,7 +284,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
                 next: res => {
                     this.items.update(v => {
                         v.push(this.formatItem(res));
-                        return v;
+                        return [...v];
                     });
                 },
                 error: err => {
@@ -333,7 +333,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
             item.file.$finish.subscribe(res => {
                 this.items.update(v => {
                     v.push(this.formatItem(res));
-                    return v;
+                    return [...v];
                 });
             });
             item.file.$status.subscribe(s => {
@@ -382,7 +382,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
                 item.status = 6;
                 this.items.update(v => {
                     v.push(this.formatItem(res.data));
-                    return v;
+                    return [...v];
                 });
                 return;
             }

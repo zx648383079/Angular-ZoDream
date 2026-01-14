@@ -117,7 +117,7 @@ export class SiteOptionComponent implements OnInit {
             v.type = item?.type ?? 'text';
             v.default_value = item?.default_value ?? '';
             v.value = item?.value as any ?? '';
-            return v;
+            return {...v};
         });
         this.tapOpenModal(modal);
     }
@@ -142,14 +142,14 @@ export class SiteOptionComponent implements OnInit {
             this.items.update(v => {
                 for (const item of v) {
                     if (item.code === data.code) {
-                        eachObject(data, (v, k) => {
-                            item[k] = v;
+                        eachObject(data, (vk, k) => {
+                            item[k] = vk;
                         });
-                        return v
+                        return [...v];
                     }
                 }
                 v.push(data as any);
-                return v;
+                return [...v];
             });
             
         });

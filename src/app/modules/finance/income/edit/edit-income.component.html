@@ -24,7 +24,7 @@
                 <label for="account_id">账户</label>
                 <div>
                     <select id="account_id" class="form-control" [field]="dataForm.account_id">
-                        @for (item of accountItems; track $index) {
+                        @for (item of accountItems(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                         }
                     </select>
@@ -34,8 +34,8 @@
                 <label for="project_id">项目</label>
                 <div>
                     <select id="project_id" class="form-control" [field]="dataForm.project_id">
-                        <option [value]="0">请选择</option>
-                        @for (item of projectItems; track $index) {
+                        <option value="0">请选择</option>
+                        @for (item of projectItems(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                         }
                     </select>
@@ -46,8 +46,8 @@
                 <label for="channel_id">渠道</label>
                 <div>
                     <select id="channel_id" class="form-control" [field]="dataForm.channel_id">
-                        <option [value]="0">请选择</option>
-                        @for (item of channelItems; track $index) {
+                        <option value="0">请选择</option>
+                        @for (item of channelItems(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                         }
                     </select>
@@ -58,8 +58,8 @@
                 <label for="budget_id">预算</label>
                 <div>
                     <select id="budget_id" class="form-control" [field]="dataForm.budget_id">
-                        <option [value]="0">请选择</option>
-                        @for (item of budgetItems; track $index) {
+                        <option value="0">请选择</option>
+                        @for (item of budgetItems(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                         }
                     </select>
@@ -96,7 +96,7 @@
                 <label for="account_id">账户</label>
                 <div>
                     <select id="account_id" class="form-control" [field]="dataForm.account_id">
-                        @for (item of accountItems; track $index) {
+                        @for (item of accountItems(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                         }
                     </select>
@@ -106,8 +106,8 @@
                 <label for="channel_id">渠道</label>
                 <div>
                     <select id="channel_id" class="form-control" [field]="dataForm.channel_id">
-                        <option [value]="0">请选择</option>
-                        @for (item of channelItems; track $index) {
+                        <option value="0">请选择</option>
+                        @for (item of channelItems(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                         }
                     </select>
@@ -118,8 +118,8 @@
                 <label for="budget_id">预算</label>
                 <div>
                     <select id="budget_id" class="form-control" [field]="dataForm.budget_id">
-                        <option [value]="0">请选择</option>
-                        @for (item of budgetItems; track $index) {
+                        <option value="0">请选择</option>
+                        @for (item of budgetItems(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                         }
                     </select>

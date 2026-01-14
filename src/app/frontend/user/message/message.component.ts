@@ -147,7 +147,7 @@ export class MessageComponent implements OnInit, OnDestroy {
                         type: 0,
                         created_at: new Date()
                     });
-                    return v;
+                    return [...v];
                 });
                 this.dataForm.content().value.set('');
             },
@@ -223,7 +223,7 @@ export class MessageComponent implements OnInit, OnDestroy {
                 this.total.set(res.paging.total);
                 this.queries.update(v => {
                     v.page = page;
-                    return v;
+                    return {...v};
                 });
             }, 
             error: _ => {

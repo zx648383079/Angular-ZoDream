@@ -51,7 +51,7 @@ export class CategoryComponent implements OnInit {
             v.name = item?.name ?? '';
             v.icon = item?.icon ?? '';
             v.description = item?.description ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.categorySave(this.editForm().value()).subscribe(_ => {

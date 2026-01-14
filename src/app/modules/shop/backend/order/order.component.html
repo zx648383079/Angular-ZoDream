@@ -14,7 +14,7 @@
                 <div class="input-group-control">
                     <label for="status">状态</label>
                     <select class="form-control" [field]="queries.status" id="status">
-                        <option [value]="0">全部</option>
+                        <option value="0">全部</option>
                         @for (item of statusItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
                         }
@@ -89,7 +89,7 @@
             <label for="type1">订单状态</label>
             <div class="input-group-control">
                 <select class="form-control" [field]="queries.status" id="type1">
-                    <option [value]="0">全部</option>
+                    <option value="0">全部</option>
                     @for (item of statusItems; track $index) {
                     <option [value]="item.value">{{ item.name }}</option>
                     }

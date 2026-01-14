@@ -53,7 +53,7 @@ export class GroupComponent implements OnInit {
             v.name = item?.name ?? '';
             v.description = item?.description ?? '';
             v.type = item?.type ?? 0;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.groupSave(this.editForm().value()).subscribe(_ => {

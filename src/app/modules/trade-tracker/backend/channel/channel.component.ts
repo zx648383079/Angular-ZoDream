@@ -50,7 +50,7 @@ export class ChannelComponent implements OnInit {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';
             v.short_name = item?.short_name ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.channelSave(this.editForm().value()).subscribe(_ => {

@@ -82,7 +82,7 @@ export class PlatformOptionComponent implements OnInit {
             });
             this.dataModel.update(v => {
                 v.items = items;
-                return v;
+                return {...v};
             });
         });
     }

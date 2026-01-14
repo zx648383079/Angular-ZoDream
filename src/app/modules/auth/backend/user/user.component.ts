@@ -195,7 +195,7 @@ export class UserComponent implements OnInit, OnDestroy {
                 v.sort = key;
                 v.order = 'desc';
             }
-            return v;
+            return {...v};
         });
         this.tapRefresh();
     }

@@ -49,10 +49,10 @@ export class GroupComponent implements OnInit {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';
             v.property_groups = item?.property_groups as any ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
-            this.service.groupSave({...this.editForm}).subscribe({
+            this.service.groupSave({...this.editForm().value()}).subscribe({
                 next: _ => {
                     this.toastrService.success($localize `Save Successfully`);
                     this.tapRefresh();

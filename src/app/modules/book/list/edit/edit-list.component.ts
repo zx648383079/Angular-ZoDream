@@ -98,7 +98,7 @@ export class EditListComponent implements OnInit {
                 remark: '',
                 star: 10,
             });
-            return v;
+            return [...v];
         });
     }
 

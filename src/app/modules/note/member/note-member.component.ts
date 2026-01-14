@@ -51,7 +51,7 @@ export class NoteMemberComponent implements OnInit {
         this.editForm().value.update(v => {
             v.id = item?.id ?? 0;
             v.content = item?.content ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.noteSave(this.editForm().value()).subscribe({

@@ -56,7 +56,7 @@ export class RecipeComponent implements OnInit {
             v.name = item?.name ?? '';
             v.icon = item?.icon ?? '';
             v.description = item?.description ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.recipeSave({...this.editForm().value(), project_id: this.queries.project}).subscribe({

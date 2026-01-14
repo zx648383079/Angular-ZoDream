@@ -87,7 +87,7 @@ export class ApplyLogComponent implements OnInit {
         this.service.user(item.user_id).subscribe(res => {
             this.dataModel.update(v => {
                 v.user = res;
-                return v;
+                return {...v};
             });
         });
         modal.openCustom(value => {

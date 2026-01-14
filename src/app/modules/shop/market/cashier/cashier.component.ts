@@ -74,7 +74,7 @@ export class CashierComponent {
         this.store.select(selectShopCheckout).subscribe(res => {
             if (!res || res.length < 1) {
                 // 判断是否是结算时清空的
-                if (this.items.length < 1) {
+                if (this.items().length < 1) {
                     history.back();
                 }
                 return;
@@ -247,7 +247,7 @@ export class CashierComponent {
             v.tel = item?.tel ?? '';
             v.region_id = item?.region_id ?? 0;
             v.address = item?.address ?? '';
-            return v;
+            return {...v};
         });
     }
 

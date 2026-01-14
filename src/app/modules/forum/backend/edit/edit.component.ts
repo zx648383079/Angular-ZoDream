@@ -124,7 +124,7 @@ export class EditComponent implements OnInit {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';
             v.icon = item?.icon ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             if (!item) {

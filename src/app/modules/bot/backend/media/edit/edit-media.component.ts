@@ -45,14 +45,14 @@ export class EditMediaComponent implements FormValueControl<any> {
                 v.title = e.original;
             }
             v.content = e.url;
-            return v;
+            return {...v};
         });
     }
 
     public onValueChange(e: Event, key: string) {
         this.value.update(v => {
             v[key] = (e.target as HTMLSelectElement).value
-            return v;
+            return {...v};
         });
     }
 }

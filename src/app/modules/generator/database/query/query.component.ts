@@ -35,7 +35,7 @@ export class QueryComponent implements OnInit {
                 if (v.table) {
                     v.sql = `SELECT * FROM \`${v.table}\``;
                 }
-                return v;
+                return {...v};
             });
             if (params.table) {
                 this.onPageChange(1);

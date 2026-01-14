@@ -141,7 +141,7 @@ export class SiteComponent implements OnInit {
             v.tags = item?.tags ?? [];
             v.also_page = 0;
             v.keywords = '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.siteSave(this.editForm().value()).subscribe({

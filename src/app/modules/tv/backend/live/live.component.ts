@@ -122,7 +122,7 @@ export class LiveComponent implements OnInit {
             v.thumb = item?.thumb ?? '';
             v.source = item?.source ?? '';
             v.status = item?.status ?? 1;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.liveSave(this.editForm().value()).subscribe({

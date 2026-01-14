@@ -53,7 +53,7 @@ export class DatabaseComponent implements OnInit {
             return;
         }
         e?.enter();
-        this.service.schemaCreate({...this.editForm}).subscribe({
+        this.service.schemaCreate({...this.editForm().value()}).subscribe({
             next: _ => {
                 e?.reset();
                 this.toastrService.success('创建成功');

@@ -45,7 +45,7 @@ export class EditMediaComponent implements FormValueControl<any> {
                 v.title = e.original;
             }
             v.content = e.url;
-            return v;
+            return {...v};
         });
     }
 

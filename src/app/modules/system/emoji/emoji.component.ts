@@ -169,7 +169,7 @@ export class EmojiComponent implements OnInit {
             v.name = item?.name ?? '';
             v.type = item?.type ?? 0;
             v.content = item?.content ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.emojiSave(this.editForm().value()).subscribe(res => {

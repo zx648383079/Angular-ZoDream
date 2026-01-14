@@ -82,11 +82,11 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
             for (let i = 0; i < v.length; i++) {
                 if (item[this.rangeKey()] === v[i][this.rangeKey()]) {
                     v.splice(i, 1);
-                    return v;
+                    return [...v];
                 }
             }
             v.push(item);
-            return v;
+            return [...v];
         });
         this.output();
     }

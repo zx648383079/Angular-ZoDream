@@ -37,7 +37,7 @@ export class BindStepComponent {
             untracked(() => {
                 this.dataForm().value.update(v => {
                     v.verify_type = v.name = name;
-                    return v;
+                    return {...v};
                 });
                 this.verify_value = user[name];
                 if (!this.verify_value) {

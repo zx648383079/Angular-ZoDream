@@ -50,7 +50,7 @@ export class EditSiteComponent implements OnInit {
             if (this.dataModel().id  == 0 && this.themeItems.length > 0) {
                 this.dataModel.update(v => {
                     v.theme = this.themeItems[0].name;
-                    return v;
+                    return {...v};
                 });
             }
         });

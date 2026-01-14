@@ -148,7 +148,7 @@ export class ThreadComponent implements OnInit {
     public tapSortOrder() {
         this.queries().value.update(v => {
             v.order = v.order == 'desc' ? 'asc' : 'desc';
-            return v;
+            return {...v};
         });
         this.tapRefresh();
     }

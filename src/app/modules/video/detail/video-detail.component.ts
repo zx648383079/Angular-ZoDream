@@ -42,7 +42,7 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnInit() {
         this.tapRefresh(() => {
-            if (this.items.length < 1) {
+            if (this.items().length < 1) {
                 return;
             }
             this.index = 0;
@@ -143,7 +143,7 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
             this.toastrService.warning($localize `Can't move on anymore`)
             return;
         }
-        if (this.items.length <= to) {
+        if (this.items().length <= to) {
             this.tapMore(() => {
                 this.flipAnimation(from, to);
             });
@@ -222,7 +222,7 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.commentForm().value.update(v => {
             v.parent_id = item.id;
             v.content = '回复 @' + item.user.name;
-            return v;
+            return {...v};
         });
     }
 
@@ -241,7 +241,7 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
             this.commentForm().value.update(v => {
                 v.content = '';
                 v.parent_id = 0;
-                return v;
+                return {...v};
             });
         });
     }

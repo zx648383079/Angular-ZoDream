@@ -59,7 +59,7 @@
             <label for="group" i18n>Group</label>
             <div>
                 <select id="group" class="form-control" [field]="editForm.group_id">
-                    <option [value]="0" i18n>As Group</option>
+                    <option value="0" i18n>As Group</option>
                     @for (item of items(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                     }

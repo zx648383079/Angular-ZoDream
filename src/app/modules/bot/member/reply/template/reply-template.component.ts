@@ -95,7 +95,7 @@ export class ReplyTemplateComponent implements OnInit {
             v.id = item?.id ?? 0;
             v.template_id = item?.template_id ?? '';
             v.content = item?.content ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.wxTemplateSave(this.editForm().value()).subscribe({

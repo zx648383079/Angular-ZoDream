@@ -43,7 +43,7 @@ export class ProviderComponent implements OnInit {
         this.service.providerCategories(item.user_id).subscribe(res => {
             this.dataModel.update(v => {
                 v.categories = res.data;
-                return v;
+                return {...v};
             });
         });
         modal.openCustom(value => {

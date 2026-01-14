@@ -9,7 +9,7 @@ import { TaskService } from '../task.service';
 
 @Component({
     standalone: false,
-    selector: 'app-share',
+    selector: 'app-task-share',
     templateUrl: './share.component.html',
     styleUrls: ['./share.component.scss']
 })

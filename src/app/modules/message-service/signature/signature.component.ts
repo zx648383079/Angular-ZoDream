@@ -117,7 +117,7 @@ export class SignatureComponent implements OnInit {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';
             v.sign_no = item?.sign_no ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.signatureSave({

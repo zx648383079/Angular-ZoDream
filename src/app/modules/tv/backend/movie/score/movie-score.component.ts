@@ -89,7 +89,7 @@ export class MovieScoreComponent implements OnInit {
             v.name = item?.name ?? '';
             v.score = item?.score ?? 10;
             v.url = item?.url ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.scoreSave(this.editForm().value()).subscribe({

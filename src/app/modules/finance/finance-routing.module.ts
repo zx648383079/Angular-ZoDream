@@ -40,6 +40,11 @@ const routes: Routes = [
                 component: EditIncomeComponent,
             },
             {
+                path: 'income/clone/:id',
+                component: EditIncomeComponent,
+                data: {clone: true}
+            },
+            {
                 path: 'income/create',
                 component: EditIncomeComponent,
             },

@@ -20,11 +20,11 @@ export class ImagePlayerComponent implements PlayerEvent {
     } = {};
     
     public get canPrevious() {
-        return this.items.length > 1 && this.index > 0;
+        return this.items().length > 1 && this.index > 0;
     }
 
     public get canNext() {
-        return this.items.length > 1 && this.index < this.items.length - 1;
+        return this.items().length > 1 && this.index < this.items().length - 1;
     }
 
     public formatAsset(val?: string) {
@@ -55,7 +55,7 @@ export class ImagePlayerComponent implements PlayerEvent {
             this.push(item);
             i = this.indexOf(item);
         }
-        if (i < 0 || i >= this.items.length) {
+        if (i < 0 || i >= this.items().length) {
             return;
         }
         this.index = i;

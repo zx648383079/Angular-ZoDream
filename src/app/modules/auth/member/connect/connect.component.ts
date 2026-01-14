@@ -82,7 +82,7 @@ export class ConnectComponent implements OnInit {
                 this.dataForm().value.update(v => {
                     v.recovery_code = res.recovery_code;
                     v.qr = res.qr;
-                    return v;
+                    return {...v};
                 });
                 
                 this.faModal().open(() => {

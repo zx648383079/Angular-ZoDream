@@ -60,7 +60,7 @@ export class RuleStoreComponent implements OnInit {
             v.amount = item?.amount ?? 0;
             v.price = item?.price ?? 0;
             v.type = item?.type ?? 0;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.storeSave({...this.editForm().value(), project_id: this.queries.project}).subscribe({

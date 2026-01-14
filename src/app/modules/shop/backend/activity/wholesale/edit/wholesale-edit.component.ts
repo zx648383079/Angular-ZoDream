@@ -93,7 +93,7 @@ export class WholesaleEditComponent implements OnInit {
     public tapRemoveStep(i: number) {
         this.dataForm.configure.items().value.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
     }
 
@@ -103,7 +103,7 @@ export class WholesaleEditComponent implements OnInit {
                 amount: 0,
                 price: 0
             });
-            return v;
+            return [...v];
         });
     }
 

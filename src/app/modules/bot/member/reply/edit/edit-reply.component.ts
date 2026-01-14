@@ -39,20 +39,20 @@ export class EditReplyComponent {
     public onEventChange(e: Event) {
         this.value.update(v => {
             v.event = (e.target as HTMLSelectElement).value;
-            return v;
+            return {...v};
         });
     }
 
     public onMatchChange(val: any) {
         this.value.update(v => {
             v.match = val;
-            return v;
+            return {...v};
         });
     }
     public onKeywordsChange(e: any) {
         this.value.update(v => {
             v.keywords = typeof e == 'string' ? e : (e.target as HTMLSelectElement).value;
-            return v;
+            return {...v};
         });
     }
 

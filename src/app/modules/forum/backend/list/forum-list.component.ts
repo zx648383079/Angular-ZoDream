@@ -108,7 +108,7 @@ export class ForumListComponent implements OnInit {
         this.queries().value.update(v => {
             v.keywords = '';
             v.parent = item ? item.id : 0;
-            return v;
+            return {...v};
         });
         this.tapRefresh();
     }

@@ -27,7 +27,7 @@
                 <label for="child_model">分级模型</label>
                 <div>
                     <select  class="form-control" id="child_model" [field]="dataForm.child_model">
-                        <option [value]="0">无分集</option>
+                        <option value="0">无分集</option>
                         @for (item of modelItems; track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                         }

@@ -118,7 +118,7 @@ export class RegionComponent implements OnInit {
         this.queries().value.update(v => {
             v.parent = item?.id || 0;
             v.keywords = '';
-            return v;
+            return {...v};
         });
         this.tapRefresh();
     }
@@ -138,7 +138,7 @@ export class RegionComponent implements OnInit {
         this.editForm().value.update(v => {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.regionSave({

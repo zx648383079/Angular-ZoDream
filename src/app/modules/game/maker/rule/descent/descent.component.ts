@@ -56,7 +56,7 @@ export class DescentComponent implements OnInit {
             v.name = item?.name ?? '';
             v.lifespan = item?.lifespan ?? 0;
             v.description = item?.description ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.descentSave({...this.editForm().value(), project_id: this.queries.project}).subscribe({

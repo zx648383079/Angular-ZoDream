@@ -98,7 +98,7 @@ export class PageComponent implements OnInit {
             v.site_id = item?.site_id ?? 0;
             v.score = item?.score ?? 60;
             v.keywords = item?.keywords ?? [];
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.pageSave(this.editForm().value()).subscribe({

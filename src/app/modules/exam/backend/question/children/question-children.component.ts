@@ -20,21 +20,21 @@ export class QuestionChildrenComponent {
                 analysis_items: [],
                 option_items: [],
             } as any);
-            return v;
+            return [...v];
         });
     }
 
     public tapEdit(item: IQuestion, i: number) {
         this.value.update(v => {
             v[i] = item;
-            return v;
+            return [...v];
         });
     }
 
     public tapRemove(i: number) {
         this.value.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
     }
 }

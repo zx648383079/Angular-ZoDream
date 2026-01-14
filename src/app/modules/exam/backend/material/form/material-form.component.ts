@@ -32,7 +32,7 @@ export class MaterialFormComponent {
     public onDescriptionChange(val: any) {
         this.value.update(v => {
             v.description = val;
-            return v;
+            return {...v};
         });
     }
 

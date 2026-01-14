@@ -95,14 +95,14 @@ export class NavigationPanelComponent {
         if (this.isExist(link, 0)) {
             return;
         }
-        if (this.items.length < 1) {
+        if (this.items().length < 1) {
             this.items.update(v => {
                 v.push({
                     id: this.generateId(false),
                     name: $localize `Default`,
                     items: []
                 });
-                return v;
+                return [...v];
             });
         }
         const group = this.items[0];
@@ -196,7 +196,7 @@ export class NavigationPanelComponent {
                 } else {
                     v[i].items.splice(j, 1)
                 }
-                return v;
+                return [...v];
             });
             // if (j < 0) {
             //     this.service.groupRemove(item.id).subscribe(() => {
@@ -211,7 +211,7 @@ export class NavigationPanelComponent {
     }
 
     private groupIndex(id: number): number {
-        for (let i = 0; i < this.items.length; i++) {
+        for (let i = 0; i < this.items().length; i++) {
             const element = this.items[i];
             if (element.id == id) {
                 return i;
@@ -226,7 +226,7 @@ export class NavigationPanelComponent {
             v.name = (item as any)?.name ?? '';
             v.group_id = (item as any)?.group_id ?? '0';
             v.link = (item as any)?.link ?? '';
-            return v;
+            return {...v};
         });
         
         this.modal().open(() => {

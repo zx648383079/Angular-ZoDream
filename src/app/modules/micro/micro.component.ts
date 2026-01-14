@@ -224,7 +224,7 @@ export class MicroComponent implements OnInit, OnDestroy {
             v.content = '';
             v.id = item.id,
             v.is_comment = false;
-            return v;
+            return {...v};
         })
         modal.open(() => {
             this.service.forward(this.editForm).subscribe(res => {

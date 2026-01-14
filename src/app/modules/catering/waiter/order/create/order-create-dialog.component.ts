@@ -58,7 +58,7 @@ export class OrderCreateDialogComponent {
         }
         this.items.update(v => {
             v.push({...this.nextData} as any);
-            return v;
+            return [...v];
         });
         return true;
     }

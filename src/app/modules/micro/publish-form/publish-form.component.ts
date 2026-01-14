@@ -74,7 +74,7 @@ export class PublishFormComponent {
     public tapRemoveFile(i: number) {
         this.fileItems.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
     }
 

@@ -116,7 +116,7 @@ export class EditMixComponent implements OnInit {
     public tapRemoveItem(i: number) {
         this.configure.goods().value.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
     }
 

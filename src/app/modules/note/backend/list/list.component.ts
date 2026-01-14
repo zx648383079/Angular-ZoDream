@@ -54,7 +54,7 @@ export class ListComponent implements OnInit {
             v.id = item?.id ?? 0;
             v.content = item?.content ?? '';
             v.is_notice = item?.is_notice ?? 1;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.noteSave(this.editForm().value()).subscribe({

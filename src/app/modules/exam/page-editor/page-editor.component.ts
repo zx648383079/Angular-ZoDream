@@ -160,9 +160,9 @@ export class PageEditorComponent implements OnInit {
         } as any;
         this.items.update(v => {
             v.push(this.editItem);
-            return v;
+            return [...v];
         });
-        this.editIndex = this.items.length - 1;
+        this.editIndex = this.items().length - 1;
         this.scrollBottom();
     }
 
@@ -172,7 +172,7 @@ export class PageEditorComponent implements OnInit {
                 if (item.selected && this.indexOf(item.id) < 0) {
                     this.items.update(v => {
                         v.push(item);
-                        return v;
+                        return [...v];
                     });
                 }
             }
@@ -196,16 +196,16 @@ export class PageEditorComponent implements OnInit {
     public tapRemove(i: number) {
         this.items.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
-        if (this.items.length < 1) {
+        if (this.items().length < 1) {
             this.tapAdd();
             return;
         }
         if (i !== this.editIndex) {
             return;
         }
-        if (i < this.items.length) {
+        if (i < this.items().length) {
             this.tapEdit(i);
             return;
         }
@@ -273,7 +273,7 @@ export class PageEditorComponent implements OnInit {
     }
 
     private indexOf(id: number): number {
-        for (let i = 0; i < this.items.length; i++) {
+        for (let i = 0; i < this.items().length; i++) {
             const item = this.items[i];
             if (item.id === id) {
                 return i;

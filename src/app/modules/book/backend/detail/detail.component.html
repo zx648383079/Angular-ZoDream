@@ -13,7 +13,7 @@
             <label for="cat_id">分类</label>
             <div>
                 <select id="cat_id" [field]="dataForm.cat_id" class="form-control">
-                    <option [value]="0">请选择</option>
+                    <option value="0">请选择</option>
                     @for (item of categories; track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                     }

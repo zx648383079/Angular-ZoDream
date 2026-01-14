@@ -180,7 +180,7 @@ export class EditResourceComponent implements OnInit {
     public tapRemoveFile(i: number) {
         this.dataForm.files().value.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
     }
 
@@ -190,7 +190,7 @@ export class EditResourceComponent implements OnInit {
                 file_type: '0',
                 file: '',
             } as any);
-            return v;
+            return [...v];
         });
     }
 

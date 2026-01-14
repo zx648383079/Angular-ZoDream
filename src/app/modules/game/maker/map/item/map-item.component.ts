@@ -63,7 +63,7 @@ export class MapItemComponent implements OnInit {
             v.item_id = item?.item_id ?? 0;
             v.amount = item?.amount ?? 0;
             v.refresh_time = item?.refresh_time ?? 0;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.mapSave({...this.editForm().value(), project_id: this.queries.project}).subscribe({

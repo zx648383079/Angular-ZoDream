@@ -7,7 +7,7 @@ import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-    selector: 'app-review',
+    selector: 'app-task-review',
     templateUrl: './review.component.html',
     styleUrls: ['./review.component.scss']
 })

@@ -141,7 +141,7 @@ export class EditShippingComponent implements OnInit {
             if (isNew) {
                 this.dataForm.groups().value.update(v => {
                     v.push(item);
-                    return v;
+                    return [...v];
                 });
             }
         });

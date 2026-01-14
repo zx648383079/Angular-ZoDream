@@ -73,7 +73,7 @@ export class TemplateComponent implements OnInit {
     public open(modal: DialogEvent, item?: IBotTemplate) {
         this.editForm().value.update(v => {
             v.content = item?.content ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.templateSave(this.editForm().value()).subscribe({

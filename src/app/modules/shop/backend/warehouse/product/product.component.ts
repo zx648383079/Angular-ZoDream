@@ -59,7 +59,7 @@ export class ProductComponent implements OnInit {
         this.editForm().value.update(v => {
             v.goods_id = event.item.id,
             v.product_id = event.child ? event.child.id : 0;
-            return v;
+            return {...v};
         });
     }
 
@@ -69,7 +69,7 @@ export class ProductComponent implements OnInit {
             v.goods_id = item?.goods_id ?? 0,
             v.product_id = item?.product_id ?? 0;
             v.amount = 0;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             const data = this.editForm().value();

@@ -81,7 +81,7 @@ export class PackageComponent implements OnInit {
             v.url_type = item?.url_type as any ?? '0';
             v.url = item?.url ?? '';
             v.size = item?.size ?? 0;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.packageSave(this.editForm().value()).subscribe({

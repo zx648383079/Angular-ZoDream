@@ -84,7 +84,7 @@ export class ShareComponent implements OnInit {
     public tapRemoveImage(i: number) {
         this.dataForm.pics().value.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
     }
 

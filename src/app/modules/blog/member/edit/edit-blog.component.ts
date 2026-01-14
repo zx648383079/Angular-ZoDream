@@ -198,7 +198,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
                 v.parent_id = v.parent_id > 0 ? v.parent_id : v.id;
                 v.language = language;
                 v.created_at = '-'
-                return v;
+                return {...v};
             });
             return;
         }

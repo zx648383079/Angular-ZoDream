@@ -11,7 +11,7 @@ import { TaskService } from '../task.service';
 
 @Component({
     standalone: false,
-    selector: 'app-list',
+    selector: 'app-task-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss']
 })
@@ -26,11 +26,11 @@ export class ListComponent implements OnInit {
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
         page: 1,
         per_page: 20,
-        status: 0,
+        status: '0',
         parent_id: 0,
     }));
     public statusItems: IItem[] = [

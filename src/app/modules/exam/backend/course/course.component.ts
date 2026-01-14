@@ -57,7 +57,7 @@ export class CourseComponent implements OnInit {
             v.thumb = item?.thumb ?? '';
             v.description = item?.description ?? '';
             v.parent_id = item?.parent_id as any ?? '0';
-            return v;
+            return {...v};
         });
         this.optionItems.set(filterTree(this.items(), this.editForm.id().value()));
         modal.open(() => {

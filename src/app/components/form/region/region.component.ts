@@ -147,7 +147,7 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
         });
         this.routeItems.update(v => {
             v.splice(nextColumn);
-            return v;
+            return [...v];
         });
         const items = this.coloumnItems(nextColumn);
         if (items.length < 1) {
@@ -158,7 +158,7 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
             v.push({
                 [this.rangeLabel()]: this.placeholder()
             } as any);
-            return v;
+            return [...v];
         });
         this.items.set(items);
         this.activeColumn.set(nextColumn);

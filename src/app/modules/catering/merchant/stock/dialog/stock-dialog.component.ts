@@ -58,11 +58,11 @@ export class StockDialogComponent {
             for (const item of v) {
                 if (item.name === this.nextData.name) {
                     item.unit = this.nextData.unit;
-                    return v;
+                    return [...v];
                 }
             }
             v.push({...this.nextData} as any);
-            return v;
+            return [...v];
         });
         return true;
     }

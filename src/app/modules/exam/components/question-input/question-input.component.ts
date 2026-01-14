@@ -71,7 +71,7 @@ export class QuestionInputComponent implements FormValueControl<IQuestionFormat>
                 if (v) {
                     v.answer = value;
                 }
-                return v;
+                return {...v};
             });
         }
     }

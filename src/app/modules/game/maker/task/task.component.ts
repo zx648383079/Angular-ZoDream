@@ -59,7 +59,7 @@ export class TaskComponent implements OnInit {
             v.description = item?.description ?? '';
             v.gift = item?.gift ?? '';
             v.before = item?.before ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.taskSave({...this.editForm().value(), project_id: this.queries.project}).subscribe({

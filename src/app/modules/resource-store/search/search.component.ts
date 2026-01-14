@@ -170,7 +170,7 @@ export class SearchComponent implements OnInit {
         this.queries.update(v => {
             v.order = 'desc';
             v.sort = sort;
-            return v;
+            return {...v};
         });
         if (sort != 'price') {
             this.tapRefresh();
@@ -182,7 +182,7 @@ export class SearchComponent implements OnInit {
             } else {
                 v.order = 'desc';
             }
-            return v;
+            return {...v};
         });
         this.tapRefresh();
     }

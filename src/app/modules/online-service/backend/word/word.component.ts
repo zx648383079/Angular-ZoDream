@@ -55,7 +55,7 @@ export class WordComponent implements OnInit {
             v.id = item?.id ?? 0;
             v.content = item?.content ?? '';
             v.cat_id = item?.cat_id ?? 0;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.wordSave(this.editForm().value()).subscribe(_ => {

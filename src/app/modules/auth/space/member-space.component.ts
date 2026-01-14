@@ -62,7 +62,7 @@ export class MemberSpaceComponent implements OnInit {
                     if (res.data > 0) {
                         v.mark_status = 0;
                     }
-                    return {...v}
+                    return {...v};
                 });
             },
             error: err => {

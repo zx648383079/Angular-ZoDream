@@ -8,7 +8,7 @@ import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-    selector: 'app-share-detail',
+    selector: 'app-task-share-detail',
     templateUrl: './share-detail.component.html',
     styleUrls: ['./share-detail.component.scss'],
 })
@@ -102,7 +102,7 @@ export class ShareDetailComponent implements OnInit {
                 this.total.set(res.paging.total);
                 this.queries.update(v => {
                     v.page = page;
-                    return v;
+                    return {...v};
                 });
             },
             error: () => {

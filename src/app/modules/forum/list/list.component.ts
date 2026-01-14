@@ -122,7 +122,7 @@ export class ListComponent implements OnInit {
                 this.dataModel.update(v => {
                     v.title = '';
                     v.content = '';
-                    return v;
+                    return {...v};
                 });
                 if (this.queries.page().value() < 2) {
                     this.tapRefresh();

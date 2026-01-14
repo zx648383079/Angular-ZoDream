@@ -164,7 +164,7 @@ export class QuestionEditorComponent {
         this.value.update(v => {
             v.material_id = 0;
             v.image = '';
-            return v;
+            return {...v};
         });
         this.onValueChange();
     }

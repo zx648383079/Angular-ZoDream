@@ -142,7 +142,7 @@ export class AutoSuggestBoxComponent implements SuggestChangeEvent {
         e.stopPropagation();
         this.histories.update(v => {
             v.splice(i, 1);
-            return v;
+            return {...v};
         });
         this.saveHistory();
         if (this.histories().length < 1) {
@@ -166,7 +166,7 @@ export class AutoSuggestBoxComponent implements SuggestChangeEvent {
             if (v.length > 8) {
                 v.splice(8);
             }
-            return v;
+            return [...v];
         });
         this.saveHistory();
     }

@@ -61,7 +61,7 @@ export class MapComponent implements OnInit {
             v.area_id = this.queries.area().value() as any;
             v.name = item?.name ?? '';
             v.description = item?.description ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.mapSave({...this.editForm().value(), project_id: this.queries.project}).subscribe({

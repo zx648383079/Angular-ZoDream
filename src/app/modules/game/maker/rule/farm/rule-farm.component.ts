@@ -50,7 +50,7 @@ export class RuleFarmComponent implements OnInit {
             v.time_scale = item?.time_scale ?? 0;
             v.yield_scale = item?.yield_scale ?? 0;
             v.upgrade_rules = item?.upgrade_rules ?? [];
-            return v;
+            return {...v};
         });
         modal.open(() => {
             if (!this.editForm.upgrade_rules) {
@@ -59,10 +59,10 @@ export class RuleFarmComponent implements OnInit {
             if (!item) {
                 this.items.update(v => {
                     v.push(this.editForm().value());
-                    return v;
+                    return [...v];
                 });
             }
-            // this.service.projectSave({...this.editForm}).subscribe({
+            // this.service.projectSave({...this.editForm().value()}).subscribe({
             //     next: _ => {
             //         this.toastrService.success($localize `Save Successfully`);
             //         this.tapRefresh();

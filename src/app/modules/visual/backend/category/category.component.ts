@@ -49,7 +49,7 @@ export class CategoryComponent implements OnInit {
             v.name = item?.name ?? '';
             v.thumb = item?.thumb ?? '';
             v.parent_id = item?.parent_id as any ?? '';
-            return v;
+            return {...v};
         });
         this.categories.set(!item ? this.items() : filterTree(this.items(), item.id));
         modal.open(() => {

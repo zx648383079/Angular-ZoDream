@@ -15,7 +15,7 @@ import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-    selector: 'app-edit',
+    selector: 'app-task-edit',
     templateUrl: './edit.component.html',
     styleUrls: ['./edit.component.scss']
 })
@@ -122,7 +122,7 @@ export class EditComponent implements OnInit {
             v.name = item?.name ?? '';
             v.description = item?.description ?? '';
             v.every_time = item?.every_time ?? 0;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.taskSave({
@@ -136,7 +136,7 @@ export class EditComponent implements OnInit {
                     this.toastrService.success($localize `Save Successfully`);
                     this.items.update(v => {
                         v.push(res);
-                        return v;
+                        return [...v];
                     });
                 },
                 error: err => {

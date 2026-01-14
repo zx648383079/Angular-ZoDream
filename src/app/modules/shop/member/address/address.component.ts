@@ -51,7 +51,7 @@ export class AddressComponent {
             v.tel = item?.tel ?? '';
             v.region_id = item?.region_id ?? 0;
             v.address = item?.address ?? '';
-            return v;
+            return {...v};
         });
         this.dialogOpen = true;
     }
@@ -70,7 +70,7 @@ export class AddressComponent {
                 this.items.update(v => {
                     if (!data.id) {
                         v.push(res);
-                        return v;
+                        return [...v];
                     }
                     return v.map(i => {
                         return i.id === res.id ? res : i;

@@ -55,7 +55,7 @@ export class QrcodeComponent implements OnInit {
         this.editForm().value.update(v => {
             v.scene_type = item?.scene_type ?? 0;
             v.scene_str = item?.scene_str ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.qrcodeSave(this.editForm().value()).subscribe({

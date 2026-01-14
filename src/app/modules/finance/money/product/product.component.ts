@@ -74,16 +74,16 @@ export class ProductComponent implements OnInit {
         });
     }
 
-    open(modal: DialogEvent, item?: IFinancialProduct) {
+    public open(modal: DialogEvent, item?: IFinancialProduct) {
         this.editForm().value.update(v => {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';
             v.status = item?.status ?? 1;
             v.remark = item?.remark ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
-            this.service.productSave({...this.editForm}).subscribe(_ => {
+            this.service.productSave({...this.editForm().value()}).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });

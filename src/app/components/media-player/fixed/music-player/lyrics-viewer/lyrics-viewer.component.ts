@@ -70,7 +70,7 @@ export class LyricsViewerComponent {
 
     private refreshItems() {
         let activeIndex = 0;
-        for (let i = 0; i < this.items.length; i++) {
+        for (let i = 0; i < this.items().length; i++) {
             const item = this.items[i];
             if (!item.text) {
                 continue;

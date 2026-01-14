@@ -57,7 +57,7 @@ export class CourseGradeComponent implements OnInit {
             v.name = item?.name ?? '';
             v.grade = item?.grade ?? 1;
             v.course_id = item?.course_id ?? 0;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.gradeSave(this.editForm().value()).subscribe(_ => {

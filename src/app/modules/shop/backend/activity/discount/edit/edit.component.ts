@@ -104,7 +104,7 @@ export class EditDiscountComponent implements OnInit {
     public onScopeChange() {
         this.dataForm().value.update(v => {
             v.scope = [];
-            return v;
+            return {...v};
         });
     }
 

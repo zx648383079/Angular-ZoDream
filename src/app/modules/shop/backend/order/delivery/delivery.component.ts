@@ -68,7 +68,7 @@ export class DeliveryComponent implements OnInit {
             if (emptyValidate(v.time)) {
                 v.time = formatTime(new Date());
             }
-            return v;
+            return {...v};
         });
         this.logisticsOpen.set(true);
     }
@@ -104,7 +104,7 @@ export class DeliveryComponent implements OnInit {
         this.logisticsData.update(v => {
             v.data = item;
             v.items = this.formatLogistics(this.formatJson<IDeliveryLogistics>(item.logistics_content));
-            return v;
+            return {...v};
         });
         modal.open();
     }

@@ -4,14 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
-import { emptyValidate } from '../../../theme/validators';
 import { ITask, ITaskDay } from '../model';
 import { TaskSelectComponent } from '../task-select/task-select.component';
 import { TaskService } from '../task.service';
 
 @Component({
     standalone: false,
-    selector: 'app-home',
+    selector: 'app-task-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
 })
@@ -98,14 +97,14 @@ export class HomeComponent implements OnInit {
             task_id: item.id,
         }).subscribe(res => {
             this.items.update(v => {
-                for (let i = 0; i < this.items.length; i++) {
+                for (let i = 0; i < this.items().length; i++) {
                     if (v[i].id === res.id) {
                         v[i] = res;
-                        return v;
+                        return [...v];
                     }
                 }
                 v.push(res);
-                return v;
+                return [...v];
             });
         });
     }
@@ -116,7 +115,7 @@ export class HomeComponent implements OnInit {
                 next: res => {
                     this.items.update(v => {
                         v.push(res);
-                        return v;
+                        return [...v];
                     });
                     this.toastrService.success('添加成功');
                     this.taskForm().value.set({

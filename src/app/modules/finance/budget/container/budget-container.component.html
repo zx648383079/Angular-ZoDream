@@ -4,18 +4,18 @@
             <li>预算支出曲线图</li>
         </ul>
     </app-page-tip>
-    @if (data) {
+    @if (data()) {
     <div class="row">
         <div class="col-md-12">
             <h2 class="title-bar"> 
-                <strong>{{ data.name }}</strong>    
+                <strong>{{ data().name }}</strong>    
                 预算支出曲线图&nbsp;<small>按 
-                <strong>{{ cycleFormat }}</strong>    
+                <strong>{{ cycleFormat() }}</strong>    
                 周期统计</small></h2>
             <div class="text-right">
-                总支出：{{ total() | numberFormat }}，总预算：{{ budgetTotal | numberFormat }}，超出：{{ overTotal | numberFormat }}
+                总支出：{{ total() | numberFormat }}，总预算：{{ budgetTotal() | numberFormat }}，超出：{{ overTotal() | numberFormat }}
         
-                <a routerLink="../../income" [queryParams]="{type: 1, budget: data.id}">查看消费记录</a>
+                <a routerLink="../../income" [queryParams]="{type: 1, budget: data().id}">查看消费记录</a>
             </div>
         </div>
     </div>
@@ -24,6 +24,7 @@
 
 </div>
 
+@if (data()) {
 <div class="tablet-large-header tablet-visible">
     <div class="route-bar">
         <a class="route-icon" (click)="tapBack()">
@@ -35,23 +36,24 @@
         </a>
     </div>
     <h2 class="title-bar"> 
-            <strong>{{ data.name }}</strong>    
+            <strong>{{ data().name }}</strong>    
             预算支出曲线图
     </h2>
     <div class="meta-bar">
         <small>按 
-            <strong>{{ cycleFormat }}</strong>    
+            <strong>{{ cycleFormat() }}</strong>    
             周期统计</small>
     </div>
 
     <div class="meta-bar">
-        {{ budgetTotal | numberFormat }} - {{ total() | numberFormat }} = 
-        @if (overTotal > 0) {
+        {{ budgetTotal() | numberFormat }} - {{ total() | numberFormat }} = 
+        @if (overTotal() > 0) {
              -
         }
-        {{ overTotal | numberFormat }}
+        {{ overTotal() | numberFormat }}
     </div>
 </div>
+}
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">

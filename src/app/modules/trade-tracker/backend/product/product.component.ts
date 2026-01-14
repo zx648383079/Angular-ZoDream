@@ -60,7 +60,7 @@ export class ProductComponent implements OnInit {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';
             v.items = [];
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.productSave(this.editForm().value()).subscribe(_ => {
@@ -77,14 +77,14 @@ export class ProductComponent implements OnInit {
                 platform_no: '',
                 extra_meta: ''
             });
-            return v;
+            return [...v];
         });
     }
 
     public tapRemoveChannel(i: number) {
         this.editForm.items().value.update(v => {
             v.splice(i, 1);
-            return v;
+            return [...v];
         });
     }
 

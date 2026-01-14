@@ -121,7 +121,7 @@ export class SeckillGoodsComponent implements OnInit {
             v.amount = item?.amount ?? 1;
             v.every_amount = item?.every_amount ?? 1;
             v.price = item?.price ?? 1;
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.goodsSave(this.editForm().value()).subscribe(_ => {

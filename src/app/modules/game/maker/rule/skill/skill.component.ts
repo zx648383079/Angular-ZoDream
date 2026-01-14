@@ -56,7 +56,7 @@ export class SkillComponent implements OnInit {
             v.name = item?.name ?? '';
             v.icon = item?.icon ?? '';
             v.description = item?.description ?? '';
-            return v;
+            return {...v};
         });
         modal.open(() => {
             this.service.skillSave({...this.editForm().value(), project_id: this.queries.project}).subscribe({

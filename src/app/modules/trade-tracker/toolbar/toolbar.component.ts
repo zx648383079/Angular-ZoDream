@@ -71,7 +71,7 @@ export class ToolbarComponent {
             } else {
                 v.sellPrice = v.buyPrice * ( 1 - v.buyRate) / v.discount / (1 - v.sellRate);
             }
-            return v;
+            return {...v};
         });
         
     }
@@ -82,7 +82,7 @@ export class ToolbarComponent {
         this.dataForm().value.update(v => {
             v[this.lastKey] = price;
             v[this.lastKey !== 'sellPrice' ? 'sellPrice' : 'buyPrice'] = 0;
-            return v;
+            return {...v};
         });
     }
 

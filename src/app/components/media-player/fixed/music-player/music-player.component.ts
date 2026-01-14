@@ -42,11 +42,11 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
     } = {};
 
     public get canPrevious() {
-        return this.items.length > 1 && this.index > 0;
+        return this.items().length > 1 && this.index > 0;
     }
 
     public get canNext() {
-        return this.items.length > 1 && this.index < this.items.length - 1;
+        return this.items().length > 1 && this.index < this.items().length - 1;
     }
 
     private get audio(): HTMLAudioElement {
@@ -154,10 +154,10 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
         if (this.loop === PlayerLoopMode.ONLY_LOOP) {
             return this.index;
         }
-        if (this.items.length <= 1) {
+        if (this.items().length <= 1) {
             return this.loop === PlayerLoopMode.LOOP ? this.index : -1;
         }
-        const max = this.items.length - 1;
+        const max = this.items().length - 1;
         if (this.loop === PlayerLoopMode.RANDOM) {
             const i = randomInt(0, max);
             return i === this.index ? this.checkIndex(i + 1) : i;
@@ -166,7 +166,7 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
         if (this.loop === PlayerLoopMode.LOOP) {
             return this.checkIndex(i);
         }
-        if (i >= this.items.length) {
+        if (i >= this.items().length) {
             return -1;
         }
         return i;
@@ -174,9 +174,9 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
 
     private checkIndex(i: number): number {
         if (i < 0) {
-            return this.items.length - 1;
+            return this.items().length - 1;
         }
-        if (i >= this.items.length) {
+        if (i >= this.items().length) {
             return 0;
         }
         return i;
@@ -217,7 +217,7 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
             this.push(item);
             i = this.indexOf(item);
         }
-        if (i < 0 || i >= this.items.length) {
+        if (i < 0 || i >= this.items().length) {
             return;
         }
         this.playTo(i);

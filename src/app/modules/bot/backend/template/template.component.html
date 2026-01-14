@@ -23,7 +23,7 @@
                 <div class="input-group-control">
                     <label>分类</label>
                     <select [field]="queries.category" class="form-control">
-                        <option [value]="0">全部</option>
+                        <option value="0">全部</option>
                         @for (item of categoryItems; track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                         }
@@ -90,7 +90,7 @@
             <label for="category">分类</label>
             <div>
                 <select id="category" [field]="editForm.cat_id" class="form-control">
-                    <option [value]="0">请选择</option>
+                    <option value="0">请选择</option>
                     @for (item of categoryItems; track $index) {
                     <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                     }
