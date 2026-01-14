@@ -31,16 +31,16 @@
         <div class="tool-item" (click)="tapTool('link')" title="插入链接">
             <i class="iconfont icon-chain"></i>
         </div>
-        <div class="tool-item" [class]="{active: isPreview}" (click)="tapTool('preview')" title="预览">
-            <i class="iconfont" [class]="{'icon-eye': !isPreview, 'icon-eye-slash': isPreview}"></i>
+        <div class="tool-item" [class]="{active: isPreview()}" (click)="tapTool('preview')" title="预览">
+            <i class="iconfont" [class]="{'icon-eye': !isPreview(), 'icon-eye-slash': isPreview()}"></i>
         </div>
     </div>
     <div class="editor-area">
-        <textarea #editorArea [style]="areaStyle" [disabled]="disabled()"  spellcheck="false" [placeholder]="placeholder()"></textarea>
-        <div class="editor-footer">共 {{ size }} 字</div>
-        @if (isPreview) {
+        <textarea #editorArea [style]="areaStyle()" [disabled]="disabled()"  spellcheck="false" [placeholder]="placeholder()"></textarea>
+        <div class="editor-footer">共 {{ size() }} 字</div>
+        @if (isPreview()) {
         <div class="editor-preview">
-            <app-math-mark [content]="previewValue" [disabled]="false" [allowInput]="true" />
+            <app-math-mark [content]="previewValue()" [disabled]="false" [allowInput]="true" />
         </div>
         }
     </div>

@@ -11,13 +11,12 @@ import {
 import {
     ActivatedRoute
 } from '@angular/router';
-import { IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
 import { DialogService } from '../../../../../components/dialog';
 
 @Component({
     standalone: false,
-    selector: 'app-list',
+    selector: 'app-goods-b-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss'],
 })
@@ -44,16 +43,16 @@ export class ListComponent implements OnInit {
         sort: 'id',
         order: 'desc',
     }));
-    public categories: ICategory[] = [];
-    public brandItems: IBrand[] = [];
-    public panelOpen = false;
+    public readonly categories = signal<ICategory[]>([]);
+    public readonly brandItems = signal<IBrand[]>([]);
+    public readonly panelOpen = signal(false);
 
     constructor() {
         this.service.categoryAll().subscribe(res => {
-            this.categories = res.data;
+            this.categories.set(res.data);
         });
         this.service.brandAll().subscribe(res => {
-            this.brandItems = res.data;
+            this.brandItems.set(res.data);
         });
     }
 

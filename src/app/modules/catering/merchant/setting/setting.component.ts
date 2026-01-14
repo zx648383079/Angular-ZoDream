@@ -6,7 +6,7 @@ import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-    selector: 'app-setting',
+    selector: 'app-catering-setting',
     templateUrl: './setting.component.html',
     styleUrls: ['./setting.component.scss']
 })

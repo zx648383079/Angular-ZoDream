@@ -5,7 +5,7 @@ import { BlogService } from '../blog.service';
 
 @Component({
     standalone: false,
-    selector: 'app-category',
+    selector: 'app-blog-b-category',
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })

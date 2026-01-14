@@ -10,7 +10,7 @@
         }
     </div>
     }
-    @if (canUpload) {
+    @if (canUpload()) {
     <div class="add-item" title="上传图片">
         <label [for]="imageId" class="iconfont icon-plus"></label>
         <input type="file" name="files" [id]="imageId" (change)="uploadImages($event)" accept="image/*" multiple/>

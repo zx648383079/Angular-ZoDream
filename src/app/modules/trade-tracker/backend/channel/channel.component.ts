@@ -40,7 +40,7 @@ export class ChannelComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(res => {
-            this.searchService.getQueries(res, this.queries);
+            this.searchService.getQueries(res, this.queries().value());
             this.tapPage();
         });
     }

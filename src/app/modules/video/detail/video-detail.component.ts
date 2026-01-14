@@ -205,7 +205,7 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
             return;
         }
         this.isLoading.set(true);
-        this.service.videoList(Object.assign({page}, this.queries)).subscribe(res => {
+        this.service.videoList(Object.assign({page}, this.queries().value())).subscribe(res => {
             this.page = res.paging.offset;
             this.isLoading.set(false);
             this.items.update(v => {

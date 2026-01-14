@@ -15,7 +15,7 @@
                     <label>分类</label>
                     <select [field]="queries.category" class="form-control">
                         <option value="0">请选择</option>
-                        @for (item of categories; track $index) {
+                        @for (item of categories(); track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                         }
                     </select>
@@ -24,14 +24,14 @@
                     <label>品牌</label>
                     <select [field]="queries.brand" class="form-control">
                         <option value="0">请选择</option>
-                        @for (item of brandItems; track $index) {
+                        @for (item of brandItems(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                         }
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
-                    <a class="btn btn-info" (click)="panelOpen = true">高级搜索</a>
+                    <a class="btn btn-info" (click)="panelOpen.set(true)">高级搜索</a>
                     <a class="btn btn-success" routerLink="../create">新增商品</a>
                     <a class="btn btn-dark" routerLink="../trash">回收站</a>
                     <a class="btn btn-primary" routerLink="../issue">问答</a>
@@ -92,9 +92,9 @@
                         {{ item.price | currency:'￥' }}
                     </td>
                     <td class="auto-hide">
-                          <div class="toggle-box" [class]="{active: item.is_best}">精品<i class="iconfont"></i></div>
-                          <div class="toggle-box" [class]="{active: item.is_hot}">热门<i class="iconfont"></i></div>
-                          <div class="toggle-box" [class]="{active: item.is_new}">新品<i class="iconfont"></i></div>
+                          <div class="toggle-box" [class.active]="item.is_best">精品<i class="iconfont"></i></div>
+                          <div class="toggle-box" [class.active]="item.is_hot">热门<i class="iconfont"></i></div>
+                          <div class="toggle-box" [class.active]="item.is_new">新品<i class="iconfont"></i></div>
                     </td>
                     <td>
                         {{ item.stock }}
@@ -117,10 +117,10 @@
           <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
     </div>
 </div>
-@if (panelOpen) {
+@if (panelOpen()) {
 <div class="dialog-panel" animate.enter="panel-opened" animate.leave="panel-closed">
     <div class="panel-header">
-        <i class="iconfont icon-close" (click)="panelOpen = false"></i>
+        <i class="iconfont icon-close" (click)="panelOpen.set(false)"></i>
     </div>
     <form class="panel-body" (submit)="tapSearch($event)">
         <div class="form-group">
@@ -128,7 +128,7 @@
             <div class="input-group-control">
                 <select id="type1" [field]="queries.category" class="form-control">
                     <option value="0">请选择</option>
-                    @for (item of categories; track $index) {
+                    @for (item of categories(); track $index) {
                     <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                     }
                 </select>
@@ -139,7 +139,7 @@
             <div class="input-group-control">
                 <select id="brand1" [field]="queries.brand" class="form-control">
                     <option value="0">请选择</option>
-                    @for (item of brandItems; track $index) {
+                    @for (item of brandItems(); track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
                     }
                 </select>

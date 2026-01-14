@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, effect, ElementRef, inject, input, model, signal, viewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, effect, ElementRef, inject, input, model, signal, viewChild } from '@angular/core';
 import { FileUploadService } from '../../../../../theme/services';
 import { IGoodsGallery } from '../../../model';
 import { FormValueControl } from '@angular/forms/signals';
@@ -32,14 +32,14 @@ export class GalleryPanelComponent implements FormValueControl<any>, AfterViewIn
         });
     }
 
-    public get canUpload() {
-        if (this.disabled) {
+    public readonly canUpload = computed(() => {
+        if (this.disabled()) {
             return false;
         }
         return this.max() <= 0 || this.max() > this.items().length;
-    }
+    });
 
-    get imageBox() {
+    private get imageBox() {
         return this.imageElement().nativeElement as HTMLDivElement;
     }
 

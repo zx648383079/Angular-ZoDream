@@ -7,7 +7,7 @@ import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-    selector: 'app-category',
+    selector: 'app-cms-category',
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })

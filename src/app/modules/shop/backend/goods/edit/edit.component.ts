@@ -62,11 +62,11 @@ export class EditComponent implements OnInit {
         required(schemaPath.name);
     });
 
-    public categories: ICategory[] = [];
-    public brandItems: IBrand[] = [];
-    public typeItems: IAttributeGroup[] = [];
-    public attrItems: IAttribute[] = [];
-    public productItems: IProduct[] = [];
+    public readonly categories = signal<ICategory[]>([]);
+    public readonly brandItems = signal<IBrand[]>([]);
+    public readonly typeItems = signal<IAttributeGroup[]>([]);
+    public readonly attrItems = signal<IAttribute[]>([]);
+    public readonly productItems = signal<IProduct[]>([]);
 
     constructor() {
         this.service.batch({
@@ -74,9 +74,9 @@ export class EditComponent implements OnInit {
             group: {},
             brand: {}
         }).subscribe(res => {
-            this.categories = res.category;
-            this.typeItems = res.group;
-            this.brandItems = res.brand;
+            this.categories.set(res.category);
+            this.typeItems.set(res.group);
+            this.brandItems.set(res.brand);
         });
     }
 
@@ -117,7 +117,7 @@ export class EditComponent implements OnInit {
                     seo_link: res.seo_link,
                     gallary: res.gallery ?? []
                 });
-                this.productItems = res.products || [];
+                this.productItems.set(res.products || []);
             });
         });
     }
@@ -162,13 +162,13 @@ export class EditComponent implements OnInit {
     public tapGroupChange() {
         const groupId = parseNumber(this.dataForm.attribute_group_id().value());
         if (groupId < 1) {
-            this.attrItems = [];
-            this.productItems = [];
+            this.attrItems.set([]);
+            this.productItems.set([]);
             return;
         }
         this.service.goodsAttribute(groupId, this.data?.id).subscribe(res => {
-            this.attrItems = res.attr_list;
-            this.productItems = res.product_list;
+            this.attrItems.set(res.attr_list);
+            this.productItems.set(res.product_list);
         });
     }
 

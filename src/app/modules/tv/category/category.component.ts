@@ -5,7 +5,7 @@ import { TvService } from '../tv.service';
 
 @Component({
     standalone: false,
-    selector: 'app-category',
+    selector: 'app-tv-category',
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })

@@ -9,7 +9,7 @@ import { LegworkService } from '../legwork.service';
 
 @Component({
     standalone: false,
-    selector: 'app-category',
+    selector: 'app-leg-category',
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })

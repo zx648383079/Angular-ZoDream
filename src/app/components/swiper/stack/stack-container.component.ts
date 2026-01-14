@@ -22,8 +22,9 @@ export class StackContainerComponent implements AfterContentInit, SwiperEvent {
     constructor() {
         let index = -1;
         effect(() => {
-            this.navigateTo(this.index(), index);
-            index = this.index();
+            const current = this.index();
+            this.navigateTo(current, index);
+            index = current;
         });
         effect(() => {
             this.items();
@@ -71,7 +72,7 @@ export class StackContainerComponent implements AfterContentInit, SwiperEvent {
     }
 
     public navigate(index: number) {
-        this.navigateTo(index, this.index());
+        this.index.set(index);
     }
 
     private refresh() {
@@ -87,6 +88,5 @@ export class StackContainerComponent implements AfterContentInit, SwiperEvent {
         for (let i = 0; i < this.items().length; i++) {
             this.items().at(i).index = i - to;
         }
-        this.index.set(to);
     }
 }

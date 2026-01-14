@@ -41,12 +41,13 @@ export class FileExplorerCatalogComponent implements OnInit {
             children: [],
         }
     ]);
-    public activePath = '';
+    public readonly activePath = signal('');
 
     ngOnInit() {
         this.service.driveList().subscribe(data => {
-            for (let i = this.items().length - 1; i >= 0; i--) {
-                const item = this.items[i];
+            const items = this.items();
+            for (let i = items.length - 1; i >= 0; i--) {
+                const item = items[i];
                 if (item.expandable) {
                     item.children = data.map(i => this.formatFile(i, 1))
                 }
@@ -79,6 +80,7 @@ export class FileExplorerCatalogComponent implements OnInit {
             next: res => {
                 item.loading = 0;
                 item.children = res.data.map(i => this.formatFile(i, (item.level ? item.level : 0) + 1));
+                this.items.update(v => [...v]);
             },
             error: _ => {
                 item.loading = 1;
@@ -101,8 +103,8 @@ export class FileExplorerCatalogComponent implements OnInit {
         if (typeof item.path === 'undefined') {
             return;
         }
-        this.activePath = item.path;
-        this.pathChange.emit(this.activePath);
+        this.activePath.set(item.path);
+        this.pathChange.emit(item.path);
     }
 
 }

@@ -9,7 +9,7 @@ import { OnlineBackendService } from '../online.service';
 
 @Component({
     standalone: false,
-    selector: 'app-category',
+    selector: 'app-os-category',
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })

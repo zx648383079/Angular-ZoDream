@@ -121,7 +121,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
             return;
         }
         this.openType.set(0);
-        this.searchService.applyHistory(this.queries);
+        this.searchService.applyHistory(this.queries().value());
     }
 
     public tapRefresh() {

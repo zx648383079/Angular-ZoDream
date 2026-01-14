@@ -5,7 +5,7 @@ import { ICategory } from '../../model';
 
 @Component({
     standalone: false,
-    selector: 'app-category',
+    selector: 'app-vis-category',
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })

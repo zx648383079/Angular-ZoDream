@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, inject, input, output, model, computed, s
 import { ThemeService } from '../../../theme/services';
 import { INavLink } from '../../../theme/models/seo';
 import { SuggestChangeEvent } from '../../form';
-import { Subscription } from 'rxjs';
+import { asyncScheduler, Subject, Subscription, throttleTime } from 'rxjs';
 import { NavigationDisplayMode } from '../../../theme/models/event';
 
 
@@ -27,10 +27,10 @@ export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
     public readonly textChanged = output<SuggestChangeEvent>();
     public readonly querySubmitted = output<any>();
     public readonly suggestionChosen = output<number>();
-
     public readonly suggestText = signal('');
-
+    public readonly suggestHovered = signal(false);
     private readonly subItems = new Subscription();
+    private readonly $textChanged = new Subject<void>();
 
     ngOnInit() {
         this.subItems.add(
@@ -43,6 +43,12 @@ export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
             this.displayMode.set(isTablet ? NavigationDisplayMode.Collapse : NavigationDisplayMode.Inline);
             this.emitResize();
         }));
+        this.subItems.add(this.$textChanged.pipe(
+            throttleTime(500, asyncScheduler, { leading: false, trailing: true }))
+            .subscribe(() => {
+                this.textChanged.emit(this);
+            })
+        );
     }
 
     ngOnDestroy() {
@@ -129,20 +135,19 @@ export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
 
     public tapSuggest() {
         this.displayMode.set(0);
-        this.querySubmitted.emit(this.suggestText);
+        this.querySubmitted.emit(this.suggestText());
     }
 
     public suggestKeyPress(e: KeyboardEvent) {
         if (e.key === 'Enter') {
-            const item = this.suggestIndex() >= 0 ? this.suggestItems()[this.suggestIndex()] : this.suggestText;
+            const item = this.suggestIndex() >= 0 ? this.suggestItems()[this.suggestIndex()] : this.suggestText();
             this.themeService.suggestQuerySubmitted.next(item);
             this.querySubmitted.emit(item);
             return;
         }
-        
         if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') {
             this.suggestIndex.set(-1);
-            this.textChanged.emit(this);
+            this.$textChanged.next();
             return;
         }
         if (this.suggestItems().length < 0) {
@@ -159,6 +164,7 @@ export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
     }
 
     public tapSuggestion(i: number) {
+        this.suggestIndex.set(i);
         this.suggestionChosen.emit(i);
         this.themeService.suggestQuerySubmitted.next(this.suggestItems()[i]);
     }

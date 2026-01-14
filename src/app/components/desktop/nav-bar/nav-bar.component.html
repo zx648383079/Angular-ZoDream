@@ -3,23 +3,27 @@
         <i class="iconfont icon-bars nav-toggle-icon" (click)="tapToggle()"></i>
         <ul class="bar-top">
             @if (hasSuggest()) {
-                <li class="search-item">
+                <li class="search-item" [class.--with-hovered]="suggestHovered()">
                     <div class="search-input">
-                        <input type="text" [value]="suggestText()" (input)="suggestText.set($event.target.value)" (keydown)="suggestKeyPress($event)">
+                        <input type="text" [value]="suggestText()" (input)="suggestText.set($event.target.value)" 
+                        (keydown)="suggestKeyPress($event)" 
+                        (focus)="suggestHovered.set(true)" 
+                        (blur)="suggestHovered.set(false)">
                         <i class="iconfont icon-search" (click)="tapSuggest()"></i>
                     </div>
-                    @if (suggestItems() && suggestItems().length > 0) {
+                    @if (suggestItems().length > 0) {
                     <ul class="search-suggestion">
                         @for (item of suggestItems(); track $index; let i = $index) {
-                            <li (click)="tapSuggestion(i)" [class]="{active: i === suggestIndex()}" >{{ formatTitle(item) }}</li>
+                            <li (click)="tapSuggestion(i)" [class.--with-selected]="i === suggestIndex()" >{{ formatTitle(item) }}</li>
                         }
                     </ul>
                     }
-                    
                 </li>
             }
             @for (item of menu(); track $index) {
-                <li class="menu-item" [class]="{'active': item.active, 'open': item.expand}"
+                <li class="menu-item" 
+                    [class.active]="item.active"
+                    [class.open]="item.expand"
                     (click)="tapItem(item, $event)">
                     @if (item.url) {
                         <a [routerLink]="item.url" [queryParams]="item.urlQuery || {}" [title]="item.name">
@@ -35,7 +39,9 @@
                     @if (item.children && item.children.length > 0) {
                     <ul class="menu-children">
                         @for (child of item.children; track child.name) {
-                            <li class="menu-item" [class]="{'active': child.active, 'open': child.expand}"
+                            <li class="menu-item" 
+                                [class.active]="child.active"
+                                [class.open]="child.expand"
                                 (click)="tapItem(child, $event)">
                                 @if (child.url) {
                                     <a [routerLink]="child.url" [queryParams]="child.urlQuery || {}"
@@ -59,7 +65,9 @@
         </ul>
         <ul class="bar-bottom">
             @for (item of bottomMenu(); track $index) {
-                <li class="menu-item" [class]="{'active': item.active, 'open': item.expand}"
+                <li class="menu-item" 
+                    [class.active]="item.active"
+                    [class.open]="item.expand"
                     (click)="tapItem(item, $event)">
                     @if (item.url) {
                         <a [routerLink]="item.url" [queryParams]="item.urlQuery || {}">
@@ -83,7 +91,7 @@
 
     <div class="tablet-tab-bar tablet-visible">
         @for (item of tabletItems(); track $index) {
-            <a class="tab-item" [class]="{'active': item.active}" [routerLink]="item.url" [queryParams]="item.urlQuery || {}">
+            <a class="tab-item" [class.active]="item.active" [routerLink]="item.url" [queryParams]="item.urlQuery || {}">
             <i class="iconfont item-icon" [class]="item.icon"></i>
             <span class="item-body">{{ item.name }}</span>
         </a>

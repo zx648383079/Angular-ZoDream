@@ -139,12 +139,15 @@
 	}
 	.add-item {
 		display: inline-block;
-		width: 120px;
-		height: 120px;
-		border: 1px solid var(--#{theme.$prefix}primary);
+		width: 7.5rem;
+		height: 7.5rem;
+		border: 1px solid var(--#{theme.$prefix}border);
 		text-align: center;
-		font-size: 80px;
+		font-size: 5rem;
 		vertical-align: top;
+        background-color: var(--#{theme.$prefix}body);
+        color: var(--#{theme.$prefix}meta-text);
+        border-radius: .25rem;
 		input[type='file'] {
             width: 0;
             height: 0;

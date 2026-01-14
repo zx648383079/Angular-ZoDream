@@ -23,7 +23,7 @@
                     <div class="input-group-control">
                         <label>分类</label>
                         <select [field]="dataForm.cat_id" class="form-control">
-                            @for (item of categories; track $index) {
+                            @for (item of categories(); track $index) {
                             <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                             }
                         </select>
@@ -32,7 +32,7 @@
                         <label for="brand_id">品牌</label>
                         <div>
                             <select id="brand_id" [field]="dataForm.brand_id" class="form-control">
-                                @for (item of brandItems; track $index) {
+                                @for (item of brandItems(); track $index) {
                                 <option [value]="item.id">{{ item.name }}</option>
                                 }
                             </select>
@@ -70,7 +70,7 @@
                         <label for="attribute_group_id">类型</label>
                         <div>
                             <select id="attribute_group_id" [field]="dataForm.attribute_group_id" class="form-control" (change)="tapGroupChange()">
-                                @for (item of typeItems; track $index) {
+                                @for (item of typeItems(); track $index) {
                                 <option [value]="item.id">{{ item.name }}</option>
                                 }
                             </select>
@@ -151,7 +151,7 @@
         </div>
 
         <app-panel title="规格">
-            <app-sku-form [attrItems]="attrItems" [productItems]="productItems" />
+            <app-sku-form [attrItems]="attrItems()" [productItems]="productItems()" />
         </app-panel>
 
         <app-panel title="SEO优化" [min]="true">

@@ -10,6 +10,7 @@ import { DialogModule } from '../../components/dialog';
 import { MediaPlayerModule } from '../../components/media-player';
 import { DesktopModule } from '../../components/desktop';
 import { Field } from '@angular/forms/signals';
+import { ZreEditorModule } from '../../components/editor';
 
 
 const COMPONENTS = [
@@ -27,6 +28,7 @@ const COMPONENTS = [
         Field,
         DialogModule,
         ZreFormModule,
+        ZreEditorModule,
         MediaPlayerModule,
     ],
     declarations: [...COMPONENTS,

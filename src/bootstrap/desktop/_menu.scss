@@ -4,6 +4,7 @@
     --#{theme.$prefix}menu-text: var(--#{theme.$prefix}body-text);
     --#{theme.$prefix}menu-hovered: var(--#{theme.$prefix}panel);
     --#{theme.$prefix}menu-selected: var(--#{theme.$prefix}primary);
+    --#{theme.$prefix}menu-child: transparent;
     a {
         text-decoration: none;
         color: var(--#{theme.$prefix}menu-text);
@@ -62,6 +63,7 @@
     .menu-children {
         box-shadow: inset 0 5px 5px -5px rgb(var(--#{theme.$prefix}mask-rgb)), inset 0 -5px 5px -5px rgb(var(--#{theme.$prefix}mask-rgb));
         display: none;
+        background-color: var(--#{theme.$prefix}menu-child);
     }
 }
 

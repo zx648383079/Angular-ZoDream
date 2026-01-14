@@ -88,7 +88,7 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
         this.route.parent.params.subscribe(params => {
             this.queries.project().value.set(parseNumber(params.game));
         });
-        this.service.mapAll(this.queries).subscribe(res => {
+        this.service.mapAll(this.queries().value()).subscribe(res => {
             this.areaItems = res.area_items;
             this.items.set(res.items);
             this.refreshLine();

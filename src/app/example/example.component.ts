@@ -186,6 +186,7 @@ export class ExampleComponent {
     public onSearch(e: SuggestChangeEvent) {
         const keywords = e.text;
         if (!keywords) {
+            e.suggest([]);
             return;
         }
         const items = [];

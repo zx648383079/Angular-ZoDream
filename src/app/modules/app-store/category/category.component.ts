@@ -9,7 +9,7 @@ import { ICategory, ISoftware } from '../model';
 
 @Component({
     standalone: false,
-    selector: 'app-category',
+    selector: 'app-store-category',
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })

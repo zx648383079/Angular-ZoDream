@@ -12,7 +12,7 @@ import { mapFormat } from '../../../../theme/utils';
 
 @Component({
     standalone: false,
-    selector: 'app-list',
+    selector: 'app-blog-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss']
 })
@@ -23,8 +23,8 @@ export class ListComponent implements OnInit {
     private readonly searchService = inject(SearchService);
 
 
-    public categories: ICategory[] = [];
-    public statusItems: IItem[] = [];
+    public readonly categories = signal<ICategory[]>([]);
+    public readonly statusItems = signal<IItem[]>([]);
 
     public readonly items = signal<IBlog[]>([]);
     public readonly queries = form(signal({
@@ -41,14 +41,14 @@ export class ListComponent implements OnInit {
 
     constructor() {
         this.service.editOption().subscribe(res => {
-            this.categories = res.categories;
-            this.statusItems = res.publish_status;
+            this.categories.set(res.categories);
+            this.statusItems.set(res.publish_status);
         });
     }
 
     ngOnInit() {
         this.route.queryParams.subscribe(res => {
-            this.searchService.getQueries(res, this.queries);
+            this.searchService.getQueries(res, this.queries().value());
             this.tapPage();
         });
     }

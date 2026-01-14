@@ -13,7 +13,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
-                    <a routerLink="../create" [queryParams]="{position: queries.position}" class="btn btn-primary">新增广告</a>
+                    <a routerLink="../create" [queryParams]="{position: queries.position().value()}" class="btn btn-primary">新增广告</a>
                     <a routerLink="../position" class="btn btn-info">管理广告位</a>
                 </div>
             </form>

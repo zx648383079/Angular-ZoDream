@@ -7,7 +7,7 @@ import { toggleTreeItem } from '../../../../theme/utils';
 
 @Component({
     standalone: false,
-    selector: 'app-category',
+    selector: 'app-cms-category',
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })

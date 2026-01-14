@@ -5,7 +5,7 @@ import { GoodsService } from '../goods.service';
 
 @Component({
     standalone: false,
-    selector: 'app-category',
+    selector: 'app-shop-goods-category',
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })

@@ -9,7 +9,7 @@ import { ShopService } from '../../shop.service';
 
 @Component({
     standalone: false,
-    selector: 'app-category',
+    selector: 'app-shop-category',
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })

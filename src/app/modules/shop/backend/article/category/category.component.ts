@@ -5,7 +5,7 @@ import { ArticleService } from '../../article.service';
 
 @Component({
     standalone: false,
-    selector: 'app-category',
+    selector: 'app-shop-b-category',
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, inject, input, viewChild, model, effect } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, inject, input, viewChild, model, effect, signal, computed } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { EditorBlockType, EditorService, IEditor, IEditorBlock, IEditorInclueBlock, IEditorLinkBlock, IEditorTextBlock } from '../../../../components/editor';
 import { FileUploadService } from '../../../../theme/services';
@@ -15,7 +15,7 @@ import { FormValueControl } from '@angular/forms/signals';
 export class ExamEditorComponent implements AfterViewInit, FormValueControl<string>, IEditor, OnInit {
     private readonly uploadService = inject(FileUploadService);
     private readonly toastrService = inject(DialogService);
-    private container = inject(EditorService);
+    private readonly container = inject(EditorService);
 
 
     private readonly areaElement = viewChild<ElementRef<HTMLTextAreaElement>>('editorArea');
@@ -25,23 +25,23 @@ export class ExamEditorComponent implements AfterViewInit, FormValueControl<stri
 
     public readonly disabled = input<boolean>(false);
     public readonly value = model<string>('');
-    public isPreview = false;
-    public previewValue = '';
+    public readonly isPreview = signal(false);
+    public readonly previewValue = signal('');
     public fileName = this.uploadService.uniqueGuid();
 
     constructor() {
         effect(() => this.container.value = this.value());
     }
 
-    get size() {
+    public readonly size = computed(() => {
         return wordLength(this.value());
-    }
+    });
 
-    get areaStyle() {
+    public readonly areaStyle = computed(() => {
         return {
             height: this.height() + 'px',
         };
-    }
+    });
     ngOnInit() {
         this.container.on('change', () => {
             this.value.set(this.container.value);
@@ -121,12 +121,12 @@ export class ExamEditorComponent implements AfterViewInit, FormValueControl<stri
     }
 
     private enterPreview() {
-        if (this.isPreview) {
-            this.isPreview = false;
+        if (this.isPreview()) {
+            this.isPreview.set(false);
             return;
         }
-        this.previewValue = this.value();
-        this.isPreview = true;
+        this.previewValue.set(this.value());
+        this.isPreview.set(true);
     }
 
 }

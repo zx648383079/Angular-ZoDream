@@ -2,7 +2,6 @@ import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { ICourse, IQuestionMaterial } from '../../model';
 import { ExamService } from '../exam.service';
@@ -30,7 +29,7 @@ export class MaterialComponent implements OnInit {
         keywords: '',
         course: '0',
     }));
-    public editForm = form(signal({
+    public readonly editForm = form(signal({
         id: 0,
         title: '',
         course_id: 0,
@@ -41,12 +40,12 @@ export class MaterialComponent implements OnInit {
         required(schemaPath.title);
         required(schemaPath.content);
     });
-    public courseItems: ICourse[] = [];
+    public readonly courseItems = signal<ICourse[]>([]);
     public typeItems = ['文本', '音频', '视频'];
 
     ngOnInit() {
         this.service.courseAll().subscribe(res => {
-            this.courseItems = res.data;
+            this.courseItems.set(res.data);
         });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
