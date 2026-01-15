@@ -8,15 +8,15 @@
         <div class="dialog-body">
             <div class="input-flex-group">
                 <div class="input-header-block" [class.input-not-empty]="dataForm.buyPrice().valid()">
-                    <input type="number" class="form-control" [field]="dataForm.buyPrice" (input)="onPriceChange('buyPrice')">
+                    <input type="number" class="form-control" [formField]="dataForm.buyPrice" (input)="onPriceChange('buyPrice')">
                     <label for="">交易平台价</label>
                 </div>
                 <div class="input-header-block" [class.input-not-empty]="dataForm.discount().valid()">
-                    <input type="number" class="form-control" [field]="dataForm.discount" (input)="onPriceChange('discount')">
+                    <input type="number" class="form-control" [formField]="dataForm.discount" (input)="onPriceChange('discount')">
                     <label for="">折扣</label>
                 </div>
                 <div class="input-header-block" [class.input-not-empty]="dataForm.sellPrice().valid()">
-                    <input type="number" class="form-control" [field]="dataForm.sellPrice" (input)="onPriceChange('sellPrice')">
+                    <input type="number" class="form-control" [formField]="dataForm.sellPrice" (input)="onPriceChange('sellPrice')">
                     <label for="">Steam价</label>
                 </div>
                 <button class="btn btn-primary" (click)="tapReset()">

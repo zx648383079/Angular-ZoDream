@@ -9,7 +9,7 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键词">
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
@@ -61,7 +61,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 <app-dialog-box #modal>
@@ -69,25 +69,25 @@
         <div class="input-group-control">
             <label for="">备注名</label>
             <div>
-                <input type="text" class="form-control" [field]="editForm.note_name">
+                <input type="text" class="form-control" [formField]="editForm.note_name">
             </div>
         </div>
         <div class="input-group-control">
             <label for="">分组</label>
             <div>
-                <app-select-input [url]="selectUrl" [field]="editForm.group_id" />
+                <app-select-input [url]="selectUrl" [formField]="editForm.group_id" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="">是否拉黑</label>
             <div>
-                <app-switch [field]="editForm.is_black" />
+                <app-switch [formField]="editForm.is_black" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="">备注</label>
             <div>
-                <textarea class="form-control" [field]="editForm.remark"></textarea>
+                <textarea class="form-control" [formField]="editForm.remark"></textarea>
             </div>
         </div>
     </div>

@@ -5,27 +5,27 @@
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name">
 
             </div>
         </div>
         <div class="input-group-control">
             <label for="thumb">图片</label>
             <div>
-                <app-file-input [field]="dataForm.thumb" />
+                <app-file-input [formField]="dataForm.thumb" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">说明</label>
             <div>
-                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
+                <textarea id="description" class="form-control" [formField]="dataForm.description"></textarea>
 
             </div>
         </div>
         <div class="input-group-control">
             <label for="scope_type">抽奖形式</label>
             <div>
-                <select id="scope_type" class="form-control" [field]="dataForm.scope_type">
+                <select id="scope_type" class="form-control" [formField]="dataForm.scope_type">
                     <option value="0">刮刮乐</option>
                     <option [value]="1">转盘</option>
                 </select>
@@ -36,14 +36,14 @@
             <div class="input-group-control">
                 <label for="configure_over_text">覆盖区文字</label>
                 <div>
-                    <input type="text" id="configure_over_text" class="form-control" [field]="dataForm.configure.over_text"
+                    <input type="text" id="configure_over_text" class="form-control" [formField]="dataForm.configure.over_text"
                         placeholder="请输入 覆盖区文字">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="configure_btn_text">按钮文字</label>
                 <div>
-                    <input type="text" id="configure_btn_text" class="form-control" [field]="dataForm.configure.btn_text"
+                    <input type="text" id="configure_btn_text" class="form-control" [formField]="dataForm.configure.btn_text"
                         placeholder="请输入 按钮文字">
 
                 </div>
@@ -51,7 +51,7 @@
             <div class="input-group-control">
                 <label for="configure_start_times">初始可抽次数</label>
                 <div>
-                    <input type="number" id="configure_start_times" class="form-control" [field]="dataForm.configure.start_times"
+                    <input type="number" id="configure_start_times" class="form-control" [formField]="dataForm.configure.start_times"
                         placeholder="请输入 初始可抽次数">
 
                 </div>
@@ -59,7 +59,7 @@
             <div class="input-group-control">
                 <label for="configure_buy_times">积分可抽次数</label>
                 <div>
-                    <input type="number" id="configure_buy_times" class="form-control" [field]="dataForm.configure.buy_times"
+                    <input type="number" id="configure_buy_times" class="form-control" [formField]="dataForm.configure.buy_times"
                         placeholder="请输入 积分可抽次数">
 
                 </div>
@@ -67,7 +67,7 @@
             <div class="input-group-control">
                 <label for="configure_time_price">兑换所需积分</label>
                 <div>
-                    <input type="number" id="configure_time_price" class="form-control" [field]="dataForm.configure.time_price"
+                    <input type="number" id="configure_time_price" class="form-control" [formField]="dataForm.configure.time_price"
                         placeholder="请输入 兑换所需积分">
 
                 </div>
@@ -82,14 +82,14 @@
                    @for (item of dataForm.configure.items; track $index; let i = $index) {
                     <tr>
                         <td>{{ item.goods_id().value() > 0 ? item.goods.name().value() : '未中奖' }}
-                            <input type="text" class="form-control" [field]="item.name">
+                            <input type="text" class="form-control" [formField]="item.name">
                         </td>
                         <td>
                             获奖概率
-                            <input type="number" class="form-control"  [field]="item.chance" size="10">%
+                            <input type="number" class="form-control"  [formField]="item.chance" size="10">%
                         </td>
                         <td>
-                            <input type="color" [field]="item.color">
+                            <input type="color" [formField]="item.color">
                         </td>
                         <td>
                             <i class="iconfont icon-arrow-up" (click)="tapUpItem(i)"></i>
@@ -107,9 +107,9 @@
         <div class="input-group-control">
             <label for="start_at">起止时间</label>
             <div>
-                <app-date-input [field]="dataForm.start_at" placeholder="请输入开始时间" />
+                <app-date-input [formField]="dataForm.start_at" placeholder="请输入开始时间" />
                 ~
-                <app-date-input [field]="dataForm.end_at" placeholder="请输入结束时间" />
+                <app-date-input [formField]="dataForm.end_at" placeholder="请输入结束时间" />
             </div>
         </div>
         <div class="btn-group">

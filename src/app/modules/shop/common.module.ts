@@ -6,7 +6,7 @@ import { ZreFormModule } from '../../components/form';
 import { BottomBarComponent, CartDialogComponent, CommentPageComponent, GallerySliderComponent, GoodsSliderComponent, IssuePageComponent, ShareDialogComponent, TopBarComponent } from './components';
 import { PricePipe } from './pipes';
 import { DesktopModule } from '../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 
 const COMPONENTS = [
@@ -29,7 +29,7 @@ const PIPES = [
         CommonModule,
         RouterModule,
         NgOptimizedImage,
-        Field,
+        FormField,
         ZreFormModule,
         DesktopModule,
     ],

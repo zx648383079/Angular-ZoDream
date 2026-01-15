@@ -5,7 +5,7 @@ import { AuthRoutingModule, authRoutedComponents } from './auth-routing.module';
 import { ThemeModule } from '../../theme/theme.module';
 import { ZreFormModule } from '../../components/form';
 import { DesktopModule } from '../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 
 @NgModule({
@@ -16,7 +16,7 @@ import { Field } from '@angular/forms/signals';
         AuthRoutingModule,
         ThemeModule,
         ZreFormModule,
-        Field,
+        FormField,
     ],
 })
 export class AuthModule { }

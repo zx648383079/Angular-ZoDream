@@ -1,15 +1,15 @@
 @if (openStatus < 2) {
     <form class="form-icon-control login-form" (submit)="tapSubmit($event)">
         <div class="input-group-control" [class.error]="dataForm.name().touched() && dataForm.name().invalid()">
-            <input type="text" [field]="dataForm.name" i18n-placeholder placeholder="Please input nickname">
+            <input type="text" [formField]="dataForm.name" i18n-placeholder placeholder="Please input nickname">
             <i class="iconfont icon-user" aria-hidden="true"></i>
         </div>
         <div class="input-group-control" [class.error]="dataForm.email().touched() && dataForm.email().invalid()">
-            <input type="email" [field]="dataForm.email" i18n-placeholder placeholder="Please input your email">
+            <input type="email" [formField]="dataForm.email" i18n-placeholder placeholder="Please input your email">
             <i class="iconfont icon-at" aria-hidden="true"></i>
         </div>
         <div class="input-group-control" [class.error]="dataForm.password().touched() && dataForm.password().invalid()">
-            <input type="password" [field]="dataForm.password" i18n-placeholder
+            <input type="password" [formField]="dataForm.password" i18n-placeholder
                 placeholder="Please input password">
             <i class="iconfont icon-lock" aria-hidden="true"></i>
         </div>
@@ -17,18 +17,18 @@
             <app-password-strong [value]="dataForm.password().value()" />
         </div>
         <div class="input-group-control" [class.error]="dataForm.confirm_password().touched() && dataForm.confirm_password().invalid()">
-            <input type="password" [field]="dataForm.confirm_password" i18n-placeholder
+            <input type="password" [formField]="dataForm.confirm_password" i18n-placeholder
                 placeholder="Please confirm your password">
             <i class="iconfont icon-check" aria-hidden="true"></i>
         </div>
         <div class="input-group-control" [class.error]="dataForm.invite_code().touched() && dataForm.invite_code().invalid()">
-            <input type="text" [field]="dataForm.invite_code" i18n-placeholder placeholder="Please input the invite code">
+            <input type="text" [formField]="dataForm.invite_code" i18n-placeholder placeholder="Please input the invite code">
             <i class="iconfont icon-gift" aria-hidden="true"></i>
         </div>
     
         <div class="input-group-control">
             <div class="checkbox">
-                <input type="checkbox" [field]="dataForm.agree" id="checkboxInput">
+                <input type="checkbox" [formField]="dataForm.agree" id="checkboxInput">
                 <label for="checkboxInput"></label>
             </div>
             <ng-container i18n>I agree to</ng-container>

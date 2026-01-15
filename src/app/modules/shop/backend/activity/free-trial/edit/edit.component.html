@@ -5,33 +5,33 @@
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name" >
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name" >
 
             </div>
         </div>
         <div class="input-group-control">
             <label for="thumb">图片</label>
             <div>
-                <app-file-input [field]="dataForm.thumb" />
+                <app-file-input [formField]="dataForm.thumb" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">说明</label>
             <div>
-                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
+                <textarea id="description" class="form-control" [formField]="dataForm.description"></textarea>
 
             </div>
         </div>
         <div class="input-group-control">
             <label for="scope">商品</label>
             <div>
-                <app-select-input url="shop/admin/goods/search" [field]="dataForm.scope" />
+                <app-select-input url="shop/admin/goods/search" [formField]="dataForm.scope" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="configure_amount">试用数量</label>
             <div>
-                <input type="number" id="configure_amount" class="form-control" [field]="dataForm.configure.amount"
+                <input type="number" id="configure_amount" class="form-control" [formField]="dataForm.configure.amount"
                     placeholder="请输入 试用数量" >
 
             </div>
@@ -39,9 +39,9 @@
         <div class="input-group-control">
             <label for="start_at">起止时间</label>
             <div>
-                <app-date-input [field]="dataForm.start_at" placeholder="请输入开始时间" />
+                <app-date-input [formField]="dataForm.start_at" placeholder="请输入开始时间" />
                 ~
-                <app-date-input [field]="dataForm.end_at" placeholder="请输入结束时间" />
+                <app-date-input [formField]="dataForm.end_at" placeholder="请输入结束时间" />
             </div>
         </div>
         <div class="btn-group">

@@ -109,7 +109,7 @@
             <app-panel title="备注信息">
                 <div class="form-table-control" >
                     <div class="remark-box">
-                        <textarea class="form-control" [field]="remarkForm.remark"></textarea>
+                        <textarea class="form-control" [formField]="remarkForm.remark"></textarea>
                     </div>
                     <div class="btn-group">
                         <app-action-button class="btn btn-primary" (tapped)="tapOperate($event, 'remark')">保存</app-action-button>
@@ -205,7 +205,7 @@
         <div class="input-group-control">
             <label for="">退款方式</label>
             <div>
-                <select class="form-control" [field]="refundForm.refund_type">
+                <select class="form-control" [formField]="refundForm.refund_type">
                     @for (item of refundTypeItems; track $index; let i = $index) {
                     <option [value]="i">{{ item }}</option>
                     }
@@ -215,7 +215,7 @@
         <div class="input-group-control">
             <label for="">退款金额</label>
             <div>
-                <input type="number" class="form-control" [field]="refundForm.money">
+                <input type="number" class="form-control" [formField]="refundForm.money">
             </div>
         </div>
     </div>
@@ -243,7 +243,7 @@
                 <td>
                     {{ item.amount().value() }} </td>
                 <td>
-                    <input type="number" class="form-control" [field]="item.ship_amount">
+                    <input type="number" class="form-control" [formField]="item.ship_amount">
                 </td>
             </tr>
             }
@@ -254,7 +254,7 @@
         <div class="input-group-control">
             <label for="">物流方式</label>
             <div>
-                <select class="form-control" [field]="shipForm.shipping_id">
+                <select class="form-control" [formField]="shipForm.shipping_id">
                     @for (item of shippingItems; track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                     }
@@ -264,7 +264,7 @@
         <div class="input-group-control">
             <label for="">物流单号</label>
             <div>
-                <input type="text" class="form-control" [field]="shipForm.logistics_number">
+                <input type="text" class="form-control" [formField]="shipForm.logistics_number">
             </div>
         </div>
     </div>

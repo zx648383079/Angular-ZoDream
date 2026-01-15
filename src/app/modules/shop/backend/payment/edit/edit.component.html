@@ -4,38 +4,38 @@
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name">
 
             </div>
         </div>
         <div class="input-group-control">
             <label for="icon">图标</label>
             <div>
-                <app-file-input id="icon" [field]="dataForm.icon" />
+                <app-file-input id="icon" [formField]="dataForm.icon" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="code">Code</label>
             <div>
-                <ng-select [items]="items()" bindValue="value" bindLabel="name" [field]="dataForm.code" />
+                <ng-select [items]="items()" bindValue="value" bindLabel="name" [formField]="dataForm.code" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="fee">Fee</label>
             <div>
-                <input type="number" id="fee" class="form-control" [field]="dataForm.fee">
+                <input type="number" id="fee" class="form-control" [formField]="dataForm.fee">
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">介绍</label>
             <div>
-                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
+                <textarea id="description" class="form-control" [formField]="dataForm.description"></textarea>
             </div>
         </div>
         <div class="input-group-control">
             <label>限定配送</label>
             <div>
-                <ng-select [multiple]="true" [items]="shippingItems" bindValue="id" bindLabel="name" [field]="dataForm.shipping" placeholder="选择配送" />
+                <ng-select [multiple]="true" [items]="shippingItems" bindValue="id" bindLabel="name" [formField]="dataForm.shipping" placeholder="选择配送" />
             </div>
         </div>
 

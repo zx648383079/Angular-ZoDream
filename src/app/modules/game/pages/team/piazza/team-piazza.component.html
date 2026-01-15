@@ -46,7 +46,7 @@
 </div>
 }
 
-<app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+<app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
 
 
 @if (modalVisible) {
@@ -55,7 +55,7 @@
     <div class="dialog-header">创建队伍</div>
     <div class="dialog-body">
         <div class="input-header-block">
-            <input type="text" [field]="dataForm.name">
+            <input type="text" [formField]="dataForm.name">
             <label for="">队伍名</label>
         </div>
     </div>

@@ -24,11 +24,11 @@
                             <i class="iconfont icon-check btn-primary" (click)="tapSaveGroup()" title="保存当前组"></i>
                         </div>
                     </div>
-                    <input type="text" class="form-control" [field]="dataForm.name" id="name" placeholder="例如：service">
+                    <input type="text" class="form-control" [formField]="dataForm.name" id="name" placeholder="例如：service">
                 </div>
                 <div class="form-group">
                     <label for="title">标题</label>
-                    <input type="text" class="form-control" [field]="dataForm.title" id="title" placeholder="例如：服务条款">
+                    <input type="text" class="form-control" [formField]="dataForm.title" id="title" placeholder="例如：服务条款">
                 </div>
             </div>
             <div class="form-group">
@@ -43,7 +43,7 @@
                             <i title="加粗" [class.checked]="item.b().value()" (click)="toggle(item.b().value)">b</i>
                             <i class="iconfont icon-close" (click)="tapRemoveItem(i)" title="删除"></i>
                         </div>
-                        <textarea class="form-control" [field]="item.content"></textarea>
+                        <textarea class="form-control" [formField]="item.content"></textarea>
                     </div>
                     }
                 </div>

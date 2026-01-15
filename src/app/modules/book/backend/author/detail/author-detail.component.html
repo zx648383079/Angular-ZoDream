@@ -5,19 +5,19 @@
         <div class="input-group-control">
             <label for="name">笔名</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name">
             </div>
         </div>
         <div class="input-group-control">
             <label for="cover">头像</label>
             <div>
-                <app-file-input [field]="dataForm.avatar" />
+                <app-file-input [formField]="dataForm.avatar" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">简介</label>
             <div>
-                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
+                <textarea id="description" class="form-control" [formField]="dataForm.description"></textarea>
             </div>
         </div>
         <div class="btn-group">

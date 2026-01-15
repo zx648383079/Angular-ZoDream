@@ -9,7 +9,7 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">名称</label>
-                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords"
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords"
                         placeholder="关键字">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
@@ -46,7 +46,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 
@@ -54,19 +54,19 @@
     <div class="form-group">
         <label for="name-input">等级</label>
         <div class="input-group-control">
-            <input type="number" class="form-control" id="name-input" [field]="editForm.grade" placeholder="请输入等级">
+            <input type="number" class="form-control" id="name-input" [formField]="editForm.grade" placeholder="请输入等级">
         </div>
     </div>
     <div class="form-group">
         <label>等级别名</label>
         <div class="input-group-control">
-            <input class="form-control"[field]="editForm.name" placeholder="请输入等级别名">
+            <input class="form-control"[formField]="editForm.name" placeholder="请输入等级别名">
         </div>
     </div>
     <div class="form-group">
         <label>上级升级所需经验</label>
         <div class="input-group-control">
-            <app-number-input [field]="editForm.exp" />
+            <app-number-input [formField]="editForm.exp" />
         </div>
     </div>
 </app-dialog-box>
@@ -75,26 +75,26 @@
     <div class="form-group">
         <label>等级范围</label>
         <div class="input-group-control range-input">
-            <app-number-input [field]="generateForm.begin" />-
-            <app-number-input [field]="generateForm.end" />
+            <app-number-input [formField]="generateForm.begin" />-
+            <app-number-input [formField]="generateForm.end" />
         </div>
     </div>
     <div class="form-group">
         <label>初始升级所需经验</label>
         <div class="input-group-control">
-            <app-number-input [field]="generateForm.begin_exp" />
+            <app-number-input [formField]="generateForm.begin_exp" />
         </div>
     </div>
     <div class="form-group">
         <label>每级增加经验类型</label>
         <div class="input-group-control">
-            <app-switch [field]="generateForm.step_type" onLabel="百分比" offLabel="固定值" />
+            <app-switch [formField]="generateForm.step_type" onLabel="百分比" offLabel="固定值" />
         </div>
     </div>
     <div class="form-group">
         <label>每级增加经验({{ generateForm.step_type().value() > 0 ? '%' : '固定' }})</label>
         <div class="input-group-control">
-            <app-number-input [field]="generateForm.step_exp" />
+            <app-number-input [formField]="generateForm.step_exp" />
         </div>
     </div>
     <div class="preview-bar">

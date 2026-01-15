@@ -10,7 +10,7 @@ import { LinkRuleModule } from '../../components/link-rule';
 import { ZreFormModule } from '../../components/form';
 import { DesktopModule } from '../../components/desktop';
 import { TabletModule } from '../../components/tablet';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 
 @NgModule({
@@ -18,7 +18,7 @@ import { Field } from '@angular/forms/signals';
     imports: [
         CommonModule,
         ThemeModule,
-        Field,
+        FormField,
         DesktopModule,
         TabletModule,
         MediaPlayerModule,

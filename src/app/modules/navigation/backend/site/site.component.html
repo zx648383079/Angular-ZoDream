@@ -9,11 +9,11 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键词">
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" placeholder="关键词">
                 </div>
                 <div class="input-group-control">
                     <label>分类</label>
-                    <select [field]="queries.category" class="form-control">
+                    <select [formField]="queries.category" class="form-control">
                         <option value="0">请选择</option>
                         @for (item of categories; track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
@@ -68,7 +68,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 
@@ -76,13 +76,13 @@
     <div class="form-group">
         <label>分数%</label>
         <div class="input-group-control">
-            <input type="number" class="form-control" [field]="scoringForm.score" placeholder="请输入分数">
+            <input type="number" class="form-control" [formField]="scoringForm.score" placeholder="请输入分数">
         </div>
     </div>
     <div class="form-group">
         <label>本次评分理由</label>
         <div class="input-group-control">
-            <textarea class="form-control" [field]="scoringForm.change_reason" placeholder="请输入评分理由"></textarea>
+            <textarea class="form-control" [formField]="scoringForm.change_reason" placeholder="请输入评分理由"></textarea>
         </div>
     </div>
 </app-dialog-box>
@@ -91,25 +91,25 @@
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [formField]="editForm.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label>LOGO</label>
         <div class="input-group-control">
-            <app-file-input [field]="editForm.logo" />
+            <app-file-input [formField]="editForm.logo" />
         </div>
     </div>
     <div class="form-group">
         <label for="name-input1">Schema</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input1" [field]="editForm.schema" placeholder="请输入Schema: http/https">
+            <input class="form-control" id="name-input1" [formField]="editForm.schema" placeholder="请输入Schema: http/https">
         </div>
     </div>
     <div class="form-group">
         <label for="name-input2">域名</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input2" [field]="editForm.domain" placeholder="请输入域名" (blur)="onLinkBlur()">
+            <input class="form-control" id="name-input2" [formField]="editForm.domain" placeholder="请输入域名" (blur)="onLinkBlur()">
         </div>
         @if (editExistData) {
         <div class="input-tip" title="已存在相同站点">
@@ -121,12 +121,12 @@
     <div class="form-group">
         <label for="name-input3">简介</label>
         <div class="input-group-control">
-            <textarea class="form-control" id="name-input3" [field]="editForm.description" placeholder="请输入简介"></textarea>
+            <textarea class="form-control" id="name-input3" [formField]="editForm.description" placeholder="请输入简介"></textarea>
         </div>
     </div>
     <div class="form-group">
         <label>分类</label>
-        <select class="form-control" [field]="editForm.cat_id">
+        <select class="form-control" [formField]="editForm.cat_id">
             @for (item of categories; track $index) {
             <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
             }
@@ -134,7 +134,7 @@
     </div>
     <div class="form-group">
         <label>推荐</label>
-        <select class="form-control" [field]="editForm.top_type">
+        <select class="form-control" [formField]="editForm.top_type">
             @for (item of topItems; track $index; let i = $index) {
             <option [value]="i">{{ item }}</option>
             }
@@ -142,18 +142,18 @@
     </div>
     <div class="form-group">
         <label>标签</label>
-        <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [field]="editForm.tags" [addTag]="addTagFn" placeholder="选择标签" />
+        <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [formField]="editForm.tags" [addTag]="addTagFn" placeholder="选择标签" />
     </div>
     @if (!editForm.id) {
     <div class="form-group">
         <label>同时收录到页面</label>
-        <app-switch [field]="editForm.also_page" />
+        <app-switch [formField]="editForm.also_page" />
     </div>
     }
     @if (!editForm.id && editForm.also_page) {
     <div class="form-group">
         <label>关键词</label>
-        <app-words-input [field]="editForm.keywords" />
+        <app-words-input [formField]="editForm.keywords" />
     </div>
     }
 </app-dialog-box>

@@ -10,7 +10,7 @@ import { DialogModule } from '../components/dialog';
 import { ZreFormModule } from '../components/form';
 import { AuthSharedModule } from '../modules/auth/auth-shared.module';
 import { DesktopModule } from '../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 
 @NgModule({
@@ -19,7 +19,7 @@ import { Field } from '@angular/forms/signals';
         CommonModule,
         ThemeModule,
         NgOptimizedImage,
-        Field,
+        FormField,
         CheckinModule,
         DesktopModule,
         FrontendRoutingModule,

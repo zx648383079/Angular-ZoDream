@@ -56,7 +56,7 @@
             <div class="item-name" i18n>Notification of new news</div>
         </div>
         <div class="item-action">
-            <app-switch i18n-onLabel i18n-offLabel onLabel="On" offLabel="Off" [field]="dataForm.accept_new_bulletin" 
+            <app-switch i18n-onLabel i18n-offLabel onLabel="On" offLabel="Off" [formField]="dataForm.accept_new_bulletin" 
             (valueChange)="onValueChange()" />
         </div>
     </div>
@@ -68,7 +68,7 @@
             <div class="item-name" i18n>Do-not-disturb mode</div>
         </div>
         <div class="item-action">
-            <app-switch i18n-onLabel i18n-offLabel onLabel="On" offLabel="Off" [field]="dataForm.open_not_disturb" 
+            <app-switch i18n-onLabel i18n-offLabel onLabel="On" offLabel="Off" [formField]="dataForm.open_not_disturb" 
             (valueChange)="onValueChange()" />
         </div>
     </div>
@@ -84,7 +84,7 @@
             <div class="item-meta" i18n>Automatically hide dynamics after time</div>
         </div>
         <div class="item-action">
-            <input type="number" class="form-control" [field]="dataForm.post_expiration" (valueChange)="onValueChange()">
+            <input type="number" class="form-control" [formField]="dataForm.post_expiration" (valueChange)="onValueChange()">
             <ng-container i18n> Days</ng-container>
             
         </div>
@@ -98,7 +98,7 @@
         </div>
         <div class="item-action">
             <app-switch i18n-onLabel i18n-offLabel onLabel="On" offLabel="Off" 
-            [field]="dataForm.upload_add_water" (valueChange)="onValueChange()" />
+            [formField]="dataForm.upload_add_water" (valueChange)="onValueChange()" />
         </div>
     </div>
 </div>

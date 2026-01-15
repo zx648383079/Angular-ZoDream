@@ -9,11 +9,11 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">文件名</label>
-                    <input type="text" class="form-control" placeholder="搜索文件" id="keywords" [field]="queries.keywords">
+                    <input type="text" class="form-control" placeholder="搜索文件" id="keywords" [formField]="queries.keywords">
                 </div>
                 <div class="input-group-control">
                     <label>分区</label>
-                    <select [field]="queries.tag" class="form-control">
+                    <select [formField]="queries.tag" class="form-control">
                         <option value="0">请选择</option>
                         @for (item of tagItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
@@ -83,7 +83,7 @@
         </table>
         
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />  
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />  
     </div>
 </div>
 

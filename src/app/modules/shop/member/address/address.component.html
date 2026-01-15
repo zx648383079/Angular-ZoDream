@@ -51,19 +51,19 @@
         <div class="address-body">
             <div>*所在地区:</div>
             <div class="region-input">
-                <app-region url="shop/region/tree" [field]="editForm.region_id" />
+                <app-region url="shop/region/tree" [formField]="editForm.region_id" />
             </div>
             <div>*详细地址:</div>
             <div>
-                <textarea [field]="editForm.address" cols="30" rows="10"></textarea>
+                <textarea [formField]="editForm.address" cols="30" rows="10"></textarea>
             </div>
             <div>*收货人:</div>
             <div>
-                <input type="text" [field]="editForm.name">
+                <input type="text" [formField]="editForm.name">
             </div>
             <div>*手机号码:</div>
             <div>
-                <input type="text" [field]="editForm.tel">
+                <input type="text" [formField]="editForm.tel">
             </div>
         </div>
     </div>

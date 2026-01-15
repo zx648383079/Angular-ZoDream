@@ -8,13 +8,13 @@ import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
 import { ZreEditorModule } from '../../../components/editor';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
-        Field,
+        FormField,
         DesktopModule,
         DialogModule,
         ZreFormModule,

@@ -5,13 +5,13 @@ import { videoRoutedComponents, VideoRoutingModule } from './video-routing.modul
 import { VideoService } from './video.service';
 import { DurationPipe } from './duration.pipe';
 import { DesktopModule } from '../../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 import { ZreFormModule } from '../../../components/form';
 
 @NgModule({
     imports: [
         CommonModule,
-        Field,
+        FormField,
         ThemeModule,
         ZreFormModule,
         DesktopModule,

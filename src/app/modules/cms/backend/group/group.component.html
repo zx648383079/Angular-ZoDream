@@ -9,11 +9,11 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键词">
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" placeholder="关键词">
                 </div>
                 <div class="input-group-control">
                     <label for="type1">关键字</label>
-                    <select class="form-control" [field]="queries.type" id="type1">
+                    <select class="form-control" [formField]="queries.type" id="type1">
                         @for (item of typeItems; track $index; let i = $index) {
                         <option [value]="i">{{ item }}</option>
                         }
@@ -56,16 +56,16 @@
     <div class="form-group">
       <label for="name">名称</label>
       <input type="text"
-        class="form-control" [field]="editForm.name" id="name" placeholder="请输入名称">
+        class="form-control" [formField]="editForm.name" id="name" placeholder="请输入名称">
     </div>
     <div class="form-group">
         <label for="type">类型</label>
         <div>
-            <app-check-input [items]="typeItems" [rangeKey]="1" [field]="editForm.type" id="type" />
+            <app-check-input [items]="typeItems" [rangeKey]="1" [formField]="editForm.type" id="type" />
         </div>
     </div>
     <div class="form-group">
         <label for="description">描述</label>
-        <textarea class="form-control" [field]="editForm.description" id="description" placeholder="请输入描述"></textarea>
+        <textarea class="form-control" [formField]="editForm.description" id="description" placeholder="请输入描述"></textarea>
     </div>
 </app-dialog-box>

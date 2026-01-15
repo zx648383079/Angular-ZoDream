@@ -4,7 +4,7 @@
     <div class="search-bar">
         <form class="form-horizontal-control" (submit)="tapSearch($event)">
             <div class="flat-input">
-                <input type="text" class="form-control" id="keywords" [field]="queries.keywords" id="keywords" [placeholder]="placeholder()">
+                <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" id="keywords" [placeholder]="placeholder()">
                 @if (typeItems && typeItems.length > 0) {
                 <select name="accept" class="form-control" [value]="accept()" class="form-control">
                     @for (item of typeItems; track $index) {
@@ -33,7 +33,7 @@
         }
     </div>
     <div class="footer-container">
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
         <div class="btn-group">
             <div class="btn btn-primary" (click)="tapYes()" i18n>Confirm</div>
             <div class="btn btn-danger" (click)="tapCancel()" i18n>Reset</div>

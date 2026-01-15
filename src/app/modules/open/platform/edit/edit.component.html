@@ -5,7 +5,7 @@
         <div class="input-group-control">
             <label for="name">应用名</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name" placeholder="例如: xx应用">
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name" placeholder="例如: xx应用">
                 @if (dataForm.name().invalid()) {
                     <div class="input-tip">请输入应用名</div>
                 }
@@ -14,7 +14,7 @@
         <div class="input-group-control">
             <label for="type">类型</label>
             <div>
-                <select id="type" class="form-control" [field]="dataForm.type">
+                <select id="type" class="form-control" [formField]="dataForm.type">
                     @for (item of typeItems; track $index; let i = $index) {
                         <option [value]="i">{{ item }}</option>
                     }
@@ -24,13 +24,13 @@
         <div class="input-group-control">
             <label for="domain">域名</label>
             <div>
-                <input type="text" id="domain" class="form-control" [field]="dataForm.domain">
+                <input type="text" id="domain" class="form-control" [formField]="dataForm.domain">
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">介绍</label>
             <div>
-                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
+                <textarea id="description" class="form-control" [formField]="dataForm.description"></textarea>
 
             </div>
         </div>
@@ -53,7 +53,7 @@
             <div class="input-group-control">
                 <label for="sign_type">签名方式</label>
                 <div>
-                    <select id="sign_type" class="form-control" [field]="dataForm.sign_type">
+                    <select id="sign_type" class="form-control" [formField]="dataForm.sign_type">
                         @for (item of signItems; track $index; let i = $index) {
                             <option [value]="i">{{ item }}</option>
                         }
@@ -65,7 +65,7 @@
             <div class="input-group-control">
                 <label for="sign_key">签名密钥</label>
                 <div>
-                    <textarea id="sign_key" class="form-control" [field]="dataForm.sign_key"></textarea>
+                    <textarea id="sign_key" class="form-control" [formField]="dataForm.sign_key"></textarea>
                     <div class="input-tip">请输入签名密钥或签名组成字段请用“+”链接,例如：appid+timestamp+secret</div>
                 </div>
             </div>
@@ -73,7 +73,7 @@
             <div class="input-group-control">
                 <label for="encrypt_type">加密方式</label>
                 <div>
-                    <select id="encrypt_type" class="form-control" [field]="dataForm.encrypt_type">
+                    <select id="encrypt_type" class="form-control" [formField]="dataForm.encrypt_type">
                         @for (item of encryptItems; track $index; let i = $index) {
                             <option [value]="i">{{ item }}</option>
                         }
@@ -85,7 +85,7 @@
             <div class="input-group-control">
                 <label for="public_key">加密公钥</label>
                 <div>
-                    <textarea id="public_key" class="form-control" [field]="dataForm.public_key"></textarea>
+                    <textarea id="public_key" class="form-control" [formField]="dataForm.public_key"></textarea>
                 </div>
             </div>
             }
@@ -93,7 +93,7 @@
             <div class="input-group-control">
                 <label for="rules">允许规则</label>
                 <div>
-                    <textarea id="rules" class="form-control" [field]="dataForm.rules"></textarea>
+                    <textarea id="rules" class="form-control" [formField]="dataForm.rules"></textarea>
                     <div class="input-tip">
                         &#64; 匹配模块空间 ~ 接正则表达式 ^ 匹配开头 - 排除，其他匹配全路径
                     </div>
@@ -102,7 +102,7 @@
             <div class="input-group-control">
                 <label for="status">状态</label>
                 <div>
-                    <select id="status" class="form-control" [field]="dataForm.status">
+                    <select id="status" class="form-control" [formField]="dataForm.status">
                         @for (item of statusItems; track $index) {
                             <option [value]="item.value">{{ item.name }}</option>
                         }
@@ -116,7 +116,7 @@
         <div class="input-group-control">
             <label for="allow_self">允许手动生成</label>
             <div>
-                <app-switch id="allow_self" [field]="dataForm.allow_self" />
+                <app-switch id="allow_self" [formField]="dataForm.allow_self" />
             </div>
         </div>
         <div class="btn-group">

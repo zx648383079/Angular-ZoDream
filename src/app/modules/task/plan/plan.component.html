@@ -105,33 +105,33 @@
         <div class="input-group-control">
             <label>数量</label>
             <div>
-                <app-number-input [field]="editForm.amount"/>
+                <app-number-input [formField]="editForm.amount"/>
             </div>
         </div>
         <div class="input-group-control">
             <label>优先级</label>
             <div>
-                <app-number-input [field]="editForm.priority"/>
+                <app-number-input [formField]="editForm.priority"/>
             </div>
         </div>
         <div class="input-group-control">
             <label>类型</label>
             <div>
-                <app-check-input [items]="typeItems" [rangeKey]="1" [field]="editForm.plan_type" />
+                <app-check-input [items]="typeItems" [rangeKey]="1" [formField]="editForm.plan_type" />
             </div>
         </div>
         @if (editForm.plan_type().value() < 0) {
         <div class="input-group-control">
             <label>时间</label>
             <div>
-                <app-date-input [field]="editForm.plan_time" />
+                <app-date-input [formField]="editForm.plan_time" />
             </div>
         </div>
         } @else if (editForm.plan_type().value() == 1) {
         <div class="input-group-control">
             <label>星期</label>
             <div>
-                <select class="form-control" [field]="editForm.plan_time">
+                <select class="form-control" [formField]="editForm.plan_time">
                     @for (item of weekNameItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
                     }
@@ -142,7 +142,7 @@
         <div class="input-group-control">
             <label>天数</label>
             <div>
-                <select class="form-control" [field]="editForm.plan_time">
+                <select class="form-control" [formField]="editForm.plan_time">
                     @for (item of monthNameItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
                     }

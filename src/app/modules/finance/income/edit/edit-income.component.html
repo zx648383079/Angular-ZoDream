@@ -5,25 +5,25 @@
             <div class="input-group-control">
                 <label for="type">类型</label>
                 <div>
-                    <app-check-input [items]="typeItems" [field]="dataForm.type" [rangeKey]="1"></app-check-input>
+                    <app-check-input [items]="typeItems" [formField]="dataForm.type" [rangeKey]="1"></app-check-input>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="money">金额</label>
                 <div>
-                    <input type="number" id="money" class="form-control" [field]="dataForm.money">
+                    <input type="number" id="money" class="form-control" [formField]="dataForm.money">
             
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="frozen_money">冻结金额</label>
                 <div>
-                    <input type="number" id="frozen_money" class="form-control" [field]="dataForm.frozen_money">
+                    <input type="number" id="frozen_money" class="form-control" [formField]="dataForm.frozen_money">
                 </div>
             </div>    <div class="input-group-control">
                 <label for="account_id">账户</label>
                 <div>
-                    <select id="account_id" class="form-control" [field]="dataForm.account_id">
+                    <select id="account_id" class="form-control" [formField]="dataForm.account_id">
                         @for (item of accountItems(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                         }
@@ -33,7 +33,7 @@
             <div class="input-group-control">
                 <label for="project_id">项目</label>
                 <div>
-                    <select id="project_id" class="form-control" [field]="dataForm.project_id">
+                    <select id="project_id" class="form-control" [formField]="dataForm.project_id">
                         <option value="0">请选择</option>
                         @for (item of projectItems(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
@@ -45,7 +45,7 @@
             <div class="input-group-control">
                 <label for="channel_id">渠道</label>
                 <div>
-                    <select id="channel_id" class="form-control" [field]="dataForm.channel_id">
+                    <select id="channel_id" class="form-control" [formField]="dataForm.channel_id">
                         <option value="0">请选择</option>
                         @for (item of channelItems(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
@@ -57,7 +57,7 @@
             <div class="input-group-control">
                 <label for="budget_id">预算</label>
                 <div>
-                    <select id="budget_id" class="form-control" [field]="dataForm.budget_id">
+                    <select id="budget_id" class="form-control" [formField]="dataForm.budget_id">
                         <option value="0">请选择</option>
                         @for (item of budgetItems(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
@@ -68,20 +68,20 @@
             <div class="input-group-control">
                 <label for="trading_object">交易对象</label>
                 <div>
-                    <input type="text" id="trading_object" class="form-control" [field]="dataForm.trading_object">
+                    <input type="text" id="trading_object" class="form-control" [formField]="dataForm.trading_object">
             
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="happened_at">发生时间</label>
                 <div>
-                    <app-date-input id="happened_at" [field]="dataForm.happened_at" format="yyyy-mm-dd hh:ii:ss" />
+                    <app-date-input id="happened_at" [formField]="dataForm.happened_at" format="yyyy-mm-dd hh:ii:ss" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="remark">备注</label>
                 <div>
-                    <textarea id="remark" class="form-control" [field]="dataForm.remark"></textarea>
+                    <textarea id="remark" class="form-control" [formField]="dataForm.remark"></textarea>
             
                 </div>
             </div>
@@ -89,13 +89,13 @@
             <div class="input-group-control">
                 <label for="day">日期</label>
                 <div>
-                    <app-date-input id="day" [field]="dataForm.day" />
+                    <app-date-input id="day" [formField]="dataForm.day" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="account_id">账户</label>
                 <div>
-                    <select id="account_id" class="form-control" [field]="dataForm.account_id">
+                    <select id="account_id" class="form-control" [formField]="dataForm.account_id">
                         @for (item of accountItems(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                         }
@@ -105,7 +105,7 @@
             <div class="input-group-control">
                 <label for="channel_id">渠道</label>
                 <div>
-                    <select id="channel_id" class="form-control" [field]="dataForm.channel_id">
+                    <select id="channel_id" class="form-control" [formField]="dataForm.channel_id">
                         <option value="0">请选择</option>
                         @for (item of channelItems(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
@@ -117,7 +117,7 @@
             <div class="input-group-control">
                 <label for="budget_id">预算</label>
                 <div>
-                    <select id="budget_id" class="form-control" [field]="dataForm.budget_id">
+                    <select id="budget_id" class="form-control" [formField]="dataForm.budget_id">
                         <option value="0">请选择</option>
                         @for (item of budgetItems(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
@@ -130,20 +130,20 @@
             <div class="input-group-control">
                 <label for="breakfast_time">时间</label>
                 <div>
-                    <app-time-input id="breakfast_time" [field]="dataForm.breakfast.time" />
+                    <app-time-input id="breakfast_time" [formField]="dataForm.breakfast.time" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="breakfast_money">金额</label>
                 <div>
-                    <input type="number" id="breakfast_money" class="form-control" [field]="dataForm.breakfast.money">
+                    <input type="number" id="breakfast_money" class="form-control" [formField]="dataForm.breakfast.money">
 
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="breakfast_remark">备注</label>
                 <div>
-                    <textarea id="breakfast_remark" class="form-control" [field]="dataForm.breakfast.remark"></textarea>
+                    <textarea id="breakfast_remark" class="form-control" [formField]="dataForm.breakfast.remark"></textarea>
 
                 </div>
             </div>
@@ -151,21 +151,21 @@
             <div class="input-group-control">
                 <label for="lunch_time">时间</label>
                 <div>
-                    <app-time-input id="lunch_time" [field]="dataForm.lunch.time" />
+                    <app-time-input id="lunch_time" [formField]="dataForm.lunch.time" />
 
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="lunch_money">金额</label>
                 <div>
-                    <input type="number" id="lunch_money" class="form-control" [field]="dataForm.lunch.money">
+                    <input type="number" id="lunch_money" class="form-control" [formField]="dataForm.lunch.money">
 
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="lunch_remark">备注</label>
                 <div>
-                    <textarea id="lunch_remark" class="form-control" [field]="dataForm.lunch.remark"></textarea>
+                    <textarea id="lunch_remark" class="form-control" [formField]="dataForm.lunch.remark"></textarea>
 
                 </div>
             </div>
@@ -173,21 +173,21 @@
             <div class="input-group-control">
                 <label for="dinner_time">时间</label>
                 <div>
-                    <app-time-input id="dinner_time" [field]="dataForm.dinner.time" />
+                    <app-time-input id="dinner_time" [formField]="dataForm.dinner.time" />
 
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="dinner_money">金额</label>
                 <div>
-                    <input type="number" id="dinner_money" class="form-control" [field]="dataForm.dinner.money">
+                    <input type="number" id="dinner_money" class="form-control" [formField]="dataForm.dinner.money">
 
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="dinner_remark">备注</label>
                 <div>
-                    <textarea id="dinner_remark" class="form-control" [field]="dataForm.dinner.remark"></textarea>
+                    <textarea id="dinner_remark" class="form-control" [formField]="dataForm.dinner.remark"></textarea>
                 </div>
             </div>
         }

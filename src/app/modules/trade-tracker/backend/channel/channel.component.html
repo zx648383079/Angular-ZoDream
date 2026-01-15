@@ -9,7 +9,7 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label class="sr-only" for="keywords">关键词</label>
-                    <input type="text" class="form-control" placeholder="关键词" id="keywords" [field]="queries.keywords">
+                    <input type="text" class="form-control" placeholder="关键词" id="keywords" [formField]="queries.keywords">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
@@ -48,26 +48,26 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 <app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑渠道' : '新增渠道'">
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [formField]="editForm.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="short_name-input">简称</label>
         <div class="input-group-control">
-            <input class="form-control" id="short_name-input" [field]="editForm.short_name" placeholder="请输入简称">
+            <input class="form-control" id="short_name-input" [formField]="editForm.short_name" placeholder="请输入简称">
         </div>
     </div>
     <div class="form-group">
         <label for="site_url-input">网址</label>
         <div class="input-group-control">
-            <input class="form-control" id="site_url-input" [field]="editForm.site_url" placeholder="请输入网址">
+            <input class="form-control" id="site_url-input" [formField]="editForm.site_url" placeholder="请输入网址">
         </div>
     </div>
 </app-dialog-box>

@@ -8,13 +8,13 @@ import { ContextMenuModule } from '../../../components/context-menu';
 import { ZreMindModule } from '../../../components/mind';
 import { BookService } from './book.service';
 import { DesktopModule } from '../../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
-        Field,
+        FormField,
         DialogModule,
         DesktopModule,
         ContextMenuModule,

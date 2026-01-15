@@ -5,13 +5,13 @@ import { ThemeModule } from '../../../theme/theme.module';
 import { ShortLinkService } from './short-link.service';
 import { DialogModule } from '../../../components/dialog';
 import { DesktopModule } from '../../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
-        Field,
+        FormField,
         DialogModule,
         DesktopModule,
         ShortBackendRoutingModule

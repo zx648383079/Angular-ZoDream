@@ -6,12 +6,12 @@
     </app-page-tip>
     <div class="panel-container">
         <div class="flat-input">
-            <select [field]="dataForm.method" class="form-control">
+            <select [formField]="dataForm.method" class="form-control">
                 @for (item of methodItems; track $index) {
                     <option [value]="item">{{ item }}</option>
                 }
             </select>
-            <input type="text" [field]="dataForm.url" class="form-control">
+            <input type="text" [formField]="dataForm.url" class="form-control">
             <app-action-button class="btn btn-primary" (tapped)="tapSend($event)">发送</app-action-button>
             <button class="btn btn-danger" (click)="tapReset()">重置</button>
         </div>
@@ -42,10 +42,10 @@
                                     <i class="iconfont" [class]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}" (click)="toggle(item.checked().value)"></i>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" [field]="item.key">
+                                    <input type="text" class="form-control" [formField]="item.key">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" [field]="item.value">
+                                    <input type="text" class="form-control" [formField]="item.value">
                                 </td>
                                 <td>
                                     <i class="iconfont icon-close" (click)="tapRemoveHeader(i)"></i>
@@ -65,9 +65,9 @@
                 </div>
                 <div class="tab-item" [class.active]="requestIndex == 1">
                     <div class="type-bar">
-                        <app-check-input [items]="typeItems" [rangeKey]="1" [field]="dataForm.bodyType" (valueChange)="onTypeChange()" />
+                        <app-check-input [items]="typeItems" [rangeKey]="1" [formField]="dataForm.bodyType" (valueChange)="onTypeChange()" />
                         @if (dataForm.bodyType().value() != 3) {
-                        <select [field]="dataForm.rawType" class="form-control">
+                        <select [formField]="dataForm.rawType" class="form-control">
                             @for (item of rawItems; track $index;let i = $index) {
                                 <option [value]="i">{{ item }}</option>
                             }
@@ -78,7 +78,7 @@
                     @if (dataForm.bodyType().value() == 4) {
                         <input type="file" class="form-control" (change)="uploadFile($event)">
                     } @else if (dataForm.bodyType().value() == 3) {
-                        <textarea [field]="dataForm.body" class="form-control"></textarea>
+                        <textarea [formField]="dataForm.body" class="form-control"></textarea>
                     } @else if (dataForm.bodyType().value() > 0 && dataForm.bodyType().value() < 3) {
                         <table class="table table-hover">
                             <thead>
@@ -96,9 +96,9 @@
                                         <i class="iconfont" [class.icon-square-o]="!item.checked().value()" (click)="toggle(item.checked().value)"></i>
                                     </td>
                                     <td [class]="{'type-td': dataForm.bodyType().value() == 1}">
-                                        <input type="text" class="form-control" [field]="item.key">
+                                        <input type="text" class="form-control" [formField]="item.key">
                                         @if (dataForm.bodyType().value() == 1) {
-                                        <select [field]="item.type" class="form-control">
+                                        <select [formField]="item.type" class="form-control">
                                             @for (item of optionItems; track $index;let i = $index) {
                                                 <option [value]="i">{{ item }}</option>
                                             }
@@ -111,7 +111,7 @@
                                         @if (item.type().value() != '') {
                                             <input type="file" class="form-control" (change)="uploadFile($event, item)">
                                         } @else {
-                                            <input type="text" class="form-control" [field]="item.value">
+                                            <input type="text" class="form-control" [formField]="item.value">
                                         }
                                     </td>
                                     <td>

@@ -6,14 +6,14 @@ import { DialogModule } from '../../../components/dialog';
 import { ThemeModule } from '../../../theme/theme.module';
 import { ZreEditorModule } from '../../../components/editor';
 import { DesktopModule } from '../../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
         DesktopModule,
-        Field,
+        FormField,
         DialogModule,
         ZreEditorModule,
         NoteMemberRoutingModule

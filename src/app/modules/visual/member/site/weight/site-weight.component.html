@@ -1,8 +1,8 @@
 
 <div class="page-search-bar">
     <form class="flat-input" (submit)="tapSearch($event)">
-        <input type="text" class="form-control" id="keywords" [field]="queries.keywords" i18n-placeholder placeholder="Please input a keyword">
-        <select [field]="queries.type" class="form-control">
+        <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" i18n-placeholder placeholder="Please input a keyword">
+        <select [formField]="queries.type" class="form-control">
             @for (item of typeItems; track $index) {
                 <option [value]="item.value">{{ item.name }}</option>
             }
@@ -45,7 +45,7 @@
 
 
 <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-<app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+<app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
 
 <app-search-dialog #modal [multiple]="true" />
 
@@ -53,25 +53,25 @@
     <div class="form-group">
         <label for="name-input" i18n>Name</label>
         <div>
-            <input class="form-control" id="name-input" [field]="pageForm.name" i18n-placeholder placeholder="Please input the name">
+            <input class="form-control" id="name-input" [formField]="pageForm.name" i18n-placeholder placeholder="Please input the name">
         </div>
     </div>
     <div class="form-group">
         <label for="title-input" i18n>Page Title</label>
         <div>
-            <input class="form-control" id="title-input" [field]="pageForm.title" i18n-placeholder placeholder="Please input the title of page">
+            <input class="form-control" id="title-input" [formField]="pageForm.title" i18n-placeholder placeholder="Please input the title of page">
         </div>
     </div>
     <div class="form-group">
         <label for="keywords-input" i18n>Page Keywords</label>
         <div>
-            <app-words-input [field]="pageForm.keywords" i18n-placeholder placeholder="Please input the keywords of page" />
+            <app-words-input [formField]="pageForm.keywords" i18n-placeholder placeholder="Please input the keywords of page" />
         </div>
     </div>
     <div class="form-group">
         <label for="description-input" i18n>Page Description</label>
         <div>
-            <app-text-editor [field]="pageForm.description" height="100" />
+            <app-text-editor [formField]="pageForm.description" height="100" />
         </div>
     </div>
 </app-dialog-box>

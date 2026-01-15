@@ -9,7 +9,7 @@
           <form class="form-horizontal-control" (submit)="tapSearch($event)">
               <div class="input-group-control">
                   <label for="keywords">昵称</label>
-                  <input type="text" class="form-control" placeholder="搜索昵称" id="keywords" [field]="queries.keywords">
+                  <input type="text" class="form-control" placeholder="搜索昵称" id="keywords" [formField]="queries.keywords">
               </div>
               <button type="submit" class="btn btn-primary">搜索</button>
               <div class="btn-group pull-right">
@@ -72,20 +72,20 @@
               </tbody>
       </table>
       <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
   </div>
 </div>
 <app-dialog-box #modal [scrollable]="false">
     <div class="form-group">
         <label for="">真实姓名</label>
         <div>
-            <input type="text" class="form-control" [field]="editForm.name">
+            <input type="text" class="form-control" [formField]="editForm.name">
         </div>
     </div>
     <div class="form-group">
         <label for="">身份证</label>
         <div>
-            <input type="text" class="form-control" [field]="editForm.id_card">
+            <input type="text" class="form-control" [formField]="editForm.id_card">
         </div>
     </div>
 </app-dialog-box>

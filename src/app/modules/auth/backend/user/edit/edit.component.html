@@ -17,7 +17,7 @@
                     <div class="input-group-control">
                         <label for="name">昵称</label>
                         <div>
-                            <input type="text" id="name" class="form-control" [field]="dataForm.name" placeholder="例如:zodream">
+                            <input type="text" id="name" class="form-control" [formField]="dataForm.name" placeholder="例如:zodream">
                             @if (dataForm.name().invalid()) {
                             <div class="input-tip" >请输入昵称</div>
                             }
@@ -26,7 +26,7 @@
                     <div class="input-group-control">
                         <label for="email">邮箱</label>
                         <div>
-                            <input type="email" id="email" class="form-control" [field]="dataForm.email">
+                            <input type="email" id="email" class="form-control" [formField]="dataForm.email">
                             @if (dataForm.email().invalid()) {
                             <div class="input-tip" >请输入邮箱</div>
                             }
@@ -35,25 +35,25 @@
                     <div class="input-group-control">
                         <label for="sex">性别</label>
                         <div>
-                            <app-check-input [field]="dataForm.sex" rangeKey="value" [items]="sexItems" />
+                            <app-check-input [formField]="dataForm.sex" rangeKey="value" [items]="sexItems" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="birthday">生日</label>
                         <div class="calendar-input">
-                            <app-date-input [field]="dataForm.birthday" />
+                            <app-date-input [formField]="dataForm.birthday" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label>角色</label>
                         <div>
-                            <ng-select [multiple]="true" [items]="roleItems" bindValue="id" bindLabel="display_name" [field]="dataForm.roles" placeholder="选择角色" />
+                            <ng-select [multiple]="true" [items]="roleItems" bindValue="id" bindLabel="display_name" [formField]="dataForm.roles" placeholder="选择角色" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label>分区</label>
                         <div>
-                            <ng-select [items]="zoneItems" bindValue="id" bindLabel="name" [field]="dataForm.zone_id" placeholder="选择分区" />
+                            <ng-select [items]="zoneItems" bindValue="id" bindLabel="name" [formField]="dataForm.zone_id" placeholder="选择分区" />
                         </div>
                     </div>
                 </app-panel>
@@ -63,7 +63,7 @@
                     <div class="input-group-control">
                         <label for="password">密码</label>
                         <div>
-                            <input type="password" id="password" class="form-control" [field]="dataForm.password"
+                            <input type="password" id="password" class="form-control" [formField]="dataForm.password"
                                 placeholder="输入密码">
 
                         </div>
@@ -71,7 +71,7 @@
                     <div class="input-group-control">
                         <label for="confirm_password">确认密码</label>
                         <div>
-                            <input type="password" id="confirm_password" class="form-control" [field]="dataForm.confirm_password"
+                            <input type="password" id="confirm_password" class="form-control" [formField]="dataForm.confirm_password"
                                 placeholder="输入确认密码">
                             @if (dataForm.confirm_password().invalid()) {
                                 <div class="input-tip" >两次密码不一致</div>

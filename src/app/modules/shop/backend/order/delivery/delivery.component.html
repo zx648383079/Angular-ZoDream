@@ -10,7 +10,7 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键词">
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
             </form>
@@ -56,7 +56,7 @@
             }
         </div>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 <app-dialog-box #logisticsModal title="物流信息" [footerVisible]="false">
@@ -103,7 +103,7 @@
     <div class="input-group-control">
         <label for="">状态</label>
         <div>
-            <select class="form-control" [field]="logisticsForm.status">
+            <select class="form-control" [formField]="logisticsForm.status">
                 @for (item of statusItems; track $index; let i = $index) {
                 <option [value]="i">{{ item }}</option>
                 }
@@ -113,13 +113,13 @@
     <div class="input-group-control">
         <label for="">物流内容</label>
         <div>
-            <textarea class="form-control" [field]="logisticsForm.content"></textarea>
+            <textarea class="form-control" [formField]="logisticsForm.content"></textarea>
         </div>
     </div>
     <div class="input-group-control">
         <label for="">发生时间</label>
         <div>
-            <app-date-input format="yyyy-mm-dd hh:ii:ss" [field]="logisticsForm.time" />
+            <app-date-input format="yyyy-mm-dd hh:ii:ss" [formField]="logisticsForm.time" />
         </div>
     </div>
     <div class="btn-group">

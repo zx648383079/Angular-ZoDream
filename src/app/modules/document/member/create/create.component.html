@@ -27,27 +27,27 @@
                 <div class="form-group">
                   <label for="name">文档名称</label>
                   <input type="text"
-                    class="form-control" [field]="dataForm.name" id="name" placeholder="">
+                    class="form-control" [formField]="dataForm.name" id="name" placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="cover">封面</label>
-                    <app-file-input [field]="dataForm.cover" />
+                    <app-file-input [formField]="dataForm.cover" />
                 </div>
                 <div class="form-group">
                     <label for="description">简介</label>
-                    <textarea class="form-control" [field]="dataForm.description" id="description" rows="3"></textarea>
+                    <textarea class="form-control" [formField]="dataForm.description" id="description" rows="3"></textarea>
                 </div>
                 <div class="form-group">
                     <label>可见性</label>
                     <div class="form-check">
                         <label class="form-check-label">
-                        <input type="radio" class="form-check-input" [field]="dataForm.status" id="status" value="0">
+                        <input type="radio" class="form-check-input" [formField]="dataForm.status" id="status" value="0">
                         公开
                       </label>
                     </div>
                     <div class="form-check">
                         <label class="form-check-label">
-                        <input type="radio" class="form-check-input" [field]="dataForm.status" id="status" value="1">
+                        <input type="radio" class="form-check-input" [formField]="dataForm.status" id="status" value="1">
                         私有
                       </label>
                     </div>
@@ -70,13 +70,13 @@
                             @for (item of dataForm.environment; track $index; let i = $index) {
                             <tr>
                                 <td>
-                                    <input type="text" class="form-control" [field]="item.name" placeholder="例如：dev">
+                                    <input type="text" class="form-control" [formField]="item.name" placeholder="例如：dev">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" [field]="item.title" placeholder="例如：测试环境">
+                                    <input type="text" class="form-control" [formField]="item.title" placeholder="例如：测试环境">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" [field]="item.domain" placeholder="例如：http://zodream.cn">
+                                    <input type="text" class="form-control" [formField]="item.domain" placeholder="例如：http://zodream.cn">
                                 </td>
                                 <td>
                                     <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>

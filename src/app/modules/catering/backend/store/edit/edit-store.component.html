@@ -7,37 +7,37 @@
             <div class="input-group-control">
                 <label for="title">店铺名</label>
                 <div>
-                    <input type="text" id="title" class="form-control" [field]="dataForm.name">
+                    <input type="text" id="title" class="form-control" [formField]="dataForm.name">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="logo">店主</label>
                 <div>
-                    <app-user-picker [field]="dataForm.user"/>
+                    <app-user-picker [formField]="dataForm.user"/>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="logo">图标</label>
                 <div>
-                    <app-file-input [field]="dataForm.logo" />
+                    <app-file-input [formField]="dataForm.logo" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="keywords">关键字</label>
                 <div>
-                    <app-words-input id="keywords" [field]="dataForm.keywords" />
+                    <app-words-input id="keywords" [formField]="dataForm.keywords" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="description">说明</label>
                 <div>
-                    <app-text-editor [field]="dataForm.description" height="100" />
+                    <app-text-editor [formField]="dataForm.description" height="100" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="status">状态</label>
                 <div>
-                    <select [field]="dataForm.status" class="form-control">
+                    <select [formField]="dataForm.status" class="form-control">
                         <option value="0">上线</option>
                         <option value="1">关店</option>
                     </select>

@@ -10,11 +10,11 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="date">日期</label>
-                    <app-date-input id="date" placeholder="选择日期" [field]="queries.date"/>
+                    <app-date-input id="date" placeholder="选择日期" [formField]="queries.date"/>
                 </div>
                 <div class="input-group-control">
                     <label>区间</label>
-                    <select [field]="queries.type" class="form-control">
+                    <select [formField]="queries.type" class="form-control">
                         @for (item of typeItems; track $index;let i = $index) {
                             <option [value]="i" >{{ item }}</option>
                         }

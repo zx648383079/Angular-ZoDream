@@ -60,7 +60,7 @@
         <div class="row">
             <div class="col-md-12">
                 <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-                <app-pagination [total]="total()" [field]="queries.page" (valueChange)="goPage($event)" [perPage]="queries.per_page().value()" />
+                <app-pagination [total]="total()" [formField]="queries.page" (valueChange)="goPage($event)" [perPage]="queries.per_page().value()" />
             </div>
         </div>
     </div>

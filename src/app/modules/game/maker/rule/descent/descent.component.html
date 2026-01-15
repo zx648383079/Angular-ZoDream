@@ -9,7 +9,7 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">名称</label>
-                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords"
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords"
                         placeholder="关键字">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
@@ -45,7 +45,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 
@@ -53,13 +53,13 @@
     <div class="form-group">
         <label>血统</label>
         <div class="input-group-control">
-            <input class="form-control"[field]="editForm.name" placeholder="请输入血统">
+            <input class="form-control"[formField]="editForm.name" placeholder="请输入血统">
         </div>
     </div>
     <div class="form-group">
         <label>寿命</label>
         <div class="input-group-control">
-            <app-number-input [field]="editForm.lifespan" />
+            <app-number-input [formField]="editForm.lifespan" />
         </div>
     </div>
     <div class="group-panel">

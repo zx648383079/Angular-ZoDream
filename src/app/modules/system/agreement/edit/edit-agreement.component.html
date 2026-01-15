@@ -14,31 +14,31 @@
             <label for="name">名称</label>
             <div>
                 <input type="text" id="name" class="form-control" 
-                 [field]="dataForm.name" placeholder="例如: agreement">
+                 [formField]="dataForm.name" placeholder="例如: agreement">
                 <div class="input-tip">格式为a-z_0-9</div>
             </div>
         </div>
         <div class="input-group-control">
                 <label for="title">标题</label>
                 <div>
-                    <input type="text" id="title" class="form-control" [field]="dataForm.title">
+                    <input type="text" id="title" class="form-control" [formField]="dataForm.title">
                 </div>
         </div>
         <div class="input-group-control">
             <label for="description">介绍</label>
             <div>
-                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
+                <textarea id="description" class="form-control" [formField]="dataForm.description"></textarea>
             </div>
         </div>
 
         <div class="input-group-control">
             <label for="content">内容</label>
         </div>
-        <app-agreement-editor id="content" [field]="dataForm.content" />
+        <app-agreement-editor id="content" [formField]="dataForm.content" />
         <div class="input-group-control">
             <label for="status">状态</label>
             <div>
-                <app-switch id="status" [field]="dataForm.status" />
+                <app-switch id="status" [formField]="dataForm.status" />
             </div>
         </div>
         

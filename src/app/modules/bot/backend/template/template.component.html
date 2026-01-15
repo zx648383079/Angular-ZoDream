@@ -9,11 +9,11 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键词">
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" placeholder="关键词">
                 </div>
                 <div class="input-group-control">
                     <label>类型</label>
-                    <select [field]="queries.type" class="form-control">
+                    <select [formField]="queries.type" class="form-control">
                         <option value="-1">全部</option>
                         @for (item of typeItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
@@ -22,7 +22,7 @@
                 </div>
                 <div class="input-group-control">
                     <label>分类</label>
-                    <select [field]="queries.category" class="form-control">
+                    <select [formField]="queries.category" class="form-control">
                         <option value="0">全部</option>
                         @for (item of categoryItems; track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
@@ -64,7 +64,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 
@@ -73,13 +73,13 @@
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" [field]="editForm.name" class="form-control">
+                <input type="text" id="name" [formField]="editForm.name" class="form-control">
             </div>
         </div>
         <div class="input-group-control">
             <label for="type">类型</label>
             <div>
-                <select id="type" [field]="editForm.type" class="form-control">
+                <select id="type" [formField]="editForm.type" class="form-control">
                     @for (item of typeItems; track $index) {
                     <option [value]="item.value">{{ item.name }}</option>
                     }
@@ -89,7 +89,7 @@
         <div class="input-group-control">
             <label for="category">分类</label>
             <div>
-                <select id="category" [field]="editForm.cat_id" class="form-control">
+                <select id="category" [formField]="editForm.cat_id" class="form-control">
                     <option value="0">请选择</option>
                     @for (item of categoryItems; track $index) {
                     <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
@@ -103,7 +103,7 @@
             </label>
             <div>
                 @if (!previewData.toggle) {
-                    <textarea id="content" class="form-control" [field]="editForm.content"></textarea>
+                    <textarea id="content" class="form-control" [formField]="editForm.content"></textarea>
                 } @else {
                     <div class="rich_media_content" [innerHTML]="previewData.content">
                     </div>

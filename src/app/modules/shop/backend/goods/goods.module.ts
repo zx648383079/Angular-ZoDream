@@ -8,13 +8,13 @@ import { DialogModule } from '../../../../components/dialog';
 import { ZreEditorModule } from '../../../../components/editor';
 import { ShopManageModule } from '../../components';
 import { DesktopModule } from '../../../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         ThemeModule,
         DesktopModule,
-        Field,
+        FormField,
         GoodsRoutingModule,
         ZreEditorModule,
         DialogModule,

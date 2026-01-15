@@ -7,9 +7,9 @@
     
     <div class="page-search-bar">
         <div class="form-horizontal-control">
-            <app-date-input [field]="queries.start_at" (valueChange)="onQueriesChange()" />
+            <app-date-input [formField]="queries.start_at" (valueChange)="onQueriesChange()" />
             ~
-            <app-date-input [field]="queries.end_at" (valueChange)="onQueriesChange()" />
+            <app-date-input [formField]="queries.end_at" (valueChange)="onQueriesChange()" />
 
             <div class="tab-bar">
                 @for (item of typeItems; track $index;let i = $index) {
@@ -94,7 +94,7 @@
         </div>
         <div class="row">
             <div class="col-6">
-                <app-datepicker format="yyyy-mm-dd" [field]="queries.start_at" (valueChange)="onQueriesChange()">
+                <app-datepicker format="yyyy-mm-dd" [formField]="queries.start_at" (valueChange)="onQueriesChange()">
                     <div class="select-shell-control">
                         <span>{{ queries.start_at().value() }}</span>
                         <i class="iconfont icon-chevron-down"></i>

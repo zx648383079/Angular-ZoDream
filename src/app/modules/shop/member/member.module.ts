@@ -8,13 +8,13 @@ import { MessageContainerModule } from '../../../components/message-container';
 import { ZreFormModule } from '../../../components/form';
 import { ShopCommonModule } from '../common.module';
 import { DesktopModule } from '../../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     declarations: [...memberRoutingComponents, UserMenuComponent],
     imports: [
         CommonModule,
-        Field,
+        FormField,
         MemberRoutingModule,
         ThemeModule,
         DesktopModule,

@@ -8,27 +8,27 @@
                     <div class="input-group-control">
                         <label for="title">名称</label>
                         <div>
-                            <input type="text" id="title" class="form-control" [field]="dataForm.title" (blur)="onTitleChange()">
+                            <input type="text" id="title" class="form-control" [formField]="dataForm.title" (blur)="onTitleChange()">
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="name">目录名</label>
                         <div>
-                            <input type="text" id="name" class="form-control" [field]="dataForm.name" >
+                            <input type="text" id="name" class="form-control" [formField]="dataForm.name" >
 
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="type">类型</label>
                         <div>
-                            <app-check-input [items]="typeItems" [rangeKey]="1" [field]="dataForm.type" />
+                            <app-check-input [items]="typeItems" [rangeKey]="1" [formField]="dataForm.type" />
                         </div>
                     </div>
                     @if (dataForm.type().value() < 1) {
                     <div class="input-group-control">
                         <label for="model_id">模型</label>
                         <div>
-                            <select id="model_id" class="form-control" [field]="dataForm.model_id">
+                            <select id="model_id" class="form-control" [formField]="dataForm.model_id">
                                 <option value="0">-- 无 --</option>
                                 @for (item of modelItems; track $index) {
                                 <option [value]="item.id">{{ item.name }}</option>
@@ -40,7 +40,7 @@
                     }
                     <div class="input-group-control">
                         <label>上级</label>
-                        <select class="form-control" [field]="dataForm.parent_id">
+                        <select class="form-control" [formField]="dataForm.parent_id">
                             <option value="0">-- 无上级分类 --</option>
                             @for (item of categories; track $index) {
                             <option [value]="item.id">{{ item.level | treeLevel }}{{ item.title }}</option>
@@ -50,39 +50,39 @@
                     <div class="input-group-control">
                         <label for="thumb">缩略图</label>
                         <div>
-                            <app-file-input [field]="dataForm.thumb" />
+                            <app-file-input [formField]="dataForm.thumb" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="image">主图</label>
                         <div>
-                            <app-file-input [field]="dataForm.image" />
+                            <app-file-input [formField]="dataForm.image" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="keywords">关键词</label>
                         <div>
-                            <input type="text" id="keywords" class="form-control" [field]="dataForm.keywords" >
+                            <input type="text" id="keywords" class="form-control" [formField]="dataForm.keywords" >
 
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="description">简介</label>
                         <div>
-                            <textarea id="description" class="form-control"  [field]="dataForm.description"
+                            <textarea id="description" class="form-control"  [formField]="dataForm.description"
                                 ></textarea>
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="groups">分组</label>
                         <div>
-                            <app-check-input [items]="groupItems" rangeKey="name" rangeLabel="name" [field]="dataForm.groups" />
+                            <app-check-input [items]="groupItems" rangeKey="name" rangeLabel="name" [formField]="dataForm.groups" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="position">排序</label>
                         <div>
-                            <input type="number" id="position" class="form-control" [field]="dataForm.position">
+                            <input type="number" id="position" class="form-control" [formField]="dataForm.position">
 
                         </div>
                     </div>
@@ -93,28 +93,28 @@
                     <div class="input-group-control">
                         <label for="category_template">分类模板</label>
                         <div>
-                            <input type="text" id="category_template" class="form-control" [field]="dataForm.category_template">
+                            <input type="text" id="category_template" class="form-control" [formField]="dataForm.category_template">
 
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="list_template">列表模板</label>
                         <div>
-                            <input type="text" id="list_template" class="form-control" [field]="dataForm.list_template" >
+                            <input type="text" id="list_template" class="form-control" [formField]="dataForm.list_template" >
 
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="show_template">详情模板</label>
                         <div>
-                            <input type="text" id="show_template" class="form-control" [field]="dataForm.show_template" >
+                            <input type="text" id="show_template" class="form-control" [formField]="dataForm.show_template" >
 
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="setting_open_comment">开启评论</label>
                         <div >
-                            <app-switch [field]="dataForm.setting.open_comment" />
+                            <app-switch [formField]="dataForm.setting.open_comment" />
                         </div>
                     </div>
                 </app-panel>
@@ -126,12 +126,12 @@
                     <div class="input-group-control">
                         <label for="url">链接</label>
                         <div>
-                            <input type="text" id="url" class="form-control" [field]="dataForm.url" >
+                            <input type="text" id="url" class="form-control" [formField]="dataForm.url" >
                         </div>
                     </div>
                     }
                     @if (dataForm.type().value() == 1) {
-                        <app-html-editor [field]="dataForm.content" />
+                        <app-html-editor [formField]="dataForm.content" />
                     }
 
                 </app-panel>

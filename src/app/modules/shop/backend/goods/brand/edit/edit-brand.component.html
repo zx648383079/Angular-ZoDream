@@ -4,7 +4,7 @@
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name">
                 @if (dataForm.name().invalid()) {
                 <div class="input-tip">请输入名称</div>
                 }
@@ -13,26 +13,26 @@
         <div class="input-group-control">
             <label for="logo">Logo</label>
             <div>
-                <app-file-input id="logo" [field]="dataForm.logo" />
+                <app-file-input id="logo" [formField]="dataForm.logo" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="app_logo">APP Logo</label>
             <div>
-                <app-file-input id="app_logo" [field]="dataForm.app_logo" />
+                <app-file-input id="app_logo" [formField]="dataForm.app_logo" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="keywords">关键字</label>
             <div>
-                <input type="text" id="keywords" class="form-control" [field]="dataForm.keywords">
+                <input type="text" id="keywords" class="form-control" [formField]="dataForm.keywords">
 
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">简介</label>
             <div>
-                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
+                <textarea id="description" class="form-control" [formField]="dataForm.description"></textarea>
             </div>
         </div>
         <div class="btn-group">

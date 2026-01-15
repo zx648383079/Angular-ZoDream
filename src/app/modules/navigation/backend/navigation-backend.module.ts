@@ -7,13 +7,13 @@ import { ThemeModule } from '../../../theme/theme.module';
 import { NavigationService } from './navigation.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DesktopModule } from '../../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
-        Field,
+        FormField,
         DesktopModule,
         DialogModule,
         ZreFormModule,

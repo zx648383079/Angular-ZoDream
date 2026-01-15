@@ -43,27 +43,27 @@
     <div class="form-group">
         <label for="name-input">别名</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editForm.grade_alias" placeholder="请输入别名">
+            <input class="form-control" id="name-input" [formField]="editForm.grade_alias" placeholder="请输入别名">
         </div>
     </div>
     }
     <div class="form-group">
         <label>{{ editForm.grade().value() > 0 ? '升级' : '开垦' }}价格</label>
         <div class="input-group-control">
-            <app-number-input [field]="editForm.price" />
+            <app-number-input [formField]="editForm.price" />
         </div>
     </div>
     @if (editForm.grade().value() > 0) {
     <div class="form-group">
         <label>时间效率</label>
         <div class="input-group-control">
-            <app-number-input [field]="editForm.time_scale" />
+            <app-number-input [formField]="editForm.time_scale" />
         </div>
     </div>
     <div class="form-group">
         <label>收益率</label>
         <div class="input-group-control">
-            <app-number-input [field]="editForm.yield_scale" />
+            <app-number-input [formField]="editForm.yield_scale" />
         </div>
     </div>
     }

@@ -9,11 +9,11 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">会员名</label>
-                    <input type="text" class="form-control" placeholder="搜索会员" id="keywords" [field]="queries.keywords">
+                    <input type="text" class="form-control" placeholder="搜索会员" id="keywords" [formField]="queries.keywords">
                 </div>
                 <div class="input-group-control">
                     <label for="date">日期</label>
-                    <input type="date" id="date" class="form-control" [field]="queries.date" placeholder="签到日期">
+                    <input type="date" id="date" class="form-control" [formField]="queries.date" placeholder="签到日期">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
             </form>
@@ -43,7 +43,7 @@
         </table>
         
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />  
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />  
     </div>
 </div>
 

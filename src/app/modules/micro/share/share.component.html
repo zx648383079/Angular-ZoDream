@@ -6,16 +6,16 @@
         </div>
     </div>
     <div class="input-box">
-        <textarea class="form-control" rows="4" [field]="dataForm.content"></textarea>
+        <textarea class="form-control" rows="4" [formField]="dataForm.content"></textarea>
     </div>
     <div class="title-input">
-        <input type="text" class="form-control" [field]="dataForm.title">
+        <input type="text" class="form-control" [formField]="dataForm.title">
     </div>
     <div class="input-row">
-        <input type="text" class="form-control" [field]="dataForm.url">
+        <input type="text" class="form-control" [formField]="dataForm.url">
     </div>
     <div class="summary-input">
-        <textarea class="form-control" rows="3" [field]="dataForm.summary"></textarea>
+        <textarea class="form-control" rows="3" [formField]="dataForm.summary"></textarea>
     </div>
     <div class="pic-box">
         @for (item of dataForm.pics; track $index;let i = $index) {
@@ -27,7 +27,7 @@
         
     </div>
     <div class="actions">
-        <select class="form-control" [field]="dataForm.open_type">
+        <select class="form-control" [formField]="dataForm.open_type">
             @for (item of typeItems; track $index;let i = $index) {
                 <option [value]="i">{{ item }}</option>
             }

@@ -4,7 +4,7 @@
         [class.col-lg-6]="openType() < 1"
         [class.offset-lg-3]="openType() < 1">
             <div class="search-bar">
-                <app-navigation-search-bar id="keywords" [field]="queries.keywords" (confirm)="tapSearch($event)" (textChange)="onSuggestChange($event)" />
+                <app-navigation-search-bar id="keywords" [formField]="queries.keywords" (confirm)="tapSearch($event)" (textChange)="onSuggestChange($event)" />
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
         @for (item of items(); track $index) {
              <app-navigation-page-container [value]="item" (onAction)="tapItem($event)" />
         }
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     }
 </div>
 

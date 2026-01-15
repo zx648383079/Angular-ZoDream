@@ -4,7 +4,7 @@
         <div class="input-group-control">
             <label for="name">仓库名</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name">
                 @if (dataForm.name().invalid()) {
                 <div class="input-tip">请输入仓库名</div>
                 }
@@ -13,31 +13,31 @@
         <div class="input-group-control">
             <label for="tel">联系电话</label>
             <div>
-                <input type="text" id="tel" class="form-control" [field]="dataForm.tel">
+                <input type="text" id="tel" class="form-control" [formField]="dataForm.tel">
             </div>
         </div>
         <div class="input-group-control">
             <label for="link_user">联系人</label>
             <div>
-                <input type="text" id="link_user" class="form-control" [field]="dataForm.link_user">
+                <input type="text" id="link_user" class="form-control" [formField]="dataForm.link_user">
             </div>
         </div>
         <div class="input-group-control">
             <label for="address">地址</label>
             <div>
-                <textarea id="address" class="form-control" [field]="dataForm.address"></textarea>
+                <textarea id="address" class="form-control" [formField]="dataForm.address"></textarea>
             </div>
         </div>
         <div class="input-group-control">
             <label for="remark">备注</label>
             <div>
-                <textarea id="remark" class="form-control" [field]="dataForm.remark"></textarea>
+                <textarea id="remark" class="form-control" [formField]="dataForm.remark"></textarea>
             </div>
         </div>
         <div class="input-group-control">
             <label for="region">支持地区</label>
             <div>
-                <app-select-input url="shop/region/search" [field]="dataForm.region" [multiple]="true" />
+                <app-select-input url="shop/region/search" [formField]="dataForm.region" [multiple]="true" />
             </div>
         </div>
 

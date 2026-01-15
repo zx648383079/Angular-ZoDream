@@ -5,13 +5,13 @@
         <div class="input-group-control">
             <label for="name">Bot名称</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name">
             </div>
         </div>
         <div class="input-group-control">
             <label for="platform_type">平台</label>
             <div>
-                <select class="form-control" id="platform_type" [field]="dataForm.platform_type">
+                <select class="form-control" id="platform_type" [formField]="dataForm.platform_type">
                     @for (item of platformItems; track $index) {
                     <option [value]="item.value">{{ item.name }}</option>
                     }
@@ -21,25 +21,25 @@
         <div class="input-group-control">
             <label for="token">平台服务Token(令牌)</label>
             <div>
-                <input type="text" id="token" class="form-control" [field]="dataForm.token">
+                <input type="text" id="token" class="form-control" [formField]="dataForm.token">
             </div>
         </div>
         <div class="input-group-control">
             <label for="account">平台账号</label>
             <div>
-                <input type="text" id="account" class="form-control" [field]="dataForm.account">
+                <input type="text" id="account" class="form-control" [formField]="dataForm.account">
             </div>
         </div>
         <div class="input-group-control">
             <label for="original">原始ID</label>
             <div>
-                <input type="text" id="original" class="form-control" [field]="dataForm.original" >
+                <input type="text" id="original" class="form-control" [formField]="dataForm.original" >
             </div>
         </div>
         <div class="input-group-control">
             <label for="type">Bot类型</label>
             <div>
-                <select class="form-control" id="type" [field]="dataForm.type">
+                <select class="form-control" id="type" [formField]="dataForm.type">
                     @for (item of typeItems; track $index; let i = $index) {
                     <option [value]="i">{{ item }}</option>
                     }
@@ -49,55 +49,55 @@
         <div class="input-group-control">
             <label for="appid">AppID(应用ID)</label>
             <div>
-                <input type="text" id="appid" class="form-control" [field]="dataForm.appid" >
+                <input type="text" id="appid" class="form-control" [formField]="dataForm.appid" >
             </div>
         </div>
         <div class="input-group-control">
             <label for="secret">AppSecret(应用密钥)</label>
             <div>
-                <input type="text" id="secret" class="form-control" [field]="dataForm.secret">
+                <input type="text" id="secret" class="form-control" [formField]="dataForm.secret">
             </div>
         </div>
         <div class="input-group-control">
             <label for="aes_key">消息加密秘钥EncodingAesKey</label>
             <div>
-                <input type="text" id="aes_key" class="form-control" [field]="dataForm.aes_key">
+                <input type="text" id="aes_key" class="form-control" [formField]="dataForm.aes_key">
             </div>
         </div>
         <div class="input-group-control">
             <label for="avatar">头像地址</label>
             <div>
-                <app-file-input id="avatar" [field]="dataForm.avatar" />
+                <app-file-input id="avatar" [formField]="dataForm.avatar" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="qrcode">二维码地址</label>
             <div>
-                <app-file-input id="qrcode" [field]="dataForm.qrcode" />
+                <app-file-input id="qrcode" [formField]="dataForm.qrcode" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="address">所在地址</label>
             <div>
-                <input type="text" id="address" class="form-control" [field]="dataForm.address">
+                <input type="text" id="address" class="form-control" [formField]="dataForm.address">
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">Bot简介</label>
             <div>
-                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
+                <textarea id="description" class="form-control" [formField]="dataForm.description"></textarea>
             </div>
         </div>
         <div class="input-group-control">
             <label for="username">平台官网登录名(邮箱)</label>
             <div>
-                <input type="text" id="username" class="form-control" [field]="dataForm.username">
+                <input type="text" id="username" class="form-control" [formField]="dataForm.username">
             </div>
         </div>
         <div class="input-group-control">
             <label for="password">平台官网登录密码</label>
             <div>
-                <input type="text" id="password" class="form-control" [field]="dataForm.password">
+                <input type="text" id="password" class="form-control" [formField]="dataForm.password">
             </div>
         </div>
         <div class="btn-group">

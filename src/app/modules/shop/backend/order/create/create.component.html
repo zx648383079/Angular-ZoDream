@@ -38,12 +38,12 @@
     </div>
 
     <div class="step-body min-body" [hidden]="stepIndex() > 0">
-        <app-user-picker [field]="dataForm.user" />
+        <app-user-picker [formField]="dataForm.user" />
 
         <button class="btn btn-primary" [disabled]="invalid()" (click)="tapNext()">下一步</button>
     </div>
     <div class="step-body" [hidden]="stepIndex() != 1">
-        <app-address-picker [field]="dataForm.address" [user]="dataForm.user().value()?.id" />
+        <app-address-picker [formField]="dataForm.address" [user]="dataForm.user().value()?.id" />
 
         <div class="btn-group">
             <div class="btn btn-info" (click)="tapPrevious()">上一步</div>

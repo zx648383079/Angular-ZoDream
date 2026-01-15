@@ -9,11 +9,11 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键字">
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" placeholder="关键字">
                 </div>
                 <div class="input-group-control">
                     <label for="type">类型</label>
-                    <select class="form-control" [field]="queries.type" id="type">
+                    <select class="form-control" [formField]="queries.type" id="type">
                         @for (item of typeItems; track $index; let i = $index) {
                         <option [value]="i">{{ item }}</option>
                         }
@@ -79,7 +79,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 
@@ -145,7 +145,7 @@
         <div class="form-group">
             <label for="type1">类型</label>
             <div class="input-group-control">
-                <select class="form-control" [field]="queries.type" id="type1">
+                <select class="form-control" [formField]="queries.type" id="type1">
                     @for (item of typeItems; track $index; let i = $index) {
                         <option [value]="i">{{ item }}</option>
                     }
@@ -155,7 +155,7 @@
         <div class="form-group">
             <label for="account">账户</label>
             <div class="input-group-control">
-                <select class="form-control" [field]="queries.account" id="account">
+                <select class="form-control" [formField]="queries.account" id="account">
                     <option value="0">请选择</option>
                     @for (item of accountItems(); track $index) {
                         <option [value]="item.id" >{{ item.name }}</option>
@@ -166,7 +166,7 @@
         <div class="form-group">
             <label for="project">项目</label>
             <div class="input-group-control">
-                <select class="form-control" id="project" [field]="queries.project">
+                <select class="form-control" id="project" [formField]="queries.project">
                     <option value="0">请选择</option>
                     @for (item of projectItems(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
@@ -177,7 +177,7 @@
         <div class="form-group">
             <label for="channel">渠道</label>
             <div class="input-group-control">
-                <select class="form-control" id="channel" [field]="queries.channel">
+                <select class="form-control" id="channel" [formField]="queries.channel">
                     <option value="0">请选择</option>
                     @for (item of channelItems(); track $index) {
                         <option [value]="item.id" >{{ item.name }}</option>
@@ -188,7 +188,7 @@
         <div class="form-group">
             <label for="budget">预算</label>
             <div class="input-group-control">
-                <select class="form-control" id="budget" [field]="queries.budget">
+                <select class="form-control" id="budget" [formField]="queries.budget">
                     <option value="0">请选择</option>
                     @for (item of budgetItems(); track $index) {
                         <option [value]="item.id" >{{ item.name }}</option>
@@ -199,19 +199,19 @@
         <div class="form-group">
             <label for="start_at">开始时间</label>
             <div class="input-group-control">
-                <app-date-input id="start_at" [field]="queries.start_at" />
+                <app-date-input id="start_at" [formField]="queries.start_at" />
             </div>
         </div>
         <div class="form-group">
             <label for="end_at">结束时间</label>
             <div class="input-group-control">
-                <app-date-input id="end_at" [field]="queries.end_at"/>
+                <app-date-input id="end_at" [formField]="queries.end_at"/>
             </div>
         </div>
         <div class="form-group">
             <label for="keywords2">关键字</label>
             <div class="input-group-control">
-                <input type="text" class="form-control" id="keywords" [field]="queries.keywords" id="keywords2" placeholder="关键字">
+                <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" id="keywords2" placeholder="关键字">
             </div>
         </div>
         
@@ -229,7 +229,7 @@
     <div class="form-group">
         <label for="keywords3">根据关键词搜索备注，符合条件的进行修改数据</label>
         <div class="input-group-control">
-            <input class="form-control" id="keywords3" [field]="editForm.keywords" placeholder="请输入关键词" (input)="onEditKeywords()">
+            <input class="form-control" id="keywords3" [formField]="editForm.keywords" placeholder="请输入关键词" (input)="onEditKeywords()">
         </div>
     </div>
 
@@ -237,7 +237,7 @@
     <div class="form-group">
         <label for="account">账户</label>
         <div class="input-group-control">
-            <select class="form-control" id="account" [field]="editForm.account_id">
+            <select class="form-control" id="account" [formField]="editForm.account_id">
                 <option value="0">请选择</option>
                 @for (item of accountItems(); track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
@@ -248,7 +248,7 @@
     <div class="form-group">
         <label for="project">项目</label>
         <div class="input-group-control">
-            <select class="form-control" id="project" [field]="editForm.project_id">
+            <select class="form-control" id="project" [formField]="editForm.project_id">
                 <option value="0">请选择</option>
                 @for (item of projectItems(); track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
@@ -259,7 +259,7 @@
     <div class="form-group">
         <label for="channel">渠道</label>
         <div class="input-group-control">
-            <select class="form-control" id="channel" [field]="editForm.channel_id">
+            <select class="form-control" id="channel" [formField]="editForm.channel_id">
                 <option value="0">请选择</option>
                 @for (item of channelItems(); track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
@@ -270,7 +270,7 @@
     <div class="form-group">
         <label for="budget">预算</label>
         <div class="input-group-control">
-            <select class="form-control" id="budget" [field]="editForm.budget_id">
+            <select class="form-control" id="budget" [formField]="editForm.budget_id">
                 <option value="0">请选择</option>
                 @for (item of budgetItems(); track $index) {
                     <option [value]="item.id">{{ item.name }}</option>

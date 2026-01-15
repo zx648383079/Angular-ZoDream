@@ -8,7 +8,7 @@
                 <form class="form-horizontal-control" (submit)="tapSearch($event)">
                     <div class="input-group-control">
                         <label for="keywords">标题</label>
-                        <input type="text" class="form-control" placeholder="搜索标题" id="keywords" [field]="queries.keywords">
+                        <input type="text" class="form-control" placeholder="搜索标题" id="keywords" [formField]="queries.keywords">
                     </div>
                     <button type="submit" class="btn btn-primary">搜索</button>
 
@@ -52,7 +52,7 @@
                     }
 
                     <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-                    <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+                    <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
                 </div>
             </div>
         </div>
@@ -62,6 +62,6 @@
 <app-custom-dialog [value]="this.editGroupData.name">
     <div class="input-label">折扣</div>
     <div class="item-name">
-        <app-number-input [field]="editGroupData.discount" />
+        <app-number-input [formField]="editGroupData.discount" />
     </div>
 </app-custom-dialog>

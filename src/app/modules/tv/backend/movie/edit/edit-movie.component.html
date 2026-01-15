@@ -6,10 +6,10 @@
         <div class="panel-container">
             <div class="title-input">
                 <label for="title">剧名</label>
-                <input type="text" id="title" class="form-control" [field]="dataForm.title">
+                <input type="text" id="title" class="form-control" [formField]="dataForm.title">
             </div>
 
-            <app-markdown-editor [field]="dataForm.content" (imageUpload)="editorImageUpload($event)" [height]="400" placeholder="剧描述" />
+            <app-markdown-editor [formField]="dataForm.content" (imageUpload)="editorImageUpload($event)" [height]="400" placeholder="剧描述" />
         </div>
 
         <div class="row">
@@ -18,7 +18,7 @@
                     <div class="input-group-control">
                         <label for="cat_id">分类</label>
                         <div>
-                            <select id="cat_id" class="form-control" [field]="dataForm.cat_id">
+                            <select id="cat_id" class="form-control" [formField]="dataForm.cat_id">
                                 @for (item of categories; track $index) {
                                     <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                                 }
@@ -28,7 +28,7 @@
                     <div class="input-group-control">
                         <label for="area_id">地区</label>
                         <div>
-                            <select id="area_id" class="form-control" [field]="dataForm.area_id">
+                            <select id="area_id" class="form-control" [formField]="dataForm.area_id">
                                 @for (item of areaItems; track $index) {
                                     <option [value]="item.id">{{ item.name }}</option>
                                 }
@@ -39,20 +39,20 @@
                     <div class="input-group-control">
                         <label for="thumb">封面</label>
                         <div>
-                            <app-file-input [field]="dataForm.cover" />
+                            <app-file-input [formField]="dataForm.cover" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="description">说明</label>
                         <div>
-                            <app-text-editor [field]="dataForm.description" height="100" />
+                            <app-text-editor [formField]="dataForm.description" height="100" />
                         </div>
                     </div>
 
                     <div class="input-group-control">
                         <label>标签</label>
                         <div>
-                            <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [field]="dataForm.tags" [addTag]="addTagFn" placeholder="选择标签" />
+                            <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [formField]="dataForm.tags" [addTag]="addTagFn" placeholder="选择标签" />
                         </div>
                     </div>
                 </app-panel>
@@ -62,55 +62,55 @@
                     <div class="input-group-control">
                         <label>片名</label>
                         <div>
-                            <input type="text" class="form-control" [field]="dataForm.film_title">
+                            <input type="text" class="form-control" [formField]="dataForm.film_title">
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label>译名</label>
                         <div>
-                            <input type="text" class="form-control" [field]="dataForm.translation_title">
+                            <input type="text" class="form-control" [formField]="dataForm.translation_title">
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label>导演</label>
                         <div>
-                            <app-words-input [field]="dataForm.director" />
+                            <app-words-input [formField]="dataForm.director" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label>主演</label>
                         <div>
-                            <app-words-input [field]="dataForm.leader" />
+                            <app-words-input [formField]="dataForm.leader" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label>年代</label>
                         <div>
-                            <input type="number" class="form-control" [field]="dataForm.age">
+                            <input type="number" class="form-control" [formField]="dataForm.age">
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label>语言</label>
                         <div>
-                            <input type="text" class="form-control" [field]="dataForm.language">
+                            <input type="text" class="form-control" [formField]="dataForm.language">
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label>上映日期</label>
                         <div>
-                            <app-date-input [field]="dataForm.release_date" />
+                            <app-date-input [formField]="dataForm.release_date" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label>集数</label>
                         <div>
-                            <app-number-input [field]="dataForm.series_count" />
+                            <app-number-input [formField]="dataForm.series_count" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label>总时长</label>
                         <div>
-                            <input type="number" class="form-control" [field]="dataForm.duration">
+                            <input type="number" class="form-control" [formField]="dataForm.duration">
                         </div>
                     </div>
                 </app-panel>

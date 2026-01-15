@@ -1,6 +1,6 @@
 <div class="page-search-bar">
     <form class="flat-input" (submit)="tapSearch($event)">
-        <input type="text" class="form-control" id="keywords" [field]="queries.keywords" i18n-placeholder placeholder="Please input a keyword">
+        <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" i18n-placeholder placeholder="Please input a keyword">
         <button type="submit" class="btn btn-primary" i18n>Search</button>
     </form>
 </div>
@@ -28,4 +28,4 @@
 
 
 <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-<app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+<app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />

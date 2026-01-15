@@ -10,14 +10,14 @@ import { DesktopModule } from '../../components/desktop';
 import { TabletModule } from '../../components/tablet';
 import { DatePickerModule } from '../../components/datepicker';
 import { ZreChartModule } from '../../components/chart';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
         DesktopModule,
-        Field,
+        FormField,
         TabletModule,
         FinanceRoutingModule,
         DialogModule,

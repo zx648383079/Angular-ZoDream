@@ -23,7 +23,7 @@
                 <i class="iconfont icon-th-list"></i>
             </div>
             }
-            <textarea autocomplete="off" [field]="dataForm.content" (keydown)="onKeydown($event)"></textarea>
+            <textarea autocomplete="off" [formField]="dataForm.content" (keydown)="onKeydown($event)"></textarea>
             <div (click)="toggleMore()">
                 <i class="iconfont icon-ellipsis-h"></i>
             </div>

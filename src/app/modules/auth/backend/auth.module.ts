@@ -9,7 +9,7 @@ import { ZreFormModule } from '../../../components/form';
 import { ThemeModule } from '../../../theme/theme.module';
 import { OpenModule } from '../../open/open.module';
 import { DesktopModule } from '../../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 
 @NgModule({
@@ -17,7 +17,7 @@ import { Field } from '@angular/forms/signals';
     imports: [
         CommonModule,
         DesktopModule,
-        Field,
+        FormField,
         NgSelectModule,
         ThemeModule,
         AuthRoutingModule,

@@ -8,14 +8,14 @@ import { DialogModule } from '../../components/dialog';
 import { ZreFormModule } from '../../components/form';
 import { DesktopModule } from '../../components/desktop';
 import { ForumCommonModule } from './forum-common.module';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     declarations: [...forumRoutedComponents],
     imports: [
         CommonModule,
         ThemeModule,
-        Field,
+        FormField,
         DesktopModule,
         ForumRoutingModule,
         DialogModule,

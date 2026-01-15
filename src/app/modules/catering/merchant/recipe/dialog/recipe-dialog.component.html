@@ -34,11 +34,11 @@
         <app-flip-item header="新增配料">
             <div class="input-label">配料名</div>
             <div class="item-name">
-                <input type="text" class="form-control" [field]="nextData.name">
+                <input type="text" class="form-control" [formField]="nextData.name">
             </div>
             <div class="input-flex">
                 <label for="">单位</label>
-                <input type="text" class="form-control" size="5" [field]="nextData.unit">
+                <input type="text" class="form-control" size="5" [formField]="nextData.unit">
             </div>
         </app-flip-item>
     </app-flip-container>

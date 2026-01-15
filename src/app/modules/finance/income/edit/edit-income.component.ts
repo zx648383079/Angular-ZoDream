@@ -73,17 +73,13 @@ export class EditIncomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        let isClone = false;
-        this.route.data.subscribe(params => {
-            isClone = !!params.clone;
-        });
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;
             }
             this.service.log(params.id).subscribe(res => {
                 this.dataModel.update(v => {
-                    if (!isClone) {
+                    if (params.action !== 'clone') {
                         v.id = res.id;
                         v.happened_at = res.happened_at;
                     }

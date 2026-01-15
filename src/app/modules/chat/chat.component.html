@@ -115,7 +115,7 @@
 
         <div class="search-box">
             <div class="search-input">
-                <input type="text" placeholder="搜索用户" [field]="searchForm.keywords">
+                <input type="text" placeholder="搜索用户" [formField]="searchForm.keywords">
                 <i class="iconfont icon-close" (click)="tapCloseFilter()"></i>
             </div>
             <div class="search-body">
@@ -171,7 +171,7 @@
             </label>
         </div>
         <div class="message-editor">
-            <textarea class="form-control message-text" [field]="messageForm.content" placeholder="请输入内容"></textarea>
+            <textarea class="form-control message-text" [formField]="messageForm.content" placeholder="请输入内容"></textarea>
             <div class="message-action">
                 <button (click)="tapSend()">发送</button>
             </div>

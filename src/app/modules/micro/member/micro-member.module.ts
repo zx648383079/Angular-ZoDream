@@ -5,13 +5,13 @@ import { MicroService } from './micro.service';
 import { ThemeModule } from '../../../theme/theme.module';
 import { LinkRuleModule } from '../../../components/link-rule';
 import { DesktopModule } from '../../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
-        Field,
+        FormField,
         DesktopModule,
         LinkRuleModule,
         MicroMemberRoutingModule

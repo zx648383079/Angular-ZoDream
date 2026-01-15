@@ -18,7 +18,7 @@
         </div>
         <form class="breadcrumb-bar" (submit)="tapConfirmPath($event)" (click)="pathIsInputing = true">
             @if (pathIsInputing) {
-                <input type="text" [field]="queries.path">
+                <input type="text" [formField]="queries.path">
             } @else {
                 @for (item of breadcrumbItems; track $index) {
                     <a class="breadcrumb-item" [class]="{disabled: item.disabled}" (click)="tapBreadcrumb(item, $event)">
@@ -31,7 +31,7 @@
             }
         </form>
         <form class="search-bar" (submit)="tapConfirmSearch($event)">
-            <input type="text" [field]="queries.keywords" placeholder="Search">
+            <input type="text" [formField]="queries.keywords" placeholder="Search">
             <i class="iconfont icon-search" (click)="tapConfirmSearch()"></i>
         </form>
         @if (mode() > 0) {

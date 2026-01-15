@@ -31,7 +31,7 @@
             <div class="item-name">新消息通知</div>
         </div>
         <div class="item-action">
-            <app-switch onLabel="开" offLabel="关" [field]="data.accept_new_bulletin" (valueChange)="onValueChange()" />
+            <app-switch onLabel="开" offLabel="关" [formField]="data.accept_new_bulletin" (valueChange)="onValueChange()" />
         </div>
     </div>
     <div class="input-item">
@@ -42,7 +42,7 @@
             <div class="item-name">勿扰模式</div>
         </div>
         <div class="item-action">
-            <app-switch onLabel="开" offLabel="关" [field]="data.open_not_disturb" (valueChange)="onValueChange()" />
+            <app-switch onLabel="开" offLabel="关" [formField]="data.open_not_disturb" (valueChange)="onValueChange()" />
         </div>
     </div>
 </div>
@@ -57,7 +57,7 @@
             <div class="item-meta">超过时间自动隐藏动态</div>
         </div>
         <div class="item-action">
-            <input type="number" class="form-control" [field]="data.post_expiration" (input)="onValueChange()">天
+            <input type="number" class="form-control" [formField]="data.post_expiration" (input)="onValueChange()">天
         </div>
     </div>
     <div class="input-item">
@@ -68,7 +68,7 @@
             <div class="item-name">上传水印</div>
         </div>
         <div class="item-action">
-            <app-switch onLabel="开" offLabel="关" [field]="data.upload_add_water" (valueChange)="onValueChange()" />
+            <app-switch onLabel="开" offLabel="关" [formField]="data.upload_add_water" (valueChange)="onValueChange()" />
         </div>
     </div>
 </div>

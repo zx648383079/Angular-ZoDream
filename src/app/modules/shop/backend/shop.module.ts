@@ -13,14 +13,14 @@ import { ZreEditorModule } from '../../../components/editor';
 import { OpenModule } from '../../open/open.module';
 import { DesktopModule } from '../../../components/desktop';
 import { ZreChartModule } from '../../../components/chart';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     declarations: [...shopBackendRoutedComponents],
     imports: [
         CommonModule,
         NgSelectModule,
-        Field,
+        FormField,
         ThemeModule,
         DesktopModule,
         ShopBackendRoutingModule,

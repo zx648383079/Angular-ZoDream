@@ -5,7 +5,7 @@
             <div class="input-group-control">
                 <label for="name">名称</label>
                 <div>
-                    <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                    <input type="text" id="name" class="form-control" [formField]="dataForm.name">
                     @if (dataForm.name().invalid()) {
                         <div class="input-tip">请输入名称</div>
                     }
@@ -13,7 +13,7 @@
             </div>
             <div class="input-group-control">
                 <label>上级</label>
-                <select id="parent_id" class="form-control" [field]="dataForm.parent_id">
+                <select id="parent_id" class="form-control" [formField]="dataForm.parent_id">
                     <option value="0">-- 无上级板块 --</option>
                     @for (item of categories; track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
@@ -23,19 +23,19 @@
             <div class="input-group-control">
                 <label for="thumb">图标</label>
                 <div>
-                    <app-file-input [field]="dataForm.thumb" />
+                    <app-file-input [formField]="dataForm.thumb" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="description">简介</label>
                 <div>
-                    <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
+                    <textarea id="description" class="form-control" [formField]="dataForm.description"></textarea>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="position">排序</label>
                 <div>
-                    <input type="number" id="position" class="form-control" [field]="dataForm.position">
+                    <input type="number" id="position" class="form-control" [formField]="dataForm.position">
                 </div>
             </div>
         </form>
@@ -102,13 +102,13 @@
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [formField]="editForm.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="content-input">图片</label>
         <div class="input-group-control">
-            <app-file-input [field]="editForm.icon" />
+            <app-file-input [formField]="editForm.icon" />
         </div>
     </div>
 </app-dialog-box>
@@ -119,7 +119,7 @@
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="userForm.keywords" placeholder="请输入名称" (input)="tapSearchUser()">
+            <input class="form-control" id="name-input" [formField]="userForm.keywords" placeholder="请输入名称" (input)="tapSearchUser()">
         </div>
     </div>
     @for (item of users; track $index) {

@@ -12,7 +12,7 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">地区名</label>
-                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="地区名">
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" placeholder="地区名">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
 
@@ -59,7 +59,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
   </div>
   
@@ -68,7 +68,7 @@
       <div class="form-group">
           <label for="region-input">地区名</label>
           <div class="input-group-control">
-            <input class="form-control" id="region-input" [field]="editForm.name" placeholder="请输入地区名">
+            <input class="form-control" id="region-input" [formField]="editForm.name" placeholder="请输入地区名">
           </div>
         </div>
   </app-dialog-box>

@@ -8,13 +8,13 @@ import { ZreFormModule } from '../../../components/form';
 import { DesktopModule } from '../../../components/desktop';
 import { ZreSwiperModule } from '../../../components/swiper';
 import { ForumCommonModule } from '../forum-common.module';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
-        Field,
+        FormField,
         DesktopModule,
         ForumRoutingModule,
         DialogModule,

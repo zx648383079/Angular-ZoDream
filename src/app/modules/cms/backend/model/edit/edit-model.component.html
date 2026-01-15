@@ -5,19 +5,19 @@
         <div class="input-group-control">
             <label for="type">类型</label>
             <div>
-                <app-check-input [items]="typeItems" [rangeKey]="1" [field]="dataForm.type" />
+                <app-check-input [items]="typeItems" [rangeKey]="1" [formField]="dataForm.type" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name">
             </div>
         </div>
         <div class="input-group-control">
             <label for="table">表名</label>
             <div>
-                <input type="text" id="table" class="form-control" [field]="dataForm.table">
+                <input type="text" id="table" class="form-control" [formField]="dataForm.table">
 
             </div>
         </div>
@@ -26,7 +26,7 @@
             <div class="input-group-control">
                 <label for="child_model">分级模型</label>
                 <div>
-                    <select  class="form-control" id="child_model" [field]="dataForm.child_model">
+                    <select  class="form-control" id="child_model" [formField]="dataForm.child_model">
                         <option value="0">无分集</option>
                         @for (item of modelItems; track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
@@ -38,21 +38,21 @@
             <div class="input-group-control">
                 <label for="category_template">分类模板</label>
                 <div>
-                    <input type="text" id="category_template" class="form-control" [field]="dataForm.category_template">
+                    <input type="text" id="category_template" class="form-control" [formField]="dataForm.category_template">
 
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="list_template">列表模板</label>
                 <div>
-                    <input type="text" id="list_template" class="form-control" [field]="dataForm.list_template" >
+                    <input type="text" id="list_template" class="form-control" [formField]="dataForm.list_template" >
 
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="show_template">详情模板</label>
                 <div>
-                    <input type="text" id="show_template" class="form-control" [field]="dataForm.show_template" >
+                    <input type="text" id="show_template" class="form-control" [formField]="dataForm.show_template" >
 
                 </div>
             </div>
@@ -62,49 +62,49 @@
             <div class="input-group-control">
                 <label for="setting_is_show">显示</label>
                 <div >
-                    <app-switch [field]="dataForm.setting.is_show" />
+                    <app-switch [formField]="dataForm.setting.is_show" />
                     <div class="input-tip">允许显示在前台</div>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="setting_is_only">唯一</label>
                 <div >
-                    <app-switch [field]="dataForm.setting.is_only" />
+                    <app-switch [formField]="dataForm.setting.is_only" />
                     <div class="input-tip">是否保持用户唯一</div>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="setting_is_extend_auth">是否继承拓展用户表单</label>
                 <div >
-                    <app-switch [field]="dataForm.setting.is_extend_auth" />
+                    <app-switch [formField]="dataForm.setting.is_extend_auth" />
                     <div class="input-tip">在会员注册时需要填写此表单数据</div>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="setting_open_captcha">验证码</label>
                 <div >
-                    <app-switch [field]="dataForm.setting.open_captcha" />
+                    <app-switch [formField]="dataForm.setting.open_captcha" />
                     <div class="input-tip">是否开启验证码</div>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="setting_form_template">表单模板</label>
                 <div >
-                    <input class="form-control" [field]="dataForm.setting.form_template">
+                    <input class="form-control" [formField]="dataForm.setting.form_template">
                     <div class="input-tip">表单填写的模板，文件夹为Form</div>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="setting_show_template">显示模板</label>
                 <div >
-                    <input class="form-control" [field]="dataForm.show_template">
+                    <input class="form-control" [formField]="dataForm.show_template">
                     <div class="input-tip">表单内容显示的模板，文件夹为Content</div>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="setting_notify_mail">邮件通知地址</label>
                 <div >
-                    <input class="form-control" [field]="dataForm.setting.notify_mail">
+                    <input class="form-control" [formField]="dataForm.setting.notify_mail">
                     <div class="input-tip">是否需要同时把表单发送到指定的邮箱</div>
                 </div>
             </div>
@@ -113,7 +113,7 @@
         <div class="input-group-control">
             <label for="position">排序</label>
             <div>
-                <input type="number" id="position" class="form-control" [field]="dataForm.position" >
+                <input type="number" id="position" class="form-control" [formField]="dataForm.position" >
 
             </div>
         </div>

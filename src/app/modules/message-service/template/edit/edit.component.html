@@ -4,7 +4,7 @@
         <div class="input-group-control">
             <label for="name">唯一代码</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name">
                 @if (dataForm.name().invalid()) {
                 <div class="input-tip">请输入唯一代码</div>
                 }
@@ -13,7 +13,7 @@
         <div class="input-group-control">
             <label for="title">标题</label>
             <div>
-                <input type="text" id="title" class="form-control" [field]="dataForm.title">
+                <input type="text" id="title" class="form-control" [formField]="dataForm.title">
                 @if (dataForm.title().invalid()) {
                 <div class="input-tip">请输入标题</div>
                 }
@@ -22,7 +22,7 @@
         <div class="input-group-control">
             <label for="type">类型</label>
             <div>
-                <select id="type" [field]="dataForm.type" class="form-control" >
+                <select id="type" [formField]="dataForm.type" class="form-control" >
                     @for (item of typeItems(); track $index) {
                     <option [value]="item.value">{{ item.name }}</option>
                     }
@@ -32,13 +32,13 @@
         <div class="input-group-control">
             <label for="target_no">外部编号</label>
             <div>
-                <input type="text" id="target_no" class="form-control" [field]="dataForm.target_no">
+                <input type="text" id="target_no" class="form-control" [formField]="dataForm.target_no">
             </div>
         </div>
         <div class="input-group-control">
             <label for="content">模板内容</label>
             <div>
-                <textarea id="content" class="form-control" [field]="dataForm.content" (change)="onContentChange()"></textarea>
+                <textarea id="content" class="form-control" [formField]="dataForm.content" (change)="onContentChange()"></textarea>
             </div>
         </div>
 

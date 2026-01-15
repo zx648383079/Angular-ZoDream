@@ -9,7 +9,7 @@ import { QuestionDialogComponent } from './components/question-editor/dialog/que
 import { DialogModule } from '../../components/dialog';
 import { MediaPlayerModule } from '../../components/media-player';
 import { DesktopModule } from '../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 import { ZreEditorModule } from '../../components/editor';
 
 
@@ -25,7 +25,7 @@ const COMPONENTS = [
     imports: [
         CommonModule,
         DesktopModule,
-        Field,
+        FormField,
         DialogModule,
         ZreFormModule,
         ZreEditorModule,

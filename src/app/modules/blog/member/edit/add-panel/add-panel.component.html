@@ -45,7 +45,7 @@
     </div>
     <div class="editor-panel-popup" [hidden]="!mediaOpen()" appInfiniteScroll (scrollEnd)="tapMore()">
         <div class="search-input">
-            <input type="text" [field]="mediaQueries.keywords">
+            <input type="text" [formField]="mediaQueries.keywords">
             <i class="iconfont icon-search"></i>
         </div>
         @for (item of mediaItems(); track $index) {

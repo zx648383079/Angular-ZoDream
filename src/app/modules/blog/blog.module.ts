@@ -9,7 +9,7 @@ import { MediaPlayerModule } from '../../components/media-player';
 import { ZreEditorModule } from '../../components/editor';
 import { DesktopModule } from '../../components/desktop';
 import { TabletModule } from '../../components/tablet';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 
 @NgModule({
@@ -17,7 +17,7 @@ import { Field } from '@angular/forms/signals';
     imports: [
         CommonModule,
         ThemeModule,
-        Field,
+        FormField,
         DesktopModule,
         TabletModule,
         BlogRoutingModule,

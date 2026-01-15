@@ -4,7 +4,7 @@
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name">
                 @if (dataForm.name().invalid()) {
                 <div class="input-tip">请输入名称</div>
                 }
@@ -12,7 +12,7 @@
         </div>
         <div class="input-group-control">
             <label>上级</label>
-            <select id="parent_id" class="form-control" [field]="dataForm.parent_id">
+            <select id="parent_id" class="form-control" [formField]="dataForm.parent_id">
                 <option value="0">-- 无上级分类 --</option>
                 @for (item of categories; track $index) {
                 <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
@@ -22,37 +22,37 @@
         <div class="input-group-control">
             <label for="thumb">Banner</label>
             <div>
-                <app-file-input id="thumb" [field]="dataForm.banner" />
+                <app-file-input id="thumb" [formField]="dataForm.banner" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="app_thumb">App Banner</label>
             <div>
-                <app-file-input id="app_thumb" [field]="dataForm.app_banner" />
+                <app-file-input id="app_thumb" [formField]="dataForm.app_banner" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="icon">图标</label>
             <div>
-                <app-file-input id="icon" [field]="dataForm.icon" />
+                <app-file-input id="icon" [formField]="dataForm.icon" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="keywords">关键字</label>
             <div>
-                <input type="text" id="keywords" class="form-control" [field]="dataForm.keywords">
+                <input type="text" id="keywords" class="form-control" [formField]="dataForm.keywords">
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">简介</label>
             <div>
-                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
+                <textarea id="description" class="form-control" [formField]="dataForm.description"></textarea>
             </div>
         </div>
         <div class="input-group-control">
             <label for="position">排序</label>
             <div>
-                <input type="number" id="position" class="form-control" [field]="dataForm.position">
+                <input type="number" id="position" class="form-control" [formField]="dataForm.position">
             </div>
         </div>
         <div class="btn-group">

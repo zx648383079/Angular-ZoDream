@@ -50,7 +50,7 @@
     </div>
     @if (step == 4) {
     <div class="flat-input">
-        <input type="text" class="form-control" [field]="dataForm.name" placeholder="请输入称呼">
+        <input type="text" class="form-control" [formField]="dataForm.name" placeholder="请输入称呼">
         <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)">确认</app-action-button>
     </div>
     }

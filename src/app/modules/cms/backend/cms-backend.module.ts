@@ -7,7 +7,7 @@ import { ZreEditorModule } from '../../../components/editor';
 import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
 import { DesktopModule } from '../../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -15,7 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
         CommonModule,
         ThemeModule,
         ReactiveFormsModule,
-        Field,
+        FormField,
         DesktopModule,
         CMSBackendRoutingModule,
         ZreEditorModule,

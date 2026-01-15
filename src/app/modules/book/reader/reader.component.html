@@ -21,7 +21,7 @@
             <div class="line-item">
                 <span i18n>Foreground</span>
                 <div class="color-box">
-                    <app-color-picker [field]="configForm.color">
+                    <app-color-picker [formField]="configForm.color">
                         <span class="color" [style]="{'background-color': configForm.color().value()}"></span>
                     </app-color-picker>
                 </div>
@@ -29,7 +29,7 @@
             <div class="line-item">
                 <span i18n>Background</span>
                 <div class="color-box">
-                    <app-color-picker [field]="configForm.background" (valueChange)="onBackgroundChange()">
+                    <app-color-picker [formField]="configForm.background" (valueChange)="onBackgroundChange()">
                         <span class="color" [style]="{'background-color': configForm.background().value()}"></span>
                     </app-color-picker>
                     <span class="add-img" (click)="tapBackgroundImg()">

@@ -8,7 +8,7 @@ import { MessageContainerModule } from '../../components/message-container';
 import { ContextMenuModule } from '../../components/context-menu';
 import { DialogModule } from '../../components/dialog';
 import { DesktopModule } from '../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 
 @NgModule({
@@ -18,7 +18,7 @@ import { Field } from '@angular/forms/signals';
     imports: [
         CommonModule,
         ThemeModule,
-        Field,
+        FormField,
         DesktopModule,
         ChatRoutingModule,
         MessageContainerModule,

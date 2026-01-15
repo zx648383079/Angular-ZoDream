@@ -15,7 +15,7 @@
                 }
             </div>
             <div class="tool-right">
-                <app-toggle-bar [items]="localizes" [field]="dataForm.language" (valueChange)="onLocalizeChange()" />
+                <app-toggle-bar [items]="localizes" [formField]="dataForm.language" (valueChange)="onLocalizeChange()" />
                 <app-action-button class="tool-item btn-primary" (tapped)="tapSubmit($event)">
                     <i class="iconfont icon-floppy-o"></i>
                 </app-action-button>
@@ -32,7 +32,7 @@
         <app-blog-add-panel [visible]="addToggle" (toolTapped)="tapTool($event)" (command)="tapCommand($event)" />
         <div class="editor-area">
             <div class="editor-input-wrapper">
-                <input type="text" class="title-input" [field]="dataForm.title" placeholder="Title">
+                <input type="text" class="title-input" [formField]="dataForm.title" placeholder="Title">
                 <textarea #editorArea spellcheck="false" placeholder="Content"></textarea>
             </div>
             <ng-container #modalVC />
@@ -67,7 +67,7 @@
                     <div class="input-group-control">
                         <label for="term_id" i18n>Term</label>
                         <div>
-                            <select id="term_id" class="form-control" [field]="dataForm.term_id">
+                            <select id="term_id" class="form-control" [formField]="dataForm.term_id">
                                 @for (item of categories; track $index) {
                                     <option [value]="item.id">{{ item.name }}</option>
                                 }
@@ -77,7 +77,7 @@
                     <div class="input-group-control">
                         <label for="programming_language" i18n>Programming Language</label>
                         <div>
-                            <select id="programming_language" class="form-control" [field]="dataForm.programming_language">
+                            <select id="programming_language" class="form-control" [formField]="dataForm.programming_language">
                                 <option value="" i18n>Select...</option>
                                 @for (item of languages; track $index) {
                                     <option [value]="item">{{ item }}</option>
@@ -88,7 +88,7 @@
                     <div class="input-group-control">
                         <label for="type" i18n>Type</label>
                         <div>
-                            <select id="type" class="form-control" [field]="dataForm.type">
+                            <select id="type" class="form-control" [formField]="dataForm.type">
                                 <option value="0" i18n>Original</option>
                                 <option value="1" i18n>Reprinted</option>
                             </select>
@@ -98,13 +98,13 @@
                     <div class="input-group-control">
                         <label for="thumb" i18n>Image</label>
                         <div>
-                            <app-image-input [field]="dataForm.thumb" />
+                            <app-image-input [formField]="dataForm.thumb" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="edit_type" i18n>Editor</label>
                         <div>
-                            <select id="edit_type" class="form-control" [field]="dataForm.edit_type">
+                            <select id="edit_type" class="form-control" [formField]="dataForm.edit_type">
                                 <option value="0">Ueditor</option>
                                 <option value="1">MarkDown</option>
                             </select>
@@ -115,20 +115,20 @@
                     <div class="input-group-control">
                         <label for="keywords" i18n>Keywords</label>
                         <div>
-                            <app-words-input id="keywords" [field]="dataForm.keywords" />
+                            <app-words-input id="keywords" [formField]="dataForm.keywords" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="description" i18n>Description</label>
                         <div>
-                            <app-text-editor [field]="dataForm.description" [height]="120" />
+                            <app-text-editor [formField]="dataForm.description" [height]="120" />
                         </div>
                     </div>
 
                     <div class="input-group-control">
                         <label i18n>Tags</label>
                         <div>
-                            <ng-select [multiple]="true" [items]="tagItems" bindLabel="name" [field]="dataForm.tags" [addTag]="addTagFn" i18n placeholder="Select tags" />
+                            <ng-select [multiple]="true" [items]="tagItems" bindLabel="name" [formField]="dataForm.tags" [addTag]="addTagFn" i18n placeholder="Select tags" />
                         </div>
                     </div>
                 </app-expand-card>
@@ -137,14 +137,14 @@
                     <div class="input-group-control">
                         <label for="meta_source_author" i18n>Original's author</label>
                         <div>
-                            <input type="text" id="meta_source_author" class="form-control" [field]="dataForm.source_author">
+                            <input type="text" id="meta_source_author" class="form-control" [formField]="dataForm.source_author">
 
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="source_url" i18n>Original's link</label>
                         <div>
-                            <input type="text" id="source_url" class="form-control" [field]="dataForm.source_url">
+                            <input type="text" id="source_url" class="form-control" [formField]="dataForm.source_url">
                         </div>
                     </div>
                     }
@@ -152,7 +152,7 @@
                     <div class="input-group-control">
                         <label for="weather" i18n>Weather</label>
                         <div>
-                            <select id="weather" class="form-control" [field]="dataForm.weather">
+                            <select id="weather" class="form-control" [formField]="dataForm.weather">
                                 <option value="" i18n>Select...</option>
                                 @for (item of weathers; track $index) {
                                     <option [value]="item.value">{{ item.name }}</option>
@@ -164,19 +164,19 @@
                     <div class="input-group-control">
                         <label for="audio_url" i18n>Audio</label>
                         <div class="file-input">
-                            <app-file-input [field]="dataForm.audio_url" accept="audio/*" />
+                            <app-file-input [formField]="dataForm.audio_url" accept="audio/*" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="video_url" i18n>Video</label>
                         <div>
-                            <app-file-input [field]="dataForm.video_url" accept="video/*" />
+                            <app-file-input [formField]="dataForm.video_url" accept="video/*" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="meta_cc_license" i18n>Copyright License</label>
                         <div>
-                            <select id="meta_cc_license" class="form-control" [field]="dataForm.cc_license">
+                            <select id="meta_cc_license" class="form-control" [formField]="dataForm.cc_license">
                                 <option value="" i18n>Select...</option>
                                 @for (item of licenses; track $index) {
                                     <option [value]="item.value">{{ item.name }}</option>
@@ -187,7 +187,7 @@
                     <div class="input-group-control">
                         <label for="comment_status" i18n>Comment Status</label>
                         <div>
-                            <app-switch id="comment_status" [field]="dataForm.comment_status" />
+                            <app-switch id="comment_status" [formField]="dataForm.comment_status" />
                         </div>
                     </div>
                 </app-expand-card>
@@ -196,7 +196,7 @@
                     <div class="input-group-control">
                         <label for="meta_is_hide" i18n>Whether to hide</label>
                         <div>
-                            <app-switch id="meta_is_hide" [field]="dataForm.is_hide" />
+                            <app-switch id="meta_is_hide" [formField]="dataForm.is_hide" />
                         </div>
                     </div>
                     }
@@ -204,19 +204,19 @@
                     <div class="input-group-control">
                         <label for="meta_seo_title" i18n>SEO Title</label>
                         <div>
-                            <input type="text" id="meta_seo_title" class="form-control" [field]="dataForm.seo_title">
+                            <input type="text" id="meta_seo_title" class="form-control" [formField]="dataForm.seo_title">
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="meta_seo_description" i18n>SEO Description</label>
                         <div>
-                            <app-text-editor id="meta_seo_description" [field]="dataForm.seo_description" [height]="120" />
+                            <app-text-editor id="meta_seo_description" [formField]="dataForm.seo_description" [height]="120" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="meta_seo_link" i18n>Link Alias</label>
                         <div>
-                            <input type="text" id="meta_seo_link" class="form-control" [field]="dataForm.seo_link">
+                            <input type="text" id="meta_seo_link" class="form-control" [formField]="dataForm.seo_link">
                             <div class="input-tip">
                                 <ng-container i18n>Please use the numeric letter -_ to form, please do not enter spaces, /.</ng-container>
 
@@ -256,7 +256,7 @@
         <div class="input-group-control">
             <label for="open_rule">{{ ruleLabel() }}</label>
             <div>
-                <input type="text" id="open_rule" class="form-control" [field]="dataForm.open_rule">
+                <input type="text" id="open_rule" class="form-control" [formField]="dataForm.open_rule">
             </div>
         </div>
         }

@@ -9,7 +9,7 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键词">
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <a class="btn btn-success pull-right" (click)="open(modal)">新增文件</a>
@@ -49,7 +49,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 
@@ -57,14 +57,14 @@
     <div class="form-group">
         <label for="name-input">文件名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [formField]="editForm.name" placeholder="请输入名称">
         </div>
     </div>
     
     <div class="form-group">
         <label>文件类型</label>
         <div class="input-group-control">
-            <select class="form-control" [field]="editForm.file_type">
+            <select class="form-control" [formField]="editForm.file_type">
                 @for (item of urlTypeItems; track $index; let i = $index) {
                 <option [value]="i">{{ item }}</option>
                 }
@@ -74,7 +74,7 @@
     <div class="form-group">
         <label>清晰度</label>
         <div class="input-group-control">
-            <select class="form-control" [field]="editForm.definition">
+            <select class="form-control" [formField]="editForm.definition">
                 @for (item of definitionItems; track $index; let i = $index) {
                 <option [value]="i">{{ item }}</option>
                 }
@@ -84,21 +84,21 @@
     <div class="form-group">
         <label>文件大小</label>
         <div>
-            <app-data-size [field]="editForm.size" />
+            <app-data-size [formField]="editForm.size" />
         </div>
     </div>
     @if (fileType() < 1 || fileType() == 4) {
         <div class="form-group">
             <label>文件</label>
             <div class="input-group-control">
-                <app-file-input [field]="editForm.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event, true)" />
+                <app-file-input [formField]="editForm.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event, true)" />
             </div>
         </div>
     } @else {
         <div class="form-group">
             <label>{{ fileType() > 2 ? '内容' : '网址' }}</label>
             <div>
-                <app-text-editor [field]="editForm.file" height="100" />
+                <app-text-editor [formField]="editForm.file" height="100" />
             </div>
         </div>
     }

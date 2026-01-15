@@ -22,7 +22,7 @@
         <input type="text" [value]="verify_value" readonly>
     </div>
     <div class="code-input">
-        <input type="text" [field]="dataForm.verify">
+        <input type="text" [formField]="dataForm.verify">
         <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)" />
     </div>
 
@@ -32,10 +32,10 @@
 <div class="step-body min-body">
     <div class="inline-input">
         <label for="" i18n>New {{ nameLabel() }}</label>
-        <input type="text" [field]="dataForm.value">
+        <input type="text" [formField]="dataForm.value">
     </div>
     <div class="code-input">
-        <input type="text" [field]="dataForm.code">
+        <input type="text" [formField]="dataForm.code">
         <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)" />
     </div>
 

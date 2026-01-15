@@ -5,17 +5,17 @@
         <div class="panel-container">
             <div class="title-input">
                 <label for="title">标题</label>
-                <input type="text" id="title" class="form-control" [field]="dataForm.title">
+                <input type="text" id="title" class="form-control" [formField]="dataForm.title">
             </div>
 
-            <app-text-editor [field]="dataForm.content" />
+            <app-text-editor [formField]="dataForm.content" />
         </div>
 
         <app-panel title="附加属性">
             <div class="input-group-control">
                 <label for="price">章节类型</label>
                 <div>
-                    <select class="form-control" [field]="dataForm.type">
+                    <select class="form-control" [formField]="dataForm.type">
                         @for (item of typeItems; track $index) {
                             <option [value]="item.value">{{ item.name }}</option>
                         }
@@ -25,13 +25,13 @@
             <div class="input-group-control">
                 <label for="source">来源</label>
                 <div>
-                    <input type="text" id="source" class="form-control" [field]="dataForm.source">
+                    <input type="text" id="source" class="form-control" [formField]="dataForm.source">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="position">排序</label>
                 <div>
-                    <input type="number" id="position" class="form-control" [field]="dataForm.position" size="4">
+                    <input type="number" id="position" class="form-control" [formField]="dataForm.position" size="4">
                 </div>
             </div>
         </app-panel>

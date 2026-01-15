@@ -9,11 +9,11 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键词">
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" placeholder="关键词">
                 </div>
                 <div class="input-group-control">
                     <label>科目</label>
-                    <select [field]="queries.course" class="form-control">
+                    <select [formField]="queries.course" class="form-control">
                         <option value="0">请选择</option>
                         @for (item of courseItems; track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
@@ -52,7 +52,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 
@@ -60,12 +60,12 @@
     <div class="form-group">
         <label for="name">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name" [field]="editForm.name" placeholder="请输入名称">
+            <input class="form-control" id="name" [formField]="editForm.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="parent_id">科目</label>
-        <select id="parent_id" class="form-control"  [field]="editForm.course_id" >
+        <select id="parent_id" class="form-control"  [formField]="editForm.course_id" >
             <option value="0">-- 无 --</option>
             @for (item of courseItems; track $index) {
             <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
@@ -75,7 +75,7 @@
     <div class="form-group">
         <label for="icon">等级数</label>
         <div class="input-group-control">
-            <input type="number" class="form-control" id="name" [field]="editForm.grade" placeholder="请输入等级">
+            <input type="number" class="form-control" id="name" [formField]="editForm.grade" placeholder="请输入等级">
         </div>
     </div>
 </app-dialog-box>

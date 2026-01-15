@@ -27,7 +27,7 @@
 
     <div class="panel-container comment-box">
         <div class="comment-search">
-            <input type="text" [field]="commentForm.content" (keypress)="commentEnter($event)">
+            <input type="text" [formField]="commentForm.content" (keypress)="commentEnter($event)">
             <i class="iconfont icon-paper-plane" (click)="tapComment()"></i>
             <label for="file-upload" class="file-btn">
                 <i class="iconfont icon-upload"></i>
@@ -68,7 +68,7 @@
         <i class="iconfont icon-close" (click)="panelOpen.set(false)"></i>
     </div>
     <div class="panel-search">
-        <input type="text" [field]="userForm.keywords">
+        <input type="text" [formField]="userForm.keywords">
     </div>
     <div class="panel-body">
         @for (item of userFilterItems(); track $index) {

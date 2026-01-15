@@ -1,7 +1,7 @@
 <div class="row">
     <div class="offset-md-8 col-md-4">
         <form class="search-bar" (submit)="tapSearch($event)">
-            <input type="text" class="form-control" i18n-placeholder placeholder="Please input a keyword" id="keywords" [field]="queries.keywords">
+            <input type="text" class="form-control" i18n-placeholder placeholder="Please input a keyword" id="keywords" [formField]="queries.keywords">
             <button class="btn btn-primary" i18n>Search</button>
         </form>
     </div>

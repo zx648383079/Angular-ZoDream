@@ -5,19 +5,19 @@
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name">
             </div>
         </div>
         <div class="input-group-control">
             <label for="course_id">科目</label>
             <div class="flat-group">
-                <select id="course_id" [field]="dataForm.course_id" class="form-control" (change)="onCourseChange()">
+                <select id="course_id" [formField]="dataForm.course_id" class="form-control" (change)="onCourseChange()">
                     <option value="0">请选择</option>
                     @for (item of courseItems; track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                     }
                 </select>
-                <select [field]="dataForm.course_grade" class="form-control">
+                <select [formField]="dataForm.course_grade" class="form-control">
                     @for (item of gradeItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
                     }
@@ -27,13 +27,13 @@
         <div class="input-group-control">
             <label for="icon">图标</label>
             <div>
-                <app-file-input [field]="dataForm.icon"  />
+                <app-file-input [formField]="dataForm.icon"  />
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">简介</label>
             <div>
-                <textarea id="description" [field]="dataForm.description" class="form-control"></textarea>
+                <textarea id="description" [formField]="dataForm.description" class="form-control"></textarea>
             </div>
         </div>
         <div class="btn-group">

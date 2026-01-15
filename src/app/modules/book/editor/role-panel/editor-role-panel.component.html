@@ -80,26 +80,26 @@
         <div class="input-group-control">
             <label for="">角色名</label>
             <div>
-                <input type="text" class="form-control" [field]="roleForm.name">
+                <input type="text" class="form-control" [formField]="roleForm.name">
             </div>
         </div>
         @if (roleForm.type().value() != 'link') {
             <div class="input-group-control">
                 <label for="">头像</label>
                 <div>
-                    <app-file-input [field]="roleForm.avatar" />
+                    <app-file-input [formField]="roleForm.avatar" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">简介</label>
                 <div>
-                    <textarea type="text" class="form-control" [field]="roleForm.description"></textarea>
+                    <textarea type="text" class="form-control" [formField]="roleForm.description"></textarea>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">角色身份</label>
                 <div>
-                    <input type="text" class="form-control" [field]="roleForm.character" placeholder="主角/配角">
+                    <input type="text" class="form-control" [formField]="roleForm.character" placeholder="主角/配角">
                 </div>
             </div>
         }
@@ -107,7 +107,7 @@
         <div class="input-group-control" [hidden]="roleForm.type().value() == 'new'">
             <label for="">与“{{ roleForm.from().value() }}”的关系</label>
             <div>
-                <input type="text" class="form-control" [field]="roleForm.link">
+                <input type="text" class="form-control" [formField]="roleForm.link">
             </div>
         </div>
     </div>
@@ -118,13 +118,13 @@
             <div class="input-group-control">
                 <label for="">物品</label>
                 <div>
-                    <input type="text" class="form-control" [field]="goodsForm.name">
+                    <input type="text" class="form-control" [formField]="goodsForm.name">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">物品数量</label>
                 <div>
-                    <input type="number" class="form-control" [field]="goodsForm.amount">
+                    <input type="number" class="form-control" [formField]="goodsForm.amount">
                 </div>
             </div>
         </div>
@@ -134,13 +134,13 @@
             <div class="input-group-control">
                 <label for="">技能名</label>
                 <div>
-                    <input type="text" class="form-control" [field]="skillForm.name">
+                    <input type="text" class="form-control" [formField]="skillForm.name">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">技能等级</label>
                 <div>
-                    <input type="text" class="form-control" [field]="skillForm.level">
+                    <input type="text" class="form-control" [formField]="skillForm.level">
                 </div>
             </div>
         </div>

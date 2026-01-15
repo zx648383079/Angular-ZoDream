@@ -5,7 +5,7 @@
         <div class="input-group-control">
             <label for="name">歌曲名称</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name">
                 @if (dataForm.name().invalid()) {
                 <div class="input-tip">请输入名称</div>
                 }
@@ -14,13 +14,13 @@
         <div class="input-group-control">
             <label for="singer">作者</label>
             <div>
-                <input type="text" id="singer" class="form-control" [field]="dataForm.singer">
+                <input type="text" id="singer" class="form-control" [formField]="dataForm.singer">
             </div>
         </div>
         <div class="input-group-control">
             <label for="thumb">文件</label>
             <div class="file-input">
-                <input type="text" id="thumb" class="form-control" [field]="dataForm.path">
+                <input type="text" id="thumb" class="form-control" [formField]="dataForm.path">
                 <label for="fileUpload" class="btn btn-primary">上传</label>
                 <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="audio/*"/>
             </div>

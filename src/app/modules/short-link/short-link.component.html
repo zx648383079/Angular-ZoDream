@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-12">
             <div class="flat-input">
-                <input type="text" class="form-control" [field]="dataForm.source_url" i18n-placeholder placeholder="Please input source link">
+                <input type="text" class="form-control" [formField]="dataForm.source_url" i18n-placeholder placeholder="Please input source link">
                 <app-action-button class="btn btn-primary" (tapped)="tapGenerate($event)" i18n>Generate</app-action-button>
             </div>
         </div>

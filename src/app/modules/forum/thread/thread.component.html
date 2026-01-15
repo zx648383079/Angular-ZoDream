@@ -53,7 +53,7 @@
                     } @else {
                         <i class="iconfont icon-sort-alpha-asc" i18n-title title="Browse in order" (click)="tapSortOrder()"></i>
                     }
-                    <select [field]="queries.status" class="form-control" (change)="onStatusChange()">
+                    <select [formField]="queries.status" class="form-control" (change)="onStatusChange()">
                         @for (item of statusItems; track $index; let i = $index) {
                         <option [value]="i">{{ item }}</option>
                         }
@@ -170,7 +170,7 @@
         </div>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
         <div class="paging-box">
-            <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+            <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
         </div>
         @if (user() && thread() && !thread().is_closed) {
         <div class="post-item --with-new">
@@ -182,7 +182,7 @@
             </div>
             <div id="post-editor" class="item-body">
                 <form (submit)="tapSubmit2($event)">
-                    <app-forum-editor [field]="dataForm.content" i18n-placeholder placeholder="Please input content" />
+                    <app-forum-editor [formField]="dataForm.content" i18n-placeholder placeholder="Please input content" />
                     <div class="item-footer">
                         <app-action-button class="btn btn-primary" [disabled]="dataForm().invalid()" (tapped)="tapSubmit($event)" i18n>Post Reply</app-action-button>
                     </div>
@@ -241,7 +241,7 @@
         <div class="link-item">
             <div class="label" i18n>Topest</div>
             <div class="value">
-                <app-switch [field]="editForm.top_type" />
+                <app-switch [formField]="editForm.top_type" />
             </div>
         </div>
         }
@@ -250,7 +250,7 @@
         <div class="link-item">
             <div class="label" i18n>Digest</div>
             <div class="value">
-                <app-switch [field]="editForm.is_digest" />
+                <app-switch [formField]="editForm.is_digest" />
             </div>
         </div>
         }
@@ -259,7 +259,7 @@
         <div class="link-item">
             <div class="label" i18n>Highlight</div>
             <div class="value">
-                <app-switch [field]="editForm.is_highlight" />
+                <app-switch [formField]="editForm.is_highlight" />
             </div>
         </div>
         }
@@ -268,14 +268,14 @@
         <div class="link-item">
             <div class="label" i18n>Close</div>
             <div class="value">
-                <app-switch [field]="editForm.is_closed" />
+                <app-switch [formField]="editForm.is_closed" />
             </div>
         </div>
         }
 
         <div class="form-group">
             <label for="remark" i18n>Operating Instructions*</label>
-            <textarea class="form-control" id="remark" [field]="editForm.remark"></textarea>
+            <textarea class="form-control" id="remark" [formField]="editForm.remark"></textarea>
         </div>
     }
 </app-dialog-box>
@@ -284,11 +284,11 @@
     <div class="link-item">
         <div class="label" i18n>Amount</div>
         <div class="value">
-            <input type="number" class="form-control" [field]="rewardForm.amount">
+            <input type="number" class="form-control" [formField]="rewardForm.amount">
         </div>
     </div>
 </app-dialog-box>
 
 <app-dialog-box #statusModal [scrollable]="false" i18n-title title="Modify Status">
-    <app-check-input [items]="statusItems" [rangeKey]="1" [field]="statusForm.selected" />
+    <app-check-input [items]="statusItems" [rangeKey]="1" [formField]="statusForm.selected" />
 </app-dialog-box>

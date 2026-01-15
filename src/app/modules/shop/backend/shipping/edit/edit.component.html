@@ -6,20 +6,20 @@
             <div class="input-group-control">
                 <label for="name">名称</label>
                 <div>
-                    <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                    <input type="text" id="name" class="form-control" [formField]="dataForm.name">
 
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="icon">图标</label>
                 <div>
-                    <app-file-input id="icon" [field]="dataForm.icon" />
+                    <app-file-input id="icon" [formField]="dataForm.icon" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="code">Code</label>
                 <div>
-                    <ng-select [items]="items()" bindValue="value" bindLabel="name" [field]="dataForm.code" />
+                    <ng-select [items]="items()" bindValue="value" bindLabel="name" [formField]="dataForm.code" />
 
                 </div>
             </div>
@@ -27,10 +27,10 @@
                 <label for="method">计费方式</label>
                 <div>
                     <span class="radio-label">
-                        <input type="radio" id="method0" [field]="dataForm.method" value="0">
+                        <input type="radio" id="method0" [formField]="dataForm.method" value="0">
                         <label for="method0">按件数</label>
                     </span><span class="radio-label">
-                        <input type="radio" id="method1" [field]="dataForm.method" value="1">
+                        <input type="radio" id="method1" [formField]="dataForm.method" value="1">
                         <label for="method1">按重量</label>
                     </span>
                 </div>
@@ -38,20 +38,20 @@
             <div class="input-group-control">
                 <label for="description">介绍</label>
                 <div>
-                    <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
+                    <textarea id="description" class="form-control" [formField]="dataForm.description"></textarea>
 
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="description">货到付款</label>
                 <div>
-                    <app-switch [field]="dataForm.cod_enabled" onLabel="支持" offLabel="不支持" />
+                    <app-switch [formField]="dataForm.cod_enabled" onLabel="支持" offLabel="不支持" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="position">排序</label>
                 <div>
-                    <input type="number" id="position" class="form-control" [field]="dataForm.position">
+                    <input type="number" id="position" class="form-control" [formField]="dataForm.position">
 
                 </div>
             </div>
@@ -83,11 +83,11 @@
                                         class="delete" (click)="removeGroup(item)">删除</a>
                                 </p>
                             </td>
-                            <td> <input type="number" [field]="item.first_step" class="form-control"></td>
-                            <td> <input type="number" [field]="item.first_fee" class="form-control"></td>
-                            <td> <input type="number" [field]="item.additional" class="form-control"></td>
-                            <td> <input type="number" [field]="item.additional_fee" class="form-control"></td>
-                            <td> <input type="number" [field]="item.free_step" class="form-control"></td>
+                            <td> <input type="number" [formField]="item.first_step" class="form-control"></td>
+                            <td> <input type="number" [formField]="item.first_fee" class="form-control"></td>
+                            <td> <input type="number" [formField]="item.additional" class="form-control"></td>
+                            <td> <input type="number" [formField]="item.additional_fee" class="form-control"></td>
+                            <td> <input type="number" [formField]="item.free_step" class="form-control"></td>
                         </tr>
                         }
                         <tr>
@@ -129,7 +129,7 @@
     }
     <div class="search-box">
         @if (!selectedAll) {
-        <input type="text" class="form-control" [field]="regionQueries.keywords">
+        <input type="text" class="form-control" [formField]="regionQueries.keywords">
         <button class="btn btn-primary" (click)="tapRegionSearch()">搜索</button>
         }
         <button class="btn btn-info" [class]="{active: selectedAll}" (click)="tapSelectAll()">{{ selectedAll ? '取消' : '' }}全地区</button>

@@ -11,12 +11,12 @@
                           <div class="tab-item" [class]="{active: tabIndex() < 1}">
                                 <form (submit)="tapSubmit($event)">
                                     <div class="input-group-control">
-                                        <input type="text" i18n-placeholder placeholder="Please input phone number" [field]="mobileForm.mobile" autocomplete="off">
+                                        <input type="text" i18n-placeholder placeholder="Please input phone number" [formField]="mobileForm.mobile" autocomplete="off">
                                         <i class="iconfont icon-user" aria-hidden="true"></i>
                                     </div>
                                     <div class="input-hr"></div>
                                     <div class="input-group-control code-input">
-                                        <input type="text" [field]="mobileForm.code" i18n-placeholder placeholder="SMS verification code">
+                                        <input type="text" [formField]="mobileForm.code" i18n-placeholder placeholder="SMS verification code">
                                         <i class="iconfont icon-lock" aria-hidden="true"></i>
                                         <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)" />
                                     </div>
@@ -26,12 +26,12 @@
                           <div class="tab-item" [class]="{active: tabIndex() == 1}">
                                 <form (submit)="tapSubmit($event)">
                                     <div class="input-group-control">
-                                        <input type="email" [field]="emailForm.email" i18n-placeholder placeholder="Please input username" autocomplete="off">
+                                        <input type="email" [formField]="emailForm.email" i18n-placeholder placeholder="Please input username" autocomplete="off">
                                         <i class="iconfont icon-user" aria-hidden="true"></i>
                                     </div>
                                     <div class="input-hr"></div>
                                     <div class="input-group-control">
-                                        <input type="password" [field]="emailForm.password" i18n-placeholder placeholder="Please input the password" autocomplete="off">
+                                        <input type="password" [formField]="emailForm.password" i18n-placeholder placeholder="Please input the password" autocomplete="off">
                                         <i class="iconfont icon-lock" aria-hidden="true" ></i>
                                     </div>
                                     <button class="btn" i18n>Sign in</button>

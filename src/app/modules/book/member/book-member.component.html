@@ -56,19 +56,19 @@
         <div class="input-group-control">
             <label for="name" i18n>Name</label>
             <div>
-                <input type="text" id="name" [field]="bookForm.name" class="form-control">
+                <input type="text" id="name" [formField]="bookForm.name" class="form-control">
             </div>
         </div>
         <div class="input-group-control">
             <label for="cover" i18n>Cover</label>
             <div>
-                <app-file-input [field]="bookForm.cover" />
+                <app-file-input [formField]="bookForm.cover" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="description" i18n>Summary</label>
             <div>
-                <textarea id="description"  [field]="bookForm.description" class="form-control"></textarea>
+                <textarea id="description"  [formField]="bookForm.description" class="form-control"></textarea>
             </div>
         </div>
     </div>

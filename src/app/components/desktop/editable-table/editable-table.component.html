@@ -39,17 +39,17 @@
                         @if (item.searchable) {
                             @switch (item.inputType) {
                                 @case ('switch') {
-                                    <app-switch [field]="item.value" />
+                                    <app-switch [formField]="item.value" />
                                 }
                                 @case ('select') {
-                                    <select class="form-control" [field]="item.value">
+                                    <select class="form-control" [formField]="item.value">
                                         @for (option of item.optionItems; track option.value) {
                                             <option [value]="option.value">{{ option.name }}</option>
                                         }
                                     </select>
                                 }
                                 @default {
-                                    <input type="text" class="form-control" [field]="item.value" i18n-placeholder placeholder="Please input keywords">
+                                    <input type="text" class="form-control" [formField]="item.value" i18n-placeholder placeholder="Please input keywords">
                                 }
                             }
                         }
@@ -72,7 +72,7 @@
                                 <img [class]="'img-' + name.name" [src]="item[name.name] | asset">
                             }
                             @case ('switch') {
-                                <app-switch [field]="item[name.name]" />
+                                <app-switch [formField]="item[name.name]" />
                             }
                             @case ('size') {
                                 {{ item[name.name] | size }}

@@ -4,7 +4,7 @@
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name">
                 @if (dataForm.name().invalid()) {
                 <div class="input-tip">请输入名称</div>
                 }
@@ -13,7 +13,7 @@
         <div class="input-group-control">
             <label for="parent_id">上级</label>
             <div>
-                <select id="parent_id" class="form-control" [field]="dataForm.parent_id">
+                <select id="parent_id" class="form-control" [formField]="dataForm.parent_id">
                     <option value="0">-- 无上级分类 --</option>
                     @for (item of categories; track $index) {
                     <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
@@ -25,20 +25,20 @@
         <div class="input-group-control">
             <label for="thumb">Thumb</label>
             <div>
-                <app-file-input id="thumb" [field]="dataForm.thumb" />
+                <app-file-input id="thumb" [formField]="dataForm.thumb" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="keywords">关键字</label>
             <div>
-                <input type="text" id="keywords" class="form-control" [field]="dataForm.keywords">
+                <input type="text" id="keywords" class="form-control" [formField]="dataForm.keywords">
 
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">说明</label>
             <div>
-                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
+                <textarea id="description" class="form-control" [formField]="dataForm.description"></textarea>
 
             </div>
         </div>

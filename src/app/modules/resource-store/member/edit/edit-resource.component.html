@@ -15,10 +15,10 @@
         <div class="panel-container">
             <div class="title-input">
                 <label for="title">标题</label>
-                <input type="text" id="title" class="form-control" [field]="dataForm.title">
+                <input type="text" id="title" class="form-control" [formField]="dataForm.title">
             </div>
 
-            <app-markdown-editor [field]="dataForm.content" (imageUpload)="editorImageUpload($event)" [height]="400" placeholder="资源描述" />
+            <app-markdown-editor [formField]="dataForm.content" (imageUpload)="editorImageUpload($event)" [height]="400" placeholder="资源描述" />
         </div>
 
         <div class="row">
@@ -27,7 +27,7 @@
                     <div class="input-group-control">
                         <label for="cat_id">分类</label>
                         <div>
-                            <select id="cat_id" class="form-control" [field]="dataForm.cat_id">
+                            <select id="cat_id" class="form-control" [formField]="dataForm.cat_id">
                                 @for (item of categories; track $index) {
                                     <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                                 }
@@ -38,20 +38,20 @@
                     <div class="input-group-control">
                         <label for="thumb">图片</label>
                         <div>
-                            <app-file-input [field]="dataForm.thumb" />
+                            <app-file-input [formField]="dataForm.thumb" />
                         </div>
                     </div>
 
                     <div class="input-group-control">
                         <label for="keywords">关键字</label>
                         <div>
-                            <app-words-input id="keywords" [field]="dataForm.keywords" />
+                            <app-words-input id="keywords" [formField]="dataForm.keywords" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="description">说明</label>
                         <div>
-                            <app-text-editor [field]="dataForm.description" height="100" />
+                            <app-text-editor [formField]="dataForm.description" height="100" />
                         </div>
                     </div>
 
@@ -59,7 +59,7 @@
                         <label>标签</label>
                         <div>
                             <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" 
-                            [field]="dataForm.tags" [addTag]="addTagFn" placeholder="选择标签" />
+                            [formField]="dataForm.tags" [addTag]="addTagFn" placeholder="选择标签" />
                         </div>
                     </div>
                 </app-panel>
@@ -69,31 +69,31 @@
                     <div class="input-group-control">
                         <label>价格</label>
                         <div>
-                            <app-number-input [field]="dataForm.price" />
+                            <app-number-input [formField]="dataForm.price" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="is_open_source">允许商用</label>
                         <div>
-                            <app-switch [field]="dataForm.is_commercial" />
+                            <app-switch [formField]="dataForm.is_commercial" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="is_open_source">允许转载</label>
                         <div>
-                            <app-switch [field]="dataForm.is_reprint" />
+                            <app-switch [formField]="dataForm.is_reprint" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="official_website">文件大小</label>
                         <div>
-                            <app-data-size [field]="dataForm.size" />
+                            <app-data-size [formField]="dataForm.size" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label>预览类型</label>
                         <div>
-                            <select class="form-control" [field]="dataForm.preview_type">
+                            <select class="form-control" [formField]="dataForm.preview_type">
                                 @for (item of previewTypeItems; track $index; let i = $index) {
                                     <option [value]="i">{{ item }}</option>
                                 }
@@ -104,7 +104,7 @@
                     <div class="input-group-control">
                         <label for="official_website">预览文件</label>
                         <div>
-                            <app-file-input [field]="dataForm.preview_file" [accept]="previewType() == 1 ? 'image/*' : '*/*'" [custom]="true" (customUpload)="onFileUpload($event, true)" />
+                            <app-file-input [formField]="dataForm.preview_file" [accept]="previewType() == 1 ? 'image/*' : '*/*'" [custom]="true" (customUpload)="onFileUpload($event, true)" />
                         </div>
                     </div>
                     }
@@ -125,7 +125,7 @@
                     @for (item of dataForm.files; track $index; let i = $index) {
                     <tr>
                         <td>
-                            <select class="form-control" [field]="item.file_type">
+                            <select class="form-control" [formField]="item.file_type">
                                 @for (type of fileTypeItems; track $index) {
                                 <option [value]="type.value">{{ type.name }}</option>
                                 }
@@ -133,9 +133,9 @@
                         </td>
                         <td>
                             @if (item.file_type().value() != '0') {
-                                <input type="text" class="form-control" [field]="item.file">
+                                <input type="text" class="form-control" [formField]="item.file">
                             } @else {
-                                <app-file-input [field]="item.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)"/>
+                                <app-file-input [formField]="item.file" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)"/>
                             }
                         </td>
                         <td>

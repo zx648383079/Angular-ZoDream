@@ -6,13 +6,13 @@ import { NoteService } from './note.service';
 import { ZreFormModule } from '../../components/form';
 import { DesktopModule } from '../../components/desktop';
 import { TabletModule } from '../../components/tablet';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
-        Field,
+        FormField,
         DesktopModule,
         TabletModule,
         ZreFormModule,

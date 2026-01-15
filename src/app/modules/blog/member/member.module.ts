@@ -8,13 +8,13 @@ import { BlogMemberRoutingModule, blogMemberRoutingComponents } from './blog-rou
 import { BlogService } from './blog.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DesktopModule } from '../../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
-        Field,
+        FormField,
         DialogModule,
         DesktopModule,
         BlogMemberRoutingModule,

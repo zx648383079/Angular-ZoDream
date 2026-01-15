@@ -47,7 +47,7 @@
                     <app-action-button class="btn btn-success" (tapped)="tapSync($event)">更新</app-action-button>
                 </div>
             </div>
-            <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+            <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
         </div>
     </div>
 </div>

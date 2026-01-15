@@ -86,14 +86,14 @@
         <div class="input-group-control">
             <label for="field_name">名称(必填)</label>
             <div>
-                <input type="text" id="field_name" class="form-control" [field]="editForm.name" placeholder="后台管理用">
+                <input type="text" id="field_name" class="form-control" [formField]="editForm.name" placeholder="后台管理用">
                 <div class="input-tip">后台管理使用，方便理解用意</div>
             </div>
         </div>
         <div class="input-group-control">
             <label for="field_type">类型</label>
             <div>
-                <select id="field_type" class="form-control" [field]="editForm.type">
+                <select id="field_type" class="form-control" [formField]="editForm.type">
                     
                     @for (item of typeItems; track $index) {
                     <option [value]="item.value">{{ item.name }}</option>
@@ -106,20 +106,20 @@
             <div class="input-group-control">
                 <label for="field_code">别名(必填)</label>
                 <div>
-                    <input type="text" id="field_code" class="form-control" [field]="editForm.code" placeholder="模板中调取使用">
+                    <input type="text" id="field_code" class="form-control" [formField]="editForm.code" placeholder="模板中调取使用">
                     <div class="input-tip">模板中调取使用,最好是a-z0-9_</div>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="field_default_value">默认值</label>
                 <div>
-                    <textarea id="field_default_value" class="form-control" [field]="editForm.default_value"></textarea>
+                    <textarea id="field_default_value" class="form-control" [formField]="editForm.default_value"></textarea>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="field_value">值</label>
                 <div>
-                    <textarea id="field_value" class="form-control" [field]="editForm.value"></textarea>
+                    <textarea id="field_value" class="form-control" [formField]="editForm.value"></textarea>
                 </div>
             </div>
         </div>

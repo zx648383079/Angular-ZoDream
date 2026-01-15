@@ -34,7 +34,7 @@
                             <div class="input-group-control">
                                 <label for="name">昵　　称</label>
                                 <div>
-                                    <input type="text" id="name" class="form-control " [field]="dataForm.name">
+                                    <input type="text" id="name" class="form-control " [formField]="dataForm.name">
                                 </div>
                             </div>
                             <div class="input-group-control">
@@ -46,7 +46,7 @@
                             <div class="input-group-control">
                                 <label for="性　　别">性　　别</label>
                                 <div>
-                                    <app-check-input [items]="sexItems" rangeKey="value" rangeLabel="name" [field]="dataForm.sex" />
+                                    <app-check-input [items]="sexItems" rangeKey="value" rangeLabel="name" [formField]="dataForm.sex" />
                                 </div>
                             </div>
                             <div class="input-group-control">
@@ -58,7 +58,7 @@
                             <div class="input-group-control">
                                 <label for="birthday">出生日期</label>
                                 <div>
-                                    <app-date-input [field]="dataForm.birthday" />
+                                    <app-date-input [formField]="dataForm.birthday" />
                                 </div>
                             </div>
                             <div class="offset-md-3">

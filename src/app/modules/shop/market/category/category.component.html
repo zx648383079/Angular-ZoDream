@@ -25,9 +25,9 @@
                         }
                         @if (item.name == 'price') {
                             <div class="price-input">
-                                <input type="number" class="form-control" [field]="priceForm.min">
+                                <input type="number" class="form-control" [formField]="priceForm.min">
                                 -
-                                <input type="number" class="form-control" [field]="priceForm.max">
+                                <input type="number" class="form-control" [formField]="priceForm.max">
                             </div>
                         }
                     </div>
@@ -71,7 +71,7 @@
                 }
           </div>
           <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-          <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+          <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
       </div>
   </div>
 </div>

@@ -5,19 +5,19 @@
         <div class="input-group-control">
             <label for="name">试卷名</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name">
             </div>
         </div>
         <div class="input-group-control">
             <label for="course_id">科目</label>
             <div class="flat-group">
-                <select id="course_id" [field]="dataForm.course_id" class="form-control" (change)="onCourseChange()">
+                <select id="course_id" [formField]="dataForm.course_id" class="form-control" (change)="onCourseChange()">
                     <option value="0">请选择</option>
                     @for (item of courseItems; track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                     }
                 </select>
-                <select [field]="dataForm.course_grade" class="form-control">
+                <select [formField]="dataForm.course_grade" class="form-control">
                     @for (item of gradeItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
                     }
@@ -27,7 +27,7 @@
         <div class="input-group-control">
             <label for="rule_type">选题类型</label>
             <div>
-                <select id="rule_type" class="form-control" [field]="dataForm.rule_type" (change)="onRuleChange()">
+                <select id="rule_type" class="form-control" [formField]="dataForm.rule_type" (change)="onRuleChange()">
                     <option value="0">随机选题</option>
                     <option [value]="1">固定题库</option>
                 </select>
@@ -36,19 +36,19 @@
         <div class="input-group-control">
             <label for="limit_time">限时/分钟</label>
             <div>
-                <input type="number" id="limit_time" class="form-control" [field]="dataForm.limit_time" >
+                <input type="number" id="limit_time" class="form-control" [formField]="dataForm.limit_time" >
             </div>
         </div>
         <div class="input-group-control">
             <label for="start_at">开始时间</label>
             <div>
-                <app-date-input id="start_at" [field]="dataForm.start_at" />
+                <app-date-input id="start_at" [formField]="dataForm.start_at" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="end_at">结束时间</label>
             <div>
-                <app-date-input id="end_at" [field]="dataForm.end_at" />
+                <app-date-input id="end_at" [formField]="dataForm.end_at" />
             </div>
         </div>
         <div class="rule-box">
@@ -151,11 +151,11 @@
         <form class="form-horizontal-control" (submit)="tapDialogSearch($event)">
             <div class="input-group-control">
                 <label for="keywords">关键字</label>
-                <input type="text" class="form-control" [field]="dialogQueries.keywords" placeholder="关键词">
+                <input type="text" class="form-control" [formField]="dialogQueries.keywords" placeholder="关键词">
             </div>
             <div class="input-group-control">
                 <label for="course">科目</label>
-                <select id="course" [field]="dialogQueries.course" class="form-control">
+                <select id="course" [formField]="dialogQueries.course" class="form-control">
                     <option value="0">请选择</option>
                     @for (item of courseItems; track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
@@ -185,6 +185,6 @@
             </tbody>
         </table>
 
-        <app-pagination [total]="dialogData.total" [field]="dialogQueries.page" [perPage]="dialogQueries.per_page().value()" (valueChange)="tapDialogPage()" />
+        <app-pagination [total]="dialogData.total" [formField]="dialogQueries.page" [perPage]="dialogQueries.per_page().value()" (valueChange)="tapDialogPage()" />
     </div>
 </app-dialog-box>

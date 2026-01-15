@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-12">
             <form class="search-input" (submit)="tapSearch($event)">
-                <input type="text" class="form-control" [field]="queryForm.keywords">
+                <input type="text" class="form-control" [formField]="queryForm.keywords">
                 @if (queryForm.keywords().value()) {
                     <i class="iconfont icon-close" (click)="tapClearQuery()"></i>
                 }
@@ -90,8 +90,8 @@
                     
                     @if (item.name == 'price') {
                     <div class="price-input">
-                        <input type="number" class="form-control" [field]="priceForm.min">-
-                        <input type="number" class="form-control" [field]="priceForm.max">
+                        <input type="number" class="form-control" [formField]="priceForm.min">-
+                        <input type="number" class="form-control" [formField]="priceForm.max">
                         <div class="btn btn-primary" (click)="tapPrice(item)">
                             <i class="iconfont icon-chevron-right"></i>
                         </div>

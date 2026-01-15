@@ -10,13 +10,13 @@ import { MaterialTypePipe } from './material-type.pipe';
 import { MediaPlayerModule } from '../../../components/media-player';
 import { ExamCommonModule } from '../exam-common';
 import { DesktopModule } from '../../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
-        Field,
+        FormField,
         DesktopModule,
         ExamBackendRoutingModule,
         DialogModule,

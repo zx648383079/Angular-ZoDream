@@ -7,7 +7,7 @@ import { SystemService } from './system.service';
 import { DialogModule } from '../../components/dialog';
 import { ZreFormModule } from '../../components/form';
 import { DesktopModule } from '../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 import { ReactiveFormsModule } from '@angular/forms';
 
 
@@ -16,7 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        Field,
+        FormField,
         ThemeModule,
         DesktopModule,
         SystemRoutingModule,

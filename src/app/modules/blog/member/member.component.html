@@ -12,14 +12,14 @@
 
 <div class="page-search-bar">
     <form class="flat-input" (submit)="tapSearch($event)">
-        <input type="text" class="form-control" id="keywords" [field]="queries.keywords" i18n-placeholder placeholder="Please input a keyword">
-        <select [field]="queries.term" class="form-control">
+        <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" i18n-placeholder placeholder="Please input a keyword">
+        <select [formField]="queries.term" class="form-control">
             <option value="0" i18n>Select...</option>
             @for (item of categories; track $index) {
                 <option [value]="item.id">{{ item.name }}</option>
             }
         </select>
-        <select [field]="queries.status" class="form-control tablet-collapse">
+        <select [formField]="queries.status" class="form-control tablet-collapse">
             <option value="0" i18n>Select...</option>
             @for (item of statusItems; track $index) {
                 <option [value]="item.value + 1">{{ item.name }}</option>
@@ -80,4 +80,4 @@
 
 
 <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-<app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+<app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />

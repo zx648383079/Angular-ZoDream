@@ -4,13 +4,13 @@ import { OrderRoutingModule, orderRoutingComponents } from './routing.module';
 import { ThemeModule } from '../../../../theme/theme.module';
 import { DialogModule } from '../../../../components/dialog';
 import { DesktopModule } from '../../../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
-        Field,
+        FormField,
         DesktopModule,
         OrderRoutingModule,
         DialogModule,

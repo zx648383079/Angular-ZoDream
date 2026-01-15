@@ -7,7 +7,7 @@ import { SearchPanelComponent } from './search-panel/search-panel.component';
 import { SkuFormComponent } from './sku-form/sku-form.component';
 import { ZreFormModule } from '../../../../components/form';
 import { DesktopModule } from '../../../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 const COMPONENTS = [
     GalleryPanelComponent,
@@ -19,7 +19,7 @@ const COMPONENTS = [
 
 @NgModule({
     imports: [
-        Field,
+        FormField,
         CommonModule,
         DesktopModule,
         ZreFormModule,

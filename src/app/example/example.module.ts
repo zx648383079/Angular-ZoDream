@@ -13,7 +13,7 @@ import { ZreSwiperModule } from '../components/swiper';
 import { DesktopModule } from '../components/desktop';
 import { TabletModule } from '../components/tablet';
 import { ZreChartModule } from '../components/chart';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
@@ -27,7 +27,7 @@ import { Field } from '@angular/forms/signals';
         FileExplorerModule,
         NgSelectModule,
         MediaPlayerModule,
-        Field,
+        FormField,
         AuthSharedModule,
         ExampleRoutingModule,
         ZreSwiperModule,

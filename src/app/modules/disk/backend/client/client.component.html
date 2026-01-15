@@ -7,7 +7,7 @@
 
     <div class="panel-container">
         <div class="flat-input">
-            <input type="text" class="form-control" [field]="dataForm.server_url" placeholder="服务器网址">
+            <input type="text" class="form-control" [formField]="dataForm.server_url" placeholder="服务器网址">
             <button class="btn" [class]="{'btn-primary': !isLinked(), 'btn-danger': isLinked()}" (click)="tapLink()">{{ isLinked() ? '断开' : '连接'}}</button>
             <div class="btn btn-info" title="设置" (click)="linkToggle = !linkToggle">
                 <i class="iconfont icon-cog"></i>
@@ -18,19 +18,19 @@
             <div class="row">
                 <label class="col-md-3 col-form-label">上传地址</label>
                 <div class="col-md-9">
-                    <input type="text" class="form-control" [field]="dataForm.upload_url" placeholder="上传地址">
+                    <input type="text" class="form-control" [formField]="dataForm.upload_url" placeholder="上传地址">
                 </div>
             </div>
             <div class="row">
                 <label class="col-md-3 col-form-label">下载地址</label>
                 <div class="col-md-9">
-                    <input type="text" class="form-control" [field]="dataForm.download_url" placeholder="下载地址">
+                    <input type="text" class="form-control" [formField]="dataForm.download_url" placeholder="下载地址">
                 </div>
             </div>
             <div class="row">
                 <label class="col-md-3 col-form-label">PING地址</label>
                 <div class="col-md-9">
-                    <input type="text" class="form-control" [field]="dataForm.ping_url" placeholder="PING地址">
+                    <input type="text" class="form-control" [formField]="dataForm.ping_url" placeholder="PING地址">
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">文件名</label>
-                    <input type="text" class="form-control" placeholder="搜索文件" id="keywords" [field]="queries.keywords">
+                    <input type="text" class="form-control" placeholder="搜索文件" id="keywords" [formField]="queries.keywords">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
             </form>
@@ -73,6 +73,6 @@
         </table>
         
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />  
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />  
     </div>
 </div>

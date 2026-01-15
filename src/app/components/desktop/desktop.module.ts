@@ -41,7 +41,7 @@ import { RouterModule } from '@angular/router';
 import { MarkdownBlockComponent } from './markdown-block/markdown-block.component';
 import { MediaPlayerModule } from '../media-player';
 import { CodeBlockComponent } from './code-block/code-block.component';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 import { ZreFormModule } from '../form';
 import { FormPanelComponent } from './form-panel/form-panel.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -96,7 +96,7 @@ const DIRECTIVES = [
         CommonModule,
         ZreFormModule,
         ReactiveFormsModule,
-        Field,
+        FormField,
         RouterModule,
         MediaPlayerModule
     ],

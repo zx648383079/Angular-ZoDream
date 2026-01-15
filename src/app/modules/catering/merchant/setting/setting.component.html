@@ -20,13 +20,13 @@
                         <div class="input-group-control">
                             <label for="name">店铺名</label>
                             <div>
-                                <input type="text" id="name" class="form-control" placeholder="请输入店铺名" [field]="dataForm.name" (input)="onValueChange()">
+                                <input type="text" id="name" class="form-control" placeholder="请输入店铺名" [formField]="dataForm.name" (input)="onValueChange()">
                             </div>
                         </div>
                         <div class="input-group-control">
                             <label for="address">店铺地址</label>
                             <div>
-                                <textarea id="address" class="form-control" placeholder="请输入店铺地址" [field]="dataForm.address" (valueChange)="onValueChange()"></textarea>
+                                <textarea id="address" class="form-control" placeholder="请输入店铺地址" [formField]="dataForm.address" (valueChange)="onValueChange()"></textarea>
                             </div>
                         </div>
                         <div class="input-group-control">
@@ -63,7 +63,7 @@
                 <div class="item-meta">是否支持到店点餐</div>
             </div>
             <div class="item-action">
-                <app-switch [field]="dataForm.is_open_live" (valueChange)="onValueChange()" />
+                <app-switch [formField]="dataForm.is_open_live" (valueChange)="onValueChange()" />
             </div>
         </div>
         <div class="input-item">
@@ -75,7 +75,7 @@
                 <div class="item-meta">是否支持外送</div>
             </div>
             <div class="item-action">
-                <app-switch [field]="dataForm.is_open_ship" (valueChange)="onValueChange()" />
+                <app-switch [formField]="dataForm.is_open_ship" (valueChange)="onValueChange()" />
             </div>
         </div>
         @if (dataForm.is_open_ship().value()) {
@@ -88,7 +88,7 @@
                 <div class="item-meta">是否支持外卖订单上门自取</div>
             </div>
             <div class="item-action">
-                <app-switch [field]="dataForm.is_ship_self" (valueChange)="onValueChange()" />
+                <app-switch [formField]="dataForm.is_ship_self" (valueChange)="onValueChange()" />
             </div>
         </div>
         }
@@ -101,7 +101,7 @@
                 <div class="item-meta">是否支持提前预定</div>
             </div>
             <div class="item-action">
-                <app-switch [field]="dataForm.is_open_reserve" (valueChange)="onValueChange()" />
+                <app-switch [formField]="dataForm.is_open_reserve" (valueChange)="onValueChange()" />
             </div>
         </div>
         @if (dataForm.is_open_reserve().value()) {
@@ -114,7 +114,7 @@
                 <div class="item-meta">支持提前多久预定</div>
             </div>
             <div class="item-action">
-                <app-number-input [field]="dataForm.reserve_time" (valueChange)="onValueChange()" /> 小时
+                <app-number-input [formField]="dataForm.reserve_time" (valueChange)="onValueChange()" /> 小时
             </div>
         </div>
         }

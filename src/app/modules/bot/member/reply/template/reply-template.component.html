@@ -10,7 +10,7 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键词">
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
@@ -48,7 +48,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 
@@ -57,27 +57,27 @@
         <div class="input-group-control">
             <label for="">模板名称</label>
             <div>
-                <input type="text" class="form-control" [field]="editForm.title">
-                <app-switch offLabel="无效" onLabel="有效" [field]="editForm.status" />
+                <input type="text" class="form-control" [formField]="editForm.title">
+                <app-switch offLabel="无效" onLabel="有效" [formField]="editForm.status" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="">模板ID</label>
             <div>
-                <input type="text" class="form-control" [field]="editForm.template_id">
+                <input type="text" class="form-control" [formField]="editForm.template_id">
             </div>
         </div>
         
         <div class="input-group-control">
             <label for="">内容</label>
             <div>
-                <textarea class="form-control" [field]="editForm.content"></textarea>
+                <textarea class="form-control" [formField]="editForm.content"></textarea>
             </div>
         </div>
         <div class="input-group-control">
             <label for="">示例</label>
             <div>
-                <textarea class="form-control" [field]="editForm.example"></textarea>
+                <textarea class="form-control" [formField]="editForm.example"></textarea>
             </div>
         </div>
     </div>
@@ -88,46 +88,46 @@
             <div class="input-group-control">
                 <label for="">模板名称</label>
                 <div>
-                    <input type="text" class="form-control" [field]="sendForm.template.title">
-                    <app-switch offLabel="无效" onLabel="有效" [field]="sendForm.template.status" />
+                    <input type="text" class="form-control" [formField]="sendForm.template.title">
+                    <app-switch offLabel="无效" onLabel="有效" [formField]="sendForm.template.status" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">接收者</label>
                 <div>
                     <div>
-                        <app-select-input [url]="selectUrl()" [field]="sendForm.to" [formatFn]="formatUser" />
+                        <app-select-input [url]="selectUrl()" [formField]="sendForm.to" [formatFn]="formatUser" />
                     </div>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">标题</label>
                 <div>
-                    <input type="text" class="form-control" [field]="sendForm.title">
+                    <input type="text" class="form-control" [formField]="sendForm.title">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">链接</label>
                 <div>
-                    <input type="text" class="form-control" [field]="sendForm.template_url">
+                    <input type="text" class="form-control" [formField]="sendForm.template_url">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">小程序appid</label>
                 <div>
-                    <input type="text" class="form-control" [field]="sendForm.appid">
+                    <input type="text" class="form-control" [formField]="sendForm.appid">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">小程序路径</label>
                 <div>
-                    <input type="text" class="form-control" [field]="sendForm.path">
+                    <input type="text" class="form-control" [formField]="sendForm.path">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="">模板内容</label>
                 <div>
-                    <textarea class="form-control" [field]="sendForm.content"></textarea>
+                    <textarea class="form-control" [formField]="sendForm.content"></textarea>
                 </div>
             </div>
             <table class="table table-hover">
@@ -143,10 +143,10 @@
                     <tr>
                         <td>{{ item.name().value() }}</td>
                         <td>
-                            <textarea class="form-control" [field]="item.value" (valueChange)="onFieldChange()"></textarea>
+                            <textarea class="form-control" [formField]="item.value" (valueChange)="onFieldChange()"></textarea>
                         </td>
                         <td>
-                            <input type="color" class="form-control" [field]="item.color">
+                            <input type="color" class="form-control" [formField]="item.color">
                         </td>
                     </tr>
                     }

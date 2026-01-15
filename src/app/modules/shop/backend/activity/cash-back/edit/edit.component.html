@@ -4,27 +4,27 @@
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name" >
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name" >
 
             </div>
         </div>
         <div class="input-group-control">
             <label for="thumb">图片</label>
             <div>
-                <app-file-input [field]="dataForm.thumb" />
+                <app-file-input [formField]="dataForm.thumb" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">说明</label>
             <div>
-                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
+                <textarea id="description" class="form-control" [formField]="dataForm.description"></textarea>
 
             </div>
         </div>
         <div class="input-group-control">
             <label for="scope_type">活动范围</label>
             <div>
-                <select id="scope_type" class="form-control" [field]="dataForm.scope_type">
+                <select id="scope_type" class="form-control" [formField]="dataForm.scope_type">
                     @for (item of ruleItems; track $index) {
                     <option [value]="item.value">{{ item.name }}</option>
                     }
@@ -35,14 +35,14 @@
         <div class="input-group-control" [hidden]="scopeType() < 1">
             <label for="scope">范围区间</label>
             <div>
-                <app-select-input [url]="selectUrl()" [field]="dataForm.scope" [multiple]="true" />
+                <app-select-input [url]="selectUrl()" [formField]="dataForm.scope" [multiple]="true" />
             </div>
         </div>
         <div>
             <div class="input-group-control">
                 <label for="configure_order_amount">订单金额满</label>
                 <div>
-                    <input type="number" id="configure_order_amount" class="form-control" [field]="dataForm.configure.order_amount"
+                    <input type="number" id="configure_order_amount" class="form-control" [formField]="dataForm.configure.order_amount"
                         placeholder="请输入 订单金额满">
 
                 </div>
@@ -50,7 +50,7 @@
             <div class="input-group-control">
                 <label for="configure_money">返现金额</label>
                 <div>
-                    <input type="number" id="configure_money" class="form-control" [field]="dataForm.configure.money"
+                    <input type="number" id="configure_money" class="form-control" [formField]="dataForm.configure.money"
                         placeholder="请输入 返现金额">
 
                 </div>
@@ -58,7 +58,7 @@
             <div class="input-group-control">
                 <label for="configure_star">是否要求5星好评</label>
                 <div>
-                    <app-switch [field]="dataForm.configure.star" />
+                    <app-switch [formField]="dataForm.configure.star" />
                 </div>
             </div>
 
@@ -66,9 +66,9 @@
         <div class="input-group-control">
             <label for="start_at">起止时间</label>
             <div>
-                <app-date-input [field]="dataForm.start_at" placeholder="请输入开始时间" />
+                <app-date-input [formField]="dataForm.start_at" placeholder="请输入开始时间" />
                 ~
-                <app-date-input [field]="dataForm.end_at" placeholder="请输入结束时间" />
+                <app-date-input [formField]="dataForm.end_at" placeholder="请输入结束时间" />
             </div>
         </div>
         <div class="btn-group">

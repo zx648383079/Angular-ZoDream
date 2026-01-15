@@ -8,13 +8,13 @@ import { LinkRuleModule } from '../../components/link-rule';
 import { ZreEditorModule } from '../../components/editor';
 import { DesktopModule } from '../../components/desktop';
 import { AuthSharedModule } from '../auth/auth-shared.module';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
-        Field,
+        FormField,
         NgOptimizedImage,
         DesktopModule,
         ZreFormModule,

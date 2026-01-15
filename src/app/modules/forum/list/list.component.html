@@ -134,7 +134,7 @@
         }
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
         <div class="paging-box">
-            <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+            <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
         </div>
 
 
@@ -150,7 +150,7 @@
         <form (submit)="tapSubmit2($event)">
             <div class="title">
                 @if (forum()?.classifies && forum().classifies.length > 0) {
-                <select [field]="dataForm.classify" class="form-control">
+                <select [formField]="dataForm.classify" class="form-control">
                     <option value="0" i18n>Select classify</option>
                     @for (item of forum().classifies; track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
@@ -158,10 +158,10 @@
                 </select>
                 }
 
-                <input type="text" class="form-control" [field]="dataForm.title" i18n-placeholder placeholder="Please input title">
+                <input type="text" class="form-control" [formField]="dataForm.title" i18n-placeholder placeholder="Please input title">
             </div>
 
-            <app-forum-editor [field]="dataForm.content" i18n-placeholder placeholder="Please input content" />
+            <app-forum-editor [formField]="dataForm.content" i18n-placeholder placeholder="Please input content" />
 
             <div class="footer">
                 <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="dataForm().invalid()" i18n>Publish</app-action-button>

@@ -7,10 +7,10 @@
         <div class="panel-container">
             <div class="title-input">
                 <label for="title">应用名</label>
-                <input type="text" id="title" class="form-control" [field]="dataForm.name">
+                <input type="text" id="title" class="form-control" [formField]="dataForm.name">
             </div>
 
-            <app-markdown-editor [field]="dataForm.content" (imageUpload)="editorImageUpload($event)" 
+            <app-markdown-editor [formField]="dataForm.content" (imageUpload)="editorImageUpload($event)" 
             [height]="400" placeholder="应用描述" />
         </div>
 
@@ -20,7 +20,7 @@
                     <div class="input-group-control">
                         <label for="cat_id">分类</label>
                         <div>
-                            <select id="cat_id" class="form-control" [field]="dataForm.cat_id">
+                            <select id="cat_id" class="form-control" [formField]="dataForm.cat_id">
                                 @for (item of categories; track $index) {
                                     <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                                 }
@@ -32,7 +32,7 @@
                     <div class="input-group-control">
                         <label for="thumb">图标</label>
                         <div>
-                            <app-file-input [field]="dataForm.icon" />
+                            <app-file-input [formField]="dataForm.icon" />
                         </div>
                     </div>
 
@@ -40,13 +40,13 @@
                     <div class="input-group-control">
                         <label for="keywords">关键字</label>
                         <div>
-                            <app-words-input id="keywords" [field]="dataForm.keywords" />
+                            <app-words-input id="keywords" [formField]="dataForm.keywords" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="description">说明</label>
                         <div>
-                            <app-text-editor [field]="dataForm.description" height="100" />
+                            <app-text-editor [formField]="dataForm.description" height="100" />
                         </div>
                     </div>
 
@@ -54,7 +54,7 @@
                         <label>标签</label>
                         <div>
                             <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" 
-                            [field]="dataForm.tags" [addTag]="addTagFn" placeholder="选择标签" />
+                            [formField]="dataForm.tags" [addTag]="addTagFn" placeholder="选择标签" />
                         </div>
                     </div>
                 </app-panel>
@@ -64,20 +64,20 @@
                     <div class="input-group-control">
                         <label for="is_free">免费应用</label>
                         <div>
-                            <app-switch [field]="dataForm.is_free" />
+                            <app-switch [formField]="dataForm.is_free" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="is_open_source">是否开源</label>
                         <div>
-                            <app-switch [field]="dataForm.is_open_source" />
+                            <app-switch [formField]="dataForm.is_open_source" />
                         </div>
                     </div>
                     @if (dataForm.is_open_source().value()) {
                         <div class="input-group-control">
                             <label for="git_url">源码地址</label>
                             <div>
-                                <input type="text" id="git_url" class="form-control" [field]="dataForm.git_url">
+                                <input type="text" id="git_url" class="form-control" [formField]="dataForm.git_url">
                             </div>
                         </div>
                     }
@@ -85,13 +85,13 @@
                     <div class="input-group-control">
                         <label for="official_website">官网</label>
                         <div>
-                            <input type="text" id="official_website" class="form-control" [field]="dataForm.official_website">
+                            <input type="text" id="official_website" class="form-control" [formField]="dataForm.official_website">
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="score">评分</label>
                         <div>
-                            <app-star [field]="dataForm.score" [labelVisible]="true">分</app-star>
+                            <app-star [formField]="dataForm.score" [labelVisible]="true">分</app-star>
                         </div>
                     </div>
                 </app-panel>

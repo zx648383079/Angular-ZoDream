@@ -5,7 +5,7 @@
         <div class="input-group-control">
             <label for="name">权限名</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name" placeholder="例如:edit_user">
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name" placeholder="例如:edit_user">
                 @if (dataForm.name().invalid()) {
                     <div class="input-tip">请输入权限名</div>
                 }
@@ -15,7 +15,7 @@
         <div class="input-group-control">
             <label for="display_name">别名</label>
             <div>
-                <input type="text" id="display_name" class="form-control" [field]="dataForm.display_name"
+                <input type="text" id="display_name" class="form-control" [formField]="dataForm.display_name"
                     placeholder="例如: 编辑用户">
                 @if (dataForm.display_name().invalid()) {
                     <div class="input-tip">请输入别名</div>
@@ -26,7 +26,7 @@
         <div class="input-group-control">
             <label for="description">说明</label>
             <div>
-                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
+                <textarea id="description" class="form-control" [formField]="dataForm.description"></textarea>
 
             </div>
         </div>

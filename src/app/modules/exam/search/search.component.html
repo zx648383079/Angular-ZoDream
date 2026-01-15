@@ -1,7 +1,7 @@
 <div class="container">
     <form class="search-bar" (submit)="tapSearch($event)">
-        <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="请输入搜索内容">
-        <select class="form-control" [field]="queries.type">
+        <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" placeholder="请输入搜索内容">
+        <select class="form-control" [formField]="queries.type">
             @for (item of typeItems; track $index; let i = $index) {
             <option [value]="i">{{ item }}</option>
             }
@@ -63,5 +63,5 @@
         
     </div>
 
-    <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+    <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
 </div>

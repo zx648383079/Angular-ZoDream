@@ -1,14 +1,14 @@
 <div class="page-search-bar">
     <form class="flat-input" (submit)="tapSearch($event)">
-        <input type="text" class="form-control" id="keywords" [field]="queries.keywords" i18n-placeholder placeholder="Please input a keyword">
-        <select [field]="queries.category" class="form-control">
+        <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" i18n-placeholder placeholder="Please input a keyword">
+        <select [formField]="queries.category" class="form-control">
             <option value="0" i18n>Select...</option>
             @for (item of categories; track $index) {
                 <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
             }
             
         </select>
-        <select [field]="queries.type" class="form-control">
+        <select [formField]="queries.type" class="form-control">
             @for (item of typeItems; track $index) {
                 <option [value]="item.value">{{ item.name }}</option>
             }
@@ -59,4 +59,4 @@
 
 
 <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-<app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+<app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />

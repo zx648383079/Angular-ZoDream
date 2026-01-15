@@ -14,7 +14,7 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键词">
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 @if (software && software.version) {
@@ -62,7 +62,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 
@@ -70,13 +70,13 @@
     <div class="form-group">
         <label>目标系统</label>
         <div class="form-control-group">
-            <select class="form-control" [field]="editForm.os">
+            <select class="form-control" [formField]="editForm.os">
                 @for (item of osItems; track $index) {
                     <option [value]="item">{{ item }}</option>
                 }
                 
             </select>
-            <select class="form-control" [field]="editForm.framework">
+            <select class="form-control" [formField]="editForm.framework">
                 @for (item of frameworkItems; track $index) {
                     <option [value]="item">{{ item }}</option>
                 }
@@ -87,19 +87,19 @@
     <div class="form-group">
         <label for="name-input">文件名</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入文件名">
+            <input class="form-control" id="name-input" [formField]="editForm.name" placeholder="请输入文件名">
         </div>
     </div>
     <div class="form-group">
         <label>文件大小</label>
         <div>
-            <app-data-size [field]="editForm.size" />
+            <app-data-size [formField]="editForm.size" />
         </div>
     </div>
     <div class="form-group">
         <label>文件类型</label>
         <div class="input-group-control">
-            <select class="form-control" [field]="editForm.url_type">
+            <select class="form-control" [formField]="editForm.url_type">
                 @for (item of urlTypeItems; track $index) {
                     <option [value]="item.value">{{ item.name }}</option>
                 }
@@ -111,14 +111,14 @@
     <div class="form-group" >
         <label>文件</label>
         <div class="input-group-control">
-            <app-file-input [field]="editForm.url" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)" />
+            <app-file-input [formField]="editForm.url" accept="*/*" [custom]="true" (customUpload)="onFileUpload($event)" />
         </div>
     </div>
     } @else {
     <div class="form-group">
         <label>{{ urlType() > 2 ? '内容' : '网址' }}</label>
         <div>
-            <app-text-editor [field]="editForm.url" height="100" />
+            <app-text-editor [formField]="editForm.url" height="100" />
         </div>
     </div>
     }

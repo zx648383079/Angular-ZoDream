@@ -48,7 +48,7 @@
     <div class="form-group">
         <label>地区名</label>
         <div class="input-group-control">
-            <input class="form-control" placeholder="请输入地区名" [field]="editForm.name">
+            <input class="form-control" placeholder="请输入地区名" [formField]="editForm.name">
         </div>
     </div>
 </app-dialog-box>
@@ -66,13 +66,13 @@
     <div class="form-group">
         <label>地区名</label>
         <div class="input-group-control">
-            <input class="form-control"  [field]="editForm.name" placeholder="请输入地区名">
+            <input class="form-control"  [formField]="editForm.name" placeholder="请输入地区名">
         </div>
     </div>
     <div class="form-group">
         <label>说明</label>
         <div class="input-group-control">
-            <textarea class="form-control"  [field]="editForm.description" placeholder="请输入说明"></textarea>
+            <textarea class="form-control"  [formField]="editForm.description" placeholder="请输入说明"></textarea>
         </div>
     </div>
 </app-dialog-box>
@@ -82,7 +82,7 @@
         <i class="iconfont icon-close" (click)="panelOpen = false"></i>
     </div>
     <form class="panel-search">
-        <input type="text" id="keywords" [field]="queries.keywords">
+        <input type="text" id="keywords" [formField]="queries.keywords">
         <button class="iconfont icon-search"></button>
     </form>
     <div class="panel-body">

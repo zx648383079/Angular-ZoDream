@@ -2,7 +2,7 @@
     <div class="input-group-control">
         <label for="platform_id">应用</label>
         <div>
-            <select id="platform_id" class="form-control" [field]="dataForm.platform" (change)="tapPlatformChange()">
+            <select id="platform_id" class="form-control" [formField]="dataForm.platform" (change)="tapPlatformChange()">
                 @for (item of platformItems(); track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
                 }
@@ -21,7 +21,7 @@
                     <div class="input-group-control">
                         <label [attr.for]="'option_' + group.name().value() + item.name().value() ">{{ item.label().value() }}</label>
                         <div>
-                            <input type="text" [id]="'option_' + group.name().value() + item.name().value() " class="form-control" [field]="item.value">
+                            <input type="text" [id]="'option_' + group.name().value() + item.name().value() " class="form-control" [formField]="item.value">
                             @if (item.tip().value()) {
                                 <div class="tip">{{ item.tip().value() }}</div>
                             }

@@ -9,13 +9,13 @@ import { BotMemberRoutingModule, botMemberRoutingComponents } from './routing.mo
 import { BotService } from './bot.service';
 import { DesktopModule } from '../../../components/desktop';
 import { TabletModule } from '../../../components/tablet';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
         ThemeModule,
-        Field,
+        FormField,
         DialogModule,
         DesktopModule,
         TabletModule,

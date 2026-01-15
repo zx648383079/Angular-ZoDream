@@ -9,7 +9,7 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键词">
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <a class="btn btn-success pull-right" (click)="open(modal)">新增剧集</a>
@@ -46,7 +46,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 
@@ -54,13 +54,13 @@
     <div class="form-group">
         <label for="name-input">标题</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editForm.title" placeholder="请输入标题">
+            <input class="form-control" id="name-input" [formField]="editForm.title" placeholder="请输入标题">
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">分数</label>
         <div class="input-group-control">
-            <app-number-input [field]="editForm.episode" />
+            <app-number-input [formField]="editForm.episode" />
         </div>
     </div>
 </app-dialog-box>

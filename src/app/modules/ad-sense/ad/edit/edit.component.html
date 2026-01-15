@@ -5,7 +5,7 @@
         <div class="input-group-control">
             <label for="name">广告名</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name">
                 @if (dataForm.name().invalid()) {
                     <div class="input-tip">请输入广告名</div>
                 }
@@ -15,7 +15,7 @@
         <div class="input-group-control">
             <label for="position_id">广告位</label>
             <div>
-                <select id="position_id" [field]="dataForm.position_id" class="form-control">
+                <select id="position_id" [formField]="dataForm.position_id" class="form-control">
                     @for (item of positionItems; track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                     }
@@ -26,7 +26,7 @@
         <div class="input-group-control">
             <label for="type">类型</label>
             <div>
-                <select id="type" [field]="dataForm.type" class="form-control">
+                <select id="type" [formField]="dataForm.type" class="form-control">
                     <option value="0">文本</option>
                     <option value="1">图片</option>
                     <option value="2">代码</option>
@@ -41,7 +41,7 @@
                     <div class="input-group-control">
                         <label for="content_url">图片</label>
                         <div>
-                            <app-file-input id="content_url" [field]="dataForm.content" />
+                            <app-file-input id="content_url" [formField]="dataForm.content" />
                         </div>
                     </div>
                 }
@@ -49,7 +49,7 @@
                     <div class="input-group-control">
                         <label for="file_url">视频</label>
                         <div>
-                            <app-file-input id="file_url" [field]="dataForm.content" accept="video/*" />
+                            <app-file-input id="file_url" [formField]="dataForm.content" accept="video/*" />
                         </div>
                     </div>
                 }
@@ -57,7 +57,7 @@
                     <div class="input-group-control">
                         <label for="content">内容</label>
                         <div>
-                            <textarea id="content" class="form-control" [field]="dataForm.content"></textarea>
+                            <textarea id="content" class="form-control" [formField]="dataForm.content"></textarea>
                         </div>
                     </div>
                 }
@@ -67,26 +67,26 @@
         <div class="input-group-control">
             <label for="url">链接</label>
             <div>
-                <input type="text" id="url" class="form-control" [field]="dataForm.url">
+                <input type="text" id="url" class="form-control" [formField]="dataForm.url">
                 <div class="input-tip">链接格式：{{ deepSchame }}://goto/</div>
             </div>
         </div>
         <div class="input-group-control">
             <label for="start_at">开始时间</label>
             <div class="calendar-input">
-                <app-date-input [field]="dataForm.start_at" />
+                <app-date-input [formField]="dataForm.start_at" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="end_at">结束时间</label>
             <div class="calendar-input">
-                <app-date-input [field]="dataForm.end_at" />
+                <app-date-input [formField]="dataForm.end_at" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="status">状态</label>
             <div>
-                <app-switch id="status" [field]="dataForm.status" onLabel="启用" offLabel="关闭" />
+                <app-switch id="status" [formField]="dataForm.status" onLabel="启用" offLabel="关闭" />
             </div>
         </div>
         <div class="btn-group">

@@ -66,10 +66,10 @@
         </div>
         }
         <div class="input">
-            <textarea class="form-control" [field]="editForm.content" i18n-placeholder placeholder="Please enter the reason for forwarding"></textarea>
+            <textarea class="form-control" [formField]="editForm.content" i18n-placeholder placeholder="Please enter the reason for forwarding"></textarea>
         </div>
         <div class="actions">
-            <app-switch [field]="editForm.is_comment" />
+            <app-switch [formField]="editForm.is_comment" />
             <ng-container i18n>
                 Also comment to {{ data() ? data().user.name : '' }}
             </ng-container>

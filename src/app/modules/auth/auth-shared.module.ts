@@ -4,7 +4,7 @@ import { LoginPanelComponent } from './login/panel/login-panel.component';
 import { LoginDialogComponent } from './login/dialog/login-dialog.component';
 import { ThemeModule } from '../../theme/theme.module';
 import { ZreFormModule } from '../../components/form';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 
 const COMPONENTS = [
@@ -15,7 +15,7 @@ const COMPONENTS = [
 @NgModule({
     imports: [
         CommonModule,
-        Field,
+        FormField,
         ThemeModule,
         ZreFormModule,
     ],

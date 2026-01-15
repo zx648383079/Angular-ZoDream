@@ -9,12 +9,12 @@ import { ThemeModule } from '../../../theme/theme.module';
 import { DocumentSharedModule } from '../shared';
 import { DesktopModule } from '../../../components/desktop';
 import { TabletModule } from '../../../components/tablet';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
-        Field,
+        FormField,
         DocumentMemberRoutingModule,
         ThemeModule,
         DesktopModule,

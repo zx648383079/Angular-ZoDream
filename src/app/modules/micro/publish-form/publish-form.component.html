@@ -6,7 +6,7 @@
         </div>
     </div>
     <div class="input-box">
-        <textarea class="form-control" [field]="dataForm.content"></textarea>
+        <textarea class="form-control" [formField]="dataForm.content"></textarea>
     </div>
     <div class="actions">
         <div class="tools">
@@ -29,7 +29,7 @@
                 <i class="item-text">#</i>
             </div>
         </div>
-        <select class="form-control" [field]="dataForm.open_type">
+        <select class="form-control" [formField]="dataForm.open_type">
             @for (item of typeItems; track $index;let i = $index) {
                 <option [value]="i">{{ item }}</option>
             }

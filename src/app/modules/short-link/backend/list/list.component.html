@@ -9,7 +9,7 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键词">
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
 
@@ -56,7 +56,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 
@@ -64,19 +64,19 @@
     <div class="form-group">
         <label for="name-input">标题</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editForm.title" placeholder="请输入标题">
+            <input class="form-control" id="name-input" [formField]="editForm.title" placeholder="请输入标题">
         </div>
     </div>
     <div class="form-group">
         <label>原链接</label>
         <div class="input-group-control">
-            <input class="form-control" [field]="editForm.source_url" placeholder="请输入链接">
+            <input class="form-control" [formField]="editForm.source_url" placeholder="请输入链接">
         </div>
     </div>
     <div class="form-group">
         <label>状态</label>
         <div class="input-group-control">
-            <select class="form-control" [field]="editForm.status">
+            <select class="form-control" [formField]="editForm.status">
                 @for (item of statusItems; track $index) {
                     <option [value]="item.value">{{ item.name }}</option>
                 }

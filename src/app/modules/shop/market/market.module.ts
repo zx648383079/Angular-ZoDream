@@ -8,13 +8,13 @@ import { ZreFormModule } from '../../../components/form';
 import { ShopCommonModule } from '../common.module';
 import { ZreSwiperModule } from '../../../components/swiper';
 import { DesktopModule } from '../../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     declarations: [...marketRoutingComponents],
     imports: [
         CommonModule,
-        Field,
+        FormField,
         NgOptimizedImage,
         MarketRoutingModule,
         ThemeModule,

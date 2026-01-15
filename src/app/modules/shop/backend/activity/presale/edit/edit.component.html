@@ -5,59 +5,59 @@
         <div class="input-group-control">
             <label for="goods_id">商品</label>
             <div>
-                <app-select-input url="shop/admin/goods/search" [field]="dataForm.scope" />
+                <app-select-input url="shop/admin/goods/search" [formField]="dataForm.scope" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name">
             </div>
         </div>
         <div class="input-group-control">
             <label for="thumb">图片</label>
             <div>
-                <app-file-input [field]="dataForm.thumb" />
+                <app-file-input [formField]="dataForm.thumb" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">说明</label>
             <div>
-                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
+                <textarea id="description" class="form-control" [formField]="dataForm.description"></textarea>
             </div>
         </div>
         <div class="input-group-control">
             <label for="start_at">定金时间</label>
             <div>
-                <app-date-input [field]="dataForm.start_at" placeholder="请输入开始时间" />
+                <app-date-input [formField]="dataForm.start_at" placeholder="请输入开始时间" />
                 ~
-                <app-date-input [field]="dataForm.end_at" placeholder="请输入结束时间" />
+                <app-date-input [formField]="dataForm.end_at" placeholder="请输入结束时间" />
             </div>
         </div>
         <div>
             <div class="input-group-control">
                 <label for="configure_start_at">尾款时间</label>
                 <div>
-                    <app-date-input [field]="dataForm.configure.final_start_at" placeholder="请输入开始时间" />
+                    <app-date-input [formField]="dataForm.configure.final_start_at" placeholder="请输入开始时间" />
                     ~
-                    <app-date-input [field]="dataForm.configure.final_end_at" placeholder="请输入结束时间" />
+                    <app-date-input [formField]="dataForm.configure.final_end_at" placeholder="请输入结束时间" />
                 </div>
             </div>
 
             <div class="input-group-control">
                 <label for="configure_ship_at">发货时间</label>
                 <div>
-                    <app-date-input [field]="dataForm.configure.ship_at" placeholder="请输入发货时间" />
+                    <app-date-input [formField]="dataForm.configure.ship_at" placeholder="请输入发货时间" />
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="configure_price_type">预算模式</label>
                 <div>
                     <span class="radio-label">
-                        <input type="radio" id="configure_price_type0" [field]="dataForm.configure.price_type" value="0">
+                        <input type="radio" id="configure_price_type0" [formField]="dataForm.configure.price_type" value="0">
                         <label for="configure_price_type0">一口价</label>
                     </span><span class="radio-label">
-                        <input type="radio" id="configure_price_type1" [field]="dataForm.configure.price_type" value="1">
+                        <input type="radio" id="configure_price_type1" [formField]="dataForm.configure.price_type" value="1">
                         <label for="configure_price_type1">阶梯价</label>
                     </span>
                 </div>
@@ -66,7 +66,7 @@
                 <div class="input-group-control">
                     <label for="configure_price">预售价格</label>
                     <div>
-                        <input type="number" id="configure_price" class="form-control" [field]="dataForm.configure.price"
+                        <input type="number" id="configure_price" class="form-control" [formField]="dataForm.configure.price"
                             placeholder="请输入 预售价格">
 
                     </div>
@@ -78,8 +78,8 @@
             <div>
                 @for (item of dataForm.configure.step; track $index; let i = $index) {
                     <p class="step-item">
-                        满<input type="number" class="form-control" [field]="item.amount" size="10">人，预售价<input type="number"
-                            [field]="item.price" class="form-control" size="10">元
+                        满<input type="number" class="form-control" [formField]="item.amount" size="10">人，预售价<input type="number"
+                            [formField]="item.price" class="form-control" size="10">元
                         <i class="iconfont icon-close" (click)="tapRemoveStep(i)"></i>
                     </p>
                 }
@@ -94,7 +94,7 @@
             <div class="input-group-control">
                 <label for="configure_deposit">定金</label>
                 <div>
-                    <input type="number" id="configure_deposit" class="form-control" [field]="dataForm.configure.deposit"
+                    <input type="number" id="configure_deposit" class="form-control" [formField]="dataForm.configure.deposit"
                         placeholder="请输入 定金">
 
                 </div>
@@ -103,20 +103,20 @@
                 <label for="configure_deposit_scale">定金膨胀系数</label>
                 <div>
                     <span class="radio-label">
-                        <input type="radio" id="configure_deposit_scale0" [field]="dataForm.configure.deposit_scale" value="1">
+                        <input type="radio" id="configure_deposit_scale0" [formField]="dataForm.configure.deposit_scale" value="1">
                         <label for="configure_deposit_scale0">无</label>
                     </span><span class="radio-label">
-                        <input type="radio" id="configure_deposit_scale1" [field]="dataForm.configure.deposit_scale" value="1.5">
+                        <input type="radio" id="configure_deposit_scale1" [formField]="dataForm.configure.deposit_scale" value="1.5">
                         <label for="configure_deposit_scale1">1.5倍</label>
                     </span><span class="radio-label">
-                        <input type="radio" id="configure_deposit_scale2" [field]="dataForm.configure.deposit_scale" value="2">
+                        <input type="radio" id="configure_deposit_scale2" [formField]="dataForm.configure.deposit_scale" value="2">
                         <label for="configure_deposit_scale2">2倍</label>
                     </span><span class="radio-label">
-                        <input type="radio" id="configure_deposit_scale3" [field]="dataForm.configure.deposit_scale" value="0">
+                        <input type="radio" id="configure_deposit_scale3" [formField]="dataForm.configure.deposit_scale" value="0">
                         <label for="configure_deposit_scale3">自定义</label>
                     </span>
                     @if (depositScale() > 0) {
-                        <input type="number" class="form-control" [field]="dataForm.configure.deposit_scale_other" placeholder="自定义">
+                        <input type="number" class="form-control" [formField]="dataForm.configure.deposit_scale_other" placeholder="自定义">
                     }
                 </div>
             </div>

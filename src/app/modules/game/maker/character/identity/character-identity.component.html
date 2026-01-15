@@ -9,7 +9,7 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">名称</label>
-                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords"
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords"
                         placeholder="关键字">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
@@ -45,7 +45,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 
@@ -53,19 +53,19 @@
     <div class="form-group">
         <label for="name-input">职业名</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入职业名">
+            <input class="form-control" id="name-input" [formField]="editForm.name" placeholder="请输入职业名">
         </div>
     </div>
     <div class="form-group">
         <label>预览图</label>
         <div class="input-group-control">
-            <app-file-input [field]="editForm.image" [online]="true" />
+            <app-file-input [formField]="editForm.image" [online]="true" />
         </div>
     </div>
     <div class="form-group">
         <label>说明</label>
         <div class="input-group-control">
-            <textarea class="form-control" [field]="editForm.description" placeholder="请输入简介"></textarea>
+            <textarea class="form-control" [formField]="editForm.description" placeholder="请输入简介"></textarea>
         </div>
     </div>
     <div class="form-group">
@@ -77,7 +77,7 @@
     <div class="form-group">
         <label>限制种族</label>
         <div class="input-group-control">
-            <textarea class="form-control" [field]="editForm.description" placeholder="请输入简介"></textarea>
+            <textarea class="form-control" [formField]="editForm.description" placeholder="请输入简介"></textarea>
         </div>
     </div>
     <div class="group-panel">
@@ -85,19 +85,19 @@
         <div class="group-body">
             <div class="property-item">
                 <label for="">生命值</label>
-                <app-number-input [field]="editForm.hp" />
+                <app-number-input [formField]="editForm.hp" />
             </div>
             <div class="property-item">
                 <label for="">魔法值</label>
-                <app-number-input [field]="editForm.mp" />
+                <app-number-input [formField]="editForm.mp" />
             </div>
             <div class="property-item">
                 <label for="">攻击</label>
-                <app-number-input [field]="editForm.att" />
+                <app-number-input [formField]="editForm.att" />
             </div>
             <div class="property-item">
                 <label for="">防御</label>
-                <app-number-input [field]="editForm.def" />
+                <app-number-input [formField]="editForm.def" />
             </div>
         </div>
     </div>

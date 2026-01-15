@@ -11,38 +11,38 @@
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name">
             </div>
         </div>
         <div class="input-group-control">
             <label for="description">说明</label>
             <div>
-                <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
+                <textarea id="description" class="form-control" [formField]="dataForm.description"></textarea>
             </div>
         </div>
         <div class="input-group-control time-box">
             <label for="every_time">单次时间：</label>
             <div>
-                <input type="number" id="every_time" class="form-control" [field]="dataForm.every_time" placeholder="请输入单次时长（/分钟）">
+                <input type="number" id="every_time" class="form-control" [formField]="dataForm.every_time" placeholder="请输入单次时长（/分钟）">
             </div>
         </div>
         <div class="input-group-control time-box">
             <label for="space_time">单次间隔：</label>
             <div>
-                <input type="number" id="space_time" class="form-control" [field]="dataForm.space_time" placeholder="请输入单次间隔（/分钟）">
+                <input type="number" id="space_time" class="form-control" [formField]="dataForm.space_time" placeholder="请输入单次间隔（/分钟）">
             </div>
         </div>
         <div class="input-group-control time-box">
             <label for="duration">每日次数：</label>
             <div>
-                <input type="number" id="duration" class="form-control" [field]="dataForm.duration" placeholder="请输入每日次数">
+                <input type="number" id="duration" class="form-control" [formField]="dataForm.duration" placeholder="请输入每日次数">
                 <div class="input-tip">大于0表示每天会自动增加</div>
             </div>
         </div>
         <div class="input-group-control time-box">
             <label for="start_at">开始时间：</label>
             <div>
-                <app-date-input id="start_at" [field]="dataForm.start_at" />
+                <app-date-input id="start_at" [formField]="dataForm.start_at" />
                 <div class="input-tip">从哪一天开始自动增加次数</div>
             </div>
         </div>
@@ -78,13 +78,13 @@
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editForm.name" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [formField]="editForm.name" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="description-input">说明</label>
         <div class="input-group-control">
-            <textarea class="form-control" id="description-input" [field]="editForm.description" placeholder="请输入说明"></textarea>
+            <textarea class="form-control" id="description-input" [formField]="editForm.description" placeholder="请输入说明"></textarea>
         </div>
     </div>
 </app-dialog-box>
@@ -94,7 +94,7 @@
     <div class="form-group">
         <label for="share-type-input">分享类型</label>
         <div class="input-group-control">
-            <select class="form-control" id="share-type-input" [field]="shareForm.share_type">
+            <select class="form-control" id="share-type-input" [formField]="shareForm.share_type">
                 <option value="0">公开分享</option>
                 <option [value]="1">密码分享</option>
             </select>
@@ -103,7 +103,7 @@
         <div>
             <label for="pwd-input">分享密码</label>
             <div class="input-group-control">
-                <input type="text" class="form-control" id="pwd-input" [field]="shareForm.share_rule">
+                <input type="text" class="form-control" id="pwd-input" [formField]="shareForm.share_rule">
             </div>
         </div>
         }

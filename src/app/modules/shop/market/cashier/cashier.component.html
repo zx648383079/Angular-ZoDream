@@ -11,19 +11,19 @@
                         <div class="edit-body">
                             <div>*所在地区:</div>
                             <div class="region-input">
-                                <app-region url="shop/region/tree" [field]="editForm.region_id" />
+                                <app-region url="shop/region/tree" [formField]="editForm.region_id" />
                             </div>
                             <div>*详细地址:</div>
                             <div>
-                                <textarea [field]="editForm.address" cols="30" rows="10"></textarea>
+                                <textarea [formField]="editForm.address" cols="30" rows="10"></textarea>
                             </div>
                             <div>*收货人:</div>
                             <div>
-                                <input type="text" [field]="editForm.name">
+                                <input type="text" [formField]="editForm.name">
                             </div>
                             <div>*手机号码:</div>
                             <div>
-                                <input type="text" [field]="editForm.tel">
+                                <input type="text" [formField]="editForm.tel">
                             </div>
                         </div>
                         <div class="edit-right">
@@ -167,7 +167,7 @@
                             </div>
                             <div class="tab-item" [class]="{active: couponIndex() == 1}">
                                 <div class="flat-input">
-                                    <input type="text" class="form-control" [field]="couponForm.code">
+                                    <input type="text" class="form-control" [formField]="couponForm.code">
                                     <button class="btn btn-primary" (click)="tapExchange()">兑换</button>
                                 </div>
                             </div>

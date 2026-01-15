@@ -62,7 +62,7 @@
             @if (searchVisible) {
                 <form class="search-inline" (submit)="tapSearch($event)">
                     <i class="iconfont icon-search"></i>
-                    <input type="text" class="form-control" placeholder="Search ..." [field]="queries.keywords">
+                    <input type="text" class="form-control" placeholder="Search ..." [formField]="queries.keywords">
                 </form>
             }
             

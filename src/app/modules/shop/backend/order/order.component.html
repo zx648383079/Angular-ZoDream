@@ -9,11 +9,11 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="series_number">订单号</label>
-                    <input type="text" class="form-control" [field]="queries.series_number" id="series_number" placeholder="订单号">
+                    <input type="text" class="form-control" [formField]="queries.series_number" id="series_number" placeholder="订单号">
                 </div>
                 <div class="input-group-control">
                     <label for="status">状态</label>
-                    <select class="form-control" [field]="queries.status" id="status">
+                    <select class="form-control" [formField]="queries.status" id="status">
                         <option value="0">全部</option>
                         @for (item of statusItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
@@ -75,7 +75,7 @@
             }
         </div>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 
@@ -88,7 +88,7 @@
         <div class="form-group">
             <label for="type1">订单状态</label>
             <div class="input-group-control">
-                <select class="form-control" [field]="queries.status" id="type1">
+                <select class="form-control" [formField]="queries.status" id="type1">
                     <option value="0">全部</option>
                     @for (item of statusItems; track $index) {
                     <option [value]="item.value">{{ item.name }}</option>
@@ -99,50 +99,50 @@
         <div class="form-group">
             <label for="start_at">下单时间</label>
             <div class="input-group-control">
-                <app-date-input id="start_at" [field]="queries.start_at"/>
+                <app-date-input id="start_at" [formField]="queries.start_at"/>
             </div>
         </div>
         <div class="form-group">
             <label for="end_at">至</label>
             <div class="input-group-control">
-                <app-date-input id="end_at" [field]="queries.end_at"/>
+                <app-date-input id="end_at" [formField]="queries.end_at"/>
             </div>
         </div>
         <div class="form-group">
             <label for="goods2">商品</label>
             <div class="input-group-control">
-                <input type="text" class="form-control" [field]="queries.keywords" id="goods2" placeholder="商品名称关键字">
+                <input type="text" class="form-control" [formField]="queries.keywords" id="goods2" placeholder="商品名称关键字">
             </div>
         </div>
         <div class="form-group">
             <label for="user2">下单账号</label>
             <div class="input-group-control">
-                <input type="text" class="form-control" [field]="queries.user" id="user2" placeholder="会员名关键字">
+                <input type="text" class="form-control" [formField]="queries.user" id="user2" placeholder="会员名关键字">
             </div>
         </div>
         <div class="form-group">
             <label for="conginee2">收货人</label>
             <div class="input-group-control">
-                <input type="text" class="form-control" [field]="queries.conginee" id="conginee2" placeholder="收货人">
+                <input type="text" class="form-control" [formField]="queries.conginee" id="conginee2" placeholder="收货人">
             </div>
         </div>
         <div class="form-group">
             <label for="address2">收货地址</label>
             <div class="input-group-control">
-                <input type="text" class="form-control" [field]="queries.address" id="address2" placeholder="关键字">
+                <input type="text" class="form-control" [formField]="queries.address" id="address2" placeholder="关键字">
             </div>
         </div>
         <div class="form-group">
             <label for="tel2">联系电话</label>
             <div class="input-group-control">
-                <input type="text" class="form-control" [field]="queries.tel" id="tel2" placeholder="关键字">
+                <input type="text" class="form-control" [formField]="queries.tel" id="tel2" placeholder="关键字">
             </div>
         </div>
         
         <div class="form-group">
             <label for="series_number2">订单号</label>
             <div class="input-group-control">
-                <input type="text" class="form-control" [field]="queries.series_number" id="series_number2" placeholder="订单号">
+                <input type="text" class="form-control" [formField]="queries.series_number" id="series_number2" placeholder="订单号">
             </div>
         </div>
         
@@ -161,7 +161,7 @@
         <div class="input-group-control">
             <label for="">运费金额</label>
             <div>
-                <input type="number" class="form-control" [field]="shipForm.fee">
+                <input type="number" class="form-control" [formField]="shipForm.fee">
             </div>
         </div>
     </div>

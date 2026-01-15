@@ -7,10 +7,10 @@
 
             <div class="title-input">
                 <label for="title">标题</label>
-                <input type="text" id="title" class="form-control" [field]="dataForm.title">
+                <input type="text" id="title" class="form-control" [formField]="dataForm.title">
             </div>
 
-            <app-markdown-editor [field]="dataForm.content" (imageUpload)="editorImageUpload($event)" [height]="400" />
+            <app-markdown-editor [formField]="dataForm.content" (imageUpload)="editorImageUpload($event)" [height]="400" />
         </div>
 
         <div class="row">
@@ -19,7 +19,7 @@
                     <div class="input-group-control">
                         <label for="term_id">分类</label>
                         <div>
-                            <select id="term_id" class="form-control" [field]="dataForm.term_id">
+                            <select id="term_id" class="form-control" [formField]="dataForm.term_id">
                                 @for (item of categories; track $index) {
                                     <option [value]="item.id">{{ item.name }}</option>
                                 }
@@ -30,7 +30,7 @@
                     <div class="input-group-control">
                         <label for="programming_language">编程语言</label>
                         <div>
-                            <select id="programming_language" class="form-control" [field]="dataForm.programming_language">
+                            <select id="programming_language" class="form-control" [formField]="dataForm.programming_language">
                                 <option value="">请选择</option>
                                 @for (item of languages; track $index) {
                                     <option [value]="item">{{ item }}</option>
@@ -41,7 +41,7 @@
                     <div class="input-group-control">
                         <label for="type">类型</label>
                         <div>
-                            <select id="type" class="form-control" [field]="dataForm.type">
+                            <select id="type" class="form-control" [formField]="dataForm.type">
                                 <option value="0" >原创</option>
                                 <option value="1">转载</option>
                             </select>
@@ -52,13 +52,13 @@
                     <div class="input-group-control">
                         <label for="thumb">图片</label>
                         <div>
-                            <app-file-input [field]="dataForm.thumb" />
+                            <app-file-input [formField]="dataForm.thumb" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="open_type">公开类型</label>
                         <div>
-                            <select id="open_type" class="form-control" [field]="dataForm.open_type">
+                            <select id="open_type" class="form-control" [formField]="dataForm.open_type">
                                 @for (item of openItems; track $index) {
                                     <option [value]="item.value">{{ item.name }}</option>
                                 }
@@ -69,7 +69,7 @@
                     <div class="input-group-control">
                         <label for="edit_type">编辑器</label>
                         <div>
-                            <select id="edit_type" class="form-control" [field]="dataForm.edit_type">
+                            <select id="edit_type" class="form-control" [formField]="dataForm.edit_type">
                                 <option value="0">Ueditor</option>
                                 <option value="1">MarkDown</option>
                             </select>
@@ -80,13 +80,13 @@
                     <div class="input-group-control">
                         <label for="keywords">关键字</label>
                         <div>
-                            <app-words-input id="keywords" [field]="dataForm.keywords" />
+                            <app-words-input id="keywords" [formField]="dataForm.keywords" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="description">说明</label>
                         <div>
-                            <textarea id="description" class="form-control" [field]="dataForm.description"></textarea>
+                            <textarea id="description" class="form-control" [formField]="dataForm.description"></textarea>
                             <div class="edit-tip">
                                 已输入 0 个字符
                             </div>
@@ -107,7 +107,7 @@
                     <div class="input-group-control">
                         <label for="weather">天气</label>
                         <div>
-                            <select id="weather" class="form-control" [field]="dataForm.weather">
+                            <select id="weather" class="form-control" [formField]="dataForm.weather">
                                 <option value="">请选择</option>
                                 @for (item of weathers; track $index) {
                                     <option [value]="item.value">{{ item.name }}</option>
@@ -119,19 +119,19 @@
                     <div class="input-group-control">
                         <label for="audio_url">音频</label>
                         <div class="file-input">
-                            <app-file-input [field]="dataForm.audio_url" accept="audio/*" />
+                            <app-file-input [formField]="dataForm.audio_url" accept="audio/*" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="video_url">视频</label>
                         <div>
-                            <app-file-input [field]="dataForm.video_url" accept="video/*" />
+                            <app-file-input [formField]="dataForm.video_url" accept="video/*" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="meta_cc_license">版权协议</label>
                         <div>
-                            <select id="meta_cc_license" class="form-control" [field]="dataForm.cc_license">
+                            <select id="meta_cc_license" class="form-control" [formField]="dataForm.cc_license">
                                 <option value="">请选择</option>
                                 @for (item of licenses; track $index) {
                                     <option [value]="item.value">{{ item.name }}</option>
@@ -145,19 +145,19 @@
                     <div class="input-group-control">
                         <label for="meta_seo_title">SEO标题</label>
                         <div>
-                            <input type="text" id="meta_seo_title" class="form-control" [field]="dataForm.seo_title">
+                            <input type="text" id="meta_seo_title" class="form-control" [formField]="dataForm.seo_title">
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="meta_seo_description">SEO描述</label>
                         <div>
-                            <textarea id="meta_seo_description" class="form-control" [field]="dataForm.seo_description"></textarea>
+                            <textarea id="meta_seo_description" class="form-control" [formField]="dataForm.seo_description"></textarea>
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="meta_seo_link">链接别名</label>
                         <div>
-                            <input type="text" id="meta_seo_link" class="form-control" [field]="dataForm.seo_link">
+                            <input type="text" id="meta_seo_link" class="form-control" [formField]="dataForm.seo_link">
                             <div class="input-tip">
                                 请使用数字字母-_组成，请不要输入空格、/
                             </div>

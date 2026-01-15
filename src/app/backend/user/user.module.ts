@@ -8,12 +8,12 @@ import { DialogModule } from '../../components/dialog';
 import { ZreFormModule } from '../../components/form';
 import { LinkRuleModule } from '../../components/link-rule';
 import { DesktopModule } from '../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
         CommonModule,
-        Field,
+        FormField,
         NgSelectModule,
         ThemeModule,
         DesktopModule,

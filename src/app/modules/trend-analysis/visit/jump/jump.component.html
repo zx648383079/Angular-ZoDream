@@ -9,9 +9,9 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">时间</label>
-                            <input type="date" class="form-control" [field]="queries.start_at" id="start_at" placeholder="开始时间">
+                            <input type="date" class="form-control" [formField]="queries.start_at" id="start_at" placeholder="开始时间">
                     -
-                    <input type="date" class="form-control" [field]="queries.end_at" id="end_at" placeholder="结束时间">
+                    <input type="date" class="form-control" [formField]="queries.end_at" id="end_at" placeholder="结束时间">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="tab-bar pull-right --with-gray">
@@ -54,6 +54,6 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>

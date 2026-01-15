@@ -5,7 +5,7 @@
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name">
                 @if (dataForm.name().invalid()) {
                     <div class="input-tip">请输入名称</div>
                 }
@@ -14,7 +14,7 @@
         <div class="input-group-control">
             <label for="code">调用代码</label>
             <div>
-                <input type="text" id="code" class="form-control" [field]="dataForm.code">
+                <input type="text" id="code" class="form-control" [formField]="dataForm.code">
                 @if (dataForm.code().invalid()) {
                     <div class="input-tip">请输入调用代码，显示广告时使用</div>
                 }
@@ -23,38 +23,38 @@
         <div class="input-group-control">
             <label for="auto_size">自适应</label>
             <div>
-                <app-switch id="auto_size" [field]="dataForm.auto_size" />
+                <app-switch id="auto_size" [formField]="dataForm.auto_size" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="source_type">来源类型</label>
             <div>
-                <app-switch id="source_type" [field]="dataForm.source_type" onLabel="第三方接入" offLabel="本地" />
+                <app-switch id="source_type" [formField]="dataForm.source_type" onLabel="第三方接入" offLabel="本地" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="width">宽</label>
             <div>
-                <input type="text" id="width" class="form-control" [field]="dataForm.width">
+                <input type="text" id="width" class="form-control" [formField]="dataForm.width">
             </div>
         </div>
         <div class="input-group-control">
             <label for="height">高</label>
             <div>
-                <input type="text" id="height" class="form-control" [field]="dataForm.height">
+                <input type="text" id="height" class="form-control" [formField]="dataForm.height">
             </div>
         </div>
 
         <div class="input-group-control">
             <label for="template">模板</label>
             <div>
-                <textarea id="template" class="form-control" [field]="dataForm.template"></textarea>
+                <textarea id="template" class="form-control" [formField]="dataForm.template"></textarea>
             </div>
         </div>
         <div class="input-group-control">
             <label for="status">状态</label>
             <div>
-                <app-switch id="status" [field]="dataForm.status" onLabel="启用" offLabel="关闭" />
+                <app-switch id="status" [formField]="dataForm.status" onLabel="启用" offLabel="关闭" />
             </div>
         </div>
         <div class="btn-group">

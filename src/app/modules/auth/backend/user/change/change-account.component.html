@@ -16,17 +16,17 @@
         <div class="input-group-control">
             <label>金额</label>
             <div>
-                <select [field]="dataForm.type" class="form-control">
+                <select [formField]="dataForm.type" class="form-control">
                     <option value="0">+</option>
                     <option [value]="1">-</option>
                 </select>
-                <input type="number" [field]="dataForm.money" class="form-control" placeholder="选择金额">
+                <input type="number" [formField]="dataForm.money" class="form-control" placeholder="选择金额">
             </div>
         </div>
         <div class="input-group-control">
             <label>备注</label>
             <div>
-                <textarea rows="10" [field]="dataForm.remark" class="form-control"></textarea>
+                <textarea rows="10" [formField]="dataForm.remark" class="form-control"></textarea>
             </div>
         </div>
         <div class="btn-group">

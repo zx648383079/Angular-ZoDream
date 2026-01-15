@@ -8,7 +8,7 @@ import { ZreEditorModule } from '../../../components/editor';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ZreFormModule } from '../../../components/form';
 import { DesktopModule } from '../../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
@@ -18,7 +18,7 @@ import { Field } from '@angular/forms/signals';
         BackendRoutingModule,
         DialogModule,
         NgSelectModule,
-        Field,
+        FormField,
         ZreEditorModule,
         ZreFormModule,
     ],

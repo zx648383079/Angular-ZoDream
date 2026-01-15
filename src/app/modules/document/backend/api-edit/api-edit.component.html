@@ -18,13 +18,13 @@
                 <form class="form-table-control" (submit)="tapSubmit2($event)">
                     <div class="title-input">
                         <label for="name">名称*</label>
-                        <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                        <input type="text" id="name" class="form-control" [formField]="dataForm.name">
                     </div>
                     @if (data.type < 1) {
                     <div>
                         <div class="form-group">
                             <label for="method">请求类型*</label>
-                            <select class="form-control" [field]="dataForm.method" id="method">
+                            <select class="form-control" [formField]="dataForm.method" id="method">
                                 @for (item of methodItems; track $index) {
                                 <option [value]="item">{{ item }}</option>
                                 }
@@ -33,11 +33,11 @@
                         <div class="form-group">
                             <label for="uri">接口路径*</label>
                             <input type="text"
-                            class="form-control" [field]="dataForm.uri" id="uri" placeholder="请输入接口路径">
+                            class="form-control" [formField]="dataForm.uri" id="uri" placeholder="请输入接口路径">
                         </div>
                         <div class="form-group">
                             <label for="description">接口描述</label>
-                            <textarea class="form-control" [field]="dataForm.description" id="description" rows="3"></textarea>
+                            <textarea class="form-control" [formField]="dataForm.description" id="description" rows="3"></textarea>
                         </div>
                         <div class="panel">
                             <div class="panel-header">
@@ -150,7 +150,7 @@
     <div class="form-group">
         <label for="name">版本号</label>
         <div class="input-group-control">
-          <input class="form-control" id="name" [field]="editForm.name" placeholder="请输入版本号">
+          <input class="form-control" id="name" [formField]="editForm.name" placeholder="请输入版本号">
         </div>
     </div>
     <div class="form-group">
@@ -162,5 +162,5 @@
 </app-dialog-box>
 
 <app-dialog-box #parseModal title="自动匹配数据">
-    <textarea [field]="editForm.content" placeholder="请输入内容" style="height: 100%;" class="form-control"></textarea>
+    <textarea [formField]="editForm.content" placeholder="请输入内容" style="height: 100%;" class="form-control"></textarea>
 </app-dialog-box>

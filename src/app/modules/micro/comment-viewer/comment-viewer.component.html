@@ -7,7 +7,7 @@
         </div>
         <div class="reply-input">
             <div class="input">
-                <textarea class="form-control" [field]="editForm.content" (valueChange)="onCommentChange()"
+                <textarea class="form-control" [formField]="editForm.content" (valueChange)="onCommentChange()"
                 placeholder="Say something." i18n-placeholder></textarea>
             </div>
             <div class="input-actions">

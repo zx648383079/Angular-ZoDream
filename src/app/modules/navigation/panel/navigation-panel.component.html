@@ -58,7 +58,7 @@
         <div class="input-group-control">
             <label for="group" i18n>Group</label>
             <div>
-                <select id="group" class="form-control" [field]="editForm.group_id">
+                <select id="group" class="form-control" [formField]="editForm.group_id">
                     <option value="0" i18n>As Group</option>
                     @for (item of items(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
@@ -69,14 +69,14 @@
         <div class="input-group-control">
                 <label for="name" i18n>Name</label>
                 <div>
-                    <input type="text" id="name" class="form-control" [field]="editForm.name" i18n-placeholder placeholder="Please input name/title">
+                    <input type="text" id="name" class="form-control" [formField]="editForm.name" i18n-placeholder placeholder="Please input name/title">
                 </div>
         </div>
         @if (editForm.group_id().value() != '0') {
         <div class="input-group-control">
                 <label for="link" i18n>Link</label>
                 <div>
-                    <input type="text" id="link" class="form-control" [field]="editForm.link" i18n-placeholder  placeholder="Please input link">
+                    <input type="text" id="link" class="form-control" [formField]="editForm.link" i18n-placeholder  placeholder="Please input link">
                 </div>
         </div>
         }

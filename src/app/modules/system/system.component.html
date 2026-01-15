@@ -95,13 +95,13 @@
         <div class="input-group-control">
             <label for="field_name">显示名称(必填)</label>
             <div>
-                <input type="text" id="field_name" class="form-control" [field]="editForm.name">
+                <input type="text" id="field_name" class="form-control" [formField]="editForm.name">
             </div>
         </div>
         <div class="input-group-control">
             <label for="field_type">类型</label>
             <div>
-                <select id="field_type" class="form-control" [field]="editForm.type">
+                <select id="field_type" class="form-control" [formField]="editForm.type">
                     
                     @for (item of typeItems; track $index) {
                     <option [value]="item.value">{{ item.name }}</option>
@@ -115,7 +115,7 @@
             <div class="input-group-control">
                 <label for="field_parent_id">分组</label>
                 <div>
-                    <select id="field_parent_id" class="form-control" [field]="editForm.parent_id">
+                    <select id="field_parent_id" class="form-control" [formField]="editForm.parent_id">
                         @for (item of groups(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                         }
@@ -125,13 +125,13 @@
             <div class="input-group-control">
                 <label for="field_code">别名(必填)</label>
                 <div>
-                    <input type="text" id="field_code" class="form-control" [field]="editForm.code">
+                    <input type="text" id="field_code" class="form-control" [formField]="editForm.code">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="field_visibility">公开</label>
                 <div>
-                    <select class="form-control" [field]="editForm.visibility">
+                    <select class="form-control" [formField]="editForm.visibility">
                         @for (item of visibleItems; track $index; let i = $index) {
                         <option [value]="i">{{ item }}</option>
                         }
@@ -141,7 +141,7 @@
             <div class="input-group-control">
                 <label for="field_default_value">默认值</label>
                 <div>
-                    <textarea id="field_default_value" class="form-control" [field]="editForm.default_value"></textarea>
+                    <textarea id="field_default_value" class="form-control" [formField]="editForm.default_value"></textarea>
                 </div>
             </div>
         </div>
@@ -149,7 +149,7 @@
         <div class="input-group-control">
             <label for="field_position">排序</label>
             <div>
-                <input type="number" id="field_position" class="form-control" [field]="editForm.position">
+                <input type="number" id="field_position" class="form-control" [formField]="editForm.position">
             </div>
         </div>
     </div>

@@ -9,7 +9,7 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键词">
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
@@ -59,7 +59,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 
@@ -67,19 +67,19 @@
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <input class="form-control" id="name-input" [field]="editForm.title" placeholder="请输入名称">
+            <input class="form-control" id="name-input" [formField]="editForm.title" placeholder="请输入名称">
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">预览图</label>
         <div class="input-group-control">
-            <app-file-input [field]="editForm.thumb" />
+            <app-file-input [formField]="editForm.thumb" />
         </div>
     </div>
     <div class="form-group">
         <label for="name-input">地址</label>
         <div class="input-group-control">
-            <input class="form-control" [field]="editForm.thumb">
+            <input class="form-control" [formField]="editForm.thumb">
         </div>
     </div>
 </app-dialog-box>

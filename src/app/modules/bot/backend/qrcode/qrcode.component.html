@@ -10,7 +10,7 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">关键字</label>
-                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="关键词">
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
@@ -60,7 +60,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 
@@ -69,13 +69,13 @@
         <div class="input-group-control">
             <label for="">标记</label>
             <div>
-                <input type="text" class="form-control" [field]="editForm.name">
+                <input type="text" class="form-control" [formField]="editForm.name">
             </div>
         </div>
         <div class="input-group-control">
             <label for="">二维码类型</label>
             <div>
-                <app-switch [field]="editForm.type" offLabel="临时" onLabel="永久" />
+                <app-switch [formField]="editForm.type" offLabel="临时" onLabel="永久" />
                 <div class="input-tip">
                     注意永久二维码上限10万个
                 </div>
@@ -84,21 +84,21 @@
         <div class="input-group-control">
             <label for="">场景值类型</label>
             <div>
-                <app-check-input [items]="['字符串', '数字']" [rangeKey]="1" [field]="editForm.scene_type" />
+                <app-check-input [items]="['字符串', '数字']" [rangeKey]="1" [formField]="editForm.scene_type" />
             </div>
         </div>
         @if (editForm.scene_type().value() < 1) {
         <div class="input-group-control">
             <label for="">场景值</label>
             <div>
-                <input type="text" class="form-control" [field]="editForm.scene_str">
+                <input type="text" class="form-control" [formField]="editForm.scene_str">
             </div>
         </div>
         } @else if (editForm.scene_type().value() == 1) {
         <div class="input-group-control">
             <label for="">场景值</label>
             <div>
-                <input type="number" class="form-control" [field]="editForm.scene_id">
+                <input type="number" class="form-control" [formField]="editForm.scene_id">
                 @if (editForm.type) {
                 <div class="input-tip">
                     区间为1~100000
@@ -111,7 +111,7 @@
         <div class="input-group-control">
             <label for="">有效期</label>
             <div>
-                <input type="number" class="form-control" [field]="editForm.expire_time" placeholder="单位：秒，最大2592000（30天）">
+                <input type="number" class="form-control" [formField]="editForm.expire_time" placeholder="单位：秒，最大2592000（30天）">
                 <div class="input-tip">
                     最大30天，当前设置：{{ expireDay() }}天
                 </div>

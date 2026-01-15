@@ -60,15 +60,15 @@
             <div class="form-table-control">
                 <div class="form-group">
                     <label i18n>Nickname</label>
-                    <input type="text" class="form-control" [field]="guestUser().name" i18n-placeholder placeholder="Please input your nickname">
+                    <input type="text" class="form-control" [formField]="guestUser().name" i18n-placeholder placeholder="Please input your nickname">
                 </div>
                 <div class="form-group">
                     <label i18n>Email</label>
-                    <input type="email" class="form-control" [field]="guestUser().email" i18n-placeholder placeholder="Please input your email">
+                    <input type="email" class="form-control" [formField]="guestUser().email" i18n-placeholder placeholder="Please input your email">
                 </div>
                 <div class="form-group">
                     <label i18n>Link</label>
-                    <input type="url" class="form-control" [field]="guestUser().url" i18n-placeholder placeholder="Please input your link">
+                    <input type="url" class="form-control" [formField]="guestUser().url" i18n-placeholder placeholder="Please input your link">
                 </div>
             </div>
             }
@@ -79,7 +79,7 @@
                     first.
                 </div>
             } @else {
-                <textarea class="form-control" [field]="editForm.content" i18n-placeholder placeholder="Please input content"></textarea>
+                <textarea class="form-control" [formField]="editForm.content" i18n-placeholder placeholder="Please input content"></textarea>
             }
             
             <div class="btn-group">

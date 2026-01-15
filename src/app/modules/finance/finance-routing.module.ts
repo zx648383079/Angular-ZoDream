@@ -36,13 +36,8 @@ const routes: Routes = [
                 component: ChannelComponent,
             },
             {
-                path: 'income/edit/:id',
+                path: 'income/:action/:id',
                 component: EditIncomeComponent,
-            },
-            {
-                path: 'income/clone/:id',
-                component: EditIncomeComponent,
-                data: {clone: true}
             },
             {
                 path: 'income/create',

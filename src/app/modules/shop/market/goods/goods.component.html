@@ -75,7 +75,7 @@
                     <div class="flex-group">
                         <div class="group-header">配送
                         </div>
-                        <div class="group-body">至<app-region url="shop/region/tree" [field]="dataForm.region" (valueChange)="onRegionChange()" /></div>
+                        <div class="group-body">至<app-region url="shop/region/tree" [formField]="dataForm.region" (valueChange)="onRegionChange()" /></div>
                     </div>
                    
                     <hr>
@@ -106,7 +106,7 @@
                           Amount
                         </div>
                         <div class="group-body">
-                          <app-number-input [field]="dataForm.amount"/>
+                          <app-number-input [formField]="dataForm.amount"/>
                         </div>
                     </div>
                 </div>

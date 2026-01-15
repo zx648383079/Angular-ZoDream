@@ -4,7 +4,7 @@
         <div class="input-group-control">
             <label for="name">名称</label>
             <div>
-                <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                <input type="text" id="name" class="form-control" [formField]="dataForm.name">
                 @if (dataForm.name().invalid()) {
                 <div class="input-tip">请输入名称</div>
                 }
@@ -13,7 +13,7 @@
         <div class="input-group-control">
             <label for="attr_group">属性可选分组</label>
             <div>
-                <textarea id="attr_group" class="form-control" [field]="dataForm.property_groups" placeholder="每行作为一个分组"></textarea>
+                <textarea id="attr_group" class="form-control" [formField]="dataForm.property_groups" placeholder="每行作为一个分组"></textarea>
             </div>
         </div>
         <div class="btn-group">

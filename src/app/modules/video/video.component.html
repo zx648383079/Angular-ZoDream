@@ -1,6 +1,6 @@
 <div class="container-fluid main-box" [class]="{'fixed-top': isFixed()}">
     <div class="search-bar">
-        <app-auto-suggest-box id="keywords" [field]="queries.keywords" (confirm)="tapSearch($event)" />
+        <app-auto-suggest-box id="keywords" [formField]="queries.keywords" (confirm)="tapSearch($event)" />
     </div>
     
     <app-pull-to-refresh [more]="hasMore()" [loading]="isLoading()" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">

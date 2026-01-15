@@ -7,7 +7,7 @@
         <div class="input-group-control">
             <label for="title">题目</label>
             <div>
-                <input type="text" id="title" class="form-control title-input" [field]="dataForm.title" (change)="onTitleChange()">
+                <input type="text" id="title" class="form-control title-input" [formField]="dataForm.title" (change)="onTitleChange()">
                 <i class="iconfont icon-eye" title="预览" (click)="openPreview(previewModal, 'title')"></i>
                 @if (sameItems.length > 0) {
                 <div class="input-tip">
@@ -20,13 +20,13 @@
         <div class="input-group-control">
             <label for="course_id">科目</label>
             <div class="flat-group">
-                <select id="course_id" [field]="dataForm.course_id" class="form-control" (change)="onCourseChange()">
+                <select id="course_id" [formField]="dataForm.course_id" class="form-control" (change)="onCourseChange()">
                     <option value="0">请选择</option>
                     @for (item of courseItems; track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                     }
                 </select>
-                <select [field]="dataForm.course_grade" class="form-control">
+                <select [formField]="dataForm.course_grade" class="form-control">
                     @for (item of gradeItems; track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
                     }
@@ -53,32 +53,32 @@
         <div class="input-group-control">
             <label for="image">图片</label>
             <div>
-                <app-file-input [field]="dataForm.image" />
+                <app-file-input [formField]="dataForm.image" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="easiness">难易程度</label>
             <div>
-                <app-star [field]="dataForm.easiness">{{ easinessLabel() }}</app-star>
+                <app-star [formField]="dataForm.easiness">{{ easinessLabel() }}</app-star>
             </div>
         </div>
         <div class="input-group-control">
             <label for="content">内容<i class="iconfont icon-eye" title="预览" (click)="openPreview(previewModal, 'content')"></i></label>
             <div>
-                <app-exam-editor [field]="dataForm.content" (change)="onTypeChange()" />
+                <app-exam-editor [formField]="dataForm.content" (change)="onTypeChange()" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="dynamic">可变内容</label>
             <div>
-                <textarea id="dynamic" class="form-control" [field]="dataForm.dynamic" ></textarea>
+                <textarea id="dynamic" class="form-control" [formField]="dataForm.dynamic" ></textarea>
                 <div class="input-tip">在题目中可以用“&#64;1” 代替</div>
             </div>
         </div>
         <div class="input-group-control">
             <label for="type">类型</label>
             <div>
-                <select id="type" class="form-control" [field]="dataForm.type" (change)="onTypeChange()">
+                <select id="type" class="form-control" [formField]="dataForm.type" (change)="onTypeChange()">
                     @for (item of typeItems; track $index; let i = $index) {
                     <option [value]="i">{{ item }}</option>
                     }
@@ -91,7 +91,7 @@
                     <div class="input-group-control">
                         <label for="answer">答案</label>
                         <div>
-                            <select id="answer" class="form-control" [field]="dataForm.answer">
+                            <select id="answer" class="form-control" [formField]="dataForm.answer">
                                 <option value="0">错</option>
                                 <option value="1">对</option>
                             </select>
@@ -102,7 +102,7 @@
                     <div class="input-group-control">
                         <label for="answer">答案<i class="iconfont icon-eye" title="预览" (click)="openPreview(previewModal, 'answer')"></i></label>
                         <div>
-                            <textarea id="answer" class="form-control" [field]="dataForm.answer"></textarea>
+                            <textarea id="answer" class="form-control" [formField]="dataForm.answer"></textarea>
                             <div class="input-tip">请在题目中用“____” 代替，如果需要计算请使用“&#64;1+&#64;2*3”等公式，填空题为一行一个</div>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                                 @for (item of dataForm.option_items; track $index; let i = $index) {
                                     <div class="option-item">
                                         <div class="option-value">
-                                            <input type="text" class="form-control" [field]="item.content" placeholder="请输入正确的答案">
+                                            <input type="text" class="form-control" [formField]="item.content" placeholder="请输入正确的答案">
                                         </div>
                                         <a (click)="tapRemoveItem(i)" class="remove-btn">
                                             <i class="iconfont icon-close"></i>
@@ -142,17 +142,17 @@
                                 <div class="option-item">
                                     <div class="option-value">
                                         @if (item.type().value() != '1') {
-                                            <input type="text" class="form-control" [field]="item.content">
+                                            <input type="text" class="form-control" [formField]="item.content">
                                         } @else {
-                                            <app-file-input [field]="item.content" />
+                                            <app-file-input [formField]="item.content" />
                                         }
                                     </div>
-                                    <select class="form-control" [field]="item.type">
+                                    <select class="form-control" [formField]="item.type">
                                         @for (item of optionTypeItems; track $index; let j = $index) {
                                         <option [value]="j">{{ item }}</option>
                                         }
                                     </select>
-                                    <select class="form-control" [field]="item.is_right">
+                                    <select class="form-control" [formField]="item.is_right">
                                         <option value="0">错</option>
                                         <option [value]="1">对</option>
                                     </select>
@@ -208,6 +208,6 @@
     </table>
 </app-dialog-box>
 <app-dialog-box #previewModal title="预览" [footerVisible]="false">
-    <textarea class="form-control" [field]="previewForm.content"></textarea>
+    <textarea class="form-control" [formField]="previewForm.content"></textarea>
     <app-math-mark [content]="previewForm.content().value()" [disabled]="true" [allowInput]="true" />
 </app-dialog-box>

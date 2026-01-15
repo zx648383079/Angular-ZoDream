@@ -51,7 +51,7 @@
         
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />    
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />    
     </div>
 </div>
 
@@ -60,13 +60,13 @@
         <div class="input-group-control">
             <label for="">权益卡</label>
             <div>
-                <ng-select [items]="cardItems()" bindValue="id" bindLabel="name" [field]="editForm.card_id" placeholder="权益卡" />
+                <ng-select [items]="cardItems()" bindValue="id" bindLabel="name" [formField]="editForm.card_id" placeholder="权益卡" />
             </div>
         </div>
         <div class="input-group-control">
             <label for="">到期日期</label>
             <div>
-                <app-date-input [field]="editForm.expired_at" />
+                <app-date-input [formField]="editForm.expired_at" />
             </div>
         </div>
     </div>

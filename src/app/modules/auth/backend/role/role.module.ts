@@ -5,7 +5,7 @@ import { RoleService } from './role.service';
 import { ThemeModule } from '../../../../theme/theme.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DesktopModule } from '../../../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 import { ZreFormModule } from '../../../../components/form';
 
 @NgModule({
@@ -13,7 +13,7 @@ import { ZreFormModule } from '../../../../components/form';
         CommonModule,
         DesktopModule,
         ThemeModule,
-        Field,
+        FormField,
         ZreFormModule,
         NgSelectModule,
         RoleRoutingModule

@@ -11,11 +11,11 @@
                 <div class="input-group-control">
                     <label for="keywords">标题</label>
                     <input type="text" class="form-control" placeholder="搜索标题"
-                        id="keywords" [field]="queries.keywords">
+                        id="keywords" [formField]="queries.keywords">
                 </div>
                 <div class="input-group-control">
                     <label>状态</label>
-                    <select [field]="queries.status" class="form-control">
+                    <select [formField]="queries.status" class="form-control">
                         <option value="0">请选择</option>
                         @for (item of statusItems; track $index) {
                             <option [value]="item.value">{{ item.name }}</option>
@@ -48,7 +48,7 @@
 
     <div class="panel-container">
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page"
+        <app-pagination [total]="total()" [formField]="queries.page"
             (valueChange)="goPage($event)" [perPage]="queries.per_page().value()" />
     </div>
 </div>

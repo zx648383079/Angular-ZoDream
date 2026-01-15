@@ -7,13 +7,13 @@
                     <div class="input-group-control">
                         <label for="name">商品名</label>
                         <div>
-                            <input type="text" id="name" class="form-control" [field]="dataForm.name" placeholder="请输入 商品名">
+                            <input type="text" id="name" class="form-control" [formField]="dataForm.name" placeholder="请输入 商品名">
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="series_number">货号</label>
                         <div class="calendar-input">
-                            <input type="text" id="series_number" class="form-control" [field]="dataForm.series_number"
+                            <input type="text" id="series_number" class="form-control" [formField]="dataForm.series_number"
                                 placeholder="请输入 货号">
                             <button class="btn btn-outline-secondary" type="button" (click)="tapCreateSn()">
                                 生成
@@ -22,7 +22,7 @@
                     </div>
                     <div class="input-group-control">
                         <label>分类</label>
-                        <select [field]="dataForm.cat_id" class="form-control">
+                        <select [formField]="dataForm.cat_id" class="form-control">
                             @for (item of categories(); track $index) {
                             <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                             }
@@ -31,7 +31,7 @@
                     <div class="input-group-control">
                         <label for="brand_id">品牌</label>
                         <div>
-                            <select id="brand_id" [field]="dataForm.brand_id" class="form-control">
+                            <select id="brand_id" [formField]="dataForm.brand_id" class="form-control">
                                 @for (item of brandItems(); track $index) {
                                 <option [value]="item.id">{{ item.name }}</option>
                                 }
@@ -42,14 +42,14 @@
                     <div class="input-group-control">
                         <label for="price">价格</label>
                         <div>
-                            <input type="number" id="price" class="form-control" [field]="dataForm.price" placeholder="请输入 价格">
+                            <input type="number" id="price" class="form-control" [formField]="dataForm.price" placeholder="请输入 价格">
 
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="market_price">市场价</label>
                         <div>
-                            <input type="number" id="market_price" class="form-control" [field]="dataForm.market_price"
+                            <input type="number" id="market_price" class="form-control" [formField]="dataForm.market_price"
                                 placeholder="请输入 市场价">
 
                         </div>
@@ -57,19 +57,19 @@
                     <div class="input-group-control">
                         <label for="thumb">缩略图</label>
                         <div>
-                            <app-file-input id="thumb" [field]="dataForm.thumb" />
+                            <app-file-input id="thumb" [formField]="dataForm.thumb" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="picture">主图</label>
                         <div>
-                            <app-file-input id="picture" [field]="dataForm.picture" />
+                            <app-file-input id="picture" [formField]="dataForm.picture" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="attribute_group_id">类型</label>
                         <div>
-                            <select id="attribute_group_id" [field]="dataForm.attribute_group_id" class="form-control" (change)="tapGroupChange()">
+                            <select id="attribute_group_id" [formField]="dataForm.attribute_group_id" class="form-control" (change)="tapGroupChange()">
                                 @for (item of typeItems(); track $index) {
                                 <option [value]="item.id">{{ item.name }}</option>
                                 }
@@ -84,26 +84,26 @@
                     <div class="input-group-control">
                         <label for="weight">重量</label>
                         <div>
-                            <input type="number" id="weight" class="form-control" [field]="dataForm.weight" placeholder="请输入 重量">
+                            <input type="number" id="weight" class="form-control" [formField]="dataForm.weight" placeholder="请输入 重量">
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="stock">库存</label>
                         <div>
-                            <input type="number" id="stock" class="form-control" [field]="dataForm.stock" placeholder="请输入 库存">
+                            <input type="number" id="stock" class="form-control" [formField]="dataForm.stock" placeholder="请输入 库存">
 
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="keywords">关键字</label>
                         <div>
-                            <app-words-input id="keywords" [field]="dataForm.keywords" placeholder="请输入 关键字" />
+                            <app-words-input id="keywords" [formField]="dataForm.keywords" placeholder="请输入 关键字" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="description">说明</label>
                         <div>
-                            <textarea id="description" class="form-control" [field]="dataForm.description"
+                            <textarea id="description" class="form-control" [formField]="dataForm.description"
                                 placeholder="请输入 说明"></textarea>
 
                         </div>
@@ -111,29 +111,29 @@
                     <div class="input-group-control">
                         <label for="is_best">精品</label>
                         <div>
-                            <app-switch id="is_best" [field]="dataForm.is_best" />
+                            <app-switch id="is_best" [formField]="dataForm.is_best" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="is_hot">热门</label>
                         <div>
-                            <app-switch id="is_hot" [field]="dataForm.is_hot" />
+                            <app-switch id="is_hot" [formField]="dataForm.is_hot" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="is_new">最新</label>
                         <div>
-                            <app-switch id="is_new" [field]="dataForm.is_new" />
+                            <app-switch id="is_new" [formField]="dataForm.is_new" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="status">状态</label>
                         <div>
                             <span class="radio-label">
-                                <input type="radio" id="status0" [field]="dataForm.status" value="10">
+                                <input type="radio" id="status0" [formField]="dataForm.status" value="10">
                                 <label for="status0">上架</label>
                             </span><span class="radio-label">
-                                <input type="radio" id="status1" [field]="dataForm.status" value="0">
+                                <input type="radio" id="status1" [formField]="dataForm.status" value="0">
                                 <label for="status1">下架</label>
                             </span>
                         </div>
@@ -143,11 +143,11 @@
         </div>
 
         <app-panel [title]="'预览图'">
-            <app-gallery-panel [field]="dataForm.gallary"/>
+            <app-gallery-panel [formField]="dataForm.gallary"/>
         </app-panel>
 
         <div class="panel-container">
-            <app-zre-editor [field]="dataForm.content" />
+            <app-zre-editor [formField]="dataForm.content" />
         </div>
 
         <app-panel title="规格">
@@ -158,19 +158,19 @@
             <div class="input-group-control">
                 <label for="meta_seo_title">SEO标题</label>
                 <div>
-                    <input type="text" id="meta_seo_title" class="form-control" [field]="dataForm.seo_title">
+                    <input type="text" id="meta_seo_title" class="form-control" [formField]="dataForm.seo_title">
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="meta_seo_description">SEO描述</label>
                 <div>
-                    <textarea id="meta_seo_description" class="form-control" [field]="dataForm.seo_description"></textarea>
+                    <textarea id="meta_seo_description" class="form-control" [formField]="dataForm.seo_description"></textarea>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="meta_seo_link">链接别名</label>
                 <div>
-                    <input type="text" id="meta_seo_link" class="form-control" [field]="dataForm.seo_link">
+                    <input type="text" id="meta_seo_link" class="form-control" [formField]="dataForm.seo_link">
                 </div>
             </div>
         </app-panel>

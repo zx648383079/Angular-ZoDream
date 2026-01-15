@@ -9,7 +9,7 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">预算名</label>
-                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" placeholder="预算名">
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" placeholder="预算名">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <a (click)="open(modal)" class="pull-right btn btn-primary">新增预算</a>
@@ -47,7 +47,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 
@@ -104,19 +104,19 @@
     <div class="form-group">
         <label for="name">预算名</label>
         <div class="input-group-control">
-            <input class="form-control" id="name" [field]="editForm.name" placeholder="请输入预算名">
+            <input class="form-control" id="name" [formField]="editForm.name" placeholder="请输入预算名">
         </div>
     </div>
     <div class="form-group">
         <label for="budget">预算(元)</label>
         <div class="input-group-control">
-            <input type="number" class="form-control" id="budget" [field]="editForm.budget" placeholder="请输入预算">
+            <input type="number" class="form-control" id="budget" [formField]="editForm.budget" placeholder="请输入预算">
         </div>
     </div>
     <div class="form-group">
         <label for="cycle">周期</label>
         <div class="input-group-control">
-            <select class="form-control" id="cycle" [field]="editForm.cycle">
+            <select class="form-control" id="cycle" [formField]="editForm.cycle">
                 @for (item of cycleItems; track $index;let i = $index) {
                     <option [value]="i">{{ item }}</option>
                 }

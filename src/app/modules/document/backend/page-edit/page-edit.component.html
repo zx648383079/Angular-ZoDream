@@ -18,11 +18,11 @@
                 <form class="form-table-control" (submit)="tapSubmit2($event)">
                     <div class="title-input">
                         <label for="name">名称</label>
-                        <input type="text" id="name" class="form-control" [field]="dataForm.name">
+                        <input type="text" id="name" class="form-control" [formField]="dataForm.name">
                     </div>
                     @if (data.type < 1) {
                     <div>
-                        <app-markdown-editor [field]="dataForm.content" [height]="400" />
+                        <app-markdown-editor [formField]="dataForm.content" [height]="400" />
                     </div>
                     }
 
@@ -39,7 +39,7 @@
     <div class="form-group">
         <label for="name">版本号</label>
         <div class="input-group-control">
-          <input class="form-control" id="name" [field]="editForm.name" placeholder="请输入版本号">
+          <input class="form-control" id="name" [formField]="editForm.name" placeholder="请输入版本号">
         </div>
       </div>
       <div class="form-group">

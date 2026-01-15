@@ -4,7 +4,7 @@
     <div class="search-bar">
         <form class="form-horizontal-control" (submit)="tapSearch($event)">
             <div class="flat-input">
-                <input type="text" class="form-control" id="keywords" [field]="queries.keywords" id="keywords" placeholder="请输入关键词搜索" >
+                <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" id="keywords" placeholder="请输入关键词搜索" >
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn btn-danger" (click)="close()">
                     <i class="iconfont icon-close"></i>
@@ -33,7 +33,7 @@
         }
     </div>
     <div class="footer-container">
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
         <div class="load-progress">
             <progress [hidden]="!isAsync" [value]="loadProgress"></progress>
             <span>{{ loadTip }}</span>

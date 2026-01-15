@@ -9,7 +9,7 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label class="sr-only" for="keywords">内容</label>
-                    <input type="text" class="form-control" placeholder="标题" id="keywords" [field]="queries.keywords">
+                    <input type="text" class="form-control" placeholder="标题" id="keywords" [formField]="queries.keywords">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
 
@@ -71,14 +71,14 @@
             </tfoot>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 
 <app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑便签' : '新增便签'" [scrollable]="false">
-    <app-text-editor [field]="editForm.content" placeholder="请输入内容" [height]="200" />
+    <app-text-editor [formField]="editForm.content" placeholder="请输入内容" [height]="200" />
     <div>
         <label for="notice-input">是否为公告</label>
-        <app-toggle-bar [items]="['No', '中', 'EN']" [field]="editForm.is_notice" />
+        <app-toggle-bar [items]="['No', '中', 'EN']" [formField]="editForm.is_notice" />
     </div>
 </app-dialog-box>

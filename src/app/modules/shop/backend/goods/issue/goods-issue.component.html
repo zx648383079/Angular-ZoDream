@@ -10,7 +10,7 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label for="keywords">标题</label>
-                    <input type="text" class="form-control" id="keywords" [field]="queries.keywords" id="keywords" placeholder="标题" >
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" id="keywords" placeholder="标题" >
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
@@ -73,7 +73,7 @@
             </tfoot>
           </table>
           <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-          <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+          <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 
@@ -81,19 +81,19 @@
     <div class="form-group">
         <label>提问</label>
         <div class="input-group-control">
-            <textarea class="form-control" [field]="editForm.question" placeholder="请输入提问"></textarea>
+            <textarea class="form-control" [formField]="editForm.question" placeholder="请输入提问"></textarea>
         </div>
     </div>
     <div class="form-group">
         <label>回答</label>
         <div class="input-group-control">
-            <textarea class="form-control" [field]="editForm.answer" placeholder="请输入回答"></textarea>
+            <textarea class="form-control" [formField]="editForm.answer" placeholder="请输入回答"></textarea>
         </div>
     </div>
     <div class="form-group">
         <label>状态</label>
         <div class="input-group-control">
-            <select class="form-control" [field]="editForm.status">
+            <select class="form-control" [formField]="editForm.status">
                 @for (item of statusItems; track $index) {
                 <option [value]="item.value">{{ item.name }}</option>
                 }

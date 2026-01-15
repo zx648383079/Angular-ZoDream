@@ -7,7 +7,7 @@
     </div>
     
     <div class="comment-form">
-        <app-text-editor [field]="commentForm.content" height="200" placeholder="Leave a Comment" />
+        <app-text-editor [formField]="commentForm.content" height="200" placeholder="Leave a Comment" />
         <div class="form-group">
             <app-action-button class="btn btn-primary" [disabled]="!user" (tapped)="tapComment($event)" i18n>Post Comment</app-action-button>
         </div>
@@ -74,6 +74,6 @@
 
 
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>

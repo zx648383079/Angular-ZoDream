@@ -13,7 +13,7 @@
             <form class="form-horizontal-control" (submit)="tapSearch($event)">
                 <div class="input-group-control">
                     <label class="sr-only" for="keywords">标题</label>
-                    <input type="text" class="form-control" placeholder="标题" [field]="queries.keywords">
+                    <input type="text" class="form-control" placeholder="标题" [formField]="queries.keywords">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 @if (data) {
@@ -53,7 +53,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
     
 </div>

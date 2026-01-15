@@ -20,27 +20,27 @@
                     <div class="input-group-control">
                         <label for="name">昵称</label>
                         <div>
-                            <input type="text" id="name" class="form-control" [field]="dataForm.name"
+                            <input type="text" id="name" class="form-control" [formField]="dataForm.name"
                                 placeholder="请输入 昵称">
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="email">邮箱</label>
                         <div>
-                            <input type="email" id="email" class="form-control" [field]="dataForm.email"
+                            <input type="email" id="email" class="form-control" [formField]="dataForm.email"
                                 placeholder="请输入 邮箱">
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="sex">性别</label>
                         <div>
-                            <app-check-input [field]="dataForm.sex" rangeKey="value" [items]="sexItems" />
+                            <app-check-input [formField]="dataForm.sex" rangeKey="value" [items]="sexItems" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="birthday">生日</label>
                         <div>
-                            <app-date-input id="birthday" [field]="dataForm.birthday" [minimum]="minDate" [maximum]="maxDate" />
+                            <app-date-input id="birthday" [formField]="dataForm.birthday" [minimum]="minDate" [maximum]="maxDate" />
                         </div>
                     </div>
 

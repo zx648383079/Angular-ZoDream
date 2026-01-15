@@ -48,15 +48,15 @@
     <div class="form-group">
         <label for="title">标题</label>
         <div class="input-group-control">
-            <input class="form-control" id="title" [field]="editForm.title" placeholder="请输入标题">
+            <input class="form-control" id="title" [formField]="editForm.title" placeholder="请输入标题">
         </div>
     </div>
     <div class="form-group">
         <label for="title">时间段</label>
         <div>
-            <app-time-input [field]="editForm.start_at" />
+            <app-time-input [formField]="editForm.start_at" />
             ~
-            <app-time-input [field]="editForm.end_at" [minimum]="editForm.start_at().value()" />
+            <app-time-input [formField]="editForm.end_at" [minimum]="editForm.start_at().value()" />
         </div>
     </div>
 </app-dialog-box>

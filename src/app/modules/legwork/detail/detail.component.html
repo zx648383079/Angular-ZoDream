@@ -18,12 +18,12 @@
     <div class="line-item">
         <label [attr.for]="'form_' + item.name().value()">{{ item.label().value() }}</label>
         <input type="text" class="form-control" [id]="'form_' + item.name().value()" 
-        [field]="item.value">
+        [formField]="item.value">
     </div>
     }
     <div class="line-item">
         <span i18n>Amount</span>
-        <app-number-input [field]="dataForm.amount" />
+        <app-number-input [formField]="dataForm.amount" />
     </div>
     <div class="line-item">
         <span i18n>Service charge</span>

@@ -29,14 +29,14 @@
             <em>*</em><ng-container i18n>Problem Description:</ng-container>
         </div>
         <div class="edit-body">
-            <textarea class="form-control" [field]="dataForm.content"></textarea>
+            <textarea class="form-control" [formField]="dataForm.content"></textarea>
             <span class="edit-tip" i18n>{{ wordSize() }} words</span>
         </div>
         <div class="line-header">
             <em>*</em><ng-container i18n>Contact information:</ng-container>
         </div>
         <div>
-            <input type="text" class="form-control" [field]="dataForm.email">
+            <input type="text" class="form-control" [formField]="dataForm.email">
         </div>
         <div class="line-footer">
             <div class="btn-group">

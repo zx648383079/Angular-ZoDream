@@ -14,7 +14,7 @@
                </div>
                <div class="col-md-4">
                     <form class="flat-search" (submit)="tapSearch($event)">
-                        <input type="text" id="keywords" [field]="queries.keywords">
+                        <input type="text" id="keywords" [formField]="queries.keywords">
                         <button>搜索</button>
                     </form>
                </div>
@@ -55,7 +55,7 @@
                </tbody>
            </table>
 
-           <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+           <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
         </div>
     </div>
 </div>

@@ -6,7 +6,7 @@ import { ZreFormModule } from '../../components/form';
 import { ThemeModule } from '../../theme/theme.module';
 import { AdService } from './ad.service';
 import { DesktopModule } from '../../components/desktop';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @NgModule({
     imports: [
@@ -16,7 +16,7 @@ import { Field } from '@angular/forms/signals';
         DesktopModule,
         ZreFormModule,
         AdRoutingModule,
-        Field,
+        FormField,
     ],
     declarations: [...adRoutedComponents],
     providers: [
