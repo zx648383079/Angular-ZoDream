@@ -24,7 +24,7 @@
     </div>
 </div>
 }
-<app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+<app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
 
 @if (modalVisible) {
 <div class="dialog-mask"></div>

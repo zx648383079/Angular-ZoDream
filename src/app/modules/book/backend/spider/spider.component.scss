@@ -1,3 +1,5 @@
+@use '../../../../theme/theme';
+@use '../../../../../bootstrap/variables';
 .search-dialog-container {
     position: fixed;
     border-radius: .375rem;
@@ -8,9 +10,9 @@
     height: 25rem;
     display: flex;
     flex-direction: column;
-    z-index: 300;
-    background-color: #fff;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    z-index: #{variables.$zindex-modal};
+    background-color: var(--#{theme.$prefix}panel);
+    box-shadow: 0 0 20px rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
     width: 48rem;
     .search-bar {
         padding-left: 0px;
@@ -18,7 +20,7 @@
     .body-container {
         overflow-y: auto;
         flex: 1;
-        background-color: #f4f4f4;
+        background-color: var(--#{theme.$prefix}body);
     }
     .footer-container {
         display: flex;
@@ -30,21 +32,21 @@
 }
 
 .book-item {
-    background-color: #fff;
+    background-color: var(--#{theme.$prefix}panel);
     display: grid;
     grid-template-columns: 1fr 80px;
     margin-bottom: 20px;
     padding: 10px;
     .item-action {
         text-align: center;
-        background-color: #5cb85c;
-        color: #fff;
+        background-color: var(--#{theme.$prefix}success);
+        color: var(--#{theme.$prefix}success-text);
         margin: -10px;
         display: flex;
         justify-content:center;
         align-items:Center;
         a {
-            color: #fff;
+            color: var(--#{theme.$prefix}success-text);
         }
     }
 }

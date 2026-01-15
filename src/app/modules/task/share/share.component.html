@@ -49,6 +49,6 @@
     <div class="panel-container">
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
         <app-pagination [total]="total()" [field]="queries.page"
-            (valueChange)="tapPage()" [perPage]="queries.per_page().value()" />
+            (valueChange)="goPage($event)" [perPage]="queries.per_page().value()" />
     </div>
 </div>

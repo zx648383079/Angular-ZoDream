@@ -170,7 +170,7 @@
         </div>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
         <div class="paging-box">
-            <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+            <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
         </div>
         @if (user() && thread() && !thread().is_closed) {
         <div class="post-item --with-new">

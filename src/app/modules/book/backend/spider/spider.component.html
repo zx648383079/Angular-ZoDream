@@ -33,7 +33,7 @@
         }
     </div>
     <div class="footer-container">
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
         <div class="load-progress">
             <progress [hidden]="!isAsync" [value]="loadProgress"></progress>
             <span>{{ loadTip }}</span>

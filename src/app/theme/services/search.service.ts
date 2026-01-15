@@ -121,7 +121,7 @@ export class SearchService {
 
     private queriesDefaultCheck(params: any): HistoryCheckFn {
         return (val, name) => {
-            if (val === 0 || val === '' || val === null || val === false) {
+            if (val === 0 || val === '' || val === '0' || val === null || val === false) {
                 return false;
             }
             return !params || !Object.prototype.hasOwnProperty.call(params, name) || params[name] !== val;

@@ -51,6 +51,6 @@
             </tbody>
         </table>
   
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>

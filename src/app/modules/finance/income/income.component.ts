@@ -49,7 +49,7 @@ export class IncomeComponent implements OnInit {
     public readonly budgetItems = signal<IBudget[]>([]);
     public readonly panelOpen = signal(false);
 
-    public previewData: ILog = {} as any;
+    public readonly previewModel = signal<ILog>(null);
     public readonly editForm = form(signal({
         keywords: '',
         account_id: '',
@@ -213,7 +213,7 @@ export class IncomeComponent implements OnInit {
     }
 
     public tapPreview(modal: DialogBoxComponent, item: ILog) {
-        this.previewData = item;
+        this.previewModel.set(item);
         modal.open();
     }
 

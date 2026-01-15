@@ -40,7 +40,7 @@
 
 
 <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-<app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+<app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
 
 <app-dialog-box #modal [title]="editForm.id().value() > 0 ? 'Edit Site' : 'New Site'">
     <div class="form-group">

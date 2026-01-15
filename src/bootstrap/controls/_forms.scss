@@ -160,7 +160,7 @@ $form-switch-checked-bg-position: right center !default;
         // https://github.com/twbs/bootstrap/issues/23307
         // TODO: we can remove this workaround once https://bugs.webkit.org/show_bug.cgi?id=198959 is resolved
         // Multiply line-height by 1em if it has no unit
-        height: if(math.unit(variables.$input-line-height) == "", variables.$input-line-height * 1em, variables.$input-line-height);
+        height: if(sass(math.unit(variables.$input-line-height) == ""): variables.$input-line-height * 1em; else: variables.$input-line-height);
 
         // Android Chrome type="date" is taller than the other inputs
         // because of "margin: 1px 24px 1px 4px" inside the shadow DOM
@@ -557,12 +557,12 @@ textarea {
 
 @mixin form-validation-state-selector($state) {
     @if ($state == "valid" or $state == "invalid") {
-        .was-validated #{if(&, "&", "")}:#{$state},
-        #{if(&, "&", "")}.is-#{$state} {
+        .was-validated #{if(sass(&): "&"; else: "")}:#{$state},
+        #{if(sass(&): "&"; else: "")}.is-#{$state} {
             @content;
         }
     } @else {
-        #{if(&, "&", "")}.is-#{$state} {
+        #{if(sass(&): "&"; else: "")}.is-#{$state} {
             @content;
         }
     }

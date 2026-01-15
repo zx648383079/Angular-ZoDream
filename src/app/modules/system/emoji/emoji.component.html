@@ -82,7 +82,7 @@
             </tfoot>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [perPage]="queries.per_page().value()" [field]="queries.page" (valueChange)="tapPage()" />
+        <app-pagination [total]="total()" [perPage]="queries.per_page().value()" [field]="queries.page" (valueChange)="goPage($event)" />
     </div>
 </div>
 

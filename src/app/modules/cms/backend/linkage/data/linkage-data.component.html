@@ -56,7 +56,7 @@
             </tbody>
         </table>
   
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 <app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑联动项' : '新增联动项'">

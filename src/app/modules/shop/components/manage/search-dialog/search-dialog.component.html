@@ -37,7 +37,7 @@
         }
     </div>
     <div class="footer-container">
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
         <div class="btn-group">
             <div class="btn btn-primary" (click)="tapYes()">确定</div>
             <div class="btn btn-danger" (click)="tapCancel()">重置</div>

@@ -74,4 +74,4 @@
 
 
 
-<app-pagination [total]="total()" [field]="queries.page" (valueChange)="tapPage()" [perPage]="queries.per_page().value()" />
+<app-pagination [total]="total()" [field]="queries.page" (valueChange)="goPage($event)" [perPage]="queries.per_page().value()" />

@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, model } from '@angular/core';
+import { Component, computed, effect, inject, input, model, signal } from '@angular/core';
 import { DialogEvent } from '../../../../components/dialog';
 import { FileUploadService } from '../../../../theme/services';
 import { cloneObject } from '../../../../theme/utils';
@@ -38,8 +38,8 @@ export class QuestionEditorComponent {
         checked: false,
     } as any;
     public typeItems = QuestionTypeItems;
-    public typeOpen = false;
-    public extendOpen = false;
+    public readonly typeOpen = signal(false);
+    public readonly extendOpen = signal(false);
 
     private asyncHandle = 0;
 
@@ -54,8 +54,16 @@ export class QuestionEditorComponent {
         return !value.id || value.id < 1 || value.editable;
     });
 
+    public toggleType() {
+        this.typeOpen.update(v => !v);
+    }
+
+    public toggleExtend() {
+        this.extendOpen.update(v => !v);
+    }
+
     public tapType(i: number) {
-        this.typeOpen = false;
+        this.typeOpen.set(false);
         if (!this.canEdit()) {
             return;
         }
@@ -64,7 +72,7 @@ export class QuestionEditorComponent {
             this.optionItems = cloneObject(QuestionCheckOption);
         }
         if (i == 4) {
-            this.extendOpen = true;
+            this.extendOpen.set(true);
         }
         this.onTypeChange();
         this.onValueChange();

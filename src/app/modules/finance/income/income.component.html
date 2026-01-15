@@ -79,7 +79,7 @@
             </tbody>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="tapPage()" />
+        <app-pagination [total]="total()" [field]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>
 </div>
 
@@ -280,45 +280,47 @@
     </div>
 </app-dialog-box>
 
-<app-dialog-box #previewModal [title]="'预览:' + previewData.id" [footerVisible]="false">
+<app-dialog-box #previewModal [title]="'预览:' + previewModel()?.id" [footerVisible]="false">
+    @if (previewModel()) {
     <div class="line-row-item">
         <span class="item-label">类型：</span>
-        <span class="item-body">{{ previewData.type | logType }}</span>
+        <span class="item-body">{{ previewModel().type | logType }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">金额：</span>
-        <span class="item-body">{{ previewData.money }}</span>
+        <span class="item-body">{{ previewModel().money }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">冻结金额：</span>
-        <span class="item-body">{{ previewData.frozen_money }}</span>
+        <span class="item-body">{{ previewModel().frozen_money }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">账户：</span>
-        <span class="item-body">{{ formatAccount(previewData.account_id) }}</span>
+        <span class="item-body">{{ formatAccount(previewModel().account_id) }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">项目：</span>
-        <span class="item-body">{{ formatProject(previewData.project_id) }}</span>
+        <span class="item-body">{{ formatProject(previewModel().project_id) }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">渠道：</span>
-        <span class="item-body">{{ formatChannel(previewData.channel_id) }}</span>
+        <span class="item-body">{{ formatChannel(previewModel().channel_id) }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">预算：</span>
-        <span class="item-body">{{ formatBudget(previewData.budget_id) }}</span>
+        <span class="item-body">{{ formatBudget(previewModel().budget_id) }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">交易对象：</span>
-        <span class="item-body">{{ previewData.trading_object }}</span>
+        <span class="item-body">{{ previewModel().trading_object }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">发生时间：</span>
-        <span class="item-body">{{ previewData.happened_at }}</span>
+        <span class="item-body">{{ previewModel().happened_at }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">备注：</span>
-        <span class="item-body">{{ previewData.remark }}</span>
+        <span class="item-body">{{ previewModel().remark }}</span>
     </div>
+    }
 </app-dialog-box>
