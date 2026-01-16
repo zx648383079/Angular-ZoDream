@@ -32,18 +32,18 @@ $headerHeight: 2.5rem;
         display: inline-block;
         width: $headerHeight;
         text-align: center;
-        color: #787c82;
+        color: var(--#{theme.$prefix}meta-text);
         &:hover {
-            color: #333;
-            background: #dcdcde;
+            color: var(--#{theme.$prefix}body-text);
+            background-color: var(--#{theme.$prefix}body);
         }
         &.disabled {
-            color: #7777;
+            color: var(--#{theme.$prefix}secondary);
             cursor: not-allowed;
         }
     }
     .action-hr {
-        background-color: #ccc;
+        background-color: var(--#{theme.$prefix}border);
         width: 1px;
         display: block;
         height: $headerHeight * .6;
@@ -82,7 +82,7 @@ $headerHeight: 2.5rem;
 
 .attachment-property-panel {
     width: 20rem;
-    border-left: 1px solid #dcdcde;
+    border-left: 1px solid var(--#{theme.$prefix}border);
     background: var(--#{theme.$prefix}body);
     padding: .8rem;
 }
@@ -96,11 +96,17 @@ $headerHeight: 2.5rem;
         color: var(--#{theme.$prefix}link-color);
         cursor: pointer;
         &:not(:last-of-type) {
-            border-right: 1px solid #ccc;
+            border-right: 1px solid var(--#{theme.$prefix}border);
             padding-right: .4rem;
         }
         &.text-danger {
             color: var(--#{theme.$prefix}danger-text);
         }
+    }
+}
+
+.form-table-control {
+    input.form-control {
+        width: 100%;
     }
 }

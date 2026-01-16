@@ -1,3 +1,5 @@
+@use '../../../theme/theme';
+@use '../../../../bootstrap/variables';
 @use '../explorer';
 $radius: .375rem;
 
@@ -25,9 +27,9 @@ $radius: .375rem;
     height: 25rem;
     display: flex;
     flex-direction: column;
-    z-index: 300;
-    background-color: #fff;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    z-index: #{variables.$zindex-modal};
+    background-color: var(--#{theme.$prefix}panel);
+    box-shadow: 0 0 20px rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
     width: 43rem;
     .explorer-header {
         border-radius: $radius $radius 0 0;
@@ -48,11 +50,11 @@ $radius: .375rem;
     display: flex;
     flex-direction: column;
     .explorer-header {
-        background-color: #fff;
+        background-color: var(--#{theme.$prefix}panel);
     }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 43.75rem) {
     .file-explorer-dailog {
         width: 100%;
         left: 0;

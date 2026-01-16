@@ -18,7 +18,7 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool, Afte
     public readonly visible = signal(false);
     public data: IFileItem;
     public readonly isLoading = signal(false);
-    public isEditting = false;
+    public readonly isEditting = signal(false);
     public toolItems = ImageActionItems;
     private resizeFn: Function;
     private canvas: Canvas|undefined;
@@ -82,12 +82,12 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool, Afte
     }
 
     public tapEnterEdit() {
-        this.isEditting = true;
+        this.isEditting.set(true);
         this.applyEditting();
     }
 
     public tapSave() {
-        this.isEditting = false;
+        this.isEditting.set(false);
         this.applyEditting();
     }
 
@@ -101,7 +101,7 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool, Afte
             this.imageData = res;
             this.imageWidth = res.width;
             this.imageHeight = res.height;
-            this.isEditting = false;
+            this.isEditting.set(false);
             this.applyEditting();
         });
     }

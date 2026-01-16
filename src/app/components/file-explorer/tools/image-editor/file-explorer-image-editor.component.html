@@ -1,6 +1,6 @@
 @if (visible()) {
 <div class="dialog-box">
-    <div class="dialog-header" [hidden]="isEditting">
+    <div class="dialog-header" [hidden]="isEditting()">
         <span>查看图片[{{ formatIndex }}]</span>
         <div class="dialog-action-bar">
             <div class="action-item" title="查看上一张" (click)="tapPrevious()">
@@ -15,7 +15,7 @@
             </div>
         </div>
     </div>
-    <div class="dialog-header" [hidden]="!isEditting">
+    <div class="dialog-header" [hidden]="!isEditting()">
         <div class="dialog-action-bar left-tool-bar">
             @for (item of toolItems; track $index) {
                 @if (item) {
@@ -77,27 +77,43 @@
                 <span class="item-body">{{ formatSize }}</span>
             </div>
 
-            @if (!isEditting) {
+            @if (!isEditting()) {
             <hr>
-            <div class="form-table-control">
-                <div class="input-group-control">
-                    <label for="">标题</label>
-                    <div>
-                        <input type="text" class="form-control" [(value)]="data.name">
+            <input type="text" class="form-control" [(value)]="data.name" placeholder="标题">
+            <textarea class="form-control" placeholder="描述"></textarea>
+            <div class="flat-input">
+                <input type="text" class="form-control" readonly placeholder="文件网址">
+                <a class="btn btn-outline-primary">
+                    <i class="iconfont icon-chain"></i>
+                </a>
+            </div>
+            <hr>
+            <div class="form-group">
+                <label for="">标签</label>
+                <div class="selected-container">
+                    <div class="selected-item">
+                        <span class="item-close">&times;</span>
+                        <span class="item-label">标签1</span>
+                    </div>
+                    <div class="selected-item">
+                        <span class="item-close">&times;</span>
+                        <span class="item-label">标签2</span>
+                    </div>
+                    <div class="selected-control-action">
+                        <i class="iconfont icon-plus"></i>
                     </div>
                 </div>
-                <div class="input-group-control">
-                    <label for="">描述</label>
-                    <div>
-                        <textarea class="form-control"></textarea>
+            </div>
+            <hr>
+            <div class="form-group">
+                <label for="">文件夹</label>
+                <div class="selected-container">
+                    <div class="selected-item">
+                        <span class="item-close">&times;</span>
+                        <span class="item-label">文件夹</span>
                     </div>
-                </div>
-             
-                <div class="input-group-control">
-                    <label for="">文件网址</label>
-                    <div>
-                        <input type="text" class="form-control" readonly>
-                        <a href="" class="btn btn-outline-primary">复制URL</a>
+                    <div class="selected-control-action">
+                        <i class="iconfont icon-plus"></i>
                     </div>
                 </div>
             </div>

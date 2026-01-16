@@ -21,6 +21,28 @@
         text-decoration: line-through;
     }
 }
+
+.checklist-bar {
+    --#{theme.$prefix}check-icon: var(--#{theme.$prefix}success);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+        list-style: none;
+        display: flex;
+        gap: .8rem;
+        &::before {
+            content: '√';
+            color: var(--#{theme.$prefix}check-icon);
+        }
+        &.--with-uncheck {
+            &::before {
+                content: '×';
+                color: var(--#{theme.$prefix}secondary);
+            }
+        }
+    }
+}
 .card-panel {
     --#{theme.$prefix}card: var(--#{theme.$prefix}panel);
     --#{theme.$prefix}card-text: var(--#{theme.$prefix}body-text);
@@ -73,24 +95,85 @@
         flex: 1;
         width: 100%;
     }
-    .card-list-bar {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        li {
-            list-style: none;
-            display: flex;
-            gap: .8rem;
-            &::before {
-                content: '√';
-                color: var(--#{theme.$prefix}success);
-            }
-        }
-    }
     .tab-bar {
         --#{theme.$prefix}tab: var(--#{theme.$prefix}light);
     }
     .--with-block {
         display: block;
+    }
+}
+
+
+.pricing-group {
+    .pricing-item {
+        --#{theme.$prefix}pricing: transparent;
+        --#{theme.$prefix}pricing-text: var(--#{theme.$prefix}secondary);
+        background-color: var(--#{theme.$prefix}pricing);
+        padding: 2.75rem 2.5rem;
+        border-radius: .25rem;
+        text-align: center;
+        .item-header {
+            font-size: 1.375rem;
+            line-height: 1.875rem;
+            font-weight: 600;
+            color: var(--#{theme.$prefix}pricing-text);
+            margin-bottom: 1.375rem;
+        }
+        .item-icon {
+            margin-bottom: 2.5rem;
+            font-size: 3.75rem;
+            color: var(--#{theme.$prefix}pricing-text);
+            img {
+                width: 3.75rem;
+            }
+        }
+        .pricing-bags {
+            line-height: .66;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.875rem;
+            color: var(--#{theme.$prefix}pricing-text);
+            .currency {
+                font-size: 1.375rem;
+                font-weight: 500;
+            }
+            .text {
+                font-size: 5.625rem;
+                font-weight: 600;
+            }
+            .period {
+                display: flex;
+                align-items: flex-end;
+                font-size: 0.9375rem;
+                font-weight: 500;
+            }
+        }
+        .item-body {
+            padding: 0.625rem 0.9375rem 1.875rem;
+            text-align: left;
+        }
+        .btn {
+            --#{theme.$prefix}btn-color: var(--#{theme.$prefix}pricing-text);
+            --#{theme.$prefix}btn-border-color: var(--#{theme.$prefix}pricing-text);
+            --#{theme.$prefix}btn-bg: var(--#{theme.$prefix}panel);
+            --#{theme.$prefix}btn-hover-color: var(--#{theme.$prefix}panel);
+            --#{theme.$prefix}btn-hover-bg: var(--#{theme.$prefix}pricing-text);
+        }
+        &.active {
+            --#{theme.$prefix}pricing: var(--#{theme.$prefix}panel);
+            --#{theme.$prefix}pricing-text: var(--#{theme.$prefix}danger);
+            box-shadow: 0 0.2rem 2.8rem rgba(var(--#{theme.$prefix}mask-rgb), .3);
+            .checklist-bar {
+                --#{theme.$prefix}check-icon: var(--#{theme.$prefix}pricing-text);
+            }
+            .btn {
+                --#{theme.$prefix}btn-color: var(--#{theme.$prefix}panel);
+                --#{theme.$prefix}btn-border-color: var(--#{theme.$prefix}pricing-text);
+                --#{theme.$prefix}btn-bg: var(--#{theme.$prefix}pricing-text);
+                --#{theme.$prefix}btn-hover-color: var(--#{theme.$prefix}pricing-text);
+                --#{theme.$prefix}btn-hover-bg: var(--#{theme.$prefix}panel);
+                --#{theme.$prefix}btn-hover-border-color: var(--#{theme.$prefix}pricing-text);
+            }
+        }
     }
 }
