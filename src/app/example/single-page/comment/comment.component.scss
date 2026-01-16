@@ -1,4 +1,4 @@
-@use '../../theme/theme';
+@use '../../../theme/theme';
 $shadow: 0 0 1px rgba(var(--#{theme.$prefix}mask-rgb),.125), 0 1px 3px rgba(var(--#{theme.$prefix}mask-rgb),.2);
 p {
     margin: 0;

@@ -1,0 +1,96 @@
+@use '../../../theme/theme';
+@use '../../../../bootstrap/variables';
+.price-group {
+    .price {
+        font-size: 1.5rem;
+        color: var(--#{theme.$prefix}danger);
+        font-family: arial;
+        margin-right: 0.125rem;
+        line-height: 1;
+        display: inline-block;
+        min-width: 3.125rem;
+        em {
+            font-size: 0.875rem;
+            font-style: normal;
+        }
+    }
+    .old-price {
+        display: inline-block;
+        font-size: 12px;
+        color: var(--#{theme.$prefix}border);
+        text-decoration: line-through;
+    }
+}
+.card-panel {
+    --#{theme.$prefix}card: var(--#{theme.$prefix}panel);
+    --#{theme.$prefix}card-text: var(--#{theme.$prefix}body-text);
+    --#{theme.$prefix}card-border: var(--#{theme.$prefix}border);
+    --#{theme.$prefix}card-divider-margin-y: #{variables.$spacer * .5};
+    background-color: var(--#{theme.$prefix}card);
+    color: var(--#{theme.$prefix}card-text);
+    box-shadow: var(--#{theme.$prefix}box-shadow);
+    border-radius: 1.5rem;
+    display: flex;
+    .card-divider {
+        height: 0;
+        margin: var(--#{theme.$prefix}card-divider-margin-y) 0;
+        overflow: hidden;
+        border-top: 1px solid var(--#{theme.$prefix}card-border);
+    }
+    .--with-left,
+    .--with-right {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .--with-left {
+        padding: 1.5rem .8rem 1.5rem 1.5rem;
+        border-right: 1px solid var(--#{theme.$prefix}card-border);
+    }
+    .--with-right {
+        padding: 1.5rem 1.5rem 1.5rem .8rem;
+    }
+    .card-footer {
+        border-top: 1px solid var(--#{theme.$prefix}card-border);
+        margin-top: var(--#{theme.$prefix}card-divider-margin-y);
+        padding-top: var(--#{theme.$prefix}card-divider-margin-y);
+        height: 6rem;
+    }
+    .card-input-group {
+        display: flex;
+        gap: 1rem;
+    }
+    .card-input-header {
+        display: inline-block;
+        min-width: 6.25rem;
+        line-height: 2.75rem;
+    }
+    .price-group {
+        line-height: 2.5rem;
+        text-align: right;
+    }
+    .card-input-body {
+        flex: 1;
+        width: 100%;
+    }
+    .card-list-bar {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        li {
+            list-style: none;
+            display: flex;
+            gap: .8rem;
+            &::before {
+                content: '√';
+                color: var(--#{theme.$prefix}success);
+            }
+        }
+    }
+    .tab-bar {
+        --#{theme.$prefix}tab: var(--#{theme.$prefix}light);
+    }
+    .--with-block {
+        display: block;
+    }
+}

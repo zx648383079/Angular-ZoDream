@@ -1,0 +1,85 @@
+<div class="container-fluid">
+    <div class="card-panel">
+        <div class="col-8 --with-left">
+            <div>
+                <div class="card-input-group">
+                    <label class="card-input-header">数量</label>
+                    <div class="card-input-body">
+                        <app-number-input/>
+                    </div>
+                </div>
+
+                <div class="card-divider"></div>
+                <div class="card-input-group">
+                    <label class="card-input-header">身份</label>
+                    <div class="card-input-body tab-bar">
+                        @for (item of typeItems; track $index; let i = $index) {
+                            <a class="item" [class.active]="typeIndex() == i" (click)="typeIndex.set(i)">{{ item }}</a>
+                        }
+                    </div>
+                </div>
+                <div class="card-input-group">
+                    <label class="card-input-header">姓名</label>
+                    <div class="card-input-body">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="card-input-group">
+                    <label class="card-input-header">邮箱</label>
+                    <div class="card-input-body">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="card-input-group">
+                    <label class="card-input-header">优惠码</label>
+                    <div class="card-input-body">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="card-input-group">
+                    <label class="card-input-header">支付方式</label>
+                    <div class="card-input-body tab-bar">
+                        @for (item of paymentItems; track $index; let i = $index) {
+                            <a class="item" [class.active]="paymentIndex() == i" (click)="paymentIndex.set(i)">
+                                <i class="iconfont" [class]="item.icon"></i>
+                                {{ item.name }}
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4 --with-right">
+            <div>
+                <h3 class="card-group-header">
+                    包含
+                </h3>
+                <ul class="card-list-bar">
+                    <li>1 组序列号</li>
+                    <li>每组序列号可绑定 2 台设备</li>
+                    <li>支持 macOS 和 Windows</li>
+                    <li>不限次数解除绑定</li>
+                    <li>后续所有更新</li>
+                    <li>浏览器扩展</li>
+                </ul>
+            </div>
+            <div class="card-footer">
+                <div class="card-input-group">
+                    <label class="card-input-header">应付金额</label>
+                    <div class="card-input-body price-group">
+                        <span class="price">
+                            <em>￥</em>
+                            200
+                        </span>
+                    </div>
+                </div>
+                <div class="btn btn-primary --with-block">
+                    <i class="iconfont icon-shield"></i>
+                    立即购买
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -121,8 +121,7 @@
     }
 }
 
-.tab-header-bar，
-.selector-bar {
+.tab-header-bar {
     --#{theme.$prefix}tab-radius: 0.3125rem;
     --#{theme.$prefix}tab: transparent;
     --#{theme.$prefix}tab-text: var(--#{theme.$prefix}body-text);

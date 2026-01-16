@@ -46,6 +46,11 @@ export class ExampleComponent {
                     name: $localize `Comment`,
                     icon: 'icon-comments',
                     url: './comment'
+                },
+                {
+                    name: $localize `Buy`,
+                    icon: 'icon-shopping-cart',
+                    url: './buy'
                 }
             ]
         },

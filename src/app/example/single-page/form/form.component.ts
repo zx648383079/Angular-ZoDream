@@ -1,11 +1,11 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../components/dialog';
-import { IImageUploadEvent } from '../../components/editor';
-import { ButtonEvent } from '../../components/form';
-import { IBlog, ITag } from '../../modules/blog/model';
-import { ICategory } from '../../modules/shop/model';
-import { IItem } from '../../theme/models/seo';
+import { DialogService } from '../../../components/dialog';
+import { IImageUploadEvent } from '../../../components/editor';
+import { ButtonEvent } from '../../../components/form';
+import { IBlog, ITag } from '../../../modules/blog/model';
+import { ICategory } from '../../../modules/shop/model';
+import { IItem } from '../../../theme/models/seo';
 import { form, required } from '@angular/forms/signals';
 
 @Component({

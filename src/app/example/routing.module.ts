@@ -2,19 +2,20 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ExampleComponent } from './example.component';
 import { ExampleHomeComponent } from './home/home.component';
-import { ExampleLoginComponent } from './login/login.component';
-import { ExampleSettingComponent } from './setting/setting.component';
-import { ExampleFormComponent } from './form/form.component';
-import { ExampleSearchComponent } from './search/search.component';
+import { ExampleLoginComponent } from './single-page/login/login.component';
+import { ExampleSettingComponent } from './single-page/setting/setting.component';
+import { ExampleFormComponent } from './single-page/form/form.component';
+import { ExampleSearchComponent } from './single-page/search/search.component';
 import { ExampleChartComponent } from './chart/chart.component';
 import { ExampleEditorComponent } from './editor/editor.component';
 import { ExampleFileComponent } from './file/file.component';
 import { ExamplePlayerComponent } from './player/player.component';
 import { ExampleTourComponent } from './tour/tour.component';
 import { ExampleModalComponent } from './modal/modal.component';
-import { ExampleFormControlComponent } from './form/control/form-control.component';
+import { ExampleFormControlComponent } from './control/form-control.component';
 import { ExampleSwiperComponent } from './swiper/swiper.component';
-import { ExampleCommentComponent } from './comment/comment.component';
+import { ExampleCommentComponent } from './single-page/comment/comment.component';
+import { ExampleBuyComponent } from './single-page/buy/buy.component';
 
 
 const routes: Routes = [
@@ -75,6 +76,10 @@ const routes: Routes = [
                 component: ExampleCommentComponent
             },
             {
+                path: 'buy',
+                component: ExampleBuyComponent
+            },
+            {
                 path: 'home',
                 component: ExampleHomeComponent
             },
@@ -94,6 +99,11 @@ export class ExampleRoutingModule {}
 
 
 export const ExampleRoutingComponents = [
-    ExampleComponent, ExampleHomeComponent, ExampleLoginComponent, ExampleSettingComponent, ExampleSearchComponent, ExampleFormComponent,
-    ExampleChartComponent, ExampleTourComponent, ExamplePlayerComponent, ExampleEditorComponent, ExampleFileComponent, ExampleModalComponent, ExampleFormControlComponent, ExampleSwiperComponent, ExampleCommentComponent
+    ExampleComponent, ExampleHomeComponent, ExampleLoginComponent, ExampleSettingComponent, 
+    ExampleSearchComponent, ExampleFormComponent,
+    ExampleChartComponent, ExampleTourComponent, 
+    ExamplePlayerComponent, ExampleEditorComponent, 
+    ExampleFileComponent, ExampleModalComponent, ExampleFormControlComponent, 
+    ExampleSwiperComponent, ExampleCommentComponent,
+    ExampleBuyComponent
 ];
