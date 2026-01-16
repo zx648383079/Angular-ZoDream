@@ -10,6 +10,7 @@ import { IItem } from '../../../../theme/models/seo';
 import { FileUploadService, ThemeService } from '../../../../theme/services';
 import { NavigationDisplayMode } from '../../../../theme/models/event';
 import { form, required } from '@angular/forms/signals';
+import { asyncScheduler, Subject, Subscription, throttleTime } from 'rxjs';
 
 @Component({
     standalone: false,
@@ -68,31 +69,31 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public readonly metaSize = computed(() => this.dataForm.description().value().length);
 
-    public tagItems: ITag[] = [];
-    public categories: ICategory[] = [];
-    public languages: string[] = [];
-    public localizes: IItem[] = [];
-    public weathers: IItem[] = [];
-    public licenses: IItem[] = [];
-    public statusItems: IItem[] = [];
-    public openItems: IItem[] = [];
-    public toolItems: IEditorTool[] = [];
-    public addToggle = false;
-    public propertyToggle = true;
-    public propertyTabIndex = 0;
-    public propertyTabItems = [$localize `Property`, $localize `Blocks`];
-    public size = 0;
-    public openRule = '';
-    public openStyle: any = {
+    public readonly tagItems = signal<ITag[]>([]);
+    public readonly categories = signal<ICategory[]>([]);
+    public readonly languages = signal<string[]>([]);
+    public readonly localizes = signal<IItem[]>([]);
+    public readonly weathers = signal<IItem[]>([]);
+    public readonly licenses = signal<IItem[]>([]);
+    public readonly statusItems = signal<IItem[]>([]);
+    public readonly openItems = signal<IItem[]>([]);
+    public readonly toolItems = signal<IEditorTool[]>([]);
+    public readonly addToggle = signal(false);
+    public readonly propertyToggle = signal(true);
+    public readonly propertyTabIndex = signal(0);
+    public readonly propertyTabItems = [$localize `Property`, $localize `Blocks`];
+    public readonly size = signal(0);
+    public readonly openRule = signal('');
+    public readonly openStyle = signal<any>({
         display: 'none'
-    };
-    public statusStyle: any = {
+    });
+    public readonly statusStyle = signal<any>({
         display: 'none'
-    };
-
+    });
+    private readonly subItems = new Subscription();
     public readonly openType = computed(() => parseNumber(this.dataForm.open_type().value()));
-    public readonly openTypeLabel = computed(() => mapFormat(this.dataForm.open_type().value(), this.openItems));
-    public readonly statusLabel = computed(() => mapFormat(this.dataForm.publish_status().value(), this.statusItems));
+    public readonly openTypeLabel = computed(() => mapFormat(this.dataForm.open_type().value(), this.openItems()));
+    public readonly statusLabel = computed(() => mapFormat(this.dataForm.publish_status().value(), this.statusItems()));
     public readonly typeValue = computed(() => parseNumber(this.dataForm.type().value()));
 
     public readonly ruleLabel = computed(() => {
@@ -110,15 +111,21 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     constructor() {
+        const size$ = new Subject<void>();
+        this.subItems.add(size$.pipe(throttleTime(100, asyncScheduler, { leading: false, trailing: true }))
+            .subscribe(() => {
+                this.size.set(this.editor.wordLength);
+            })
+        );
         this.service.editOption().subscribe(res => {
-            this.tagItems = res.tags;
-            this.categories = res.categories;
-            this.languages = res.languages;
-            this.weathers = res.weathers;
-            this.licenses = res.licenses;
-            this.statusItems = res.publish_status;
-            this.openItems = res.open_types;
-            this.localizes = res.localizes;
+            this.tagItems.set(res.tags);
+            this.categories.set(res.categories);
+            this.languages.set(res.languages);
+            this.weathers.set(res.weathers);
+            this.licenses.set(res.licenses);
+            this.statusItems.set(res.publish_status);
+            this.openItems.set(res.open_types);
+            this.localizes.set(res.localizes);
             this.dataForm.language().value.set(res.localizes[0].value);
         });
         this.editor.option.merge({
@@ -126,29 +133,31 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
                 left: ['undo', 'redo'],
             }
         });
-        this.toolItems = this.editor.option.leftToolbar;
+        this.toolItems.set(this.editor.option.leftToolbar);
         this.editor.on(EDITOR_EVENT_EDITOR_CHANGE, () => {
-            this.size = this.editor.wordLength;
+            size$.next();
             this.editor.autoHeight();
         }).on(EDITOR_EVENT_UNDO_CHANGE, () => {
-            for (const item of this.toolItems) {
-                if (item.name === EDITOR_UNDO_TOOL) {
-                    item.disabled = !this.editor.canUndo;
-                } else if (item.name === EDITOR_REDO_TOOL) {
-                    item.disabled = !this.editor.canRedo;
-                }
-            }
+            this.toolItems.update(v => {
+                return v.map(item => {
+                    if (item.name === EDITOR_UNDO_TOOL) {
+                        item.disabled = !this.editor.canUndo;
+                    } else if (item.name === EDITOR_REDO_TOOL) {
+                        item.disabled = !this.editor.canRedo;
+                    }
+                    return item;
+                });
+            });
+            
         }).on(EDITOR_EVENT_CLOSE_TOOL, () => {
             this.editor.modalClear();
         }).on(EDITOR_EVENT_EDITOR_READY, () => {
-            setTimeout(() => {
-                this.size = this.editor.wordLength;
-            }, 10);
-        })
+            size$.next();
+        });
     }
 
     ngOnInit() {
-        this.propertyToggle = window.innerWidth > 769;
+        this.propertyToggle.set(window.innerWidth > 769);
         this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Collapse);
         this.route.params.subscribe(params => {
             this.themeService.titleChanged.next(params.id ? $localize `Edit post` : $localize `New post`);
@@ -164,14 +173,15 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.subItems.unsubscribe();
         this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
         this.editor.destroy();
     }
 
 
 
-    public onLocalizeChange() {
-        const current = this.dataForm.language().value();
+    public onLocalizeChange(current: string) {
+        this.dataForm.language().value.set(current);
         if (this.cacheItems.length == 0) {
             this.loadDetail(0, current);
             return;
@@ -204,7 +214,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         this.service.blog(id).subscribe(res => {
             this.cacheItems = res.languages ?? [];
-            this.openRule = res.open_rule;
+            this.openRule.set(res.open_rule);
             this.setContent(res.content);
             this.dataModel.set({
                 id: res.id,
@@ -256,17 +266,21 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
         history.back();
     }
 
+    public toggleProperty() {
+        this.propertyToggle.update(v => !v);
+    }
+
     public tapAdd() {
-        this.addToggle = !this.addToggle;
+        this.addToggle.update(v => !v);
         this.editor.modalClear();
     }
 
     public tapOpen(e: MouseEvent) {
         this.editor.modalClear();
-        this.openStyle = {
+        this.openStyle.set({
             display: 'block',
             top: e.clientY + 15 + 'px'
-        };
+        });
     }
 
     public changeOpenType(val: any) {
@@ -275,10 +289,10 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public tapStatus(e: MouseEvent) {
         this.editor.modalClear();
-        this.statusStyle = {
+        this.statusStyle.set({
             display: 'block',
             top: e.clientY + 15 + 'px'
-        };
+        });
     }
 
     public changePublishStatus(v: any) {
@@ -286,7 +300,9 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public closeModal() {
-        this.openStyle = this.statusStyle = {display: 'none',};
+        const def = {display: 'none'};
+        this.openStyle.set(def);
+        this.statusStyle.set(def);
     }
 
     public tapSubmit2(e: SubmitEvent) {
@@ -304,7 +320,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
             data.publish_status = status;
         }
         data.content = this.editor.value;
-        data.open_rule = data.open_type > 4 ? this.openRule : '';
+        data.open_rule = data.open_type > 4 ? this.openRule() : '';
         e?.enter();
         this.service.blogSave(data).subscribe({
             next: _ => {

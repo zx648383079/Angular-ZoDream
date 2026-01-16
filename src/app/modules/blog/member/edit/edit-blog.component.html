@@ -5,21 +5,21 @@
         </div>
         <div class="tool-bar-top">
             <div class="tool-left">
-                <div class="tool-item btn-info toggle-tool-item" (click)="tapAdd()" [class]="{active: addToggle}">
+                <div class="tool-item btn-info toggle-tool-item" (click)="tapAdd()" [class.active]="addToggle()">
                     <i class="iconfont icon-plus"></i>
                 </div>
-                @for (item of toolItems; track $index) {
+                @for (item of toolItems(); track $index) {
                     <div class="tool-item" [class]="{active: item.actived, disabled: item.disabled}" (click)="tapTool(item, $event)" [title]="item.label">
                         <i class="iconfont" [class]="item.icon"></i>
                     </div>
                 }
             </div>
             <div class="tool-right">
-                <app-toggle-bar [items]="localizes" [formField]="dataForm.language" (valueChange)="onLocalizeChange()" />
+                <app-toggle-bar [items]="localizes()" [formField]="dataForm.language" (valueChange)="onLocalizeChange($event)" />
                 <app-action-button class="tool-item btn-primary" (tapped)="tapSubmit($event)">
                     <i class="iconfont icon-floppy-o"></i>
                 </app-action-button>
-                <div class="tool-item" [class]="{active: propertyToggle}" (click)="propertyToggle = !propertyToggle">
+                <div class="tool-item" [class.active]="propertyToggle()" (click)="toggleProperty()">
                     <i class="iconfont icon-cog"></i>
                 </div>
                 <div class="tool-item">
@@ -29,7 +29,7 @@
         </div>
     </div>
     <form class="editor-body" (submit)="tapSubmit2($event)">
-        <app-blog-add-panel [visible]="addToggle" (toolTapped)="tapTool($event)" (command)="tapCommand($event)" />
+        <app-blog-add-panel [visible]="addToggle()" (toolTapped)="tapTool($event)" (command)="tapCommand($event)" />
         <div class="editor-area">
             <div class="editor-input-wrapper">
                 <input type="text" class="title-input" [formField]="dataForm.title" placeholder="Title">
@@ -37,29 +37,29 @@
             </div>
             <ng-container #modalVC />
         </div>
-        <div class="editor-panel" [hidden]="!propertyToggle">
+        <div class="editor-panel" [hidden]="!propertyToggle()">
             <div class="panel-header">
                 <div class="panel-tab-bar">
                     @for (item of propertyTabItems; track $index;let i = $index) {
-                        <a class="item" [class]="{active: propertyTabIndex == i}" (click)="propertyTabIndex = i">{{ item }}</a>
+                        <a class="item" [class]="{active: propertyTabIndex() == i}" (click)="propertyTabIndex.set(i)">{{ item }}</a>
                     }
                 </div>
-                <div class="panel-action-btn" (click)="propertyToggle = false">
+                <div class="panel-action-btn" (click)="propertyToggle.set(false)">
                     <i class="iconfont icon-close"></i>
                 </div>
             </div>
             <div class="panel-body">
                 <app-expand-card i18n-header header="Summary" [toggle]="true">
                     <div class="list-row-item">
-                        <label for="" class="item-label">Open Type</label>
+                        <label for="" class="item-label" i18n>Open Type</label>
                         <a class="item-body" (click)="tapOpen($event)">{{ openTypeLabel() }}</a>
                     </div>
                     <div class="list-row-item">
-                        <label for="" class="item-label">Publish At</label>
+                        <label for="" class="item-label" i18n>Publish At</label>
                         <div class="item-body">{{ dataModel().created_at ?? '-' }}</div>
                     </div>
                     <div class="list-row-item">
-                        <label for="" class="item-label">Publish Status</label>
+                        <label for="" class="item-label" i18n>Publish Status</label>
                         <a class="item-body" (click)="tapStatus($event)">{{ statusLabel() }}</a>
                     </div>
                 </app-expand-card>
@@ -68,7 +68,7 @@
                         <label for="term_id" i18n>Term</label>
                         <div>
                             <select id="term_id" class="form-control" [formField]="dataForm.term_id">
-                                @for (item of categories; track $index) {
+                                @for (item of categories(); track $index) {
                                     <option [value]="item.id">{{ item.name }}</option>
                                 }
                             </select>
@@ -79,7 +79,7 @@
                         <div>
                             <select id="programming_language" class="form-control" [formField]="dataForm.programming_language">
                                 <option value="" i18n>Select...</option>
-                                @for (item of languages; track $index) {
+                                @for (item of languages(); track $index) {
                                     <option [value]="item">{{ item }}</option>
                                 }
                             </select>
@@ -128,7 +128,7 @@
                     <div class="input-group-control">
                         <label i18n>Tags</label>
                         <div>
-                            <ng-select [multiple]="true" [items]="tagItems" bindLabel="name" [formField]="dataForm.tags" [addTag]="addTagFn" i18n placeholder="Select tags" />
+                            <ng-select [multiple]="true" [items]="tagItems()" bindLabel="name" [formField]="dataForm.tags" [addTag]="addTagFn" i18n placeholder="Select tags" />
                         </div>
                     </div>
                 </app-expand-card>
@@ -154,7 +154,7 @@
                         <div>
                             <select id="weather" class="form-control" [formField]="dataForm.weather">
                                 <option value="" i18n>Select...</option>
-                                @for (item of weathers; track $index) {
+                                @for (item of weathers(); track $index) {
                                     <option [value]="item.value">{{ item.name }}</option>
                                 }
                             </select>
@@ -178,7 +178,7 @@
                         <div>
                             <select id="meta_cc_license" class="form-control" [formField]="dataForm.cc_license">
                                 <option value="" i18n>Select...</option>
-                                @for (item of licenses; track $index) {
+                                @for (item of licenses(); track $index) {
                                     <option [value]="item.value">{{ item.name }}</option>
                                 }
                             </select>
@@ -228,12 +228,12 @@
             </div>
         </div>
     </form>
-    <div class="editor-footer" i18n>{{ size }} words</div>
+    <div class="editor-footer" i18n>{{ size() }} words</div>
 </div>
 
-<div class="editor-modal" [style]="openStyle">
+<div class="editor-modal" [style]="openStyle()">
     <div class="modal-header">
-        <span>Open Type</span>
+        <span i18n>Open Type</span>
         <div class="modal-action-group">
             <div class="action-item" (click)="closeModal()">
                 <i class="iconfont icon-close"></i>
@@ -241,7 +241,7 @@
         </div>
     </div>
     <div class="modal-body">
-        @for (item of openItems; track $index) {
+        @for (item of openItems(); track $index) {
         <div class="option-item" (click)="changeOpenType(item.value)">
             <div class="item-icon">
                 <i class="iconfont" [class]="{'icon-check-square-o': openType() == item.value, 'icon-square-o': openType() != item.value}"></i>
@@ -263,9 +263,9 @@
 
     </div>
 </div>
-<div class="editor-modal" [style]="statusStyle">
+<div class="editor-modal" [style]="statusStyle()">
     <div class="modal-header">
-        <span>Publish Status</span>
+        <span i18n>Publish Status</span>
         <div class="modal-action-group">
             <div class="action-item" (click)="closeModal()">
                 <i class="iconfont icon-close"></i>
@@ -276,7 +276,7 @@
         设置文章的是否公开
     </div> -->
     <div class="modal-body">
-        @for (item of statusItems; track $index) {
+        @for (item of statusItems(); track $index) {
         <div class="option-item" (click)="changePublishStatus(item.value)">
             <div class="item-icon">
                 <i class="iconfont" [class]="{'icon-check-square-o': dataForm.publish_status().value() == item.value, 'icon-square-o': dataForm.publish_status().value() != item.value}"></i>
