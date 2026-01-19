@@ -194,10 +194,10 @@ export class IncomeComponent implements OnInit {
         form.append('file', event.files[0]);
         event.enter();
         this.service.logImport(form).subscribe({
-            next: _ => {
+            next: res => {
                 event.reset();
                 this.tapRefresh();
-                this.toastrService.success('导入成功');
+                this.toastrService.success(res.message ?? '导入成功');
             },
             error: err => {
                 event.reset();
