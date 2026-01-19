@@ -1,7 +1,6 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../../../components/dialog';
-import { DialogBoxComponent } from '../../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IOption } from '../../../../../theme/models/seo';
 import { emptyValidate } from '../../../../../theme/validators';
 import { CmsService } from '../../cms.service';
@@ -122,7 +121,7 @@ export class SiteOptionComponent implements OnInit {
         this.tapOpenModal(modal);
     }
 
-    public tapOpenModal(modal: DialogBoxComponent) {
+    public tapOpenModal(modal: DialogEvent) {
         modal.openCustom(value => {
             if (value === 'remove') {
                 if (!confirm('确定删除此项')) {

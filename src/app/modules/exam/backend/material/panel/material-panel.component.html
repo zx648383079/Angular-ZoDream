@@ -1,40 +1,59 @@
-<div class="search-bar">
-    <div class="form-horizontal-control">
-        <div class="input-group-control">
-            <label for="keywords">关键字</label>
-            <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" id="keywords" placeholder="关键词">
-        </div>
-        <div class="input-group-control">
-            <label >科目</label>
-            <select [formField]="queries.course" class="form-control">
-                <option value="0">请选择</option>
-                @for (item of courseItems(); track $index) {
-                    <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
-                }
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary" (click)="tapRefresh()">搜索</button>
-        <a class="btn" (click)="tapAdd()">{{ tabIndex ? '返回搜索' : '新增' }}</a>
-    </div>
-</div>
-
-<div class="search-panel" [hidden]="tabIndex">
-    <div class="search-body">
-        <div class="container-fluid">
-            <div class="row">
-                @for (item of items(); track $index) {
-                    <div class="col-md-4">
-                        <div class="option-item" [class]="{selected: value() && value().id == item.id}" (click)="tapSelected(item)">
-                            <div class="title">【{{ item.type|materialType }}】{{ item.title }}</div>
-                            <div class="desc">{{ item.description }}</div>
-                        </div>
-                    </div>
-                }
+@if (visible()) {
+<div class="dialog-mask"></div>
+<div class="search-dialog-container">
+    <div class="search-bar">
+        <div class="form-horizontal-control">
+            <div class="input-group-control">
+                <label for="keywords">关键字</label>
+                <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" id="keywords" placeholder="关键词">
+            </div>
+            <div class="input-group-control">
+                <label>科目</label>
+                <select [formField]="queries.course" class="form-control">
+                    <option value="0">请选择</option>
+                    @for (item of courseItems(); track $index) {
+                        <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
+                    }
+                </select>
+            </div>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary" (click)="tapRefresh()">搜索</button>
+                <a class="btn btn-info" (click)="tapAdd()">{{ tabIndex() ? '返回搜索' : '新增' }}</a>
+                <div class="btn btn-danger" (click)="close(false)">
+                    <i class="iconfont icon-close"></i>
+                </div>
             </div>
         </div>
     </div>
-    <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+    <div class="body-container">
+        <div class="search-panel" [hidden]="tabIndex()">
+            <div class="container-fluid">
+                <div class="row">
+                    @for (item of items(); track $index) {
+                        <div class="col-md-4">
+                            <div class="option-item" [class.selected]="selectedItem()?.id == item.id" (click)="tapSelected(item)">
+                                <div class="title">【{{ item.type|materialType }}】{{ item.title }}</div>
+                                <div class="desc">{{ item.description }}</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            
+        </div>
+        <div class="add-panel" [hidden]="!tabIndex()">
+            <app-material-form [(value)]="editForm().value" [courseItems]="courseItems()" (valueChange)="tapSelected($event)" />
+        </div>
+    </div>
+    
+    <div class="footer-container">
+        <div [hidden]="tabIndex()">
+            <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        </div>
+        <div class="btn-group">
+            <div class="btn btn-primary" (click)="close(true)" i18n>Confirm</div>
+            <div class="btn btn-danger" (click)="close(false)" i18n>Cancel</div>
+        </div>
+    </div>
 </div>
-<div class="add-panel" [hidden]="!tabIndex">
-    <app-material-form [(value)]="editForm().value" [courseItems]="courseItems()" (valueChange)="tapSelected($event)" />
-</div>
+}

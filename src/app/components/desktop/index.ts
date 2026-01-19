@@ -15,4 +15,6 @@ export * from './toggle-bar/toggle-bar.component';
 export * from './file-input/file-input.component';
 export * from './file-online/file-online.component';
 export * from './form-panel/form-panel.component';
+export * from './multi-image-input/multi-image-input.component';
+export * from './upload-dialog/upload-dialog.component';
 export * from './desktop.module';

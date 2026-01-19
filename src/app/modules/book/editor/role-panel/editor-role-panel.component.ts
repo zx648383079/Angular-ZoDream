@@ -1,5 +1,5 @@
 import { Component, inject, input, signal } from '@angular/core';
-import { DialogBoxComponent } from '../../../../components/dialog';
+import { DialogEvent } from '../../../../components/dialog';
 import { MindPointSource, MindLinkSource, MindConfirmEvent, MindUpdateEvent } from '../../../../components/mind';
 import { IBookRole, IBookRoleRelation } from '../../model';
 import { BookService } from '../book.service';
@@ -86,7 +86,7 @@ export class EditorRolePanelComponent {
         this.roleIndex = i;
     }
 
-    public tapEditGoods(modal: DialogBoxComponent, i = -1) {
+    public tapEditGoods(modal: DialogEvent, i = -1) {
         this.goodsForm().value.set(i >= 0 ? {
             name: this.goodsItems[i].name,
             amount: this.goodsItems[i].amount
@@ -107,7 +107,7 @@ export class EditorRolePanelComponent {
         this.goodsItems.splice(i, 1);
     }
 
-    public tapEditSkill(modal: DialogBoxComponent, i = -1) {
+    public tapEditSkill(modal: DialogEvent, i = -1) {
         this.skillForm().value.set(i >= 0 ? {
             name: this.skillItems[i].name,
             level: this.skillItems[i].level,
@@ -128,7 +128,7 @@ export class EditorRolePanelComponent {
         this.skillItems.splice(i, 1);
     }
 
-    public tapEditRole(modal: DialogBoxComponent, i: number) {
+    public tapEditRole(modal: DialogEvent, i: number) {
         const item = this.roleItems[i];
         this.roleForm().value.set({
             link: '',
@@ -170,7 +170,7 @@ export class EditorRolePanelComponent {
         };
     }
 
-    public onMindConfirm(event: MindConfirmEvent<IBookRole, IBookRoleRelation>, modal: DialogBoxComponent) {
+    public onMindConfirm(event: MindConfirmEvent<IBookRole, IBookRoleRelation>, modal: DialogEvent) {
         this.roleForm().value.set({
             link: '',
             name: event.to?.name || '',

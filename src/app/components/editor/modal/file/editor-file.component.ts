@@ -13,7 +13,7 @@ export class EditorFileComponent implements IEditorModal {
 
 
     public readonly visible = signal(false);
-    public fileName = this.uploadService.uniqueGuid();
+    public readonly fileName = this.uploadService.uniqueGuid();
     public readonly isLoading = signal(false);
     private confirmFn: EditorModalCallback;
 

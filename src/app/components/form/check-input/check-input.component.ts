@@ -60,7 +60,7 @@ export class CheckInputComponent implements ControlValueAccessor, FormValueContr
 
     public tapSelected(item: any, index: number) {
         const value = this.itemValue(item, index);
-        if (this.disabled) {
+        if (this.disabled()) {
             return;
         }
         if (!this.multiple()) {

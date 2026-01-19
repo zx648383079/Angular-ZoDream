@@ -126,7 +126,7 @@ export interface SearchDialogEvent {
     open<T>(data: any|any[], confirm: (data: T|T[]) => void, check: (data: T[]) => boolean): void;
 }
 
-export interface ManageDialogEvent {
-    open(confirm: (data: any) => boolean|void): void;
-    open(confirm: (data: any) => boolean|void, title: string): void;
+export interface ManageDialogEvent<T = any> {
+    open(confirm: (data: T) => boolean|void): void;
+    open(confirm: (data: T) => boolean|void, title: string): void;
 }

@@ -4,7 +4,7 @@ import { IForum, IForumClassify } from '../../model';
 import { IUser } from '../../../../theme/models/user';
 import { filterTree } from '../../../../theme/utils';
 import { ForumService } from '../forum.service';
-import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { form, required } from '@angular/forms/signals';
 
@@ -119,7 +119,7 @@ export class EditComponent implements OnInit {
         });
     }
 
-    public editClassify(modal: DialogBoxComponent, item?: IForumClassify) {
+    public editClassify(modal: DialogEvent, item?: IForumClassify) {
         this.editForm().value.update(v => {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';
@@ -146,7 +146,7 @@ export class EditComponent implements OnInit {
         });
     }
 
-    public addUser(modal: DialogBoxComponent) {
+    public addUser(modal: DialogEvent) {
         modal.open(() => {
             for (const user of this.users) {
                 if (!user.checked) {

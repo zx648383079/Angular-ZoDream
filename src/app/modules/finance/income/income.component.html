@@ -23,8 +23,8 @@
                 <div class="pull-right btn-group">
                     <a class="btn btn-info" (click)="panelOpen.set(true)">高级搜索</a>
                     <a class="btn btn-primary" routerLink="create">新增流水</a>
-                    <app-upload-button class="btn btn-info" accept=".csv" (uploading)="tapImport($event)">导入</app-upload-button>
-                    <a class="btn btn-success" (click)="tapExport()">导出</a>
+                    <app-upload-button class="btn btn-info" accept=".csv,.xlsx" (uploading)="tapImport($event)">导入</app-upload-button>
+                    <app-action-button class="btn btn-success" (tapped)="tapExport($event)">导出</app-action-button>
                     <a class="btn btn-secondary" (click)="tapBatch(updateModal)">批量编辑</a>
                 </div>
             </form>

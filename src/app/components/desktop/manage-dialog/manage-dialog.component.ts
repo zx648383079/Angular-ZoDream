@@ -8,7 +8,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './manage-dialog.component.html',
     styleUrls: ['./manage-dialog.component.scss'],
 })
-export class ManageDialogComponent implements ManageDialogEvent {
+export class ManageDialogComponent implements ManageDialogEvent<any> {
 
     /**
      * 标题

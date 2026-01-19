@@ -1,0 +1,43 @@
+@if (visible()) {
+<div class="dialog-mask"></div>
+<div class="search-dialog-container">
+    <div class="search-bar">
+        <form class="form-horizontal-control" (submit)="tapSearch($event)">
+            <div class="input-group-control">
+                <label for="keywords">关键字</label>
+                <input type="text" class="form-control" [formField]="queries.keywords" placeholder="关键词">
+            </div>
+            <div class="input-group-control">
+                <label for="course">科目</label>
+                <select id="course" [formField]="queries.course" class="form-control">
+                    <option value="0">请选择</option>
+                    @for (item of courseItems(); track $index) {
+                    <option [value]="item.id">{{ item.name }}</option>
+                    }
+                </select>
+            </div>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="btn btn-danger" (click)="close(false)">
+                    <i class="iconfont icon-close"></i>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="body-container">
+        @for (item of items(); track $index) {
+        <div class="question-option" [class.selected]="isSelected(item)" (click)="tapSelected(item)">
+            <div class="item-title">【{{ item.course?.name }}●{{ formatQuestionType(item.type) }}】{{ item.title }}</div>
+            <div class="item-body">{{ item.content }}</div>
+        </div>
+        }
+    </div>
+    <div class="footer-container">
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+        <div class="btn-group">
+            <div class="btn btn-primary" (click)="close(true)" i18n>Confirm</div>
+            <div class="btn btn-danger" (click)="close(false)" i18n>Cancel</div>
+        </div>
+    </div>
+</div>
+}

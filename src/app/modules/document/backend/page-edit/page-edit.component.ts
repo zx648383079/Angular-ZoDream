@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { IErrorResult } from '../../../../theme/models/page';
 import { emptyValidate } from '../../../../theme/validators';
@@ -176,7 +176,7 @@ export class PageEditComponent implements OnInit {
         });
     }
 
-    public openVersion(modal: DialogBoxComponent) {
+    public openVersion(modal: DialogEvent) {
         this.editForm.name().value.set('');
         modal.open(() => {
             this.service.versionNew(this.project.id, this.version(), this.editForm.name().value()).subscribe(_ => {

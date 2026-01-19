@@ -53,8 +53,6 @@ export class DialogBoxComponent implements DialogEvent {
     public readonly confirm = output();
     private asyncHandler = 0;
 
-    constructor() { }
-
     get boxStyle() {
         if (this.fullscreen()) {
             return {
@@ -111,16 +109,16 @@ export class DialogBoxComponent implements DialogEvent {
     }
 
     public open(): void;
-    public open(confirm: () => void): void;
-    public open(confirm: () => void, check: DialogCheckFn): void;
-    public open(confirm: () => void, title: string): void;
-    public open(confirm: () => void, check: DialogCheckFn, title: string): void;
+    public open(confirm: DialogConfirmFn): void;
+    public open(confirm: DialogConfirmFn, check: DialogCheckFn): void;
+    public open(confirm: DialogConfirmFn, title: string): void;
+    public open(confirm: DialogConfirmFn, check: DialogCheckFn, title: string): void;
     /**
      * 显示弹窗
      * @param cb 点击确认按钮事件
      * @param check 判断是否允许关闭
      */
-    public open(cb?: () => void, check?: DialogCheckFn|string, title?: string) {
+    public open(cb?: DialogConfirmFn, check?: DialogCheckFn|string, title?: string) {
         if (typeof check === 'string') {
             [check, title] = [undefined, check];
         }

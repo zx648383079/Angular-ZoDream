@@ -1,7 +1,7 @@
 import { form } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent } from '../../../../components/dialog';
+import { DialogEvent } from '../../../../components/dialog';
 import { IAdminLog } from '../../../../theme/models/auth';
 import { IPageQueries } from '../../../../theme/models/page';
 import { AuthService } from '../auth.service';
@@ -82,7 +82,7 @@ export class AdminLogComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapView(modal: DialogBoxComponent, item: IAdminLog) {
+    public tapView(modal: DialogEvent, item: IAdminLog) {
         this.editModel.set(item);
         modal.open();
     }

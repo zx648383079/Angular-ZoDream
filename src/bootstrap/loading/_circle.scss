@@ -3,44 +3,40 @@
 $ring: var(--#{theme.$prefix}primary);
 $ring-secondary: var(--#{theme.$prefix}primary-active);
 
+$ringDelay: .13s;
+
 /** 横向圆点滚动显示 */
 .loading-ring2{   
-    width: 9.375em;   
-    height: 0.9375em;   
+    width: 10em;   
+    height: 1em;   
     margin: 0 auto;   
     position: relative;
     span{   
         position: absolute;   
-        width: 0.9375em;   
-        height: 100%;   
+        width: 1em;   
+        height: 1em;   
         border-radius: 50%;   
         background-color: $ring;   
         animation: load2 1.04s ease-in infinite alternate;
-        &:nth-child(1){
-            animation-delay: 0.13s;
-        }
-        &:nth-child(2){
-            animation-delay: 0.26s;
-        }
-        &:nth-child(3){
-            animation-delay: 0.39s;
-        }
-        &:nth-child(4){
-            animation-delay: 0.42s;
-        }
-        &:nth-child(5){
-            animation-delay: 0.65s;
+        @for $i from 1 through 6 {
+            &:nth-child(#{$i}){
+                animation-delay: $ringDelay * $i;
+            }
         }
     }
 }
 @keyframes load2 {
     0%{   
-        opacity: 1;   
+        opacity: .2;   
         transform: translate(0px);   
+    } 
+    50%{   
+        opacity: 1;   
+        transform: translate(5rem);   
     }   
     100%{   
         opacity: 0.2;   
-        transform: translate(9.375rem);   
+        transform: translate(10rem);   
     } 
 }
 
@@ -198,4 +194,51 @@ $ring-secondary: var(--#{theme.$prefix}primary-active);
     100% {
         transform: translate(-6.25em, -0.3906em);
     }
+}
+
+
+$ringDelay: .25s;
+
+/** 滚动 */
+.loading-ring8 {
+    display: block;
+    width: 100%;  
+    height: 1em;   
+    margin: 0 auto;   
+    position: relative;
+    span{
+        opacity: 0;
+        position: absolute;   
+        width: 1em;   
+        height: 1em;   
+        border-radius: 50%;   
+        background-color: $ring;   
+        animation: load8 4s ease-in infinite;
+        @for $i from 1 through 6 {
+            &:nth-child(#{$i}){
+                animation-delay: $ringDelay * $i;
+            }
+        }
+    }
+}
+@keyframes load8 {
+    0%{   
+        opacity: 0;   
+        left: 0;
+        // animation-timing-function: ease-in;
+    } 
+    50%{   
+        opacity: 1;   
+        left: 50%;
+        // animation-timing-function: linear;
+    }  
+    // 55%{   
+    //     opacity: 1;
+    //     left: 60%;
+    //     // animation-timing-function: ease-in;
+    // }   
+    100%{   
+        opacity: 0;   
+        left: 100%;
+    } 
 }

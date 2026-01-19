@@ -165,39 +165,6 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
     }
 }
 
-.dialog-search-box {
-    .dialog-close {
-        position: absolute;
-        font-size: 30px;
-        right: 0;
-        top: 0;
-        color: var(--#{theme.$prefix}meta-text);
-    }
-    .search-bar {
-        select.form-control {
-            width: 100px;
-        }
-    }
-    .search-body {
-        background-color: var(--#{theme.$prefix}body);
-    }
-    .option-item {
-        position: relative;
-        &.selected {
-            background-color: var(--#{theme.$prefix}input-selected);
-            &::after {
-                position: absolute;
-                font-size: 3em;
-                color: rgba(var(--#{theme.$prefix}primary-rgb),.3);
-                font-family: "iconfont";
-                content: "\e648";
-                font-weight: 900;
-                top: 10px;
-                left: 0;
-            }
-        }   
-    }
-}
 
 .search-dialog-container {
     border-radius: .375rem;

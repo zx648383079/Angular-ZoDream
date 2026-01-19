@@ -52,7 +52,7 @@ export class GalleryPanelComponent implements FormValueControl<any>, AfterViewIn
     }
 
     public tapRemoveGallary(i: number) {
-        if (this.disabled) {
+        if (this.disabled()) {
             return;
         }
         this.items.update(v => {

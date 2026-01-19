@@ -3,6 +3,8 @@
 $ring: var(--#{theme.$prefix}primary);
 $ring-secondary: var(--#{theme.$prefix}primary-active);
 
+$ringDelay: .2s;
+
 /** 几条竖线拉伸 */
 .loading-ring1 {   
     width: 5em;
@@ -14,17 +16,10 @@ $ring-secondary: var(--#{theme.$prefix}primary-active);
         height: 100%;
         background-color: $ring;
         animation: load1 1s ease infinite;
-        &:nth-child(2){
-            animation-delay: 0.2s;
-        }
-        &:nth-child(3){
-            animation-delay: 0.4s;
-        }
-        &:nth-child(4){
-            animation-delay: 0.6s;
-        }
-        &:nth-child(5){
-            animation-delay: 0.8s;
+        @for $i from 1 through 6 {
+            &:nth-child(#{$i}){
+                animation-delay: $ringDelay * $i;
+            }
         }
     }
 }
@@ -40,7 +35,7 @@ $ring-secondary: var(--#{theme.$prefix}primary-active);
     }
 }
 
-
+$ringDelay: .13s;
 /** 横向方块点显示 */
 .loading-ring3{   
     width: 9.375em;   
@@ -54,20 +49,10 @@ $ring-secondary: var(--#{theme.$prefix}primary-active);
         margin-right: 0.3125em;   
         background-color: $ring;
         animation: load3 1.04s ease infinite;
-        &:nth-child(1){
-            animation-delay: 0.13s;
-        }
-        &:nth-child(2){
-            animation-delay: 0.26s;
-        }
-        &:nth-child(3){
-            animation-delay: 0.39s;
-        }
-        &:nth-child(4){
-            animation-delay: 0.42s;
-        }
-        &:nth-child(5){
-            animation-delay: 0.65s;
+        @for $i from 1 through 6 {
+            &:nth-child(#{$i}){
+                animation-delay: $ringDelay * $i;
+            }
         }
     }
 }

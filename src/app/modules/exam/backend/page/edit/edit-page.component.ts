@@ -1,12 +1,13 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogEvent, DialogService } from '../../../../../components/dialog';
+import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
 import { IItem } from '../../../../../theme/models/seo';
-import { ICourse, IExamPage } from '../../../model';
+import { ICourse, IQuestion } from '../../../model';
 import { ExamService } from '../../exam.service';
 import { form, required } from '@angular/forms/signals';
-import { parseNumber } from '../../../../../theme/utils';
+import { findIndex, parseNumber } from '../../../../../theme/utils';
+import { QuestionFinderComponent } from '../../../components';
 
 @Component({
     standalone: false,
@@ -29,6 +30,20 @@ export class EditPageComponent implements OnInit {
         limit_time: 120,
         start_at: '',
         end_at: '',
+        course_items: [
+            {
+                course: '0',
+                type: '0',
+                score: 10,
+                amount: 1,
+            }
+        ],
+        question_items: <{
+            id: number;
+            type: number;
+            title: string;
+            score: number;
+        }[]>[],
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name);
@@ -36,10 +51,10 @@ export class EditPageComponent implements OnInit {
 
     public readonly ruleType = computed(() => parseNumber(this.dataForm.rule_type().value()));
 
-    public courseItems: ICourse[] = [];
+    public readonly courseItems = signal<ICourse[]>([]);
     public typeItems = ['单选题', '多选题', '判断题', '简答题', '填空题'];
-    public optionItems: any[] = [];
-    public gradeItems: IItem[] = [];
+    public readonly optionItems = signal<any[]>([]);
+    public readonly gradeItems = signal<IItem[]>([]);
 
     public readonly dialogQueries = form(signal({
         keywords: '',
@@ -55,7 +70,7 @@ export class EditPageComponent implements OnInit {
 
     ngOnInit() {
         this.service.courseAll().subscribe(res => {
-            this.courseItems = res.data;
+            this.courseItems.set(res.data);
         });
         this.route.params.subscribe(params => {
             if (!params.id) {
@@ -72,8 +87,9 @@ export class EditPageComponent implements OnInit {
                     limit_time: res.limit_time,
                     start_at: res.start_at,
                     end_at: res.end_at,
+                    question_items: res.rule_type > 0 ? res.rule_value as any[] : [],
+                    course_items: res.rule_type < 1 ? res.rule_value as any[] : []
                 });
-                this.optionItems = res.rule_value;
             });
         });
     }
@@ -82,7 +98,7 @@ export class EditPageComponent implements OnInit {
         this.service.gradeAll({
             course: this.dataForm.course_id().value()
         }).subscribe(res => {
-            this.gradeItems = res.data;
+            this.gradeItems.set(res.data);
         });
     }
 
@@ -100,8 +116,10 @@ export class EditPageComponent implements OnInit {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        const data: IExamPage = this.dataForm().value() as any;
-        data.rule_value = this.optionItems;
+        const data = this.dataForm().value() as any;
+        data.rule_value = data.rule_type > 0 ? data.question_items : data.course_items;
+        data.question_items = undefined;
+        data.data.course_item = undefined;
         e?.enter();
         this.service.pageSave(data).subscribe({
             next: _ => {
@@ -115,63 +133,49 @@ export class EditPageComponent implements OnInit {
         });
     }
 
-    public onRuleChange() {
-        this.optionItems = [];
-    }
-
-    public tapRemoveItem(i: number) {
-        this.optionItems.splice(i, 1);
+    public tapRemoveItem(i: number, g: number) {
+        if (g > 0) {
+            this.dataForm.question_items().value.update(v => {
+                v.splice(i, 1);
+                return [...v];
+            });
+        } else {
+            this.dataForm.course_items().value.update(v => {
+                v.splice(i, 1);
+                return [...v];
+            });
+        }
     }
 
     public tapAddItem() {
-        this.optionItems.push({
-            course: this.courseItems[0].id,
-            type: 0,
-            amount: 1,
-            score: 1,
+        this.dataForm.course_items().value.update(v => {
+            return [...v, {
+                course: this.courseItems()[0].id as any,
+                type: '0',
+                amount: 1,
+                score: 1,
+            }];
         });
     }
 
-
-    public tapDialogPage() {
-        this.service.questionList({
-            ...this.dialogQueries().value(),
-            filter: true,
-        }).subscribe(res => {
-            this.dialogData.items = res.data;
-            this.dialogData.total = res.paging.total;
-        });
-    }
-
-    public tapDialogSearch(e: SubmitEvent) {
-        e.preventDefault();
-        this.dialogQueries.page().value.set(1);
-        this.tapDialogPage();
-    }
-
-    public tapOpen(modal: DialogEvent) {
-        modal.open(() => {
-            for (const item of this.dialogData.items) {
-                if (item.selected && this.indexOf(item.id) < 0) {
-                    this.optionItems.push({
+    public tapOpen(modal: QuestionFinderComponent) {
+        modal.open([], (items: IQuestion[]) => {
+            this.dataForm.question_items().value.update(v => {
+                return [...v, ...items.filter(i => findIndex(v, j => j.id === i.id) < 0).map(item => {
+                    return {
                         id: item.id,
                         type: item.type,
                         title: item.title,
                         score: 1
-                    });
-                }
-            }
+                    }
+                })]
+            });
+        }, items => items.length > 0, params => {
+            return this.service.questionList({
+                ...params,
+                filter: true,
+            })
         });
-    }
-
-    private indexOf(id: number): number {
-        for (let i = 0; i < this.optionItems.length; i++) {
-            const item = this.optionItems[i];
-            if (item.id === id) {
-                return i;
-            }
-        }
-        return -1;
     }
 
 }

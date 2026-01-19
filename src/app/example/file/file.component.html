@@ -13,6 +13,17 @@
 
         <a class="btn btn-info" (click)="modal.open()">资源管理器</a>
     </div>
+
+    <app-panel title="多文件上传">
+        <app-multi-image-input/>
+    </app-panel>
+
+    <app-panel title="文件上传下载弹窗">
+        <a class="btn btn-info" (click)="upload.open(null)">上传</a>
+
+        <app-loading-ring ringName="loading-ring8"/>
+    </app-panel>
 </div>
 
 <app-file-explorer-dialog #modal [mode]="1" />
+<app-upload-dialog #upload/>

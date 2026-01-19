@@ -1,7 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
-import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IEmojiCategory } from '../../../../theme/models/seo';
-import { emptyValidate } from '../../../../theme/validators';
 import { SystemService } from '../../system.service';
 import { form, required } from '@angular/forms/signals';
 
@@ -73,7 +72,7 @@ export class EmojiCategoryComponent {
         });
     }
 
-    public tapView(modal: DialogBoxComponent, item?: any) {
+    public tapView(modal: DialogEvent, item?: any) {
         this.editForm().value.update(v => {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';

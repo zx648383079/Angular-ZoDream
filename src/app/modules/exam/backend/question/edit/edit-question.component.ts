@@ -1,6 +1,6 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent, DialogEvent, DialogService } from '../../../../../components/dialog';
+import { DialogEvent, DialogService, SearchDialogEvent } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
 import { IItem } from '../../../../../theme/models/seo';
 import { emptyValidate } from '../../../../../theme/validators';
@@ -49,23 +49,22 @@ export class EditQuestionComponent implements OnInit {
         });
     });
 
-    public courseItems: ICourse[] = [];
-    public gradeItems: IItem[] = [];
+    public readonly courseItems = signal<ICourse[]>([]);
+    public readonly gradeItems = signal<IItem[]>([]);
     public typeItems = QuestionTypeItems;
-    public material: IQuestionMaterial;
-    public materialSelected: IQuestionMaterial;
-    public analysisItems: IQuestionAnalysis[] = [];
+    public readonly material = signal<IQuestionMaterial>(null);
+    public readonly analysisItems = signal<IQuestionAnalysis[]>([]);
     public optionTypeItems = ['文字', '图片'];
-    public childrenItems: IQuestion[] = [];
+    public readonly childrenItems = signal<IQuestion[]>([]);
 
-    public sameItems: IQuestion[] = [];
+    public readonly sameItems = signal<IQuestion[]>([]);
     public readonly previewForm = form(signal({
         content: ''
     }));
 
     ngOnInit() {
         this.service.courseAll().subscribe(res => {
-            this.courseItems = res.data;
+            this.courseItems.set(res.data);
         });
         this.route.params.subscribe(params => {
             if (!params.id) {
@@ -101,13 +100,13 @@ export class EditQuestionComponent implements OnInit {
                     ] as any,
                 });
                 if (res.material) {
-                    this.material = res.material;
+                    this.material.set(res.material);
                 }
                 if (res.analysis_items) {
-                    this.analysisItems = res.analysis_items;
+                    this.analysisItems.set(res.analysis_items);
                 }
                 if (res.children) {
-                    this.childrenItems = res.children;
+                    this.childrenItems.set(res.children);
                 }
             });
         });
@@ -128,12 +127,12 @@ export class EditQuestionComponent implements OnInit {
         this.service.gradeAll({
             course: this.dataForm.course_id().value()
         }).subscribe(res => {
-            this.gradeItems = res.data;
+            this.gradeItems.set(res.data);
         });
     }
 
     public onTitleChange() {
-        this.sameItems = [];
+        this.sameItems.set([]);
         const title = this.dataForm.title().value();
         if (emptyValidate(title)) {
             return;
@@ -142,7 +141,7 @@ export class EditQuestionComponent implements OnInit {
             title,
             id: this.dataModel().id
         }).subscribe(res => {
-            this.sameItems = res.data;
+            this.sameItems.set(res.data);
         });
     }
 
@@ -172,15 +171,15 @@ export class EditQuestionComponent implements OnInit {
         }
     }
 
-    public tapMaterial(modal: DialogBoxComponent) {
-        modal.open(() => {
-            this.material = this.materialSelected;
-        }, () => !!this.materialSelected);
+    public tapMaterial(modal: SearchDialogEvent) {
+        modal.open<IQuestionMaterial>(this.material(), data => {
+            this.material.set(data as any);
+        }, data => data.length === 1);
     }
 
     public tapRemoveMaterial(event: MouseEvent) {
         event.stopPropagation();
-        this.material = undefined;
+        this.material.set(null);
     }
 
     public tapBack() {
@@ -199,11 +198,11 @@ export class EditQuestionComponent implements OnInit {
         }
         const data: IQuestion = this.dataForm().value() as any;
 
-        data.analysis_items = this.analysisItems;
-        data.material_id = this.material ? this.material.id : 0;
-        data.material = data.material_id > 0 ? undefined : this.material;
+        data.analysis_items = this.analysisItems();
+        data.material_id = this.material()?.id ?? 0;
+        data.material = data.material_id > 0 ? undefined : this.material();
         if (data.type == 5) {
-            data.children = this.childrenItems;
+            data.children = this.childrenItems();
         }
         e?.enter();
         this.service.questionSave(data).subscribe({

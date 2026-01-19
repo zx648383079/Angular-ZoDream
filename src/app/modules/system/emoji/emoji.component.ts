@@ -1,9 +1,8 @@
 import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { IEmoji, IEmojiCategory } from '../../../theme/models/seo';
-import { IPageQueries } from '../../../theme/models/page';
 import { SystemService } from '../system.service';
-import { DialogBoxComponent, DialogService } from '../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../components/dialog';
 import { UploadButtonEvent } from '../../../components/form';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../theme/services';
@@ -163,7 +162,7 @@ export class EmojiComponent implements OnInit {
         });
     }
 
-    public tapView(modal: DialogBoxComponent, item?: any) {
+    public tapView(modal: DialogEvent, item?: any) {
         this.editForm().value.update(v => {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';
@@ -179,7 +178,7 @@ export class EmojiComponent implements OnInit {
         }, () => this.editForm().valid());
     }
 
-    public tapImport(modal: DialogBoxComponent) {
+    public tapImport(modal: DialogEvent) {
         modal.open();
     }
 

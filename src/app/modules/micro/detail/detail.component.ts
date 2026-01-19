@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { DialogService } from '../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../components/dialog';
 import { AppState } from '../../../theme/interfaces';
 import { IMicro } from '../model';
 import { IErrorResult } from '../../../theme/models/page';
@@ -9,7 +9,6 @@ import { IUser } from '../../../theme/models/user';
 import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
 import { MicroService } from '../micro.service';
 import { openLink } from '../../../theme/utils/deeplink';
-import { DialogBoxComponent } from '../../../components/dialog';
 import { IBlockItem } from '../../../components/link-rule';
 import { form, required } from '@angular/forms/signals';
 
@@ -108,7 +107,7 @@ export class DetailComponent implements OnInit {
         });
     }
 
-    public tapForward(modal: DialogBoxComponent) {
+    public tapForward(modal: DialogEvent) {
         if (!this.data()) {
             return;
         }

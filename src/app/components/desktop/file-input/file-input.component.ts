@@ -47,7 +47,7 @@ export class FileInputComponent implements ControlValueAccessor, FormValueContro
 
     public openOnline(modal: FileOnlineComponent) {
         this.uploadFailure = false;
-        if (this.disabled || !this.online()) {
+        if (this.disabled() || !this.online()) {
             return;
         }
         modal.open((item: IUploadFile) => {

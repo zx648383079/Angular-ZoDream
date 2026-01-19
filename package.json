@@ -53,7 +53,7 @@
         "@types/marked": "^6.0.0",
         "@types/node": "^25.0.9",
         "codelyzer": "^6.0.2",
-        "jasmine-core": "^5.13.0",
+        "jasmine-core": "^6.0.0",
         "jasmine-spec-reporter": "^7.0.0",
         "karma": "^6.4.4",
         "karma-chrome-launcher": "^3.2.0",

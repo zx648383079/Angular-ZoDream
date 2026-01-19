@@ -1,12 +1,11 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { DialogBoxComponent, DialogService } from '../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../components/dialog';
 import { AppState } from '../../../theme/interfaces';
 import { IErrorResult } from '../../../theme/models/page';
 import { IUser } from '../../../theme/models/user';
 import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
-import { emptyValidate } from '../../../theme/validators';
 import { BookService } from '../book.service';
 import { IAuthorProfile, IBook } from '../model';
 import { form, required } from '@angular/forms/signals';
@@ -51,7 +50,7 @@ export class BookMemberComponent implements OnInit {
         });
     }
 
-    public tapNewBook(modal: DialogBoxComponent) {
+    public tapNewBook(modal: DialogEvent) {
         this.bookForm().value.set({
             name: '',
             cover: '',

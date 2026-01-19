@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IBook, IChapter } from '../model';
 import { BookService } from '../book.service';
 import { DownloadService } from '../../../theme/services';
+import { ButtonEvent } from '../../../components/form';
+import { DialogService } from '../../../components/dialog';
 
 @Component({
     standalone: false,
@@ -14,6 +16,7 @@ export class BookDetailComponent implements OnInit {
     private readonly service = inject(BookService);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
+    private readonly toastrService = inject(DialogService);
     private readonly downloadService = inject(DownloadService);
 
 
@@ -51,11 +54,18 @@ export class BookDetailComponent implements OnInit {
         });
     }
 
-    public tapDownload(zip = false) {
-        if (zip) {
-            this.downloadService.export('book/download/zip', {id: this.data.id}, this.data.name + '.zip');
-            return;
-        }
-        this.downloadService.export('book/download/txt', {id: this.data.id}, this.data.name + '.txt');
+    public tapDownload(event?: ButtonEvent, zip = false) {
+        event?.enter();
+        this.downloadService.export( zip ? 'book/download/zip' : 'book/download/txt', 
+            {id: this.data.id}, 
+            this.data.name + (zip ? '.zip' :'.txt')).subscribe({
+            next: _ => {
+                event?.reset();
+            },
+            error: err => {
+                event?.reset();
+                this.toastrService.error(err);
+            }
+        });
     }
 }

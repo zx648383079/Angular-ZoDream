@@ -9,7 +9,7 @@ import {
 import {
     TaskService
 } from '../task.service';
-import { DialogBoxComponent, DialogService } from '../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { form, required } from '@angular/forms/signals';
 
@@ -112,7 +112,7 @@ export class EditComponent implements OnInit {
         });
     }
 
-    openDialog(modal: DialogBoxComponent, item ?: ITask) {
+    openDialog(modal: DialogEvent, item ?: ITask) {
         if (!this.data || this.data.id < 1) {
             this.toastrService.warning('请先保存主任务');
             return;
@@ -162,7 +162,7 @@ export class EditComponent implements OnInit {
         });
     }
 
-    public tapShare(modal: DialogBoxComponent) {
+    public tapShare(modal: DialogEvent) {
         if (!this.data || this.data.id < 1) {
             return;
         }

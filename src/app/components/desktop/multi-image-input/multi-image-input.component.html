@@ -1,0 +1,25 @@
+<div class="multi-image-box" [class.--with-multi]="value().length > 0" appFileDrop (fileDrop)="uploadFiles($event)">
+    @for (item of value(); track $index; let i = $index) {
+    <div class="image-item">
+        <img [src]="item.thumb | asset">
+        @if (item.type == 'video') {
+        <i class="iconfont icon-play play-icon"></i>
+        }
+        @if (!disabled()) {
+        <i class="iconfont icon-close action-icon" (click)="tapRemoveItem(i)"></i>
+        }
+    </div>
+    }
+    @if (canUpload()) {
+    <label class="drag-file-control" [for]="fileName">
+        <p class="--with-icon">
+            <i class="iconfont icon-upload"></i>
+        </p>
+        @if (value().length == 0) {
+            <p i18n>Select file(s)</p>
+            <p i18n>or drag and drop your files here</p>
+        }
+        <input type="file" [id]="fileName" accept="image/*,video/*" multiple (change)="uploadImages($event)">
+    </label>
+    }
+</div>

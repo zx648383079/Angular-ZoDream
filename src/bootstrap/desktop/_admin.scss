@@ -93,13 +93,19 @@
 }
 
 .multi-image-box {
+    --#{theme.$prefix}item-width: 10rem;
+    --#{theme.$prefix}item-height: 8rem;
+    --#{theme.$prefix}item: var(--#{theme.$prefix}input-hovered);
 	border: 1px dotted var(--#{theme.$prefix}border);
 	padding: 5px;
 	.image-item {
 		display: inline-block;
 		position: relative;
-		background-color: var(--#{theme.$prefix}panel);
-		box-sizing: border-box;
+		background-color: var(--#{theme.$prefix}item);
+        border: 1px solid var(--#{theme.$prefix}item);
+        border-radius: .25rem;
+        overflow: hidden;
+        margin: .4rem;
         .play-icon {
             background-color: var(--#{theme.$prefix}accent);
             color: var(--#{theme.$prefix}accent-text);
@@ -130,17 +136,19 @@
 			cursor: pointer;
 		}
 		img {
-			width: 7.5rem;
-			height: 7.5rem;
+			width: var(--#{theme.$prefix}item-width);
+			height: var(--#{theme.$prefix}item-height);
+            object-fit: contain;
 		}
 		&:hover {
 			border: 1px solid var(--#{theme.$prefix}primary);
 		}
 	}
 	.add-item {
+        margin: .4rem;
 		display: inline-block;
-		width: 7.5rem;
-		height: 7.5rem;
+		width: var(--#{theme.$prefix}item-width);
+		height: var(--#{theme.$prefix}item-height);
 		border: 1px solid var(--#{theme.$prefix}border);
 		text-align: center;
 		font-size: 5rem;
@@ -154,6 +162,17 @@
             overflow: hidden;
         }
 	}
+    .drag-file-control {
+        vertical-align: top;
+        margin: .4rem;
+    }
+    &.--with-multi {
+        .drag-file-control {
+            width: var(--#{theme.$prefix}item-width);
+			height: var(--#{theme.$prefix}item-height);
+            display: inline-block;
+        }
+    }
 }
 
 @media screen and (max-width: 48rem) {

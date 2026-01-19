@@ -14,7 +14,7 @@
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
                     <app-upload-button class="btn btn-info" (uploading)="tapImport($event)">导入</app-upload-button>
-                    <a class="btn btn-danger" (click)="tapExport()">导出</a>
+                    <app-action-button class="btn btn-danger" (tapped)="tapExport($event)">导出</app-action-button>
                     <a class="btn btn-success" (click)="open(modal)">新增直播源</a>
                 </div>
             </form>

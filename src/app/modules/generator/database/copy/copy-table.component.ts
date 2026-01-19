@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
-import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { IItem } from '../../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
@@ -48,7 +48,7 @@ export class CopyTableComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
 
 
-    public readonly previewModal = viewChild<DialogBoxComponent>('previewModal');
+    public readonly previewModal = viewChild<DialogEvent>('previewModal');
     public distTable?: ITableItem;
     public srcTable: ITableItem[] = [];
     public linkItems: ILinkItem[] = [];
@@ -138,7 +138,7 @@ export class CopyTableComponent implements OnInit {
         return item.schema + '.' + item.table;
     }
 
-    public tapDist(modal: DialogBoxComponent) {
+    public tapDist(modal: DialogEvent) {
         modal.open(() => {
             this.distTable = {
                 schema: this.tableForm.schema().value(),
@@ -154,7 +154,7 @@ export class CopyTableComponent implements OnInit {
         }, '请选择目标表');
     }
 
-    public tapAddTable(modal: DialogBoxComponent) {
+    public tapAddTable(modal: DialogEvent) {
         if (!this.distTable) {
             this.toastrService.warning('请先选择目标表');
             return;
@@ -182,7 +182,7 @@ export class CopyTableComponent implements OnInit {
         }, '请选择数据表');
     }
 
-    public tapColumn(modal: DialogBoxComponent, item: ILinkItem) {
+    public tapColumn(modal: DialogEvent, item: ILinkItem) {
         if (this.srcTable.length < 1) {
             this.toastrService.warning('请先选择数据表');
             return;

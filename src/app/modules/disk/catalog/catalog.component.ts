@@ -7,13 +7,12 @@ import {
     IDisk
 } from '../model';
 import { emptyValidate } from '../../../theme/validators';
-import { DialogBoxComponent, DialogService } from '../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IUploadItem, UploaderComponent } from '../uploader/uploader.component';
 import { FileUploadService, SearchService, ThemeService } from '../../../theme/services';
 import { ImagePlayerComponent, MoviePlayerComponent, MusicPlayerComponent, PlayerEvent } from '../../../components/media-player';
 import { ParallelHasher } from 'ts-md5';
 import { ActivatedRoute } from '@angular/router';
-import { IPageQueries } from '../../../theme/models/page';
 import { UploadStatus } from '../../../theme/services/uploader';
 import { PullToRefreshComponent } from '../../../components/tablet';
 import { Subscription } from 'rxjs';
@@ -274,7 +273,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
         }
     }
 
-    public tapOpenEdit(modal: DialogBoxComponent) {
+    public tapOpenEdit(modal: DialogEvent) {
         this.editForm.name().value.set('');
         modal.open(() => {
             this.service.create({

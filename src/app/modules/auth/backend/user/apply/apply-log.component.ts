@@ -1,7 +1,7 @@
 import { form } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogBoxComponent } from '../../../../../components/dialog';
+import { DialogEvent } from '../../../../../components/dialog';
 import { IApplyLog } from '../../../../../theme/models/auth';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { AuthService } from '../../auth.service';
@@ -82,7 +82,7 @@ export class ApplyLogComponent implements OnInit {
         this.tapRefresh();
     }
 
-    public tapView(modal: DialogBoxComponent, item: IApplyLog) {
+    public tapView(modal: DialogEvent, item: IApplyLog) {
         this.dataModel.set(item);
         this.service.user(item.user_id).subscribe(res => {
             this.dataModel.update(v => {

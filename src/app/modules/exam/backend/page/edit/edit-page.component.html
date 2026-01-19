@@ -13,12 +13,12 @@
             <div class="flat-group">
                 <select id="course_id" [formField]="dataForm.course_id" class="form-control" (change)="onCourseChange()">
                     <option value="0">请选择</option>
-                    @for (item of courseItems; track $index) {
+                    @for (item of courseItems(); track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                     }
                 </select>
                 <select [formField]="dataForm.course_grade" class="form-control">
-                    @for (item of gradeItems; track $index) {
+                    @for (item of gradeItems(); track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
                     }
                 </select>
@@ -27,7 +27,7 @@
         <div class="input-group-control">
             <label for="rule_type">选题类型</label>
             <div>
-                <select id="rule_type" class="form-control" [formField]="dataForm.rule_type" (change)="onRuleChange()">
+                <select id="rule_type" class="form-control" [formField]="dataForm.rule_type">
                     <option value="0">随机选题</option>
                     <option [value]="1">固定题库</option>
                 </select>
@@ -64,30 +64,30 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (item of optionItems; track $index; let j = $index) {
+                    @for (item of dataForm.course_items; track $index; let j = $index) {
                     <tr>
                         <td>
-                            <select  class="form-control" [(value)]="item.course">
-                                @for (item of courseItems; track $index) {
+                            <select  class="form-control" [formField]="item.course">
+                                @for (item of courseItems(); track $index) {
                                 <option [value]="item.id">{{ item.name }}</option>
                                 }
                             </select>
                         </td>
                         <td>
-                            <select  class="form-control" [(value)]="item.type">
+                            <select  class="form-control" [formField]="item.type">
                                 @for (item of typeItems; track $index; let i = $index) {
                                 <option [value]="i">{{ item }}</option>
                                 }
                             </select>
                         </td>
                         <td>
-                            <input type="number" class="form-control" [(value)]="item.amount">
+                            <input type="number" class="form-control" [formField]="item.amount">
                         </td>
                         <td>
-                            <input type="number" class="form-control" [(value)]="item.score">
+                            <input type="number" class="form-control" [formField]="item.score">
                         </td>
                         <td>
-                            <i class="iconfont icon-close" (click)="tapRemoveItem(j)"></i>
+                            <i class="iconfont icon-close" (click)="tapRemoveItem(j, 0)"></i>
                         </td>
                     </tr>
                     }
@@ -111,19 +111,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (item of optionItems; track $index; let j = $index) {
+                    @for (item of dataForm.question_items; track $index; let j = $index) {
                     <tr>
                         <td>
-                            {{ item.id }}
+                            {{ item.id().value() }}
                         </td>
                         <td>
-                            【{{ item.type | questionType }}】{{ item.title }}
+                            【{{ item.type().value() | questionType }}】{{ item.title().value() }}
                         </td>
                         <td>
-                            <input type="number" class="form-control" [(value)]="item.score">
+                            <input type="number" class="form-control" [formField]="item.score">
                         </td>
                         <td>
-                            <i class="iconfont icon-close" (click)="tapRemoveItem(j)"></i>
+                            <i class="iconfont icon-close" (click)="tapRemoveItem(j, 1)"></i>
                         </td>
                     </tr>
                     }
@@ -145,46 +145,4 @@
     </form>
 </div>
 
-<app-dialog-box class="dialog-search-box" #modal>
-    <i class="iconfont icon-close dialog-close" (click)="modal.close(false)"></i>
-    <div class="search-bar">
-        <form class="form-horizontal-control" (submit)="tapDialogSearch($event)">
-            <div class="input-group-control">
-                <label for="keywords">关键字</label>
-                <input type="text" class="form-control" [formField]="dialogQueries.keywords" placeholder="关键词">
-            </div>
-            <div class="input-group-control">
-                <label for="course">科目</label>
-                <select id="course" [formField]="dialogQueries.course" class="form-control">
-                    <option value="0">请选择</option>
-                    @for (item of courseItems; track $index) {
-                    <option [value]="item.id">{{ item.name }}</option>
-                    }
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">搜索</button>
-        </form>
-    </div>
-    <div class="search-body">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>题目</th>
-                    <th>科目</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (item of dialogData.items; track $index) {
-                <tr [class]="{selected: item.selected}" (click)="item.selected = !item.selected">
-                    <td>{{ item.id }}</td>
-                    <td>【{{ item.type | questionType }}】{{ item.title }}</td>
-                    <td>{{ item.course?.name }}</td>
-                </tr>
-                }
-            </tbody>
-        </table>
-
-        <app-pagination [total]="dialogData.total" [formField]="dialogQueries.page" [perPage]="dialogQueries.per_page().value()" (valueChange)="tapDialogPage()" />
-    </div>
-</app-dialog-box>
+<app-question-finder [courseItems]="courseItems()" #modal/>

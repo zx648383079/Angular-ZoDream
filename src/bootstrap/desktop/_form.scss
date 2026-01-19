@@ -432,7 +432,32 @@ i {
     }
 }
 
-
+.drag-file-control {
+    display: block;
+    user-select: none;
+    border-radius: .25rem;
+    padding: 2rem 0 1rem;
+    text-align: center;
+    border: .2rem dotted var(--#{theme.$prefix}border);
+    color: var(--#{theme.$prefix}meta-text);
+    .--with-placeholder {
+        font-size: 2em;
+    }
+    .--with-icon {
+        font-size: 3em;
+    }
+    p {
+        margin: 0;
+    }
+    input {
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
+    &:hover {
+        background-color: var(--#{theme.$prefix}input-hovered);
+    }
+}
 
 .select-shell-control {
     display: inline-block;

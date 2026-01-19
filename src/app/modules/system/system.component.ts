@@ -1,8 +1,8 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
-import { DialogBoxComponent, DialogService } from '../../components/dialog';
+import { Component, computed, inject, signal } from '@angular/core';
+import { DialogEvent, DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
 import { IItem, IOption } from '../../theme/models/seo';
-import { eachObject, parseNumber, splitStr } from '../../theme/utils';
+import { parseNumber, splitStr } from '../../theme/utils';
 import { emptyValidate } from '../../theme/validators';
 import { SystemService } from './system.service';
 import { form, required } from '@angular/forms/signals';
@@ -174,7 +174,7 @@ export class SystemComponent {
         this.tapOpenModal(modal);
     }
 
-    public tapOpenModal(modal: DialogBoxComponent) {
+    public tapOpenModal(modal: DialogEvent) {
         modal.openCustom(value => {
             if (!value) {
                 return;

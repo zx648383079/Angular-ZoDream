@@ -1,8 +1,6 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../components/dialog';
-import { DialogBoxComponent } from '../../../components/dialog';
-import { IErrorResult } from '../../../theme/models/page';
+import { DialogEvent, DialogService } from '../../../components/dialog';
 import { SearchService } from '../../../theme/services';
 import { emptyValidate } from '../../../theme/validators';
 import { DocumentService } from '../document.service';
@@ -74,7 +72,7 @@ export class DetailComponent implements OnInit {
         this.navToggle.update(v => !v);
     }
 
-    public openCode(modal: DialogBoxComponent) {
+    public openCode(modal: DialogEvent) {
         this.codeForm.content().value.set('');
         modal.open();
     }

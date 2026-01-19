@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, output, signal } from '@angular/core';
-import { DialogService } from '../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IEmoji } from '../../../theme/models/seo';
 import { IMicro, ITopic } from '../model';
 import { IErrorResponse } from '../../../theme/models/page';
@@ -7,7 +7,6 @@ import { FileUploadService } from '../../../theme/services/file-upload.service';
 import { MicroService } from '../micro.service';
 import { IUploadResult } from '../../../theme/models/open';
 import { emptyValidate } from '../../../theme/validators';
-import { DialogBoxComponent } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { ThemeService } from '../../../theme/services';
 import { form, required } from '@angular/forms/signals';
@@ -58,7 +57,7 @@ export class PublishFormComponent {
         });
     }
 
-    public openTopic(modal: DialogBoxComponent) {
+    public openTopic(modal: DialogEvent) {
         modal.openCustom(item => {
             if (emptyValidate(item)) {
                 return false;

@@ -5,12 +5,13 @@ import { DialogEvent, DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { IItem } from '../../../theme/models/seo';
 import { SearchService, ThemeService } from '../../../theme/services';
-import { mapFormat } from '../../../theme/utils';
+import { findIndex } from '../../../theme/utils';
 import { emptyValidate } from '../../../theme/validators';
 import { ExamService } from '../exam.service';
-import { ICourse, IExamPage, IQuestion, QuestionTypeItems } from '../model';
+import { ICourse, IQuestion } from '../model';
 import { questionNeedOption } from '../util';
 import { form, required } from '@angular/forms/signals';
+import { QuestionFinderComponent } from '../components';
 
 @Component({
     standalone: false,
@@ -42,23 +43,12 @@ export class PageEditorComponent implements OnInit {
         required(schemaPath.name);
     });
 
-    public courseItems: ICourse[] = [];
-    public gradeItems: IItem[] = [];
-
-    public readonly dialogQueries = form(signal({
-        keywords: '',
-        course: '',
-        page: 1,
-        perPage: 20,
-    }));
-    public dialogData = {
-        items: [],
-        total: 0,
-    };
+    public readonly courseItems = signal<ICourse[]>([]);
+    public readonly gradeItems = signal<IItem[]>([]);
 
     ngOnInit() {
         this.service.courseAll().subscribe(res => {
-            this.courseItems = res.data;
+            this.courseItems.set(res.data);
         });
         this.route.params.subscribe(params => {
             this.dataForm.course_id().value.set(parseInt(params.course, 10) as any);
@@ -76,10 +66,6 @@ export class PageEditorComponent implements OnInit {
             });
         });
         this.tapAdd();
-    }
-
-    public formatQuestionType(value: number) {
-        return mapFormat(value, QuestionTypeItems);
     }
 
     private checkQuestion(items: IQuestion[]): boolean {
@@ -166,16 +152,17 @@ export class PageEditorComponent implements OnInit {
         this.scrollBottom();
     }
 
-    public tapFind(modal: DialogEvent) {
-        modal.open(() => {
-            for (const item of this.dialogData.items) {
-                if (item.selected && this.indexOf(item.id) < 0) {
-                    this.items.update(v => {
-                        v.push(item);
-                        return [...v];
-                    });
-                }
-            }
+    public tapFind(modal: QuestionFinderComponent) {
+        modal.open([], (items: IQuestion[]) => {
+            this.items.update(v => {
+                return [...v, ...items.filter(i => findIndex(v, j => j.id === i.id) < 0)]
+            });
+        }, items => items.length > 0, params => {
+            return this.service.search({
+                type: 1,
+                ...params,
+                full: true
+            })
         });
     }
 
@@ -251,35 +238,8 @@ export class PageEditorComponent implements OnInit {
         this.service.gradeAll({
             course: this.dataForm.course_id().value(),
         }).subscribe(res => {
-            this.gradeItems = res.data;
+            this.gradeItems.set(res.data);
         });
     }
-
-    public tapDialogPage() {
-        this.service.search({
-            type: 1,
-            ...this.dialogQueries().value(),
-            full: true
-        }).subscribe(res => {
-            this.dialogData.items = res.data;
-            this.dialogData.total = res.paging.total;
-        });
-    }
-
-    public tapDialogSearch(e: SubmitEvent) {
-        e.preventDefault();
-        this.dialogQueries.page().value.set(1);
-        this.tapDialogPage();
-    }
-
-    private indexOf(id: number): number {
-        for (let i = 0; i < this.items().length; i++) {
-            const item = this.items[i];
-            if (item.id === id) {
-                return i;
-            }
-        }
-        return -1;
-    } 
 
 }

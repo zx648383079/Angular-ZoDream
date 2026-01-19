@@ -35,8 +35,8 @@ export class FileOnlineComponent implements SearchDialogEvent {
         per_page: 20,
     }));
     public typeItems: IItem[] = [];
-    public selectedItems: IUploadFile[] = [];
-    public onlySelected = false;
+    public readonly selectedItems = signal<IUploadFile[]>([]);
+    public readonly onlySelected = signal(false);
     private confirmFn: (items: IUploadFile|IUploadFile[]) => void;
     private checkFn: (items: IUploadFile[]) => boolean;
 
@@ -44,7 +44,7 @@ export class FileOnlineComponent implements SearchDialogEvent {
         effect(() => {
             const accept = this.accept();
             this.items.set([]);
-            this.selectedItems = [];
+            this.selectedItems.set([]);
             this.queries.page().value.set(0);
             this.queries.accept().value.set(accept);
             this.typeItems = accept === '*/*' || !accept ? [
@@ -75,11 +75,12 @@ export class FileOnlineComponent implements SearchDialogEvent {
     }
 
     public tapToggleOnly() {
-        this.onlySelected = !this.onlySelected;
+        this.onlySelected.update(v => !v);
     }
 
     public isSelected(item: IUploadFile) {
-        for (const i of this.selectedItems) {
+        const items = this.selectedItems();
+        for (const i of items) {
             if (i.url === item.url) {
                 return true;
             }
@@ -89,27 +90,31 @@ export class FileOnlineComponent implements SearchDialogEvent {
 
     public tapSelected(item: IUploadFile) {
         if (!this.multiple()) {
-            this.selectedItems = [item];
+            this.selectedItems.set([item]);
             return;
         }
-        for (let i = 0; i < this.selectedItems.length; i++) {
-            if (item.url === this.selectedItems[i].url) {
-                this.selectedItems.splice(i, 1);
-                return;
+        this.selectedItems.update(v => {
+            for (let i = 0; i < v.length; i++) {
+                if (item.url === v[i].url) {
+                    v.splice(i, 1);
+                    return [...v];
+                }
             }
-        }
-        this.selectedItems.push(item);
+            v.push(item);
+            return [...v];
+        });
+        
     }
 
     public tapYes() {
-        if (this.checkFn && this.checkFn(this.selectedItems) === false) {
+        if (this.checkFn && this.checkFn(this.selectedItems()) === false) {
             return;
         }
         if (this.multiple()) {
-            this.output(this.selectedItems);
+            this.output(this.selectedItems());
             return;
         }
-        this.output(this.selectedItems.length > 0 ? this.selectedItems[0] : null);
+        this.output(this.selectedItems().length > 0 ? this.selectedItems()[0] : null);
     }
 
     private output(items: any) {
@@ -120,17 +125,17 @@ export class FileOnlineComponent implements SearchDialogEvent {
     }
 
     public tapCancel() {
-        this.selectedItems = [];
+        this.selectedItems.set([]);
     }
 
     public readonly formatItems = computed(() => {
-        return this.onlySelected ? this.selectedItems.map(i => i as IUploadFile) : this.items();
+        return this.onlySelected() ? this.selectedItems().map(i => i as IUploadFile) : this.items();
     });
 
 
-    public get selectedCount() {
-        return this.selectedItems.length;
-    }
+    public readonly selectedCount = computed(() => {
+        return this.selectedItems().length;
+    });
 
     /**
      * tapRefresh
@@ -179,22 +184,22 @@ export class FileOnlineComponent implements SearchDialogEvent {
 
     private formatValue(data: any) {
         if (!data) {
-            this.selectedItems = [];
+            this.selectedItems.set([]);
             return;
         }
         if (typeof data !== 'object') {
 
         } else if (data instanceof Array) {
             if (data.length < 1) {
-                this.selectedItems = [];
+                this.selectedItems.set([]);
                 return;
             }
             if (typeof data[0] === 'object') {
-                this.selectedItems = [...data];
+                this.selectedItems.set([...data]);
                 return;
             }
         } else {
-            this.selectedItems = [data];
+            this.selectedItems.set([data]);
             return;
         }
         // this.service.search({

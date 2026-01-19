@@ -6,7 +6,7 @@ import { IUser, SexItems } from '../../../theme/models/user';
 import { AuthService } from '../../../theme/services';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { Subscription } from 'rxjs';
 import { email, form, required } from '@angular/forms/signals';
@@ -91,7 +91,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         });
     }
 
-    public openCancel(modal: DialogBoxComponent) {
+    public openCancel(modal: DialogEvent) {
         modal.open(() => {
             // TODO 注销
         });

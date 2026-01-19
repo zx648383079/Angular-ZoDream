@@ -30,6 +30,14 @@ export interface IItem {
     meta?: string;
 }
 
+export interface IMediaFileItem {
+    url: string;
+    size?: number;
+    title: string;
+    type: string;
+    thumb: string;
+}
+
 export interface IStatisticsItem {
     name: string;
     count: number;

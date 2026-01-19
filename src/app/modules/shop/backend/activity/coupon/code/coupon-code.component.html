@@ -15,7 +15,7 @@
                 <div class="btn-group pull-right">
                     <a class="btn btn-success" (click)="tapGenerate(modal)">生成优惠码</a>
                     <a class="btn btn-danger" (click)="importModal.open()">导入</a>
-                    <a class="btn btn-info" (click)="tapExport()">导出</a>
+                    <app-action-button class="btn btn-info" (tapped)="tapExport($event)">导出</app-action-button>
                 </div>
             </form>
         </div>

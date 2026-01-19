@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { DialogService } from '../../../components/dialog';
-import { DialogBoxComponent } from '../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../components/dialog';
 import { AppState } from '../../../theme/interfaces';
 import { IEmoji } from '../../../theme/models/seo';
 import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
@@ -155,7 +154,7 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
         });
     }
 
-    public openTransfer(modal: DialogBoxComponent) {
+    public openTransfer(modal: DialogEvent) {
         this.userSelected = 0;
         modal.open(() => {
             this.service.sessionTransfer({
@@ -169,7 +168,7 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
         }, () => this.userSelected > 0);
     }
 
-    public openRemark(modal: DialogBoxComponent) {
+    public openRemark(modal: DialogEvent) {
         this.dataForm.remark().value.set('');
         modal.open(() => {
             this.service.sessionRemark({

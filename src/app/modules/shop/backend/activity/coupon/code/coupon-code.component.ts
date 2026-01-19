@@ -2,7 +2,7 @@ import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../../components/dialog';
-import { UploadButtonEvent } from '../../../../../../components/form';
+import { ButtonEvent, UploadButtonEvent } from '../../../../../../components/form';
 import { IPageQueries } from '../../../../../../theme/models/page';
 import { ICouponLog } from '../../../../model';
 import { SearchService } from '../../../../../../theme/services';
@@ -68,10 +68,19 @@ export class CouponCodeComponent implements OnInit {
         }, () => this.editForm().valid());
     }
 
-    public tapExport() {
+    public tapExport(event?: ButtonEvent) {
+        event?.enter();
         this.downloadService.export('shop/admin/activity/coupon/code_export', {
             coupon: this.queries.coupon
-        }, '优惠码记录.xlsx');
+        }, '优惠码记录.xlsx').subscribe({
+            next: _ => {
+                event?.reset();
+            },
+            error: err => {
+                event?.reset();
+                this.toastrService.error(err);
+            }
+        });
     }
 
     public onUploadFile(event: UploadButtonEvent) {

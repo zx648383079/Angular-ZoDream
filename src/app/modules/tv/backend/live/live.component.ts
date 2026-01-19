@@ -2,7 +2,7 @@ import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
-import { UploadButtonEvent } from '../../../../components/form';
+import { ButtonEvent, UploadButtonEvent } from '../../../../components/form';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { DownloadService } from '../../../../theme/services';
@@ -53,8 +53,17 @@ export class LiveComponent implements OnInit {
         this.service.liveSave(item).subscribe(_ => {});
     }
 
-    public tapExport() {
-        this.downloadService.export('tv/admin/live/export', {}, 'live.dpl');
+    public tapExport(event?: ButtonEvent) {
+        event?.enter();
+        this.downloadService.export('tv/admin/live/export', {}, 'live.dpl').subscribe({
+            next: _ => {
+                event?.reset();
+            },
+            error: err => {
+                event?.reset();
+                this.toastrService.error(err);
+            }
+        });
     }
 
     public tapImport(event: UploadButtonEvent) {

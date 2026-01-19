@@ -1,7 +1,8 @@
-import { Component, HostBinding, input } from '@angular/core';
+import { Component, input, ViewEncapsulation } from '@angular/core';
 
 @Component({
     standalone: false,
+    encapsulation: ViewEncapsulation.None,
     selector: 'app-loading-ring',
     template: `
     <span></span>

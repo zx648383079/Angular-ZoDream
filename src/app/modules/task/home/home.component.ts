@@ -1,7 +1,7 @@
 import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, viewChild, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DialogBoxComponent, DialogService } from '../../../components/dialog';
+import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
 import { ITask, ITaskDay } from '../model';
@@ -109,7 +109,7 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    public tapFastNew(modal: DialogBoxComponent) {
+    public tapFastNew(modal: DialogEvent) {
         modal.open(() => {
             this.service.taskFastCreate(this.taskForm().value()).subscribe({
                 next: res => {

@@ -9,9 +9,9 @@
             <div>
                 <input type="text" id="title" class="form-control title-input" [formField]="dataForm.title" (change)="onTitleChange()">
                 <i class="iconfont icon-eye" title="预览" (click)="openPreview(previewModal, 'title')"></i>
-                @if (sameItems.length > 0) {
+                @if (sameItems().length > 0) {
                 <div class="input-tip">
-                    存在{{ sameItems.length }}个相似题目
+                    存在{{ sameItems().length }}个相似题目
                     <a (click)="sameModal.open()">点击查看</a>
                 </div>
                 }
@@ -22,12 +22,12 @@
             <div class="flat-group">
                 <select id="course_id" [formField]="dataForm.course_id" class="form-control" (change)="onCourseChange()">
                     <option value="0">请选择</option>
-                    @for (item of courseItems; track $index) {
+                    @for (item of courseItems(); track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                     }
                 </select>
                 <select [formField]="dataForm.course_grade" class="form-control">
-                    @for (item of gradeItems; track $index) {
+                    @for (item of gradeItems(); track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
                     }
                 </select>
@@ -36,10 +36,10 @@
         <div class="input-group-control">
             <label for="article">关联素材</label>
             <div>
-                @if (material) {
+                @if (material()) {
                     <div class="media-item" (click)="tapMaterial(materialModal)">
-                        <div class="title">【{{material.type|materialType}}】{{ material.title }}</div>
-                        <div class="desc">{{ material.description }}</div>
+                        <div class="title">【{{material().type|materialType}}】{{ material().title }}</div>
+                        <div class="desc">{{ material().description }}</div>
                         <i class="iconfont icon-close" (click)="tapRemoveMaterial($event)"></i>
                     </div>
                 } @else {
@@ -182,10 +182,7 @@
     </form>
 </div>
 
-<app-dialog-box class="dialog-search-box" #materialModal>
-    <i class="iconfont icon-close dialog-close" (click)="materialModal.close(false)"></i>
-    <app-material-panel [courseItems]="courseItems" [(value)]="materialSelected" />
-</app-dialog-box>
+<app-material-panel [courseItems]="courseItems()" #materialModal/>
 
 <app-dialog-box #sameModal title="相似题目" [footerVisible]="false">
     <table class="table table-hover">
@@ -197,7 +194,7 @@
             </tr>
         </thead>
         <tbody>
-            @for (item of sameItems; track $index) {
+            @for (item of sameItems(); track $index) {
             <tr>
                 <td>{{ item.id }}</td>
                 <td>【{{ item.type | questionType }}】{{ item.title }}</td>

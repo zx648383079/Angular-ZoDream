@@ -1,6 +1,6 @@
 import { Component, ElementRef, effect, inject, input, model, output } from '@angular/core';
 import { FileUploadService } from '../../../theme/services';
-import { UploadButtonEvent } from '../event';
+import { ButtonEvent, UploadButtonEvent } from '../event';
 
 @Component({
     standalone: false,
@@ -8,7 +8,7 @@ import { UploadButtonEvent } from '../event';
     templateUrl: './upload-button.component.html',
     styleUrls: ['./upload-button.component.scss']
 })
-export class UploadButtonComponent {
+export class UploadButtonComponent implements ButtonEvent {
     private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
     private readonly uploadService = inject(FileUploadService);
 

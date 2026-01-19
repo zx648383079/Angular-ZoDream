@@ -1,9 +1,8 @@
 import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../components/dialog';
-import { DialogBoxComponent } from '../../../components/dialog';
-import { UploadButtonEvent } from '../../../components/form';
+import { DialogEvent, DialogService } from '../../../components/dialog';
+import { ButtonEvent, UploadButtonEvent } from '../../../components/form';
 import { SearchService } from '../../../theme/services';
 import { DownloadService } from '../../../theme/services';
 import { emptyValidate } from '../../../theme/validators';
@@ -177,8 +176,17 @@ export class IncomeComponent implements OnInit {
         });
     }
 
-    public tapExport() {
-        this.downloadService.export('finance/log/export', {}, '流水记录.xlsx');
+    public tapExport(event?: ButtonEvent) {
+        event?.enter();
+        this.downloadService.export('finance/log/export', {}, '流水记录.xlsx').subscribe({
+            next: _ => {
+                event?.reset();
+            },
+            error: err => {
+                event?.reset();
+                this.toastrService.error(err);
+            }
+        });
     }
 
     public tapImport(event: UploadButtonEvent) {
@@ -198,7 +206,7 @@ export class IncomeComponent implements OnInit {
         });
     }
 
-    public tapBatch(modal: DialogBoxComponent) {
+    public tapBatch(modal: DialogEvent) {
         this.editForm.keywords().value.set('');
         modal.open(() => {
             this.service.logBatchEdit(this.editForm().value()).subscribe({
@@ -212,7 +220,7 @@ export class IncomeComponent implements OnInit {
         }, () => this.editForm().valid());
     }
 
-    public tapPreview(modal: DialogBoxComponent, item: ILog) {
+    public tapPreview(modal: DialogEvent, item: ILog) {
         this.previewModel.set(item);
         modal.open();
     }

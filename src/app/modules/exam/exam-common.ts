@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ZreFormModule } from '../../components/form';
-import { ExamEditorComponent, MathMarkComponent, QuestionEditorComponent, QuestionInputComponent, QuestionScoringComponent } from './components';
+import { ExamEditorComponent, MathMarkComponent, QuestionEditorComponent, QuestionFinderComponent, QuestionInputComponent, QuestionScoringComponent } from './components';
 import { BoolInputComponent } from './components/question-editor/bool-input/bool-input.component';
 import { OptionInputComponent } from './components/question-editor/option-input/option-input.component';
 import { QuestionChildrenComponent } from './components/question-editor/children/question-children.component';
@@ -19,6 +19,7 @@ const COMPONENTS = [
     QuestionInputComponent,
     QuestionEditorComponent,
     QuestionScoringComponent,
+    QuestionFinderComponent,
 ];
 
 @NgModule({

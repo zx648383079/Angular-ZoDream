@@ -51,12 +51,12 @@
             <div class="flat-group">
                 <select id="course_id" [formField]="dataForm.course_id" class="form-control" (change)="onCourseChange()">
                     <option value="0">请选择</option>
-                    @for (item of courseItems; track $index) {
+                    @for (item of courseItems(); track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                     }
                 </select>
                 <select [formField]="dataForm.course_grade" class="form-control">
-                    @for (item of gradeItems; track $index) {
+                    @for (item of gradeItems(); track $index) {
                         <option [value]="item.value">{{ item.name }}</option>
                     }
                 </select>
@@ -83,33 +83,4 @@
     </div>
 </app-dialog-box>
 
-<app-dialog-box class="dialog-search-box" #searchModal>
-    <i class="iconfont icon-close dialog-close" (click)="searchModal.close(false)"></i>
-    <div class="search-bar">
-        <form class="form-horizontal-control" (submit)="tapDialogSearch($event)">
-            <div class="input-group-control">
-                <label for="keywords">关键字</label>
-                <input type="text" class="form-control" [formField]="dialogQueries.keywords" placeholder="关键词">
-            </div>
-            <div class="input-group-control">
-                <label for="course">科目</label>
-                <select id="course" [formField]="dialogQueries.course" class="form-control">
-                    <option value="0">请选择</option>
-                    @for (item of courseItems; track $index) {
-                    <option [value]="item.id">{{ item.name }}</option>
-                    }
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">搜索</button>
-        </form>
-    </div>
-    <div class="search-body">
-        @for (item of dialogData.items; track $index) {
-        <div class="question-option" [class]="{selected: item.selected}" (click)="item.selected = !item.selected">
-            <div class="item-title">【{{ item.course?.name }}●{{ formatQuestionType(item.type) }}】{{ item.title }}</div>
-            <div class="item-body">{{ item.content }}</div>
-        </div>
-        }
-        <app-pagination [total]="dialogData.total" [formField]="dialogQueries.page" [perPage]="dialogQueries.perPage().value()" (valueChange)="tapDialogPage()" />
-    </div>
-</app-dialog-box>
+<app-question-finder [courseItems]="courseItems()" #searchModal/>

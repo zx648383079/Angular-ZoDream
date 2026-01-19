@@ -1,0 +1,25 @@
+@if (visible()) {
+<div class="dialog-mask" (click)="close()"></div>
+<div class="dialog-box" animate.enter="dialog-opened" animate.leave="dialog-closed">
+    <div class="dialog-header">
+        <div class="dialog-title">{{ title() }}</div>
+        <i class="iconfont icon-close dialog-close" (click)="close()"></i>
+    </div>
+    <div class="dialog-body">
+        <label class="drag-file-control" [for]="fileName" appFileDrop (fileDrop)="uploadFiles($event)">
+            <p class="--with-icon">
+                <i class="iconfont icon-upload"></i>
+            </p>
+            <p i18n>Select file(s)</p>
+            <p i18n>or drag and drop your files here</p>
+            <input type="file" [id]="fileName" (change)="uploadFile($event)">
+        </label>
+    </div>
+    <div class="dialog-footer">
+        <div class="btn-group">
+            <div class="btn btn-primary" (click)="close()">{{ confirmText() }}</div>
+            <div class="btn btn-danger" (click)="close()">{{ cancelText() }}</div>
+        </div>
+    </div>
+</div>
+}
