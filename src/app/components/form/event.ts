@@ -6,7 +6,7 @@ export interface IButton {
     name: string;
     icon: string;
     color?: string;
-    disable?: boolean;
+    disabled?: boolean;
     onTapped?: (event: ButtonEvent) => void;
 }
 
@@ -61,6 +61,14 @@ export interface IFormInput {
     items?: IItem[];
     value: any;
     required?: boolean;
+}
+
+export interface IControlOption {
+    selected?: boolean;
+    disabled?: boolean;
+	marked?: boolean;
+	label?: string;
+	value?: string | any;
 }
 
 export interface FormPanelEvent {

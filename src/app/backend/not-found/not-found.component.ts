@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 @Component({
     standalone: false,
-    selector: 'zo-not-found',
+    selector: 'app-b-not-found',
     templateUrl: './not-found.component.html',
     styleUrls: ['./not-found.component.scss']
 })

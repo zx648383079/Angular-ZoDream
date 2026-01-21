@@ -4,7 +4,7 @@
             @for (item of selectedItems(); track $index) {
                 <div class="selected-item">
                     <span class="item-close" (click)="tapUnselect(item)">&times;</span>
-                    <div class="item-label">{{ item[rangeLabel()] }}</div>
+                    <div class="item-label">{{ item.label }}</div>
                 </div>
             }
         </div>
@@ -15,9 +15,15 @@
         </div>
     </div>
     <div class="option-container">
+        @if (isLoading()) {
+            <div class="loading-option-item" i18n>Loading...</div>
+        }
         @for (item of optionItems(); track $index) {
-            <div class="option-item" [class]="{selected: isSelected(item)}" (click)="tapSelected(item)">
-                {{ item[rangeLabel()] }}
+            <div class="option-item" 
+                [class.selected]="item.selected"
+                [class.disabled]="item.disabled"
+                (click)="tapSelected(item)">
+                {{ item.label }}
             </div>
         }
     </div>

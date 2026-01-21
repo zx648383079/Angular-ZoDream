@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, HostListener, effect, inject, input, model, signal, untracked } from '@angular/core';
 import { IData } from '../../../theme/models/page';
-import { cloneObject } from '../../../theme/utils';
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { FormValueControl } from '@angular/forms/signals';
+import { IControlOption } from '../event';
 
 @Component({
     standalone: false,
@@ -15,7 +15,7 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
     private readonly http = inject(HttpClient);
 
 
-    public readonly url = input<string>(undefined);
+    public readonly url = input<string>();
     public readonly placeholder = input($localize `Please select...`);
     public readonly rangeKey = input('id');
     public readonly rangeLabel = input('name');
@@ -25,30 +25,34 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
     /**
      * 只有通过url请求的才会触发，参数为http响应内容
      */
-    public readonly formatFn = input<(data: any) => T[]>(undefined);
+    public readonly formatFn = input<(data: any) => T[]>(null);
 
     public readonly disabled = input<boolean>(false);
     public readonly value = model<T | T[] | number | string>();
-    public readonly optionItems = signal<T[]>([]);
-    public readonly selectedItems = signal<T[]>([]);
+    public readonly optionItems = signal<IControlOption[]>([]);
+    public readonly selectedItems = signal<IControlOption[]>([]);
     public readonly keywords = signal('');
     public readonly panelVisible = signal(false);
-    private valueTypeT = false;
+    public readonly isLoading = signal(false);
     private booted = false;
 
-    /**
-     *
-     */
     constructor() {
         effect(() => {
             const obj = this.value();
-            this.readerType(obj);
-            this.formatSelected(obj);
+            untracked(() => {
+                console.log(obj, this.optionItems());
+                
+                if (this.optionItems().length === 0 && !this.url()) {
+                    return;
+                }
+                this.booted = true;
+                this.formatSelected(obj);
+            });
         });
         effect(() => {
             const items = this.items();
             untracked(() => {
-                this.optionItems.set(items);
+                this.formatOption(items);
             });
         });
     }
@@ -61,17 +65,9 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
         }
     }
 
-    public isSelected(item: T) {
-        for (const i of this.selectedItems()) {
-            if (item[this.rangeKey()] === i[this.rangeKey()]) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public tapSelected(item: T) {
+    public tapSelected(item: IControlOption) {
         if (!this.multiple()) {
+            item.selected = true;
             this.selectedItems.set([item]);
             this.keywords.set('');
             this.panelVisible.set(false);
@@ -80,21 +76,24 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
         }
         this.selectedItems.update(v => {
             for (let i = 0; i < v.length; i++) {
-                if (item[this.rangeKey()] === v[i][this.rangeKey()]) {
+                if (item.value === v[i].value) {
                     v.splice(i, 1);
+                    item.selected = false;
                     return [...v];
                 }
             }
+            item.selected = true;
             v.push(item);
             return [...v];
         });
         this.output();
     }
 
-    public tapUnselect(item: T) {
+    public tapUnselect(item: IControlOption) {
+        item.selected = false;
         this.selectedItems.update(v => {
             return v.filter(i => {
-                return item[this.rangeKey()] !== i[this.rangeKey()];
+                return item.value !== i.value;
             });
         });
         this.output();
@@ -102,20 +101,27 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
 
     public onKeywordsChange(val: string) {
         this.keywords.set(val);
-        if (!this.keywords()) {
+        if (!val) {
             this.optionItems.set([]);
             return;
         }
         const url = this.url();
         if (!url) {
-            this.optionItems.set(this.items().filter(i => i[this.rangeLabel()].indexOf(this.keywords) >= 0));
+            this.formatOption(this.items(), item => item.label.indexOf(val) >= 0);
             return;
         }
-        this.http.get<IData<T>>(url, {params: {[this.searchKey()]: this.keywords()}}).subscribe(res => {
-            const formatFn = this.formatFn();
-            const items = formatFn ?  formatFn(res) : res.data;
-            if (items instanceof Array) {
-                this.optionItems.set(items);
+        this.isLoading.set(true);
+        this.http.get<IData<T>>(url, {params: {[this.searchKey()]: val}}).subscribe({
+            next: res => {
+                this.isLoading.set(false);
+                const formatFn = this.formatFn();
+                const items = formatFn ? formatFn(res) : res.data;
+                if (items instanceof Array) {
+                    this.formatOption(items);
+                }
+            },
+            error: _ => {
+                this.isLoading.set(false);
             }
         });
     }
@@ -129,44 +135,124 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
     }
 
     private output() {
-        const items = this.selectedItems().map(i => {
-            return this.valueTypeT ? i[this.rangeKey()] : {...i};
-        });
-        this.value.set(this.multiple() ? items : (items.length > 0 ? items[0] : 0));
+        this.value.set(this.getSelectedValue());
     }
 
-    private readerType(obj: any) {
-        if (typeof obj !== 'object') {
-            this.valueTypeT = true;
+    private formatSelected(obj: any) {
+        if (this.equal(obj, this.getSelectedValue())) {
             return;
         }
-        if (obj instanceof Array && obj.length > 0) {
-            this.valueTypeT = typeof obj[0] !== 'object';
-            return;
-        }
-    }
-
-    private formatSelected(obj: any, loop = 0) {
-        if (!obj || (obj instanceof Array && obj.length < 1)) {
+        if (!obj || (obj instanceof Array && obj.length === 0)) {
+            if (this.selectedItems().length === 0) {
+                return;
+            }
             this.selectedItems.set([]);
             return;
         }
-        if (!this.valueTypeT) {
-            this.selectedItems.set(obj instanceof Array ? cloneObject(obj) : [cloneObject(obj)]);
-        }
         const url = this.url();
-        if (!url || !this.valueTypeT) {
-            // 增加延迟，防止在 formbuilder 中url和值通知变动时无法正确获取
-            if (loop < 1) {
-                setTimeout(() => {
-                    this.formatSelected(obj, loop ++ );
-                }, 100);
-            }
+        if (!url) {
+            this.selectValue(obj);
             return;
         }
-        this.http.get<IData<T>>(url, {params: {[this.rangeKey()]: obj}}).subscribe(res => {
-            this.selectedItems.set(res.data);
+        this.isLoading.set(true);
+        this.http.get<IData<T>>(url, {params: {[this.rangeKey()]: obj}}).subscribe({
+            next: res => {
+                this.isLoading.set(false);
+                this.selectedItems.set(res.data.map(i => this.formatOptionItem(i, 0)));
+            },
+            error: _ => {
+                this.isLoading.set(false);
+            }
         });
+    }
+
+    private formatOption(items: T[], filterFn?: (data: IControlOption) => boolean) {
+        const selected = this.selectedItems().map(i => i.value);
+        const data = [];
+        for (let i = 0; i < items.length; i++) {
+            const formatted = this.formatOptionItem(items[i], i);
+            if (filterFn && !filterFn(formatted)) {
+                continue;
+            }
+            formatted.selected = selected.includes(formatted.value)
+            data.push(formatted);
+        }
+        this.optionItems.set(data);
+        if (data.length > 0 && !this.booted) {
+            this.selectValue(this.value());
+            this.booted = true;
+        }
+    }
+
+    private formatOptionItem(item: any, index: number): IControlOption {
+        const key = this.rangeKey();
+        const label = typeof item === 'object' ? item[this.rangeLabel()] : item;
+        if (typeof key === 'number') {
+            return {
+                value: index,
+                label
+            };
+        }
+        if (key && typeof item === 'object') {
+            return {
+                value: item[key],
+                label
+            };
+        }
+        return {
+            value: item,
+            label
+        };
+    }
+
+    private selectValue(val: any) {
+        const selectedValue = this.toSelectedValue(val);
+        const selected = [];
+        this.optionItems.update(v => {
+            for (const item of v) {
+                item.selected = selectedValue.includes(item.value);
+                if (item.selected) {
+                    selected.push(item);
+                } 
+            }
+            return v;
+        });
+        this.selectedItems.set(selected);
+    }
+
+    private getSelectedValue() {
+        const items = this.selectedItems().map(i => i.value);
+        return this.multiple() ? items : (items.length > 0 ? items[0] : this.getUnknownValue())
+    }
+
+    private toSelectedValue(val: any): any[] {
+        return this.multiple() && val instanceof Array ? val : [val];
+    }
+
+    private getUnknownValue(): any {
+        const key = this.rangeKey();
+        if (typeof key === 'number') {
+            return 0;
+        }
+        return '';
+    }
+
+    private equal(arg: any, val: any): boolean {
+        if (arg === val) {
+            return;
+        }
+        if (!(arg instanceof Array && val instanceof Array)) {
+            return false;
+        }
+        if (arg.length !== val.length) {
+            return false;
+        }
+        for (const item of arg) {
+            if (!val.includes(item)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

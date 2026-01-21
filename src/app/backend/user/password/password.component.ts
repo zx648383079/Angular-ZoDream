@@ -6,7 +6,7 @@ import { form, required, validate } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-    selector: 'app-password',
+    selector: 'app-b-password',
     templateUrl: './password.component.html',
     styleUrls: ['./password.component.scss']
 })

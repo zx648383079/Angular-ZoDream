@@ -32,7 +32,7 @@ import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-    selector: 'app-thread',
+    selector: 'app-forum-thread',
     templateUrl: './thread.component.html',
     styleUrls: ['./thread.component.scss']
 })

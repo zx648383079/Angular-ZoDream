@@ -1,4 +1,4 @@
-import { Directive, ElementRef, NgZone, OnDestroy, afterNextRender, afterRenderEffect, inject, input } from '@angular/core';
+import { DestroyRef, Directive, ElementRef, NgZone, OnDestroy, afterNextRender, afterRenderEffect, inject, input } from '@angular/core';
 import { CHART_TOKEN, ChartConfigs } from './model';
 import { ECharts, EChartsCoreOption, EChartsInitOpts } from 'echarts/core';
 import { asyncScheduler, Subject, throttleTime } from 'rxjs';
@@ -7,8 +7,9 @@ import { asyncScheduler, Subject, throttleTime } from 'rxjs';
     standalone: true,
     selector: '[appChart]'
 })
-export class ChartDirective implements OnDestroy {
+export class ChartDirective {
     private readonly zone = inject(NgZone);
+    private readonly destroyRef = inject(DestroyRef);
     private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
     private readonly configs = inject<ChartConfigs>(CHART_TOKEN);
 
@@ -19,34 +20,32 @@ export class ChartDirective implements OnDestroy {
 
     private booted = false;
     private instance: ECharts;
-    private resizeOb: ResizeObserver;
-    private resize$ = new Subject<void>();
 
     constructor() {
         const element = this.elementRef.nativeElement;
-        this.resize$.pipe(throttleTime(100, asyncScheduler, { leading: false, trailing: true }))
+        const resize$ = new Subject<void>();
+        resize$.pipe(
+            throttleTime(100, asyncScheduler, { leading: false, trailing: true }),
+            takeUntilDestroyed(this.destroyRef)
+            )
             .subscribe(() => this.resize());
-        this.resizeOb = this.zone.runOutsideAngular(
+        const resizeOb = this.zone.runOutsideAngular(
         () =>
             new ResizeObserver(entries => {
                 for (const entry of entries) {
                     if (entry.target !== element) {
                         continue;
                     }
-                    this.resize$.next();
+                    resize$.next();
                 }
             })
         );
-        this.resizeOb.observe(element);
+        resizeOb.observe(element);
         afterNextRender({
             write: () => this.initChart()
         });
         afterRenderEffect(() => this.onOptionsChange(this.options()));
-    }
-
-    ngOnDestroy(): void {
-        this.resize$.unsubscribe();
-        this.resizeOb.disconnect();
+        this.destroyRef.onDestroy(() => resizeOb.disconnect())
     }
 
     private resize() {
@@ -113,3 +112,7 @@ export class ChartDirective implements OnDestroy {
         }
     }
 }
+function takeUntilDestroyed(destroyRef: DestroyRef): import("rxjs").OperatorFunction<void, unknown> {
+    throw new Error('Function not implemented.');
+}
+

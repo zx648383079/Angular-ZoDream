@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnDestroy, signal } from '@angular/core';
 import { ITradeLog } from '../model';
 import { form } from '@angular/forms/signals';
+import { asyncScheduler, Subject, throttleTime } from 'rxjs';
 
 @Component({
     standalone: false,
@@ -8,7 +9,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './toolbar.component.html',
     styleUrls: ['./toolbar.component.scss'],
 })
-export class ToolbarComponent {
+export class ToolbarComponent implements OnDestroy {
 
     public readonly visible = signal(false);
     public title = 'Toolbar';
@@ -23,6 +24,16 @@ export class ToolbarComponent {
 
     private matchKey = '';
     private lastKey = '';
+    private readonly $afterDelay = new Subject<void>();
+
+    constructor() {
+        this.$afterDelay.pipe(throttleTime(500, asyncScheduler, { leading: false, trailing: true }))
+                        .subscribe(() => this.changeData(this.matchKey, this.lastKey));
+    }
+
+    ngOnDestroy(): void {
+        this.$afterDelay.unsubscribe();
+    }
 
     public open(item: ITradeLog) {
         this.visible.set(true);
@@ -50,7 +61,7 @@ export class ToolbarComponent {
             this.matchKey = this.lastKey;
             this.lastKey = key;
         }
-        this.changeData(this.matchKey, this.lastKey);
+        this.$afterDelay.next();
     }
 
     private changeData(key: string, target: string)

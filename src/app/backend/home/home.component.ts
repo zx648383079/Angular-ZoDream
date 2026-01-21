@@ -3,7 +3,7 @@ import { BackendService } from '../backend.service';
 
 @Component({
     standalone: false,
-    selector: 'app-home',
+    selector: 'app-b-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })

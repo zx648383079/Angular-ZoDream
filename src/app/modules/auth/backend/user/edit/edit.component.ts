@@ -2,16 +2,15 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IRole } from '../../../../../theme/models/auth';
-import { IUser, IUserZone, SexItems } from '../../../../../theme/models/user';
+import { IUserZone, SexItems } from '../../../../../theme/models/user';
 import { FileUploadService } from '../../../../../theme/services/file-upload.service';
 import { AuthService } from '../../auth.service';
-import { confirmValidator } from '../../../../../components/desktop/directives';
 import { email, form, required, validate } from '@angular/forms/signals';
 import { ButtonEvent } from '../../../../../components/form';
 
 @Component({
     standalone: false,
-    selector: 'app-edit',
+    selector: 'app-auth-b-edit',
     templateUrl: './edit.component.html',
     styleUrls: ['./edit.component.scss']
 })
@@ -49,8 +48,8 @@ export class EditUserComponent implements OnInit {
         });
     });
 
-    public roleItems: IRole[] = [];
-    public zoneItems: IUserZone[] = [];
+    public readonly roleItems = signal<IRole[]>([]);
+    public readonly zoneItems = signal<IUserZone[]>([]);
     public sexItems = SexItems;
 
     ngOnInit() {
@@ -58,8 +57,8 @@ export class EditUserComponent implements OnInit {
             roles: {},
             zones: {}
         }).subscribe(res => {
-            this.roleItems = res.roles;
-            this.zoneItems = res.zones;
+            this.roleItems.set(res.roles);
+            this.zoneItems.set(res.zones);
         });
         this.route.params.subscribe(params => {
             if (!params.id) {

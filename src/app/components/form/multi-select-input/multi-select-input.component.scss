@@ -5,85 +5,8 @@
 $lineHeight: 2.5rem;
 $dialogIndex: 99;
 
-.select--with-search {
+.select-input-container {
     line-height: $lineHeight;
     display: inline-block;
     width: 5 * $lineHeight;
-    position: relative;
-    .select-input {
-        border: 1px solid var(--#{theme.$prefix}input-border);
-        color: var(--#{theme.$prefix}input-text);
-        background-color: var(--#{theme.$prefix}input);
-        padding: 0 .3rem;
-        height: $lineHeight;
-        box-sizing: border-box;
-        position: relative;
-        user-select: none;
-        @include mixins.iconArrow();
-    }
-    .input--with-placeholder {
-        color: var(--#{theme.$prefix}input-placeholder);
-    }
-    .select-option-bar {
-        position: absolute;
-        display: none;
-        z-index: $dialogIndex;
-        width: 100%;
-        background-color: var(--#{theme.$prefix}input);
-        border: 1px solid var(--#{theme.$prefix}input-border);
-        box-sizing: border-box;
-        box-shadow: 0 6px 6px rgba(var(--#{theme.$prefix}mask-rgb), .1);
-    }
-    .search-option-item {
-        position: relative;
-        input {
-            width: 100% !important;
-            outline: none;
-            border: none;
-            background-color: transparent;
-            height: $lineHeight;
-            padding-left: $lineHeight - .5rem;
-        }
-        .iconfont {
-            position: absolute;
-            left: .3rem;
-            color: var(--#{theme.$prefix}input-icon);
-        }
-    }
-    .loading-option-item {
-        border-top: 1px solid var(--#{theme.$prefix}input-border);
-        color: var(--#{theme.$prefix}input-placeholder);
-        text-align: center;
-        font-size: .8rem;
-        user-select: none;
-        display: none;
-    }
-    .option-item {
-        border-top: 1px solid var(--#{theme.$prefix}input-border);
-        display: block;
-        padding: 0 .3rem;
-        &:hover {
-            background-color: var(--#{theme.$prefix}input-hovered);
-        }
-        &.selected {
-            background-color: var(--#{theme.$prefix}input-selected);
-        }
-    }
-    &.select-loading {
-        .loading-option-item {
-            display: block;
-        }
-    }
-    &.focus {
-        .select-input {
-            border-color: var(--#{theme.$prefix}input-focus-border);;
-            border-bottom: none;
-            &::after {
-                transform: rotate(180deg);
-            }
-        }
-        .select-option-bar {
-            display: block;
-        }
-    }
 }

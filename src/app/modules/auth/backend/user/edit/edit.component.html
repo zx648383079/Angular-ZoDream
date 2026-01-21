@@ -47,13 +47,13 @@
                     <div class="input-group-control">
                         <label>角色</label>
                         <div>
-                            <ng-select [multiple]="true" [items]="roleItems" bindValue="id" bindLabel="display_name" [formField]="dataForm.roles" placeholder="选择角色" />
+                            <app-select-input [multiple]="true" [items]="roleItems()" rangeKey="id" rangeLabel="display_name" [formField]="dataForm.roles" placeholder="选择角色" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label>分区</label>
                         <div>
-                            <ng-select [items]="zoneItems" bindValue="id" bindLabel="name" [formField]="dataForm.zone_id" placeholder="选择分区" />
+                            <ng-select [items]="zoneItems()" bindValue="id" bindLabel="name" [formField]="dataForm.zone_id" placeholder="选择分区" />
                         </div>
                     </div>
                 </app-panel>

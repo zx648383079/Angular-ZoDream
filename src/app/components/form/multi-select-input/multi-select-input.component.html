@@ -1,22 +1,22 @@
 @for (item of items(); track $index) {
-    <div class="select--with-search" [class]="{focus: item.focus, 'select-loading': item.isLoading}">
-        <div class="select-input" [class]="{'input--with-placeholder': !item.label}" (click)="item.focus = !item.focus">
+    <div class="select-input-container" [class.--with-open]="item.focus">
+        <div class="input-container" [class.--with-placeholder]="!item.label" (click)="item.focus = !item.focus">
             {{ item.label || placeholder() }}
         </div>
-        <div class="select-option-bar">
+        <div class="option-container">
             @if (item.searchable) {
             <div class="search-option-item">
-                <input type="search" placeholder="Enter搜索" [(value)]="item.keywords" (keydown)="onKeydown($event, item)">
+                <input type="search" i18n-placeholder placeholder="Enter to search" [(value)]="item.keywords" (keydown)="onKeydown($event, item)">
                 <i class="iconfont icon-search"></i>
             </div>
             }
             
-            <div class="loading-option-item">
-                加载中。。。
-            </div>
+            @if (item.isLoading) {
+                <div class="loading-option-item" i18n>Loading...</div>
+            }
             @if (item.items && item.items.length > 0) {
                 @for (option of item.items; track $index) {
-                <div class="option-item" [class]="{selected: option.value === item.value}" (click)="tapSelect(item, option)">
+                <div class="option-item" [class.selected]="option.value === item.value" (click)="tapSelect(item, option)">
                     {{ option.name }}
                 </div>
                 }

@@ -32,7 +32,8 @@ export class ChannelComponent implements OnInit {
     public readonly editForm = form(signal<IChannel>({
         id: 0,
         name: '',
-        short_name: ''
+        short_name: '',
+        site_url: '',
     }), schemaPath => {
         required(schemaPath.name);
         required(schemaPath.short_name);
@@ -50,6 +51,7 @@ export class ChannelComponent implements OnInit {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';
             v.short_name = item?.short_name ?? '';
+            v.site_url = item?.site_url ?? '';
             return {...v};
         });
         modal.open(() => {

@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 
 @Component({
     standalone: false,
-    selector: 'app-ban',
+    selector: 'app-auth-b-ban',
     templateUrl: './ban.component.html',
     styleUrls: ['./ban.component.scss']
 })

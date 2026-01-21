@@ -16,7 +16,7 @@ import { AccountStatusItems } from '../../../../theme/models/auth';
 
 @Component({
     standalone: false,
-    selector: 'app-user',
+    selector: 'app-auth-b-user',
     templateUrl: './user.component.html',
     styleUrls: ['./user.component.scss']
 })

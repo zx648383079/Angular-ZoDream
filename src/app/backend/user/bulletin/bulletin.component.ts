@@ -11,7 +11,7 @@ import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-    selector: 'app-bulletin',
+    selector: 'app-b-bulletin',
     templateUrl: './bulletin.component.html',
     styleUrls: ['./bulletin.component.scss']
 })

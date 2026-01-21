@@ -4,7 +4,7 @@ import { ForumService } from '../forum.service';
 
 @Component({
     standalone: false,
-    selector: 'app-home',
+    selector: 'app-forum-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })

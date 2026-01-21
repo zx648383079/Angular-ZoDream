@@ -71,7 +71,7 @@ export class CommandBarComponent implements AfterViewInit {
     }
 
     public tapItem(item: IButton) {
-        if (item.disable) {
+        if (item.disabled) {
             return;
         }
         if (item.onTapped) {

@@ -3,7 +3,7 @@ import { ForumService } from './forum.service';
 
 @Component({
     standalone: false,
-    selector: 'app-forum',
+    selector: 'app-forum-b',
     templateUrl: './forum.component.html',
     styleUrls: ['./forum.component.scss']
 })

@@ -1,8 +1,9 @@
-import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { Component, OnDestroy, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { CateringService } from '../../catering.service';
 import { ICateringStore } from '../../model';
 import { form } from '@angular/forms/signals';
+import { asyncScheduler, Subject, throttleTime } from 'rxjs';
 
 @Component({
     standalone: false,
@@ -10,7 +11,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './setting.component.html',
     styleUrls: ['./setting.component.scss']
 })
-export class SettingComponent implements OnInit, OnDestroy {
+export class SettingComponent implements OnDestroy {
     private readonly service = inject(CateringService);
     private readonly toastrService = inject(DialogService);
 
@@ -31,15 +32,19 @@ export class SettingComponent implements OnInit, OnDestroy {
         reserve_time: 0,
     }));
     private isUpdated = false;
-    private asyncTimer = 0;
+    private readonly $afterDelay = new Subject<void>();
 
-    ngOnInit() {
+    constructor() {
+        this.$afterDelay.pipe(throttleTime(5000, asyncScheduler, { leading: false, trailing: true }))
+                            .subscribe(() => this.tapSubmit());
         this.service.merchantSetting().subscribe(res => {
             this.dataForm().value.set(res);
         });
+        
     }
 
     ngOnDestroy(): void {
+        this.$afterDelay.unsubscribe();
         this.tapSubmit();
     }
 
@@ -53,30 +58,16 @@ export class SettingComponent implements OnInit, OnDestroy {
 
     public toggleOpen() {
         this.dataForm.open_status().value.update(v => v > 0 ? 0 : 1);
-        this.asynSave();
+        this.$afterDelay.next();
     }
 
     public onValueChange() {
-        this.asynSave();
-    }
-
-    public asynSave() {
-        this.isUpdated = true;
-        if (this.asyncTimer > 0) {
-            clearTimeout(this.asyncTimer);
-        }
-        this.asyncTimer = window.setTimeout(() => {
-            this.asyncTimer = 0;
-            this.tapSubmit();
-        }, 2000);
+        this.$afterDelay.next();
     }
 
     public tapSubmit() {
         if (!this.isUpdated) {
             return;
-        }
-        if (this.asyncTimer > 0) {
-            clearTimeout(this.asyncTimer);
         }
         this.isUpdated = false;
         this.service.merchantSettingSave(this.dataForm().value()).subscribe({

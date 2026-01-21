@@ -10,7 +10,7 @@ import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-    selector: 'app-edit',
+    selector: 'app-forum-b-edit',
     templateUrl: './edit.component.html',
     styleUrls: ['./edit.component.scss']
 })

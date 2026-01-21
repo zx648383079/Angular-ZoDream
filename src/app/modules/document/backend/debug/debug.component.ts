@@ -8,7 +8,7 @@ import { IDocApi } from '../../model';
 import { DocumentService } from '../document.service';
 import { FieldTree, form } from '@angular/forms/signals';
 
-interface IOptionItem {
+interface IListOptionItem {
     checked?: boolean;
     key: string;
     value?: string;
@@ -21,10 +21,10 @@ const CACHE_KEY = 'doc_aapi_debug';
 interface ICacheRequest {
     method: string;
     url: string;
-    headers: IOptionItem[];
+    headers: IListOptionItem[];
     bodyType: number;
     body: string;
-    bodies: IOptionItem[];
+    bodies: IListOptionItem[];
     rawType: string;
 }
 
@@ -44,12 +44,12 @@ export class DebugComponent implements OnInit {
     public readonly dataForm = form(signal({
         url: '',
         method: this.methodItems[0],
-        headers: <IOptionItem[]>[],
+        headers: <IListOptionItem[]>[],
         bodyType: 0,
         rawType: '0',
         body: '',
         bodyFile: <File>null,
-        bodies: <IOptionItem[]>[]
+        bodies: <IListOptionItem[]>[]
     }));
     public headerName = [
         'Host',
@@ -71,8 +71,8 @@ export class DebugComponent implements OnInit {
     public responseSize = 0;
     public responseIndex = 0;
     public responseBody = '';
-    public responseHeader: IOptionItem[] = [];
-    public responseInfo: IOptionItem[] = [];
+    public responseHeader: IListOptionItem[] = [];
+    public responseInfo: IListOptionItem[] = [];
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -95,7 +95,7 @@ export class DebugComponent implements OnInit {
             if (res.header && res.header.length > 0)
             {
                 v.headers = res.header.map(i => {
-                    return <IOptionItem>{
+                    return <IListOptionItem>{
                         checked: true,
                         key: i.name,
                         value: i.default_value,
@@ -106,7 +106,7 @@ export class DebugComponent implements OnInit {
                 v.bodyType = 2;
                 v.rawType = '2';
                 v.bodies = res.request.map(i => {
-                    return <IOptionItem>{
+                    return <IListOptionItem>{
                         checked: true,
                         key: i.name,
                         value: i.default_value,
@@ -215,7 +215,7 @@ export class DebugComponent implements OnInit {
         });
     }
 
-    public uploadFile(event: any, item?: FieldTree<IOptionItem, number>) {
+    public uploadFile(event: any, item?: FieldTree<IListOptionItem, number>) {
         const files = event.target.files as FileList;
         if (item) {
             item().value.update(v => {
@@ -232,12 +232,12 @@ export class DebugComponent implements OnInit {
         this.dataForm().value.set({
             url: '',
             method: this.methodItems[0],
-            headers: <IOptionItem[]>[],
+            headers: <IListOptionItem[]>[],
             bodyType: 0,
             rawType: '0',
             body: '',
             bodyFile: <File>null,
-            bodies: <IOptionItem[]>[]
+            bodies: <IListOptionItem[]>[]
         });
         this.requestIndex = 0;
         this.responseStatus = '';

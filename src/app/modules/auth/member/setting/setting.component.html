@@ -4,23 +4,19 @@
             <i class="iconfont icon-chevron-left"></i>
         </a>
         <span class="route-title">
-            @if (crumbs.length > 0) {
-                {{ crumbs[crumbs.length - 1].name }}
-            } @else {
-                Settings
-            }
+            {{ routeTitle() }}
         </span>
     </div>
 </div>
 
-@if (crumbs.length > 0) {
+@if (crumbs().length > 0) {
 <div class="route-bar tablet-collapse">
     <div class="route-back-icon" (click)="tapBack()">
         <i class="iconfont icon-arrow-left"></i>
     </div>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            @for (item of crumbs; track $index) {
+            @for (item of crumbs(); track $index) {
                 <li class="breadcrumb-item"><a (click)="tapTab(item)">{{ item.name }}</a></li>
             }
         </ol>
@@ -29,7 +25,7 @@
 }
 
 
-<div class="container" [hidden]="tabIndex > 0">
+<div class="container" [hidden]="tabIndex() > 0">
     @for (item of tabItems; track $index) {
     <div class="input-item" (click)="tapTab(item)">
         <div class="item-icon">
@@ -47,7 +43,7 @@
     
 </div>
 
-<div class="container" [hidden]="tabIndex != 1">
+<div class="container" [hidden]="tabIndex() != 1">
     <div class="input-item">
         <div class="item-icon">
             <i class="iconfont icon-bookmark"></i>
@@ -56,8 +52,7 @@
             <div class="item-name" i18n>Notification of new news</div>
         </div>
         <div class="item-action">
-            <app-switch i18n-onLabel i18n-offLabel onLabel="On" offLabel="Off" [formField]="dataForm.accept_new_bulletin" 
-            (valueChange)="onValueChange()" />
+            <app-switch i18n-onLabel i18n-offLabel onLabel="On" offLabel="Off" [formField]="dataForm.accept_new_bulletin"/>
         </div>
     </div>
     <div class="input-item">
@@ -68,13 +63,12 @@
             <div class="item-name" i18n>Do-not-disturb mode</div>
         </div>
         <div class="item-action">
-            <app-switch i18n-onLabel i18n-offLabel onLabel="On" offLabel="Off" [formField]="dataForm.open_not_disturb" 
-            (valueChange)="onValueChange()" />
+            <app-switch i18n-onLabel i18n-offLabel onLabel="On" offLabel="Off" [formField]="dataForm.open_not_disturb"/>
         </div>
     </div>
 </div>
 
-<div class="container" [hidden]="tabIndex != 2">
+<div class="container" [hidden]="tabIndex() != 2">
     <div class="input-item">
         <div class="item-icon">
             <i class="iconfont icon-chain-broken"></i>
@@ -84,7 +78,7 @@
             <div class="item-meta" i18n>Automatically hide dynamics after time</div>
         </div>
         <div class="item-action">
-            <input type="number" class="form-control" [formField]="dataForm.post_expiration" (valueChange)="onValueChange()">
+            <input type="number" class="form-control" [formField]="dataForm.post_expiration">
             <ng-container i18n> Days</ng-container>
             
         </div>
@@ -98,12 +92,12 @@
         </div>
         <div class="item-action">
             <app-switch i18n-onLabel i18n-offLabel onLabel="On" offLabel="Off" 
-            [formField]="dataForm.upload_add_water" (valueChange)="onValueChange()" />
+            [formField]="dataForm.upload_add_water"/>
         </div>
     </div>
 </div>
 
-<div class="container" [hidden]="tabIndex != 3">
+<div class="container" [hidden]="tabIndex() != 3">
     <a class="input-item" routerLink="../profile">
         <div class="item-icon">
             <i class="iconfont icon-edit"></i>

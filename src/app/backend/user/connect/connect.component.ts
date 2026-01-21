@@ -4,7 +4,7 @@ import { UserService } from '../user.service';
 
 @Component({
     standalone: false,
-    selector: 'app-connect',
+    selector: 'app-b-connect',
     templateUrl: './connect.component.html',
     styleUrls: ['./connect.component.scss']
 })

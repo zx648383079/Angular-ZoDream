@@ -13,7 +13,7 @@ import { email, form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-    selector: 'app-profile',
+    selector: 'app-b-profile',
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss']
 })

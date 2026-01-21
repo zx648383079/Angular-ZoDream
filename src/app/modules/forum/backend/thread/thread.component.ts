@@ -2,7 +2,6 @@ import { form } from '@angular/forms/signals';
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { IForum, IThread } from '../../model';
 import { ForumService } from '../forum.service';
@@ -11,7 +10,7 @@ import { mapFormat } from '../../../../theme/utils';
 
 @Component({
     standalone: false,
-    selector: 'app-thread',
+    selector: 'app-forum-b-thread',
     templateUrl: './thread.component.html',
     styleUrls: ['./thread.component.scss']
 })

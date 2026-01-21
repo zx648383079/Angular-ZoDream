@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { ButtonEvent, UploadButtonEvent } from '../../../components/form';
@@ -73,6 +73,10 @@ export class IncomeComponent implements OnInit {
             this.channelItems.set(res.channel);
             this.projectItems.set(res.project);
             this.budgetItems.set(res.budget);
+        });
+        effect(() => {
+            this.editForm.keywords().value();
+            this.onEditKeywords();
         });
     }
 

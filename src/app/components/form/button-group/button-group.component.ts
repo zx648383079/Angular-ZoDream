@@ -45,7 +45,7 @@ export class ButtonGroupComponent implements ButtonEvent {
     }
 
     private splitButton() {
-        const items = this.items().filter(i => !i.disable);
+        const items = this.items().filter(i => !i.disabled);
         if (items.length < 1) {
             this.inlineItems.set([]);
             this.dropItems.set([]);
@@ -65,7 +65,7 @@ export class ButtonGroupComponent implements ButtonEvent {
     }
 
     public tapItem(item: IButton) {
-        if (item.disable) {
+        if (item.disabled) {
             return;
         }
         if (item.onTapped) {

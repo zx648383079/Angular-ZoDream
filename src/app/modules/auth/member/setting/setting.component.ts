@@ -1,9 +1,10 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, computed, effect, inject, signal, untracked } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { SearchService } from '../../../../theme/services';
 import { MemberService } from '../member.service';
 import { form } from '@angular/forms/signals';
+import { asyncScheduler, Subject, throttleTime } from 'rxjs';
 
 
 interface IGroupHeader {
@@ -19,7 +20,7 @@ interface IGroupHeader {
     templateUrl: './setting.component.html',
     styleUrls: ['./setting.component.scss']
 })
-export class SettingComponent implements OnInit {
+export class SettingComponent implements OnDestroy {
     private readonly service = inject(MemberService);
     private readonly toastrService = inject(DialogService);
     private readonly searchService = inject(SearchService);
@@ -31,9 +32,7 @@ export class SettingComponent implements OnInit {
         upload_add_water: false,
         post_expiration: 0,
     }));
-    public isChanged = false;
-
-    public tabItems: IGroupHeader[] = [
+    public readonly tabItems: IGroupHeader[] = [
         {
             id: 3,
             icon: 'user',
@@ -54,48 +53,66 @@ export class SettingComponent implements OnInit {
         },
     ];
 
-    public crumbs: IGroupHeader[] = [
-    ];
+    public readonly crumbs = signal<IGroupHeader[]>([]);
+    private readonly $afterDelay = new Subject<void>();
 
-    ngOnInit() {
+    constructor() {
         this.service.settings().subscribe(res => {
             this.dataForm().value.update(v => {
                 return this.searchService.getQueries(res, v);
             });
-            this.isChanged = false;
+        });
+        this.$afterDelay.pipe(throttleTime(5000, asyncScheduler, { leading: false, trailing: true }))
+                    .subscribe(() => this.tapSubmit());
+        effect(() => {
+            this.dataForm().value();
+            untracked(() => {
+                this.$afterDelay.next();
+            });
         });
     }
 
-    public get tabIndex() {
-        return this.crumbs.length < 1 ? 0 : this.crumbs[this.crumbs.length - 1].id;
+    public readonly tabIndex = computed(() => {
+        const items = this.crumbs();
+        return items.length < 1 ? 0 : items[items.length - 1].id;
+    });
+
+    public readonly routeTitle = computed(() => {
+        const items = this.crumbs();
+        return items.length > 0 ? items[items.length - 1].name : $localize `Settings`;
+    });
+
+    ngOnDestroy(): void {
+        this.$afterDelay.unsubscribe();
+        this.tapSubmit();
     }
 
     public tapTab(item: IGroupHeader) {
-        for (let index = 0; index < this.crumbs.length; index++) {
-            const element = this.crumbs[index];
-            if (element.id === item.id) {
-                this.crumbs.splice(index + 1);
-                return;
+        this.crumbs.update(v => {
+            for (let index = 0; index < v.length; index++) {
+                if (v[index].id === item.id) {
+                    v.splice(index + 1);
+                    return [...v];
+                }
             }
-        }
-        this.crumbs.push(item);
+            return [...v, item];
+        });
     }
 
     public tapBack() {
-        if (this.crumbs.length > 0) {
-            this.crumbs.pop();
+        if (this.crumbs().length > 0) {
+            this.crumbs.update(v => {
+                v.pop();
+                return [...v];
+            });
             return;
         }
         history.back();
     }
 
-    public onValueChange() {
-        this.isChanged = true;
-    }
-
     public tapSubmit(e?: ButtonEvent) {
-        if (!this.isChanged) {
-            this.toastrService.warning($localize `Form filling unchanged`);
+        if (!this.dataForm().dirty()) {
+            // this.toastrService.warning($localize `Form filling unchanged`);
             return;
         }
         e?.enter();
@@ -104,7 +121,6 @@ export class SettingComponent implements OnInit {
             next: _ => {
                 e?.reset();
                 this.toastrService.success($localize `Save successfully`);
-                this.isChanged = false;
             }, error: err => {
                 e?.reset();
                 this.toastrService.warning(err.error.message);

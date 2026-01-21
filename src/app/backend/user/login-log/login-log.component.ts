@@ -8,7 +8,7 @@ import { form } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-    selector: 'app-login-log',
+    selector: 'app-b-login-log',
     templateUrl: './login-log.component.html',
     styleUrls: ['./login-log.component.scss']
 })

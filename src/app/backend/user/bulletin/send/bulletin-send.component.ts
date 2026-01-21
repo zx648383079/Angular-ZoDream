@@ -1,9 +1,9 @@
-import { Component, OnInit, ElementRef, viewChild, signal } from '@angular/core';
+import { Component, ElementRef, viewChild, signal } from '@angular/core';
 import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-    selector: 'app-bulletin-send',
+    selector: 'app-b-bulletin-send',
     templateUrl: './bulletin-send.component.html',
     styleUrls: ['./bulletin-send.component.scss']
 })

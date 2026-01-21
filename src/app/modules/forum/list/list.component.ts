@@ -15,7 +15,7 @@ import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-    selector: 'app-list',
+    selector: 'app-forum-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss']
 })

@@ -9,7 +9,7 @@ import { form, required } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-    selector: 'app-edit-thread',
+    selector: 'app-forum-edit-thread',
     templateUrl: './edit-thread.component.html',
     styleUrls: ['./edit-thread.component.scss']
 })

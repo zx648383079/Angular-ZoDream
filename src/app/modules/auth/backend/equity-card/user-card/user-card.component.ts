@@ -10,7 +10,7 @@ import { SearchService } from '../../../../../theme/services';
 
 @Component({
     standalone: false,
-    selector: 'app-user-card',
+    selector: 'app-auth-b-user-card',
     templateUrl: './user-card.component.html',
     styleUrls: ['./user-card.component.scss']
 })

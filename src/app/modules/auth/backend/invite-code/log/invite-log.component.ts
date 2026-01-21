@@ -8,7 +8,7 @@ import { SearchService } from '../../../../../theme/services';
 
 @Component({
     standalone: false,
-    selector: 'app-invite-log',
+    selector: 'app-auth-b-invite-log',
     templateUrl: './invite-log.component.html',
     styleUrls: ['./invite-log.component.scss']
 })

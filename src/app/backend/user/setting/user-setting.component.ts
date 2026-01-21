@@ -1,8 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { SearchService } from '../../../theme/services';
 import { UserService } from '../user.service';
+import { form } from '@angular/forms/signals';
 
 interface IGroupHeader {
     id: number;
@@ -13,7 +14,7 @@ interface IGroupHeader {
 
 @Component({
     standalone: false,
-    selector: 'app-user-setting',
+    selector: 'app-b-user-setting',
     templateUrl: './user-setting.component.html',
     styleUrls: ['./user-setting.component.scss']
 })
@@ -22,15 +23,15 @@ export class UserSettingComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
     private readonly searchService = inject(SearchService);
 
-
-    public data: any = {
+    public readonly dataForm = form(signal({
         accept_new_bulletin: true,
         open_not_disturb: false,
         post_expiration: 0,
-    };
-    public isChanged = false;
+        upload_add_water: false,
+    }));
+    public readonly isChanged = signal(false);
 
-    public tabItems: IGroupHeader[] = [
+    public readonly tabItems: IGroupHeader[] = [
         {
             id: 1,
             icon: 'commenting',
@@ -45,55 +46,61 @@ export class UserSettingComponent implements OnInit {
         }
     ];
 
-    public crumbs: IGroupHeader[] = [
-    ];
+    public readonly crumbs = signal<IGroupHeader[]>([]);
 
     ngOnInit() {
         this.service.settings().subscribe(res => {
-            this.data = this.searchService.getQueries(res, this.data);
-            this.isChanged = false;
+            this.dataForm().value.update(v => {
+                return this.searchService.getQueries(res, v);
+            });
+            this.isChanged.set(false);
         });
     }
 
-    public get tabIndex() {
-        return this.crumbs.length < 1 ? 0 : this.crumbs[this.crumbs.length - 1].id;
-    }
+    public readonly tabIndex = computed(() => {
+        const items = this.crumbs();
+        return items.length < 1 ? 0 : items[items.length - 1].id;
+    });
 
-    public get crumbTitle() {
-        return ['个性化', ...this.crumbs.map(i => i.name)].join(' / ');
-    }
+    public readonly crumbTitle = computed(() => {
+        return ['个性化', ...this.crumbs().map(i => i.name)].join(' / ');
+    });
 
     public tapTab(item: IGroupHeader) {
-        for (let index = 0; index < this.crumbs.length; index++) {
-            const element = this.crumbs[index];
-            if (element.id === item.id) {
-                this.crumbs.splice(index + 1);
-                return;
+        this.crumbs.update(v => {
+            for (let index = 0; index < v.length; index++) {
+                if (v[index].id === item.id) {
+                    v.splice(index + 1);
+                    return [...v];
+                }
             }
-        }
-        this.crumbs.push(item);
+            return [...v, item];
+        });
     }
 
     public tapBack() {
-        this.crumbs.pop();
+        this.crumbs.update(v => {
+            v.pop();
+            return [...v];
+        });
     }
 
     public onValueChange() {
-        this.isChanged = true;
+        this.isChanged.set(true);
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        if (!this.isChanged) {
+        if (!this.isChanged()) {
             this.toastrService.warning('表单填写未改变');
             return;
         }
         e?.enter();
-        const data: any = Object.assign({}, this.data);
+        const data = this.dataForm().value();
         this.service.settingsSave(data).subscribe({
             next: _ => {
                 e?.reset();
                 this.toastrService.success($localize `Save Successfully`);
-                this.isChanged = false;
+                this.isChanged.set(false);
             }, error: err => {
                 e?.reset();
                 this.toastrService.warning(err.error.message);
