@@ -432,7 +432,8 @@ export class CatalogComponent implements OnInit, OnDestroy {
             return;
         }
         this.isLoading.set(true);
-        this.pullBox()?.startLoad();
+        const control = this.pullBox();
+        control?.enter();
         const query = emptyValidate(this.queries.keywords().value()) && emptyValidate(this.queries.type().value()) ? this.service.getCatalog({
             id: this.lastFolder,
             path: this.path,
@@ -451,11 +452,11 @@ export class CatalogComponent implements OnInit, OnDestroy {
                     return this.formatItem(i);
                 });
                 this.items.set(page < 2 ? items : [].concat(this.items, items));
-                this.pullBox()?.endLoad();
+                control?.reset();
             },
             error: () => {
                 this.isLoading.set(false);
-                this.pullBox()?.endLoad();
+                control?.reset();
             }
         });
     }

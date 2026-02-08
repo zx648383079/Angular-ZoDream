@@ -8,8 +8,8 @@ import { ActivatedRoute } from '@angular/router';
     styleUrls: ['./goods-slider.component.scss']
 })
 export class GoodsSliderComponent implements OnInit, AfterViewInit {
-    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
-    private renderer = inject(Renderer2);
+    private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
+    private readonly renderer = inject(Renderer2);
 
 
     public readonly viewItems = viewChildren<ElementRef<HTMLLIElement>>('itemView');

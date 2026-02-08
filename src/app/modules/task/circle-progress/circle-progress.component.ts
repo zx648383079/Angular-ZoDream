@@ -41,12 +41,12 @@ export class CircleProgressComponent implements AfterViewInit {
     public start(value = 0, max = 0) {
         this.value = value;
         this.max = max;
-        this.startTime = new Date().getTime() - this.value * 1000;
+        this.startTime = Date.now() - this.value * 1000;
         if (this.$timer) {
             return;
         }
         this.$timer = interval(100).subscribe(() => {
-            const diff = Math.ceil((new Date().getTime() - this.startTime) / 1000);
+            const diff = Math.ceil((Date.now() - this.startTime) / 1000);
             if (this.max > 0 && diff > this.max) {
                 this.computed();
                 this.stop();

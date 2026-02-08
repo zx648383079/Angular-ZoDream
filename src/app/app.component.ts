@@ -13,12 +13,12 @@ import { AuthService, ThemeService } from './theme/services';
     encapsulation: ViewEncapsulation.None // Emulated当前  None全局
 })
 export class AppComponent implements OnInit {
-    private auth = inject(AuthService);
+    private readonly auth = inject(AuthService);
     private readonly router = inject(Router);
     private readonly store = inject<Store<AppState>>(Store);
     private readonly themeService = inject(ThemeService);
-    private renderer = inject(Renderer2);
-    private document = inject<Document>(DOCUMENT);
+    private readonly renderer = inject(Renderer2);
+    private readonly document = inject<Document>(DOCUMENT);
 
 
     ngOnInit() {

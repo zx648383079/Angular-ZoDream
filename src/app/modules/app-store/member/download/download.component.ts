@@ -78,7 +78,7 @@ export class DownloadComponent implements OnInit {
         }
         if (progress >= 0) {
             const last = item.last_time;
-            const now = new Date().getTime();
+            const now = Date.now();
             item.last_time = now;
             if (last) {
                 item.speed = Math.ceil(Math.max(0, progress - item.progress) * 1000 / (now - last));

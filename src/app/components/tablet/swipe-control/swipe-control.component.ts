@@ -1,4 +1,4 @@
-import { Component, computed, ElementRef, HostListener, OnInit, output, viewChild } from '@angular/core';
+import { Component, computed, ElementRef, output, signal, viewChild } from '@angular/core';
 import { SwipeListControlComponent } from './swipe-list-control.component';
 import { interval } from 'rxjs';
 
@@ -14,46 +14,28 @@ export class SwipeControlComponent {
     private readonly rightItemsRef = viewChild<ElementRef<HTMLDivElement>>('rightBox');
 
    
-    public left = 0;
+    public readonly left = signal(0);
     public readonly tapped = output();
 
     public parent: SwipeListControlComponent;
 
     private oldLeft = 0;
-    private startX = 0;
-    private isTouch = false;
-    private isMouseDown = false;
 
-
-    @HostListener('document:mouseup')
-    public onMouseUp() {
-        if (!this.isMouseDown) {
-            return;
-        }
-        this.isMouseDown = false;
-        this.onTouchEnd();
-    }
-
-    @HostListener('document:mousemove', ['$event'])
-    public onMouseMove(e: MouseEvent) {
-        if (!this.isMouseDown) {
-            return;
-        }
-        this.touchMove(e.clientX);
-    }
 
     public readonly boxStyle = computed(() => {
+        const lastX = this.left();
         return {
-            transform: `translateX(${this.left - this.leftWidth}px)`,
+            transform: `translateX(${lastX - this.leftWidth}px)`,
         };
     });
 
     public readonly bodyStyle = computed(() => {
-        if (this.left >= 0) {
+        const lastX = this.left();
+        if (lastX >= 0) {
             return {};
         }
         return {
-            "padding-left": `${-this.left}px`
+            "padding-left": `${-lastX}px`
         };
     });
 
@@ -72,72 +54,59 @@ export class SwipeControlComponent {
         return ele.clientWidth || ele.offsetWidth;
     }
 
+
     public onMouseDown(e: MouseEvent) {
-        this.isMouseDown = true;
-        this.touchStart(e.clientX, e);
+        this.parent?.touchStart(this, {x: e.clientX, y: e.clientY}, false);
     }
-
-
 
     public onTouchStart(e: TouchEvent) {
-        this.touchStart(e.targetTouches[0].clientX, e);
+        const src = e.targetTouches[0];
+        this.parent?.touchStart(this, {x: src.clientX, y: src.clientY}, false);
     }
 
-
-    public onTouchMove(e: TouchEvent) {
-        e.preventDefault();
-        this.touchMove(e.targetTouches[0].clientX);
+    public touched() {
+        this.animation(this.left(), 0);
+        this.tapped.emit();
     }
 
-    public onTouchEnd() {
-        if (!this.isTouch) {
-            this.animation(this.left, 0);
-            this.tapped.emit();
+    public touchEnd() {
+        const lastX = this.left();
+        if (lastX === 0) {
             return;
         }
-        // const diff = e.changedTouches[0].clientX - startX;
-        if (this.left === 0) {
-            return;
-        }
-        if (this.left > 0) {
+        if (lastX > 0) {
             const width = this.leftWidth;
-            this.animation(this.left, this.left * 3 > width ? width : 0);
+            this.animation(lastX, lastX * 3 > width ? width : 0);
             return;
         }
         const w = - this.rightWidth;
-        this.animation(this.left, this.left * 3 < w ? w : 0);
+        this.animation(lastX, lastX * 3 < w ? w : 0);
     }
 
-    private touchStart(x: number, e: Event) {
-        e.preventDefault();
-        this.parent.siblings(this).forEach(i => i.reset());
-        this.oldLeft = this.left;
-        this.isTouch = false;
-        this.startX = x;
+    public touchStart() {
+        this.oldLeft = this.left();
     }
 
-    private touchMove(x: number) {
-        this.isTouch = true;
-        const diff = x - this.startX;
+    public touchMove(offsetX: number) {
         if (this.oldLeft === 0) {
-            if (diff < 0) {
-                this.left = Math.max(diff, -this.rightWidth);
+            if (offsetX < 0) {
+                this.left.set(Math.max(offsetX, -this.rightWidth));
                 return;
             }
-            this.left = Math.min(diff, this.leftWidth);
+            this.left.set(Math.min(offsetX, this.leftWidth));
             return;
         }
         if (this.oldLeft > 0) {
-            if (diff > 0) {
+            if (offsetX > 0) {
                 return;
             }
-            this.left = Math.max(this.oldLeft + diff, 0);
+            this.left.set(Math.max(this.oldLeft + offsetX, 0));
             return;
         }
-        if (diff < 0) {
+        if (offsetX < 0) {
             return;
         }
-        this.left = Math.min(this.oldLeft + diff, 0);
+        this.left.set(Math.min(this.oldLeft + offsetX, 0));
     }
 
     private animation(
@@ -148,20 +117,21 @@ export class SwipeControlComponent {
             start += (step ++) * diff;
             if ((diff > 0 && start >= end) || (diff < 0 && start <= end)) {
                 handle.unsubscribe();
-                this.left = end;
+                this.left.set(end);
                 if (typeof endHandle === 'function') {
                     endHandle();
                 }
                 return;
             }
-            this.left = start;
+            this.left.set(start);
         });
     }
 
     public reset() {
-        if (this.left === 0) {
+        const lastX = this.left();
+        if (lastX=== 0) {
             return;
         }
-        this.animation(this.left, 0);
+        this.animation(lastX, 0);
     }
 }

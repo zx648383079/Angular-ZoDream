@@ -2,6 +2,7 @@ import { DestroyRef, Directive, ElementRef, NgZone, OnDestroy, afterNextRender, 
 import { CHART_TOKEN, ChartConfigs } from './model';
 import { ECharts, EChartsCoreOption, EChartsInitOpts } from 'echarts/core';
 import { asyncScheduler, Subject, throttleTime } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Directive({
     standalone: true,
@@ -112,7 +113,3 @@ export class ChartDirective {
         }
     }
 }
-function takeUntilDestroyed(destroyRef: DestroyRef): import("rxjs").OperatorFunction<void, unknown> {
-    throw new Error('Function not implemented.');
-}
-

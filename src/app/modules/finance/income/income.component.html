@@ -89,15 +89,21 @@
             <a class="route-icon" (click)="tapBack()">
                 <i class="iconfont icon-chevron-left"></i>
             </a>
-            <span class="route-title">明细</span>
+            <span class="route-title"></span>
             <a class="route-icon" routerLink="create">
                 <i class="iconfont icon-plus"></i>
             </a>
         </div>
+        <div class="tablet-search-header --with-only-search">
+            <div class="search-entry" (click)="panelOpen.set(true)">
+                <i class="iconfont icon-search"></i>
+                <span>{{ queryPlaceholder() }}</span>
+            </div>
+        </div>
     </div>
 
     <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-    <app-swipe-list-control>
+    <app-swipe-list-control appInfiniteScroll [offset]="20" [disabled]="!hasMore()" (scrollEnd)="tapMore()">
         @for (group of groupItems(); track $index) {
             <div class="group-header-bar">
                 <div class="item-title">{{ group.name }}</div>
@@ -110,7 +116,7 @@
                             {{ formatType(item.type) }}
                         </div>
                         <div class="item-body">
-                            <div class="item-title">{{ item.account ? item.account.name : '-' }}</div>
+                            <div class="item-title">{{ item.remark || item.account?.name || '-' }}</div>
                             <div class="item-meta">{{ item.happened_at | timestamp: 'hh:ii' }}</div>
                         </div>
                         <div class="item-count" [class]="{'--with-danger': item.type != 1}">{{ item.money | numberFormat }}</div>
@@ -137,6 +143,7 @@
 </div>
 
 @if (panelOpen()) {
+<div class="dialog-mask --with-pane tablet-visible" (click)="panelOpen.set(false)"></div>
 <div class="dialog-panel" animate.enter="panel-opened" animate.leave="panel-closed">
     <div class="panel-header">
         <i class="iconfont icon-close" (click)="panelOpen.set(false)"></i>

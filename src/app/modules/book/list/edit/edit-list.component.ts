@@ -27,8 +27,8 @@ export class EditListComponent implements OnInit {
     });
 
     public readonly items = signal<IBookListItem[]>([]);
-    public panelOpen = false;
-    public bookItems: IBook[] = [];
+    public readonly panelOpen = signal(false);
+    public readonly bookItems = signal<IBook[]>([]);
     public readonly searchForm = form(signal({
         keywords: '',
         page: 1,
@@ -111,7 +111,7 @@ export class EditListComponent implements OnInit {
 
     public tapSearch() {
         this.service.getBookList(this.searchForm().value()).subscribe(res => {
-            this.bookItems = res.data;
+            this.bookItems.set(res.data);
         });
     }
 }

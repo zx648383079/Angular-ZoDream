@@ -23,7 +23,7 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly service = inject(BookService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-    private renderer = inject(Renderer2);
+    private readonly renderer = inject(Renderer2);
     private readonly themeService = inject(ThemeService);
     private editor = inject(EditorService);
 

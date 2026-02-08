@@ -11,7 +11,7 @@ import { boundFromScale, elementBound } from '../util';
 })
 export class EditorWidgetComponent implements AfterViewInit {
     private readonly service = inject(EditorService);
-    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
+    private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
 
     public readonly value = input<Widget>(undefined);

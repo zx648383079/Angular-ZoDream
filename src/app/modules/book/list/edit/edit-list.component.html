@@ -16,7 +16,7 @@
             </div>
         </div>
     </div>
-    <div class="add-btn" (click)="panelOpen = true">
+    <div class="add-btn" (click)="panelOpen.set(true)">
         <i class="iconfont icon-plus"></i>
         添加
     </div>
@@ -47,17 +47,17 @@
     }
 </div>
 
-@if (panelOpen) {
+@if (panelOpen()) {
 <div class="dialog-panel" animate.enter="panel-opened" animate.leave="panel-closed">
     <div class="panel-header">
-        <i class="iconfont icon-close" (click)="panelOpen = false"></i>
+        <i class="iconfont icon-close" (click)="panelOpen.set(false)"></i>
     </div>
     <div class="panel-search">
         <input type="text" [formField]="searchForm.keywords" (keypress)="searchEnter($event)">
         <i class="iconfont icon-search" (click)="tapSearch()"></i>
     </div>
     <div class="panel-body">
-        @for (item of bookItems; track $index) {
+        @for (item of bookItems(); track $index) {
         <div class="book-item">
             <div class="cover">
                 <img [src]="item.cover" alt="">

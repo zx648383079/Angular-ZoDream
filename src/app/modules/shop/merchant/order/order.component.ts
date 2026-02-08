@@ -48,7 +48,7 @@ export class OrderComponent implements OnInit {
         {name: '待评价', value: 60},
         {name: '已退款', value: 81}
     ];
-    public panelOpen = false;
+    public readonly panelOpen = signal(false);
 
     public readonly shipForm = form(signal({
         fee: 0,

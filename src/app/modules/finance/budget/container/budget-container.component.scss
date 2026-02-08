@@ -11,9 +11,9 @@
 }
 
 .tablet-large-header {
-    --#{theme.$prefix}header: var(--#{theme.$prefix}primary);
-    --#{theme.$prefix}header-text: rgba(var(--#{theme.$prefix}primary-text-rgb), .7);
-    --#{theme.$prefix}header-active-text: rgba(var(--#{theme.$prefix}primary-text-rgb), 1);
+    --#{theme.$prefix}header: var(--#{theme.$prefix}surface);
+    --#{theme.$prefix}header-text: var(--#{theme.$prefix}surface-text);
+    --#{theme.$prefix}header-active-text: var(--#{theme.$prefix}surface-selected-text);
     background-color: var(--#{theme.$prefix}header);
     color: var(--#{theme.$prefix}header-text);
     padding-bottom: 1rem;

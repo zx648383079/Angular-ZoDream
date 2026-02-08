@@ -22,7 +22,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
-                    <a class="btn btn-info" (click)="panelOpen = true">高级搜索</a>
+                    <a class="btn btn-info" (click)="panelOpen.set(true)">高级搜索</a>
                     <a routerLink="./create" class="btn btn-success">新增订单</a>
                     <a routerLink="./delivery" class="btn btn-info">发货单</a>
                 </div>
@@ -79,10 +79,10 @@
     </div>
 </div>
 
-@if (panelOpen) {
+@if (panelOpen()) {
 <div class="dialog-panel" animate.enter="panel-opened" animate.leave="panel-closed">
     <div class="panel-header">
-        <i class="iconfont icon-close" (click)="panelOpen = false"></i>
+        <i class="iconfont icon-close" (click)="panelOpen.set(false)"></i>
     </div>
     <form class="panel-body" (submit)="tapSearch($event)">
         <div class="form-group">

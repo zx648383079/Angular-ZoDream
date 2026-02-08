@@ -1,7 +1,10 @@
-import { Component, OnInit, ElementRef, OnDestroy, HostListener, Renderer2, inject, input, output, viewChild, effect, model } from '@angular/core';
+import { Component, HostListener, inject, input, effect, model, computed, signal, DOCUMENT } from '@angular/core';
 import { interval } from 'rxjs';
+import { TouchDirection } from '../model';
+import { scrollBottom, scrollTop } from '../../../theme/utils/doc';
+import { ButtonEvent } from '../../form';
 
-export enum ESTATE {
+export enum PullState {
     NONE = 0,
     PULL = 1,
     PULLED = 2,
@@ -13,22 +16,14 @@ export enum ESTATE {
     LOADED = 8,
 }
 
-enum EDIRECTION {
-    NONE = 0,
-    DOWN = 1,
-    UP = 2,
-}
-
 @Component({
     standalone: false,
     selector: 'app-pull-to-refresh',
     templateUrl: './pull-to-refresh.component.html',
     styleUrls: ['./pull-to-refresh.component.scss']
 })
-export class PullToRefreshComponent implements OnInit, OnDestroy {
-    private renderer = inject(Renderer2);
-
-
+export class PullToRefreshComponent implements ButtonEvent {
+    private readonly document = inject<Document>(DOCUMENT);
     /**
      * 是否允许刷新
      */
@@ -46,19 +41,18 @@ export class PullToRefreshComponent implements OnInit, OnDestroy {
      */
     public readonly loading = input(false);
     public readonly maxHeight = input(100);
-    public ESTATE = ESTATE;
-    public startY = 0;
-    public startUp: EDIRECTION = EDIRECTION.NONE; // 一开始滑动的方向
-    public readonly boxRef = viewChild<ElementRef>('pullScroll');
-    public scrollTop = 0;
 
-    public readonly state = model<ESTATE>(ESTATE.NONE);
+    public readonly state = model(PullState.NONE);
     public readonly topHeight = model<number>(0);
+
+    private startY = 0;
+    private startUp = TouchDirection.None; // 一开始滑动的方向
+    private scrollTop = 0;
 
     constructor() {
         effect(() => {
-            if (!this.more() && this.state() === ESTATE.MORE) {
-                this.state.set(ESTATE.NONE);
+            if (!this.more() && this.state() === PullState.MORE) {
+                this.state.set(PullState.NONE);
             }
         });
         let lastLoading = false;
@@ -68,12 +62,19 @@ export class PullToRefreshComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnInit() {
-        this.renderer.listen(window, 'scroll', this.onScroll.bind(this));
-    }
 
-    ngOnDestroy() {
-        // window.removeEventListener('scroll', this.onScroll);
+    @HostListener('window:scroll', [])
+    public onScroll() {
+        const more = this.more();
+        if (!more) {
+            return;
+        }
+        this.scrollTop = scrollTop(this.document);
+        if (scrollBottom(this.document) > this.distance()) {
+            return;
+        }
+        this.state.set(PullState.MORE);
+        this.more.set(more);
     }
 
     @HostListener('scroll', [
@@ -87,45 +88,108 @@ export class PullToRefreshComponent implements OnInit, OnDestroy {
         const y = target.scrollTop + target.offsetHeight;
         const more = this.more();
         if (more && y + this.distance() > height) {
-            this.state.set(ESTATE.MORE);
+            this.state.set(PullState.MORE);
             this.more.set(true);
         }
     }
 
-    get box(): HTMLDivElement {
-        return this.boxRef().nativeElement as HTMLDivElement;
+    @HostListener('touchstart', ['$event'])
+    public onTouchStart(e: TouchEvent) {
+        this.touchStart(e.targetTouches[0].pageY);
     }
 
-    get style(): string {
-        return 'height: ' + this.topHeight + 'px';
+    @HostListener('touchmove', ['$event'])
+    public onTouchMove(e: TouchEvent) {
+        this.touchMove(e.changedTouches[0].pageY);
     }
+
+    @HostListener('touchend', [])
+    public onTouchEnd() {
+        this.touchEnd();
+    }
+
+    public readonly topStyle = computed(() => {
+        return {
+            height: this.topHeight + 'px'
+        };
+    });
+    public readonly isPullState = computed(() => {
+        const state = this.state();
+        return state > PullState.NONE && state < PullState.MORE;
+    });
+
+    public readonly isLoadState = computed(() => {
+        const state = this.state();
+        return state >= PullState.MORE;
+    });
+
+    public readonly stateIcon = computed(() => {
+        switch (this.state()) {
+            case PullState.PULL:
+                return 'icon-arrow-down';
+            case PullState.CANCEL:
+            case PullState.PULLED:
+            case PullState.LOADED:
+                return 'icon-arrow-up';
+            case PullState.REFRESHING:
+            case PullState.MORE:
+                return 'icon-refresh';
+            case PullState.REFRESHED:
+            case PullState.LOADING:
+                return 'icon-check';
+            default:
+                return '';
+        }
+    });
+    public readonly stateLabel = computed(() => {
+        switch (this.state()) {
+            case PullState.PULL:
+                return $localize `Pull to refresh`;
+            case PullState.PULLED:
+                return $localize `Release to refresh`;
+            case PullState.CANCEL:
+                return $localize `Stop refresh`;
+            case PullState.REFRESHING:
+                return $localize `Refresh...`;
+            case PullState.REFRESHED:
+                return $localize `Refresh finished`;
+            case PullState.MORE:
+                return $localize `Load More`;
+            case PullState.LOADING:
+                return $localize `Loading...`;
+            case PullState.LOADED:
+                return $localize `Loaded`;
+            default:
+                return '';
+        }
+    });
 
     public onLoadingChanged(val: boolean, oldVal: boolean) {
         const state = this.state();
         if (val && !oldVal) {
-            if (state === ESTATE.PULLED) {
-                this.state.set(ESTATE.REFRESHING);
+            if (state === PullState.PULLED) {
+                this.state.set(PullState.REFRESHING);
                 return;
             }
-            if (state === ESTATE.MORE) {
-                this.state.set(ESTATE.LOADING);
+            if (state === PullState.MORE) {
+                this.state.set(PullState.LOADING);
                 return;
             }
         }
 
         if (oldVal && !val) {
-            if (state === ESTATE.LOADING) {
-                this.state.set(ESTATE.LOADED);
-                this.reset();
+            if (state === PullState.LOADING) {
+                this.state.set(PullState.LOADED);
+                this.resetState();
                 return;
             }
-            if (state === ESTATE.REFRESHING) {
-                this.state.set(ESTATE.REFRESHED);
-                this.reset();
+            if (state === PullState.REFRESHING) {
+                this.state.set(PullState.REFRESHED);
+                this.resetState();
                 return;
             }
-            if (state === ESTATE.MORE) {
-                this.state.set(ESTATE.NONE);
+            if (state === PullState.MORE) {
+                this.state.set(PullState.NONE);
                 return;
             }
         }
@@ -134,82 +198,71 @@ export class PullToRefreshComponent implements OnInit, OnDestroy {
     /**
      * 开始加载
      */
-    public startLoad() {
+    public enter() {
         this.onLoadingChanged(true, false);
     }
 
     /**
      * 加载完成
      */
-    public endLoad() {
+    public reset() {
         this.onLoadingChanged(false, true);
     }
 
-    public onScroll(event: any) {
-        const more = this.more();
-        if (!more) {
-            return;
-        }
-        if (this.getScrollBottomHeight() > this.distance()) {
-            return;
-        }
-        this.state.set(ESTATE.MORE);
-        this.more.set(more);
-    }
 
-    public touchStart(event: TouchEvent) {
+
+    public touchStart(y: number) {
         if (this.scrollTop > 0) {
             return;
         }
-        this.startY = event.targetTouches[0].pageY;
-        this.startUp = EDIRECTION.NONE;
+        this.startY = y;
+        this.startUp = TouchDirection.None;
     }
 
-    public touchMove(event: TouchEvent) {
+    public touchMove(y: number) {
         const state = this.state();
-        if (this.scrollTop > 0 && state === ESTATE.NONE) {
+        if (this.scrollTop > 0 && state === PullState.NONE) {
             return;
         }
-        const diff = event.changedTouches[0].pageY - this.startY;
-        if (this.startUp === EDIRECTION.NONE) {
-            this.startUp = diff > 0 ? EDIRECTION.DOWN : EDIRECTION.UP;
+        const diff = y - this.startY;
+        if (this.startUp === TouchDirection.None) {
+            this.startUp = diff > 0 ? TouchDirection.Bottom : TouchDirection.Top;
         }
         // 进行滑动操作
-        if (this.startUp === EDIRECTION.DOWN) {
-            if (state === ESTATE.NONE && diff > 0) {
-                this.state.set(ESTATE.PULL);
+        if (this.startUp === TouchDirection.Bottom) {
+            if (state === PullState.NONE && diff > 0) {
+                this.state.set(PullState.PULL);
             }
-            if (state === ESTATE.PULL && diff >= this.maxHeight()) {
-                this.state.set(ESTATE.PULLED);
+            if (state === PullState.PULL && diff >= this.maxHeight()) {
+                this.state.set(PullState.PULLED);
             }
-            if (state === ESTATE.PULLED && diff < this.maxHeight()) {
-                this.state.set(ESTATE.CANCEL);
+            if (state === PullState.PULLED && diff < this.maxHeight()) {
+                this.state.set(PullState.CANCEL);
             }
-            if (state === ESTATE.PULL) {
+            if (state === PullState.PULL) {
                 this.topHeight.set(diff);
             }
         }
         // 上拉加载更多
-        if (this.startUp === EDIRECTION.UP && this.more()) {
-            this.state.set(Math.abs(diff) > this.distance() ? ESTATE.MORE : ESTATE.NONE);
+        if (this.startUp === TouchDirection.Top && this.more()) {
+            this.state.set(Math.abs(diff) > this.distance() ? PullState.MORE : PullState.NONE);
         }
     }
 
-    public touchEnd(event: TouchEvent) {
+    public touchEnd() {
         if (this.scrollTop > 0) {
             return;
         }
-        const diff = event.changedTouches[0].pageY - this.startY;
         const state = this.state();
-        if (state === ESTATE.PULL || state === ESTATE.CANCEL) {
-            this.state.set(ESTATE.NONE);
+        if (state === PullState.PULL || state === PullState.CANCEL) {
+            this.state.set(PullState.NONE);
             return;
         }
-        if (state === ESTATE.PULLED) {
+        if (state === PullState.PULLED) {
             this.refresh.set(this.refresh());
             return;
         }
-        if (state === ESTATE.MORE) {
+        if (state === PullState.MORE) {
             this.more.set(this.more());
         }
     }
@@ -232,50 +285,10 @@ export class PullToRefreshComponent implements OnInit, OnDestroy {
         });
     }
 
-    public reset() {
+    private resetState() {
         this.animation(this.topHeight(), 0, () => {
-            this.state.set(ESTATE.NONE);
+            this.state.set(PullState.NONE);
         });
-    }
-
-    // 滚动条到底部的距离
-    public getScrollBottomHeight() {
-        this.scrollTop = this.getScrollTop();
-        return this.getPageHeight() - this.scrollTop - this.getWindowHeight();
-    }
-
-    // 页面高度
-    public getPageHeight() {
-        const box = document.querySelector('html');
-        if (!box) {
-            return 0;
-        }
-        return box.scrollHeight;
-    }
-
-    // 滚动条顶 高度
-    public getScrollTop() {
-        let scrollTop = 0;
-        let bodyScrollTop = 0;
-        let documentScrollTop = 0;
-        if (document.body) {
-            bodyScrollTop = document.body.scrollTop;
-        }
-        if (document.documentElement) {
-            documentScrollTop = document.documentElement.scrollTop;
-        }
-        scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
-        return scrollTop;
-    }
-
-    public getWindowHeight() {
-        let windowHeight = 0;
-        if (document.compatMode === 'CSS1Compat') {
-            windowHeight = document.documentElement.clientHeight;
-        } else {
-            windowHeight = document.body.clientHeight;
-        }
-        return windowHeight;
     }
 
 }

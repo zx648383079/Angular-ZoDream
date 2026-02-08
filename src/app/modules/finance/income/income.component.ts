@@ -1,9 +1,9 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, effect, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { ButtonEvent, UploadButtonEvent } from '../../../components/form';
-import { SearchService } from '../../../theme/services';
+import { SearchService, ThemeService } from '../../../theme/services';
 import { DownloadService } from '../../../theme/services';
 import { emptyValidate } from '../../../theme/validators';
 import { FinanceService } from '../finance.service';
@@ -22,10 +22,11 @@ export class IncomeComponent implements OnInit {
     private readonly downloadService = inject(DownloadService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
+    private readonly themeService = inject(ThemeService);
 
 
     public readonly items = signal<ILog[]>([]);
-    private hasMore = true;
+    public readonly hasMore = signal(true);
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
     public readonly queries = form(signal({
@@ -61,6 +62,11 @@ export class IncomeComponent implements OnInit {
     });
 
     public readonly groupItems = signal<ILogGroup[]>([]);
+
+    public readonly queryPlaceholder = computed(() => {
+        const value = this.queries.keywords().value();
+        return value ? value : $localize `Input keywords to search logs`;
+    });
 
     constructor() {
         this.service.batch({
@@ -144,12 +150,18 @@ export class IncomeComponent implements OnInit {
         const queries = {...this.queries().value(), page};
         this.service.logList(queries).subscribe({
             next: res => {
-                this.items.set(res.data);
-                this.groupItems.set(this.formatGroup());
-                this.hasMore = res.paging.more;
+                const isTablet = this.themeService.tabletChanged.value;
+                this.items.update(v => {
+                    if (isTablet) {
+                        return [...v, ...res.data]
+                    }
+                    return res.data;
+                });
+                this.searchService.applyHistory(queries, !isTablet);
+                this.hasMore.set(res.paging.more);
                 this.total.set(res.paging.total);
+                this.groupItems.set(this.formatGroup());
                 this.isLoading.set(false);
-                this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
             },
             error: () => {

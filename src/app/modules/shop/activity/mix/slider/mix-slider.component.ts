@@ -7,8 +7,8 @@ import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, effect, inject
     styleUrls: ['./mix-slider.component.scss']
 })
 export class MixSliderComponent implements OnInit, AfterViewInit {
-    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
-    private renderer = inject(Renderer2);
+    private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
+    private readonly renderer = inject(Renderer2);
 
 
     public readonly viewItems = viewChildren<ElementRef<HTMLLIElement>>('itemView');

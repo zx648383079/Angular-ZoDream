@@ -3,8 +3,8 @@ import { Injectable, InjectionToken, PLATFORM_ID, inject } from '@angular/core';
 
 @Injectable()
 export class CookieService {
-    private document = inject(DOCUMENT);
-    private platformId = inject<InjectionToken<object>>(PLATFORM_ID);
+    private readonly document = inject(DOCUMENT);
+    private readonly platformId = inject<InjectionToken<object>>(PLATFORM_ID);
 
 
     private readonly documentIsAccessible: boolean;
@@ -135,7 +135,7 @@ export class CookieService {
 
         if (options.expires) {
             if (typeof options.expires === 'number') {
-                const dateExpires: Date = new Date(new Date().getTime() + options.expires * 1000 * 60 * 60 * 24);
+                const dateExpires: Date = new Date(Date.now() + options.expires * 1000 * 60 * 60 * 24);
 
                 cookieString += 'expires=' + dateExpires.toUTCString() + ';';
             } else {

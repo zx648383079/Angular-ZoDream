@@ -1,7 +1,7 @@
 import { Component, effect, ElementRef, inject, input, output, viewChildren } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { IChapter } from '../../model';
-import { windowScollTop } from '../../util';
+import { ThemeService } from '../../../../theme/services';
 
 export interface IFlipProgress {
     item: IBlockItem;
@@ -31,7 +31,7 @@ export interface IRequestEvent {
 })
 export class FlipPagerComponent {
     private readonly toastrService = inject(DialogService);
-
+    private readonly themeService = inject(ThemeService);
 
     public readonly pageItems = viewChildren<ElementRef<HTMLDivElement>>('filpPage');
 
@@ -140,7 +140,7 @@ export class FlipPagerComponent {
         }
         const bound = element.nativeElement.getBoundingClientRect();
         window.scrollTo({
-            top: windowScollTop() + bound.top + progress * bound.height / 100
+            top: this.themeService.scrollTop() + bound.top + progress * bound.height / 100
         });
     }
 

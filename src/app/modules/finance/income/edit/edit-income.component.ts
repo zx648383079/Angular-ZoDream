@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { emptyValidate } from '../../../../theme/validators';
@@ -6,6 +6,7 @@ import { FinanceService } from '../../finance.service';
 import { IAccount, IBudget, IConsumptionChannel, IFinancialProject } from '../../model';
 import { form, required } from '@angular/forms/signals';
 import { ButtonEvent } from '../../../../components/form';
+import { ThemeService } from '../../../../theme/services';
 
 @Component({
     standalone: false,
@@ -17,7 +18,8 @@ export class EditIncomeComponent implements OnInit {
     private readonly service = inject(FinanceService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-
+    private readonly themeService = inject(ThemeService);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly dataModel = signal({
         id: 0,
@@ -59,6 +61,7 @@ export class EditIncomeComponent implements OnInit {
     public readonly mode = signal(0);
 
     constructor() {
+        this.themeService.tabletIf(this.destroyRef);
         this.service.batch({
             account: {},
             channel: {},

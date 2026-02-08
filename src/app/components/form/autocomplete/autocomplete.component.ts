@@ -19,7 +19,7 @@ const MailSuffixMap = [
     styleUrls: ['./autocomplete.component.scss']
 })
 export class AutocompleteComponent implements FormValueControl<string>, OnInit {
-    private renderer = inject(Renderer2);
+    private readonly renderer = inject(Renderer2);
 
 
     public readonly prefix = input('');

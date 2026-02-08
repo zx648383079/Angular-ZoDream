@@ -1,8 +1,10 @@
-import { Directive, AfterViewInit, OnDestroy, HostListener, input, output } from '@angular/core';
+import { DestroyRef, Directive, DOCUMENT, ElementRef, HostListener, inject, input, output } from '@angular/core';
 import { Subject } from 'rxjs';
-import { takeUntil, debounceTime, map, filter } from 'rxjs/operators';
+import { debounceTime, map, filter } from 'rxjs/operators';
 import * as events from './events';
 import { Scroll } from '../../../theme/models/scroll';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { documentHeight, isHidden, scrollTop, windowHeight } from '../../../theme/utils/doc';
 
 /**
  * @example
@@ -22,7 +24,10 @@ import { Scroll } from '../../../theme/models/scroll';
     standalone: false,
     selector: '[appInfiniteScroll]'
 })
-export class InfiniteScrollDirective  implements AfterViewInit, OnDestroy {
+export class InfiniteScrollDirective {
+    private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
+    private readonly document = inject<Document>(DOCUMENT);
+    private readonly destroyRef = inject(DestroyRef);
     /**
     * Event that will be triggered when user has scrolled to
     * bottom of the element
@@ -44,27 +49,18 @@ export class InfiniteScrollDirective  implements AfterViewInit, OnDestroy {
     /**
     * Emits a new value on element scroll event
     */
-    public scroll$: Subject<Scroll> = new Subject<Scroll>();
-    /**
-    * Completes on component destroy lifecycle event
-    * used to unsubscribe from infinite observables
-    *
-    */
-    private ngUnsubscribe$ = new Subject<void>();
-    /**
-    * Subscribe to `scroll$` observable and emit `scrollEnd` event
-    * when element scroll position is at the end of the element
-    */
-    public ngAfterViewInit(): void {
+    public readonly scroll$: Subject<Scroll> = new Subject<Scroll>();
+
+    constructor() {
         this.scroll$
         .pipe(
-            takeUntil(this.ngUnsubscribe$),
+            takeUntilDestroyed(this.destroyRef),
             debounceTime(this.debounce()),
             map(scroll => {
                 const y = scroll.y + this.offset();
                 return { y, height: scroll.height };
             }),
-            filter(() => !this.disabled()),
+            filter(() => !this.disabled() && !isHidden(this.elementRef.nativeElement)),
             filter(scroll => scroll.y >= scroll.height),
         )
         .subscribe(() => this.scrollEnd.emit());
@@ -75,19 +71,18 @@ export class InfiniteScrollDirective  implements AfterViewInit, OnDestroy {
     @HostListener(events.eventScroll, events.eventPathScroll)
     public onScroll(
         scrollY: number,
-        scrollheight: number,
+        scrollHeight: number,
         offsetHeight: number,
     ): void {
-        const height = scrollheight;
+        const height = scrollHeight;
         const y = scrollY + offsetHeight;
         this.scroll$.next({ y, height });
     }
-    /**
-    * trigger `ngUnsubscribe` complete on
-    * component destroy lifecycle hook
-    */
-    public ngOnDestroy(): void {
-        this.ngUnsubscribe$.next();
-        this.ngUnsubscribe$.complete();
+
+    @HostListener('window:scroll', [])
+    public onWindowScroll(): void {
+        const y = scrollTop(this.document) + windowHeight(this.document);
+        const height = documentHeight(this.document);
+        this.scroll$.next({ y, height });
     }
 }

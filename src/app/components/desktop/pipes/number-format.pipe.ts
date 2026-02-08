@@ -15,7 +15,7 @@ export class NumberFormatPipe implements PipeTransform {
         const k = 10000;
         const sizes = ['', '万', '亿', '万亿'];
         if (val < k) {
-            return prefix + val;
+            return prefix + val.toFixed(2);
         }
         const i = Math.floor(Math.log(val) / Math.log(k));
         return prefix + ((val / Math.pow(k, i))).toFixed(2) + sizes[i];

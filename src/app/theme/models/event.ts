@@ -7,6 +7,9 @@ export enum NavigationDisplayMode {
     CompactOverlay,
     /** 悬浮完全显示 */
     Overlay,
+
+    /** 平板模式底部栏 */
+    BottomOverlay,
     
     /** 只显示切换图标并占用位置，隐藏菜单 */
     Toggle,

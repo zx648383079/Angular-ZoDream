@@ -11,16 +11,6 @@ li {
     padding: 0;
 }
 
-.pane-mask {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: $paneMaskIndex;
-    background-color:  var(--#{theme.$prefix}dialog-mask);
-}
-
 .nav-menu {
     --#{theme.$prefix}menu: var(--#{theme.$prefix}surface);
     --#{theme.$prefix}menu-text: var(--#{theme.$prefix}surface-text);
@@ -105,7 +95,9 @@ li {
     }
 }
 
-
+.tablet-tab-bar {
+    display: none;
+}
 
 
 .page-body {
@@ -191,6 +183,18 @@ li {
     }
     .page-body {
         margin-left: 0;
+    }
+}
+
+.--pane-bottom-overlay {
+    .nav-pane-bar {
+        display: none;
+    }
+    .page-body {
+        margin-left: 0;
+    }
+    .tablet-tab-bar {
+        display: flex;
     }
 }
 

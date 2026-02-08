@@ -1,5 +1,5 @@
-import { DOCUMENT, Injectable, inject } from '@angular/core';
-import { css, toggleClass } from '../utils/doc';
+import { DOCUMENT, DestroyRef, Injectable, inject } from '@angular/core';
+import { css, documentHeight, scrollBottom, toggleClass, windowHeight } from '../utils/doc';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { INavigationDisplay, NavigationDisplayMode } from '../models/event';
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { SuggestChangeEvent } from '../../components/form';
 })
 export class ThemeService {
     private readonly router = inject(Router);
-    private document = inject<Document>(DOCUMENT);
+    private readonly document = inject<Document>(DOCUMENT);
 
 
     private readonly body: HTMLElement;
@@ -48,11 +48,10 @@ export class ThemeService {
     public readonly suggestQuerySubmitted = new Subject<string|any>();
 
     constructor() {
-        const document = this.document;
-
-        this.body = this.document.body;
-        this.titleChanged.next(document.title);
-        this.titleChanged.subscribe(title => this.document.title = title);
+        const doc = this.document;
+        this.body = doc.body;
+        this.titleChanged.next(doc.title);
+        this.titleChanged.subscribe(title => doc.title = title);
         this.tabletChanged.subscribe(isTablet => this.toggleClass('screen-tablet', isTablet));
     }
 
@@ -70,6 +69,48 @@ export class ThemeService {
 
     public toggleClass(tag: string, force?: boolean) {
         toggleClass(this.body, tag, force);
+    }
+
+    public scrollTop(): number;
+    public scrollTop(target: HTMLElement): number;
+    public scrollTop(target: HTMLElement, value: number): void;
+    public scrollTop(value: number): void;
+    public scrollTop(target?: HTMLElement|number, value?: number): number|void {
+        if (typeof value !== 'undefined') {
+            (target as HTMLElement).scrollTo({
+                top: value
+            });
+            return;
+        }
+        if (typeof target === 'number') {
+            window.scrollTo({top: target});
+            return;
+        }
+        if (target) {
+            return target.scrollTop || 0;
+        }
+        const doc = this.document;
+        return doc.documentElement.scrollTop || doc.body.scrollTop || 0;
+    }
+
+    public windowHeight(): number {
+        return windowHeight(this.document);
+    }
+
+    /**
+     * 整个页面的高度
+     * @returns 
+     */
+    public documentHeight(): number {
+        return documentHeight(this.document);
+    }
+
+    /**
+     * 滚动条距离底部的距离
+     * @returns 
+     */
+    public scrollBottom(): number {
+        return scrollBottom(this.document);
     }
 
     public emitLogin(allowGo = true) {
@@ -104,6 +145,21 @@ export class ThemeService {
             }
         }
         return false;
+    }
+
+    /**
+     * 平板模式根据隐藏底部栏
+     * @param destroyRef 
+     * @returns 
+     */
+    public tabletIf(destroyRef: DestroyRef) {
+        if (!this.tabletChanged.value) {
+            return;
+        }
+        this.navigationDisplayRequest.next(NavigationDisplayMode.Collapse);
+        destroyRef.onDestroy(() => {
+            this.navigationDisplayRequest.next(this.tabletChanged.value ? NavigationDisplayMode.BottomOverlay : NavigationDisplayMode.Inline);
+        });
     }
 
     // public touchable(target: HTMLDivElement, onStart: , onMove, onFinish) {

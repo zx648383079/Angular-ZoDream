@@ -92,7 +92,7 @@ export class EditorService {
     public uniqueId(): string;
     public uniqueId(isStr: false): number;
     public uniqueId(isStr = true): string | number {
-        return isStr ? `zre${new Date().getTime()}` : new Date().getTime();
+        return isStr ? `zre${Date.now()}` : Date.now();
     };
 
     public pushWidget(...items: Widget[]) {

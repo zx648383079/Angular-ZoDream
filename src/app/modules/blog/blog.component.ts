@@ -93,7 +93,8 @@ export class BlogComponent implements OnInit {
             return;
         }
         this.isLoading.set(true);
-        this.pullBox()?.startLoad();
+        const control = this.pullBox();
+        control?.enter();
         this.service.getPage({
             category: this.category(),
             keywords: this.queries.keywords().value(),
@@ -105,11 +106,11 @@ export class BlogComponent implements OnInit {
                 this.hasMore.set(res.paging.more);
                 this.isLoading.set(false);
                 this.items.set(page < 2 ? res.data : [].concat(this.items, res.data));
-                this.pullBox()?.endLoad();
+                control?.reset();
             }, 
             error: () => {
                 this.isLoading.set(false);
-                this.pullBox()?.endLoad();
+                control?.reset();
             }
         });
     }

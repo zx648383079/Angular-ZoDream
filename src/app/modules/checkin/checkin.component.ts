@@ -24,7 +24,7 @@ interface IDay {
 })
 export class CheckinComponent {
     private readonly service = inject(CheckinService);
-    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
+    private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
 

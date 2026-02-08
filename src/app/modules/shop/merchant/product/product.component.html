@@ -15,7 +15,7 @@
                     <label>分类</label>
                     <select [formField]="queries.category" class="form-control">
                         <option value="0">请选择</option>
-                        @for (item of categories; track $index) {
+                        @for (item of categories(); track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                         }
                     </select>
@@ -24,14 +24,14 @@
                     <label>品牌</label>
                     <select [formField]="queries.brand" class="form-control">
                         <option value="0">请选择</option>
-                        @for (item of brandItems; track $index) {
+                        @for (item of brandItems(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                         }
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
-                    <a class="btn btn-info" (click)="panelOpen = true">高级搜索</a>
+                    <a class="btn btn-info" (click)="panelOpen.set(true)">高级搜索</a>
                     <a class="btn btn-success" routerLink="create">新增商品</a>
                 </div>
             </form>
@@ -108,10 +108,10 @@
     </div>
 </div>
 
-@if (panelOpen) {
+@if (panelOpen()) {
 <div class="dialog-panel" animate.enter="panel-opened" animate.leave="panel-closed">
     <div class="panel-header">
-        <i class="iconfont icon-close" (click)="panelOpen = false"></i>
+        <i class="iconfont icon-close" (click)="panelOpen.set(false)"></i>
     </div>
     <form class="panel-body" (submit)="tapSearch($event)">
         <div class="form-group">
@@ -119,7 +119,7 @@
             <div class="input-group-control">
                 <select id="type1" [formField]="queries.category" class="form-control">
                     <option value="0">请选择</option>
-                    @for (item of categories; track $index) {
+                    @for (item of categories(); track $index) {
                     <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                     }
                 </select>
@@ -130,7 +130,7 @@
             <div class="input-group-control">
                 <select id="brand1" [formField]="queries.brand" class="form-control">
                     <option value="0">请选择</option>
-                    @for (item of brandItems; track $index) {
+                    @for (item of brandItems(); track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
                     }
                 </select>

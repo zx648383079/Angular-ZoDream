@@ -2,8 +2,8 @@
 @use "../../../../bootstrap/loading/circleButton";
 
 .edit-header {
-    --#{theme.$prefix}control: var(--#{theme.$prefix}primary);
-    --#{theme.$prefix}control-text: var(--#{theme.$prefix}primary-text);
+    --#{theme.$prefix}control: var(--#{theme.$prefix}surface);
+    --#{theme.$prefix}control-text: var(--#{theme.$prefix}surface-text);
     --#{theme.$prefix}control-hovered-text:  rgba(var(--#{theme.$prefix}primary-text-rgb), .6);
     --#{theme.$prefix}control-disabled-text: rgba(var(--#{theme.$prefix}primary-text-rgb), .2);
     background-color: var(--#{theme.$prefix}control);

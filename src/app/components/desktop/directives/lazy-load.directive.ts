@@ -13,7 +13,7 @@ interface IRect {
     standalone: false,
     selector: '[appLazyLoad]'
 })
-export class LazyLoadDirective implements OnInit {
+export class LazyLoadDirective {
     private readonly elementRef = inject(ElementRef);
     private readonly platformId = inject(PLATFORM_ID);
 
@@ -31,7 +31,7 @@ export class LazyLoadDirective implements OnInit {
 
     private lastIsVisible = false;
 
-    ngOnInit() {
+    constructor() {
         this.emitInit();
     }
 

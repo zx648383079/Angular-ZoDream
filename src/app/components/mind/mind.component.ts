@@ -26,7 +26,7 @@ interface IPointLink {
     styleUrls: ['./mind.component.scss']
 })
 export class MindComponent implements AfterViewInit, OnInit {
-    private renderer = inject(Renderer2);
+    private readonly renderer = inject(Renderer2);
     private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
 

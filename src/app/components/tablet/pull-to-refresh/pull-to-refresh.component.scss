@@ -1,15 +1,17 @@
-.pull-to-refresh-scroll {
-    min-height: 300px;
-    .scroll-bottom,
-    .scroll-top {
-        text-align: center;
-    }
-    .scroll-top {
-        position: relative;
-        div {
-            position: absolute;
-            bottom: 10px;
-            width: 100%;
-        }
+:host {
+    display: block;
+    min-height: 18.75rem;
+}
+
+.scroll-bottom,
+.scroll-top {
+    text-align: center;
+}
+.scroll-top {
+    position: relative;
+    div {
+        position: absolute;
+        bottom: 0.625rem;
+        width: 100%;
     }
 }

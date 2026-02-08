@@ -15,8 +15,8 @@
 }
 
 .tablet-search-header {
-    --#{theme.$prefix}nav: var(--#{theme.$prefix}primary);
-    --#{theme.$prefix}nav-text: var(--#{theme.$prefix}primary-text);
+    --#{theme.$prefix}nav: var(--#{theme.$prefix}surface);
+    --#{theme.$prefix}nav-text: var(--#{theme.$prefix}surface-text);
     background-color: var(--#{theme.$prefix}nav);
     color: var(--#{theme.$prefix}nav-text);
     display: flex;
@@ -45,11 +45,18 @@
         color: var(--#{theme.$prefix}nav-text);
         padding: 0 .4rem;
     }
+    &.--with-only-search {
+        padding: 0 1rem .8rem;
+        .search-entry {
+            font-size: .8rem;
+            line-height: 2rem;
+        }
+    }
 }
 
 .route-bar {
-    --#{theme.$prefix}route: var(--#{theme.$prefix}primary);
-    --#{theme.$prefix}route-text: var(--#{theme.$prefix}primary-text);
+    --#{theme.$prefix}route: var(--#{theme.$prefix}surface);
+    --#{theme.$prefix}route-text: var(--#{theme.$prefix}surface-text);
     background-color: var(--#{theme.$prefix}route);
     color: var(--#{theme.$prefix}route-text);
     display: flex;
@@ -78,7 +85,7 @@
 .tablet-scroll-bar {
     --#{theme.$prefix}nav: var(--#{theme.$prefix}panel);
     --#{theme.$prefix}nav-text: var(--#{theme.$prefix}body-text);
-    --#{theme.$prefix}nav-active-text: var(--#{theme.$prefix}primary);
+    --#{theme.$prefix}nav-active-text: var(--#{theme.$prefix}surface);
     position: relative;
     height: 2.8125rem;
     background-color: var(--#{theme.$prefix}nav);

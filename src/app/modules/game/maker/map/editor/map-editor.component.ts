@@ -29,8 +29,8 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
     private readonly mapModal = viewChild<DialogEvent>('mapModal');
     private readonly monsterModal = viewChild<DialogEvent>('monsterModal');
     public readonly items = signal<IGameMap[]>([]);
-    public areaItems: IGameMapArea[] = [];
-    public panelOpen = false;
+    public readonly areaItems = signal<IGameMapArea[]>([]);
+    public readonly panelOpen = signal(false);
     public readonly queries = form(signal({
         keywords: '',
         project: 0
@@ -89,7 +89,7 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
             this.queries.project().value.set(parseNumber(params.game));
         });
         this.service.mapAll(this.queries().value()).subscribe(res => {
-            this.areaItems = res.area_items;
+            this.areaItems.set(res.area_items);
             this.items.set(res.items);
             this.refreshLine();
         });
@@ -119,7 +119,7 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
     }
 
     public tapAddIndigenous(item: IGameMap) {
-        this.panelOpen = true;
+        this.panelOpen.set(true);
     }
 
     public onBoxStart(e: MouseEvent) {

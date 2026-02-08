@@ -51,28 +51,61 @@ export function css(el: HTMLElement, style: string|any, value?: any) {
     });
 }
 
-export function scrollTop(): number;
+export function scrollTop(doc: Document): number;
 export function scrollTop(target: HTMLElement): number;
 export function scrollTop(target: HTMLElement, value: number): void;
 export function scrollTop(value: number): void;
-export function scrollTop(target?: HTMLElement|number, value?: number): number|void {
+export function scrollTop(target?: HTMLElement|number|Document, value?: number): number|void {
+    if (typeof target === 'number') {
+        window.scrollTo({top: target});
+        return;
+    }
+    if (target.nodeName === '#document') {
+        if (typeof value !== 'undefined') {
+            window.scrollTo({top: value});
+            return;
+        }
+        const doc = target as Document;
+        return doc.documentElement.scrollTop || doc.body.scrollTop || 0;
+    }
     if (typeof value !== 'undefined') {
         (target as HTMLElement).scrollTo({
             top: value
         });
         return;
     }
-    if (typeof target === 'number') {
-        window.scrollTo({top: target});
-        return;
+    return (target as HTMLElement).scrollTop || 0;
+}
+
+export function windowHeight(doc: Document): number {
+    if (doc.compatMode === 'CSS1Compat') {
+        return doc.documentElement.clientHeight;
+    } 
+    return doc.body.clientHeight;
+}
+
+/**
+ * 整个页面的高度
+ * @returns 
+ */
+export function documentHeight(doc: Document): number {
+    const box = doc.querySelector('html');
+    if (!box) {
+        return 0;
     }
-    if (target) {
-        return target.scrollTop || 0;
-    }
-    return document.documentElement.scrollTop || document.body.scrollTop || 0;
+    return box.scrollHeight;
+}
+
+/**
+ * 滚动条距离底部的距离
+ * @returns 
+ */
+export function scrollBottom(doc: Document): number {
+    return documentHeight(doc) - scrollTop(doc) - windowHeight(doc);
 }
 
 export function isHidden(target: HTMLElement): boolean {
+    // !target.offsetParent
     return target.offsetWidth <= 0 || target.offsetHeight <= 0;
 }
 

@@ -1,6 +1,6 @@
 <div class="map-editor" (mousedown)="onBoxStart($event)">
     <canvas #lineCanvas></canvas>
-    @for (item of areaItems; track $index) {
+    @for (item of areaItems(); track $index) {
     <div class="map-area" [style]="{left: item.x + 'px', top: item.y + 'px', width: item.width + 'px', height: item.height + 'px'}">
         {{ item.name }}
     </div>
@@ -76,10 +76,10 @@
         </div>
     </div>
 </app-dialog-box>
-@if (panelOpen) {
+@if (panelOpen()) {
 <div class="dialog-panel" animate.enter="panel-opened" animate.leave="panel-closed">
     <div class="panel-header">
-        <i class="iconfont icon-close" (click)="panelOpen = false"></i>
+        <i class="iconfont icon-close" (click)="panelOpen.set(false)"></i>
     </div>
     <form class="panel-search">
         <input type="text" id="keywords" [formField]="queries.keywords">

@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IChapter } from '../model';
 import { BookService } from '../book.service';
 import { FlipPagerComponent, IFlipProgress, IRequestEvent } from './flip-pager/flip-pager.component';
-import { scrollBottom, windowHeight, windowScollTop } from '../util';
 import { SearchService, ThemeService } from '../../../theme/services';
 import { NavigationDisplayMode } from '../../../theme/models/event';
 import { form } from '@angular/forms/signals';
@@ -18,7 +17,7 @@ export class ReaderComponent implements OnInit, OnDestroy {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly service = inject(BookService);
-    private renderer = inject(Renderer2);
+    private readonly renderer = inject(Renderer2);
     private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
 
@@ -59,7 +58,7 @@ export class ReaderComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Collapse);
         this.renderer.listen(window, 'scroll', this.onScroll.bind(this));
-        this.scrollTop = windowScollTop();
+        this.scrollTop = this.themeService.scrollTop();
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;
@@ -228,10 +227,10 @@ export class ReaderComponent implements OnInit, OnDestroy {
 
     private onScroll(_: any) {
         const oldTop = this.scrollTop;
-        this.scrollTop = windowScollTop();
-        const scrollWindowBottom = this.scrollTop + windowHeight();
+        this.scrollTop = this.themeService.scrollTop();
+        const scrollWindowBottom = this.scrollTop + this.themeService.windowHeight();
         this.scrollToUp = this.scrollTop < oldTop;
-        if (this.booted && !this.isLoading && scrollBottom() < 30) {
+        if (this.booted && !this.isLoading && this.themeService.scrollBottom() < 30) {
             this.flipPager().loadNext();
         }
         this.flipPager().onScroll(this.scrollTop, scrollWindowBottom, this.scrollToUp);

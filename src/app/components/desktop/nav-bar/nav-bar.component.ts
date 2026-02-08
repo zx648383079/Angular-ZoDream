@@ -40,7 +40,7 @@ export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
         );
         this.subItems.add(this.themeService.tabletChanged.subscribe(isTablet => {
             this.isPaneOverlay.set(isTablet);
-            this.displayMode.set(isTablet ? NavigationDisplayMode.Collapse : NavigationDisplayMode.Inline);
+            this.displayMode.set(isTablet ? NavigationDisplayMode.BottomOverlay : NavigationDisplayMode.Inline);
             this.emitResize();
         }));
         this.subItems.add(this.$textChanged.pipe(
@@ -96,6 +96,8 @@ export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
                 return '--pane-collapse';
             case NavigationDisplayMode.ToggleOverlay:
                 return '--pane-toggle-overlay';
+            case NavigationDisplayMode.BottomOverlay:
+                return '--pane-bottom-overlay';
             default:
                 return '';
         }
@@ -104,7 +106,7 @@ export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
     public tapToggle() {
         this.displayMode.update(v => {
             if (this.themeService.tabletChanged.value) {
-                return v !== NavigationDisplayMode.Collapse ? NavigationDisplayMode.Collapse : NavigationDisplayMode.Overlay;
+                return v !== NavigationDisplayMode.BottomOverlay ? NavigationDisplayMode.BottomOverlay : NavigationDisplayMode.Overlay;
             } else {
                 return this.paneDisplayNext(v);
             }

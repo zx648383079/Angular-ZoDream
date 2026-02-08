@@ -1,4 +1,4 @@
-import { Component, computed, HostListener, inject, signal } from '@angular/core';
+import { Component, DOCUMENT, HostListener, inject, signal } from '@angular/core';
 import { DialogPackage } from '../dialog.injector';
 import { DialogLeadTour, DialogLeadTourStep } from '../model';
 import { DialogService } from '../dialog.service';
@@ -34,6 +34,7 @@ import { scrollTop } from '../../../theme/utils/doc';
 })
 export class DialogLeadComponent {
     private readonly data = inject<DialogPackage<DialogLeadTour>>(DialogPackage);
+    private readonly document = inject<Document>(DOCUMENT);
     private readonly service = inject(DialogService);
 
 
@@ -99,7 +100,7 @@ export class DialogLeadComponent {
             return;
         }
         const offset = target.getBoundingClientRect();
-        const sTop = scrollTop();
+        const sTop = scrollTop(this.document);
         
         if (level < 3 && (offset.top < 0 || offset.bottom > window.innerHeight)) {
             this.closeModal();

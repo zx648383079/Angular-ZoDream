@@ -19,8 +19,8 @@ import { SwiperEvent } from './model';
     },
 })
 export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestroy, SwiperEvent {
-    private elementRef = inject(ElementRef);
-    private renderer = inject(Renderer2);
+    private readonly elementRef = inject(ElementRef);
+    private readonly renderer = inject(Renderer2);
 
 
     public readonly items = contentChildren(SwiperItemComponent);

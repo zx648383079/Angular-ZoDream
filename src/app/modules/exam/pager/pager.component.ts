@@ -41,7 +41,7 @@ export class PagerComponent implements OnInit {
                     this.finished = res.finished;
                     [this.pageItems, this.cardItems] = formatPager(res.data);
                     this.tapPage(1);
-                    this.endTime = (res.start_time > 0 ? res.start_time * 1000 : new Date().getTime()) + res.time * 60000;
+                    this.endTime = (res.start_time > 0 ? res.start_time * 1000 : Date.now()) + res.time * 60000;
                 },
                 error: err => {
                     this.toastrService.error(err);

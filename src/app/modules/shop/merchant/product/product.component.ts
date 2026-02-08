@@ -34,16 +34,16 @@ export class ProductComponent implements OnInit {
         is_hot: 0,
         is_new: 0,
     }));
-    public categories: ICategory[] = [];
-    public brandItems: IBrand[] = [];
-    public panelOpen = false;
+    public readonly categories = signal<ICategory[]>([]);
+    public readonly brandItems = signal<IBrand[]>([]);
+    public readonly panelOpen = signal(false);
 
     constructor() {
         this.service.categoryAll().subscribe(res => {
-            this.categories = res.data;
+            this.categories.set(res.data);
         });
         this.service.brandAll().subscribe(res => {
-            this.brandItems = res.data;
+            this.brandItems.set(res.data);
         });
     }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ElementRef, inject, input, model, effect, signal, untracked } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef, inject, input, model, effect, signal, untracked, computed } from '@angular/core';
 import { formatDate, twoPad } from '../../theme/utils';
 import { IDay, DayMode } from './datepicker.base';
 import { hasElementByClass } from '../../theme/utils/doc';
@@ -96,19 +96,19 @@ export class DatepickerComponent implements OnInit {
         }
     }
 
-    public get calendarStyle() {
-        if (window.innerWidth < 400) {
+    public readonly calendarStyle = computed(() => {
+        if (window.innerWidth < 576) {
             return;
         }
         const bound = this.elementRef.nativeElement.getBoundingClientRect();
-        const diff = window.innerWidth - bound.left - 300;
+        const diff = window.innerWidth - bound.left - 310;
         const x = diff > 0 ? 0 : diff;
         const y = bound.top + 350 > window.innerHeight ? -350 : 0;
         return {
             'margin-left': x + 'px',
             'margin-top': y + 'px',
         };
-    }
+    });
 
     ngOnInit() {
         this.refresh();

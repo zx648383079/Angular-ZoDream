@@ -89,7 +89,7 @@
         <ng-content />
     </div>
 
-    <div class="tablet-tab-bar tablet-visible">
+    <div class="tablet-tab-bar">
         @for (item of tabletItems(); track $index) {
             <a class="tab-item" [class.active]="item.active" [routerLink]="item.url" [queryParams]="item.urlQuery || {}">
             <i class="iconfont item-icon" [class]="item.icon"></i>
@@ -102,7 +102,6 @@
         </a>
     </div>
     @if (displayMode() == 3) {
-        <div class="pane-mask tablet-visible" (click)="tapToggle()"></div>
+        <div class="dialog-mask --with-pane tablet-visible" (click)="tapToggle()"></div>
     }
-    
 </div>

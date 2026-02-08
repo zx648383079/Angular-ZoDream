@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { DialogLoadingOption } from '..';
 import { DialogPackage } from '../dialog.injector';
 import { DialogService } from '../dialog.service';

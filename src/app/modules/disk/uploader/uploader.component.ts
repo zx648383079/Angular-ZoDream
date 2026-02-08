@@ -117,7 +117,7 @@ export class UploaderComponent {
     public formatProgress(item: IUploadItem, progress = -1) {
         if (progress >= 0) {
             const last = item.lastAt;
-            const now = new Date().getTime();
+            const now = Date.now();
             item.lastAt = now;
             if (last) {
                 item.speed = Math.ceil(Math.max(0, progress - item.progress) * 1000 / (now - last));
