@@ -1,12 +1,16 @@
 import { Component, computed, ElementRef, output, signal, viewChild } from '@angular/core';
 import { SwipeListControlComponent } from './swipe-list-control.component';
 import { interval } from 'rxjs';
+import { pointFormEvent } from '../../../theme/utils/canvas';
 
 @Component({
     standalone: false,
     selector: 'app-swipe-control',
     templateUrl: './swipe-control.component.html',
-    styleUrls: ['./swipe-control.component.scss']
+    styleUrls: ['./swipe-control.component.scss'],
+    host: {
+        class: 'swipe-control'
+    }
 })
 export class SwipeControlComponent {
 
@@ -15,15 +19,17 @@ export class SwipeControlComponent {
 
    
     public readonly left = signal(0);
+    // 手动刷新用
+    public readonly syncRefresh = signal(false);
     public readonly tapped = output();
 
     public parent: SwipeListControlComponent;
-
     private oldLeft = 0;
 
 
     public readonly boxStyle = computed(() => {
         const lastX = this.left();
+        this.syncRefresh();
         return {
             transform: `translateX(${lastX - this.leftWidth}px)`,
         };
@@ -39,7 +45,7 @@ export class SwipeControlComponent {
         };
     });
 
-    private get leftWidth(): number {
+    private get leftWidth() {
         const ele = this.leftItemsRef()?.nativeElement;
         if (!ele) {
             return 0;
@@ -56,12 +62,11 @@ export class SwipeControlComponent {
 
 
     public onMouseDown(e: MouseEvent) {
-        this.parent?.touchStart(this, {x: e.clientX, y: e.clientY}, false);
+        this.parent?.touchStart(this, pointFormEvent(e), false);
     }
 
     public onTouchStart(e: TouchEvent) {
-        const src = e.targetTouches[0];
-        this.parent?.touchStart(this, {x: src.clientX, y: src.clientY}, false);
+        this.parent?.touchStart(this, pointFormEvent(e), false);
     }
 
     public touched() {
@@ -129,7 +134,7 @@ export class SwipeControlComponent {
 
     public reset() {
         const lastX = this.left();
-        if (lastX=== 0) {
+        if (lastX === 0) {
             return;
         }
         this.animation(lastX, 0);

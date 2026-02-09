@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ComponentRef, ElementRef, OnDestroy, OnInit, OutputRefSubscription, ViewContainerRef, ViewEncapsulation, effect, inject, input, model, viewChild } from '@angular/core';
-import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_CODE_TOOL, EDITOR_ENTER_TOOL, EDITOR_FULL_SCREEN_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EDITOR_EVENT_CLOSE_TOOL, EDITOR_EVENT_SHOW_ADD_TOOL, EDITOR_EVENT_SHOW_COLUMN_TOOL, EDITOR_EVENT_SHOW_IMAGE_TOOL, EDITOR_EVENT_SHOW_LINE_BREAK_TOOL, EDITOR_EVENT_SHOW_LINK_TOOL, EDITOR_EVENT_SHOW_TABLE_TOOL, EDITOR_EVENT_UNDO_CHANGE, IEditorTool, EDITOR_EVENT_CUSTOM, IEditorContainer } from './base';
+import { Component, ComponentRef, DestroyRef, ElementRef, OutputRefSubscription, ViewContainerRef, ViewEncapsulation, afterNextRender, effect, inject, input, model, viewChild } from '@angular/core';
+import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_CODE_TOOL, EDITOR_ENTER_TOOL, EDITOR_FULL_SCREEN_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EDITOR_EVENT_CLOSE_TOOL, EDITOR_EVENT_SHOW_ADD_TOOL, EDITOR_EVENT_SHOW_COLUMN_TOOL, EDITOR_EVENT_SHOW_IMAGE_TOOL, EDITOR_EVENT_SHOW_LINE_BREAK_TOOL, EDITOR_EVENT_SHOW_LINK_TOOL, EDITOR_EVENT_SHOW_TABLE_TOOL, EDITOR_EVENT_UNDO_CHANGE, IEditorTool, EDITOR_EVENT_CUSTOM } from './base';
 import { IEditor, IEditorBlock, IEditorModal } from './model';
 import { EditorResizerComponent } from './modal/resizer/editor-resizer.component';
 import { CodeEditorComponent } from './code-editor/code-editor.component';
@@ -13,8 +13,9 @@ import { FormValueControl } from '@angular/forms/signals';
     templateUrl: './editor.component.html',
     styleUrls: ['./editor.component.scss'],
 })
-export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, FormValueControl<string>, IEditor {
+export class EditorComponent implements FormValueControl<string>, IEditor {
 
+    private readonly destroyRef = inject(DestroyRef);
     private readonly modalViewContainer = viewChild('modalVC', { read: ViewContainerRef });
     private readonly editorViewRef = viewChild<ElementRef<HTMLDivElement>>('EditorView');
     private readonly resizer = viewChild(EditorResizerComponent);
@@ -43,9 +44,6 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, FormVa
         this.topLeftItems = this.container.option.leftToolbar;
         this.topRightItems = this.container.option.rightToolbar;
         effect(() => this.container.value = this.value());
-    }
-
-    ngOnInit() {
         this.container.on(EDITOR_EVENT_UNDO_CHANGE, () => {
             for (const item of this.topRightItems) {
                 if (item.name === EDITOR_UNDO_TOOL) {
@@ -120,14 +118,10 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, FormVa
                 this.isFullScreen = !this.isFullScreen;
             }
         });
-    }
-
-    ngAfterViewInit(): void {
-        this.container.ready(this.editorViewRef().nativeElement, this.modalViewContainer());
-    }
-
-    ngOnDestroy(): void {
-        this.container.destroy();
+        afterNextRender({
+            write: () => this.container.ready(this.editorViewRef().nativeElement, this.modalViewContainer())
+        });
+        this.destroyRef.onDestroy(() => this.container.destroy());
     }
 
     public get areaStyle() {

@@ -1,9 +1,11 @@
 @use '../../app/theme/theme';
 
 .swipe-list-control {
+    display: block;
 }
 
 .swipe-control {
+    display: block;
     overflow: hidden;
     width: 100%;
     position: relative;

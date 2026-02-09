@@ -1,6 +1,8 @@
-import { Component, contentChildren, effect, HostListener } from '@angular/core';
+import { afterNextRender, Component, contentChildren, DestroyRef, effect, ElementRef, HostListener, inject, NgZone } from '@angular/core';
 import { SwipeControlComponent } from './swipe-control.component';
-import { IPoint } from '../../../theme/utils/canvas';
+import { IPoint, pointFormEvent } from '../../../theme/utils/canvas';
+import { asyncScheduler, distinctUntilChanged, Subject, throttleTime } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 enum TouchState {
     None,
@@ -12,12 +14,16 @@ enum TouchState {
 @Component({
     standalone: false,
     selector: 'app-swipe-list-control',
-    template: `<div class="swipe-list-control">
-        <ng-content />
-    </div>`,
-    styleUrls: []
+    template: `<ng-content />`,
+    styleUrls: [],
+    host: {
+        class: 'swipe-list-control'
+    }
 })
 export class SwipeListControlComponent {
+    private readonly zone = inject(NgZone);
+    private readonly destroyRef = inject(DestroyRef);
+    private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
     public readonly items = contentChildren(SwipeControlComponent);
 
     private startChild: SwipeControlComponent;
@@ -25,14 +31,14 @@ export class SwipeListControlComponent {
     private startPoint: IPoint;
     private lastPoint: IPoint;
     private startTime = 0;
-    private isTouchMoved = false; 
+    private isTouchMoved = false;
 
     @HostListener('document:mousemove', ['$event'])
     public onMouseMove(e: MouseEvent) {
         if (this.state === TouchState.None) {
             return;
         }
-        this.touchMove({x: e.clientX, y: e.clientY}, e);
+        this.touchMove(pointFormEvent(e), e);
     }
 
     @HostListener('document:mouseup')
@@ -48,8 +54,7 @@ export class SwipeListControlComponent {
         if (this.state === TouchState.None) {
             return;
         }
-        const src = e.targetTouches[0];
-        this.touchMove({x: src.clientX, y: src.clientY}, e);
+        this.touchMove(pointFormEvent(e), e);
     }
 
     @HostListener('touchend')
@@ -89,6 +94,28 @@ export class SwipeListControlComponent {
                 item.parent = this;
             }
         });
+        const resize$ = new Subject<number>();
+        resize$.pipe(
+            throttleTime(100, asyncScheduler, { leading: false, trailing: true }),
+            takeUntilDestroyed(this.destroyRef),
+            distinctUntilChanged()
+            )
+            .subscribe(() => this.onResize());
+        const resizeOb = this.zone.runOutsideAngular(
+        () =>
+            new ResizeObserver(entries => {
+                for (const entry of entries) {
+                    if (entry.target !== this.elementRef.nativeElement) {
+                        continue;
+                    }
+                    resize$.next(entry.contentRect.width);
+                }
+            })
+        );
+        afterNextRender({
+            write: () => resizeOb.observe(this.elementRef.nativeElement)
+        });
+        this.destroyRef.onDestroy(() => resizeOb.disconnect())
     }
 
     public touchStart(target: SwipeControlComponent, point: IPoint, isTouched = false) {
@@ -152,5 +179,11 @@ export class SwipeListControlComponent {
             items.push(item);
         }
         return items;
+    }
+
+    private onResize() {
+        for (const item of this.items()) {
+            item.syncRefresh.update(v => !v);
+        }
     }
 }

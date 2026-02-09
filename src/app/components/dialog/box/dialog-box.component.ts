@@ -1,4 +1,4 @@
-import { Component, input, model, output } from '@angular/core';
+import { Component, computed, input, model, output } from '@angular/core';
 import { DialogActionFn, DialogCheckFn, DialogConfirmFn, DialogEvent } from '../model';
 
 @Component({
@@ -53,7 +53,7 @@ export class DialogBoxComponent implements DialogEvent {
     public readonly confirm = output();
     private asyncHandler = 0;
 
-    get boxStyle() {
+    public readonly boxStyle = computed(() => {
         if (this.fullscreen()) {
             return {
                 width: '100%',
@@ -77,7 +77,7 @@ export class DialogBoxComponent implements DialogEvent {
         res.height = this.height() + 'px';
         res['margin-top'] = (- this.height() / 2) + 'px';
         return res;
-    }
+    })
 
     /**
      * 关闭弹窗

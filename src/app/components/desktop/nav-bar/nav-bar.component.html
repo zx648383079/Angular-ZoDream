@@ -91,7 +91,7 @@
 
     <div class="tablet-tab-bar">
         @for (item of tabletItems(); track $index) {
-            <a class="tab-item" [class.active]="item.active" [routerLink]="item.url" [queryParams]="item.urlQuery || {}">
+        <a class="tab-item" [class.active]="item.active" (click)="tapItem(item, $event, true)">
             <i class="iconfont item-icon" [class]="item.icon"></i>
             <span class="item-body">{{ item.name }}</span>
         </a>

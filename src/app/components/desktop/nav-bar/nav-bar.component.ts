@@ -1,9 +1,11 @@
-import { Component, OnInit, OnDestroy, inject, input, output, model, computed, signal } from '@angular/core';
+import { Component, inject, input, output, model, computed, signal, DestroyRef, effect } from '@angular/core';
 import { ThemeService } from '../../../theme/services';
 import { INavLink } from '../../../theme/models/seo';
 import { SuggestChangeEvent } from '../../form';
-import { asyncScheduler, Subject, Subscription, throttleTime } from 'rxjs';
+import { asyncScheduler, Subject, throttleTime } from 'rxjs';
 import { NavigationDisplayMode } from '../../../theme/models/event';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 
@@ -13,8 +15,11 @@ import { NavigationDisplayMode } from '../../../theme/models/event';
     templateUrl: './nav-bar.component.html',
     styleUrls: ['./nav-bar.component.scss']
 })
-export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
+export class NavBarComponent implements SuggestChangeEvent {
+    private readonly destroyRef = inject(DestroyRef);
     private readonly themeService = inject(ThemeService);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
 
 
     public readonly displayMode = signal<NavigationDisplayMode>(0); // 0 为展开 1 为 一条线 2 为 一个点 3 为不显示
@@ -22,6 +27,9 @@ export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
     public readonly suggestIndex = signal(-1);
     public readonly menu = input<INavLink[]>([]);
     public readonly bottomMenu = input<INavLink[]>([]);
+
+    public readonly tabletItems = signal<INavLink[]>([]);
+
     public readonly hasSuggest = input(false);
     public readonly suggestItems = model<any[]>([]);
     public readonly textChanged = output<SuggestChangeEvent>();
@@ -29,44 +37,31 @@ export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
     public readonly suggestionChosen = output<number>();
     public readonly suggestText = signal('');
     public readonly suggestHovered = signal(false);
-    private readonly subItems = new Subscription();
     private readonly $textChanged = new Subject<void>();
 
-    ngOnInit() {
-        this.subItems.add(
-            this.themeService.navigationDisplayRequest.subscribe(res => {
-                this.displayMode.set(typeof res === 'number' ? res : 0);
-            }),
-        );
-        this.subItems.add(this.themeService.tabletChanged.subscribe(isTablet => {
+    /**
+     *
+     */
+    constructor() {
+        effect(() => {
+            this.syncTablet(this.menu());
+        });
+        this.themeService.navigationDisplayRequest.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
+            this.displayMode.set(typeof res === 'number' ? res : 0);
+        });
+        this.themeService.tabletChanged.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(isTablet => {
             this.isPaneOverlay.set(isTablet);
             this.displayMode.set(isTablet ? NavigationDisplayMode.BottomOverlay : NavigationDisplayMode.Inline);
             this.emitResize();
-        }));
-        this.subItems.add(this.$textChanged.pipe(
-            throttleTime(500, asyncScheduler, { leading: false, trailing: true }))
-            .subscribe(() => {
-                this.textChanged.emit(this);
-            })
-        );
+        })
+        this.$textChanged.pipe(
+            throttleTime(500, asyncScheduler, { leading: false, trailing: true }),
+            takeUntilDestroyed(this.destroyRef)
+        )
+        .subscribe(() => {
+            this.textChanged.emit(this);
+        });
     }
-
-    ngOnDestroy() {
-        this.subItems.unsubscribe();
-    }
-
-    public readonly tabletItems = computed(() => {
-        const items: INavLink[] = [];
-        for (const item of this.menu()) {
-            if (item.tabletEnabled) {
-                items.push(item);
-            }
-        }
-        if (items.length === 0 && this.menu().length > 0) {
-            items.push(this.menu()[0]);
-        }
-        return items;
-    });
 
     public get text() {
         return this.suggestText();
@@ -171,10 +166,15 @@ export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
         this.themeService.suggestQuerySubmitted.next(this.suggestItems()[i]);
     }
 
-    public tapItem(item: INavLink, e: MouseEvent) {
+    public tapItem(item: INavLink, e: MouseEvent, jumpTo = false) {
         e.stopPropagation();
-        this.isActive(this.menu(), item);
+        const items = this.menu();
+        this.isActive(items, item);
         this.isActive(this.bottomMenu(), item);
+        this.syncTablet(items);
+        if (jumpTo) {
+            this.router.navigate([item.url], {queryParams: item.urlQuery ?? {}, relativeTo: this.route});
+        }
     }
 
     private isActive(items: INavLink[], current: INavLink) {
@@ -197,5 +197,18 @@ export class NavBarComponent implements OnInit, OnDestroy, SuggestChangeEvent {
             }
         }
         return res;
+    }
+
+    private syncTablet(data: INavLink[]) {
+        const items: INavLink[] = [];
+        for (const item of data) {
+            if (item.tabletEnabled) {
+                items.push(item);
+            }
+        }
+        if (items.length === 0 && data.length > 0) {
+            items.push(data[0]);
+        }
+        this.tabletItems.set(items);
     }
 }
