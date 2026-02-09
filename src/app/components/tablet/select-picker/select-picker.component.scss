@@ -1,35 +1,39 @@
+@use '../../../theme/theme';
 :host {
     display: block;
     height: 9.375rem;
     position: relative;
     overflow: hidden;
+    display: flex;
 }
 ul {
+    flex: 1;
     margin: 0;
     padding: 0;
     transition: all .3s;
     li {
+        user-select: none;
         list-style: none;
-        line-height: 30px;
-        color: rgba(var(--#{$prefix}-body-text-rgb), .3);
+        line-height: 1.875rem;
+        color: rgba(var(--#{theme.$prefix}body-text-rgb), .3);
         text-align: center;
         overflow-x: hidden;
         word-break: keep-all;
         &.active {
-            color: var(--#{$prefix}-body-text);
+            color: var(--#{theme.$prefix}body-text);
         }
     }
 }
-.dialog-top-hr,
-.dialog-bottom-hr {
+.selected-top-hr,
+.selected-bottom-hr {
     position: absolute;
     width: 100%;
     margin: 0;
     padding: 0;
 }
-.dialog-top-hr {
-    top: 60px;
+.selected-top-hr {
+    top: 3.75rem;
 }
-.dialog-bottom-hr {
-    top: 90px;
+.selected-bottom-hr {
+    top: 5.625rem;
 }

@@ -270,7 +270,7 @@ export class DatepickerComponent implements OnInit {
     private getLastOfMonth(y: number, m: number): number {
         const date = new Date(y, m, 0);
         return date.getDate();
-     }
+    }
 
     /**
      * 获取第一天和最后一天

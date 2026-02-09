@@ -5,12 +5,14 @@ import { TabBarComponent } from './tab-bar/tab-bar.component';
 import { RouterModule } from '@angular/router';
 import { SwipeControlComponent } from './swipe-control/swipe-control.component';
 import { SwipeListControlComponent } from './swipe-control/swipe-list-control.component';
+import { SelectPickerComponent } from './select-picker/select-picker.component';
 
 const COMPONENTS = [
     PullToRefreshComponent,
     TabBarComponent,
     SwipeControlComponent,
     SwipeListControlComponent,
+    SelectPickerComponent,
 ];
 
 @NgModule({

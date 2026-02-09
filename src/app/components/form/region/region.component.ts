@@ -19,10 +19,10 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
 
     static cacheMaps: {[url: string]: any} = {};
 
-    public readonly url = input<string>(undefined);
+    public readonly url = input<string>();
     public readonly range = input<{
-    [key: number]: T;
-} | T[]>(undefined);
+        [key: number]: T;
+    } | T[]>();
     public readonly canYes = input(false);
     public readonly placeholder = input($localize `Please select...`);
     public readonly rangeKey = input('id');

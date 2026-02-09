@@ -136,7 +136,7 @@ export function formatDate(date: Date|number|string, fmt: string = 'yyyy-mm-dd h
     for (const k in o) {
         const match = fmt.match(new RegExp('(' + k + ')'));
         if (match) {
-            fmt = fmt.replace(match[1], (match[1].length === 1 || k === 'y+') ? (o[k]) : (('00' + o[k]).substring(('' + o[k]).length)));
+            fmt = fmt.replace(match[1], (match[1].length === 1 || k === 'y+') ? (o[k]) : o[k].toString().padStart(match[1].length, '0'));
         }
     }
     return fmt;
@@ -250,8 +250,7 @@ export function getTimeRange(beginAgo: number, endAgo: number): [string, string]
 }
 
 export function twoPad(n: number): string {
-    const str = n.toString();
-    return str[1] ? str : '0' + str;
+    return n.toString().padStart(2, '0');
 }
 
 export function randomInt(min: number = 0, max: number = 1): number {

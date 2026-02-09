@@ -1,5 +1,5 @@
 import { Component, effect, signal } from '@angular/core';
-import { ButtonEvent } from '../../components/form';
+import { ButtonEvent, DateSource } from '../../components/form';
 
 @Component({
     standalone: false,
@@ -10,6 +10,7 @@ import { ButtonEvent } from '../../components/form';
 export class ExampleFormControlComponent {
     public value = '';
     public readonly inputValue = signal('');
+    public readonly source = new DateSource();
 
     constructor() {
         effect(() => {

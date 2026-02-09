@@ -20,3 +20,8 @@ export * from './image-input/image-input.component';
 export * from './auto-suggest-box/auto-suggest-box.component';
 export * from './command-bar/command-bar.component';
 export * from './event';
+export * from './sources/IDataSource';
+export * from './sources/NetSource';
+export * from './sources/DateSource';
+export * from './sources/TreeSource';
+export * from './sources/ArraySource';

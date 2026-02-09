@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, input, model, signal } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
+import { IDataSource } from '../sources/IDataSource';
 
 interface ISelectColumn {
     label?: string;
@@ -20,15 +21,9 @@ interface ISelectColumn {
     styleUrls: ['./multi-select-input.component.scss'],
 })
 export class MultiSelectInputComponent<T = any> implements FormValueControl<T> {
-    private readonly http = inject(HttpClient);
 
-
-    public readonly url = input<string>(undefined);
     public readonly placeholder = input($localize `Please select...`);
-    public readonly rangeKey = input('id');
-    public readonly rangeLabel = input('name');
-    public readonly searchKey = input('keywords');
-    public readonly multipleLevel = input(false);
+    public readonly source = input.required<IDataSource>();
     /**
      * 只有通过url请求的才会触发，参数为http响应内容
      */

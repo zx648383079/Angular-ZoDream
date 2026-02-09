@@ -40,8 +40,6 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
         effect(() => {
             const obj = this.value();
             untracked(() => {
-                console.log(obj, this.optionItems());
-                
                 if (this.optionItems().length === 0 && !this.url()) {
                     return;
                 }
