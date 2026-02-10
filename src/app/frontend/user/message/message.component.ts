@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { UserService } from '../user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IBlockItem } from '../../../components/link-rule';
@@ -36,7 +37,7 @@ export class MessageComponent implements OnInit, OnDestroy {
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
-
+    private readonly location = inject(Location);
 
     public navItems: IMessageGroup[] = [];
     public navIndex = -1;
@@ -96,7 +97,7 @@ export class MessageComponent implements OnInit, OnDestroy {
             this.navIndex = -1;
             return;
         }
-        history.back();
+        this.location.back();
     }
 
     public tapUser(user: number) {

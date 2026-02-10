@@ -1,4 +1,5 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IOption } from '../../../../../theme/models/seo';
@@ -19,7 +20,7 @@ export class SiteOptionComponent implements OnInit {
     private readonly service = inject(CmsService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
     public readonly items = signal<IOption[]>([]);
 
     public readonly editForm = form(signal({
@@ -101,7 +102,7 @@ export class SiteOptionComponent implements OnInit {
             next: res => {
                 e?.reset();
                 this.toastrService.success($localize `Save Successfully`);
-                history.back();
+                this.location.back();
             }, error: err => {
                 e?.reset();
                 this.toastrService.warning(err.error.message);

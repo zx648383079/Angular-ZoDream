@@ -1,4 +1,5 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { DialogService } from '../../../../../components/dialog';
@@ -29,7 +30,7 @@ export class EditResourceComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
     private readonly uploadService = inject(FileUploadService);
-
+    private readonly location = inject(Location);
 
     public readonly dataModel = signal({
         id: 0,
@@ -97,7 +98,7 @@ export class EditResourceComponent implements OnInit {
                 },
                 error: err => {
                     this.toastrService.error(err);
-                    history.back();
+                    this.location.back();
                 }
             });
         });
@@ -155,7 +156,7 @@ export class EditResourceComponent implements OnInit {
             next: _ => {
                 e.reset();
                 this.toastrService.success($localize `Save Successfully`);
-                history.back();
+                this.location.back();
             },
             error: err => {
                 this.toastrService.error(err);

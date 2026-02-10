@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IErrorResponse, IErrorResult } from '../../../../../theme/models/page';
 import { FileUploadService } from '../../../../../theme/services/file-upload.service';
-import { IMusic } from '../../../model';
+import { Location } from '@angular/common';
 import { VideoService } from '../../video.service';
 import { form, required } from '@angular/forms/signals';
 import { ButtonEvent } from '../../../../../components/form';
@@ -19,7 +19,7 @@ export class EditMusicComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
     private readonly uploadService = inject(FileUploadService);
-
+    private readonly location = inject(Location);
 
     public readonly dataModel = signal({
         id: 0,
@@ -60,7 +60,7 @@ export class EditMusicComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapSubmit2(e: SubmitEvent) {

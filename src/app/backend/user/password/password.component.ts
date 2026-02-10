@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { UserService } from '../user.service';
@@ -12,6 +13,7 @@ import { form, required, validate } from '@angular/forms/signals';
 })
 export class PasswordComponent {
     private readonly service = inject(UserService);
+    private readonly location = inject(Location);
     private readonly toastrService = inject(DialogService);
 
 
@@ -35,7 +37,7 @@ export class PasswordComponent {
     });
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapSubmit2(e: SubmitEvent) {

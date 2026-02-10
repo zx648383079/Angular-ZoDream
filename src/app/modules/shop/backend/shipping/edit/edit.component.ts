@@ -1,4 +1,5 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -19,8 +20,8 @@ export class EditShippingComponent implements OnInit {
     private readonly service = inject(PaymentService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-    private regionService = inject(RegionService);
-
+    private readonly regionService = inject(RegionService);
+    private readonly location = inject(Location);
 
     public data: IShipping;
 
@@ -91,7 +92,7 @@ export class EditShippingComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapSubmit2(e: SubmitEvent) {

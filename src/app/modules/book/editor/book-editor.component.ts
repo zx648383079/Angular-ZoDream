@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewContainerRef, inject, signal, viewChild } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ContextMenuComponent, IMenuItem } from '../../../components/context-menu';
 import { DialogEvent, DialogService } from '../../../components/dialog';
@@ -25,8 +26,8 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly toastrService = inject(DialogService);
     private readonly renderer = inject(Renderer2);
     private readonly themeService = inject(ThemeService);
-    private editor = inject(EditorService);
-
+    private readonly editor = inject(EditorService);
+    private readonly location = inject(Location);
 
     public readonly contextMenu = viewChild(ContextMenuComponent);
     private readonly publishModal = viewChild<DialogEvent>('publishModal');
@@ -132,7 +133,7 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public tapExit() {
-        history.back();
+        this.location.back();
     }
 
     public tapEdit(item: IChapter) {

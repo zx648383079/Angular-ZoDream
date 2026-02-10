@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { LegworkService } from '../../../legwork.service';
@@ -15,7 +16,7 @@ export class EditServiceComponent implements OnInit {
     private readonly service = inject(LegworkService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public data: IService;
     public readonly dataModel = signal({
@@ -124,7 +125,7 @@ export class EditServiceComponent implements OnInit {
         this.service.providerServiceSave(data).subscribe({
             next: res => {
                 this.toastrService.success($localize `Save successfully`);
-                history.back();
+                this.location.back();
             },
             error: err => {
                 this.toastrService.error(err);

@@ -1,5 +1,6 @@
 import { form, required } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -20,7 +21,7 @@ export class BudgetComponent implements OnInit {
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
-
+    private readonly location = inject(Location);
 
     public readonly items = signal<IBudget[]>([]);
     private hasMore = true;
@@ -49,7 +50,7 @@ export class BudgetComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public formatCycle(val: number) {

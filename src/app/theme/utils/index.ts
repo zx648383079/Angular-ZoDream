@@ -208,7 +208,7 @@ export function assetUri(value: string) {
     if (!value) {
         return null;
     }
-    if (value.indexOf('//') >= 0) {
+    if (value.indexOf('//') >= 0 || value.startsWith('data:')) {
         return value;
     }
     if (value.startsWith('/')) {

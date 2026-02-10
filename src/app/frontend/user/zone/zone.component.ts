@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { UserService } from '../user.service';
 import { ThemeService } from '../../../theme/services';
 import { IUserZone } from '../../../theme/models/user';
@@ -15,7 +16,7 @@ export class ZoneComponent implements OnInit {
     private readonly themeService = inject(ThemeService);
     private readonly toastrService = inject(DialogService);
     private readonly service = inject(UserService);
-
+    private readonly location = inject(Location);
 
 
     public readonly selectedItems = signal<IUserZone[]>([]);
@@ -35,7 +36,7 @@ export class ZoneComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public isSelected(item: IUserZone) {

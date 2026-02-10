@@ -1,5 +1,6 @@
 import { form } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { IProject } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
 import { DocumentService } from './document.service';
@@ -19,7 +20,7 @@ export class DocumentMemberComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly searchService = inject(SearchService);
-
+    private readonly location = inject(Location);
 
     public readonly items = signal<IProject[]>([]);
     private hasMore = true;
@@ -39,7 +40,7 @@ export class DocumentMemberComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapItem(item: IProject) {

@@ -1,8 +1,8 @@
-<div class="container main-container" [class.on-search]="openType() > 0">
+<div class="container main-container" [class.--with-search]="openType() > 0">
     <div class="row">
         <div class="col-12" 
-        [class.col-lg-6]="openType() < 1"
-        [class.offset-lg-3]="openType() < 1">
+            [class.col-lg-6]="openType() < 1"
+            [class.offset-lg-3]="openType() < 1">
             <div class="search-bar">
                 <app-navigation-search-bar id="keywords" [formField]="queries.keywords" (confirm)="tapSearch($event)" (textChange)="onSuggestChange($event)" />
             </div>
@@ -14,30 +14,34 @@
     </div>
 
     @if (openType() < 2) {
-        <div class="open-icon" [class.opened]="openType() == 1" (click)="toggleOpen()" i18n-title title="More sites">
+        <div class="open-icon" [class.--with-opened]="openType() == 1" (click)="toggleOpen()" i18n-title title="More sites">
         </div>
     }
     
 
     <app-navigation-site [visible]="openType() == 1" />
     @if (openType() == 2) {
+        @for (item of items(); track $index) {
+             <app-navigation-page-container [value]="item" (onAction)="tapItem($event)" />
+        }
         @if (isLoading()) {
             <div class="loading-tip" i18n>
                 Loading ...
             </div>
+        } @else {
+            @if (items().length < queries.per_page().value()) {
+                <div class="advice-tooltip" i18n>Didn't get the desired result, try <a (click)="adviceModal.open()">submitting</a> manually</div>
+            }
+            @if (total() < 1) {
+                <div class="empty-tip" i18n>
+                    Search results are empty
+                </div>
+            }
         }
-        @if (!isLoading() && total() < 1) {
-            <div class="empty-tip" i18n>
-                Search results are empty
-            </div>
-        }
-
-        @for (item of items(); track $index) {
-             <app-navigation-page-container [value]="item" (onAction)="tapItem($event)" />
-        }
+        
         <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     }
 </div>
 
-<app-navigation-page-card />
+<app-navigation-page-card #adviceModal/>
 <app-navigation-report-dialog />

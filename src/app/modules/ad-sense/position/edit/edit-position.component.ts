@@ -1,5 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 import { AdService } from '../../ad.service';
 import { DialogService } from '../../../../components/dialog';
 import { IAdPosition } from '../../model';
@@ -16,7 +17,7 @@ export class EditPositionComponent implements OnInit {
     private readonly service = inject(AdService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public readonly dataModel = signal({
         id: 0,
@@ -56,7 +57,7 @@ export class EditPositionComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapSubmit2(e: SubmitEvent) {

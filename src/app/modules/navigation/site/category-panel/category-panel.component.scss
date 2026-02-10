@@ -1,3 +1,4 @@
+@use '../../../../theme/theme';
 @use '../../../../../bootstrap/desktop/scrollbar';
 .panel {
     .panel-body {
@@ -9,12 +10,15 @@
 
 .cat-item {
     display: flex;
-    color: #6b7184;
+    color: var(--#{theme.$prefix}meta-text);
     padding-left: 2.375rem;
     line-height: 2.5rem;
     cursor: default;
     .item-icon {
-        text-align: center;
+        display: inline-flex;
+        align-content: center;
+        justify-content: center;
+        flex-wrap: wrap;
         padding-right: .8rem;
         img {
             width: 2rem;
@@ -23,6 +27,7 @@
         }
     }
     &:hover {
-        background: #f5f5f5;
+        color: var(--#{theme.$prefix}surface-text);
+        background-color: var(--#{theme.$prefix}surface);
     }
 }

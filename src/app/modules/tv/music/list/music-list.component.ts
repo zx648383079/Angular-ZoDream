@@ -1,5 +1,6 @@
 import { form } from '@angular/forms/signals';
-import { Component, signal } from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, inject, signal } from '@angular/core';
 import { IFilter, IPageQueries } from '../../../../theme/models/page';
 import { ISortItem } from '../../../../theme/models/seo';
 import { IMusicList } from '../../model';
@@ -12,6 +13,8 @@ import { IMusicList } from '../../model';
 })
 export class MusicListComponent {
 
+    private readonly location = inject(Location);
+    
     public readonly items = signal<IMusicList[]>([]);
     private hasMore = true;
     public readonly isLoading = signal(false);
@@ -32,7 +35,7 @@ export class MusicListComponent {
     public readonly orderAsc = signal(true);
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public toggleFilter() {

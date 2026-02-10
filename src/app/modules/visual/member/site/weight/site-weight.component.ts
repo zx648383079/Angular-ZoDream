@@ -1,12 +1,11 @@
 import { form, required } from '@angular/forms/signals';
+import { Location } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { ComponentTypeItems, ISiteComponent, ISitePage, IThemeComponent } from '../../../model';
-import { IPageQueries } from '../../../../../theme/models/page';
+import { ComponentTypeItems, ISiteComponent, IThemeComponent } from '../../../model';
 import { VisualService } from '../../visual.service';
 import { DialogEvent, DialogService, SearchDialogEvent } from '../../../../../components/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../../../theme/services';
-import { emptyValidate } from '../../../../../theme/validators';
 
 @Component({
     standalone: false,
@@ -19,7 +18,7 @@ export class SiteWeightComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
-
+    private readonly location = inject(Location);
 
     public readonly items = signal<ISiteComponent[]>([]);
     private hasMore = true;
@@ -53,7 +52,7 @@ export class SiteWeightComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapCreate(modal: DialogEvent, item: ISiteComponent) {

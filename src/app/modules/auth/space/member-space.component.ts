@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { IUser, IUserStatus } from '../../../theme/models/user';
 import { MemberSpaceService } from './member-space.service';
 import { ActivatedRoute } from '@angular/router';
@@ -18,7 +19,7 @@ export class MemberSpaceComponent implements OnInit {
     private readonly service = inject(MemberSpaceService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public readonly isLoading = signal(false);
     public readonly data = signal<IUserStatus>(null);
@@ -49,7 +50,7 @@ export class MemberSpaceComponent implements OnInit {
             error: err => {
                 this.isLoading.set(false);
                 this.toastrService.error(err);
-                history.back();
+                this.location.back();
             }
         })
     }

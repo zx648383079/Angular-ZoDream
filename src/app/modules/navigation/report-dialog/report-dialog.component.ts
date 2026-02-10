@@ -2,7 +2,6 @@ import { Component, computed, inject, input, signal } from '@angular/core';
 import { DialogConfirmFn, DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { IItem } from '../../../theme/models/seo';
-import { emptyValidate } from '../../../theme/validators';
 import { IWebPage } from '../model';
 import { NavigationService } from '../navigation.service';
 import { form, maxLength, required } from '@angular/forms/signals';
@@ -26,7 +25,7 @@ export class ReportDialogComponent {
     private confirmFn: DialogConfirmFn;
 
 
-    public typeItems: {
+    public readonly typeItems: {
         label: string;
         items: IItem[];
     }[] = [

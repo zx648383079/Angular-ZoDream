@@ -1,6 +1,6 @@
 import { form } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { IPageQueries } from '../../../theme/models/page';
+import { Location } from '@angular/common';
 import { DialogService } from '../../../components/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService, ThemeService } from '../../../theme/services';
@@ -20,7 +20,7 @@ export class MemberComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
-
+    private readonly location = inject(Location);
 
     public categories: ICategory[] = [];
     public statusItems: IItem[] = [];
@@ -53,7 +53,7 @@ export class MemberComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapRefresh() {

@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { DialogService } from '../../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../../components/form';
 import { TbkService } from '../tbk.service';
@@ -13,7 +14,7 @@ import { form, required } from '@angular/forms/signals';
 export class SettingComponent implements OnInit {
     private readonly service = inject(TbkService);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public readonly dataModel = signal({
         app_key: '',
@@ -34,7 +35,7 @@ export class SettingComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapSubmit2(e: SubmitEvent) {

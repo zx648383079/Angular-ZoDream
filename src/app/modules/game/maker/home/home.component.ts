@@ -2,6 +2,7 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { GameMakerService } from '../game-maker.service';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
     standalone: false,
@@ -13,7 +14,7 @@ export class HomeComponent implements OnInit {
     private readonly service = inject(GameMakerService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public readonly isLoading = signal(true);
     public readonly data = signal<any>({});
@@ -27,7 +28,7 @@ export class HomeComponent implements OnInit {
                 },
                 error: err => {
                     this.toastrService.error(err);
-                    history.back();
+                    this.location.back();
                 }
             });
         });

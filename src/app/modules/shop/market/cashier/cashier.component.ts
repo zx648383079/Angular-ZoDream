@@ -1,4 +1,5 @@
 import { Component, inject, signal, viewChild } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
@@ -33,7 +34,7 @@ export class CashierComponent {
     private readonly toastrService = inject(DialogService);
     private readonly store = inject<Store<ShopAppState>>(Store);
     private readonly themeService = inject(ThemeService);
-
+    private readonly location = inject(Location);
 
     private readonly invoiceModal = viewChild(InvoiceDialogComponent);
 
@@ -75,7 +76,7 @@ export class CashierComponent {
             if (!res || res.length < 1) {
                 // 判断是否是结算时清空的
                 if (this.items().length < 1) {
-                    history.back();
+                    this.location.back();
                 }
                 return;
             }

@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { TrackerService } from '../tracker.service';
 import { IChannel, IProduct } from '../model';
@@ -20,7 +21,7 @@ export class ProductComponent implements OnInit {
     private readonly service = inject(TrackerService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public readonly data = signal<IProduct>(null);;
     public readonly children = signal<IProduct[]>([]);;
@@ -71,7 +72,7 @@ export class ProductComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public onQueriesChange() {

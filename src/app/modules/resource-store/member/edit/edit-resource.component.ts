@@ -4,6 +4,7 @@ import { FileTypeItems, ICategory, IResource, IResourceFile, ITag, MediaTypeItem
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { ResourceService } from '../resource.service';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 import { DialogService } from '../../../../components/dialog';
 import { FileUploadService, ThemeService } from '../../../../theme/services';
 import { parseNumber } from '../../../../theme/utils';
@@ -30,7 +31,7 @@ export class EditResourceComponent implements OnInit, OnDestroy {
     private readonly toastrService = inject(DialogService);
     private readonly uploadService = inject(FileUploadService);
     private readonly themeService = inject(ThemeService);
-
+    private readonly location = inject(Location);
 
     public readonly dataModel = signal({
         id: 0,
@@ -97,7 +98,7 @@ export class EditResourceComponent implements OnInit, OnDestroy {
                 },
                 error: err => {
                     this.toastrService.error(err);
-                    history.back();
+                    this.location.back();
                 }
             });
         });
@@ -142,7 +143,7 @@ export class EditResourceComponent implements OnInit, OnDestroy {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapSubmit2(e: SubmitEvent) {
@@ -165,7 +166,7 @@ export class EditResourceComponent implements OnInit, OnDestroy {
             next: _ => {
                 e.reset();
                 this.toastrService.success($localize `Save Successfully`);
-                history.back();
+                this.location.back();
             },
             error: err => {
                 this.toastrService.error(err);

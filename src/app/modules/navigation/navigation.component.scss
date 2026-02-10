@@ -2,8 +2,8 @@
 .main-container {
     padding-top: 30vh;
     transition: all .5s;
-    &.on-search {
-        padding-top: 0;
+    &.--with-search {
+        padding-top: 2rem;
         .search-bar {
             margin-bottom: 1rem;
         }
@@ -27,7 +27,7 @@
         width: 4rem;
         height: .3rem;
         border-radius: .15rem;
-        background-color: #fff;
+        background-color: var(--#{theme.$prefix}panel);
         transition: all .5s;
     }
     &::before {
@@ -42,10 +42,10 @@
     &:hover {
         &::after,
         &::before {
-            background-color: #f90;
+            background-color: var(--#{theme.$prefix}warning);
         }
     }
-    &.opened {
+    &.--with-opened {
         margin-top: 0;
         margin-bottom: 0;
         &::after,
@@ -62,8 +62,21 @@
     align-items: center;
     font-size: 3rem;
     height: 60vh;
-    color: #ccc;
+    color: var(--#{theme.$prefix}meta-text);
     user-select: none;
+}
+
+.advice-tooltip {
+    display: block;
+    user-select: none;
+    background-color: rgba(var(--#{theme.$prefix}mask-rgb), .2);
+    color: var(--#{theme.$prefix}surface-text);
+    padding: .8rem;
+    border-radius: .25rem;
+    a {
+        cursor: pointer;
+        color: var(--#{theme.$prefix}link-text);
+    }
 }
 
 .main-container ::ng-deep {

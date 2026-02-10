@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ISignature, ITemplate } from '../../model';
@@ -16,7 +17,7 @@ export class EditTemplateComponent implements OnInit {
     private readonly service = inject(MessageServiceService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public readonly dataModel = signal({
         id: 0,
@@ -67,7 +68,7 @@ export class EditTemplateComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public onContentChange() {

@@ -1,9 +1,10 @@
+@use '../../../theme/theme';
 .panel {
     .panel-header {
         line-height: 2.5rem;
         // background-color: #fff;
         padding: 0 0.625rem;
-        border-bottom: 1px solid #f90;
+        border-bottom: 1px solid var(--#{theme.$prefix}border);
         user-select: none;
         display: flex;
         justify-content: space-between;
@@ -55,14 +56,14 @@
         transition: all 0.3s ease;
         width: 7.5rem;
         &:hover {
-            color: #FFF;
+            color: var(--#{theme.$prefix}surface-text);
+            background-color: var(--#{theme.$prefix}surface);
             font-size: 16px;
             font-weight: bold;
-            background: #6b7184;
         }
     }
     .panel-footer {
-        background: #6b7184;
+        background-color: var(--#{theme.$prefix}surface);
         height: 0;
         line-height: 2.2rem;
         text-align: center;
@@ -72,20 +73,21 @@
             margin-top: 2rem;
         }
         .btn {
-            color: rgba(255, 255, 255, 0.60);
-            border: 2px solid rgba(255, 255, 255, 0.6);
+            color: var(--#{theme.$prefix}surface-text);
+            border: 2px solid var(--#{theme.$prefix}border);
+            border-right: none;
             background-color: transparent;
             cursor: pointer;
             transition: all .2s;
             &:hover {
-                color: #6b7184;
-                border-color: #fff;
-                background: #fff
+                background-color: var(--#{theme.$prefix}surface-hovered);
+                color: var(--#{theme.$prefix}surface-selected-text);
             }
             &.panel-close {
-                color: #6b7184;
-                border-color: #fff;
-                background: #fff;
+                color: var(--#{theme.$prefix}surface);
+                border-right: 2px;
+                border-color: var(--#{theme.$prefix}surface-text);
+                background-color: var(--#{theme.$prefix}surface-text);
             }
         }
     }

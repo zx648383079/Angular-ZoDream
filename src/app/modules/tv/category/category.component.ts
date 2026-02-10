@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ICategory } from '../model';
 import { TvService } from '../tv.service';
@@ -12,7 +13,7 @@ import { TvService } from '../tv.service';
 export class CategoryComponent implements OnInit {
     private readonly service = inject(TvService);
     private readonly route = inject(ActivatedRoute);
-
+    private readonly location = inject(Location);
 
     public readonly items = signal<ICategory[]>([]);
     public readonly isLoading = signal(false);
@@ -20,7 +21,7 @@ export class CategoryComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(param => {
             if (!param.id) {
-                history.back();
+                this.location.back();
                 return;
             }
             this.load(param.id);
@@ -39,7 +40,7 @@ export class CategoryComponent implements OnInit {
             },
             error: err => {
                 this.isLoading.set(false);
-                history.back();
+                this.location.back();
             }
         });
     }

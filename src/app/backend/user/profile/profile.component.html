@@ -13,22 +13,19 @@
                             </div>
                             }
                             <label for="fileUpload" class="btn btn-light">更改头像</label>
-                            <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)"
-                                accept="image/*" />
+                            <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*" />
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="name">昵称</label>
                         <div>
-                            <input type="text" id="name" class="form-control" [formField]="dataForm.name"
-                                placeholder="请输入 昵称">
+                            <input type="text" id="name" class="form-control" [formField]="dataForm.name" placeholder="请输入 昵称">
                         </div>
                     </div>
                     <div class="input-group-control">
                         <label for="email">邮箱</label>
                         <div>
-                            <input type="email" id="email" class="form-control" [formField]="dataForm.email"
-                                placeholder="请输入 邮箱">
+                            <input type="email" id="email" class="form-control" [formField]="dataForm.email" placeholder="请输入 邮箱">
                         </div>
                     </div>
                     <div class="input-group-control">

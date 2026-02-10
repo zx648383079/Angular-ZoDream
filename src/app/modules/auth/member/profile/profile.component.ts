@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IItem } from '../../../../theme/models/seo';
@@ -17,7 +18,7 @@ export class ProfileComponent implements OnInit {
     private readonly service = inject(MemberService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-
+    private readonly location = inject(Location);
 
     public sexItems = SexItems;
     public readonly user = signal<IUser>(null);
@@ -50,7 +51,7 @@ export class ProfileComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapStepEdit(name = 'email') {

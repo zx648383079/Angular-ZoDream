@@ -1,10 +1,9 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { environment } from '../../../../../../environments/environment';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
 import { IArticle, IArticleCategory } from '../../../model';
-import { FileUploadService } from '../../../../../theme/services/file-upload.service';
 import { ArticleService } from '../../article.service';
 import { form, required } from '@angular/forms/signals';
 
@@ -18,7 +17,7 @@ export class EditArticleComponent implements OnInit {
     private readonly service = inject(ArticleService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public readonly dataModel = signal({
         id: 0,
@@ -63,7 +62,7 @@ export class EditArticleComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapSubmit2(e: SubmitEvent) {

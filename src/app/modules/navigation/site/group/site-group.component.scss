@@ -1,29 +1,30 @@
+@use '../../../../theme/theme';
 .site-item {
     display: block;
-    padding: 10px 10px;
-    border-radius: 5px;
-    background-color: #fafafa;
-    margin-bottom: 10px;
+    padding: 0.625rem 0.625rem;
+    border-radius: 0.3125rem;
+    background-color: var(--#{theme.$prefix}panel);
+    margin-bottom: 0.625rem;
     position: relative;
     .item-name {
         height: 30px;
         font-size: 12px;
         font-weight: 700;
-        color: #30333C;
+        color: var(--#{theme.$prefix}body-text);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: normal;
         transition: all .3s;
     }
     img {
-        width: 30px;
-        height: 30px;
+        width: 1.875rem;
+        height: 1.875rem;
         border-radius: 50%;
-        margin-right: 10px;
+        margin-right: 0.625rem;
         vertical-align: middle;
     }
     .item-desc {
-        color: #A1A7B7;
+        color: var(--#{theme.$prefix}meta-text);
         height: 42px;
         overflow: hidden;
     }
@@ -31,22 +32,23 @@
         position: absolute;
         right: 0;
         bottom: 0;
-        font-size: 30px;
+        font-size: 1.875rem;
         opacity: 0;
     }
     &:hover {
-        background: #6b7184;
+        color: var(--#{theme.$prefix}surface-text);
+        background-color: var(--#{theme.$prefix}surface);
         .item-name,
         .go-btn,
         a {
-            color: #fff;
+            color: var(--#{theme.$prefix}surface-selected-text);
         }
         .item-desc {
-            color: #c0c8dc;
+            color: var(--#{theme.$prefix}surface-text);
         }
         .go-btn {
-            bottom: 20px;
-            font-size: 40px;
+            bottom: 1.25rem;
+            font-size: 2.5rem;
             opacity: 1;
         }
     }

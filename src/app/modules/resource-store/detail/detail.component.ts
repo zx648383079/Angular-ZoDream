@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { ThemeService } from '../../../theme/services';
@@ -17,7 +18,7 @@ export class DetailComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
-
+    private readonly location = inject(Location);
 
     public readonly data = signal<IResource>(null);
     public readonly isLoading = signal(false);
@@ -27,7 +28,7 @@ export class DetailComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(param => {
             if (!param.id) {
-                history.back();
+                this.location.back();
                 return;
             }
             this.load(param.id);
@@ -53,7 +54,7 @@ export class DetailComponent implements OnInit {
                 this.isLoading.set(false);
                 this.data.set(null);
                 this.toastrService.error(err)
-                history.back();
+                this.location.back();
             }
         });
     }

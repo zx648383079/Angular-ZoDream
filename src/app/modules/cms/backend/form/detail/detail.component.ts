@@ -1,4 +1,5 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { SearchService } from '../../../../../theme/services';
@@ -20,7 +21,7 @@ export class FormDetailComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
     private readonly searchService = inject(SearchService);
-
+    private readonly location = inject(Location);
 
     public data: ICmsContent;
     public readonly queries = form(signal({
@@ -79,7 +80,7 @@ export class FormDetailComponent implements OnInit {
             next: _ => {
                 e?.reset();
                 this.toastrService.success($localize `Save Successfully`);
-                history.back();
+                this.location.back();
             },
             error: err => {
                 e?.reset();

@@ -1,5 +1,6 @@
 import { form } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { IMicro } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
 import { MicroService } from './micro.service';
@@ -18,7 +19,7 @@ export class MicroMemberComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
-
+    private readonly location = inject(Location);
 
     public readonly items = signal<IMicro[]>([]);
     public readonly queries = form(signal<IPageQueries>({
@@ -38,7 +39,7 @@ export class MicroMemberComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapRefresh() {

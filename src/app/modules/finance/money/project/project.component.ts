@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { FinanceService } from '../../finance.service';
 import { IAccount, IFinancialProduct, IFinancialProject } from '../../model';
@@ -13,7 +14,7 @@ import { form, required } from '@angular/forms/signals';
 export class ProjectComponent implements OnInit {
     private readonly service = inject(FinanceService);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public readonly items = signal<IFinancialProject[]>([]);
     public readonly isLoading = signal(false);
@@ -50,7 +51,7 @@ export class ProjectComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public formatScale(val: number) {

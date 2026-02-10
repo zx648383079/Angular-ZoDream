@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { IProject, IProjectEnvironment } from '../../model';
@@ -14,7 +15,7 @@ import { form, required } from '@angular/forms/signals';
 export class CreateComponent {
     private readonly service = inject(DocumentService);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public readonly dataModel = signal({
         type: 0,
@@ -67,7 +68,7 @@ export class CreateComponent {
             next: _ => {
                 e?.reset();
                 this.toastrService.success($localize `Save Successfully`);
-                history.back();
+                this.location.back();
             },
             error: err => {
                 e?.reset();
@@ -77,7 +78,7 @@ export class CreateComponent {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapType(item: any) {

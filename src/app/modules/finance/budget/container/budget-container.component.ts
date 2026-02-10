@@ -1,4 +1,5 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { EChartsCoreOption } from 'echarts/core';
 import { mapFormat } from '../../../../theme/utils';
@@ -14,7 +15,7 @@ import { IBudget } from '../../model';
 export class BudgetContainerComponent implements OnInit {
     private readonly service = inject(FinanceService);
     private readonly route = inject(ActivatedRoute);
-
+    private readonly location = inject(Location);
 
     public readonly isLoading = signal(true);
     public readonly data = signal<IBudget>(null);
@@ -36,7 +37,7 @@ export class BudgetContainerComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public onQueriesChange(id: number) {

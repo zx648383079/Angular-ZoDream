@@ -1,8 +1,8 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IErrorResult } from '../../../../../theme/models/page';
-import { IBotAccount } from '../../../model';
 import { BotService } from '../../bot.service';
 import { ButtonEvent } from '../../../../../components/form';
 import { form, required } from '@angular/forms/signals';
@@ -17,7 +17,7 @@ export class EditAccountComponent implements OnInit {
     private readonly service = inject(BotService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public readonly dataModel = signal({
         id: 0,
@@ -75,7 +75,7 @@ export class EditAccountComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapSubmit2(e: SubmitEvent) {

@@ -6,7 +6,7 @@ import { UploadCustomEvent } from '../../../../../components/form';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
 import { parseNumber } from '../../../../../theme/utils';
-import { emptyValidate } from '../../../../../theme/validators';
+import { Location } from '@angular/common';
 import { FileTypeItems, ISoftware, ISoftwarePackage } from '../../../model';
 import { AppService } from '../../app.service';
 
@@ -21,7 +21,7 @@ export class PackageComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
-
+    private readonly location = inject(Location);
 
     public readonly items = signal<ISoftwarePackage[]>([]);
     private hasMore = true;
@@ -56,7 +56,7 @@ export class PackageComponent implements OnInit {
         this.route.params.subscribe(params => {
             const softwareId = parseNumber(params.app);
             if (!softwareId) {
-                history.back();
+                this.location.back();
                 return;
             }
             this.software = {id: softwareId, version: {id: params.version}} as any;

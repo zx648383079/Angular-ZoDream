@@ -1,4 +1,5 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ICategory, IThemeComponent, ComponentTypeItems } from '../../../model';
 import { VisualService } from '../../visual.service';
 import { ActivatedRoute } from '@angular/router';
@@ -17,6 +18,7 @@ export class EditWeightComponent implements OnInit {
     private readonly service = inject(VisualService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
+    private readonly location = inject(Location);
 
 
     public readonly dataModel = signal({
@@ -67,7 +69,7 @@ export class EditWeightComponent implements OnInit {
                 },
                 error: err => {
                     this.toastrService.error(err);
-                    history.back();
+                    this.location.back();
                 }
             });
         });
@@ -101,7 +103,7 @@ export class EditWeightComponent implements OnInit {
             next: _ => {
                 e.reset();
                 this.toastrService.success($localize `Save Successfully`);
-                history.back();
+                this.location.back();
             },
             error: err => {
                 this.toastrService.error(err);

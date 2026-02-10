@@ -1,7 +1,10 @@
 import { Component, effect, inject, input, model, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ThemeService } from '../../../theme/services';
 import { SuggestChangeEvent } from '../../form';
 import { DialogBaseEvent } from '../../dialog';
+import { NavigationStart, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
     standalone: false,
@@ -12,6 +15,9 @@ import { DialogBaseEvent } from '../../dialog';
 export class SearchControlComponent implements SuggestChangeEvent, DialogBaseEvent {
 
     private readonly themeService = inject(ThemeService);
+    private readonly location = inject(Location);
+    private readonly router = inject(Router);
+
     public readonly visible = signal(false);
     public readonly value = model('');
     public readonly placeholder = input($localize `Please enter a keyword, press Enter to search`);
@@ -26,6 +32,16 @@ export class SearchControlComponent implements SuggestChangeEvent, DialogBaseEve
     }
 
     constructor() {
+        this.router.events.pipe(
+            filter(
+                (event: NavigationStart) => this.visible() && event.navigationTrigger === 'popstate'
+            )
+        )
+        .subscribe(() => {
+            this.router.navigateByUrl(this.router.url);
+            this.location.go(this.router.url);
+            this.close();
+        });
         effect(() => {
             this.historyKey();
             this.loadHistory();

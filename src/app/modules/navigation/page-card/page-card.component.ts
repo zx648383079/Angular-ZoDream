@@ -1,4 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { DialogBaseEvent, DialogService } from '../../../components/dialog';
+import { form, pattern, required } from '@angular/forms/signals';
+import { NavigationService } from '../navigation.service';
 
 @Component({
     standalone: false,
@@ -6,14 +9,28 @@ import { Component, signal } from '@angular/core';
     templateUrl: './page-card.component.html',
     styleUrls: ['./page-card.component.scss'],
 })
-export class PageCardComponent {
+export class PageCardComponent implements DialogBaseEvent {
 
+    private readonly service = inject(NavigationService);
+    private readonly toastrService = inject(DialogService);
     /**
      * 是否显示
      */
     public readonly visible = signal(false);
-
     public readonly isLoading = signal(false);
+
+    public readonly dataForm = form(signal({
+        title: '',
+        description: '',
+        thumb: '',
+        link: '',
+    }), schemaPath => {
+        required(schemaPath.link);
+        required(schemaPath.title);
+        pattern(schemaPath.link, /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/, {
+            message: $localize `Link is invalid!`
+        });
+    });
 
     public open() {
         this.visible.set(true);
@@ -23,7 +40,45 @@ export class PageCardComponent {
         this.visible.set(false);
     }
 
+    public tapReset() {
+        this.dataForm().value.set({
+            thumb: '',
+            link: '',
+            title: '',
+            description: ''
+        });
+    }
+
     public tapSubmit() {
+        if (this.dataForm().invalid()) {
+            return;
+        }
         this.isLoading.set(true);
+        this.service.submit({...this.dataForm().value()}).subscribe({
+            next: _ => {
+                this.toastrService.success($localize `Submitted, waiting for review`);
+                this.isLoading.set(false);
+                this.close();
+            },
+            error: err => {
+                this.isLoading.set(false);
+                this.toastrService.error(err);
+            }
+        })
+    }
+
+
+
+    public uploadFile(e: any) {
+        if (this.isLoading()) {
+            return;
+        }
+        const files = e.target.files as FileList;
+        if (files.length < 1) {
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = e => this.dataForm.thumb().value.set(e.target.result as string);
+        reader.readAsDataURL(files[0]);
     }
 }

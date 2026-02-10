@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
 import { CountdownEvent } from '../../../../components/form';
@@ -19,7 +20,7 @@ export class PasswordComponent {
     private readonly store = inject<Store<AppState>>(Store);
     private readonly service = inject(MemberService);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public readonly tabIndex = signal(0);
     public user: IUser;
@@ -43,7 +44,7 @@ export class PasswordComponent {
             this.tabIndex.set(0);
             return;
         }
-        history.back();
+        this.location.back();
     }
 
     public tapSendCode(e: CountdownEvent) {

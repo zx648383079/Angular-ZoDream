@@ -1,4 +1,5 @@
 import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { emptyValidate } from '../../../../theme/validators';
@@ -20,6 +21,7 @@ export class EditIncomeComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
     private readonly destroyRef = inject(DestroyRef);
+    private readonly location = inject(Location);
 
     public readonly dataModel = signal({
         id: 0,
@@ -102,7 +104,7 @@ export class EditIncomeComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public toggleMode(mode: number) {

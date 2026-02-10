@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IMovie, IMovieSeries } from '../model';
@@ -14,7 +15,7 @@ export class DetailComponent implements OnInit {
     private readonly service = inject(TvService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-
+    private readonly location = inject(Location);
 
     public readonly data =signal<IMovie>(null);
     public readonly seriesItems = signal<IMovieSeries[]>([]);
@@ -24,7 +25,7 @@ export class DetailComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(param => {
             if (!param.id) {
-                history.back();
+                this.location.back();
                 return;
             }
             this.load(param.id);
@@ -46,7 +47,7 @@ export class DetailComponent implements OnInit {
                 this.isLoading.set(false);
                 this.toastrService.error(err);
                 this.data.set(null);
-                history.back();
+                this.location.back();
             }
         });
     }

@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ChapterTypeItems, IChapter } from '../../../model';
 import { wordLength } from '../../../../../theme/utils';
@@ -17,7 +18,7 @@ export class ChapterDetailComponent implements OnInit {
     private readonly service = inject(BookService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public readonly dataModel = signal({
         id: 0,
@@ -40,7 +41,7 @@ export class ChapterDetailComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             if (!params.book) {
-                history.back();
+                this.location.back();
                 return;
             }
             if (!params.id) {
@@ -68,7 +69,7 @@ export class ChapterDetailComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapSubmit2(e: SubmitEvent) {

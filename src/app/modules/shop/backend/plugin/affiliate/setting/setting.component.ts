@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { DialogService } from '../../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../../components/form';
 import { AffiliateService } from '../affiliate.service';
@@ -17,7 +18,7 @@ interface IUserGrade {
 export class SettingComponent implements OnInit {
     private readonly service = inject(AffiliateService);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public readonly dataForm = form(signal({
         by_user: 0,
@@ -34,7 +35,7 @@ export class SettingComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapSubmit(e?: ButtonEvent) {

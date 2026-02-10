@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit, inject } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { hasElementByClass } from '../../../theme/utils/doc';
@@ -15,7 +16,7 @@ export class DetailComponent implements OnInit {
     private readonly service = inject(BotService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public data: IBotMedia;
     public dropToggle = false;
@@ -37,7 +38,7 @@ export class DetailComponent implements OnInit {
                 },
                 error: err => {
                     this.toastrService.error(err);
-                    history.back();
+                    this.location.back();
                 }
             });
         });

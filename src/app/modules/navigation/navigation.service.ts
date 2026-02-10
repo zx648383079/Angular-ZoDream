@@ -17,6 +17,10 @@ export class NavigationService {
         return this.http.get<IData<string>>('navigation/search/suggest', {params: {keywords}});
     }
 
+    public submit(data: any) {
+        return this.http.post<IDataOne<boolean>>('navigation/site/submit', data);
+    }
+
     public categoryAll() {
         return this.http.get<IData<ISiteCategory>>('navigation/site/category');
     }

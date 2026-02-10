@@ -1,4 +1,6 @@
-<div class="page-container" [class]="{'page-not-thumb': !value().thumb}">
+<div class="page-container" 
+    [class.--without-thumb]="!value().thumb"
+    [class.--with-drop-open]="menuOpen()">
     <div class="page-header">
         <a [href]="value().link" target="_blank" rel="noopener">
             <app-rule-block [value]="value().title" [rules]="rules()" />
@@ -40,12 +42,12 @@
                     <div class="drop-icon" (click)="menuOpen.set(true)">
                         <i class="iconfont icon-ellipsis-h"></i>
                     </div>
-                    <div class="drop-body" [class]="{open: menuOpen}" (click)="menuOpen.set(false)">
-                        <div class="menu-body" (click)="$event.stopPropagation()">
+                    <div class="drop-body" (click)="menuOpen.set(false)">
+                        <div class="tablet-menu-panel" (click)="$event.stopPropagation()">
                             @for (item of menuItems; track $index; let i = $index) {
                             <div class="menu-item" (click)="tapMenu(i)">{{ item }}</div>
                             }
-                            <div class="menu-item menu-item-close" (click)="menuOpen.set(false)" i18n>Cancel</div>
+                            <div class="menu-item --with-divider" (click)="menuOpen.set(false)" i18n>Cancel</div>
                         </div>
                     </div>
                 </div>

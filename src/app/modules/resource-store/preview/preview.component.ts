@@ -1,4 +1,5 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
@@ -24,7 +25,7 @@ export class PreviewComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
     private readonly sanitizer = inject(DomSanitizer);
-
+    private readonly location = inject(Location);
 
     public readonly data = signal<IResource>(null);
     public readonly isLoading = signal(false);
@@ -52,7 +53,7 @@ export class PreviewComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(param => {
             if (!param.id) {
-                history.back();
+                this.location.back();
                 return;
             }
             this.load(param.id);
@@ -72,7 +73,7 @@ export class PreviewComponent implements OnInit {
                 this.isLoading.set(false);
                 this.data.set(null);
                 this.toastrService.error(err)
-                history.back();
+                this.location.back();
             }
         });
     }

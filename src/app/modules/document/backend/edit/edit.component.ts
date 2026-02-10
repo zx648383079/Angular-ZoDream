@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -16,7 +17,7 @@ export class EditComponent implements OnInit {
     private readonly service = inject(DocumentService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public readonly dataModel = signal({
         id: 0,
@@ -42,7 +43,7 @@ export class EditComponent implements OnInit {
         });
         this.route.params.subscribe(params => {
             if (!params.id || params.id < 1) {
-                history.back();
+                this.location.back();
                 return;
             }
             this.service.project(params.id).subscribe(res => {
@@ -85,7 +86,7 @@ export class EditComponent implements OnInit {
             next: _ => {
                 e?.reset();
                 this.toastrService.success($localize `Save Successfully`);
-                history.back();
+                this.location.back();
             },
             error: err => {
                 e?.reset();

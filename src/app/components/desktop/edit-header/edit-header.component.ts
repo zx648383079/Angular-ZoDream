@@ -1,4 +1,5 @@
 import { Component, effect, inject, input, model, output } from '@angular/core';
+import { Location } from '@angular/common';
 import { ButtonEvent } from '../../../components/form';
 import { ThemeService } from '../../../theme/services';
 
@@ -10,7 +11,7 @@ import { ThemeService } from '../../../theme/services';
 })
 export class EditHeaderComponent implements ButtonEvent {
     private readonly themeService = inject(ThemeService);
-
+    private readonly location = inject(Location);
 
     public readonly title = input('');
     public readonly min = input(false);
@@ -25,7 +26,7 @@ export class EditHeaderComponent implements ButtonEvent {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapSubmit() {

@@ -125,6 +125,7 @@ export class SelectPickerComponent {
         const next = src.influence(index);
         if (next < 0) {
             this.items.set([...items]);
+            this.value.set(src.format(...items.map(i => i.items[i.selected])));
             return;
         }
         src.select(items.map(i => i.items[i.selected]), next).subscribe(res => {

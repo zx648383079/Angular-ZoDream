@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IForum, IThread } from '../../model';
@@ -17,7 +18,7 @@ export class EditThreadComponent implements OnInit {
     private readonly service = inject(ForumService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public readonly dataModel = signal({
         id: 0,
@@ -55,6 +56,10 @@ export class EditThreadComponent implements OnInit {
         });
     }
 
+    public tapBack() {
+        this.location.back();
+    }
+
     public tapSubmit2(e: SubmitEvent) {
         e.preventDefault();
         this.tapSubmit();
@@ -74,7 +79,7 @@ export class EditThreadComponent implements OnInit {
             next: res => {
                 e?.reset();
                 this.toastrService.success($localize `Published successfully`);
-                history.back();
+                this.tapBack();
             },
             error: (err: IErrorResult) => {
                 e?.reset();

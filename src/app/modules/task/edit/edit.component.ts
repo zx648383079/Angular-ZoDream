@@ -1,4 +1,5 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import {
     ActivatedRoute
 } from '@angular/router';
@@ -23,6 +24,7 @@ export class EditComponent implements OnInit {
     private readonly service = inject(TaskService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
+    private readonly location = inject(Location);
 
 
     public readonly dataModel = signal({
@@ -84,7 +86,7 @@ export class EditComponent implements OnInit {
     });
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapSubmit2(e: SubmitEvent) {

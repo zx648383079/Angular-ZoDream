@@ -95,22 +95,23 @@ export class NavigationPanelComponent {
         if (this.isExist(link, 0)) {
             return;
         }
-        if (this.items().length < 1) {
-            this.items.update(v => {
+        this.items.update(v => {
+            if (v.length < 1) {
                 v.push({
                     id: this.generateId(false),
                     name: $localize `Default`,
                     items: []
                 });
-                return [...v];
-            });
-        }
-        const group = this.items[0];
-        group.items.push({
-            id: this.generateId(true),
-            name,
-            link,
-            group_id: group.id, 
+            } else {
+                const group = v[0];
+                group.items.push({
+                    id: this.generateId(true),
+                    name,
+                    link,
+                    group_id: group.id, 
+                });
+            }
+            return [...v];
         });
         this.tapSave(0);
     }
@@ -130,26 +131,27 @@ export class NavigationPanelComponent {
 
     public tapAdd() {
         this.open(undefined, data => {
-            if (data.group_id) {
-                this.items[this.groupIndex(data.group_id)].items.push(data);
-                return;
-            }
-            data.items = [];
             this.items.update(v => {
-                v.push(data);
-                return v;
+                if (data.group_id) {
+                    v[this.groupIndex(data.group_id)].items.push(data);
+                } else {
+                    v.push({...data, items: []});
+                }
+                return [...v];
             });
         });
     }
 
     public tapEdit(i: number, j = -1) {
-        const item = j < 0 ? this.items[i] : this.items[i].items[j];
+        const items = this.items();
+        const item = j < 0 ? items[i] : items[i].items[j];
         this.open(item, data => {
             if (j < 0) {
-                this.items[i].name = data.name;
-                return;
+                items[i].name = data.name;
+            } else {
+                items[i].items[j] = data as any;
             }
-            this.items[i].items[j] = data as any;
+            this.items.set(items);
         });
     }
 
@@ -211,8 +213,9 @@ export class NavigationPanelComponent {
     }
 
     private groupIndex(id: number): number {
-        for (let i = 0; i < this.items().length; i++) {
-            const element = this.items[i];
+        const items = this.items();
+        for (let i = 0; i < items.length; i++) {
+            const element = items[i];
             if (element.id == id) {
                 return i;
             }

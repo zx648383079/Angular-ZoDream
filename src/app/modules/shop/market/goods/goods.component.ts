@@ -1,4 +1,5 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -25,6 +26,7 @@ export class GoodsComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
     private readonly store = inject<Store<ShopAppState>>(Store);
     private readonly themeService = inject(ThemeService);
+    private readonly location = inject(Location);
 
 
     public readonly data = signal<IGoods>(null);
@@ -79,7 +81,7 @@ export class GoodsComponent implements OnInit {
             },
             error: err => {
                 this.toastrService.warning(err);
-                history.back();
+                this.location.back();
             }
         });
     }

@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -22,7 +23,7 @@ export class EditComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
     private readonly uploadService = inject(FileUploadService);
     private readonly attrService = inject(AttributeService);
-
+    private readonly location = inject(Location);
 
     public readonly skuForm = viewChild(SkuFormComponent);
 
@@ -123,7 +124,7 @@ export class EditComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapCreateSn() {

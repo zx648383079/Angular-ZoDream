@@ -1,5 +1,6 @@
 import { form } from '@angular/forms/signals';
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IBlockItem } from '../../../components/link-rule';
@@ -22,7 +23,7 @@ export class BulletinComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
-
+    private readonly location = inject(Location);
 
     public readonly items = signal<IBulletinUser[]>([]);
     private hasMore = true;
@@ -43,7 +44,7 @@ export class BulletinComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapToggle(item: IBulletinUser) {

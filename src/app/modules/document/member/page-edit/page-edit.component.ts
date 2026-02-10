@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -22,6 +23,7 @@ export class PageEditComponent implements OnInit, OnDestroy {
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
+    private readonly location = inject(Location);
 
     public readonly dataModel = signal({
         name: '',
@@ -60,7 +62,7 @@ export class PageEditComponent implements OnInit, OnDestroy {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     private loadCatalog(project: any, id: any) {

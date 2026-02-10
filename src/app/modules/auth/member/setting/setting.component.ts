@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, computed, effect, inject, signal, untracked } from '@angular/core';
+import { Location } from '@angular/common';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { SearchService } from '../../../../theme/services';
@@ -24,7 +25,7 @@ export class SettingComponent implements OnDestroy {
     private readonly service = inject(MemberService);
     private readonly toastrService = inject(DialogService);
     private readonly searchService = inject(SearchService);
-
+    private readonly location = inject(Location);
 
     public readonly dataForm = form(signal({
         accept_new_bulletin: true,
@@ -107,7 +108,7 @@ export class SettingComponent implements OnDestroy {
             });
             return;
         }
-        history.back();
+        this.location.back();
     }
 
     public tapSubmit(e?: ButtonEvent) {

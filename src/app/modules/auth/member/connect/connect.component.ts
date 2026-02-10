@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Location } from '@angular/common';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IConnect } from '../../../../theme/models/auth';
 import { WebAuthn } from '../../../../theme/services';
@@ -15,8 +16,8 @@ import { form } from '@angular/forms/signals';
 export class ConnectComponent implements OnInit {
     private readonly service = inject(MemberService);
     private readonly toastrService = inject(DialogService);
-    private webAuthnn = inject(WebAuthn);
-
+    private readonly webAuthnn = inject(WebAuthn);
+    private readonly location = inject(Location);
 
     private readonly faModal = viewChild<DialogEvent>('faModal');
     public readonly items = signal<IConnect[]>([]);
@@ -32,7 +33,7 @@ export class ConnectComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapRefresh() {

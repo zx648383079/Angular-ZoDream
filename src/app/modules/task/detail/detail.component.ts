@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { ThemeService } from '../../../theme/services';
@@ -21,6 +22,7 @@ export class DetailComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
     private readonly themeService = inject(ThemeService);
+    private readonly location = inject(Location);
 
 
     public readonly progressor = viewChild(CircleProgressComponent);
@@ -112,7 +114,7 @@ export class DetailComponent implements OnInit {
                 this.data.set(res);
                 this.progressor().stop();
                 if (res.amount < 1) {
-                    history.back();
+                    this.location.back();
                 }
             },
             error: err => {
@@ -136,7 +138,7 @@ export class DetailComponent implements OnInit {
                 });
                 this.progressor().stop();
                 if (this.data().amount < 1) {
-                    history.back();
+                    this.location.back();
                 }
             },
             error: err => {

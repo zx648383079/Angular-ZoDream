@@ -21,7 +21,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="pull-right btn-group">
-                    <a class="btn btn-info" (click)="panelOpen.set(true)">高级搜索</a>
+                    <a class="btn btn-info" (click)="panelVisible.set(true)">高级搜索</a>
                     <a class="btn btn-primary" routerLink="create">新增流水</a>
                     <app-upload-button class="btn btn-info" accept=".csv,.xlsx" (uploading)="tapImport($event)">导入</app-upload-button>
                     <app-action-button class="btn btn-success" (tapped)="tapExport($event)">导出</app-action-button>
@@ -93,9 +93,12 @@
             <a class="route-icon" routerLink="create">
                 <i class="iconfont icon-plus"></i>
             </a>
+            <a class="route-icon" (click)="menuVisible.set(true)">
+                <i class="iconfont icon-ellipsis-v"></i>
+            </a>
         </div>
         <div class="tablet-search-header --with-only-search">
-            <div class="search-entry" (click)="panelOpen.set(true)">
+            <div class="search-entry" (click)="panelVisible.set(true)">
                 <i class="iconfont icon-search"></i>
                 <span>{{ queryPlaceholder() }}</span>
             </div>
@@ -142,11 +145,11 @@
     </app-swipe-list-control>
 </div>
 
-@if (panelOpen()) {
-<div class="dialog-mask --with-pane tablet-visible" (click)="panelOpen.set(false)"></div>
+@if (panelVisible()) {
+<div class="dialog-mask --with-pane tablet-visible" (click)="panelVisible.set(false)"></div>
 <div class="dialog-panel" animate.enter="panel-opened" animate.leave="panel-closed">
     <div class="panel-header">
-        <i class="iconfont icon-close" (click)="panelOpen.set(false)"></i>
+        <i class="iconfont icon-close" (click)="panelVisible.set(false)"></i>
     </div>
     <form class="panel-body" (submit)="tapSearch($event)">
         <div class="form-group">
@@ -229,7 +232,6 @@
     </form>
 </div>
 }
-
 
 
 <app-dialog-box #updateModal title="批量编辑">
@@ -331,3 +333,28 @@
     </div>
     }
 </app-dialog-box>
+
+@if (menuVisible()) {
+    <div class="tablet-mask" (click)="menuVisible.set(false)"></div>
+    <div class="tablet-menu-panel">
+        <div class="menu-row">
+            <a class="menu-block-item" routerLink="create">
+                <i class="iconfont icon-plus item-icon"></i>
+                <span>新增</span>
+            </a>
+            <a class="menu-block-item">
+                <i class="iconfont icon-upload item-icon"></i>
+                <span>上传</span>
+            </a>
+            <a class="menu-block-item">
+                <i class="iconfont icon-download item-icon"></i>
+                <span>导出</span>
+            </a>
+            <a class="menu-block-item" (click)="tapBatch(updateModal)">
+                <i class="iconfont icon-task item-icon"></i>
+                <span>批量编辑</span>
+            </a>
+        </div>
+        <a class="menu-item --with-divider" (click)="menuVisible.set(false)" i18n>Cancel</a>
+    </div>
+}

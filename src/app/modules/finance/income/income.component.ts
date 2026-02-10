@@ -1,4 +1,5 @@
 import { form, required } from '@angular/forms/signals';
+import { Location } from '@angular/common';
 import { Component, OnInit, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
@@ -23,7 +24,7 @@ export class IncomeComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
-
+    private readonly location = inject(Location);
 
     public readonly items = signal<ILog[]>([]);
     public readonly hasMore = signal(true);
@@ -42,12 +43,13 @@ export class IncomeComponent implements OnInit {
         per_page: 20,
     }));
 
-    public typeItems = ['全部', '支出', '收入', '借出', '借入'];
+    public readonly typeItems = ['全部', '支出', '收入', '借出', '借入'];
     public readonly accountItems = signal<IAccount[]>([]);
     public readonly channelItems = signal<IConsumptionChannel[]>([]);
     public readonly projectItems = signal<IFinancialProject[]>([]);
     public readonly budgetItems = signal<IBudget[]>([]);
-    public readonly panelOpen = signal(false);
+    public readonly panelVisible = signal(false);
+    public readonly menuVisible = signal(false);
 
     public readonly previewModel = signal<ILog>(null);
     public readonly editForm = form(signal({
@@ -120,7 +122,7 @@ export class IncomeComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public formatType(val: number) {
@@ -172,7 +174,7 @@ export class IncomeComponent implements OnInit {
 
     public tapSearch(e: Event) {
         e.preventDefault();
-        this.panelOpen.set(false);
+        this.panelVisible.set(false);
         this.tapRefresh();
     }
 

@@ -34,7 +34,7 @@
 
         <div class="footer btn-group">
             <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="dataForm().invalid()" i18n>Publish</app-action-button>
-            <a class="btn btn-danger" href="javascript:history.back()" i18n>Back</a>
+            <a class="btn btn-danger" (click)="tapBack()" i18n>Back</a>
         </div>
     </form>
 </div>

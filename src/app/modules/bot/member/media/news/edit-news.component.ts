@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -18,7 +19,7 @@ export class EditNewsComponent implements OnInit, OnDestroy {
     private readonly service = inject(BotService);
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
-
+    private readonly location = inject(Location);
 
     public data: any = {
         title: '',
@@ -45,7 +46,7 @@ export class EditNewsComponent implements OnInit, OnDestroy {
                 },
                 error: err => {
                     this.toastrService.error(err);
-                    history.back();
+                    this.location.back();
                 }
             })
         });
@@ -67,7 +68,7 @@ export class EditNewsComponent implements OnInit, OnDestroy {
         this.service.mediaSave(this.data).subscribe({
             next: _ => {
                 this.toastrService.success($localize `Save Successfully`);
-                history.back();
+                this.location.back();
             },
             error: err => {
                 this.toastrService.error(err);

@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { MemberService } from '../member.service';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -16,7 +17,7 @@ export class CancelAccountComponent implements AfterViewInit {
     private readonly router = inject(Router);
     private readonly service = inject(MemberService);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public items: string[] = [
         $localize `Need to unbundle of phone`,
@@ -33,13 +34,13 @@ export class CancelAccountComponent implements AfterViewInit {
             confirmText: $localize `Continuing cancel`,
             cancelText: $localize `hold off cancel`,
             onCancel() {
-                history.back();
+                this.location.back();
             },
         });
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapSubmit(e?: ButtonEvent) {

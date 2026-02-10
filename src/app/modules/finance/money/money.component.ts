@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { FinanceService } from '../finance.service';
 import { IAccount } from '../model';
@@ -13,7 +14,7 @@ import { form, required } from '@angular/forms/signals';
 export class MoneyComponent implements OnInit {
     private readonly service = inject(FinanceService);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public readonly items = signal<IAccount[]>([]);
     public readonly isLoading = signal(false);
@@ -36,7 +37,7 @@ export class MoneyComponent implements OnInit {
     }
     
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapRefresh() {

@@ -1,0 +1,46 @@
+@use '../../app/theme/theme';
+@use '../variables';
+
+.tablet-menu-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--#{theme.$prefix}panel);
+    z-index: variables.$zindex-modal;
+    .menu-item {
+        color: var(--#{theme.$prefix}body-text);
+        display: block;
+        line-height: 2.5rem;
+        text-align: center;
+        cursor: pointer;
+        user-select: none;
+        &:hover {
+            background-color: var(--#{theme.$prefix}input-hovered);
+        }
+    }
+    .menu-row {
+        display: flex;
+    }
+    .menu-block-item {
+        color: var(--#{theme.$prefix}body-text);
+        padding: .375rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: .8rem;
+        flex: 1;
+        .item-icon {
+            font-size: 1.5rem;
+        }
+    }
+    .menu-divider {
+        display: block;
+        height: 0;
+    }
+    .--with-divider,
+    .menu-divider {
+        border-top: .3rem solid var(--#{theme.$prefix}body);
+    }
+}

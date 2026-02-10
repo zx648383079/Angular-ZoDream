@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { MemberService } from '../member.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { MemberService } from '../member.service';
 })
 export class AuthorizeComponent implements OnInit {
     private readonly service = inject(MemberService);
-
+    private readonly location = inject(Location);
 
     public readonly items = signal<any[]>([]);
     public readonly isLoading = signal(false);
@@ -19,7 +20,7 @@ export class AuthorizeComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapRefresh() {

@@ -1,5 +1,6 @@
 import { Component, OnInit, computed, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 import { DialogService } from '../../../../../../components/dialog';
 import { IActivity, IGoods, ILotteryConfigure, ILotteryGift } from '../../../../model';
 import { ActivityService } from '../../activity.service';
@@ -17,7 +18,7 @@ export class EditLotteryComponent implements OnInit {
     private readonly service = inject(ActivityService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     private readonly modal = viewChild(SearchDialogComponent);
 
@@ -85,7 +86,7 @@ export class EditLotteryComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapSubmit2(e: SubmitEvent) {

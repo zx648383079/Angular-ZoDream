@@ -1,4 +1,5 @@
 import { form, required } from '@angular/forms/signals';
+import { Location } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { INote } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
@@ -18,7 +19,7 @@ export class NoteMemberComponent implements OnInit {
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
-
+    private readonly location = inject(Location);
 
     public readonly items = signal<INote[]>([]);
     public readonly queries = form(signal<IPageQueries>({
@@ -44,7 +45,7 @@ export class NoteMemberComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public tapEdit(modal: DialogEvent, item?: INote) {

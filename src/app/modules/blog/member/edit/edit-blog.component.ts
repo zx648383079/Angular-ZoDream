@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewContainerRef, computed, inject, signal, viewChild } from '@angular/core';
+import { Location } from '@angular/common';
 import { IBlog, ICategory, ITag } from '../../model';
 import { BlogService } from '../blog.service';
 import { ActivatedRoute } from '@angular/router';
@@ -25,7 +26,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly uploadService = inject(FileUploadService);
     private readonly themeService = inject(ThemeService);
     private readonly editor = inject(EditorService);
-
+    private readonly location = inject(Location);
     private cacheItems: IItem[] = [];
 
 
@@ -263,7 +264,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     public toggleProperty() {

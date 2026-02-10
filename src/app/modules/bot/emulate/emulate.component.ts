@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../components/dialog';
@@ -7,7 +8,6 @@ import { AppState } from '../../../theme/interfaces';
 import { IUser } from '../../../theme/models/user';
 import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
 import { ThemeService } from '../../../theme/services';
-import { emptyValidate } from '../../../theme/validators';
 import { BotService } from '../bot.service';
 import { IBotAccount, IBotMenuItem } from '../model';
 import { form, required } from '@angular/forms/signals';
@@ -24,7 +24,7 @@ export class EmulateComponent implements OnInit {
     private readonly themeService = inject(ThemeService);
     private readonly toastrService = inject(DialogService);
     private readonly store = inject<Store<AppState>>(Store);
-
+    private readonly location = inject(Location);
 
     public readonly messageBody = viewChild(MessageContainerComponent);
 
@@ -59,7 +59,7 @@ export class EmulateComponent implements OnInit {
     }
 
     public tapBack() {
-        history.back();
+        this.location.back();
     }
 
     private load(id: any) {

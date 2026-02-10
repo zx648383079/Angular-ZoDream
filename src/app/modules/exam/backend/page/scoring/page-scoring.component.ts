@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -18,7 +19,7 @@ export class PageScoringComponent implements OnInit {
     private readonly service = inject(ExamService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-
+    private readonly location = inject(Location);
 
     public readonly modal = viewChild<DialogEvent>('modal');
 
@@ -75,7 +76,7 @@ export class PageScoringComponent implements OnInit {
                 next: () => {
                     this.toastrService.success('阅卷完成');
                     e?.reset();
-                    history.back();
+                    this.location.back();
                 },
                 error: err => {
                     this.toastrService.error(err);
