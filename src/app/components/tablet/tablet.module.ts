@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { SwipeControlComponent } from './swipe-control/swipe-control.component';
 import { SwipeListControlComponent } from './swipe-control/swipe-list-control.component';
 import { SelectPickerComponent } from './select-picker/select-picker.component';
+import { SearchControlComponent } from './search-control/search-control.component';
 
 const COMPONENTS = [
     PullToRefreshComponent,
@@ -13,6 +14,7 @@ const COMPONENTS = [
     SwipeControlComponent,
     SwipeListControlComponent,
     SelectPickerComponent,
+    SearchControlComponent,
 ];
 
 @NgModule({

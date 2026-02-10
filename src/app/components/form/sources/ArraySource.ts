@@ -19,6 +19,10 @@ export class ArraySource implements IDataSource {
         return of([]);
     }
 
+    public influence(column: number): number {
+        return -1;
+    }
+
     public initialize(value?: any): Observable<IControlOption[][]> {
         return of([]);
     }

@@ -51,12 +51,20 @@ export class DateSource implements IDataSource {
         if (next >= this.columnItems.length) {
             return of([]);
         }
-        const column = this.columnItems[items.length];
+        const column = this.columnItems[next];
         let maxDay = 31;
         if (column.format === 'd') {
             maxDay = this.getLastOfMonth(this.getFromSelected('y', items), this.getFromSelected('m', items));
         }
         return of(this.create(column.format, maxDay));
+    }
+
+    public influence(column: number): number {
+        const current = this.columnItems[column].format;
+        if (current !== 'y' && current !== 'm') {
+            return -1;
+        }
+        return this.indexOf('d');
     }
 
     public initialize(value?: any): Observable<IControlOption[][]> {

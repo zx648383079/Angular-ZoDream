@@ -10,6 +10,12 @@ export interface IDataSource {
      */
     select(items: IControlOption[], next: number): Observable<IControlOption[]>;
 
+    /**
+     * 当前列选择变化，需要更新第几列
+     * @param column 
+     */
+    influence(column: number): number;
+
     initialize(value?: any): Observable<IControlOption[][]>;
     format(...items: IControlOption[]): any;
 }

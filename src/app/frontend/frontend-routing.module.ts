@@ -6,7 +6,6 @@ import { AboutComponent } from './about/about.component';
 import { FriendLinkComponent } from './friend-link/friend-link.component';
 import { CanActivateViaAuthGuard } from '../theme/guards';
 import { AgreementComponent } from './agreement/agreement.component';
-import { SearchComponent } from './search/search.component';
 import { ArticlePanelComponent } from './panels/article-panel/article-panel.component';
 import { MessagePanelComponent } from './panels/message-panel/message-panel.component';
 import { NoticePanelComponent } from './panels/notice-panel/notice-panel.component';
@@ -91,5 +90,5 @@ const routes: Routes = [
 export class FrontendRoutingModule { }
 
 export const frontendRoutedComponents = [
-    HomeComponent, FriendLinkComponent, AboutComponent, FrontendComponent, AgreementComponent, SearchComponent, ArticlePanelComponent, MessagePanelComponent, NoticePanelComponent, MediaPanelComponent, CookieBarComponent, SubscribePanelComponent,
+    HomeComponent, FriendLinkComponent, AboutComponent, FrontendComponent, AgreementComponent, ArticlePanelComponent, MessagePanelComponent, NoticePanelComponent, MediaPanelComponent, CookieBarComponent, SubscribePanelComponent,
 ];

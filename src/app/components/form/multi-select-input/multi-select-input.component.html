@@ -1,6 +1,6 @@
-@for (item of items(); track $index) {
+@for (item of items(); track $index; let i = $index) {
     <div class="select-input-container" [class.--with-open]="item.focus">
-        <div class="input-container" [class.--with-placeholder]="!item.label" (click)="item.focus = !item.focus">
+        <div class="input-container" [class.--with-placeholder]="!item.label" (click)="toggleFocus(i)">
             {{ item.label || placeholder() }}
         </div>
         <div class="option-container">
@@ -15,11 +15,13 @@
                 <div class="loading-option-item" i18n>Loading...</div>
             }
             @if (item.items && item.items.length > 0) {
-                @for (option of item.items; track $index) {
-                <div class="option-item" [class.selected]="option.value === item.value" (click)="tapSelect(item, option)">
-                    {{ option.name }}
+                <div class="scroll-option-body">
+                    @for (option of item.items; track $index; let j = $index) {
+                    <div class="option-item" [hidden]="option.disabled" [class.selected]="option.selected" (click)="tapItem(i, j)">
+                        {{ option.label }}
+                    </div>
+                    }
                 </div>
-                }
             }
         </div>
     </div>

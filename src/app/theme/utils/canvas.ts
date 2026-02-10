@@ -13,7 +13,7 @@ export interface IBound extends IPoint, ISize {
 }
 
 export function pointFormEvent(e: MouseEvent|TouchEvent): IPoint {
-    if (!Object.prototype.hasOwnProperty.call(e, 'targetTouches')) {
+    if (!(e as TouchEvent).targetTouches) {
         const src = e as MouseEvent;
         return {x: src.clientX, y: src.clientY};
     }

@@ -1,9 +1,8 @@
 @for (group of items(); track $index; let i = $index) {
     <ul [class]="'select-column-' + i" [style]="group.style">
         @for (item of group.items; track $index; let j = $index) {
-            <li [class.active]="item.selected" (click)="tapItem(i, j, $event)">{{ item.label }}</li>
+            <li [class.active]="item.selected">{{ item.label }}</li>
         }
     </ul>
 }
-<hr class="selected-top-hr">
-<hr class="selected-bottom-hr">
+<div class="select-range-bar"></div>

@@ -503,17 +503,18 @@ i {
 }
 
 .select-input-container {
+    --#{theme.$prefix}select-line-height: 2.25rem;
     color: var(--#{theme.$prefix}input-text);
     background-color: var(--#{theme.$prefix}input);
     border-radius: 4px;
     border: 1px solid var(--#{theme.$prefix}input-border);
-    min-height: 2.25rem;
+    min-height: var(--#{theme.$prefix}select-line-height);
     align-items: center;
     position: relative;
     .input-container {
-        padding-top: 5px;
-        padding-left: 7px;
-        min-height: 2em;
+        padding-left: 0.4375rem;
+        min-height: var(--#{theme.$prefix}select-line-height);
+        line-height: var(--#{theme.$prefix}select-line-height);
         display: flex;
         flex-direction: row;
         input {
@@ -532,7 +533,7 @@ i {
     }
     .input-arrow {
         width: 1.5625rem;
-        padding-right: 5px;
+        padding-right: 0.3125rem;
         cursor: pointer;
         text-align: center;
         user-select: none;
@@ -543,7 +544,7 @@ i {
         .arrow-icon {
             border-color: var(--#{theme.$prefix}input-icon) transparent transparent;
             border-style: solid;
-            border-width: 5px 5px 2.5px;
+            border-width: 0.3125rem 0.3125rem 0.1563rem;
             pointer-events: none;
             display: block;
             height: 0;
@@ -570,6 +571,10 @@ i {
         border-top-color: var(--#{theme.$prefix}input-border);
         margin-top: -1px;
     }
+    .scroll-option-body {
+        overflow-y: auto;
+        max-height: 20rem;
+    }
     .search-option-item {
         position: relative;
         input {
@@ -577,12 +582,13 @@ i {
             outline: none;
             border: none;
             background-color: transparent;
-            height: 2.5rem;
+            height: var(--#{theme.$prefix}select-line-height);
             padding-left: 2rem;
         }
         .iconfont {
             position: absolute;
             left: .3rem;
+            line-height: var(--#{theme.$prefix}select-line-height);
             color: var(--#{theme.$prefix}input-icon);
         }
     }
@@ -593,8 +599,10 @@ i {
         font-size: .8rem;
         user-select: none;
         display: none;
+        line-height: var(--#{theme.$prefix}select-line-height);
     }
     .option-item {
+        line-height: var(--#{theme.$prefix}select-line-height);
         box-sizing: border-box;
         cursor: pointer;
         display: block;
@@ -603,7 +611,7 @@ i {
         text-overflow: ellipsis;
         background-color: var(--#{theme.$prefix}input);
         color: var(--#{theme.$prefix}input-text);
-        padding: .5rem .625rem;
+        padding: 0 .625rem;
         &:hover {
             background-color: var(--#{theme.$prefix}input-hovered);
             color: var(--#{theme.$prefix}body-text);

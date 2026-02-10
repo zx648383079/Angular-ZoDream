@@ -1,0 +1,10 @@
+@use '../../form/auto-suggest-box/searchBar';
+
+@media (min-width: 48rem) {
+    .search-box {
+        .search-input {
+            margin: 0 auto;
+            width: 40rem;
+        }
+    }
+}

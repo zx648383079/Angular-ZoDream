@@ -1,15 +1,18 @@
-import { Component, HostListener, effect, input, model, output, signal } from '@angular/core';
-import { SuggestChangeEvent } from '../event';
-import { hasElementByClass } from '../../../theme/utils/doc';
+import { Component, effect, inject, input, model, signal } from '@angular/core';
+import { ThemeService } from '../../../theme/services';
+import { SuggestChangeEvent } from '../../form';
+import { DialogBaseEvent } from '../../dialog';
 
 @Component({
     standalone: false,
-    selector: 'app-auto-suggest-box',
-    templateUrl: './auto-suggest-box.component.html',
-    styleUrls: ['./auto-suggest-box.component.scss']
+    selector: 'app-search-control',
+    templateUrl: './search-control.component.html',
+    styleUrls: ['./search-control.component.scss']
 })
-export class AutoSuggestBoxComponent implements SuggestChangeEvent {
+export class SearchControlComponent implements SuggestChangeEvent, DialogBaseEvent {
 
+    private readonly themeService = inject(ThemeService);
+    public readonly visible = signal(false);
     public readonly value = model('');
     public readonly placeholder = input($localize `Please enter a keyword, press Enter to search`);
     public readonly historyKey = input('');
@@ -17,9 +20,6 @@ export class AutoSuggestBoxComponent implements SuggestChangeEvent {
     public readonly dropIndex = signal(-1);
     public readonly histories = signal<string[]>([]);
     public readonly openType = signal(0);
-
-    public readonly textChange = output<SuggestChangeEvent>();
-    public readonly confirm = output<any>();
 
     public get text() {
         return this.value();
@@ -32,11 +32,17 @@ export class AutoSuggestBoxComponent implements SuggestChangeEvent {
         });
     }
 
-    @HostListener('document:click', ['$event']) 
-    public hideSearchBar(event: any) {
-        if (!event.target.closest('.search-box') && !hasElementByClass(event.path, 'search-box')) {
-            this.openType.set(0);
-        }
+    public tapConfirm(keywords: any) {
+        this.themeService.suggestQuerySubmitted.next(keywords);
+        this.close();
+    }
+
+    public open() {
+        this.visible.set(true);
+    }
+
+    public close() {
+        this.visible.set(false);
     }
 
     public formatTitle(item: any) {
@@ -98,14 +104,14 @@ export class AutoSuggestBoxComponent implements SuggestChangeEvent {
     public tapItem(value: any) {
         this.value.set(this.formatTitle(value));
         this.dropIndex.set(this.suggestItems().indexOf(value));
-        this.confirm.emit(value);
+        this.tapConfirm(value);
         this.openType.set(0);
     }
 
-    public tapConfirm(e: SubmitEvent) {
+    public onConfirm(e: SubmitEvent) {
         e.preventDefault();
         let text = this.openType() === 1 && this.dropIndex() >= 0 ? this.suggestItems()[this.dropIndex()] : this.value();
-        this.confirm.emit(text);
+        this.tapConfirm(text);
         this.openType.set(0);
         this.addHistory(text);
     }
@@ -126,14 +132,14 @@ export class AutoSuggestBoxComponent implements SuggestChangeEvent {
             this.dropIndex.set(-1);
             return;
         }
-        this.textChange.emit({
+        this.themeService.suggestTextChanged.next({
             text: this.value(),
             suggest: this.suggest.bind(this)
         });
     }
 
     public tapHistory(v: string) {
-        this.confirm.emit(v);
+        this.tapConfirm(v);
         this.value.set(v);
         this.openType.set(0);
     }
@@ -194,4 +200,6 @@ export class AutoSuggestBoxComponent implements SuggestChangeEvent {
         }
         this.histories.set(JSON.parse(text) || []);
     }
+
+
 }

@@ -59,7 +59,12 @@ export type DialogCheckFn = () => boolean|string;
 export type DialogConfirmFn = () => void;
 export type DialogActionFn = (data: any) => any;
 
-export interface DialogEvent {
+export interface DialogBaseEvent {
+    close(): void;
+    open(): void;
+}
+
+export interface DialogEvent extends DialogBaseEvent {
     /**
      * 关闭弹窗
      * @param result 

@@ -3,4 +3,5 @@ export * from './tab-bar/tab-bar.component';
 export * from './swipe-control/swipe-control.component';
 export * from './swipe-control/swipe-list-control.component';
 export * from './select-picker/select-picker.component';
+export * from './search-control/search-control.component';
 export * from './tablet.module';

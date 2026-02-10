@@ -1,17 +1,17 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, inject, input, model, signal } from '@angular/core';
+import { Component, effect, input, model, signal, untracked } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
-import { IDataSource } from '../sources/IDataSource';
+import { IDataSource, selectedIndex, selectIndex } from '../sources/IDataSource';
+import { IControlOption } from '../event';
+import { checkRange } from '../../../theme/utils';
 
 interface ISelectColumn {
     label?: string;
-    value?: string|number;
-    parent?: string|number;
     keywords?: string;
     focus?: boolean;
     isLoading?: boolean;
     searchable?: boolean;
-    items?: any[];
+    selected: number;
+    items: IControlOption[];
 }
 
 @Component({
@@ -24,16 +24,24 @@ export class MultiSelectInputComponent<T = any> implements FormValueControl<T> {
 
     public readonly placeholder = input($localize `Please select...`);
     public readonly source = input.required<IDataSource>();
-    /**
-     * 只有通过url请求的才会触发，参数为http响应内容
-     */
-    public readonly formatFn = input<(data: any) => T[]>(undefined);
     public readonly items = signal<ISelectColumn[]>([
-        {items: [], searchable: true, keywords: ''}
+        {items: [], searchable: true, keywords: '', selected: 0}
     ]);
 
     public readonly disabled = input<boolean>(false);
     public readonly value = model<T>();
+
+    constructor() {
+        effect(() => {
+            const src = this.source();
+            const val = this.value();
+            untracked(() => {
+                src.initialize(val).subscribe(res => {
+                    this.initialize(res);
+                });
+            });
+        });
+    }
 
     public onKeydown(e: KeyboardEvent, item: ISelectColumn) {
         if (e.code !== 'Enter') {
@@ -42,9 +50,50 @@ export class MultiSelectInputComponent<T = any> implements FormValueControl<T> {
 
     }
 
-    public tapSelect(column: ISelectColumn, option: any) {
-        column.label = option.name;
-        column.value = option.value;
-        column.focus = false;
+    public toggleFocus(index: number) {
+        this.items.update(v => {
+            for (let i = 0; i < v.length; i++) {
+                v[i].focus = i === index;
+            }
+            return [...v];
+        });
+    }
+
+    public tapItem(index: number, i: number) {
+        const items = this.items();
+        items[index].focus = false;
+        this.select(items, index, i);
+    }
+
+    private initialize(data: IControlOption[][]) {
+        this.items.set(data.map(group => {
+            const selected = Math.max(0, selectedIndex(group));
+            return <ISelectColumn>{
+                selected,
+                label: group[selected].label,
+                searchable: true, 
+                keywords: '', 
+                items: group,
+            };
+        }));
+    }
+
+    private select(items: ISelectColumn[], index: number, i: number) {
+        index = checkRange(index, 0, items.length - 1);
+        const group = items[index];
+        group.selected = checkRange(i, 0, group.items.length - 1);
+        const item = group.items[group.selected];
+        group.label = item.label;
+        selectIndex(group.items, group.selected);
+        const src = this.source();
+        const next = src.influence(index);
+        if (next < 0) {
+            this.items.set([...items]);
+            return;
+        }
+        src.select(items.map(i => i.items[i.selected]), next).subscribe(res => {
+            items[next].items = res;
+            this.select(items, next, 0);
+        });
     }
 }

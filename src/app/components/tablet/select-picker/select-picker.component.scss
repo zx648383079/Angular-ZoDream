@@ -1,7 +1,13 @@
 @use '../../../theme/theme';
+
+$lineHeight: 30px;
+
 :host {
+    --#{theme.$prefix}picker-line-height: #{$lineHeight};
+    --#{theme.$prefix}picker-height: #{$lineHeight * 5};
+    --#{theme.$prefix}picker-select-y: #{$lineHeight * 2};
     display: block;
-    height: 9.375rem;
+    height: var(--#{theme.$prefix}picker-height);
     position: relative;
     overflow: hidden;
     display: flex;
@@ -14,7 +20,7 @@ ul {
     li {
         user-select: none;
         list-style: none;
-        line-height: 1.875rem;
+        line-height: var(--#{theme.$prefix}picker-line-height);
         color: rgba(var(--#{theme.$prefix}body-text-rgb), .3);
         text-align: center;
         overflow-x: hidden;
@@ -24,16 +30,15 @@ ul {
         }
     }
 }
-.selected-top-hr,
-.selected-bottom-hr {
+.select-range-bar {
     position: absolute;
     width: 100%;
     margin: 0;
     padding: 0;
-}
-.selected-top-hr {
-    top: 3.75rem;
-}
-.selected-bottom-hr {
-    top: 5.625rem;
+    display: block;
+    top: var(--#{theme.$prefix}picker-select-y);
+    height: var(--#{theme.$prefix}picker-line-height);
+    z-index: 1;
+    border-top: 1px solid var(--#{theme.$prefix}body-text);
+    border-bottom: 1px solid var(--#{theme.$prefix}body-text);
 }

@@ -11,6 +11,7 @@ import { ZreFormModule } from '../components/form';
 import { AuthSharedModule } from '../modules/auth/auth-shared.module';
 import { DesktopModule } from '../components/desktop';
 import { FormField } from '@angular/forms/signals';
+import { TabletModule } from '../components/tablet';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { FormField } from '@angular/forms/signals';
         FormField,
         CheckinModule,
         DesktopModule,
+        TabletModule,
         FrontendRoutingModule,
         OnlineServiceModule,
         DialogModule,

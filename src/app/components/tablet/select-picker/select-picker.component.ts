@@ -1,8 +1,10 @@
-import { Component, effect, ElementRef, HostListener, inject, input, model, OnInit, signal, untracked } from '@angular/core';
+import { Component, effect, ElementRef, HostListener, inject, input, model, signal, untracked } from '@angular/core';
 import { IPoint, pointFormEvent } from '../../../theme/utils/canvas';
-import { IControlOption, IDataSource, select, selectedIndex, selectIndex } from '../../form';
+import { IControlOption, IDataSource, selectedIndex, selectIndex } from '../../form';
+import { checkRange } from '../../../theme/utils';
 
 interface ISelectColumn {
+    selected: number;
     items: IControlOption[],
     style: {},
 }
@@ -21,9 +23,22 @@ export class SelectPickerComponent {
     public readonly items = signal<ISelectColumn[]>([]);
     public readonly value = model<any>();
     private startPoint: IPoint;
+    private isTouchMoved = false;
+    private lastPoint: IPoint;
 
     private get isTouched() {
         return !!this.startPoint;
+    }
+
+    private get isJustTouched(): boolean {
+        if (!this.startPoint || this.isTouchMoved) {
+            return false;
+        }
+        if (!this.lastPoint) {
+            return true;
+        }
+        return Math.abs(this.startPoint.x - this.lastPoint.x) < 10 
+            && Math.abs(this.startPoint.y - this.lastPoint.y) < 10;
     }
 
     constructor() {
@@ -31,13 +46,8 @@ export class SelectPickerComponent {
             const src = this.source();
             const val = this.value();
             untracked(() => {
-                src.initialize(val).subscribe(v => {
-                    this.items.set(v.map(i => {
-                        return <ISelectColumn>{
-                            items: i,
-                            style: this.getIndexStyle(selectedIndex(i))
-                        };
-                    }));
+                src.initialize(val).subscribe(res => {
+                    this.initialize(res);
                 });
             });
         });
@@ -89,24 +99,49 @@ export class SelectPickerComponent {
         this.touchEnd();
     }
 
-    public tapItem(index: number, i: number, e?: MouseEvent) {
-        e?.stopPropagation();
-        this.items.update(v => {
-            const group = v[index];
-            group.style = this.getIndexStyle(i);
-            selectIndex(group.items, i);
-            for (let j = index + 1; j < v.length; j ++) {
-                // this.refreshColumn(j, 0);
-            }
-            return [...v];
+    public tapItem(index: number, i: number) {
+        const items = this.items();
+        this.select(items, index, i);
+    }
+
+    private initialize(data: IControlOption[][]) {
+        this.items.set(data.map(group => {
+            const selected = Math.max(0, selectedIndex(group));
+            return <ISelectColumn>{
+                selected,
+                items: group,
+                style: this.getIndexStyle(selected)
+            };
+        }));
+    }
+
+    private select(items: ISelectColumn[], index: number, i: number) {
+        index = checkRange(index, 0, items.length - 1);
+        const group = items[index];
+        group.selected = checkRange(i, 0, group.items.length - 1);
+        group.style = this.getIndexStyle(group.selected);
+        selectIndex(group.items, group.selected);
+        const src = this.source();
+        const next = src.influence(index);
+        if (next < 0) {
+            this.items.set([...items]);
+            return;
+        }
+        src.select(items.map(i => i.items[i.selected]), next).subscribe(res => {
+            items[next].items = res;
+            this.select(items, next, 0);
         });
     }
 
     private touchStart(point: IPoint) {
         this.startPoint = point;
+        this.lastPoint = undefined;
+        this.isTouchMoved = false;
     }
 
     private touchMove(point: IPoint) {
+        this.isTouchMoved = true;
+        this.lastPoint = point;
         const y = point.y - this.startPoint.y;
         const diff = Math.abs(y);
         if (diff >= this.lineHeight()) {
@@ -117,20 +152,41 @@ export class SelectPickerComponent {
     }
 
     private touchEnd() {
+        if (this.isJustTouched) {
+            this.touched(this.startPoint);
+        }
         this.startPoint = undefined;
+        this.isTouchMoved = false;
+    }
+
+    private touched(point: IPoint) {
+        const columnItems = this.items();
+        const lineHeight = this.lineHeight();
+        let column = 0;
+        const rect = this.elementRef.nativeElement.getBoundingClientRect();
+        if (columnItems.length > 1) {
+            column = checkRange(Math.floor((point.x - rect.left) / (rect.width / columnItems.length)), 0, columnItems.length - 1);
+        }
+        const diff = Math.floor(((point.y - rect.top) - (rect.height - lineHeight) / 2) / lineHeight);
+        if (diff === 0) {
+            return;
+        }    
+        this.tapItem(column, columnItems[column].selected + diff);
     }
 
     private doMove(distance: number, isUp = true, x = 0) {
-        const diff: number = isUp ? Math.floor(distance / this.lineHeight()) : - Math.ceil(distance / this.lineHeight());
+        const lineHeight = this.lineHeight();
+        const diff: number = isUp ? Math.floor(distance / lineHeight) : - Math.ceil(distance / lineHeight);
         let column = 0;
         if (diff === 0) {
             return;
         }
+        const columnItems = this.items();
         const rect = this.elementRef.nativeElement.getBoundingClientRect();
-        if (column > 1) {
-            column = Math.floor(x / (rect.width / column));
+        if (columnItems.length > 1) {
+            column = checkRange(Math.floor((x - rect.left) / (rect.width / columnItems.length)), 0, columnItems.length - 1);
         }
-        this.tapItem(column, selectedIndex(this.items()[column].items) + diff);
+        this.tapItem(column, columnItems[column].selected + diff);
     }
 
     private getIndexStyle(index: number): any {
