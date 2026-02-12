@@ -19,7 +19,7 @@
     <div class="picker-form">
         <div>*所在地区:</div>
         <div class="region-input">
-            <app-region url="shop/region/tree" [value]="value().region_id"  (valueChange)="onValueChange($event, 'region_id')"/>
+            <app-region [source]="regionSource" [value]="value().region_id"  (valueChange)="onValueChange($event, 'region_id')"/>
         </div>
         <div>*详细地址:</div>
         <div>

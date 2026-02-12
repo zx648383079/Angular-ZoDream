@@ -227,3 +227,13 @@
         margin-left: 0;
     }
 }
+
+@mixin icon($code: '') {
+    font-family: "iconfont";
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    @if $code {
+        content: $code;
+    }
+}

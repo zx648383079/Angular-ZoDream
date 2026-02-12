@@ -1,76 +1,156 @@
-import { Observable, of } from 'rxjs';
+import { max, Observable, of } from 'rxjs';
 import { IControlOption } from '../event';
 import { IDataSource } from './IDataSource';
+import { eachObject } from '../../../theme/utils';
 
 export class TreeSource implements IDataSource {
 
     constructor(
-        private readonly items: any[],
-        public readonly rangeKey = 'id',
-        public readonly rangeLabel = 'name',
-        public readonly rangeChildren = 'children'
+        private readonly items: any,
+        private readonly rangeKey = 'id',
+        private readonly rangeLabel = 'name',
+        private readonly rangeChildren = 'children',
+        maxLevel = 0,
     ) {
-
+        if (maxLevel > 0) {
+            this.maxLevel = maxLevel;
+            return;
+        }
+        let next = this.first(items);
+        let level = 1;
+        while (next[this.rangeChildren]) {
+            next = this.first(next[this.rangeChildren]);
+            level++;
+        }
+        this.maxLevel = level;
     }
 
-    private columnItems: string[] = [];
+    private maxLevel = 0;
 
     public get columnCount(): number {
-        return this.columnItems.length;
+        return this.maxLevel;
     }
 
     public select(items: IControlOption[], next: number): Observable<IControlOption[]> {
-        return of([]);
+        if (items.length < next) {
+            return of([]);
+        }
+        let src = this.items;
+        let i = 0;
+        while(next > i) {
+            const selected = items[i ++].value;
+            let next: any;
+            eachObject(src, item => {
+                if (this.equal(item[this.rangeKey], selected)) {
+                    next = item[this.rangeChildren];
+                    return false;
+                }
+            });
+            if (!next) {
+                src = [];
+                break;
+            }
+            src = next;
+        }
+        return of(this.toArray(src));
     }
 
     public influence(column: number): number {
-        return -1;
+        return column + 1;
     }
 
     public initialize(value?: any): Observable<IControlOption[][]> {
-        return of([]);
+        if (!value) {
+            return of([this.toArray(this.items)]);
+        }
+        const data = this.getPath(value);
+        const res: IControlOption[][] = [];
+        for (let i = 0; i < data.length; i++) {
+            const children = i > 0 ? data[i - 1][this.rangeChildren] : this.items;
+            res.push(this.toArray(children, data[i]))
+        }
+        return of(res);
     }
 
     public format(...items: IControlOption[]): any {
-        return null;
+        return items.length > 0 ? items[items.length - 1].value : null;
     }
     
 
-    private equal(value: IControlOption, target: IControlOption): boolean {
-        return value === target || value.value === target.value;
-    }
-
-    private formatOption(items: any[], filterFn?: (data: IControlOption) => boolean) {
-        const selected = [];//this.selectedItems().map(i => i.value);
-        const data = [];
-        for (let i = 0; i < items.length; i++) {
-            const formatted = this.formatOptionItem(items[i], i);
-            if (filterFn && !filterFn(formatted)) {
-                continue;
+    private first(items: any): any {
+        if (items instanceof Array) {
+            return items.length > 0 ? items[0] : undefined;
+        }
+        if (typeof items === 'object') {
+            for (const key in items) {
+                if (!Object.hasOwn(items, key)) {
+                    continue;
+                }
+                return items[key];
             }
-            formatted.selected = selected.includes(formatted.value)
-            data.push(formatted);
         }
+        return undefined;
     }
 
-    private formatOptionItem(item: any, index: number): IControlOption {
-        const key = this.rangeKey;
-        const label = typeof item === 'object' ? item[this.rangeLabel] : item;
-        if (typeof key === 'number') {
-            return {
-                value: index,
-                label
-            };
+    /**
+     * 根据ID查找无限树的路径
+     */
+    private getPath(id: string|number): any[] {
+        if (!id) {
+            return [];
         }
-        if (key && typeof item === 'object') {
-            return {
-                value: item[key],
-                label
-            };
-        }
-        return {
-            value: item,
-            label
+        const findPath = (data: any): any[] => {
+            let res = [];
+            eachObject(data, item => {
+                if (this.equal(item[this.rangeKey], id)) {
+                    res = [item];
+                    return false;
+                }
+                const rangeChildren = this.rangeChildren;
+                if (!Object.prototype.hasOwnProperty.call(item, rangeChildren)) {
+                    return;
+                }
+                const args = findPath(item[rangeChildren]);
+                if (args.length > 0) {
+                    res = [item, ...args];
+                    return false;
+                }
+            });
+            return res;
         };
+        return findPath(this.items);
+    }
+
+
+
+    private equal(val: any, next: any): boolean {
+        if (val === next) {
+            return true;
+        }
+        if (!val || !next) {
+            return false;
+        }
+        if (typeof val === typeof next) {
+            return false;
+        }
+        return val.toString() === next.toString();
+    }
+
+    private equalOption(value: IControlOption, target: IControlOption): boolean {
+        return value === target || this.equal(value.value, target.value);
+    }
+
+    private toArray(data: any, selected?: any): IControlOption[] {
+        if (typeof data !== 'object') {
+            return [];
+        }
+        const res = data instanceof Array ? data : Object.values(data);
+        return res.map(v => {
+            return {
+                value: v[this.rangeKey],
+                label: v[this.rangeLabel],
+                selected: v === selected
+            };
+        });
     }
 }

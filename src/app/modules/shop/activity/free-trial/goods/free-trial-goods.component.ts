@@ -6,6 +6,8 @@ import { IActivity, IFreeTrialConfigure, IGoods, IGoodsGallery } from '../../../
 import { ThemeService } from '../../../../../theme/services';
 import { ActivityService } from '../../activity.service';
 import { form, max, min } from '@angular/forms/signals';
+import { NetSource } from '../../../../../components/form';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -26,6 +28,7 @@ export class FreeTrialGoodsComponent implements OnInit {
     public galleryItems: IGoodsGallery[] = [];
     public content: SafeHtml;
     public readonly tabIndex = signal(0);
+    public readonly regionSource = new NetSource(inject(HttpClient), 'shop/region/tree', 3);
     public readonly dataForm = form(signal({
         stock: 0,
         amount: 1

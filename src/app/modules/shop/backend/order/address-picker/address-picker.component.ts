@@ -4,6 +4,8 @@ import { IPageQueries } from '../../../../../theme/models/page';
 import { IAddress } from '../../../model';
 import { OrderService } from '../order.service';
 import { FormValueControl } from '@angular/forms/signals';
+import { NetSource } from '../../../../../components/form';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -26,6 +28,7 @@ export class AddressPickerComponent implements FormValueControl<IAddress> {
         page: 1,
         per_page: 20
     }));
+    public readonly regionSource = new NetSource(inject(HttpClient), 'shop/region/tree', 3);
     public readonly items = signal<IAddress[]>([]);
     private hasMore = false;
     public readonly isLoading = signal(false);

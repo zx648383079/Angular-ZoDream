@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { ThemeService } from '../../../theme/services';
-import { CircleProgressComponent } from '../circle-progress/circle-progress.component';
+import { CircleProgressComponent } from '../components/circle-progress/circle-progress.component';
 import {
     ITask,
     ITaskDay
@@ -26,8 +26,8 @@ export class DetailComponent implements OnInit {
 
 
     public readonly progressor = viewChild(CircleProgressComponent);
-    public maxProgress = 0;
-    public progress = 0;
+    private maxProgress = 0;
+    private progress = 0;
 
     public readonly data = signal<ITaskDay>(null);
     public readonly current = signal<ITask>(null);

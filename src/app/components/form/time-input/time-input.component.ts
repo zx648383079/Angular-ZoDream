@@ -22,7 +22,7 @@ export class TimeInputComponent implements FormValueControl<string> {
 
     @HostListener('document:click', ['$event']) 
     public hideCalendar(event: any) {
-        if (!event.target.closest('.time-input-container') && !hasElementByClass(event.path, 'time-input-container')) {
+        if (!event.target.closest('.select-input-container') && !hasElementByClass(event.path, 'select-input-container')) {
             this.panelVisible.set(false);
         }
     }

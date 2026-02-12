@@ -1,22 +1,29 @@
 import { Observable, of } from 'rxjs';
 import { IControlOption } from '../event';
-import { IDataSource } from './IDataSource';
+import { IDataSource, select } from './IDataSource';
 
 export class ArraySource implements IDataSource {
 
     constructor(
-        private readonly items: any[],
+        items: any[],
         public readonly rangeKey: string|number = 'id',
         public readonly rangeLabel = 'name',
     ) {
-
+        this.items = items.map(this.formatOptionItem);
     }
+
+    private readonly items: IControlOption[];
 
     public get columnCount(): number {
         return 1;
     }
     public select(items: IControlOption[], next: number): Observable<IControlOption[]> {
-        return of([]);
+        if (next > 0) {
+            return of([]);
+        }
+        const data = [...this.items];
+        select(data, items.length > 0 ? items[0].value : data[0].value);
+        return of(data);
     }
 
     public influence(column: number): number {
@@ -24,11 +31,16 @@ export class ArraySource implements IDataSource {
     }
 
     public initialize(value?: any): Observable<IControlOption[][]> {
-        return of([]);
+        if (typeof value === 'undefined' || value === null) {
+            value = this.items[0].value;
+        }
+        const items = [...this.items];
+        select(items, value);
+        return of([items]);
     }
 
     public format(...items: IControlOption[]): any {
-        return null;
+        return items.length > 0 ? items[0].value : null;
     }
     
 
@@ -36,18 +48,6 @@ export class ArraySource implements IDataSource {
         return value === target || value.value === target.value;
     }
 
-    private formatOption(items: any[], filterFn?: (data: IControlOption) => boolean) {
-        const selected = [];//this.selectedItems().map(i => i.value);
-        const data = [];
-        for (let i = 0; i < items.length; i++) {
-            const formatted = this.formatOptionItem(items[i], i);
-            if (filterFn && !filterFn(formatted)) {
-                continue;
-            }
-            formatted.selected = selected.includes(formatted.value)
-            data.push(formatted);
-        }
-    }
 
     private formatOptionItem(item: any, index: number): IControlOption {
         const key = this.rangeKey;

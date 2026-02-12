@@ -12,15 +12,23 @@ export class DateInputComponent implements FormValueControl<string> {
 
     public readonly placeholder = input($localize `Please select a date`);
     public readonly format = input('yyyy-mm-dd');
-    readonly minimum = input<Date>(new Date('2000/01/01 00:00:00'));
-    readonly maximum = input<Date>(new Date('2090/12/31 23:59:59'));
-    readonly minYear = input(2000);
-    readonly maxYear = input(2066);
+    public readonly minimum = input<Date>(new Date('2000/01/01 00:00:00'));
+    public readonly maximum = input<Date>(new Date('2090/12/31 23:59:59'));
+    public readonly minYear = input(2000);
+    public readonly maxYear = input(2066);
     public readonly value = model('');
     public readonly disabled = input(false);
 
 
-    public onValueChange(event: Event) {
+    public onValueChange(event: Event|string|Date) {
+        if (typeof event === 'string') {
+            this.value.set(event as string);
+            return;
+        }
+        if (event instanceof Date) {
+            this.value.set(formatDate(event, this.format()));
+            return;
+        }
         const value = (event.target as HTMLInputElement).value;
         this.value.set(value);
     }

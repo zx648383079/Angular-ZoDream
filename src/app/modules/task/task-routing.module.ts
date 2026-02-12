@@ -12,10 +12,11 @@ import { MyShareComponent } from './share/my/my-share.component';
 import { ShareComponent } from './share/share.component';
 import { TaskComponent } from './task.component';
 import { HourPipe } from './hour.pipe';
-import { CommentPanelComponent } from './comment-panel/comment-panel.component';
-import { CircleProgressComponent } from './circle-progress/circle-progress.component';
+import { CommentPanelComponent } from './components/comment-panel/comment-panel.component';
+import { CircleProgressComponent } from './components/circle-progress/circle-progress.component';
 import { PlanComponent } from './plan/plan.component';
 import { TaskSelectComponent } from './task-select/task-select.component';
+import { PlanPendantComponent } from './components/pendant/pendant.component';
 
 const routes: Routes = [
     {
@@ -84,5 +85,6 @@ export const taskRoutingComponents = [
     TaskComponent, DetailComponent, EditComponent, ListComponent,
     HomeComponent, SettingComponent, ReviewComponent, RecordComponent, ShareDetailComponent, MyShareComponent, ShareComponent,
     CommentPanelComponent, CircleProgressComponent, PlanComponent, TaskSelectComponent,
+    PlanPendantComponent,
     HourPipe, 
 ];

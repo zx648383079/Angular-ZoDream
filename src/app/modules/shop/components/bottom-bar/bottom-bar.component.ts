@@ -12,8 +12,7 @@ import { selectSite } from '../../shop.selectors';
 })
 export class BottomBarComponent {
     private readonly store = inject<Store<ShopAppState>>(Store);
-
-
+    
     public readonly site = signal<ISite>({} as any);
 
     constructor() {

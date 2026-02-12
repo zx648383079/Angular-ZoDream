@@ -10,9 +10,7 @@
         </div>
         <input type="text" [value]="keywords()" [placeholder]="placeholder()" (input)="onKeywordsChange($event.target.value)" 
         [disabled]="disabled()" (focus)="onFocus()" (blur)="onBlur()">
-        <div class="input-arrow">
-            <span class="arrow-icon"></span>
-        </div>
+        <div class="input-arrow"></div>
     </div>
     <div class="option-container">
         @if (isLoading()) {

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, input, output, signal, viewChild } from '@angular/core';
-import { formatHour } from '../../../theme/utils';
+import { formatHour } from '../../../../theme/utils';
 import { interval, Subscription } from 'rxjs';
 
 @Component({

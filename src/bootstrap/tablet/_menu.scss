@@ -43,4 +43,12 @@
     .menu-divider {
         border-top: .3rem solid var(--#{theme.$prefix}body);
     }
+    .--with-gap {
+        padding: 0 .8rem;
+    }
+    .btn-group {
+        margin: .8rem 0;
+        display: flex;
+        padding: 0 .8rem;
+    }
 }

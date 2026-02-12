@@ -1,112 +1,89 @@
 @use '../../../theme/theme';
 @use '../../../../bootstrap/desktop/scrollbar';
+@use '../../../../bootstrap/mixins';
 :host {
     display: inline-block;
 }
-.selector {
-    position: relative;
-    * {
-        margin: 0;
-        padding: 0;
+
+ul,
+li {
+    padding: 0;
+    margin: 0;
+}
+.option-container {
+    width: 25rem;
+}
+.column-header {
+    @include mixins.caret();
+    &.--with-open {
+        border-color: var(--#{theme.$prefix}input-border);
+        border-width: 2px;
+        border-bottom: none;
+        transform: scaleY(1.1);
     }
-    .select-header {
-        position: relative;
-        border: 1px solid var(--#{theme.$prefix}input-border);
-        line-height: 2rem;
+}
+.selector-header {
+    border-bottom: 2px solid var(--#{theme.$prefix}input-border);
+    display: flex;
+    line-height: 1.875rem;
+    padding-left: 0.625rem;
+    ul {
+        flex: 1;
+    }
+    li {
+        list-style: none;
         display: inline-block;
-        padding: 0 5px;
-        z-index: 3;
-        background-color: var(--#{theme.$prefix}input);
-        cursor: pointer;
+        padding: 0 0.3125rem;
+        text-align: center;
+        min-width: 4.875rem;
         user-select: none;
-        .iconfont {
-            color: var(--#{theme.$prefix}input-icon);
-        }
-        &.--with-open {
-            border-bottom: none;
+        &.active {
+            background: var(--#{theme.$prefix}input-selected);
+            color: var(--#{theme.$prefix}input-text);
         }
     }
-    .selector-panel-container {
-        position: absolute;
-        width: 25rem;
-        background-color: var(--#{theme.$prefix}input);
-        box-shadow: 0 0 10px rgba(var(--#{theme.$prefix}mask-rgb), .1);
-        padding: 0.625rem;
-        z-index: 2;
-        .select-header {
-            &.--with-open {
-                border-color: var(--#{theme.$prefix}input-border);
-                border-width: 2px;
-                border-bottom: none;
-                transform: scaleY(1.1);
-            }
-        }
+    .icon-close {
+        font-size: 1rem;
+        padding: 0 0.625rem;
+        color: var(--#{theme.$prefix}input-icon);
     }
-    .selector-header {
-        border-bottom: 2px solid var(--#{theme.$prefix}input-border);
+}
+
+.selector-body {
+    overflow-y: auto;
+    height: 12.5rem;
+    padding: 0.625rem;
+    @include scrollbar.scrollbar();
+    ul {
         li {
             list-style: none;
             display: inline-block;
             line-height: 1.875rem;
-            padding: 0 0.3125rem;
-            text-align: center;
-            min-width: 4.875rem;
-
-            &.active {
-                background: var(--#{theme.$prefix}input-selected);
-                color: var(--#{theme.$prefix}input-text);
-            }
-        }
-    }
-
-    .selector-body {
-        overflow-y: auto;
-        height: 12.5rem;
-        @include scrollbar.scrollbar();
-        ul {
-            li {
-                list-style: none;
-                display: inline-block;
-                line-height: 1.875rem;
-                padding: 0 0.5rem;
-                text-align: center;
-                min-width: 3.75rem;
-                cursor: default;
-                user-select: none;
-                &.selected,
-                &:hover {
-                    background: var(--#{theme.$prefix}input-hovered);
-                    color: var(--#{theme.$prefix}input-text);
-                }
-            }
-        }
-    }
-
-    .selector-footer {
-        text-align: right;
-        .selector-yes {
-            width: 30%;
-            background: var(--#{theme.$prefix}btn-bg);
-            color: var(--#{theme.$prefix}btn-color);
             padding: 0 0.5rem;
-            border: none;
-            line-height: 1.875rem;
-            display: inline-block;
+            text-align: center;
+            min-width: 3.75rem;
+            cursor: default;
+            user-select: none;
+            color: var(--#{theme.$prefix}input-text);
+            &:hover {
+                background: var(--#{theme.$prefix}input-hovered);
+            }
+            &.selected {
+                background: var(--#{theme.$prefix}input-selected);
+            }
         }
     }
+}
 
-    .icon-close {
-        position: absolute;
-        top: 0.625rem;
+.selector-footer {
+    text-align: right;
+    .selector-yes {
+        width: 30%;
+        background: var(--#{theme.$prefix}btn-bg);
+        color: var(--#{theme.$prefix}btn-color);
+        padding: 0 0.5rem;
+        border: none;
         line-height: 1.875rem;
-        font-size: 1rem;
-        right: 0.625rem;
-        color: var(--#{theme.$prefix}input-icon);
-    }
-    &.disabled {
-        cursor: not-allowed;
-        .select-header {
-            color: var(--#{theme.$prefix}input-placeholder);
-        }
+        display: inline-block;
     }
 }

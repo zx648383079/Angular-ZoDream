@@ -1,9 +1,9 @@
 import { form, required } from '@angular/forms/signals';
 import { Component, effect, inject, input, model, signal } from '@angular/core';
-import { DialogService } from '../../../components/dialog';
-import { IPageQueries } from '../../../theme/models/page';
-import { ITaskComment } from '../model';
-import { TaskService } from '../task.service';
+import { DialogService } from '../../../../components/dialog';
+import { IPageQueries } from '../../../../theme/models/page';
+import { ITaskComment } from '../../model';
+import { TaskService } from '../../task.service';
 
 @Component({
     standalone: false,

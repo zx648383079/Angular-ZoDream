@@ -4,6 +4,8 @@ import { IErrorResponse } from '../../../../theme/models/page';
 import { IAddress } from '../../model';
 import { ShopService } from '../../shop.service';
 import { form, required } from '@angular/forms/signals';
+import { NetSource } from '../../../../components/form';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -24,7 +26,8 @@ export class AddressComponent {
     });
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public dialogOpen = false;
+    public readonly regionSource = new NetSource(inject(HttpClient), 'shop/region/tree', 3);
+    public readonly dialogOpen = signal(false);
     public readonly editForm = form(signal<IAddress>({
         id: 0,
         name: '',
@@ -53,7 +56,7 @@ export class AddressComponent {
             v.address = item?.address ?? '';
             return {...v};
         });
-        this.dialogOpen = true;
+        this.dialogOpen.set(true);
     }
 
     public tapSave() {
@@ -65,7 +68,7 @@ export class AddressComponent {
         const data = this.editForm().value();
         this.service.addressSave(data).subscribe({
             next: res => {
-                this.dialogOpen = false;
+                this.dialogOpen.set(false);
                 this.toastrService.success(data.id > 0 ? '地址已修改' : '地址已增加');
                 this.items.update(v => {
                     if (!data.id) {

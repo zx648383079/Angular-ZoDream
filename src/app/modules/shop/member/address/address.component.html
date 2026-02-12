@@ -41,17 +41,17 @@
     </div>
 </div>
 
-@if (dialogOpen) {
+@if (dialogOpen()) {
 <div class="dialog-box address-dialog"  animate.enter="dialog-opened" animate.leave="dialog-closed">
     <div class="dialog-header">
         <div class="dialog-title">新建地址</div>
-        <i class="iconfont icon-close dialog-close" (click)="dialogOpen = false"></i>
+        <i class="iconfont icon-close dialog-close" (click)="dialogOpen.set(false)"></i>
     </div>
     <div class="dialog-body">
         <div class="address-body">
             <div>*所在地区:</div>
             <div class="region-input">
-                <app-region url="shop/region/tree" [formField]="editForm.region_id" />
+                <app-region [source]="regionSource" [formField]="editForm.region_id" />
             </div>
             <div>*详细地址:</div>
             <div>
@@ -76,7 +76,7 @@
         </div>
         <div class="btn-group">
             <button type="button" class="btn btn-primary" (click)="tapSave()">确认</button>
-            <button type="button" class="btn btn-danger" (click)="dialogOpen = false">取消</button>
+            <button type="button" class="btn btn-danger" (click)="dialogOpen.set(false)">取消</button>
         </div>
     </div>
 </div>

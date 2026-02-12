@@ -29,8 +29,14 @@
     <div class="route-bar">
         <a class="route-icon" (click)="tapBack()">
             <i class="iconfont icon-chevron-left"></i>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </a>
-        <span class="route-title"></span>
+        <span class="route-title">
+            <div class="select-shell-control">
+                <span>2026-07</span>
+                <i class="iconfont icon-chevron-down"></i>
+            </div>
+        </span>
         <a class="route-icon" routerLink="../../income" [queryParams]="{type: 1, budget: data().id}">
             消费记录
         </a>

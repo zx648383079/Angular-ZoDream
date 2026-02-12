@@ -74,14 +74,14 @@ export class DatepickerComponent implements OnInit {
 
     private transformMax(value: Date|string): Date|undefined {
         value = this.parseDate(value);
-        if (!this.hasTime) {
+        if (!this.hasTime()) {
             value.setHours(0, 0, 0, 0);
         }
         return value;
     }
     private transformMin(value: Date|string): Date|undefined {
         value = this.parseDate(value);
-        if (!this.hasTime) {
+        if (!this.hasTime()) {
             value.setHours(23, 59, 59, 999);
         } else {
             value.setMilliseconds(999);
@@ -114,7 +114,7 @@ export class DatepickerComponent implements OnInit {
         this.refresh();
         this.initMonths();
         this.initYears();
-        if (this.hasTime) {
+        if (this.hasTime()) {
             this.initHours();
             this.initMinutes();
             this.initSeconds();
@@ -167,7 +167,7 @@ export class DatepickerComponent implements OnInit {
         this.currentYear.set(this.currentDate.getFullYear());
         this.currentMonth.set(this.currentDate.getMonth() + 1);
         this.currentDay.set(this.currentDate.getDate());
-        if (this.hasTime) {
+        if (this.hasTime()) {
             this.currentHour.set(this.currentDate.getHours());
             this.currentMinute.set(this.currentDate.getMinutes());
             this.currentSecond.set(this.currentDate.getSeconds());
@@ -233,22 +233,22 @@ export class DatepickerComponent implements OnInit {
     }
 
 
-    private getDaysOfMonth(m: number, y: number): Array<IDay> {
-        const days = [];
+    private getDaysOfMonth(m: number, y: number): IDay[] {
+        const days: IDay[] = [];
         const [f, c] = this.getFirtAndLastOfMonth(y, m);
         let i: number;
         if (f > 0) {
             const yc = this.getLastOfMonth(y, m - 1);
             for (i = yc - f + 1; i <= yc; i ++) {
                 days.push({
-                    disable: true,
+                    disabled: true,
                     val: i
                 });
             }
         }
         for (i = 1; i <= c; i ++) {
             days.push({
-                disable: false,
+                disabled: false,
                 val: i
             });
         }
@@ -256,7 +256,7 @@ export class DatepickerComponent implements OnInit {
             const l = 42 - f - c;
             for (i = 1; i <= l; i ++) {
                 days.push({
-                    disable: true,
+                    disabled: true,
                     val: i
                 });
             }
@@ -317,7 +317,7 @@ export class DatepickerComponent implements OnInit {
 
     private applyCurrent() {
         this.currentDate.setFullYear(this.currentYear(), this.currentMonth() - 1, this.currentDay());
-        if (this.hasTime) {
+        if (this.hasTime()) {
             this.currentDate.setHours(this.currentHour(), this.currentMinute(), this.currentSecond());
         }
         this.title.set(formatDate(this.currentDate, this.titleFormat()));
@@ -350,7 +350,7 @@ export class DatepickerComponent implements OnInit {
         }
         this.currentDate = date;
         this.refreshCurrent();
-        if (!this.hasTime) {
+        if (!this.hasTime()) {
             this.close(true);
             return;
         }

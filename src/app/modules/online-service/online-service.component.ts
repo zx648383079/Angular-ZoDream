@@ -4,6 +4,7 @@ import { IEmoji } from '../../theme/models/seo';
 import { OnlineService } from './online.service';
 import { form, required } from '@angular/forms/signals';
 import { interval, Subscription } from 'rxjs';
+import { KeepAliveService } from '../../theme/services/keep-alive.service';
 
 const LOOP_SPACE_TIME = 20;
 const SESSION_KEY = 'session_token';
@@ -16,6 +17,7 @@ const SESSION_KEY = 'session_token';
 })
 export class OnlineServiceComponent implements OnDestroy {
     private readonly service = inject(OnlineService);
+    private readonly liveService = inject(KeepAliveService);
     private readonly toastrService = inject(DialogService);
 
 

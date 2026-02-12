@@ -1,3 +1,4 @@
+@use '../../../../theme/theme';
 .progress-box {
     position: relative;
     .progress-tip {
@@ -6,7 +7,7 @@
         width: 100%;
         top: 0;
         left: 0;
-        line-height: 200px;
-        font-size: 40px;
+        line-height: 12.5rem;
+        font-size: 2.5rem;
     }
 }

@@ -1,4 +1,4 @@
-@use './mixins';
+@use '../mixins';
 @use '../variables';
 @use '../../app/theme/theme';
 
@@ -37,7 +37,7 @@
         &:checked {
             &+label {
                 background-color: var(--#{theme.$prefix}primary);
-                color: #fff;
+                color: var(--#{theme.$prefix}primary-text);
                 &::before {
                     content: "\e648";
                 }
@@ -52,7 +52,7 @@
         position: relative;
         line-height: 2.5rem;
         background-color: var(--#{theme.$prefix}secondary);
-        color: #fff;
+        color: var(--#{theme.$prefix}primary-text);
         &::before {
             @include mixins.icon();
             content: "\e650";
@@ -65,7 +65,7 @@
     &.checked {
         label {
             background-color: var(--#{theme.$prefix}primary);
-            color: #fff;
+            color: var(--#{theme.$prefix}primary-text);
             &::before {
                 content: "\e648";
             }
@@ -157,7 +157,7 @@ i {
         .input-desc {
             display: block;
             font-size: 0.75rem;
-            color: #767676;
+            color: var(--#{theme.$prefix}meta-text);
             margin-bottom: 0.5rem;
         }
         &:after {
@@ -275,7 +275,7 @@ i {
     width: 8rem;
     text-align: center;
     .item-body {
-        border: 2px solid #ccc;
+        border: 2px solid var(--#{theme.$prefix}border);
         border-radius: .25rem;
         height: 8rem;
         width: 8rem;
@@ -296,7 +296,7 @@ i {
 }
 .large-icon-option {
     display: flex;
-    border: 2px solid #ccc;
+    border: 2px solid var(--#{theme.$prefix}border);
     border-radius: .25rem;
     .item-icon {
         height: 4rem;
@@ -321,7 +321,7 @@ i {
     }
     .item-meta {
         font-size: .8rem;
-        color: #767676;
+        color: var(--#{theme.$prefix}meta-text)
     }
     .item-action {
         display: flex;
@@ -331,7 +331,7 @@ i {
         color: var(--#{theme.$prefix}primary);
         border-color: var(--#{theme.$prefix}primary);
         .item-meta {
-            color: #333;
+            color: var(--#{theme.$prefix}body-text);
         }
     }
 }
@@ -386,7 +386,7 @@ i {
         height: 100%;
         text-align: center;
         position: relative;
-        @include mixins.iconArrow(var(--#{theme.$prefix}panel));
+        @include mixins.caret();
     }
     .dropdown-pane {
         display: none;
@@ -460,12 +460,31 @@ i {
 }
 
 .select-shell-control {
-    display: inline-block;
+    --#{theme.$prefix}control-text: var(--#{theme.$prefix}input-text); 
+    display: inline-flex;
     position: relative;
     padding: 0 .8rem;
     line-height: 2rem;
+    align-content: center;
+    color: var(--#{theme.$prefix}control-text);
     .iconfont {
         margin-left: .4rem;
+    }
+    .control-range-body {
+        display: inline-flex;
+        flex-direction: column;
+        font-size: .8rem;
+        line-height: 1rem;
+        position: relative;
+        &::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 30%;
+            width: 40%;
+            height: 1px;
+            background-color: var(--#{theme.$prefix}control-text);
+        }
     }
 }
 
@@ -541,15 +560,7 @@ i {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        .arrow-icon {
-            border-color: var(--#{theme.$prefix}input-icon) transparent transparent;
-            border-style: solid;
-            border-width: 0.3125rem 0.3125rem 0.1563rem;
-            pointer-events: none;
-            display: block;
-            height: 0;
-            height: 0;
-        }
+        @include mixins.caret();
     }
     .selected-container {
         max-width: 70%;
@@ -560,7 +571,7 @@ i {
         opacity: 0;
         display: none;
         width: 100%;
-        z-index: 1050;
+        z-index: #{variables.$zindex-dropdown};
         background-color: var(--#{theme.$prefix}input);
         border: 1px solid var(--#{theme.$prefix}input-border);
         box-shadow: 0 1px 0 rgba(var(--#{theme.$prefix}mask-rgb), .06);
@@ -627,10 +638,8 @@ i {
             display: block;
         }
         .input-arrow {
-            .arrow-icon {
-                top: -2px;
-                border-color: transparent transparent var(--#{theme.$prefix}input-hover-icon);
-                border-width: 0 5px 5px;
+            &::after {
+                transform: rotate(180deg);
             }
         }
     }
@@ -666,6 +675,11 @@ i {
         border-radius: .25rem;
         border: 1px solid var(--#{theme.$prefix}input-border);
         background-color: var(--#{theme.$prefix}input);
+    }
+    .--with-active {
+        .input-container {
+            border-color: var(--#{theme.$prefix}input-focus-border);
+        }
     }
 }
 

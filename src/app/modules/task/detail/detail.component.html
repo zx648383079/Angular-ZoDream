@@ -14,7 +14,7 @@
         </div>
         <div class="expand-body">
             @for (item of items(); track $index) {
-                <div class="task-item" [class]="{finished: item.status < 5}">
+                <div class="task-item" [class.finished]="item.status < 5">
                 <div class="name">{{ item.name }}</div>
                 <div class="desc">{{ item.description }}</div>
                 <div class="time">{{ item.time_length | hour }}</div>

@@ -1,0 +1,122 @@
+@use 'sass:math';
+@use '../../../../theme/theme';
+@use '../../../../../bootstrap/variables';
+
+$box-height: 48px;
+$circle-size: 80px;
+$circle-border: 5px;
+$box-gap: 10px;
+
+:host {
+    position: fixed;
+    right: .8rem;
+    bottom: #{math.div($circle-size - $box-height, 2) + $box-gap};
+    z-index: #{variables.$zindex-fixed};
+    &.--with-open {
+        .control-meta-bar {
+            display: flex;
+        }
+        .control-body {
+            position: absolute;
+        }
+    }
+}
+
+.control-meta-bar {
+    padding-left: #{$box-height + $box-gap};
+    height: #{$box-height};
+    width: 10rem;
+    border-radius: #{math.div($box-height, 2)};
+    background-color: var(--#{theme.$prefix}surface);
+    color: var(--#{theme.$prefix}surface-text);
+    box-shadow: 0 .5rem 1rem rgba(var(--#{theme.$prefix}mask-rgb), .3);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    .meta-control {
+        font-size: .8rem;
+    }
+}
+
+.control-body {
+    position: relative;
+    left: #{$box-height - $circle-size};
+    top: #{math.div($box-height - $circle-size, 2)};
+    z-index: 1;
+    border-radius: 50%;
+    width: #{$circle-size};
+    height: #{$circle-size};
+    color: var(--#{theme.$prefix}surface-text);
+    .control-label,
+    .control-icon {
+        display: flex;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: #{$circle-size};
+        height: #{$circle-size};
+        align-items: center;
+        justify-content: center;
+    }
+    .control-icon {
+        display: none;
+        font-size: 3rem;
+        cursor: pointer;
+        .icon-play {
+            margin-left: #{$box-gap};
+        }
+    }
+    &:hover {
+        .control-label {
+            display: none;
+        }
+       .control-icon {
+            display: flex;
+       } 
+    }
+}
+
+.progress-circle {
+    --#{theme.$prefix}percent: 10;  /* 百分数 */
+    --#{theme.$prefix}size: #{$circle-size};  /* 尺寸大小 */
+    --#{theme.$prefix}border-width: #{$circle-border};  /* 环形宽度（粗细） */
+    --#{theme.$prefix}color: var(--#{theme.$prefix}primary);  /* 主色 */
+    --#{theme.$prefix}inactive-color: var(--#{theme.$prefix}border);  /* 辅助色 */
+    width: var(--#{theme.$prefix}size);
+    height: var(--#{theme.$prefix}size);
+    transform: rotate(-90deg);
+    border-radius: 50%;
+    svg {
+        width: var(--#{theme.$prefix}size);
+        height: var(--#{theme.$prefix}size);
+    }
+    .progress-outline,
+    .progress-inline {
+        cx: calc(var(--#{theme.$prefix}size) / 2);
+        cy: calc(var(--#{theme.$prefix}size) / 2);
+        r: calc((var(--#{theme.$prefix}size) - var(--#{theme.$prefix}border-width)) / 2);
+        stroke-width: var(--#{theme.$prefix}border-width);
+        stroke-linecap: round;
+        transition: stroke-dasharray 0.4s linear, stroke .3s;
+    }
+    .progress-outline {
+        stroke: var(--#{theme.$prefix}inactive-color);
+        fill: var(--#{theme.$prefix}surface-child);
+    }
+    .progress-inline {
+        fill: none;
+        opacity: var(--#{theme.$prefix}percent);
+        stroke: var(--#{theme.$prefix}color);
+        stroke-dasharray: calc(2 * 3.1415 * (var(--#{theme.$prefix}size) - var(--#{theme.$prefix}border-width)) / 2 * (var(--#{theme.$prefix}percent) / 100)), 1000;
+    }
+    // &::before {
+    //     position: absolute;
+    //     top: 50%;
+    //     left: 50%;
+    //     transform: translate(-50%, -50%) rotate(90deg);
+    //     counter-reset: progress var(--#{theme.$prefix}percent);
+    //     content: counter(progress) '%';
+    //     white-space: nowrap;
+    //     font-size: 1.125rem;
+    // }
+}

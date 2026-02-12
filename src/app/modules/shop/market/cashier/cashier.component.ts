@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
-import { ButtonEvent } from '../../../../components/form';
+import { ButtonEvent, NetSource } from '../../../../components/form';
 import { IErrorResponse } from '../../../../theme/models/page';
 import { IAddress, ICartGroup, ICartItem, ICoupon, IInvoiceTitle, IOrder, IPayment, IShipping } from '../../model';
 import { IUser } from '../../../../theme/models/user';
@@ -15,6 +15,7 @@ import { selectShopCheckout } from '../../shop.selectors';
 import { ShopService } from '../../shop.service';
 import { InvoiceDialogComponent } from './invoice/invoice-dialog.component';
 import { form, required } from '@angular/forms/signals';
+import { HttpClient } from '@angular/common/http';
 
 interface ICartData {
     type: number;
@@ -58,6 +59,7 @@ export class CashierComponent {
     }), schemaPath => {
         required(schemaPath.code);
     });
+    public readonly regionSource = new NetSource(inject(HttpClient), 'shop/region/tree', 3);
     public readonly addressIsEdit = signal(true);
     public readonly editForm = form(signal<IAddress>({
         id: 0,

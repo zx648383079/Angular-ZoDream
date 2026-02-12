@@ -1,5 +1,5 @@
 @use '../../theme/theme';
-@use '../../../bootstrap/desktop/mixins';
+@use '../../../bootstrap/mixins';
 .editor-panel {
     flex-shrink: 0;
     overflow-y: auto;
@@ -137,7 +137,7 @@
             display: flex;
             align-items: center;
             min-height: 3rem;
-            @include mixins.iconArrow();
+            @include mixins.caret();
             &:hover {
                 background-color: var(--#{theme.$prefix}editor);
             }

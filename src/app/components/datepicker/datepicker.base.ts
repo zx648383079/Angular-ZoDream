@@ -1,6 +1,6 @@
 export interface IDay {
-    disabled: boolean;
-    selected: boolean;
+    disabled?: boolean;
+    selected?: boolean;
     val: number;
 }
 

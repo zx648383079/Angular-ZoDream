@@ -1,25 +1,25 @@
-<div class="selector" data-type="selector" [class.disabled]="disabled()">
-    <div (click)="open()" class="selector-input-container">
-        <div class="select-header" [class]="{'--with-open': panelVisible()}">
-            {{ pathLabel() }}
-            <i class="iconfont icon-chevron-down"></i>
-        </div>
+<div class="select-input-container" [class.--with-open]="panelVisible()" [class.disabled]="disabled()">
+    <div (click)="open()" class="input-container --with-placeholder">
+        <span>{{ pathLabel() }}</span>
+        <i class="input-arrow"></i>
     </div>
-    @if (panelVisible()) {
-    <div class="selector-panel-container" (click)="$event.stopPropagation()">
-        <ul class="selector-header">
-            @for (item of routeItems(); track $index; let i = $index) {
-                <li class="select-header"  [class]="{'--with-open': i == activeColumn()}" (click)="tapColumn(i)">
-                    {{ item[rangeLabel()] }}
-                    <i class="iconfont icon-chevron-down"></i>
-                </li>
-            }
-        </ul>
+    <div class="option-container" (click)="$event.stopPropagation()">
+        <div class="selector-header">
+            <ul>
+                @for (item of routeItems(); track $index; let i = $index) {
+                    <li [class.active]="i == activeColumn()" (click)="tapColumn(i)">
+                        {{ item.label }}
+                    </li>
+                }
+            </ul>
+            <i class="iconfont icon-close" (click)="close()"></i>
+        </div>
+        
         <div class="selector-body">
             <ul>
                 @for (item of items(); track $index) {
-                    <li (click)="tapCheckedItem(item)" [class.selected]="isSelected(item)">
-                        {{ item[rangeLabel()] }}</li>
+                    <li (click)="tapCheckedItem(item)" [class.selected]="item.selected">
+                        {{ item.label }}</li>
                 }
             </ul>
         </div>
@@ -29,8 +29,6 @@
         </div>
         }
         
-        <i class="iconfont icon-close" (click)="close()"></i>
+        
     </div>
-    }
-    
 </div>

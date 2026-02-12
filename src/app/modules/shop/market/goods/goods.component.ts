@@ -11,6 +11,8 @@ import { setCart, setCheckoutCart } from '../../shop.actions';
 import { ShopAppState } from '../../shop.reducer';
 import { ShopService } from '../../shop.service';
 import { disabled, form, max, min } from '@angular/forms/signals';
+import { NetSource } from '../../../../components/form';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -29,6 +31,7 @@ export class GoodsComponent implements OnInit {
     private readonly location = inject(Location);
 
 
+    public readonly regionSource = new NetSource(inject(HttpClient), 'shop/region/tree', 3);
     public readonly data = signal<IGoods>(null);
     public readonly galleryItems = signal<IGoodsGallery[]>([]);
     public readonly content = signal<SafeHtml>(null);

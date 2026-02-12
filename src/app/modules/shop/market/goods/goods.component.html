@@ -75,7 +75,7 @@
                     <div class="flex-group">
                         <div class="group-header">配送
                         </div>
-                        <div class="group-body">至<app-region url="shop/region/tree" [formField]="dataForm.region" (valueChange)="onRegionChange()" /></div>
+                        <div class="group-body">至<app-region [source]="regionSource" [formField]="dataForm.region" (valueChange)="onRegionChange()" /></div>
                     </div>
                    
                     <hr>
@@ -111,27 +111,27 @@
                     </div>
                 </div>
                 <div class="page-actions">
-                        @if (stock() > 0) {
-                            <a (click)="tapBuy()" class="btn btn-danger" i18n>
-                                BUY NOW
-                            </a>
-                            <a (click)="tapAddToCart()" class="btn btn-primary">
-                                <i class="iconfont icon-shopping-cart"></i>
-                                <ng-container i18n>ADD TO CART</ng-container>
-                            </a>
-                        } @else {
-                            <a href="javascript:;" class="btn btn-secondary" i18n>
-                                Insufficient inventory cannot be purchased 
-                            </a>
-                        }
-                        <a class="btn btn-collect" [class]="{active: data().is_collect}" (click)="tapCollect()">
-                            <i class="iconfont" [class]="{'icon-heart-o': !data().is_collect, 'icon-heart': data().is_collect}"></i>
-                            <ng-container i18n>LIKE</ng-container>
+                    @if (stock() > 0) {
+                        <a (click)="tapBuy()" class="btn btn-danger" i18n>
+                            BUY NOW
                         </a>
-                        <a class="btn btn-share" (click)="shareModal.open()">
-                            <i class="iconfont icon-share-alt"></i>
-                            <ng-container i18n>SHARE</ng-container>
+                        <a (click)="tapAddToCart()" class="btn btn-primary">
+                            <i class="iconfont icon-shopping-cart"></i>
+                            <ng-container i18n>ADD TO CART</ng-container>
                         </a>
+                    } @else {
+                        <a href="javascript:;" class="btn btn-secondary" i18n>
+                            Insufficient inventory cannot be purchased 
+                        </a>
+                    }
+                    <a class="btn btn-collect" [class]="{active: data().is_collect}" (click)="tapCollect()">
+                        <i class="iconfont" [class]="{'icon-heart-o': !data().is_collect, 'icon-heart': data().is_collect}"></i>
+                        <ng-container i18n>LIKE</ng-container>
+                    </a>
+                    <a class="btn btn-share" (click)="shareModal.open()">
+                        <i class="iconfont icon-share-alt"></i>
+                        <ng-container i18n>SHARE</ng-container>
+                    </a>
                 </div>
             </div>
           </div>

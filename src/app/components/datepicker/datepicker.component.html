@@ -78,7 +78,9 @@
                         <ol><li i18n>Mon</li><li i18n>Tue</li><li i18n>Wed</li><li i18n>Thu</li><li i18n>Fri</li><li i18n>Sat</li><li i18n>Sun</li></ol>
                         <ul>
                             @for (item of dayItems(); track $index) {
-                                <li [class]="{disabled: item.disabled, active: item.val == currentDay() && !item.disabled}" (click)="changeDay(item)">{{ twoPad(item.val) }}</li>
+                                <li [class.disabled]="item.disabled"
+                                    [class.active]="item.val == currentDay() && !item.disabled" 
+                                    (click)="changeDay(item)">{{ twoPad(item.val) }}</li>
                             }
                         </ul>
                     </div>

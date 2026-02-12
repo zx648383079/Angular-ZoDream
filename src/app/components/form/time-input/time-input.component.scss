@@ -1,108 +1,31 @@
 @use '../../../theme/theme';
+@use '../../../../bootstrap/mixins';
 @use '../../../../bootstrap/desktop/scrollbar';
-.time-input-container {
-    display: inline-block;
-    color: var(--#{theme.$prefix}input-text);
-    background-color: var(--#{theme.$prefix}input);
-    border-radius: 4px;
-    border: 1px solid var(--#{theme.$prefix}input-border);
-    min-height: 2.25rem;
-    align-items: center;
-    position: relative;
-    .input-container {
-        padding-top: 5px;
-        padding-left: 7px;
-        height: 2em;
-        display: flex;
-        flex-direction: row;
-        input {
-            flex: 1;
-            box-sizing: content-box;
-            background: none transparent;
-            border: 0;
-            box-shadow: none;
-            outline: none;
-            padding: 0;
-            cursor: default;
-        }
-    }
-    .input-arrow {
-        width: 25px;
-        padding-right: 5px;
-        cursor: pointer;
+ul,li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.flex-grid {
+    display: flex;
+}
+.scroll-column {
+    overflow-y: auto;
+    max-height: 300px;
+    @include scrollbar.scrollbar();
+    flex: 1;
+    line-height: 30px;
+    li {
         text-align: center;
         user-select: none;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        .arrow-icon {
-            border-top-color: var(--#{theme.$prefix}input-icon);
-            border-color: var(--#{theme.$prefix}input-icon) transparent transparent;
-            border-style: solid;
-            border-width: 5px 5px 2.5px;
-            pointer-events: none;
-            display: block;
-            height: 0;
-            height: 0;
+        cursor: default;
+        &:hover {
+            background-color: var(--#{theme.$prefix}input-hovered);
+            color: var(--#{theme.$prefix}body-text);
         }
-    }
-    .option-container {
-        box-sizing: border-box;
-        position: absolute;
-        opacity: 0;
-        display: none;
-        width: 100%;
-        z-index: 1050;
-        background-color: var(--#{theme.$prefix}input);
-        border: 1px solid var(--#{theme.$prefix}input-border);
-        box-shadow: 0 1px 0 rgba(var(--#{theme.$prefix}mask-rgb), .06);
-        left: 0;
-        top: 100%;
-        border-bottom-right-radius: 4px;
-        border-bottom-left-radius: 4px;
-        border-top-color: var(--#{theme.$prefix}input-border);
-        margin-top: -1px;
-    }
-    ul,li {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-    .flex-grid {
-        display: flex;
-    }
-    .scroll-column {
-        overflow-y: auto;
-        max-height: 300px;
-        @include scrollbar.scrollbar();
-        flex: 1;
-        line-height: 30px;
-        li {
-            text-align: center;
-            user-select: none;
-            cursor: default;
-            &:hover {
-                background-color: var(--#{theme.$prefix}input-hovered);
-                color: var(--#{theme.$prefix}body-text);
-            }
-            &.selected {
-                color: var(--#{theme.$prefix}body-text);
-                background-color: var(--#{theme.$prefix}input-selected);
-            }
-        }
-    }
-    &.panel-open {
-        .option-container {
-            opacity: 1;
-            display: block;
-        }
-        .input-arrow {
-            .arrow-icon {
-                top: -2px;
-                border-color: transparent transparent var(--#{theme.$prefix}input-hover-icon);
-                border-width: 0 5px 5px;
-            }
+        &.selected {
+            color: var(--#{theme.$prefix}body-text);
+            background-color: var(--#{theme.$prefix}input-selected);
         }
     }
 }

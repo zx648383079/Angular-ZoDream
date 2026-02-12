@@ -7,6 +7,8 @@ import { ThemeService } from '../../../../../theme/services';
 import { ActivityService } from '../../activity.service';
 import { form, max, min } from '@angular/forms/signals';
 import { interval, Subscription } from 'rxjs';
+import { NetSource } from '../../../../../components/form';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -26,6 +28,7 @@ export class AuctionGoodsComponent implements OnInit, OnDestroy {
     public activity: IActivity<IAuctionConfigure>;
     public galleryItems: IGoodsGallery[] = [];
     public content: SafeHtml;
+    public readonly regionSource = new NetSource(inject(HttpClient), 'shop/region/tree', 3);
     public readonly tabIndex = signal(0);
     public readonly dataForm = form(signal({
         min: 0,

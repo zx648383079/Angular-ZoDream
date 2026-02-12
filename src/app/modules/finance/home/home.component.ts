@@ -1,8 +1,9 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { EChartsCoreOption } from 'echarts/core';
 import { formatDate, mapFormat } from '../../../theme/utils';
 import { FinanceService } from '../finance.service';
 import { form } from '@angular/forms/signals';
+import { DateSource } from '../../../components/form';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
     private readonly service = inject(FinanceService);
 
 
@@ -23,13 +24,18 @@ export class HomeComponent implements OnInit {
         type: 1,
         log_type: 0
     }));
-    public typeItems = ['天', '月', '季度', '年'];
-    public logTypeItems = ['收入', '支出', '其他'];
+    public readonly typeItems = ['天', '月', '季度', '年'];
+    public readonly logTypeItems = ['收入', '支出', '其他'];
+    public readonly rangeVisible = signal(false);
     public readonly options = signal<EChartsCoreOption>(null);
+    public readonly source = new DateSource();
 
-
-    ngOnInit() {
+    constructor() {
         this.onQueriesChange();
+    }
+
+    public onDateChange(val: Date|string) {
+        this.queries.start_at().value.set(typeof val === 'string' ? val : formatDate(val, 'yyyy-mm-01'));
     }
 
     public onQueriesChange() {

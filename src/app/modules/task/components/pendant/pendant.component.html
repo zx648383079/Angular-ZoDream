@@ -1,0 +1,22 @@
+@if (visible()) {
+<div class="control-meta-bar">
+    <div class="name-control">任务名</div>
+    <div class="meta-control">说明</div>
+</div>
+<div class="control-body">
+    <div class="progress-circle" [style]="progressStyle()">
+        <svg>
+            <circle class="progress-outline" />
+            <circle class="progress-inline"/>
+        </svg>
+    </div>
+    <div class="control-label">
+        {{ value() | hour }}
+    </div>
+    <div class="control-icon" (click)="toggle()">
+        <i class="iconfont" 
+            [class.icon-play]="isPaused()" 
+            [class.icon-pause]="!isPaused()"></i>
+    </div>
+</div>
+}

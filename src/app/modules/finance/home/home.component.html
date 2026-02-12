@@ -89,17 +89,22 @@
 <div class="tablet-large-header tablet-visible">
     <div class="container-fluid">
         <div class="align-tab-bar">
-            <a [class]="{active: queries.type().value() == 1}" (click)="tapType(1)">月账单</a>
-            <a [class]="{active: queries.type().value() == 3}" (click)="tapType(3)">年账单</a>
+            <a [class.active]="queries.type().value() == 1" (click)="tapType(1)">月账单</a>
+            <a [class.active]="queries.type().value() == 3" (click)="tapType(3)">年账单</a>
         </div>
         <div class="row">
             <div class="col-6">
-                <app-datepicker format="yyyy-mm-dd" [formField]="queries.start_at" (valueChange)="onQueriesChange()">
-                    <div class="select-shell-control">
+                <div class="select-shell-control" (click)="rangeVisible.set(true)">
+                    @if (queries.end_at().value()) {
+                        <div class="control-range-body">
+                            <span>{{ queries.start_at().value() }}</span>
+                            <span>{{ queries.end_at().value() }}</span>
+                        </div>
+                    } @else {
                         <span>{{ queries.start_at().value() }}</span>
-                        <i class="iconfont icon-chevron-down"></i>
-                    </div>
-                </app-datepicker>
+                    }
+                    <i class="iconfont icon-chevron-down"></i>
+                </div>
             </div>
             <div class="col-6">
                 <div class="tab-bar">
@@ -138,9 +143,6 @@
                 </div>
             }
         }
-        
-        
-        
     </div>
     
 </div>
@@ -149,3 +151,31 @@
 <div class="container-fluid">
     <div appChart [options]="options()" class="chart-lg"></div>
 </div>
+
+@if (rangeVisible()) {
+    <div class="tablet-mask" (click)="rangeVisible.set(false)"></div>
+    <div class="tablet-menu-panel">
+        <div class="range-control --with-gap">
+            <div class="control-body --with-active">
+                <label for="">开始日期</label>
+                <div class="input-container">
+                    {{ queries.start_at().value() || '选择日期' }}
+                </div>
+            </div>
+            <div class="control-gap">
+                至
+            </div>
+            <div class="control-body">
+                <label for="">结束日期</label>
+                <div class="input-container">
+                    {{ queries.end_at().value() || '选择日期' }}
+                </div>
+            </div>
+        </div>
+        <app-select-picker [source]="source"/>
+        <div class="btn-group">
+            <a class="btn btn-primary">确定</a>
+            <a class="btn btn-secondary" (click)="rangeVisible.set(false)" i18n>Cancel</a>
+        </div>
+    </div>
+}

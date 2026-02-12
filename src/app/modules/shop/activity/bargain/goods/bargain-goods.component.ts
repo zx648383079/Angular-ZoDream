@@ -5,6 +5,8 @@ import { DialogService } from '../../../../../components/dialog';
 import { IActivity, IBargainConfigure, IGoods, IGoodsGallery } from '../../../model';
 import { ThemeService } from '../../../../../theme/services';
 import { ActivityService } from '../../activity.service';
+import { NetSource } from '../../../../../components/form';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -25,6 +27,7 @@ export class BargainGoodsComponent implements OnInit {
     public galleryItems: IGoodsGallery[] = [];
     public content: SafeHtml;
     public readonly tabIndex = signal(0);
+    public readonly regionSource = new NetSource(inject(HttpClient), 'shop/region/tree', 3);
     public amount = 1;
     public dataType: 0|1|2 = 0; // 0 没有记录 1 别人的记录 2 自己的记录
     public log: any;
