@@ -3,6 +3,7 @@ import { hasElementByClass } from '../../../theme/utils/doc';
 import { FormValueControl } from '@angular/forms/signals';
 import { IDataSource, select } from '../sources/IDataSource';
 import { IControlOption } from '../event';
+import { findIndex } from '../../../theme/utils';
 
 @Component({
     standalone: false,
@@ -105,11 +106,16 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
 
     private output() {
         const selectedItems = this.routeItems();
-        if (selectedItems.length < 1) {
+        // formField 不接受 undefined
+        let selectedIndex = findIndex(selectedItems, i => typeof i.value === 'undefined');
+        if (selectedIndex < 0) {
+            selectedIndex = selectedItems.length;
+        }
+        if (selectedIndex < 1) {
             return;
         }
         const value = this.value();
-        const last = selectedItems[selectedItems.length - 1];
+        const last = selectedItems[selectedIndex - 1];
         if (typeof value === 'undefined' || typeof value === 'boolean' || value === null) {
             this.value.set(last.value);
         } else if (typeof value !== 'object') {
