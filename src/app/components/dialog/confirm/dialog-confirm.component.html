@@ -1,6 +1,6 @@
 @if (visible()) {
-    <div class="dialog-mask" (click)="close()"></div>
-    <div class="dialog-box" animate.enter="dialog-opened" animate.leave="dialog-closed" (animationend)="animationDone()">
+    <div class="dialog-mask" animate.enter="dialog-mask-opened" (click)="close()"></div>
+    <div class="dialog-box" animate.enter="dialog-top-opened" animate.leave="dialog-top-closed" (animationend)="animationDone()">
         @if (title) {
         <div class="dialog-header">
             <div class="dialog-title">{{ title }}</div>

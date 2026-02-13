@@ -25,7 +25,7 @@ interface IResFile {
     templateUrl: './edit-resource.component.html',
     styleUrls: ['./edit-resource.component.scss']
 })
-export class EditResourceComponent implements OnInit {
+export class EditResourceComponent {
     private readonly service = inject(ResourceService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -66,7 +66,8 @@ export class EditResourceComponent implements OnInit {
     public reviewItems = ReviewStatusItems;
     public fileTypeItems = FileTypeItems;
 
-    ngOnInit() {
+    
+    constructor() {
         this.service.categoryTree().subscribe(res => {
             this.categories = res.data;
         });
@@ -116,6 +117,10 @@ export class EditResourceComponent implements OnInit {
         );
     }
 
+    public tapBack() {
+        this.location.back();
+    }
+
     public addTagFn(name: string) {
         return {name};
     }
@@ -156,7 +161,7 @@ export class EditResourceComponent implements OnInit {
             next: _ => {
                 e.reset();
                 this.toastrService.success($localize `Save Successfully`);
-                this.location.back();
+                this.tapBack();
             },
             error: err => {
                 this.toastrService.error(err);

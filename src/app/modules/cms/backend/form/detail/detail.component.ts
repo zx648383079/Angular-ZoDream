@@ -54,6 +54,10 @@ export class FormDetailComponent implements OnInit {
         });
     }
 
+    public tapBack() {
+        this.location.back();
+    }
+
     public tapTab(index: number) {
         this.tabIndex.set(index);
     }

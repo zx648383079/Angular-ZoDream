@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Location } from '@angular/common';
 import { MessageServiceService } from '../ms.service';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
@@ -15,7 +16,7 @@ export class OptionComponent implements OnInit {
     private readonly service = inject(MessageServiceService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     private readonly form = viewChild(FormPanelComponent);
 
@@ -28,6 +29,10 @@ export class OptionComponent implements OnInit {
                 this.form().items.set(res.data);
             });
         });
+    }
+
+    public tapBack() {
+        this.location.back();
     }
 
 

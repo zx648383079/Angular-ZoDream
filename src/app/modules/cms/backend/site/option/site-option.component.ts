@@ -73,6 +73,10 @@ export class SiteOptionComponent implements OnInit {
         });
     }
 
+    public tapBack() {
+        this.location.back();
+    }
+
     private strToArr(val: any): string[] {
         if (typeof val === 'object') {
             return val;

@@ -52,6 +52,10 @@ export class CreateComponent implements OnInit {
         });
     }
 
+    public tapBack() {
+        this.location.back();
+    }
+
     public tapSubmit2(e: SubmitEvent) {
         e.preventDefault();
         this.tapSubmit();

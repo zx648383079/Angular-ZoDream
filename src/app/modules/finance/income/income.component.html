@@ -64,10 +64,10 @@
                             <a class="btn btn-info" (click)="tapPreview(previewModal, item)">预览</a>
                             <a class="btn btn-primary" [routerLink]="['clone', item.id]">克隆</a>
                             @if (item.type == 2 || item.type == 3) {
-                                <a class="btn btn-success">还款</a>
+                                <a class="btn btn-success" [routerLink]="['repay', item.id]">还款</a>
                             }
                             @if (item.type == 2) {
-                                <a class="btn btn-info">坏账</a>
+                                <a class="btn btn-info" [routerLink]="['bad', item.id]">坏账</a>
                             }
                             <a class="btn btn-light" [routerLink]="['edit', item.id]">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>

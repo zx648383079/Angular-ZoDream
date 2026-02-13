@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { GameMakerService } from '../../game-maker.service';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -18,7 +19,7 @@ interface IPlusItem {
 export class RuleCheckinComponent implements OnInit {
     private readonly service = inject(GameMakerService);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public readonly dataForm = form(signal({
         basic: 0,
@@ -45,6 +46,10 @@ export class RuleCheckinComponent implements OnInit {
         //         this.tapAddItem();
         //     }
         // });
+    }
+
+    public tapBack() {
+        this.location.back();
     }
 
     public tapSubmit(e?: ButtonEvent) {

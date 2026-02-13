@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
+import { Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
@@ -27,6 +27,7 @@ export class EditIncomeComponent implements OnInit {
         id: 0,
         type: 0,
         money: 0,
+        parent_id: 0,
         frozen_money: 0,
         account_id: '',
         channel_id: '',
@@ -55,12 +56,29 @@ export class EditIncomeComponent implements OnInit {
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.account_id);
     });
-    public typeItems = ['支出', '收入', '借出', '借入'];
+    public readonly typeItems = ['支出', '收入', '借出', '借入'];
     public readonly accountItems = signal<IAccount[]>([]);
     public readonly channelItems = signal<IConsumptionChannel[]>([]);
     public readonly projectItems = signal<IFinancialProject[]>([]);
     public readonly budgetItems = signal<IBudget[]>([]);
+    public readonly action = signal('create');
     public readonly mode = signal(0);
+    public readonly modeToggle = computed(() => {
+        return this.action() === 'create';
+    });
+    public readonly title = computed(() => {
+        switch(this.action()) {
+            case 'repay':
+                return '还款';
+            case 'bad':
+                return '计提坏账';
+            case 'edit':
+                return '编辑流水';
+            default:
+                return '新增流水';
+        }
+    });
+    
 
     constructor() {
         this.themeService.tabletIf(this.destroyRef);
@@ -79,17 +97,28 @@ export class EditIncomeComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
+            this.action.set(params.action);
             if (!params.id) {
                 return;
             }
             this.service.log(params.id).subscribe(res => {
                 this.dataModel.update(v => {
+                    if (params.action === 'repay') {
+                        return {...v, 
+                            parent_id: res.id, type: res.type > 2 ? 0 : 1, 
+                            money: res.money, 
+                            remark: `还钱: ${res.remark}`, 
+                            trading_object: res.trading_object};
+                    }
                     if (params.action !== 'clone') {
                         v.id = res.id;
                         v.happened_at = res.happened_at;
                     }
                     v.account_id = res.account_id as any;
                     v.type = res.type;
+                    if (params.action === 'bad') {
+                        v.type = 0;
+                    }
                     v.money = res.money;
                     v.frozen_money = res.frozen_money;
                     v.channel_id = res.channel_id as any;

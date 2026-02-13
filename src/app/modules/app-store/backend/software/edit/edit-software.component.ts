@@ -94,6 +94,10 @@ export class EditSoftwareComponent implements OnInit {
         );
     }
 
+    public tapBack() {
+        this.location.back();
+    }
+
     public addTagFn(name: string) {
         return {name};
     }

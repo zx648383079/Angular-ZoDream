@@ -69,6 +69,6 @@
 
     <div class="btn-group">
         <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)" [disabled]="dataForm().invalid()" i18n>Confirm to save</app-action-button>
-        <a class="btn btn-danger" href="javascript:history.go(-1);" i18n>Cancel and back</a>
+        <a class="btn btn-danger" (click)="tapBack()" i18n>Cancel and back</a>
     </div>
 </form>

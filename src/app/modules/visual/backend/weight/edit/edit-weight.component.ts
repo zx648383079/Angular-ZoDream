@@ -75,6 +75,10 @@ export class EditWeightComponent implements OnInit {
         });
     }
 
+    public tapBack() {
+        this.location.back();
+    }
+
     public onFileUpload(e: UploadCustomEvent) {
         this.service.upload(e.file).subscribe({
             next: res => {

@@ -76,6 +76,7 @@ export class FileUploadService {
         const form = new FormData();
         form.append('file', file);
         return this.http.post('open/file/base64', form, {
+            observe: 'events',
             reportProgress: !!progress$
         }).pipe(map((event: HttpEvent<any>) => {
                 switch (event.type) {
@@ -141,6 +142,7 @@ export class FileUploadService {
         }
 
         const options: any = {
+            observe: 'events',
             reportProgress: !!progress$
         };
 
@@ -188,6 +190,7 @@ export class FileUploadService {
             }
         }
         return this.http.post<any>(url, form, {
+            observe: 'events',
             reportProgress: !!progress$
         }).pipe(map((event: HttpEvent<any>) => {
                 switch (event.type) {
@@ -248,7 +251,7 @@ export class FileUploadService {
     public export(url: string, data: any, fileName?: string, fileType?: any, progress$?: Subject<HttpProgressEvent>): Observable<boolean> {
         return this.http.request('post', url, {
             body: data,
-            observe: 'response',
+            observe: 'events',
             responseType: 'blob',
             reportProgress: !!progress$
         }).pipe(map((event: HttpEvent<any>) => {

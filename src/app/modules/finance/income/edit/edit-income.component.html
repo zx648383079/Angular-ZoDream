@@ -1,4 +1,4 @@
-<app-edit-header [title]="dataModel().id > 0 ? '编辑流水' : '新增流水'"(submited)="tapSubmit($event)" />
+<app-edit-header [title]="title()"(submited)="tapSubmit($event)" />
 <div class="container-fluid">
     <div class="form-table-control panel-container">
         @if (mode() < 1) {
@@ -193,8 +193,8 @@
         }
         <div class="btn-group">
             <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="dataForm().invalid()">确认保存</app-action-button>
-            <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
-            @if (dataModel().id < 1) {
+            <a class="btn btn-danger" (click)="tapBack()">取消修改</a>
+            @if (modeToggle()) {
                 @if (mode() < 1) {
                     <a class="btn btn-info" (click)="toggleMode(1)">一日三餐模式</a>
                 } @else {

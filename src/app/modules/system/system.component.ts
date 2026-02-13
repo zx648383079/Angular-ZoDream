@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { DialogEvent, DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
 import { IItem, IOption } from '../../theme/models/seo';
@@ -17,7 +18,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class SystemComponent {
     private readonly service = inject(SystemService);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public readonly groups = signal<IOption[]>([]);
     public readonly editForm = form(signal({
@@ -73,6 +74,10 @@ export class SystemComponent {
                 return group;
             }));
         });
+    }
+
+    public tapBack() {
+        this.location.back();
     }
 
     private formatOptionItem(item: IOption): IOption {

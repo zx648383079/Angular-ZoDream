@@ -48,7 +48,7 @@
         </div>
         <div class="btn-group">
             <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)">确认保存</app-action-button>
-            <a class="btn btn-danger" href="javascript:history.go(-1);">取消修改</a>
+            <a class="btn btn-danger" (click)="tapBack()">取消修改</a>
         </div>
     </form>
 </div>

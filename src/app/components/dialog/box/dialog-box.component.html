@@ -1,5 +1,5 @@
 @if (visible()) {
-<div class="dialog-mask" (click)="close()"></div>
+<div class="dialog-mask" animate.enter="dialog-mask-opened" (click)="close()"></div>
 <div class="dialog-box" [class]="{'dialog-not-header': !title() && !customHeader()}" animate.enter="dialog-opened" animate.leave="dialog-closed" [style]="boxStyle()">
     @if (title() || customHeader()) {
     <div class="dialog-header">

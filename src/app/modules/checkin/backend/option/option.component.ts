@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { DialogService } from '../../../../components/dialog';
 import { eachObject } from '../../../../theme/utils';
 import { CheckinService } from '../checkin.service';
@@ -19,7 +20,7 @@ interface IPlusItem {
 export class OptionComponent implements OnInit {
     private readonly service = inject(CheckinService);
     private readonly toastrService = inject(DialogService);
-
+    private readonly location = inject(Location);
 
     public readonly dataForm = form(signal({
         basic: 0,
@@ -50,6 +51,10 @@ export class OptionComponent implements OnInit {
                 items
             });
         });
+    }
+
+    public tapBack() {
+        this.location.back();
     }
 
     public tapSubmit(e?: ButtonEvent) {
