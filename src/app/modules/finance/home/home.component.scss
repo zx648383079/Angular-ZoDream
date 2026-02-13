@@ -4,27 +4,7 @@
 }
 
 .tablet-large-header {
-    --#{theme.$prefix}header: var(--#{theme.$prefix}surface);
-    --#{theme.$prefix}header-text: var(--#{theme.$prefix}surface-text);
-    --#{theme.$prefix}header-active-text: var(--#{theme.$prefix}surface-selected-text);
-    background-color: var(--#{theme.$prefix}header);
-    color: var(--#{theme.$prefix}header-text);
     padding: 3rem 0;
-    a {
-        color: var(--#{theme.$prefix}header-text);
-    }
-    .tab-bar {
-        --#{theme.$prefix}tab-text: var(--#{theme.$prefix}header-text);
-        --#{theme.$prefix}tab-active-text: var(--#{theme.$prefix}header);
-        --#{theme.$prefix}tab-active: var(--#{theme.$prefix}header-text);
-        line-height: 2rem;
-        .item {
-            padding: 0 .6rem;
-            &.active {
-                border-radius: 1rem;
-            }
-        }
-    }
     .couter-control {
         padding: 0 .8rem;
         margin-top: 1rem;

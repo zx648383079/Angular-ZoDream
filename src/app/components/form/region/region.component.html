@@ -1,7 +1,7 @@
 <div class="select-input-container" [class.--with-open]="panelVisible()" [class.disabled]="disabled()">
     <div (click)="open()" class="input-container --with-placeholder">
         <span>{{ pathLabel() }}</span>
-        <i class="input-arrow"></i>
+        <i class="dropdown-toggle"></i>
     </div>
     <div class="option-container" (click)="$event.stopPropagation()">
         <div class="selector-header">

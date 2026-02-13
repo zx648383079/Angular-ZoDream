@@ -7,6 +7,7 @@
     left: 0;
     right: 0;
     background-color: var(--#{theme.$prefix}panel);
+    color: var(--#{theme.$prefix}body-text);
     z-index: variables.$zindex-modal;
     .menu-item {
         color: var(--#{theme.$prefix}body-text);

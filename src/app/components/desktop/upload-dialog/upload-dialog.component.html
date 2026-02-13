@@ -1,25 +1,52 @@
 @if (visible()) {
-<div class="dialog-mask" (click)="close()"></div>
-<div class="dialog-box" animate.enter="dialog-opened" animate.leave="dialog-closed">
-    <div class="dialog-header">
-        <div class="dialog-title">{{ title() }}</div>
-        <i class="iconfont icon-close dialog-close" (click)="close()"></i>
-    </div>
-    <div class="dialog-body">
-        <label class="drag-file-control" [for]="fileName" appFileDrop (fileDrop)="uploadFiles($event)">
-            <p class="--with-icon">
-                <i class="iconfont icon-upload"></i>
-            </p>
-            <p i18n>Select file(s)</p>
-            <p i18n>or drag and drop your files here</p>
-            <input type="file" [id]="fileName" (change)="uploadFile($event)">
-        </label>
-    </div>
-    <div class="dialog-footer">
-        <div class="btn-group">
-            <div class="btn btn-primary" (click)="close()">{{ confirmText() }}</div>
-            <div class="btn btn-danger" (click)="close()">{{ cancelText() }}</div>
+<div class="dialog-mask" (click)="tapMaskClose()"></div>
+<div [class.dialog-box]="stepIndex() == 0" [class.dialog-progress-box]="stepIndex() == 1" animate.enter="dialog-opened" animate.leave="dialog-closed">
+    @if (stepIndex() < 1) {
+        <div class="dialog-header">
+            <div class="dialog-title">{{ title() }}</div>
+            <i class="iconfont icon-close dialog-close" (click)="close()"></i>
         </div>
-    </div>
+        <div class="dialog-body">
+            <label class="drag-file-control" [for]="fileName" appFileDrop (fileDrop)="uploadFiles($event)">
+                <p class="--with-icon">
+                    <i class="iconfont icon-upload"></i>
+                </p>
+                @if (selectedItem()) {
+                    <p>{{ selectedItem() }}</p>
+                } @else {
+                    <p i18n>Select file(s)</p>
+                    <p i18n>or drag and drop your files here</p>
+                }
+                <input type="file" [id]="fileName" (change)="uploadFile($event)" [accept]="accept()">
+            </label>
+
+            <div>
+                <label for="file-password" class="form-label" i18n>Password</label>
+                <input class="form-control" id="file-password" [value]="password()" (input)="password.set($event.target.value)" 
+                i18n-placeholder placeholder="If no password is provided, leave it blank.">
+            </div>
+        </div>
+        <div class="dialog-footer">
+            <div class="btn-group">
+                <button class="btn btn-primary" [disabled]="!selectedItem()" (click)="close(true)">{{ confirmText() }}</button>
+                <div class="btn btn-danger" (click)="close()">{{ cancelText() }}</div>
+            </div>
+        </div>
+    } @else {
+        <div class="dialog-header">{{ title() }}</div>
+        <div class="dialog-body">
+            <p>{{ placeholder() }}</p>
+            @if (isLoading()) {
+                <div class="progress">
+                    <div class="progress-bar progress-bar-infinite"></div>
+                </div>
+            } @else {
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped" [style]="progressStyle()"></div>
+                </div>
+                <span>{{ value() }} / {{ max() }}</span>
+            }
+        </div>
+    }
 </div>
 }

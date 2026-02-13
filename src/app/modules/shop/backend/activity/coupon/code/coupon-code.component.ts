@@ -5,8 +5,7 @@ import { DialogEvent, DialogService } from '../../../../../../components/dialog'
 import { ButtonEvent, UploadButtonEvent } from '../../../../../../components/form';
 import { IPageQueries } from '../../../../../../theme/models/page';
 import { ICouponLog } from '../../../../model';
-import { SearchService } from '../../../../../../theme/services';
-import { DownloadService } from '../../../../../../theme/services';
+import { FileUploadService, SearchService } from '../../../../../../theme/services';
 import { ActivityService } from '../../activity.service';
 
 @Component({
@@ -19,9 +18,8 @@ export class CouponCodeComponent implements OnInit {
     private readonly service = inject(ActivityService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-    private readonly downloadService = inject(DownloadService);
     private readonly searchService = inject(SearchService);
-
+    private readonly uploadService = inject(FileUploadService);
 
     public readonly items = signal<ICouponLog[]>([]);
     private hasMore = true;
@@ -70,7 +68,7 @@ export class CouponCodeComponent implements OnInit {
 
     public tapExport(event?: ButtonEvent) {
         event?.enter();
-        this.downloadService.export('shop/admin/activity/coupon/code_export', {
+        this.uploadService.export('shop/admin/activity/coupon/code_export', {
             coupon: this.queries.coupon
         }, '优惠码记录.xlsx').subscribe({
             next: _ => {

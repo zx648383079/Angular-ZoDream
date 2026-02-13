@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { DialogBaseEvent, DialogService } from '../../../components/dialog';
 import { form, pattern, required } from '@angular/forms/signals';
 import { NavigationService } from '../navigation.service';
+import { FileUploadService } from '../../../theme/services';
 
 @Component({
     standalone: false,
@@ -13,6 +14,7 @@ export class PageCardComponent implements DialogBaseEvent {
 
     private readonly service = inject(NavigationService);
     private readonly toastrService = inject(DialogService);
+    private readonly uploadService = inject(FileUploadService);
     /**
      * 是否显示
      */
@@ -77,8 +79,8 @@ export class PageCardComponent implements DialogBaseEvent {
         if (files.length < 1) {
             return;
         }
-        const reader = new FileReader();
-        reader.onload = e => this.dataForm.thumb().value.set(e.target.result as string);
-        reader.readAsDataURL(files[0]);
+        this.uploadService.preview(files[0]).subscribe(res => {
+            this.dataForm.thumb().value.set(res);
+        });
     }
 }

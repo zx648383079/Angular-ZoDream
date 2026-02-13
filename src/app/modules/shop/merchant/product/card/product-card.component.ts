@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService, DialogEvent } from '../../../../../components/dialog';
 import { ButtonEvent, UploadButtonEvent } from '../../../../../components/form';
 import { IPageQueries } from '../../../../../theme/models/page';
-import { DownloadService, SearchService } from '../../../../../theme/services';
+import { FileUploadService, SearchService } from '../../../../../theme/services';
 import { IGoodsCard } from '../../../model';
 import { ShopService } from '../../shop.service';
 
@@ -18,7 +18,7 @@ export class ProductCardComponent implements OnInit {
     private readonly service = inject(ShopService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-    private readonly downloadService = inject(DownloadService);
+    private readonly uploadService = inject(FileUploadService);
     private readonly searchService = inject(SearchService);
 
 
@@ -67,7 +67,7 @@ export class ProductCardComponent implements OnInit {
 
     public tapExport(event?: ButtonEvent) {
         event?.enter();
-        this.downloadService.export('shop/admin/goods/card_export', {
+        this.uploadService.export('shop/admin/goods/card_export', {
             goods: this.queries.goods
         }, '卡密记录.xlsx').subscribe({
             next: _ => {

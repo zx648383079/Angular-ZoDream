@@ -1,0 +1,19 @@
+@if (visible()) {
+<div class="dialog-mask" animate.enter="dialog-mask-opened"></div>
+<div class="dialog-progress-box" animate.enter="dialog-top-opened" animate.leave="dialog-top-closed">
+    <div class="dialog-header">{{ title() }}</div>
+    <div class="dialog-body">
+        <p>{{ placeholder() }}</p>
+        @if (isLoading()) {
+            <div class="progress">
+                <div class="progress-bar progress-bar-infinite"></div>
+            </div>
+        } @else {
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped" [style]="progressStyle()"></div>
+            </div>
+            <span>{{ value() }} / {{ max() }}</span>
+        }
+    </div>
+</div>
+}

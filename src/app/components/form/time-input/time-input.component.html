@@ -1,7 +1,7 @@
 <div class="select-input-container" [class.--with-open]="panelVisible()">
     <div class="input-container">
         <input type="text" [value]="value()" (change)="onValueChange($event)" [disabled]="disabled()" [placeholder]="placeholder()" (focus)="onFocus()">
-        <div class="input-arrow"></div>
+        <div class="dropdown-toggle"></div>
     </div>
     <div class="option-container">
         <div class="flex-grid">

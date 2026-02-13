@@ -29,6 +29,32 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
     align-items: center;
 }
 
+.dialog-progress-box {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: #{variables.$zindex-modal};
+    background-color: var(--#{theme.$prefix}dialog);
+    backdrop-filter: blur(1.875rem);
+    box-shadow: 0 0 1.25rem $shadow;
+    display: flex;
+    flex-direction: column;
+    padding: .8rem;
+    .dialog-header {
+        color: var(--#{theme.$prefix}dialog-text);
+        font-weight: bold;
+    }
+    .dialog-body {
+        font-size: .8rem;
+        color: var(--#{theme.$prefix}meta-text);
+    }
+    .progress {
+        --#{theme.$prefix}progress-height: .4rem;
+        --#{theme.$prefix}progress-bg: var(--#{theme.$prefix}input-border);
+    }
+}
+
 .dialog-box,
 .dialog-flip-box,
 .dialog-select-box,
@@ -432,21 +458,35 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
     }
 }
 
-
-
+.dialog-mask-opened {
+    animation: dialog-mask-fade .5s ease-in;
+}
 
 .dialog-opened {
-    animation: dialog-fade .5s ease-in;
+    animation: dialog-bottom-fade .5s ease-in;
 }
 .dialog-closed {
-    animation: panel-fade .5s ease-out 0 reverse;
+    transform: translate3d(0, 150vh, 0);
+    opacity: 0;
+    transition: opacity 500ms ease-out, transform 500ms ease-out;
+}
+
+.dialog-top-opened {
+    animation: dialog-fade .5s ease-in;
+}
+.dialog-top-closed {
+    transform: translate3d(0, -100vh, 0);
+    opacity: 0;
+    transition: opacity 500ms ease-out, transform 500ms ease-out;
 }
 
 .panel-opened {
     animation: panel-fade .5s ease-in;
 }
 .panel-closed {
-    animation: panel-fade .5s ease-out 0 reverse;
+    right: -30rem;
+    opacity: 0;
+    transition: opacity 500ms ease-out, right 500ms ease-out;
 }
 
 @media (min-width: 48rem) {
@@ -471,11 +511,46 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
     .dialog-panel {
         width: 30rem;
     }
+    .dialog-progress-box {
+        left: 50%;
+        top: 50%;
+        width: 20rem;
+        margin-left: -10rem;
+        margin-top: -3rem;
+        border-radius: #{variables.$border-radius};
+    }
+    .dialog-opened {
+        animation: dialog-fade .5s ease-in;
+    }
+    .dialog-closed {
+        opacity: 0;
+        transform: translate3d(0, -100vh, 0);
+    }
+}
+
+@keyframes dialog-mask-fade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes dialog-fade {
     from {
-        transform: translate3d(0, -62rem, 0);
+        transform: translate3d(0, -100vh, 0);
+        opacity: 0;
+    }
+    to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+}
+
+@keyframes dialog-bottom-fade {
+    from {
+        transform: translate3d(0, 150vh, 0);
         opacity: 0;
     }
     to {

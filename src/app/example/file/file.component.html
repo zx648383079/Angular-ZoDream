@@ -20,6 +20,10 @@
 
     <app-panel title="文件上传下载弹窗">
         <a class="btn btn-info" (click)="upload.open(null)">上传</a>
+        <a class="btn btn-success" (click)="download.open()">下载</a>
+        <div class="progress">
+            <div class="progress-bar progress-bar-infinite"></div>
+        </div>
 
         <app-loading-ring ringName="loading-ring8"/>
     </app-panel>
@@ -27,3 +31,5 @@
 
 <app-file-explorer-dialog #modal [mode]="1" />
 <app-upload-dialog #upload/>
+
+<app-progress-dialog #download/>

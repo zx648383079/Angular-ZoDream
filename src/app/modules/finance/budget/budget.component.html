@@ -28,7 +28,7 @@
             </thead>
             <tbody>
                 @for (item of items(); track $index) {
-                    <tr [class]="{danger: item.remain < 0}">
+                    <tr [class.--with-danger]="item.remain < 0">
                     <td>
                         <a [routerLink]="[item.id]">{{ item.name }}</a>
                     </td>
@@ -62,7 +62,7 @@
         </a>
     </div>
     <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
-    <app-swipe-list-control>
+    <app-swipe-list-control appInfiniteScroll [offset]="20" [disabled]="!hasMore()" (scrollEnd)="tapMore()">
         @for (item of items(); track $index) {
         <app-swipe-control (tapped)="tapItem(item)">
             <div class="line-row-item --with-icon">

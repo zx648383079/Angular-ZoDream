@@ -12,11 +12,18 @@
                 预算支出曲线图&nbsp;<small>按 
                 <strong>{{ cycleFormat() }}</strong>    
                 周期统计</small></h2>
-            <div class="text-right">
-                总支出：{{ total() | numberFormat }}，总预算：{{ budgetTotal() | numberFormat }}，超出：{{ overTotal() | numberFormat }}
-        
-                <a routerLink="../../income" [queryParams]="{type: 1, budget: data().id}">查看消费记录</a>
-            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-7">
+            <app-date-input [formField]="queries.start_at" (valueChange)="onQueriesChange()" />
+            ~
+            <app-date-input [formField]="queries.end_at" (valueChange)="onQueriesChange()" />
+        </div>
+        <div class="col-xl-5 text-right">
+            总支出：{{ total() | numberFormat }}，总预算：{{ budgetTotal() | numberFormat }}，超出：{{ overTotal() | numberFormat }}
+    
+            <a routerLink="../../income" [queryParams]="{type: 1, budget: data().id}">查看消费记录</a>
         </div>
     </div>
     }
@@ -31,12 +38,9 @@
             <i class="iconfont icon-chevron-left"></i>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </a>
-        <span class="route-title">
-            <div class="select-shell-control">
-                <span>2026-07</span>
-                <i class="iconfont icon-chevron-down"></i>
-            </div>
-        </span>
+        <div class="route-title">
+            <app-date-range-picker [(begin)]="queries.start_at().value" [(end)]="queries.end_at().value" (valueChange)="onQueriesChange()"/>
+        </div>
         <a class="route-icon" routerLink="../../income" [queryParams]="{type: 1, budget: data().id}">
             消费记录
         </a>

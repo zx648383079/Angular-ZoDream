@@ -1,0 +1,38 @@
+<div class="select-shell-control" [class.--with-open]="visible()" (click)="open()">
+    @if (end()) {
+        <div class="control-range-body">
+            <span>{{ begin() }}</span>
+            <span>{{ end() }}</span>
+        </div>
+    } @else {
+        <span>{{ begin() || '0000-00-00' }}</span>
+    }
+    <div class="dropdown-toggle"></div>
+</div>
+@if (visible()) {
+    <div class="tablet-mask" animate.enter="dialog-mask-opened" (click)="close()"></div>
+    <div class="tablet-menu-panel" animate.enter="dialog-opened" animate.leave="dialog-closed">
+        <div class="range-control --with-gap">
+            <div class="control-body" [class.--with-active]="tabIndex() == 0" (click)="tapTab(0)">
+                <label for="">开始日期</label>
+                <div class="input-container">
+                    {{ beginValue() || '选择日期' }}
+                </div>
+            </div>
+            <div class="control-gap">
+                至
+            </div>
+            <div class="control-body" [class.--with-active]="tabIndex() == 1" (click)="tapTab(1)">
+                <label for="">结束日期</label>
+                <div class="input-container">
+                    {{ endValue() || '选择日期' }}
+                </div>
+            </div>
+        </div>
+        <app-select-picker [source]="source" [value]="selectedValue()" (valueChange)="onValueChange($event)"/>
+        <div class="btn-group">
+            <button class="btn btn-primary" (click)="close(true)" i18n>Confirm</button>
+            <button type="reset" class="btn btn-secondary" (click)="close()" i18n>Cancel</button>
+        </div>
+    </div>
+}

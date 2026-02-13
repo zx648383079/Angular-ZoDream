@@ -4,8 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent, UploadButtonEvent } from '../../../../components/form';
 import { IPageQueries } from '../../../../theme/models/page';
-import { SearchService } from '../../../../theme/services';
-import { DownloadService } from '../../../../theme/services';
+import { FileUploadService, SearchService } from '../../../../theme/services';
 import { ILive } from '../../model';
 import { TVService } from '../tv.service';
 
@@ -19,7 +18,7 @@ export class LiveComponent implements OnInit {
     private readonly service = inject(TVService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
-    private readonly downloadService = inject(DownloadService);
+    private readonly uploadService = inject(FileUploadService);
     private readonly searchService = inject(SearchService);
 
 
@@ -55,7 +54,7 @@ export class LiveComponent implements OnInit {
 
     public tapExport(event?: ButtonEvent) {
         event?.enter();
-        this.downloadService.export('tv/admin/live/export', {}, 'live.dpl').subscribe({
+        this.uploadService.export('tv/admin/live/export', {}, 'live.dpl').subscribe({
             next: _ => {
                 event?.reset();
             },

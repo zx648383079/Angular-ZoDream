@@ -2,9 +2,9 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBook, IChapter } from '../model';
 import { BookService } from '../book.service';
-import { DownloadService } from '../../../theme/services';
 import { ButtonEvent } from '../../../components/form';
 import { DialogService } from '../../../components/dialog';
+import { FileUploadService } from '../../../theme/services';
 
 @Component({
     standalone: false,
@@ -17,7 +17,7 @@ export class BookDetailComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly toastrService = inject(DialogService);
-    private readonly downloadService = inject(DownloadService);
+    private readonly uploadService = inject(FileUploadService);
 
 
     public data: IBook;
@@ -56,7 +56,7 @@ export class BookDetailComponent implements OnInit {
 
     public tapDownload(event?: ButtonEvent, zip = false) {
         event?.enter();
-        this.downloadService.export( zip ? 'book/download/zip' : 'book/download/txt', 
+        this.uploadService.export(zip ? 'book/download/zip' : 'book/download/txt', 
             {id: this.data.id}, 
             this.data.name + (zip ? '.zip' :'.txt')).subscribe({
             next: _ => {

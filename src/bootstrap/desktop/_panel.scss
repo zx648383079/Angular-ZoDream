@@ -83,9 +83,7 @@
 }
 
 .panel-container {
-    box-shadow: 0 0 1px rgba(var(--#{theme.$prefix}mask-rgb),.125), 0 1px 3px rgba(var(--#{theme.$prefix}mask-rgb),.2);
-    margin-bottom: 1rem;
-    margin-top: 1rem;
+    margin: 1rem calc(var(--#{theme.$prefix}gutter-x) * -0.5);
     background-color: var(--#{theme.$prefix}panel);
     padding: 1.25rem;
     .page-empty-tip {
@@ -165,5 +163,12 @@
         &:not(:last-of-type) {
             margin-bottom: .4rem;
         }
+    }
+}
+
+@media (min-width: 48rem) {
+    .panel-container {
+        box-shadow: 0 0 1px rgba(var(--#{theme.$prefix}mask-rgb),.125), 0 1px 3px rgba(var(--#{theme.$prefix}mask-rgb),.2);
+        margin: 1rem 0;
     }
 }

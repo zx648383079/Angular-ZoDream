@@ -21,9 +21,9 @@ import {
     IUser
 } from '../../../theme/models/user';
 import { DialogEvent, DialogService } from '../../../components/dialog';
-import { IErrorResult, IPageQueries } from '../../../theme/models/page';
+import { IErrorResult } from '../../../theme/models/page';
 import { ForumEditorComponent } from '../components/forum-editor/forum-editor.component';
-import { DownloadService, SearchService, ThemeService } from '../../../theme/services';
+import { FileUploadService, SearchService, ThemeService } from '../../../theme/services';
 import { openLink } from '../../../theme/utils/deeplink';
 import { eachObject, mapFormat } from '../../../theme/utils';
 import { emailValidate } from '../../../theme/validators';
@@ -42,7 +42,7 @@ export class ThreadComponent implements OnInit {
     private readonly service = inject(ForumService);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
-    private readonly downloadService = inject(DownloadService);
+    private readonly uploadService = inject(FileUploadService);
     private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
 
@@ -246,7 +246,7 @@ export class ThreadComponent implements OnInit {
             return;
         }
         if (block.tag == 'file') {
-            this.downloadService.export('forum/thread/do', {
+            this.uploadService.export('forum/thread/do', {
                 id: item.id,
                 index: block.uid,
             });

@@ -24,7 +24,7 @@ export class BudgetComponent implements OnInit {
     private readonly location = inject(Location);
 
     public readonly items = signal<IBudget[]>([]);
-    private hasMore = true;
+    public readonly hasMore = signal(true);
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
     public readonly queries = form(signal<IPageQueries>({
@@ -82,7 +82,7 @@ export class BudgetComponent implements OnInit {
         this.service.budgetList(queries).subscribe({
             next: res => {
                 this.items.set(res.data);
-                this.hasMore = res.paging.more;
+                this.hasMore.set(res.paging.more);
                 this.total.set(res.paging.total);
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);

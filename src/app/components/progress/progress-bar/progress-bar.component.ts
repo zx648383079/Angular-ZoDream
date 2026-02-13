@@ -1,22 +1,26 @@
 import {
   Component,
   ElementRef,
-  AfterViewInit,
   HostListener,
   input,
-  viewChild,
-  model
+  model,
+  inject,
+  computed
 } from '@angular/core';
 
 @Component({
     standalone: false,
     selector: 'app-progress-bar',
     templateUrl: './progress-bar.component.html',
-    styleUrls: ['./progress-bar.component.scss']
+    styleUrls: ['./progress-bar.component.scss'],
+    host: {
+        '[class]': "theme()",
+        '[title]': "value().toFixed(2)",
+    }
 })
-export class ProgressBarComponent implements AfterViewInit {
+export class ProgressBarComponent {
 
-    private readonly box = viewChild<ElementRef>('progressBox');
+    private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
     /**
      * 当前值
@@ -34,45 +38,43 @@ export class ProgressBarComponent implements AfterViewInit {
     public readonly theme = input('progress'); // .progress-primary
     private isMouseMove = false;
 
-    constructor() {}
-
-    public get progressStyle() {
+    public readonly progressStyle = computed(() => {
         return {
             width: this.max() < 1 ? 0 : (this.value() * 100 / this.max())  + '%'
         };
-    }
+    });
 
     @HostListener('document:mousemove', ['$event'])
-    onMouseMove(event: any) {
+    public onMouseMove(event: any) {
         if (!this.isMouseMove) {
             return;
         }
-        const div = this.box().nativeElement as HTMLDivElement;
+        const div = this.elementRef.nativeElement as HTMLDivElement;
         const bound = div.getBoundingClientRect();
         const offset = event.clientX - bound.left;
         this.tapProgress(offset * 100 / bound.width);
     }
 
     @HostListener('document:mouseup')
-    onMouseUp() {
+    public onMouseUp() {
         this.isMouseMove = false;
     }
 
-    ngAfterViewInit(): void {
-        const div = this.box().nativeElement as HTMLDivElement;
-        div.addEventListener('click', (event) => {
-            const bound = div.getBoundingClientRect();
-            this.tapProgress((event.clientX - bound.left) * 100 / bound.width);
-        });
-        div.addEventListener('mousedown', (event) => {
-            const bound = div.getBoundingClientRect();
-            const offset = event.clientX - bound.left;
-            const innerWidth = div.querySelector('.progress-bar').getBoundingClientRect().width;
-            if (Math.abs(offset - innerWidth) < 3) {
-                this.isMouseMove = true;
-            }
-        });
-
+    @HostListener('click', ['$event'])
+    public onClick(event: MouseEvent) {
+        const div = this.elementRef.nativeElement as HTMLDivElement;
+        const bound = div.getBoundingClientRect();
+        this.tapProgress((event.clientX - bound.left) * 100 / bound.width);
+    }
+    @HostListener('mousedown', ['$event'])
+    public onMouseDown(event: MouseEvent) {
+        const div = this.elementRef.nativeElement as HTMLDivElement;
+        const bound = div.getBoundingClientRect();
+        const offset = event.clientX - bound.left;
+        const innerWidth = div.querySelector('.progress-bar').getBoundingClientRect().width;
+        if (Math.abs(offset - innerWidth) < 3) {
+            this.isMouseMove = true;
+        }
     }
 
     public tapProgress(i: number) {

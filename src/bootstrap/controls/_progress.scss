@@ -6,7 +6,7 @@ $prefix: 'bs-' !default;
 // scss-docs-start progress-variables
 $progress-height:                   1rem !default;
 $progress-font-size:                variables.$font-size-base * .75 !default;
-$progress-bg:                       var(--#{$prefix}secondary-bg) !default;
+$progress-bg:                       var(--#{$prefix}secondary) !default;
 $progress-border-radius:            var(--#{$prefix}border-radius) !default;
 $progress-box-shadow:               var(--#{$prefix}box-shadow-inset) !default;
 $progress-bar-color:                var(--#{$prefix}primary-text) !default;
@@ -73,5 +73,20 @@ $progress-bar-transition:           width .6s ease !default;
 
     @media (prefers-reduced-motion: reduce) {
         animation: none;
+    }
+}
+
+.progress-bar-infinite {
+    animation: progress-bar-infinite 3s linear infinite;
+    width: 40%;
+    @include mixins.border-radius(var(--#{$prefix}progress-border-radius));
+}
+
+@keyframes progress-bar-infinite {
+    from  {
+        transform: translate(-100%);
+    }
+    to {
+        transform: translate(250%);
     }
 }

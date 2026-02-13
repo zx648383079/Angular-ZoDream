@@ -26,9 +26,7 @@ export class HomeComponent {
     }));
     public readonly typeItems = ['天', '月', '季度', '年'];
     public readonly logTypeItems = ['收入', '支出', '其他'];
-    public readonly rangeVisible = signal(false);
     public readonly options = signal<EChartsCoreOption>(null);
-    public readonly source = new DateSource();
 
     constructor() {
         this.onQueriesChange();

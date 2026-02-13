@@ -9,11 +9,11 @@
     @if (visible()) {
     <div class="datepicker__calendar datepicker__calendar_animate_slide-in" [style]="calendarStyle()">
         <div class="picker-header">
-            <i class="iconfont icon-backward previousYear" (click)="previousYear()"></i>
-            <i class="iconfont icon-chevron-left previousMonth" (click)="previousMonth()"></i>
+            <i class="iconfont icon-backward" (click)="previousYear()"></i>
+            <i class="iconfont icon-chevron-left" (click)="previousMonth()"></i>
             <span (click)="toggleYear()">{{ title() }}</span>
-            <i class="iconfont icon-chevron-right nextMonth" (click)="nextMonth()"></i>
-            <i class="iconfont icon-forward nextYear" (click)="nextYear()"></i>
+            <i class="iconfont icon-chevron-right" (click)="nextMonth()"></i>
+            <i class="iconfont icon-forward" (click)="nextYear()"></i>
         </div>
         <div class="picker-body">
             @switch(gridMode()) {

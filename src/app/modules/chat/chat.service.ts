@@ -8,11 +8,12 @@ import { Md5 } from 'ts-md5';
 import { IUser } from '../../theme/models/user';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IApplyLog, IChatHistory, IChatWith, IFriend, IFriendGroup, IGroup, IMessage } from './model';
+import { FileUploadService } from '../../theme/services';
 
 @Injectable()
 export class ChatService {
     private readonly http = inject(HttpClient);
-
+    private readonly uploadService = inject(FileUploadService);
 
     public profile() {
         return this.http.get<IFriend>(COMMAND_PROFILE);
@@ -142,6 +143,6 @@ export class ChatService {
             appid: environment.appid,
             timestamp,
             sign
-        }))
+        }), undefined, this.uploadService)
     }
 }

@@ -1,10 +1,10 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { IItem } from '../../../../theme/models/seo';
-import { DownloadService } from '../../../../theme/services';
 import { GenerateService } from '../../generate.service';
 import { form } from '@angular/forms/signals';
 import { ButtonEvent } from '../../../../components/form';
+import { FileUploadService } from '../../../../theme/services';
 
 @Component({
     standalone: false,
@@ -15,7 +15,7 @@ import { ButtonEvent } from '../../../../components/form';
 export class ExportComponent implements OnInit {
     private readonly service = inject(GenerateService);
     private readonly toastrService = inject(DialogService);
-    private readonly downloadService = inject(DownloadService);
+    private readonly uploadService = inject(FileUploadService);
 
 
     public schemaItems: IItem[] = [];
@@ -60,7 +60,7 @@ export class ExportComponent implements OnInit {
 
     public tapSubmit(e?: ButtonEvent) {
         e?.enter();
-        this.downloadService.export('gzo/database/export', {
+        this.uploadService.export('gzo/database/export', {
             ...this.dataForm().value()
         }).subscribe({
             next: _ => {

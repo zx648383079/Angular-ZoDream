@@ -9,7 +9,7 @@ import { hasElementByClass } from '../../theme/utils/doc';
     templateUrl: 'datepicker.component.html',
     styleUrls: ['./datepicker.component.scss']
 })
-export class DatepickerComponent implements OnInit {
+export class DatepickerComponent {
     private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
     public readonly minimum = input(new Date('1900/01/01 00:00:00'), {transform: this.transformMin.bind(this)});
@@ -18,7 +18,8 @@ export class DatepickerComponent implements OnInit {
     public readonly maxYear = input(2099);
     public readonly titleFormat = input($localize `y-mm-dd`);
     public readonly format = input('y-mm-dd hh:ii:ss');
-    public readonly value = model<string | Date>(undefined);
+    public readonly value = model<string | Date>();
+
     private currentDate: Date = new Date();
 
     public readonly title = signal('-');
@@ -36,21 +37,13 @@ export class DatepickerComponent implements OnInit {
     public readonly secondItems = signal<number[]>([]);
 
     public readonly currentYear = signal(0);
-
     public readonly currentMonth = signal(0);
-
     public readonly currentDay = signal(0);
-
     public readonly currentHour = signal(0);
-
     public readonly currentMinute = signal(0);
-
     public readonly currentSecond = signal(0);
-
     public readonly hasTime = signal(true);
-
     public readonly visible = signal(false);
-
     public readonly gridMode = signal(DayMode.Day);
 
     constructor() {
@@ -61,8 +54,11 @@ export class DatepickerComponent implements OnInit {
             });
         });
         effect(() => {
-            this.currentDate = this.parseDate(this.value());
-            this.refresh();
+            const val = this.parseDate(this.value());
+            untracked(() => {
+                this.currentDate = val;
+                this.refresh();
+            })
         });
         effect(() => {
             if (this.minimum() >= this.currentDate) {
@@ -70,6 +66,15 @@ export class DatepickerComponent implements OnInit {
                 this.currentDate = new Date(this.minimum().getTime() + 86400000);
             }
         });
+        this.refresh();
+        this.initMonths();
+        this.initYears();
+        if (this.hasTime()) {
+            this.initHours();
+            this.initMinutes();
+            this.initSeconds();
+        }
+        // this.output();
     }
 
     private transformMax(value: Date|string): Date|undefined {
@@ -109,18 +114,6 @@ export class DatepickerComponent implements OnInit {
             'margin-top': y + 'px',
         };
     });
-
-    ngOnInit() {
-        this.refresh();
-        this.initMonths();
-        this.initYears();
-        if (this.hasTime()) {
-            this.initHours();
-            this.initMinutes();
-            this.initSeconds();
-        }
-        // this.output();
-    }
 
     public twoPad(val: number) {
         return twoPad(val);

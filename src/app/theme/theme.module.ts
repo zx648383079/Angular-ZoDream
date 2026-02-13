@@ -15,7 +15,6 @@ import {
     ThemeService,
     CookieService,
     FileUploadService,
-    DownloadService,
     SearchService,
     WebAuthn
 } from './services';
@@ -34,7 +33,6 @@ const BASE_MODULES = [
 const SERVICES = [
     TransferStateService,
     CookieService,
-    DownloadService,
 ];
 
 const ACTIONS = [

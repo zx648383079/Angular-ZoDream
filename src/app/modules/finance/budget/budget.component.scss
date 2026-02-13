@@ -1,4 +1,4 @@
 @use '../../../theme/theme';
-.danger {
-    background: rgba(255,0,0,.2);
+.--with-danger {
+    --#{theme.$prefix}table-bg: rgba(255,0,0,.2);
 }

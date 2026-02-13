@@ -1,15 +1,15 @@
 import { form, required } from '@angular/forms/signals';
 import { Location } from '@angular/common';
-import { Component, OnInit, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
-import { ButtonEvent, UploadButtonEvent } from '../../../components/form';
-import { SearchService, ThemeService } from '../../../theme/services';
-import { DownloadService } from '../../../theme/services';
+import { FileUploadService, SearchService, ThemeService } from '../../../theme/services';
 import { emptyValidate } from '../../../theme/validators';
 import { FinanceService } from '../finance.service';
 import { IAccount, IBudget, IConsumptionChannel, IFinancialProject, ILog, ILogGroup } from '../model';
 import { formatDate, mapFormat } from '../../../theme/utils';
+import { ProgressDialogComponent, UploadDialogComponent } from '../../../components/desktop';
+import { IDataOne } from '../../../theme/models/page';
 
 @Component({
     standalone: false,
@@ -17,14 +17,18 @@ import { formatDate, mapFormat } from '../../../theme/utils';
     templateUrl: './income.component.html',
     styleUrls: ['./income.component.scss'],
 })
-export class IncomeComponent implements OnInit {
+export class IncomeComponent {
     private readonly service = inject(FinanceService);
     private readonly toastrService = inject(DialogService);
-    private readonly downloadService = inject(DownloadService);
+    private readonly uploadService = inject(FileUploadService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
     private readonly location = inject(Location);
+
+
+    private readonly uploadModal = viewChild(UploadDialogComponent);
+    private readonly downloadModal = viewChild(ProgressDialogComponent);
 
     public readonly items = signal<ILog[]>([]);
     public readonly hasMore = signal(true);
@@ -86,9 +90,6 @@ export class IncomeComponent implements OnInit {
             this.editForm.keywords().value();
             this.onEditKeywords();
         });
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
@@ -194,37 +195,41 @@ export class IncomeComponent implements OnInit {
         });
     }
 
-    public tapExport(event?: ButtonEvent) {
-        event?.enter();
-        this.downloadService.export('finance/log/export', {}, '流水记录.xlsx').subscribe({
+    public tapExport() {
+        this.menuVisible.set(false);
+        const modal = this.downloadModal();
+        this.uploadService.export('finance/log/export', {}, 
+            '流水记录.xlsx', undefined, modal.open()).subscribe({
             next: _ => {
-                event?.reset();
+                modal.close();
             },
             error: err => {
-                event?.reset();
+                modal.close();
                 this.toastrService.error(err);
             }
         });
     }
 
-    public tapImport(event: UploadButtonEvent) {
-        const form = new FormData();
-        form.append('file', event.files[0]);
-        event.enter();
-        this.service.logImport(form).subscribe({
-            next: res => {
-                event.reset();
-                this.tapRefresh();
-                this.toastrService.success(res.message ?? '导入成功');
-            },
-            error: err => {
-                event.reset();
-                this.toastrService.error(err);
-            }
+    public tapImport() {
+        this.menuVisible.set(false);
+        const modal = this.uploadModal();
+        const ln$ = this.uploadModal().open(form => {
+            this.uploadService.upload<IDataOne<boolean>>('finance/log/import', form, ln$).subscribe({
+                next: res => {
+                    modal.close();
+                    this.tapRefresh();
+                    this.toastrService.success(res.message ?? '导入成功');
+                },
+                error: err => {
+                    modal.close();
+                    this.toastrService.error(err);
+                }
+            });
         });
     }
 
     public tapBatch(modal: DialogEvent) {
+        this.menuVisible.set(false);
         this.editForm.keywords().value.set('');
         modal.open(() => {
             this.service.logBatchEdit(this.editForm().value()).subscribe({

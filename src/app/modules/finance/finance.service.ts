@@ -185,13 +185,13 @@ export class FinanceService {
         return this.http.get<any>('finance/statistics', {params});
     }
 
-    public budgetStatistics(id: number) {
+    public budgetStatistics(params: any) {
         return this.http.get<{
             data: IBudget;
             log_list: any;
             sum: number;
             budget_sum: number;
-        }>('finance/budget/statistics', {params: {id}}).pipe(map(res => {
+        }>('finance/budget/statistics', {params}).pipe(map(res => {
             const items = [];
             eachObject(res.log_list, (v, k) => {
                 if (typeof v === 'object') {

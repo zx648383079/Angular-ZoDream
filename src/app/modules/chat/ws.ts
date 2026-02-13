@@ -1,5 +1,5 @@
+import { FileUploadService } from '../../theme/services';
 import { eachObject } from '../../theme/utils';
-import { fileToBase64 } from '../../theme/utils/doc';
 import { COMMAND_AUTH, COMMAND_MESSAGE_PING, IRequest, RequestCallback } from './http';
 
 interface IWsOption {
@@ -17,7 +17,11 @@ enum WsMessageType {
 type EmptyFunc = () => void;
 
 export class WsRequest implements IRequest {
-    constructor(endpoint: string, protocols?: any) {
+    constructor(
+        endpoint: string, 
+        protocols: any,
+        private readonly uploadService: FileUploadService
+    ) {
         if (endpoint.indexOf('ws') === -1) {
             endpoint = 'ws://' + endpoint;
         }
@@ -249,7 +253,7 @@ export class WsRequest implements IRequest {
         data.forEach((val, key) => {
             if (typeof val === 'object') {
                 count++;
-                fileToBase64(val, text => {
+                this.uploadService.preview(val).subscribe(text => {
                     count --;
                     items[key] = text;
                     items[key + '_name'] = val.name

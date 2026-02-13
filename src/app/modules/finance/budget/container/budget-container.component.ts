@@ -1,10 +1,12 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { EChartsCoreOption } from 'echarts/core';
 import { mapFormat } from '../../../../theme/utils';
 import { FinanceService } from '../../finance.service';
 import { IBudget } from '../../model';
+import { form } from '@angular/forms/signals';
+import { ThemeService } from '../../../../theme/services';
 
 @Component({
     standalone: false,
@@ -12,12 +14,19 @@ import { IBudget } from '../../model';
     templateUrl: './budget-container.component.html',
     styleUrls: ['./budget-container.component.scss']
 })
-export class BudgetContainerComponent implements OnInit {
+export class BudgetContainerComponent {
     private readonly service = inject(FinanceService);
     private readonly route = inject(ActivatedRoute);
+    private readonly themeService = inject(ThemeService);
+    private readonly destroyRef = inject(DestroyRef);
     private readonly location = inject(Location);
 
     public readonly isLoading = signal(true);
+
+    public readonly queries = form(signal({
+        start_at: '',
+        end_at: '',
+    }));
     public readonly data = signal<IBudget>(null);
     public readonly options = signal<EChartsCoreOption>(null);
     
@@ -30,7 +39,8 @@ export class BudgetContainerComponent implements OnInit {
         return mapFormat(this.data().cycle, ['次', '天', '周', '月', '年']);
     });
 
-    ngOnInit() {
+    constructor() {
+        this.themeService.tabletIf(this.destroyRef);
         this.route.params.subscribe(params => {
             this.onQueriesChange(parseInt(params.id, 10));
         });
@@ -40,9 +50,15 @@ export class BudgetContainerComponent implements OnInit {
         this.location.back();
     }
 
-    public onQueriesChange(id: number) {
+    public onQueriesChange(id?: number) {
+        if (!id) {
+            id = this.data().id;
+        }
         this.isLoading.set(true);
-        this.service.budgetStatistics(id).subscribe(res => {
+        this.service.budgetStatistics({
+            id,
+            ...this.queries().value()
+        }).subscribe(res => {
             this.isLoading.set(false);
             this.data.set(res.data);
             this.total.set(res.sum);

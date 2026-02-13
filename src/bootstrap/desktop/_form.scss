@@ -51,8 +51,8 @@
         display: inline-block;
         position: relative;
         line-height: 2.5rem;
-        background-color: var(--#{theme.$prefix}secondary);
-        color: var(--#{theme.$prefix}primary-text);
+        background-color: var(--#{theme.$prefix}light);
+        color: var(--#{theme.$prefix}light-text);
         &::before {
             @include mixins.icon();
             content: "\e650";
@@ -94,7 +94,7 @@ i {
 .input-line-group,
 .input-group-control {
     .input-tip {
-        color: var(--#{theme.$prefix}secondary);
+        color: var(--#{theme.$prefix}meta-text);
         font-size: 0.75rem;
         padding: 0 0 0.625rem 0.625rem;
     }
@@ -192,6 +192,9 @@ i {
             vertical-align: top;
         }
     }
+    >.btn-group {
+        margin-top: 1rem;
+    }
     .actions {
         text-align: center;
         &.fixed {
@@ -201,7 +204,7 @@ i {
             z-index: 99;
         }
         .btn {
-            line-height: 40px;
+            line-height: 2.5rem;
         }
     }
 }
@@ -467,8 +470,9 @@ i {
     line-height: 2rem;
     align-content: center;
     color: var(--#{theme.$prefix}control-text);
-    .iconfont {
-        margin-left: .4rem;
+    .dropdown-toggle {
+        padding-right: 0.4rem;
+        padding-left: .4rem;
     }
     .control-range-body {
         display: inline-flex;
@@ -484,6 +488,13 @@ i {
             width: 40%;
             height: 1px;
             background-color: var(--#{theme.$prefix}control-text);
+        }
+    }
+    &.--with-open {
+        .dropdown-toggle {
+            &::after {
+                transform: rotate(180deg);
+            }
         }
     }
 }
@@ -550,17 +561,9 @@ i {
             color: var(--#{theme.$prefix}input-placeholder);
         }
     }
-    .input-arrow {
-        width: 1.5625rem;
-        padding-right: 0.3125rem;
-        cursor: pointer;
-        text-align: center;
-        user-select: none;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        @include mixins.caret();
+    .dropdown-toggle {
+        padding-right: 0.4rem;
+        padding-left: .4rem;
     }
     .selected-container {
         max-width: 70%;
@@ -637,7 +640,7 @@ i {
             opacity: 1;
             display: block;
         }
-        .input-arrow {
+        .dropdown-toggle {
             &::after {
                 transform: rotate(180deg);
             }
