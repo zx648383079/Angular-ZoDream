@@ -19,20 +19,20 @@
                     @case ('select') {
                         <div>
                             <select class="form-control" [formControlName]="item.code" [id]="item.code">
-                                @for (val of item.items; track $index) {
-                                <option [value]="val">{{ val }}</option>
+                                @for (val of item.items.items; track $index) {
+                                <option [value]="val.value">{{ val.name }}</option>
                                 }
                             </select>
                         </div>
                     }
                     @case ('radio') {
                         <div>
-                            <app-check-input [items]="item.items" [formControlName]="item.code" [id]="item.code"/>
+                            <app-check-input [source]="item.items" [formControlName]="item.code" [id]="item.code"/>
                         </div>
                     }
                     @case ('checkbox') {
                         <div>
-                            <app-check-input [items]="item.items" [formControlName]="item.code" [id]="item.code" [multiple]="true" />
+                            <app-check-input [source]="item.items" [formControlName]="item.code" [id]="item.code" [multiple]="true" />
                         </div>
                     }
                     @case ('switch') {

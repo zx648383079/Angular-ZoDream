@@ -6,6 +6,7 @@ import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { ICmsGroup } from '../../model';
 import { CmsService } from '../cms.service';
+import { ArraySource } from '../../../../components/form';
 
 @Component({
     standalone: false,
@@ -38,7 +39,7 @@ export class GroupComponent {
     }), schemaPath => {
         required(schemaPath.name);
     });
-    public typeItems = ['栏目', '内容'];
+    public readonly typeItems = ArraySource.fromOrder('栏目', '内容');
 
     constructor() {
         this.route.queryParams.subscribe(params => {

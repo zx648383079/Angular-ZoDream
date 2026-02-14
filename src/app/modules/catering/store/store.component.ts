@@ -61,7 +61,12 @@ export class StoreComponent {
         const queries = {...this.queries().value(), page};
         this.service.productList(queries).subscribe({
             next: res => {
-                this.items.set(page > 1 ? [].concat(this.items, res.data) : res.data);
+                this.items.update(v => {
+                    if (page < 2) {
+                        return res.data;
+                    }
+                    return [...v, ...res.data];
+                });
                 this.hasMore = res.paging.more;
                 this.total.set(res.paging.total);
                 this.isLoading.set(false);

@@ -54,8 +54,8 @@
                         <i class="iconfont icon-sort-alpha-asc" i18n-title title="Browse in order" (click)="tapSortOrder()"></i>
                     }
                     <select [formField]="queries.status" class="form-control" (change)="onStatusChange()">
-                        @for (item of statusItems; track $index; let i = $index) {
-                        <option [value]="i">{{ item }}</option>
+                        @for (item of statusItems.items; track $index) {
+                        <option [value]="item.value">{{ item.name }}</option>
                         }
                     </select>
                 </div>
@@ -290,5 +290,5 @@
 </app-dialog-box>
 
 <app-dialog-box #statusModal [scrollable]="false" i18n-title title="Modify Status">
-    <app-check-input [items]="statusItems" [rangeKey]="1" [formField]="statusForm.selected" />
+    <app-check-input [source]="statusItems" [formField]="statusForm.selected" />
 </app-dialog-box>

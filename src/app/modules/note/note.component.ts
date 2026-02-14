@@ -142,7 +142,12 @@ export class NoteComponent {
                 })
                 this.hasMore.set(res.paging.more);
                 this.isLoading.set(false);
-                this.items.set(page < 2 ? data : [].concat(this.items, data));
+                this.items.update(v => {
+                    if (page < 2) {
+                        return data;
+                    }
+                    return [...v, ...data];
+                });
                 this.queries().value.set(queries);
                 this.searchService.applyHistory(queries, false);
             },

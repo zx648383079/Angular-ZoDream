@@ -1,12 +1,13 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { IItem } from '../../../../../../theme/models/seo';
-import { ICmsFormInput, ICmsModelField } from '../../../../model';
+import { ICmsModelField } from '../../../../model';
 import { CmsService } from '../../../cms.service';
 import { form, required } from '@angular/forms/signals';
-import { ButtonEvent } from '../../../../../../components/form';
+import { ArraySource, ButtonEvent, IFormInput } from '../../../../../../components/form';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
     standalone: false,
@@ -35,16 +36,26 @@ export class EditFieldComponent {
         error_message: '',
         tab_name: '',
         model_id: 0,
-        options: <ICmsFormInput[]>[]
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name);
         required(schemaPath.field);
     });
 
-    public data: ICmsModelField;
+    public readonly data = signal<ICmsModelField>(null);
     public typeItems: IItem[] = [];
-    public tabItems: string[] = [];
+    public readonly tabItems = signal(ArraySource.empty);
+
+    public readonly optionItems = signal<IFormInput[]>([]);
+
+    public readonly optionForm = computed(() => {
+        const items = this.optionItems();
+        const groups: any = {};
+        for (const item of items) {
+            groups[item.name] = new FormControl(typeof item.value === 'undefined' ? '' : item.value);
+        }
+        return new FormGroup(groups);
+    });
 
     constructor() {
         this.route.params.subscribe(params => {
@@ -53,7 +64,7 @@ export class EditFieldComponent {
                 field_type: {},
                 model_tab: {model: model}
             }).subscribe(res => {
-                this.tabItems = res.model_tab;
+                this.tabItems.set(ArraySource.fromValue(...res.model_tab));
                 this.typeItems = res.field_type;
                 this.dataModel.update(v => {
                     v.tab_name = this.tabItems[1];
@@ -66,7 +77,7 @@ export class EditFieldComponent {
                 return;
             }
             this.service.field(params.id).subscribe(res => {
-                this.data = res;
+                this.data.set(res);
                 if (!res.tab_name) {
                     res.tab_name = this.tabItems[res.is_main > 0 ? 1 : 0];
                 }
@@ -85,7 +96,6 @@ export class EditFieldComponent {
                     error_message: res.error_message,
                     tab_name: res.tab_name,
                     model_id: model,
-                    options: []
                 });
                 if (res.setting) {
                     // TODO
@@ -99,8 +109,11 @@ export class EditFieldComponent {
     }
 
     public onTypeChange() {
-        this.service.fieldOption(this.dataForm.type().value(), this.data ? this.data.id : 0).subscribe(res => {
-            this.dataForm.options().value.set(res.data ? res.data : []);
+        this.service.fieldOption(this.dataForm.type().value(), this.data() ? this.data().id : 0).subscribe(res => {
+            this.optionItems.set(res.data ? res.data.map(i => {
+                i.optionSource = ArraySource.fromItems(i.items);
+                return i;
+            }) : []);
         });
     }
 
@@ -115,10 +128,7 @@ export class EditFieldComponent {
             return;
         }
         const data = this.dataForm().value();
-        const option: any = {};
-        data.options.forEach(i => {
-            option[i.name] = i.value;
-        });
+        const option = this.optionForm().getRawValue();
         e?.enter();
         this.service.fieldSave({...data, options: undefined, setting: {option}}).subscribe({
             next: _ => {

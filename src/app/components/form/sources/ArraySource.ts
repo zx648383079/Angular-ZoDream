@@ -1,18 +1,55 @@
 import { Observable, of } from 'rxjs';
 import { IControlOption } from '../event';
-import { IDataSource, select } from './IDataSource';
+import { IDataSource, selectItem } from './IDataSource';
+import { IItem } from '../../../theme/models/seo';
 
 export class ArraySource implements IDataSource {
 
-    constructor(
-        items: any[],
-        public readonly rangeKey: string|number = 'id',
-        public readonly rangeLabel = 'name',
-    ) {
-        this.items = items.map(this.formatOptionItem);
+    /**
+     * 以序号为值
+     * @param items
+     * @returns 
+     */
+    public static fromOrder(...items: (string|number)[]): ArraySource {
+        return new ArraySource(items, 1);
+    }
+    /**
+     * 以项为值
+     * @param items 
+     * @returns 
+     */
+    public static fromValue(...items: (string|number)[]): ArraySource {
+        return new ArraySource(items, '');
     }
 
-    private readonly items: IControlOption[];
+    public static fromItems(items: IItem[]): ArraySource {
+        return new ArraySource(items, 'value');
+    }
+
+    /**
+     * 直接创建不需要再格式化
+     * @param items 
+     * @returns 
+     */
+    public static from(items: IControlOption[]): ArraySource {
+        return new ArraySource(items, false);
+    }
+
+    public static readonly empty = new ArraySource([]);
+
+    constructor(
+        items: any[],
+        public readonly rangeKey: string|number|false = 'id',
+        public readonly rangeLabel = 'name',
+    ) {
+        if (this.rangeKey === false) {
+            this.items = items;
+            return;
+        }
+        this.items = items.map(this.formatOptionItem.bind(this));
+    }
+
+    public readonly items: IControlOption[];
 
     public get columnCount(): number {
         return 1;
@@ -22,7 +59,7 @@ export class ArraySource implements IDataSource {
             return of([]);
         }
         const data = [...this.items];
-        select(data, items.length > 0 ? items[0].value : data[0].value);
+        selectItem(data, items.length > 0 ? items[0].value : data[0].value);
         return of(data);
     }
 
@@ -35,14 +72,21 @@ export class ArraySource implements IDataSource {
             value = this.items[0].value;
         }
         const items = [...this.items];
-        select(items, value);
+        selectItem(items, value);
         return of([items]);
     }
 
     public format(...items: IControlOption[]): any {
-        return items.length > 0 ? items[0].value : null;
+        return items.length > 0 ? items[0].value : (typeof this.rangeKey === 'number' ? -1 : null);
     }
     
+    public display(...items: any[]): string {
+        const selected = this.items.filter(i => items.indexOf(i.value) >= 0).map(i => i.name);
+        if (selected.length === 0) {
+            return '--';
+        }
+        return selected.join(',');
+    }
 
     private equal(value: IControlOption, target: IControlOption): boolean {
         return value === target || value.value === target.value;
@@ -51,22 +95,22 @@ export class ArraySource implements IDataSource {
 
     private formatOptionItem(item: any, index: number): IControlOption {
         const key = this.rangeKey;
-        const label = typeof item === 'object' ? item[this.rangeLabel] : item;
+        const name = typeof item === 'object' ? item[this.rangeLabel] : item;
         if (typeof key === 'number') {
             return {
                 value: index,
-                label
+                name
             };
         }
         if (key && typeof item === 'object') {
             return {
                 value: item[key],
-                label
+                name
             };
         }
         return {
             value: item,
-            label
+            name
         };
     }
 }

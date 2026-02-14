@@ -1,6 +1,7 @@
 import { Component, effect, input, model } from '@angular/core';
 import { IQuestionFormat, IQuestionOption } from '../../model';
 import { FormValueControl } from '@angular/forms/signals';
+import { ArraySource } from '../../../../components/form';
 
 /**
  * 题目选择
@@ -15,6 +16,7 @@ export class QuestionInputComponent implements FormValueControl<IQuestionFormat>
 
     public readonly value = model<IQuestionFormat>();
     public readonly disabled = input(false);
+    public readonly choiceItems = ArraySource.fromOrder('错', '对');
 
     constructor() {
         effect(() => {

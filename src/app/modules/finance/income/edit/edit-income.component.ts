@@ -6,7 +6,7 @@ import { emptyValidate } from '../../../../theme/validators';
 import { FinanceService } from '../../finance.service';
 import { IAccount, IBudget, IConsumptionChannel, IFinancialProject } from '../../model';
 import { form, required } from '@angular/forms/signals';
-import { ButtonEvent } from '../../../../components/form';
+import { ArraySource, ButtonEvent } from '../../../../components/form';
 import { ThemeService } from '../../../../theme/services';
 import { mapFormat } from '../../../../theme/utils';
 
@@ -57,7 +57,7 @@ export class EditIncomeComponent {
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.account_id);
     });
-    public readonly typeItems = ['支出', '收入', '借出', '借入'];
+    public readonly typeItems = ArraySource.fromOrder('支出', '收入', '借出', '借入');
     public readonly accountItems = signal<IAccount[]>([]);
     public readonly channelItems = signal<IConsumptionChannel[]>([]);
     public readonly projectItems = signal<IFinancialProject[]>([]);

@@ -6,6 +6,7 @@ import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { IBotQr } from '../../model';
 import { BotService } from '../bot.service';
+import { ArraySource } from '../../../../components/form';
 
 @Component({
     standalone: false,
@@ -32,6 +33,7 @@ export class QrcodeComponent {
         per_page: 20
     }));
 
+    public readonly sceneSource = ArraySource.fromOrder('字符串', '数字');
     public readonly editForm = form(signal({
         name: '',
         type: 0,

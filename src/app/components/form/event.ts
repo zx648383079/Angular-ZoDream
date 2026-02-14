@@ -1,6 +1,7 @@
 import { WritableSignal } from '@angular/core';
 import { IUploadResult } from '../../theme/models/open';
 import { IItem } from '../../theme/models/seo';
+import { ArraySource } from './sources/ArraySource';
 
 export interface IButton {
     name: string;
@@ -61,13 +62,14 @@ export interface IFormInput {
     items?: IItem[];
     value: any;
     required?: boolean;
+    optionSource?: ArraySource;
 }
 
 export interface IControlOption {
-    selected?: boolean;
+    checked?: boolean;
     disabled?: boolean;
 	marked?: boolean;
-	label?: string;
+	name?: string;
 	value?: string | any;
 }
 

@@ -27,7 +27,7 @@ import { FileUploadService, SearchService, ThemeService } from '../../../theme/s
 import { openLink } from '../../../theme/utils/deeplink';
 import { eachObject, mapFormat } from '../../../theme/utils';
 import { emailValidate } from '../../../theme/validators';
-import { ButtonEvent } from '../../../components/form';
+import { ArraySource, ButtonEvent } from '../../../components/form';
 import { form, required } from '@angular/forms/signals';
 
 @Component({
@@ -80,7 +80,7 @@ export class ThreadComponent {
     public readonly rewardForm = form(signal({
         amount: 10,
     }));
-    public statusItems = [$localize `None`, $localize `Reviewed`, $localize `Done`,  $localize `Positive`, $localize `Opposition`]
+    public readonly statusItems = ArraySource.fromOrder($localize `None`, $localize `Reviewed`, $localize `Done`,  $localize `Positive`, $localize `Opposition`);
     public readonly statusForm = form(signal({
         selected: 0,
     }));

@@ -7,9 +7,9 @@
     <div class="panel-container">
         <div class="page-search-bar">
             <div class="tab-bar">
-                @for (item of typeItems; track $index; let i = $index) {
-                    <div class="item" [class]="{active: queries.type().value() == i}" (click)="tapType(i)">
-                        按{{ item }}
+                @for (item of typeSource.items; track $index) {
+                    <div class="item" [class.active]="queries.type().value() == item.value" (click)="tapType(item.value)">
+                        按{{ item.name }}
                     </div>
                 }
             </div>
@@ -117,7 +117,7 @@
         <div class="input-group-control">
             <label>类型</label>
             <div>
-                <app-check-input [items]="typeItems" [rangeKey]="1" [formField]="editForm.plan_type" />
+                <app-check-input [source]="typeSource" [formField]="editForm.plan_type" />
             </div>
         </div>
         @if (editForm.plan_type().value() < 0) {

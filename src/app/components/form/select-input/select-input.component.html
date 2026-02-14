@@ -4,7 +4,7 @@
             @for (item of selectedItems(); track $index) {
                 <div class="selected-item">
                     <span class="item-close" (click)="tapUnselect(item)">&times;</span>
-                    <div class="item-label">{{ item.label }}</div>
+                    <div class="item-label">{{ item.name }}</div>
                 </div>
             }
         </div>
@@ -18,10 +18,10 @@
         }
         @for (item of optionItems(); track $index) {
             <div class="option-item" 
-                [class.selected]="item.selected"
+                [class.selected]="item.checked"
                 [class.disabled]="item.disabled"
                 (click)="tapSelected(item)">
-                {{ item.label }}
+                {{ item.name }}
             </div>
         }
     </div>

@@ -1,6 +1,7 @@
 import { Md5 } from 'ts-md5';
 import { environment } from '../../../environments/environment';
 import { IPageTreeItem } from '../models/page';
+import { IDataSource } from '../../components/form';
 
 const rdashAlpha = /_-([a-z])/g;
 
@@ -369,7 +370,7 @@ export function cloneObject<T>(val: T): T {
     }
     const res: any = {};
     for (const key in val) {
-        if (Object.prototype.hasOwnProperty.call(val, key)) {
+        if (Object.hasOwn(val, key)) {
             res[key] = cloneObject(val[key]);
         }
     }
@@ -392,7 +393,7 @@ export function eachObject<K = string|number, V = any>(obj: any, cb: (val: V, ke
         return;
     }
     for (const key in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        if (Object.hasOwn(obj, key)) {
             if (cb(obj[key], key as any) === false) {
                 return false;
             }
@@ -424,17 +425,20 @@ export function rangeStep<T = number>(start: number, end: number, step = 1, form
     return items;
 }
 
-
+export function mapFormat(value: string|number, items: IDataSource): string;
 export function mapFormat(value: string|number, items: {[key: string|number]: string}, def?: string): string;
 export function mapFormat(value: number, items: string[], def?: string): string;
-export function mapFormat(value: any, items: {name: string;value: any}[], def?: string): string;
+export function mapFormat(value: any, items: {name: string; value: any}[], def?: string): string;
 
 export function mapFormat(value: any, items: any, def = '--') {
     if (typeof items !== 'object') {
         return def;
     }
     if (!(items instanceof Array)) {
-        return Object.prototype.hasOwnProperty.call(items, value) ? items[value] : def;
+        if (typeof (items as IDataSource).display === 'function') {
+            return (items as IDataSource).display(value);
+        }
+        return Object.hasOwn(items, value) ? items[value] : def;
     }
     if (items.length < 1) {
         return def;

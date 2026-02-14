@@ -1,9 +1,10 @@
-import { Component, DOCUMENT, Renderer2, ViewEncapsulation, inject } from '@angular/core';
+import { Component, DOCUMENT, DestroyRef, Renderer2, ViewEncapsulation, inject } from '@angular/core';
 import { ActivationEnd, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from './theme/interfaces';
 import { selectSystemConfig } from './theme/reducers/system.selectors';
 import { AuthService, ThemeService } from './theme/services';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -19,6 +20,7 @@ export class AppComponent {
     private readonly themeService = inject(ThemeService);
     private readonly renderer = inject(Renderer2);
     private readonly document = inject<Document>(DOCUMENT);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     constructor() {
@@ -30,7 +32,7 @@ export class AppComponent {
         const queryFn = window.matchMedia('(min-width: 48rem)');
         this.onResize(queryFn);
         queryFn.addEventListener('change', () => this.onResize(queryFn));
-        this.store.select(selectSystemConfig).subscribe(res => {
+        this.store.select(selectSystemConfig).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
             this.themeService.toggleClass('theme-gray', res && res.site_gray == true);
         });
         this.router.events.subscribe((event: NavigationEnd) => {

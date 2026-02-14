@@ -3,10 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IErrorResponse } from '../../../../theme/models/page';
 import { IItem } from '../../../../theme/models/seo';
-import { IUser } from '../../../../theme/models/user';
+import { IUser, SexItems } from '../../../../theme/models/user';
 import { parseNumber } from '../../../../theme/utils';
 import { ShopService } from '../../shop.service';
 import { form, required } from '@angular/forms/signals';
+import { ArraySource } from '../../../../components/form';
 
 @Component({
     standalone: false,
@@ -20,20 +21,7 @@ export class ProfileComponent {
     private readonly route = inject(ActivatedRoute);
 
 
-    public sexItems: IItem[] = [
-        {
-            name: '未知',
-            value: 0,
-        },
-        {
-            name: '男',
-            value: 1,
-        },
-        {
-            name: '女',
-            value: 2,
-        },
-    ];
+    public readonly sexItems = ArraySource.fromItems(SexItems);
 
     public user: IUser;
     public readonly dataModel = signal({

@@ -1,4 +1,4 @@
-import { Observable, of, Subscribable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { IControlOption } from '../event';
 import { IDataSource } from './IDataSource';
 import { parseDate, rangeStep, twoPad } from '../../../theme/utils';
@@ -94,6 +94,13 @@ export class DateSource implements IDataSource {
         return value;
     }
 
+    public display(...items: any[]): string {
+        if (items.length === 0) {
+            return '--';
+        }
+        return items.join(',');
+    }
+
     private getLastOfMonth(y: number, m: number): number {
         const date = new Date(y, m, 0);
         return date.getDate();
@@ -140,42 +147,42 @@ export class DateSource implements IDataSource {
             case 'y':
                 return rangeStep(this.min.getFullYear(), this.max.getFullYear(), 1, i => {
                     return <IControlOption>{
-                        label: i.toString(),
+                        name: i.toString(),
                         value: i,
-                        selected: i === selected
+                        checked: i === selected
                     };
                 });
             case 'm':
                 return rangeStep(1, 12, 1, i => {
                     return <IControlOption>{
-                        label: twoPad(i),
+                        name: twoPad(i),
                         value: i,
-                        selected: i === selected
+                        checked: i === selected
                     };
                 });
             case 'd':
                 return rangeStep(1, maxDay, 1, i => {
                     return <IControlOption>{
-                        label: twoPad(i),
+                        name: twoPad(i),
                         value: i,
-                        selected: i === selected
+                        checked: i === selected
                     };
                 });
             case 'h':
                 return rangeStep(0, 23, 1, i => {
                     return <IControlOption>{
-                        label: twoPad(i),
+                        name: twoPad(i),
                         value: i,
-                        selected: i === selected
+                        checked: i === selected
                     };
                 });
             case 'i':
             case 's':
                 return rangeStep(0, 59, 1, i => {
                     return <IControlOption>{
-                        label: twoPad(i),
+                        name: twoPad(i),
                         value: i,
-                        selected: i === selected
+                        checked: i === selected
                     };
                 });
             default:

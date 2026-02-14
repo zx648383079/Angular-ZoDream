@@ -6,7 +6,7 @@ import { filterTree } from '../../../../../theme/utils';
 import { ICmsCategory, ICmsGroup, ICmsModel } from '../../../model';
 import { CmsService } from '../../cms.service';
 import { form, required } from '@angular/forms/signals';
-import { ButtonEvent } from '../../../../../components/form';
+import { ArraySource, ButtonEvent } from '../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -48,9 +48,9 @@ export class EditCategoryComponent {
     });
 
     public categories: ICmsCategory[] = [];
-    public typeItems = ['内容', '单页', '外链'];
+    public readonly typeItems = ArraySource.fromOrder('内容', '单页', '外链');
     public modelItems: ICmsModel[] = [];
-    public groupItems: ICmsGroup[] = [];
+    public readonly groupItems = signal(ArraySource.empty);
     private site = 0;
 
     constructor() {
@@ -62,7 +62,7 @@ export class EditCategoryComponent {
                 model: {type: 0}
             }).subscribe(res => {
                 this.categories = res.category;
-                this.groupItems = res.group;
+                this.groupItems.set(new ArraySource(res.group, 'name', 'name'));
                 this.modelItems = res.model;
             });
             if (!params.id) {

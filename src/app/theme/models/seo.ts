@@ -1,3 +1,4 @@
+import { ArraySource } from '../../components/form';
 import { IPageEditItem } from './page';
 import { IUser } from './user';
 
@@ -97,19 +98,21 @@ export interface ISubscribe extends IPageEditItem {
     updated_at: string;
 }
 
-export interface IOption {
-    id?: number;
+export interface IOptionField {
+    type: string;
     name: string;
     code: string;
-    parent_id: number;
-    type: string;
-    visibility: number;
     default_value: string;
     value: string|number;
-    position: number;
-    items?: any[];
-    itemKey?: any;
     values?: any[];
+    items?: ArraySource;
+}
+
+export interface IOption extends IOptionField {
+    id?: number;
+    parent_id: number;
+    visibility: number;
+    position: number;
     children?: IOption[];
 }
 

@@ -23,7 +23,7 @@
                 <app-switch id="is_main" [formField]="dataForm.is_main" />
             </div>
         </div>
-        @if (!data || data.is_system < 1) {
+        @if (!data || data().is_system < 1) {
         <div>
             <div class="input-group-control">
                 <label for="type">类型</label>
@@ -35,24 +35,24 @@
                     </select>
                 </div>
             </div>
-            <div class="option-box">
-                @for (item of dataForm.options; track $index) {
+            <div class="option-box" [formGroup]="optionForm()">
+                @for (item of optionItems(); track $index) {
                     <div class="input-group-control">
-                        <label>{{ item.label().value() }}</label>
-                        @switch (item.type().value()) {
+                        <label>{{ item.label }}</label>
+                        @switch (item.type) {
                             @case ('text') {
                                 <div>
-                                    <input type="text" class="form-control"  [formField]="item.value">
+                                    <input type="text" class="form-control" [formControlName]="item.name">
                                 </div>
                             }
                             @case ('textarea') {
                                 <div>
-                                    <textarea class="form-control"  [formField]="item.value"></textarea>
+                                    <textarea class="form-control" [formControlName]="item.name"></textarea>
                                 </div>
                             }
                             @case ('select') {
                                 <div>
-                                    <select class="form-control"  [formField]="item.value">
+                                    <select class="form-control" [formControlName]="item.name">
                                         @for (val of item.items; track $index) {
                                         <option [value]="val">{{ val }}</option>
                                         }
@@ -61,17 +61,17 @@
                             }
                             @case ('radio') {
                                 <div>
-                                    <app-check-input [items]="item.items().value()" [formField]="item.value" />
+                                    <app-check-input [source]="item.optionSource" [formControlName]="item.name"/>
                                 </div>
                             }
                             @case ('checkbox') {
                                 <div>
-                                    <app-check-input [items]="item.items().value()" [formField]="item.value" [multiple]="true"/>
+                                    <app-check-input [source]="item.optionSource" [formControlName]="item.name" [multiple]="true"/>
                                 </div>
                             }
                             @case ('switch') {
                                 <div>
-                                    <app-switch [formField]="item.value"/>
+                                    <app-switch [formControlName]="item.name"/>
                                 </div>
                             }
                         }
@@ -121,7 +121,7 @@
             <div class="input-group-control">
                 <label>编辑组</label>
                 <div class="tab-group">
-                    <app-check-input [items]="tabItems" [rangeKey]="false" [formField]="dataForm.tab_name" />
+                    <app-check-input [source]="tabItems()" [formField]="dataForm.tab_name" />
                     <div class="flat-input">
                         <input type="text" class="form-control">
                         <button type="button" class="btn btn-info">添加</button>

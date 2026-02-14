@@ -152,7 +152,7 @@
         <div class="input-group-control">
             <label for="">设置发布时间</label>
             <div>
-                <app-check-input [formField]="dataForm.publish_type" [items]="['立即发布', '定时发布']" [rangeKey]="1" />
+                <app-check-input [formField]="dataForm.publish_type" [source]="publishTypeItems"/>
                 @if (dataForm.publish_type().value() > 0) {
                 <p>
                     <input type="date" class="form-control" [formField]="dataForm.publish_date">
@@ -183,7 +183,7 @@
         <div class="input-group-control">
             <label for=""></label>
             <div>
-                <app-check-input [items]="['之前', '之后']" [formField]="moveForm.type" [rangeKey]="1" />
+                <app-check-input [source]="orderItems" [formField]="moveForm.type"/>
             </div>
         </div>
     </div>

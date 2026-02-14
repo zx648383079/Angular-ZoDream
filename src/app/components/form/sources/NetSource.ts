@@ -36,9 +36,9 @@ export class NetSource implements IDataSource {
         }
         return this.getOrSet(next > 0 ? items[next - 1].value : undefined)
             .pipe(map(res => this.toArray(res).map(i => {
-                return {
+                return <IControlOption>{
                     value: i[this.rangeKey],
-                    label: i[this.rangeLabel]
+                    name: i[this.rangeLabel]
                 };
             })))
     }
@@ -76,6 +76,14 @@ export class NetSource implements IDataSource {
         }
         return null;
     }
+
+    public display(...items: any[]): string {
+        if (items.length === 0) {
+            return '--';
+        }
+        return items.join(',');
+    }
+    
     private getOrSet(query?: string): Observable<any> {
         const key = `${this.url}?${query}`;
         if (Object.prototype.hasOwnProperty.call(NetSource.cacheMaps, key)) {

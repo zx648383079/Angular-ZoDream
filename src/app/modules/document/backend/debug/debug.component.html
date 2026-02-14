@@ -7,8 +7,8 @@
     <div class="panel-container">
         <div class="flat-input">
             <select [formField]="dataForm.method" class="form-control">
-                @for (item of methodItems; track $index) {
-                    <option [value]="item">{{ item }}</option>
+                @for (item of methodItems.items; track $index) {
+                    <option [value]="item.value">{{ item.name }}</option>
                 }
             </select>
             <input type="text" [formField]="dataForm.url" class="form-control">
@@ -65,11 +65,11 @@
                 </div>
                 <div class="tab-item" [class.active]="requestIndex == 1">
                     <div class="type-bar">
-                        <app-check-input [items]="typeItems" [rangeKey]="1" [formField]="dataForm.bodyType" (valueChange)="onTypeChange()" />
+                        <app-check-input [source]="typeItems" [formField]="dataForm.bodyType" (valueChange)="onTypeChange()" />
                         @if (dataForm.bodyType().value() != 3) {
                         <select [formField]="dataForm.rawType" class="form-control">
-                            @for (item of rawItems; track $index;let i = $index) {
-                                <option [value]="i">{{ item }}</option>
+                            @for (item of rawItems.items; track $index;) {
+                                <option [value]="item.value">{{ item.name }}</option>
                             }
                         </select>
                         }
@@ -99,8 +99,8 @@
                                         <input type="text" class="form-control" [formField]="item.key">
                                         @if (dataForm.bodyType().value() == 1) {
                                         <select [formField]="item.type" class="form-control">
-                                            @for (item of optionItems; track $index;let i = $index) {
-                                                <option [value]="i">{{ item }}</option>
+                                            @for (item of optionItems.items; track $index;) {
+                                                <option [value]="item.value">{{ item.name }}</option>
                                             }
                                             
                                         </select>

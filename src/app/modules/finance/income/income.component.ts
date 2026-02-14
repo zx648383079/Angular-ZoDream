@@ -10,6 +10,7 @@ import { IAccount, IBudget, IConsumptionChannel, IFinancialProject, ILog, ILogGr
 import { formatDate, mapFormat } from '../../../theme/utils';
 import { ProgressDialogComponent, UploadDialogComponent } from '../../../components/desktop';
 import { IDataOne } from '../../../theme/models/page';
+import { ArraySource } from '../../../components/form';
 
 @Component({
     standalone: false,
@@ -58,6 +59,7 @@ export class IncomeComponent {
     public readonly previewModel = signal<ILog>(null);
     public readonly editForm = form(signal({
         keywords: '',
+        operator: 0,
         account_id: '',
         channel_id: '',
         project_id: '',
@@ -69,6 +71,7 @@ export class IncomeComponent {
     });
 
     public readonly groupItems = signal<ILogGroup[]>([]);
+    public readonly operateItems = ArraySource.fromOrder('编辑数据', '按月合并');
 
     public readonly queryPlaceholder = computed(() => {
         const value = this.queries.keywords().value();

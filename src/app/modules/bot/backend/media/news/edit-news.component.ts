@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
-import { ButtonEvent } from '../../../../../components/form';
+import { ArraySource, ButtonEvent } from '../../../../../components/form';
 import { emptyValidate } from '../../../../../theme/validators';
 import { BotService } from '../../bot.service';
 import { ThemeService } from '../../../../../theme/services';
@@ -31,7 +31,7 @@ export class EditNewsComponent {
         only_comment: 0,
         open_comment: 0,
     };
-    public onlyItems = ['所有人', '粉丝'];
+    public readonly onlyItems = ArraySource.fromOrder('所有人', '粉丝');
     public requestUrl = 'wx/admin/media/search?type=news';
 
     constructor() {

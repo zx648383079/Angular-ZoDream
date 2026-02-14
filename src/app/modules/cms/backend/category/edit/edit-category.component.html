@@ -21,7 +21,7 @@
                     <div class="input-group-control">
                         <label for="type">类型</label>
                         <div>
-                            <app-check-input [items]="typeItems" [rangeKey]="1" [formField]="dataForm.type" />
+                            <app-check-input [source]="typeItems" [formField]="dataForm.type" />
                         </div>
                     </div>
                     @if (dataForm.type().value() < 1) {
@@ -76,7 +76,7 @@
                     <div class="input-group-control">
                         <label for="groups">分组</label>
                         <div>
-                            <app-check-input [items]="groupItems" rangeKey="name" rangeLabel="name" [formField]="dataForm.groups" />
+                            <app-check-input [source]="groupItems()" [formField]="dataForm.groups" />
                         </div>
                     </div>
                     <div class="input-group-control">

@@ -234,7 +234,7 @@
 }
 
 
-<app-dialog-box #updateModal title="批量编辑">
+<app-dialog-box #updateModal title="批处理">
     <div class="form-group">
         <label for="keywords3">根据关键词搜索备注，符合条件的进行修改数据</label>
         <div class="input-group-control">
@@ -243,6 +243,10 @@
     </div>
 
     <p>影响 {{ editForm.count().value() }} 条数据，未选择的将不会进行修改</p>
+
+    <app-check-input class="tab-bar" [source]="operateItems" [formField]="editForm.operator"/>
+
+    @if (editForm.operator().value() < 1) {
     <div class="form-group">
         <label for="account">账户</label>
         <div class="input-group-control">
@@ -293,6 +297,7 @@
             <input type="text" id="trading_object" class="form-control" [formField]="editForm.trading_object">
         </div>
     </div>
+    }
 </app-dialog-box>
 
 <app-dialog-box #previewModal [title]="'预览:' + previewModel()?.id" [footerVisible]="false">

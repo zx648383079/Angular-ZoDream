@@ -84,7 +84,7 @@
         <div class="input-group-control">
             <label for="">场景值类型</label>
             <div>
-                <app-check-input [items]="['字符串', '数字']" [rangeKey]="1" [formField]="editForm.scene_type" />
+                <app-check-input [source]="sceneTypeSource" [formField]="editForm.scene_type" />
             </div>
         </div>
         @if (editForm.scene_type().value() < 1) {

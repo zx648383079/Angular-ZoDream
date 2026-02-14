@@ -70,7 +70,7 @@ export class MultiSelectInputComponent<T = any> implements FormValueControl<T> {
             const selected = Math.max(0, selectedIndex(group));
             return <ISelectColumn>{
                 selected,
-                label: group[selected].label,
+                label: group[selected].name,
                 searchable: true, 
                 keywords: '', 
                 items: group,
@@ -83,7 +83,7 @@ export class MultiSelectInputComponent<T = any> implements FormValueControl<T> {
         const group = items[index];
         group.selected = checkRange(i, 0, group.items.length - 1);
         const item = group.items[group.selected];
-        group.label = item.label;
+        group.label = item.name;
         selectIndex(group.items, group.selected);
         const src = this.source();
         const next = src.influence(index);

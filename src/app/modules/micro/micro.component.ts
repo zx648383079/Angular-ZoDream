@@ -277,9 +277,14 @@ export class MicroComponent {
                     i.comment_open = false;
                     return i;
                 })
-                this.items.set(page < 2 ? res.data : [].concat(this.items, res.data));
+                this.items.update(v => {
+                    if (page < 2) {
+                        return res.data;
+                    }
+                    return [...v, ...res.data];
+                });
                 this.queries().value.set(queries);
-            this.searchService.applyHistory(queries, false);
+                this.searchService.applyHistory(queries, false);
             },
             error: () => {
                 this.isLoading.set(false);

@@ -8,7 +8,7 @@
             <ul>
                 @for (item of routeItems(); track $index; let i = $index) {
                     <li [class.active]="i == activeColumn()" (click)="tapColumn(i)">
-                        {{ item.label }}
+                        {{ item.name }}
                     </li>
                 }
             </ul>
@@ -18,8 +18,8 @@
         <div class="selector-body">
             <ul>
                 @for (item of items(); track $index) {
-                    <li (click)="tapCheckedItem(item)" [class.selected]="item.selected">
-                        {{ item.label }}</li>
+                    <li (click)="tapCheckedItem(item)" [class.selected]="item.checked">
+                        {{ item.name }}</li>
                 }
             </ul>
         </div>

@@ -15,6 +15,7 @@ import { NavigationService } from './navigation.service';
 import { ReportDialogComponent } from './report-dialog/report-dialog.component';
 import { NavigationPanelComponent } from './panel/navigation-panel.component';
 import { selectSystemConfig } from '../../theme/reducers/system.selectors';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -48,10 +49,10 @@ export class NavigationComponent {
     public user: IUser;
 
     constructor() {
-        this.store.select(selectAuthUser).subscribe(user => {
+        this.store.select(selectAuthUser).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(user => {
             this.user = user;
         });
-        this.store.select(selectSystemConfig).subscribe(res => {
+        this.store.select(selectSystemConfig).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
             if (res && res.today_wallpaper && res.today_wallpaper.length > 0) {
                 this.wallpager(res.today_wallpaper[0]);
             }

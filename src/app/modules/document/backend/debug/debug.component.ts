@@ -1,7 +1,7 @@
 import { Component, WritableSignal, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
-import { ButtonEvent } from '../../../../components/form';
+import { ArraySource, ButtonEvent } from '../../../../components/form';
 import { IErrorResult } from '../../../../theme/models/page';
 import { eachObject } from '../../../../theme/utils';
 import { IDocApi } from '../../model';
@@ -40,7 +40,7 @@ export class DebugComponent {
     private readonly toastrService = inject(DialogService);
 
 
-    public methodItems = ['GET', 'POST', 'PUT', 'DELETE', 'OPTION'];
+    public readonly methodItems = ArraySource.fromValue('GET', 'POST', 'PUT', 'DELETE', 'OPTION');
     public readonly dataForm = form(signal({
         url: '',
         method: this.methodItems[0],
@@ -63,9 +63,9 @@ export class DebugComponent {
         'Authorization',
     ];
     public requestIndex = 0;
-    public typeItems = ['none', 'form-data', 'x-www-form-urlencoded', 'raw', 'binary'];
-    public rawItems = ['Text', 'JavaScript', 'JSON', 'HTML', 'XML'];
-    public optionItems = ['Text', 'File'];
+    public readonly typeItems = ArraySource.fromOrder('none', 'form-data', 'x-www-form-urlencoded', 'raw', 'binary');
+    public readonly rawItems = ArraySource.fromOrder('Text', 'JavaScript', 'JSON', 'HTML', 'XML');
+    public readonly optionItems = ArraySource.fromOrder('Text', 'File');
     public responseStatus = '';
     public responseTime = 0;
     public responseSize = 0;

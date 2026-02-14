@@ -7,7 +7,7 @@ import { IUserZone, SexItems } from '../../../../../theme/models/user';
 import { FileUploadService } from '../../../../../theme/services/file-upload.service';
 import { AuthService } from '../../auth.service';
 import { email, form, required, validate } from '@angular/forms/signals';
-import { ButtonEvent } from '../../../../../components/form';
+import { ArraySource, ButtonEvent } from '../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -51,7 +51,7 @@ export class EditUserComponent {
 
     public readonly roleItems = signal<IRole[]>([]);
     public readonly zoneItems = signal<IUserZone[]>([]);
-    public sexItems = SexItems;
+    public readonly sexItems = ArraySource.fromItems(SexItems);
 
     constructor() {
         this.service.batch({

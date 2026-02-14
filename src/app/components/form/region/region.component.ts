@@ -1,7 +1,7 @@
 import { Component, HostListener, input, model, effect, signal, computed, untracked } from '@angular/core';
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { FormValueControl } from '@angular/forms/signals';
-import { IDataSource, select } from '../sources/IDataSource';
+import { IDataSource, selectItem } from '../sources/IDataSource';
 import { IControlOption } from '../event';
 import { findIndex } from '../../../theme/utils';
 
@@ -43,7 +43,7 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
         if (items.length < 1) {
             return this.placeholder();
         }
-        return items.map(i => i.label).join('/');
+        return items.map(i => i.name).join('/');
     });
 
     @HostListener('document:click', ['$event']) 
@@ -82,13 +82,13 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
 
     public tapCheckedItem(item: IControlOption) {
         const column = this.activeColumn();
-        select(this.items(), item.value);
+        selectItem(this.items(), item.value);
         const nextColumn = column + 1;
         this.routeItems.update(v => {
             v[column] = item;
             v.splice(nextColumn);
             v.push({
-                label: this.placeholder()
+                name: this.placeholder()
             });
             return [...v];
         });
@@ -131,7 +131,7 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
         this.routeItems.update(v => {
             if (v.length === 0) {
                 v.push({
-                    label: this.placeholder()
+                    name: this.placeholder()
                 });
             }
             return v;

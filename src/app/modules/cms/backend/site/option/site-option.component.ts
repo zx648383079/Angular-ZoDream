@@ -2,12 +2,12 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
-import { IOption } from '../../../../../theme/models/seo';
+import { IOptionField } from '../../../../../theme/models/seo';
 import { emptyValidate } from '../../../../../theme/validators';
 import { CmsService } from '../../cms.service';
 import { form } from '@angular/forms/signals';
 import { eachObject } from '../../../../../theme/utils';
-import { ButtonEvent } from '../../../../../components/form';
+import { ArraySource, ButtonEvent } from '../../../../../components/form';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -21,7 +21,7 @@ export class SiteOptionComponent {
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
     private readonly location = inject(Location);
-    public readonly items = signal<IOption[]>([]);
+    public readonly items = signal<IOptionField[]>([]);
 
     public readonly editForm = form(signal({
         id: 0,
@@ -62,10 +62,10 @@ export class SiteOptionComponent {
             this.service.option(this.id).subscribe(res => {
                 this.items.set(res.data.map(item => {
                     if (['select', 'radio', 'checkbox'].indexOf(item.type)) {
-                        item.items = this.strToArr(item.default_value);
+                        item.items = ArraySource.fromValue(...this.strToArr(item.default_value));
                     }
                     if (item.type === 'checkbox') {
-                        item.values = item.value.split(',');
+                        item.values = (item.value as string).split(',');
                     }
                     return item;
                 }));
@@ -114,7 +114,7 @@ export class SiteOptionComponent {
         });
     }
 
-    public tapEditOption(modal: any, item?: IOption) {
+    public tapEditOption(modal: any, item?: IOptionField) {
         this.editForm().value.update(v => {
             v.name = item?.name ?? '';
             v.code = item?.code ?? '';

@@ -1,3 +1,4 @@
+import { IFormInput } from '../../components/form';
 import { IExtraRule } from '../../components/link-rule';
 import { IPageTreeItem } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
@@ -146,15 +147,7 @@ export interface ICmsComment {
 export interface ICmsFormGroup {
     name: string;
     active: boolean;
-    items: ICmsFormInput[];
-}
-
-export interface ICmsFormInput {
-    name: string;
-    label: string;
-    value: string;
-    items?: string[];
-    type: string;
+    items: IFormInput[];
 }
 
 export interface ICmsColumn {

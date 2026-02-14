@@ -60,14 +60,22 @@ export class OrderComponent {
         }
         this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
-        this.service.providerOrderList(queries).subscribe(res => {
-            this.hasMore = res.paging.more;
-            this.isLoading.set(false);
-            this.items.set(page < 2 ? res.data : [].concat(this.items, res.data));
-            this.searchService.applyHistory(queries);
-                this.queries().value.set(queries);
-        }, () => {
-            this.isLoading.set(false);
+        this.service.providerOrderList(queries).subscribe({
+            next: res => {
+                this.hasMore = res.paging.more;
+                this.isLoading.set(false);
+                this.items.update(v => {
+                        if (page < 2) {
+                            return res.data;
+                        }
+                        return [...v, ...res.data];
+                    });
+                this.searchService.applyHistory(queries);
+                    this.queries().value.set(queries);
+            },
+            error: () => {
+                this.isLoading.set(false);
+            }
         });
     }
 }

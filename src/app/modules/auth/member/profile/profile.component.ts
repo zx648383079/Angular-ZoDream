@@ -7,6 +7,7 @@ import { SexItems, IUser } from '../../../../theme/models/user';
 import { parseNumber } from '../../../../theme/utils';
 import { MemberService } from '../member.service';
 import { form, required } from '@angular/forms/signals';
+import { ArraySource } from '../../../../components/form';
 
 @Component({
     standalone: false,
@@ -20,7 +21,7 @@ export class ProfileComponent {
     private readonly route = inject(ActivatedRoute);
     private readonly location = inject(Location);
 
-    public sexItems = SexItems;
+    public readonly sexItems = ArraySource.fromItems(SexItems);
     public readonly user = signal<IUser>(null);
     public readonly dataModel = signal({
         name: '',

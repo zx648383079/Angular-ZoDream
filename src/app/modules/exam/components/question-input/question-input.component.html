@@ -31,7 +31,7 @@
         </div>
         } @else if (value().type == 2) {
         <div class="option-list">
-            <app-check-input [items]="['错', '对']" [rangeKey]="1" [value]="value().answer" (valueChange)="onAnswerChange($event)" />
+            <app-check-input [source]="choiceItems" [value]="value().answer" (valueChange)="onAnswerChange($event)" />
         </div>
         } @else if (value().type == 3) {
         <div>

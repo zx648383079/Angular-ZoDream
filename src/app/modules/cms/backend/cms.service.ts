@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
-import { IItem } from '../../../theme/models/seo';
-import { ICmsCategory, ICmsComment, ICmsContent, ICmsFormInput, ICmsGroup, ICmsLinkage, ICmsLinkageData, ICmsModel, ICmsModelField, ICmsSite, ICMSTheme } from '../model';
+import { IItem, IOptionField } from '../../../theme/models/seo';
+import { ICmsCategory, ICmsComment, ICmsContent, ICmsGroup, ICmsLinkage, ICmsLinkageData, ICmsModel, ICmsModelField, ICmsSite, ICMSTheme } from '../model';
+import { IFormInput } from '../../../components/form';
 
 @Injectable()
 export class CmsService {
@@ -34,7 +35,7 @@ export class CmsService {
     }
 
     public option(id: any) {
-        return this.http.get<IData<any>>('cms/admin/site/option', {
+        return this.http.get<IData<IOptionField>>('cms/admin/site/option', {
           params: {id},
         });
     }
@@ -148,7 +149,7 @@ export class CmsService {
     }
 
     public fieldOption(type: string, id: any) {
-        return this.http.get<IData<ICmsFormInput>>('cms/admin/model/option', {
+        return this.http.get<IData<IFormInput>>('cms/admin/model/option', {
           params: {id, type},
         });
     }

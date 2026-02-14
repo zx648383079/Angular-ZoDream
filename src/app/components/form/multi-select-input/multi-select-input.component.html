@@ -17,8 +17,8 @@
             @if (item.items && item.items.length > 0) {
                 <div class="scroll-option-body">
                     @for (option of item.items; track $index; let j = $index) {
-                    <div class="option-item" [hidden]="option.disabled" [class.selected]="option.selected" (click)="tapItem(i, j)">
-                        {{ option.label }}
+                    <div class="option-item" [hidden]="option.disabled" [class.selected]="option.checked" (click)="tapItem(i, j)">
+                        {{ option.name }}
                     </div>
                     }
                 </div>

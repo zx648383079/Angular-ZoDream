@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ContextMenuComponent, IMenuItem } from '../../../components/context-menu';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { EditorService } from '../../../components/editor';
-import { ButtonEvent } from '../../../components/form';
+import { ArraySource, ButtonEvent } from '../../../components/form';
 import { ThemeService } from '../../../theme/services';
 import { parseNumber, wordLength } from '../../../theme/utils';
 import { emptyValidate } from '../../../theme/validators';
@@ -40,7 +40,9 @@ export class BookEditorComponent {
     public catalog: IChapter[] = [];
     public topVisible = false;
 
-    public typeItems: IItem[] = ChapterTypeItems.filter(i => i.value < 9);
+    public readonly typeItems: IItem[] = ChapterTypeItems.filter(i => i.value < 9);
+    public readonly publishTypeItems = ArraySource.fromOrder('立即发布', '定时发布');
+    public readonly orderItems = ArraySource.fromOrder('之前', '之后');
     public readonly bookForm = form(signal({
         name: '',
         cover: '',

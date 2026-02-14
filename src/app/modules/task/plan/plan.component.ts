@@ -8,6 +8,7 @@ import { twoPad } from '../../../theme/utils';
 import { ITask, ITaskPlan } from '../model';
 import { TaskSelectComponent } from '../task-select/task-select.component';
 import { TaskService } from '../task.service';
+import { ArraySource } from '../../../components/form';
 
 @Component({
     standalone: false,
@@ -35,7 +36,7 @@ export class PlanComponent {
         per_page: 20,
         type: 0,
     }));
-    public typeItems = ['一天', '每周', '每月'];
+    public readonly typeSource = ArraySource.fromOrder('一天', '每周', '每月');
     public weekNameItems: IItem[] = [];
     public monthNameItems: IItem[] = [];
     public readonly editForm = form(signal({

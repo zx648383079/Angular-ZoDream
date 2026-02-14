@@ -65,7 +65,7 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
 
     public tapSelected(item: IControlOption) {
         if (!this.multiple()) {
-            item.selected = true;
+            item.checked = true;
             this.selectedItems.set([item]);
             this.keywords.set('');
             this.panelVisible.set(false);
@@ -76,11 +76,11 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
             for (let i = 0; i < v.length; i++) {
                 if (item.value === v[i].value) {
                     v.splice(i, 1);
-                    item.selected = false;
+                    item.checked = false;
                     return [...v];
                 }
             }
-            item.selected = true;
+            item.checked = true;
             v.push(item);
             return [...v];
         });
@@ -88,7 +88,7 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
     }
 
     public tapUnselect(item: IControlOption) {
-        item.selected = false;
+        item.checked = false;
         this.selectedItems.update(v => {
             return v.filter(i => {
                 return item.value !== i.value;
@@ -105,7 +105,7 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
         }
         const url = this.url();
         if (!url) {
-            this.formatOption(this.items(), item => item.label.indexOf(val) >= 0);
+            this.formatOption(this.items(), item => item.name.indexOf(val) >= 0);
             return;
         }
         this.isLoading.set(true);
@@ -172,7 +172,7 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
             if (filterFn && !filterFn(formatted)) {
                 continue;
             }
-            formatted.selected = selected.includes(formatted.value)
+            formatted.checked = selected.includes(formatted.value)
             data.push(formatted);
         }
         this.optionItems.set(data);
@@ -184,22 +184,22 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
 
     private formatOptionItem(item: any, index: number): IControlOption {
         const key = this.rangeKey();
-        const label = typeof item === 'object' ? item[this.rangeLabel()] : item;
+        const name = typeof item === 'object' ? item[this.rangeLabel()] : item;
         if (typeof key === 'number') {
             return {
                 value: index,
-                label
+                name
             };
         }
         if (key && typeof item === 'object') {
             return {
                 value: item[key],
-                label
+                name
             };
         }
         return {
             value: item,
-            label
+            name
         };
     }
 
@@ -208,8 +208,8 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
         const selected = [];
         this.optionItems.update(v => {
             for (const item of v) {
-                item.selected = selectedValue.includes(item.value);
-                if (item.selected) {
+                item.checked = selectedValue.includes(item.value);
+                if (item.checked) {
                     selected.push(item);
                 } 
             }

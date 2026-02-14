@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { DialogEvent, DialogService } from '../../components/dialog';
-import { ButtonEvent } from '../../components/form';
+import { ArraySource, ButtonEvent, IControlOption } from '../../components/form';
 import { IItem, IOption } from '../../theme/models/seo';
 import { parseNumber, splitStr } from '../../theme/utils';
 import { emptyValidate } from '../../theme/validators';
@@ -52,7 +52,7 @@ export class SystemComponent {
         {value: 'json', name: 'JSON'},
         {value: 'hide', name: '隐藏'}
     ];
-    public visibleItems = ['隐藏', '后台可见', '前台可见'];
+    public readonly visibleItems = ['隐藏', '后台可见', '前台可见'];
     public readonly form = computed(() => {
         const items = this.groups();
         const groups: any = {};
@@ -84,11 +84,7 @@ export class SystemComponent {
         let isInt = false;
         if (['select', 'radio', 'checkbox'].indexOf(item.type) >= 0) {
             item.items = this.strToArr(item.default_value);
-            item.itemKey = 1;
-            if (item.items instanceof Array && typeof item.items[0] === 'object') {
-                item.itemKey = 'value';
-            }
-            isInt = this.isIntValue(item.items);
+            isInt = typeof item.items.items[0].value === 'number';
         }
         if (item.type === 'checkbox') {
             item.values = (item.value as string).split(',').map(i => {
@@ -103,27 +99,11 @@ export class SystemComponent {
         return item;
     }
 
-    private isIntValue(items: string[]|IItem[]): boolean {
-        if (!(items instanceof Array)) {
-            return true;
-        }
-        for (const item of items) {
-            if (typeof item !== 'object') {
-                return true;
-            }
-            if (typeof item.value === 'number') {
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }
-
-    private strToArr(val: any): string[]|IItem[] {
+    private strToArr(val: any): ArraySource {
         if (typeof val === 'object') {
-            return val;
+            return val instanceof ArraySource ? val : ArraySource.fromItems(val);
         }
-        const items: any[] = [];
+        const items: IControlOption[] = [];
         val.toString().split('\n').forEach((item: string, i: number) => {
             let key: number|string = i;
             item = item.replace('\r', '').trim();
@@ -138,7 +118,7 @@ export class SystemComponent {
                 value: key
             });
         });
-        return items;
+        return ArraySource.from(items);
     }
 
     public tapSubmit(e?: ButtonEvent) {

@@ -445,7 +445,12 @@ export class CatalogComponent {
                 const items = res.data.map(i => {
                     return this.formatItem(i);
                 });
-                this.items.set(page < 2 ? items : [].concat(this.items, items));
+                this.items.update(v => {
+                    if (page < 2) {
+                        return items;
+                    }
+                    return [...v, ...items];
+                });
                 control?.reset();
             },
             error: () => {

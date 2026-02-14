@@ -7,7 +7,7 @@ import { AuthService } from '../../../theme/services';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
-import { ButtonEvent } from '../../../components/form';
+import { ArraySource, ButtonEvent } from '../../../components/form';
 import { email, form, required } from '@angular/forms/signals';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -40,7 +40,7 @@ export class ProfileComponent {
     });
 
     public data: IUser;
-    public sexItems = SexItems;
+    public readonly sexItems = ArraySource.fromItems(SexItems);
     public reasonItems = [
         '需要解绑手机',
         '需要解绑邮箱',

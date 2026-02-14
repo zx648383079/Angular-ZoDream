@@ -5,7 +5,7 @@ import { DialogService } from '../../../../../components/dialog';
 import { ICmsModel } from '../../../model';
 import { CmsService } from '../../cms.service';
 import { form, required } from '@angular/forms/signals';
-import { ButtonEvent } from '../../../../../components/form';
+import { ArraySource, ButtonEvent } from '../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -46,7 +46,7 @@ export class EditModelComponent {
 
     public data: ICmsModel;
     public modelItems: ICmsModel[] = [];
-    public typeItems = ['实体', '表单'];
+    public readonly typeItems = ArraySource.fromOrder('实体', '表单');
 
     constructor() {
         this.service.modelAll(1).subscribe(res => {

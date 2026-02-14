@@ -183,7 +183,12 @@ export class FileExplorerPanelComponent implements IFileDataSource {
                     }
                     return i;
                 });
-                this.items.set(page < 2 ? data : [].concat(this.items, data));
+                this.items.update(v => {
+                    if (page < 2) {
+                        return data;
+                    }
+                    return [...v, ...data];
+                });
             },
             error: _ => {
                 this.isLoading.set(false);

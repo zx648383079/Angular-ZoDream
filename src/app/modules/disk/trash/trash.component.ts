@@ -54,7 +54,12 @@ export class TrashComponent {
                 this.page = page;
                 this.hasMore = res.paging.more;
                 this.isLoading.set(false);
-                this.items.set(page < 2 ? res.data : [].concat(this.items, res.data));
+                this.items.update(v => {
+                    if (page < 2) {
+                        return res.data;
+                    }
+                    return [...v, ...res.data];
+                });
             }, 
             error: () => {
                 this.isLoading.set(false);

@@ -16,8 +16,21 @@ export interface IDataSource {
      */
     influence(column: number): number;
 
+    /**
+     * 根据值显示所有列
+     * @param value 
+     */
     initialize(value?: any): Observable<IControlOption[][]>;
+    /**
+     * 根据选择的项返回实际值
+     * @param items 
+     */
     format(...items: IControlOption[]): any;
+    /**
+     * 根据值返回显示的字符串
+     * @param items 
+     */
+    display(...items: any[]): string;
 }
 
 /**
@@ -27,7 +40,7 @@ export interface IDataSource {
  */
 export function selectedIndex(items: IControlOption[]): number {
     for (let i = 0; i < items.length; i++) {
-        if (items[i].selected) {
+        if (items[i].checked) {
             return i;
         }
     }
@@ -38,17 +51,36 @@ export function selectedIndex(items: IControlOption[]): number {
  * 选中指定值
  * @param items 
  * @param val 
+ * @param multiple 是否为多选模式
  * @returns 
  */
-export function select(items: IControlOption[], val: any): number {
+export function selectItem(items: IControlOption[], val: any, multiple = false): number {
     let index = -1;
     for (let i = 0; i < items.length; i++) {
         const item = items[i];
-        item.selected = false;
-        if (index < 0 && item.value === val) {
+        if ((index < 0 || multiple) && item.value === val) {
             index = i;
-            item.selected = true;
+            item.checked = true;
+            continue;
         }
+        if (multiple) {
+            continue;
+        }
+        item.checked = false;
+    }
+    return index;
+}
+/**
+ * 选择多个
+ * @param items 
+ * @param valItems 
+ * @returns 
+ */
+export function selectItems(items: IControlOption[], ...valItems: any[]): number {
+    let index = 0;
+    for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        item.checked = valItems.indexOf(item.value) >= 0;
     }
     return index;
 }
@@ -57,14 +89,19 @@ export function select(items: IControlOption[], val: any): number {
  * 选中指定项
  * @param items 
  * @param index 
+ * @param multiple 是否为多选模式
  * @returns 
  */
-export function selectIndex(items: IControlOption[], index: number): number {
+export function selectIndex(items: IControlOption[], index: number, multiple = false): number {
     if (items.length <= index) {
         return -1;
     }
+    if (multiple) {
+        items[index].checked = !items[index].checked;
+        return index;
+    }
     for (let i = 0; i < items.length; i++) {
-        items[i].selected = i === index;
+        items[i].checked = i === index;
     }
     return index;
 }

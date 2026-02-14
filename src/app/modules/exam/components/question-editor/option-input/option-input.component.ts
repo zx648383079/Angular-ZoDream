@@ -3,6 +3,7 @@ import { DialogEvent } from '../../../../../components/dialog';
 import { IQuestionOption } from '../../../model';
 import { intToABC } from '../../../util';
 import { FormValueControl } from '@angular/forms/signals';
+import { ArraySource } from '../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -19,7 +20,7 @@ export class OptionInputComponent implements FormValueControl<IQuestionOption[]>
         content: '',
         is_right: false,
     } as any;
-    public optionTypeItems = ['文字', '图片'];
+    public readonly optionTypeItems = ArraySource.fromOrder('文字', '图片');
 
     public tapSelected(event: MouseEvent, i: number) {
         event.stopPropagation();

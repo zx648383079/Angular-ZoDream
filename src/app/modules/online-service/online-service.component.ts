@@ -103,7 +103,9 @@ export class OnlineServiceComponent {
         this.isLoading = true;
         this.service.send(data).subscribe({
             next:(res: any) => {
-                this.items.set([].concat(this.items, res.data));
+                this.items.update(v => {
+                    return [...v, ...res.data];
+                });
                 this.nextTime = res.next_time;
                 if (!this.startTime) {
                     this.startTime = this.nextTime;
@@ -147,7 +149,9 @@ export class OnlineServiceComponent {
         }).subscribe({
             next: (res: any) => {
                 if (res.data.length > 0) {
-                    this.items.set([].concat(this.items, res.data));
+                    this.items.update(v => {
+                        return [...v, ...res.data];
+                    });
                 }
                 this.nextTime = res.next_time;
                 if (!this.startTime) {

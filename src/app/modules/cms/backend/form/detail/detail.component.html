@@ -38,12 +38,12 @@
                             }
                             @case ('radio') {
                                 <div>
-                                    <app-check-input [items]="item.items" [formControlName]="item.name" [id]="item.name"/>
+                                    <app-check-input [source]="item.optionSource" [formControlName]="item.name" [id]="item.name"/>
                                 </div>
                             }
                             @case ('checkbox') {
                                 <div>
-                                    <app-check-input [items]="item.items" [formControlName]="item.name" [id]="item.name" [multiple]="true" />
+                                    <app-check-input [source]="item.optionSource" [formControlName]="item.name" [id]="item.name" [multiple]="true" />
                                 </div>
                             }
                             @case ('switch') {

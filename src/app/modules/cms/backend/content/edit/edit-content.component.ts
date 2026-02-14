@@ -7,7 +7,7 @@ import { eachObject } from '../../../../../theme/utils';
 import { ICmsContent, ICmsFormGroup } from '../../../model';
 import { CmsService } from '../../cms.service';
 import { form } from '@angular/forms/signals';
-import { ButtonEvent } from '../../../../../components/form';
+import { ArraySource, ButtonEvent } from '../../../../../components/form';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -49,7 +49,14 @@ export class EditContentComponent {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.service.content(this.queries().value()).subscribe(res => {
                 this.data = res;
-                this.formItems.set(res.form_data);
+                this.formItems.set(res.form_data.map(g => {
+                    for(const item of g.items) {
+                        if (item.type === 'radio' || item.type === 'checkbox') {
+                            item.optionSource = ArraySource.fromItems(item.items);
+                        }
+                    }
+                    return g;
+                }));
             });
         });
     }

@@ -1,4 +1,4 @@
-import { max, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { IControlOption } from '../event';
 import { IDataSource } from './IDataSource';
 import { eachObject } from '../../../theme/utils';
@@ -75,6 +75,13 @@ export class TreeSource implements IDataSource {
     public format(...items: IControlOption[]): any {
         return items.length > 0 ? items[items.length - 1].value : null;
     }
+
+    public display(...items: any[]): string {
+        if (items.length === 0) {
+            return '--';
+        }
+        return items.join(',');
+    }
     
 
     private first(items: any): any {
@@ -146,10 +153,10 @@ export class TreeSource implements IDataSource {
         }
         const res = data instanceof Array ? data : Object.values(data);
         return res.map(v => {
-            return {
+            return <IControlOption>{
                 value: v[this.rangeKey],
-                label: v[this.rangeLabel],
-                selected: v === selected
+                name: v[this.rangeLabel],
+                checked: v === selected
             };
         });
     }

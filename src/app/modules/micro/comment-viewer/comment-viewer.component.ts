@@ -162,7 +162,12 @@ export class CommentViewerComponent {
             next: res => {
                 this.hasMore.set(res.paging.more);
                 this.isLoading.set(false);
-                this.items.set(page < 2 ? res.data : [].concat(this.items, res.data));
+                this.items.update(v => {
+                    if (page < 2) {
+                        return res.data;
+                    }
+                    return [...v, ...res.data];
+                });
                 this.total.set(res.paging.total);
                 this.queries.update(v => {
                     v.page = page;
