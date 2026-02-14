@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
 
 @Component({

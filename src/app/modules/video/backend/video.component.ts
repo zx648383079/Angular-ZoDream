@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { VideoService } from './video.service';
 
 @Component({
@@ -7,14 +7,14 @@ import { VideoService } from './video.service';
     templateUrl: './video.component.html',
     styleUrls: ['./video.component.scss']
 })
-export class VideoComponent implements OnInit {
+export class VideoComponent {
     private readonly service = inject(VideoService);
 
 
     public readonly isLoading = signal(false);
     public readonly data = signal<any>({});
 
-    ngOnInit() {
+    constructor() {
         this.service.statistics().subscribe({
             next: res => {
                 this.data.set(res);

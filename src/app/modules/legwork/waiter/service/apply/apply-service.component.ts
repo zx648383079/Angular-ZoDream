@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IErrorResult, IPageQueries } from '../../../../../theme/models/page';
@@ -13,7 +13,7 @@ import { ICategory, IService } from '../../../model';
     templateUrl: './apply-service.component.html',
     styleUrls: ['./apply-service.component.scss']
 })
-export class ApplyServiceComponent implements OnInit {
+export class ApplyServiceComponent {
     private readonly service = inject(LegworkService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -31,7 +31,7 @@ export class ApplyServiceComponent implements OnInit {
         per_page: 20
     }));
 
-    ngOnInit() {
+    constructor() {
         this.service.categoryList().subscribe(res => {
             this.categories = res.data;
         });

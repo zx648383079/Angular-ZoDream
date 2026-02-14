@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { BookService } from './book.service';
 
 @Component({
@@ -7,14 +7,14 @@ import { BookService } from './book.service';
     templateUrl: './backend.component.html',
     styleUrls: ['./backend.component.scss']
 })
-export class BackendComponent implements OnInit {
+export class BackendComponent {
     private readonly service = inject(BookService);
 
 
     public readonly isLoading = signal(true);
     public readonly data = signal<any>({});
 
-    ngOnInit(): void {
+    constructor() {
         this.service.statistics().subscribe({
             next: res => {
                 this.data.set(res);

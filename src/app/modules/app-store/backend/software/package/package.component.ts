@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { UploadCustomEvent } from '../../../../../components/form';
@@ -16,7 +16,7 @@ import { AppService } from '../../app.service';
     templateUrl: './package.component.html',
     styleUrls: ['./package.component.scss']
 })
-export class PackageComponent implements OnInit {
+export class PackageComponent {
     private readonly service = inject(AppService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -52,7 +52,7 @@ export class PackageComponent implements OnInit {
 
     public readonly urlType = computed(() => parseNumber(this.editForm.url_type().value()));
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             const softwareId = parseNumber(params.app);
             if (!softwareId) {

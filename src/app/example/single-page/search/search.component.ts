@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService, DialogEvent } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -13,7 +13,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.scss']
 })
-export class ExampleSearchComponent implements OnInit {
+export class ExampleSearchComponent {
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
@@ -34,7 +34,7 @@ export class ExampleSearchComponent implements OnInit {
     public readonly isMultiple = signal(false);
     public readonly isChecked = signal(false);
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

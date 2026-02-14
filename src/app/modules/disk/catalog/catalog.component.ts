@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnDestroy, OnInit, inject, viewChild, signal, computed } from '@angular/core';
+import { Component, inject, viewChild, signal, computed, DestroyRef } from '@angular/core';
 import {
     DiskService
 } from '../disk.service';
@@ -15,7 +15,7 @@ import { ParallelHasher } from 'ts-md5';
 import { ActivatedRoute } from '@angular/router';
 import { UploadStatus } from '../../../theme/services/uploader';
 import { PullToRefreshComponent } from '../../../components/tablet';
-import { Subscription } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
 interface ICrumb {
@@ -31,13 +31,14 @@ interface ICrumb {
     templateUrl: './catalog.component.html',
     styleUrls: ['./catalog.component.scss']
 })
-export class CatalogComponent implements OnInit, OnDestroy {
+export class CatalogComponent {
     private readonly service = inject(DiskService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
     private readonly uploadService = inject(FileUploadService);
     private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public readonly pullBox = viewChild(PullToRefreshComponent);
@@ -73,24 +74,17 @@ export class CatalogComponent implements OnInit, OnDestroy {
         name: ''
     }));
     public playerStyle: any = {};
-    private readonly subItems = new Subscription();
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapRefresh();
         });
-        this.subItems.add(
-            this.themeService.navigationChanged.subscribe(res => {
-                this.playerStyle = {
-                    left: res.paneWidth + 'px',
-                }
-            })
-        );
-    }
-
-    ngOnDestroy(): void {
-        this.subItems.unsubscribe();
+        this.themeService.navigationChanged.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
+            this.playerStyle = {
+                left: res.paneWidth + 'px',
+            }
+        });
     }
 
 

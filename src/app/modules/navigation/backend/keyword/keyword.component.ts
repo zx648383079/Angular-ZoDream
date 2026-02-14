@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -15,7 +15,7 @@ import { NavigationService } from '../navigation.service';
     templateUrl: './keyword.component.html',
     styleUrls: ['./keyword.component.scss']
 })
-export class KeywordComponent implements OnInit {
+export class KeywordComponent {
     private readonly service = inject(NavigationService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -40,7 +40,7 @@ export class KeywordComponent implements OnInit {
         required(schemaPath.word);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

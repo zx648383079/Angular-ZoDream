@@ -1,5 +1,5 @@
 import { form, min, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -16,7 +16,7 @@ import { parseNumber } from '../../../../theme/utils';
     templateUrl: './site.component.html',
     styleUrls: ['./site.component.scss']
 })
-export class SiteComponent implements OnInit {
+export class SiteComponent {
     private readonly service = inject(NavigationService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -64,7 +64,7 @@ export class SiteComponent implements OnInit {
         min(schemaPath.score, 1);
     });
 
-    ngOnInit() {
+    constructor() {
         this.service.categoryTree().subscribe(res => {
             this.categories = res.data;
         });

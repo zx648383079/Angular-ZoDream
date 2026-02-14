@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -13,7 +13,7 @@ import { ActivityService } from '../activity.service';
     templateUrl: './discount.component.html',
     styleUrls: ['./discount.component.scss']
 })
-export class DiscountComponent implements OnInit {
+export class DiscountComponent {
     private readonly service = inject(ActivityService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -30,7 +30,7 @@ export class DiscountComponent implements OnInit {
         keywords: '',
     }));
 
-    ngOnInit() {
+    constructor() {
         this.tapRefresh();
     }
 

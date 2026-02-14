@@ -1,10 +1,10 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { ThemeService } from '../../../theme/services';
 import { INavLink } from '../../../theme/models/seo';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../theme/interfaces';
 import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
-import { Subscription } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -12,10 +12,10 @@ import { Subscription } from 'rxjs';
     templateUrl: './game-maker.component.html',
     styleUrls: ['./game-maker.component.scss']
 })
-export class GameMakerComponent implements OnDestroy {
+export class GameMakerComponent {
     private readonly store = inject<Store<AppState>>(Store);
     private readonly themeService = inject(ThemeService);
-
+    private readonly destroyRef = inject(DestroyRef);
 
     public navItems: INavLink[] = [
         {
@@ -113,19 +113,14 @@ export class GameMakerComponent implements OnDestroy {
             url: '/',
         }
     ];
-    private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `Game Maker`);
-        this.subItems.add(this.store.select(selectAuthUser).subscribe(user => {
+        this.store.select(selectAuthUser).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(user => {
             if (!user) {
                 return;
             }
             this.bottomNavs[0].name = user.name;
-        }));
-    }
-
-    ngOnDestroy(): void {
-        this.subItems.unsubscribe();
+        });
     }
 }

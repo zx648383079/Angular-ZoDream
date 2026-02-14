@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 interface ICookieGroup {
     name: string;
@@ -21,7 +21,7 @@ const CookiePolicyKey = 'cookie_policy';
     templateUrl: './cookie-bar.component.html',
     styleUrls: ['./cookie-bar.component.scss']
 })
-export class CookieBarComponent implements OnInit {
+export class CookieBarComponent {
     public readonly tabIndex = signal(0);
 
     public items: ICookieGroup[] = [
@@ -59,7 +59,7 @@ export class CookieBarComponent implements OnInit {
         }
     ];
 
-    ngOnInit() {
+    constructor() {
         this.tabIndex.set(window.localStorage.getItem(CookiePolicyKey) ? 0 : 1);
     }
 

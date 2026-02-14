@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { UploadCustomEvent } from '../../../../../components/form';
@@ -15,7 +15,7 @@ import { TVService } from '../../tv.service';
     templateUrl: './movie-file.component.html',
     styleUrls: ['./movie-file.component.scss']
 })
-export class MovieFileComponent implements OnInit {
+export class MovieFileComponent {
     private readonly service = inject(TVService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -48,7 +48,7 @@ export class MovieFileComponent implements OnInit {
     public urlTypeItems = ['文件', '网址', '网盘', '种子', '字幕文件'];
     public definitionItems = ['标清', '高清', '蓝光'];
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.series.movie_id = parseNumber(params.movie);
             this.series.id = parseNumber(params.series);

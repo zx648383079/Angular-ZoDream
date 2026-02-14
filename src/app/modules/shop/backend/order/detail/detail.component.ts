@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -22,7 +22,7 @@ interface IShipGoods {
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss']
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent {
     private readonly service = inject(OrderService);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
@@ -48,7 +48,7 @@ export class DetailComponent implements OnInit {
         required(schemaPath.remark);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;

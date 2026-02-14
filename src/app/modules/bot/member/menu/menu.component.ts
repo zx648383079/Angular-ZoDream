@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IBotMenuItem } from '../../model';
@@ -13,7 +13,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './menu.component.html',
     styleUrls: ['./menu.component.scss']
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent {
     private readonly service = inject(BotService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -29,7 +29,7 @@ export class MenuComponent implements OnInit {
     }));
     public editorData: any;
 
-    ngOnInit() {
+    constructor() {
         this.service.menuList({}).subscribe(res => {
             this.menuItems = res.data;
         });

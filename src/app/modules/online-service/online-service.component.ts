@@ -1,4 +1,4 @@
-import { Component, OnDestroy, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { DialogService } from '../../components/dialog';
 import { IEmoji } from '../../theme/models/seo';
 import { OnlineService } from './online.service';
@@ -15,10 +15,11 @@ const SESSION_KEY = 'session_token';
     templateUrl: './online-service.component.html',
     styleUrls: ['./online-service.component.scss']
 })
-export class OnlineServiceComponent implements OnDestroy {
+export class OnlineServiceComponent {
     private readonly service = inject(OnlineService);
     private readonly liveService = inject(KeepAliveService);
     private readonly toastrService = inject(DialogService);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public readonly dialogOpen = signal(false);
@@ -37,10 +38,7 @@ export class OnlineServiceComponent implements OnDestroy {
 
     constructor() {
         this.sessionToken = window.localStorage.getItem(SESSION_KEY) || '';
-    }
-
-    ngOnDestroy() {
-        this.stopTimer();
+        this.destroyRef.onDestroy(() => this.stopTimer());
     }
 
     public tapOpenChat() {

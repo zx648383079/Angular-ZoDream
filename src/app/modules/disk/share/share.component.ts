@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
     IShare
 } from '../model';
@@ -12,7 +12,7 @@ import {
     templateUrl: './share.component.html',
     styleUrls: ['./share.component.scss']
 })
-export class ShareComponent implements OnInit {
+export class ShareComponent {
     private readonly service = inject(DiskService);
 
 
@@ -23,7 +23,7 @@ export class ShareComponent implements OnInit {
     private hasMore = true;
     public readonly isLoading = signal(false);
 
-    ngOnInit() {
+    constructor() {
         this.tapRefresh();
     }
 

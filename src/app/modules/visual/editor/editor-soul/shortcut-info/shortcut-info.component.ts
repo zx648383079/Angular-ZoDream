@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -6,11 +6,11 @@ import { Component, OnInit } from '@angular/core';
     templateUrl: './shortcut-info.component.html',
     styleUrls: ['./shortcut-info.component.scss']
 })
-export class ShortcutInfoComponent implements OnInit {
+export class ShortcutInfoComponent {
 
     public isMac = false;
 
-    ngOnInit() {
+    constructor() {
         this.isMac = navigator.userAgent.indexOf('Mac') >= 0;
     }
 }

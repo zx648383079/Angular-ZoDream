@@ -1,9 +1,9 @@
-import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ThemeService } from '../../theme/services';
 import { ExamService } from './exam.service';
 import { ICourse } from './model';
-import { Subscription } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -11,29 +11,24 @@ import { Subscription } from 'rxjs';
     templateUrl: './exam.component.html',
     styleUrls: ['./exam.component.scss']
 })
-export class ExamComponent implements OnInit, OnDestroy {
+export class ExamComponent {
     private readonly service = inject(ExamService);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
     private readonly themeService = inject(ThemeService);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public readonly items = signal<ICourse[]>([]);
-    private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `Exam`);
-    }
-  
-    ngOnInit() {
-        this.subItems.add(
-            this.themeService.suggestTextChanged.subscribe(req => {
-                this.service.suggestion({keywords: req.text}).subscribe(res => {
-                    req.suggest(res);
-                });
-            })
-        );
-        this.themeService.suggestQuerySubmitted.subscribe(res => {
+        this.themeService.suggestTextChanged.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(req => {
+            this.service.suggestion({keywords: req.text}).subscribe(res => {
+                req.suggest(res);
+            });
+        });
+        this.themeService.suggestQuerySubmitted.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
             if (typeof res === 'object') {
                 this.router.navigate(['pager', res.id], {relativeTo: this.route});
                 return;
@@ -43,10 +38,6 @@ export class ExamComponent implements OnInit, OnDestroy {
         this.service.courseChildren().subscribe(res => {
             this.items.set(res.data);
         });
-    }
-
-    ngOnDestroy() {
-        this.subItems.unsubscribe();
     }
 
 }

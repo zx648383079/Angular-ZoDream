@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -6,9 +6,9 @@ import { Component, OnInit } from '@angular/core';
     templateUrl: './after-sales.component.html',
     styleUrls: ['./after-sales.component.scss']
 })
-export class AfterSalesComponent implements OnInit {
+export class AfterSalesComponent {
 
-    ngOnInit() {
+    constructor() {
     }
 
 }

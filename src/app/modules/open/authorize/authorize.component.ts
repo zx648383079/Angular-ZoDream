@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IAuthorize, IPlatform } from '../../../theme/models/open';
@@ -13,7 +13,7 @@ import { SearchService } from '../../../theme/services';
     templateUrl: './authorize.component.html',
     styleUrls: ['./authorize.component.scss']
 })
-export class AuthorizeComponent implements OnInit {
+export class AuthorizeComponent {
     private readonly service = inject(OpenService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -37,7 +37,7 @@ export class AuthorizeComponent implements OnInit {
         required(schemaPath.platform_id);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

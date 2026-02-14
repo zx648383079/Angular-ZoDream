@@ -1,11 +1,10 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
 import { IBlackWord } from '../../../theme/models/seo';
 import { SearchService } from '../../../theme/services';
-import { emptyValidate } from '../../../theme/validators';
 import { SystemService } from '../system.service';
 
 @Component({
@@ -14,7 +13,7 @@ import { SystemService } from '../system.service';
     templateUrl: './word.component.html',
     styleUrls: ['./word.component.scss']
 })
-export class WordComponent implements OnInit {
+export class WordComponent {
     private readonly service = inject(SystemService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -38,7 +37,7 @@ export class WordComponent implements OnInit {
         required(schemaPath.words);
     });
 
-    ngOnInit(): void {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

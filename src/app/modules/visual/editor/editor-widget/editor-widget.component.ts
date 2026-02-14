@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, effect, ElementRef, inject, input } from '@angular/core';
+import { afterNextRender, Component, effect, ElementRef, inject, input } from '@angular/core';
 import { EditorService } from '../editor.service';
 import { Widget } from '../model';
 import { boundFromScale, elementBound } from '../util';
@@ -9,7 +9,7 @@ import { boundFromScale, elementBound } from '../util';
     templateUrl: './editor-widget.component.html',
     styleUrls: ['./editor-widget.component.scss']
 })
-export class EditorWidgetComponent implements AfterViewInit {
+export class EditorWidgetComponent {
     private readonly service = inject(EditorService);
     private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
@@ -28,15 +28,16 @@ export class EditorWidgetComponent implements AfterViewInit {
                 this.value().actualBound = bound;
             });
         });
-    }
-
-    ngAfterViewInit(): void {
-        const eleBound = this.service.workspace.getPosition(elementBound(this.elementRef));
-        const bound = boundFromScale(eleBound, this.service.shellSize$.value.scale, 100);
-        const value = this.value();
-        value.actualBound = bound;
-        value.size = bound;
-        this.isBooted = true;
+        afterNextRender({
+            write: () => {
+                const eleBound = this.service.workspace.getPosition(elementBound(this.elementRef));
+                const bound = boundFromScale(eleBound, this.service.shellSize$.value.scale, 100);
+                const value = this.value();
+                value.actualBound = bound;
+                value.size = bound;
+                this.isBooted = true;
+            }
+        });
     }
 
     public tapWidget() {

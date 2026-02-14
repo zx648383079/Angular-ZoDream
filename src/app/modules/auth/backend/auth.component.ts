@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { AuthService } from './auth.service';
 
 @Component({
@@ -7,14 +7,14 @@ import { AuthService } from './auth.service';
     templateUrl: './auth.component.html',
     styleUrls: ['./auth.component.scss']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent {
     private readonly service = inject(AuthService);
 
 
     public readonly isLoading = signal(true);
     public readonly data = signal<any>({});
 
-    ngOnInit() {
+    constructor() {
         this.service.statistics().subscribe({
             next: res => {
                 this.data.set(res);

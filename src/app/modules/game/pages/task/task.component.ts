@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, IGameRouter, IGameScene, IGameTask } from '../../model';
 import { IPage, IPageQueries } from '../../../../theme/models/page';
 
@@ -9,7 +9,7 @@ import { IPage, IPageQueries } from '../../../../theme/models/page';
     templateUrl: './task.component.html',
     styleUrls: ['./task.component.scss']
 })
-export class TaskComponent implements IGameScene, OnInit {
+export class TaskComponent implements IGameScene {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
@@ -23,7 +23,7 @@ export class TaskComponent implements IGameScene, OnInit {
         keywords: '',
     }));
 
-    ngOnInit(): void {
+    constructor() {
         this.tapRefresh();
     }
 

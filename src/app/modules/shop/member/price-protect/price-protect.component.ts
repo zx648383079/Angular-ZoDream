@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,7 +13,7 @@ import { IOrderRefund } from '../../model';
     templateUrl: './price-protect.component.html',
     styleUrls: ['./price-protect.component.scss']
 })
-export class PriceProtectComponent implements OnInit {
+export class PriceProtectComponent {
     private readonly service = inject(ShopService);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
@@ -31,7 +31,7 @@ export class PriceProtectComponent implements OnInit {
         per_page: 20,
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

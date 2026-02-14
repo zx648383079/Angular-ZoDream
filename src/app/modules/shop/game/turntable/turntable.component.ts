@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, effect, input, output, viewChild } from '@angular/core';
+import { Component, ElementRef, afterNextRender, effect, input, output, viewChild } from '@angular/core';
 
 interface ITurnItem {
     index: number;
@@ -16,7 +16,7 @@ interface ITurnItem {
     templateUrl: './turntable.component.html',
     styleUrls: ['./turntable.component.scss']
 })
-export class TurntableComponent implements AfterViewInit {
+export class TurntableComponent {
 
     private readonly drawerElement = viewChild<ElementRef<HTMLCanvasElement>>('drawerBox');
     public readonly items = input<any[]>([]);
@@ -44,6 +44,17 @@ export class TurntableComponent implements AfterViewInit {
         effect(() => {
             this.size();
             this.initStyle();
+        });
+        afterNextRender({
+            write: () => {
+                this.drawer.width = this.size();
+                this.drawer.height = this.size();
+                this.ctx = this.drawer.getContext('2d');
+                this.ctx.translate(this.size() / 2, this.size() / 2);
+                if (this.formatItems.length > 0) {
+                    this.refreshGift();
+                }
+            }
         });
     }
 
@@ -161,16 +172,6 @@ export class TurntableComponent implements AfterViewInit {
             left: center + 'px',
             top: center + 'px',
         };
-    }
-
-    ngAfterViewInit() {
-        this.drawer.width = this.size();
-        this.drawer.height = this.size();
-        this.ctx = this.drawer.getContext('2d');
-        this.ctx.translate(this.size() / 2, this.size() / 2);
-        if (this.formatItems.length > 0) {
-            this.refreshGift();
-        }
     }
 
     private formatOption() {

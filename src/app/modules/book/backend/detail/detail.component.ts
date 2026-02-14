@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
@@ -14,7 +14,7 @@ import { ButtonEvent } from '../../../../components/form';
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss']
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent {
     private readonly service = inject(BookService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -48,7 +48,7 @@ export class DetailComponent implements OnInit {
         {name: '已拒绝', value: 9},
     ];
 
-    ngOnInit() {
+    constructor() {
         this.service.categoryList().subscribe(res => {
             this.categories = res.data;
         });

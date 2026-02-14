@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
@@ -15,7 +15,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './page-scoring.component.html',
     styleUrls: ['./page-scoring.component.scss']
 })
-export class PageScoringComponent implements OnInit {
+export class PageScoringComponent {
     private readonly service = inject(ExamService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -33,7 +33,7 @@ export class PageScoringComponent implements OnInit {
         remark: '',
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (params.id > 0) {
                 this.loadData(params.id);

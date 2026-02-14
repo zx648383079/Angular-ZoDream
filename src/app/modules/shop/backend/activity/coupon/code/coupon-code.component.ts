@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../../components/dialog';
 import { ButtonEvent, UploadButtonEvent } from '../../../../../../components/form';
@@ -14,7 +14,7 @@ import { ActivityService } from '../../activity.service';
     templateUrl: './coupon-code.component.html',
     styleUrls: ['./coupon-code.component.scss']
 })
-export class CouponCodeComponent implements OnInit {
+export class CouponCodeComponent {
     private readonly service = inject(ActivityService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -37,7 +37,7 @@ export class CouponCodeComponent implements OnInit {
         required(schemaPath.amount);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (params.coupon) {
                 this.queries.coupon().value.set(parseInt(params.coupon, 10));

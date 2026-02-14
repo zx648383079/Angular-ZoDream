@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, afterNextRender, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IDataOne } from '../../../theme/models/page';
 import { DialogService } from '../../../components/dialog';
@@ -11,7 +11,7 @@ import { assetUri, parseNumber, uriEncode } from '../../../theme/utils';
     templateUrl: './preview.component.html',
     styleUrls: ['./preview.component.scss']
 })
-export class PreviewComponent implements OnInit, AfterViewInit {
+export class PreviewComponent {
     private readonly http = inject(HttpClient);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -28,7 +28,7 @@ export class PreviewComponent implements OnInit, AfterViewInit {
         id: 0
     };
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.data = {
                 site: parseNumber(params.site),
@@ -46,18 +46,19 @@ export class PreviewComponent implements OnInit, AfterViewInit {
                 this.toastrService.error(err);
             }
         });
-    }
-
-    ngAfterViewInit(): void {
-        const frame = this.frame().nativeElement;
-        if (!frame) {
-            return;
-        }
-        this.isReady = true;
-        frame.onload = () => {
-            this.isLoading.set(false);
-        };
-        this.readyFn && this.readyFn(frame);
+        afterNextRender({
+            write: () => {
+                const frame = this.frame().nativeElement;
+                if (!frame) {
+                    return;
+                }
+                this.isReady = true;
+                frame.onload = () => {
+                    this.isLoading.set(false);
+                };
+                this.readyFn && this.readyFn(frame);
+            }
+        });
     }
 
     public tapClose() {

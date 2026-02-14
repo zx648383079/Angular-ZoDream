@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, effect, inject, input, viewChildren } from '@angular/core';
+import { Component, ElementRef, HostListener, afterNextRender, effect, inject, input, viewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -7,9 +7,8 @@ import { ActivatedRoute } from '@angular/router';
     templateUrl: './goods-slider.component.html',
     styleUrls: ['./goods-slider.component.scss']
 })
-export class GoodsSliderComponent implements OnInit, AfterViewInit {
+export class GoodsSliderComponent {
     private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
-    private readonly renderer = inject(Renderer2);
 
 
     public readonly viewItems = viewChildren<ElementRef<HTMLLIElement>>('itemView');
@@ -37,6 +36,20 @@ export class GoodsSliderComponent implements OnInit, AfterViewInit {
             this.formatType();
             this.reset();
         });
+        afterNextRender({
+            write: () => {
+                this.refreshSize();
+                const item = this.viewItems().at(0);
+                if (!item || !item.nativeElement) {
+                    return;
+                }
+                const ele = item.nativeElement;
+                const bound = ele.getBoundingClientRect();
+                const style = window.getComputedStyle(ele);
+                this.itemWidth = bound.width + this.getStyleValue(style, 'marginLeft') + this.getStyleValue(style, 'marginRight');
+                this.itemHeight = bound.height + 10;
+            }
+        });
     }
 
     public get boxStyle() {
@@ -58,23 +71,9 @@ export class GoodsSliderComponent implements OnInit, AfterViewInit {
         }
     }
 
-    ngOnInit() {
-        this.renderer.listen(window, 'resize', () => {
-            this.refreshSize();
-        });
-    }
-
-    ngAfterViewInit() {
+    @HostListener('window:resize')
+    public onResize() {
         this.refreshSize();
-        const item = this.viewItems().at(0);
-        if (!item || !item.nativeElement) {
-            return;
-        }
-        const ele = item.nativeElement;
-        const bound = ele.getBoundingClientRect();
-        const style = window.getComputedStyle(ele);
-        this.itemWidth = bound.width + this.getStyleValue(style, 'marginLeft') + this.getStyleValue(style, 'marginRight');
-        this.itemHeight = bound.height + 10;
     }
 
     public tapPrevious() {

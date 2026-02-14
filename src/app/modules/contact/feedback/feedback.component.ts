@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -14,7 +14,7 @@ import { SwiperEvent } from '../../../components/swiper';
     templateUrl: './feedback.component.html',
     styleUrls: ['./feedback.component.scss'],
 })
-export class FeedbackComponent implements OnInit {
+export class FeedbackComponent {
     private readonly service = inject(ContactService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -35,7 +35,7 @@ export class FeedbackComponent implements OnInit {
     public readonly isChecked = signal(false);
     public readonly isReview = signal(false);
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

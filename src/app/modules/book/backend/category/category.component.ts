@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ICategory } from '../../model';
 import { BookService } from '../book.service';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -10,7 +10,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent {
     private readonly service = inject(BookService);
     private readonly toastrService = inject(DialogService);
 
@@ -24,7 +24,7 @@ export class CategoryComponent implements OnInit {
         required(schemaPath.name);
     });
 
-    ngOnInit() {
+    constructor() {
         this.tapRefresh();
     }
 

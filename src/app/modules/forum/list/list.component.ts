@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IForum, IForumClassify, IThread } from '../model';
 import { ForumService } from '../forum.service';
 import { ActivatedRoute } from '@angular/router';
@@ -19,7 +19,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
+export class ListComponent {
     private readonly service = inject(ForumService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -65,9 +65,6 @@ export class ListComponent implements OnInit {
         this.store.select(selectAuthUser).subscribe(user => {
             this.user.set(user);
         });
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
         });

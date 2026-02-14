@@ -1,5 +1,5 @@
 import { form, readonly, required } from '@angular/forms/signals';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -17,7 +17,7 @@ import { BotService } from '../../bot.service';
     templateUrl: './reply-template.component.html',
     styleUrls: ['./reply-template.component.scss']
 })
-export class ReplyTemplateComponent implements OnInit {
+export class ReplyTemplateComponent {
     private readonly service = inject(BotService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -83,7 +83,7 @@ export class ReplyTemplateComponent implements OnInit {
         }
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

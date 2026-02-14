@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { IItem } from '../../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
@@ -11,7 +11,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './crud.component.html',
     styleUrls: ['./crud.component.scss']
 })
-export class CrudComponent implements OnInit {
+export class CrudComponent {
     private readonly service = inject(GenerateService);
     private readonly toastrService = inject(DialogService);
 
@@ -28,7 +28,7 @@ export class CrudComponent implements OnInit {
         hasView: true,
     }));
 
-    ngOnInit() {
+    constructor() {
         this.service.tableList().subscribe(res => {
             this.tableItems = res.data.map(i => {
                 return {

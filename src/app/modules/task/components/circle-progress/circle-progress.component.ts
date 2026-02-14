@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, input, output, signal, viewChild } from '@angular/core';
+import { afterNextRender, Component, ElementRef, input, output, signal, viewChild } from '@angular/core';
 import { formatHour } from '../../../../theme/utils';
 import { interval, Subscription } from 'rxjs';
 
@@ -8,7 +8,7 @@ import { interval, Subscription } from 'rxjs';
     templateUrl: './circle-progress.component.html',
     styleUrls: ['./circle-progress.component.scss']
 })
-export class CircleProgressComponent implements AfterViewInit {
+export class CircleProgressComponent {
 
     private readonly drawerElement = viewChild<ElementRef>('drawerBox');
 
@@ -31,11 +31,15 @@ export class CircleProgressComponent implements AfterViewInit {
         return this.drawerElement().nativeElement as HTMLCanvasElement;
     }
 
-    ngAfterViewInit() {
-        this.drawer.width = 200;
-        this.drawer.height = 200;
-        this.ctx = this.drawer.getContext('2d');
-        this.drawProgress(this.ctx, 0);
+    constructor() {
+        afterNextRender({
+            write: () => {
+                this.drawer.width = 200;
+                this.drawer.height = 200;
+                this.ctx = this.drawer.getContext('2d');
+                this.drawProgress(this.ctx, 0);
+            }
+        });
     }
 
     public start(value = 0, max = 0) {

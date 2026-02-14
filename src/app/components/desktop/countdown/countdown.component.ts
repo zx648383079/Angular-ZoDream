@@ -1,4 +1,4 @@
-import { Component, OnDestroy, effect, input, output, signal } from '@angular/core';
+import { Component, DestroyRef, effect, inject, input, output, signal } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 
 @Component({
@@ -7,7 +7,9 @@ import { interval, Subscription } from 'rxjs';
     templateUrl: './countdown.component.html',
     styleUrls: ['./countdown.component.scss']
 })
-export class CountdownComponent implements OnDestroy {
+export class CountdownComponent {
+
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly label = input('');
     public readonly end = input<any>(undefined);
@@ -30,12 +32,11 @@ export class CountdownComponent implements OnDestroy {
         effect(() => {
             this.auto() ? this.startTimer() : this.stopTimer();
         });
-    }
-
-    ngOnDestroy() {
-        if (this.auto()) {
-            this.stopTimer();
-        }
+        this.destroyRef.onDestroy(() => {
+            if (this.auto()) {
+                this.stopTimer();
+            }
+        });
     }
 
     public refresh(now?: Date) {

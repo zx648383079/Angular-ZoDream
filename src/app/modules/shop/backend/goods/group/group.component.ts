@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IAttributeGroup } from '../../../model';
 import { AttributeService } from '../attribute.service';
@@ -13,7 +13,7 @@ import { SearchService } from '../../../../../theme/services';
     templateUrl: './group.component.html',
     styleUrls: ['./group.component.scss']
 })
-export class GroupComponent implements OnInit {
+export class GroupComponent {
     private readonly service = inject(AttributeService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -37,7 +37,7 @@ export class GroupComponent implements OnInit {
         required(schemaPath.name);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

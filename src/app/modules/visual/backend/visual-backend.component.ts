@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { VisualService } from './visual.service';
 
 @Component({
@@ -7,14 +7,14 @@ import { VisualService } from './visual.service';
     templateUrl: './visual-backend.component.html',
     styleUrls: ['./visual-backend.component.scss']
 })
-export class VisualBackendComponent implements OnInit {
+export class VisualBackendComponent {
     private readonly service = inject(VisualService);
 
 
     public readonly isLoading = signal(false);
     public readonly data = signal<any>({});
 
-    ngOnInit() {
+    constructor() {
         this.service.statistics().subscribe({
             next: res => {
                 this.data.set(res);

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../components/dialog';
@@ -15,7 +15,7 @@ import { ICategory } from '../model';
     templateUrl: './market.component.html',
     styleUrls: ['./market.component.scss']
 })
-export class MarketComponent implements OnInit {
+export class MarketComponent {
     private readonly service = inject(ShopService);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
@@ -33,9 +33,6 @@ export class MarketComponent implements OnInit {
         this.store.select(selectSite).subscribe(site => {
             this.site.set(site || {} as any);
         });
-    }
-
-    ngOnInit(): void {
         this.service.batch({
             cart: {},
             category: {},

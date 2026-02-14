@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
@@ -15,7 +15,7 @@ import { mapFormat } from '../../../theme/utils';
     templateUrl: './budget.component.html',
     styleUrls: ['./budget.component.scss']
 })
-export class BudgetComponent implements OnInit {
+export class BudgetComponent {
     private readonly service = inject(FinanceService);
     private readonly toastrService = inject(DialogService);
     private readonly router = inject(Router);
@@ -42,7 +42,7 @@ export class BudgetComponent implements OnInit {
     });
     public cycleItems = ['一次', '每天', '每周', '每月', '每年'];
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

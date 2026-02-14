@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { filterTree } from '../../../../../theme/utils';
 import { IBotTemplateCategory } from '../../../model';
@@ -11,7 +11,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './template-category.component.html',
     styleUrls: ['./template-category.component.scss']
 })
-export class TemplateCategoryComponent implements OnInit {
+export class TemplateCategoryComponent {
     private readonly service = inject(BotService);
     private readonly toastrService = inject(DialogService);
 
@@ -27,7 +27,7 @@ export class TemplateCategoryComponent implements OnInit {
     });
     public filterItems: IBotTemplateCategory[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.tapRefresh();
     }
 

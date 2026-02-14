@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { AdService } from './ad.service';
 
 @Component({
@@ -7,14 +7,14 @@ import { AdService } from './ad.service';
     templateUrl: './ad-sense.component.html',
     styleUrls: ['./ad-sense.component.scss']
 })
-export class AdSenseComponent implements OnInit {
+export class AdSenseComponent {
     private readonly service = inject(AdService);
 
 
     public readonly isLoading = signal(false);
     public readonly data = signal<any>({});
 
-    ngOnInit() {
+    constructor() {
         this.service.statistics().subscribe({
             next: res => {
                 this.data.set(res);

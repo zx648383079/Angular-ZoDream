@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -6,9 +6,9 @@ import { Component, OnInit } from '@angular/core';
     templateUrl: './finance.component.html',
     styleUrls: ['./finance.component.scss']
 })
-export class FinanceComponent implements OnInit {
+export class FinanceComponent {
 
-    ngOnInit() {
+    constructor() {
     }
 
 }

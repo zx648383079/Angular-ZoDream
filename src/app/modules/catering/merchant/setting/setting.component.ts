@@ -1,4 +1,4 @@
-import { Component, OnDestroy, inject, signal } from '@angular/core';
+import { Component, DestroyRef, OnDestroy, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { CateringService } from '../../catering.service';
 import { ICateringStore } from '../../model';
@@ -11,9 +11,10 @@ import { asyncScheduler, Subject, throttleTime } from 'rxjs';
     templateUrl: './setting.component.html',
     styleUrls: ['./setting.component.scss']
 })
-export class SettingComponent implements OnDestroy {
+export class SettingComponent {
     private readonly service = inject(CateringService);
     private readonly toastrService = inject(DialogService);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public readonly dataForm = form(signal<ICateringStore>({
@@ -40,12 +41,10 @@ export class SettingComponent implements OnDestroy {
         this.service.merchantSetting().subscribe(res => {
             this.dataForm().value.set(res);
         });
-        
-    }
-
-    ngOnDestroy(): void {
-        this.$afterDelay.unsubscribe();
-        this.tapSubmit();
+        this.destroyRef.onDestroy(() => {
+            this.$afterDelay.unsubscribe();
+            this.tapSubmit();
+        });
     }
 
     public uploadFile(event: any) {

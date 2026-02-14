@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,14 +7,10 @@ import { Router } from '@angular/router';
     templateUrl: './not-found.component.html',
     styleUrls: ['./not-found.component.scss']
 })
-export class NotFoundComponent implements OnInit {
+export class NotFoundComponent {
     private readonly router = inject(Router);
 
-
-    ngOnInit() {
-    }
-
-    goToHome() {
+    public goToHome() {
         this.router.navigateByUrl('/');
     }
 

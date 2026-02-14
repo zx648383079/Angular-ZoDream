@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -19,7 +19,7 @@ interface ISizeItem {
     templateUrl: './preview.component.html',
     styleUrls: ['./preview.component.scss']
 })
-export class PreviewComponent implements OnInit {
+export class PreviewComponent {
     private readonly service = inject(ResourceService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -50,7 +50,7 @@ export class PreviewComponent implements OnInit {
         };
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(param => {
             if (!param.id) {
                 this.location.back();

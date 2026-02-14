@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnDestroy, OnInit, inject, input, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
@@ -13,10 +13,11 @@ import { interval, Subscription } from 'rxjs';
     templateUrl: './spider.component.html',
     styleUrls: ['./spider.component.scss']
 })
-export class SpiderComponent implements OnDestroy {
+export class SpiderComponent {
     private readonly service = inject(BookService);
     private readonly toastrService = inject(DialogService);
     private readonly searchService = inject(SearchService);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public readonly visible = signal(false);
@@ -36,11 +37,14 @@ export class SpiderComponent implements OnDestroy {
     private loadStartAt = new Date();
     private $timer: Subscription;
 
-    ngOnDestroy(): void {
-        if (this.$timer) {
-            this.$timer.unsubscribe();
-            this.$timer = null;
-        }
+
+    constructor() {
+        this.destroyRef.onDestroy(() => {
+            if (this.$timer) {
+                this.$timer.unsubscribe();
+                this.$timer = null;
+            }
+        });
     }
 
     public open() {

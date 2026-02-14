@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, computed, inject, signal, viewChild } from '@angular/core';
+import { Component, DestroyRef, computed, inject, signal, viewChild } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { FrontendService } from './frontend.service';
 import { ILink, ISystemOption } from '../theme/models/seo';
@@ -9,9 +9,10 @@ import { IUserStatus } from '../theme/models/user';
 import { AuthService, ThemeService } from '../theme/services';
 import { DialogService } from '../components/dialog';
 import { LoginDialogComponent } from '../modules/auth/login/dialog/login-dialog.component';
-import { debounceTime, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs';
 import { selectSystemConfig } from '../theme/reducers/system.selectors';
 import { NavigationDisplayMode } from '../theme/models/event';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface IMenuItem {
   name: string;
@@ -32,13 +33,14 @@ interface IDropNavItem {
     templateUrl: './frontend.component.html',
     styleUrls: ['./frontend.component.scss']
 })
-export class FrontendComponent implements OnDestroy {
+export class FrontendComponent {
     private readonly service = inject(FrontendService);
     private readonly router = inject(Router);
     private readonly store = inject<Store<AppState>>(Store);
     private readonly authService = inject(AuthService);
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     private readonly loginModal = viewChild(LoginDialogComponent);
@@ -74,51 +76,44 @@ export class FrontendComponent implements OnDestroy {
         {}
     ];
     public readonly isGuest = computed(() => this.userLoading() || !this.user());
-    private readonly subItems = new Subscription();
 
     constructor() {
-        this.subItems.add(
-            this.store.select(selectAuth).subscribe(res => {
-                if (this.userLoading() === res.isLoading && !this.user() === res.guest) {
-                    return;
-                }
-                this.userLoading.set(res.isLoading);
-                this.user.set(res.guest ? null : {...res.user} as any);
-                if (!res.isLoading && !res.guest) {
-                    this.authService.loadProfile('bulletin_count,today_checkin,post_count,follower_count,following_count').subscribe(profile => {
-                        this.user.set({...profile});
-                        this.dropNavItems[1].count = profile.bulletin_count;
-                        this.dropNavItems.forEach(i => {
-                            if (i.is_access) {
-                                i.hidden = !profile.is_admin;
-                            }
-                        });
+        this.store.select(selectAuth).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
+            if (this.userLoading() === res.isLoading && !this.user() === res.guest) {
+                return;
+            }
+            this.userLoading.set(res.isLoading);
+            this.user.set(res.guest ? null : {...res.user} as any);
+            if (!res.isLoading && !res.guest) {
+                this.authService.loadProfile('bulletin_count,today_checkin,post_count,follower_count,following_count').subscribe(profile => {
+                    this.user.set({...profile});
+                    this.dropNavItems[1].count = profile.bulletin_count;
+                    this.dropNavItems.forEach(i => {
+                        if (i.is_access) {
+                            i.hidden = !profile.is_admin;
+                        }
                     });
-                }
-            }),
-        );
-        this.subItems.add(
-            this.store.select(selectSystemConfig).subscribe(res => {
-                let site_pns_beian_no = '';
-                if (res.site_pns_beian) {
-                    site_pns_beian_no = res.site_pns_beian.match(/\d+/).toString();
-                }
-                this.site.set({...res, site_pns_beian_no});
-            })
-        );
-        this.subItems.add(this.themeService.loginRequest.subscribe(() => {
-                this.loginModal().open();
-            }),
-        );
-        this.subItems.add(this.themeService.navigationDisplayRequest.pipe(debounceTime(100)).subscribe(toggle => {
-                this.diplayMode.set(toggle);
-                this.themeService.navigationChanged.next({
-                    mode: toggle,
-                    paneWidth: 0,
-                    bodyWidth: this.themeService.bodyWidth
                 });
-            })
-        );
+            }
+        });
+        this.store.select(selectSystemConfig).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
+            let site_pns_beian_no = '';
+            if (res.site_pns_beian) {
+                site_pns_beian_no = res.site_pns_beian.match(/\d+/).toString();
+            }
+            this.site.set({...res, site_pns_beian_no});
+        });
+        this.themeService.loginRequest.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+            this.loginModal().open();
+        });
+        this.themeService.navigationDisplayRequest.pipe(debounceTime(100), takeUntilDestroyed(this.destroyRef)).subscribe(toggle => {
+            this.diplayMode.set(toggle);
+            this.themeService.navigationChanged.next({
+                mode: toggle,
+                paneWidth: 0,
+                bodyWidth: this.themeService.bodyWidth
+            });
+        });
         this.service.friendLinks().subscribe(res => {
             this.friendLinks.set(res);
         });
@@ -136,10 +131,6 @@ export class FrontendComponent implements OnDestroy {
     public readonly todayChecked = computed(() => {
         return this.user()?.today_checkin;
     });
-
-    ngOnDestroy(): void {
-        this.subItems.unsubscribe();
-    }
 
     public onCheckedChange(checked: boolean) {
         this.user.update(v => {

@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,7 +13,7 @@ import { BookService } from '../book.service';
     templateUrl: './author.component.html',
     styleUrls: ['./author.component.scss']
 })
-export class AuthorComponent implements OnInit {
+export class AuthorComponent {
     private readonly service = inject(BookService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -30,7 +30,7 @@ export class AuthorComponent implements OnInit {
         per_page: 20,
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(res => {
             this.searchService.getQueries(res, this.queries().value());
             this.tapPage();

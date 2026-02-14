@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -14,7 +14,7 @@ import { CmsService } from '../cms.service';
     templateUrl: './form.component.html',
     styleUrls: ['./form.component.scss']
 })
-export class FormComponent implements OnInit {
+export class FormComponent {
     private readonly service = inject(CmsService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -37,7 +37,7 @@ export class FormComponent implements OnInit {
     public columnItems: ICmsColumn[] = [];
     public model: ICmsModel;
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
         });

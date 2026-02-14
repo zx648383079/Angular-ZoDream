@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ShortLinkService } from './short-link.service';
 
 @Component({
@@ -7,14 +7,14 @@ import { ShortLinkService } from './short-link.service';
     templateUrl: './short-link-backend.component.html',
     styleUrls: ['./short-link-backend.component.scss']
 })
-export class ShortLinkBackendComponent implements OnInit {
+export class ShortLinkBackendComponent {
     private readonly service = inject(ShortLinkService);
 
 
     public readonly isLoading = signal(false);
     public readonly data = signal<any>({});
 
-    ngOnInit() {
+    constructor() {
         this.service.statistics().subscribe({
             next: res => {
                 this.data.set(res);

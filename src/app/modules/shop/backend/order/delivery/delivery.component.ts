@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -15,7 +15,7 @@ import { emptyValidate } from '../../../../../theme/validators';
     templateUrl: './delivery.component.html',
     styleUrls: ['./delivery.component.scss']
 })
-export class DeliveryComponent implements OnInit {
+export class DeliveryComponent {
     private readonly service = inject(OrderService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -45,7 +45,7 @@ export class DeliveryComponent implements OnInit {
         time: '',
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

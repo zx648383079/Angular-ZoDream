@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
@@ -13,7 +13,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './edit.component.html',
     styleUrls: ['./edit.component.scss']
 })
-export class EditComponent implements OnInit {
+export class EditComponent {
     private readonly service = inject(DocumentService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -37,7 +37,7 @@ export class EditComponent implements OnInit {
     public categories: ICategory[] = [];
     public readonly tabIndex = signal(0);
 
-    ngOnInit() {
+    constructor() {
         this.service.categoryTree().subscribe(res => {
             this.categories = res.data;
         });

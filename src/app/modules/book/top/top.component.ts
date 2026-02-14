@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBook, ICategory } from '../model';
 import { BookService } from '../book.service';
@@ -9,7 +9,7 @@ import { BookService } from '../book.service';
     templateUrl: './top.component.html',
     styleUrls: ['./top.component.scss']
 })
-export class TopComponent implements OnInit {
+export class TopComponent {
     private readonly service = inject(BookService);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
@@ -34,7 +34,7 @@ export class TopComponent implements OnInit {
         per_page: 20
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             if (params.category) {
                 this.category = params.category;

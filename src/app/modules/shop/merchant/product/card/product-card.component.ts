@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService, DialogEvent } from '../../../../../components/dialog';
 import { ButtonEvent, UploadButtonEvent } from '../../../../../components/form';
@@ -14,7 +14,7 @@ import { ShopService } from '../../shop.service';
     templateUrl: './product-card.component.html',
     styleUrls: ['./product-card.component.scss']
 })
-export class ProductCardComponent implements OnInit {
+export class ProductCardComponent {
     private readonly service = inject(ShopService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -38,7 +38,7 @@ export class ProductCardComponent implements OnInit {
         required(schemaPath.amount);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
         });

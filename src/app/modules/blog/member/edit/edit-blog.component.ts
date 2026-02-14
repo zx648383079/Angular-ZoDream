@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewContainerRef, computed, inject, signal, viewChild } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, ElementRef, OnDestroy, ViewContainerRef, afterNextRender, computed, inject, signal, viewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { IBlog, ICategory, ITag } from '../../model';
 import { BlogService } from '../blog.service';
@@ -12,6 +12,7 @@ import { FileUploadService, ThemeService } from '../../../../theme/services';
 import { NavigationDisplayMode } from '../../../../theme/models/event';
 import { form, required } from '@angular/forms/signals';
 import { asyncScheduler, Subject, Subscription, throttleTime } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -19,7 +20,7 @@ import { asyncScheduler, Subject, Subscription, throttleTime } from 'rxjs';
     templateUrl: './edit-blog.component.html',
     styleUrls: ['./edit-blog.component.scss']
 })
-export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
+export class EditBlogComponent {
     private readonly service = inject(BlogService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -27,6 +28,8 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly themeService = inject(ThemeService);
     private readonly editor = inject(EditorService);
     private readonly location = inject(Location);
+    private readonly destroyRef = inject(DestroyRef);
+
     private cacheItems: IItem[] = [];
 
 
@@ -91,7 +94,6 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
     public readonly statusStyle = signal<any>({
         display: 'none'
     });
-    private readonly subItems = new Subscription();
     public readonly openType = computed(() => parseNumber(this.dataForm.open_type().value()));
     public readonly openTypeLabel = computed(() => mapFormat(this.dataForm.open_type().value(), this.openItems()));
     public readonly statusLabel = computed(() => mapFormat(this.dataForm.publish_status().value(), this.statusItems()));
@@ -113,11 +115,10 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor() {
         const size$ = new Subject<void>();
-        this.subItems.add(size$.pipe(throttleTime(100, asyncScheduler, { leading: false, trailing: true }))
-            .subscribe(() => {
-                this.size.set(this.editor.wordLength);
-            })
-        );
+        size$.pipe(throttleTime(100, asyncScheduler, { leading: false, trailing: true }), takeUntilDestroyed(this.destroyRef))
+        .subscribe(() => {
+            this.size.set(this.editor.wordLength);
+        });
         this.service.editOption().subscribe(res => {
             this.tagItems.set(res.tags);
             this.categories.set(res.categories);
@@ -155,11 +156,8 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
         }).on(EDITOR_EVENT_EDITOR_READY, () => {
             size$.next();
         });
-    }
-
-    ngOnInit() {
         this.propertyToggle.set(window.innerWidth > 769);
-        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Collapse);
+        this.themeService.screenSwitch(this.destroyRef, NavigationDisplayMode.Collapse);
         this.route.params.subscribe(params => {
             this.themeService.titleChanged.next(params.id ? $localize `Edit post` : $localize `New post`);
             if (!params.id) {
@@ -167,16 +165,13 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
             }
             this.loadDetail(params.id);
         });
-    }
+        afterNextRender({
+            write: () => this.editor.ready(this.areaElement().nativeElement, this.modalViewContainer())
+        });
+        this.destroyRef.onDestroy(() => {
+            this.editor.destroy();
+        });
 
-    ngAfterViewInit(): void {
-        this.editor.ready(this.areaElement().nativeElement, this.modalViewContainer());
-    }
-
-    ngOnDestroy(): void {
-        this.subItems.unsubscribe();
-        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
-        this.editor.destroy();
     }
 
 

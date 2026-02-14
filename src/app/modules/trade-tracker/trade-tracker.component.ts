@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IPageQueries } from '../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../theme/services';
@@ -13,7 +13,7 @@ import { SuggestChangeEvent } from '../../components/form';
     templateUrl: './trade-tracker.component.html',
     styleUrls: ['./trade-tracker.component.scss']
 })
-export class TradeTrackerComponent implements OnInit {
+export class TradeTrackerComponent {
     private readonly service = inject(TrackerService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
@@ -32,7 +32,7 @@ export class TradeTrackerComponent implements OnInit {
         per_page: 20,
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(res => {
             this.searchService.getQueries(res, this.queries().value());
             this.tapPage();

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, inject, output, viewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef, afterNextRender, inject, output, viewChild } from '@angular/core';
 import { BarcodeFormat, BrowserCodeReader, BrowserQRCodeReader, IScannerControls } from '@zxing/browser';
 import { DecodeHintType } from '@zxing/library';
 
@@ -8,29 +8,26 @@ import { DecodeHintType } from '@zxing/library';
     templateUrl: './scanner.component.html',
     styleUrls: ['./scanner.component.scss']
 })
-export class ScannerComponent implements OnInit, AfterViewInit, OnDestroy {
-    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
-
+export class ScannerComponent {
+    private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
+    private readonly destroyRef = inject(DestroyRef);
 
     private readonly drawPanel = viewChild<ElementRef<HTMLVideoElement>>('drawer');
     public readonly completed = output<string>();
     private reader: BrowserQRCodeReader;
     private controlItems: IScannerControls;
 
-    ngOnInit() {
-
-    }
-
-    ngOnDestroy(): void {
-        this.stop();
-    }
-
-    ngAfterViewInit(): void {
-        const bound = this.elementRef.nativeElement.getBoundingClientRect();
-        const mediaBox = this.drawPanel().nativeElement;
-        mediaBox.width = bound.width <= 0 ? window.innerWidth : bound.width;
-        mediaBox.height = bound.height <= 0 ? window.innerHeight : bound.height;
-        this.start();
+    constructor() {
+        afterNextRender({
+            write: () => {
+                const bound = this.elementRef.nativeElement.getBoundingClientRect();
+                const mediaBox = this.drawPanel().nativeElement;
+                mediaBox.width = bound.width <= 0 ? window.innerWidth : bound.width;
+                mediaBox.height = bound.height <= 0 ? window.innerHeight : bound.height;
+                this.start();
+            }
+        });
+        this.destroyRef.onDestroy(() => this.stop());
     }
 
     public async start() {

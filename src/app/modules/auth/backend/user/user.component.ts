@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -13,6 +13,7 @@ import { AuthService } from '../auth.service';
 import { SearchService } from '../../../../theme/services';
 import { Subscription } from 'rxjs';
 import { AccountStatusItems } from '../../../../theme/models/auth';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -20,14 +21,14 @@ import { AccountStatusItems } from '../../../../theme/models/auth';
     templateUrl: './user.component.html',
     styleUrls: ['./user.component.scss']
 })
-export class UserComponent implements OnInit, OnDestroy {
+export class UserComponent {
     private readonly service = inject(AuthService);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly toastrService = inject(DialogService);
     private readonly store = inject<Store<AppState>>(Store);
     private readonly searchService = inject(SearchService);
-
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly items = signal<IUser[]>([]);
     private hasMore = true;
@@ -76,20 +77,13 @@ export class UserComponent implements OnInit, OnDestroy {
     private readonly subItems = new Subscription();
 
     constructor() {
-        this.subItems.add(this.store.select(selectAuthRole).subscribe(roles => {
+        this.store.select(selectAuthRole).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(roles => {
             this.editable = roles.indexOf('user_manage') >= 0;
-        }));
-    }
-
-    ngOnInit() {
+        });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
-    }
-
-    ngOnDestroy(): void {
-        this.subItems.unsubscribe();
     }
 
     public formatStatus(val: number) {

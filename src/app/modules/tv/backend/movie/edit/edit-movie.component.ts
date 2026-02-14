@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ICategory, IMovie, IMovieArea, ITag } from '../../../model';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
@@ -16,7 +16,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './edit-movie.component.html',
     styleUrls: ['./edit-movie.component.scss']
 })
-export class EditMovieComponent implements OnInit {
+export class EditMovieComponent {
     private readonly service = inject(TVService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -55,7 +55,7 @@ export class EditMovieComponent implements OnInit {
     public tagInput$ = new Subject<string>();
     public tagLoading = false;
 
-    ngOnInit() {
+    constructor() {
         this.service.batch({
             categories: {},
             areas: {}

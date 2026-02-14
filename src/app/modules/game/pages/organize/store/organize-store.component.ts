@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, IGameItem, IGameRouter, IGameScene, ItemTypeItems } from '../../../model';
 import { IPageQueries, IPage } from '../../../../../theme/models/page';
 
@@ -9,7 +9,7 @@ import { IPageQueries, IPage } from '../../../../../theme/models/page';
     templateUrl: './organize-store.component.html',
     styleUrls: ['./organize-store.component.scss']
 })
-export class OrganizeStoreComponent implements IGameScene, OnInit {
+export class OrganizeStoreComponent implements IGameScene {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
@@ -26,7 +26,7 @@ export class OrganizeStoreComponent implements IGameScene, OnInit {
     public modalVisible = false;
     public typeItems = ItemTypeItems;
 
-    ngOnInit(): void {
+    constructor() {
         this.tapType(0);
     }
 

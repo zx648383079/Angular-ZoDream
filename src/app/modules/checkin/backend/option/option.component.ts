@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { DialogService } from '../../../../components/dialog';
 import { eachObject } from '../../../../theme/utils';
@@ -17,7 +17,7 @@ interface IPlusItem {
     templateUrl: './option.component.html',
     styleUrls: ['./option.component.scss']
 })
-export class OptionComponent implements OnInit {
+export class OptionComponent {
     private readonly service = inject(CheckinService);
     private readonly toastrService = inject(DialogService);
     private readonly location = inject(Location);
@@ -30,7 +30,7 @@ export class OptionComponent implements OnInit {
             plus: 1
         }],
     }));
-    ngOnInit() {
+    constructor() {
         this.service.option().subscribe(res => {
             const items = [];
             eachObject(res.plus, (v, k) => {

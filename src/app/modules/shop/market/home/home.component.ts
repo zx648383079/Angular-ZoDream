@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IBrand, ICategory, IGoods, IComment } from '../../model';
 import { ThemeService } from '../../../../theme/services';
 import { ShopService } from '../../shop.service';
@@ -10,7 +10,7 @@ import { IAd } from '../../../ad-sense/model';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
     private readonly service = inject(ShopService);
     private readonly themeService = inject(ThemeService);
 
@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
     public readonly floorItems = signal<ICategory[]>([]);
     public readonly commentItems = signal<IComment[]>([]);
 
-    ngOnInit() {
+    constructor() {
         this.themeService.titleChanged.next('商城');
         this.service.banners().subscribe(res => {
             this.bannerItems.set(res.data);

@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent } from '../../../../../components/dialog';
 import { IApplyLog } from '../../../../../theme/models/auth';
@@ -13,7 +13,7 @@ import { SearchService } from '../../../../../theme/services';
     templateUrl: './apply-log.component.html',
     styleUrls: ['./apply-log.component.scss']
 })
-export class ApplyLogComponent implements OnInit {
+export class ApplyLogComponent {
     private readonly service = inject(AuthService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
@@ -30,7 +30,7 @@ export class ApplyLogComponent implements OnInit {
     }));
     public readonly dataModel = signal<IApplyLog>({} as any);
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

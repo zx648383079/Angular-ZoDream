@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
     GoodsService
 } from '../goods.service';
@@ -20,7 +20,7 @@ import { DialogService } from '../../../../../components/dialog';
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss'],
 })
-export class ListComponent implements OnInit {
+export class ListComponent {
     private readonly service = inject(GoodsService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -54,9 +54,6 @@ export class ListComponent implements OnInit {
         this.service.brandAll().subscribe(res => {
             this.brandItems.set(res.data);
         });
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

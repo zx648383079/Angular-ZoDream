@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { INavLink } from '../../../theme/models/seo';
 import { VisualService } from './visual.service';
 
@@ -8,14 +8,14 @@ import { VisualService } from './visual.service';
     templateUrl: './visual-market.component.html',
     styleUrls: ['./visual-market.component.scss']
 })
-export class VisualMarketComponent implements OnInit {
+export class VisualMarketComponent {
     private readonly service = inject(VisualService);
 
 
     public navItems: INavLink[] = [
     ];
 
-    ngOnInit() {
+    constructor() {
         this.service.getNav().subscribe(res => {
             this.navItems = res.data.map(i => {
                 return {

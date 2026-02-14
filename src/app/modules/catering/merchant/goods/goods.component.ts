@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, viewChild, signal } from '@angular/core';
+import { Component, inject, viewChild, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { CustomDialogComponent } from './custom-dialog/custom-dialog.component';
 import { GoodsDialogComponent } from './dialog/goods-dialog.component';
@@ -15,7 +15,7 @@ import { CateringService } from '../../catering.service';
     templateUrl: './goods.component.html',
     styleUrls: ['./goods.component.scss']
 })
-export class GoodsComponent implements OnInit {
+export class GoodsComponent {
     private readonly service = inject(CateringService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -37,7 +37,7 @@ export class GoodsComponent implements OnInit {
     }));
     public categoryItems: ICateringCategory[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.service.merchantProductCategory().subscribe(res => {
             this.categoryItems = res.data;
         });

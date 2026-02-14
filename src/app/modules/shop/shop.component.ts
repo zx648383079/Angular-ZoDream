@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { setSite } from './shop.actions';
 import { ShopAppState } from './shop.reducer';
@@ -10,12 +10,12 @@ import { ShopService } from './shop.service';
     templateUrl: './shop.component.html',
     styleUrls: ['./shop.component.scss']
 })
-export class ShopComponent implements OnInit {
+export class ShopComponent {
     private readonly store = inject<Store<ShopAppState>>(Store);
     private readonly service = inject(ShopService);
 
 
-    ngOnInit(): void {
+    constructor() {
         this.service.site().subscribe(site => {
             this.store.dispatch(setSite({site}));
         });

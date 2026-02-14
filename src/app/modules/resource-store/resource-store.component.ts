@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
@@ -6,9 +6,9 @@ import { IUser } from '../../theme/models/user';
 import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { ICategory } from './model';
 import { ResourceService } from './resource.service';
-import { Subscription } from 'rxjs';
 import { ThemeService } from '../../theme/services';
 import { form } from '@angular/forms/signals';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -16,12 +16,13 @@ import { form } from '@angular/forms/signals';
     templateUrl: './resource-store.component.html',
     styleUrls: ['./resource-store.component.scss']
 })
-export class ResourceStoreComponent implements OnInit, OnDestroy {
+export class ResourceStoreComponent {
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
     private readonly store = inject<Store<AppState>>(Store);
     private readonly service = inject(ResourceService);
     private readonly themeService = inject(ThemeService);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly queries = form(signal({
         keywords: '',
@@ -35,30 +36,22 @@ export class ResourceStoreComponent implements OnInit, OnDestroy {
     public readonly user = signal<IUser>(null);
     public readonly searchVisible = signal(false);
     public readonly navOpen = signal(false);
-    private readonly subItems = new Subscription();
-
-    constructor() {
-        this.themeService.titleChanged.next($localize `Resource Store`);
-        this.subItems.add(
-            this.store.select(selectAuthUser).subscribe(user => {
-                this.user.set(user);
-            }),
-        );
-    }
 
     public readonly subNavItems = computed(() => {
         return this.navItems[this.navIndex()]?.children ?? [];
     });
 
-    ngOnInit() {
+    constructor() {
+        this.themeService.titleChanged.next($localize `Resource Store`);
+        this.store.select(selectAuthUser).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(user => {
+            this.user.set(user);
+        });
         this.searchVisible.set(window.location.pathname.indexOf('category') > 0);
-        this.subItems.add(
-            this.router.events.subscribe(event => {
-                if (event instanceof NavigationStart) {
-                    this.searchVisible.set(event.url.indexOf('category') > 0);
-                }
-            })
-        );
+        this.router.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(event => {
+            if (event instanceof NavigationStart) {
+                this.searchVisible.set(event.url.indexOf('category') > 0);
+            }
+        });
         this.service.batch({
             categories: {},
             recommend: {}
@@ -70,9 +63,6 @@ export class ResourceStoreComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy(): void {
-        this.subItems.unsubscribe();
-    }
 
 
     public tapSearch(e: Event) {

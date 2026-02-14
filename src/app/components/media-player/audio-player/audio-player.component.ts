@@ -1,4 +1,4 @@
-import { Component, OnDestroy, effect, input, output, signal } from '@angular/core';
+import { Component, DestroyRef, effect, inject, input, output, signal } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -6,7 +6,9 @@ import { Component, OnDestroy, effect, input, output, signal } from '@angular/co
     templateUrl: './audio-player.component.html',
     styleUrls: ['./audio-player.component.scss']
 })
-export class AudioPlayerComponent implements OnDestroy {
+export class AudioPlayerComponent {
+    
+    private readonly destroyRef = inject(DestroyRef);
     
     public readonly src = input<string>(undefined);
     public readonly mini = input(false);
@@ -26,6 +28,12 @@ export class AudioPlayerComponent implements OnDestroy {
             this.src();
             this.booted = false;
         });
+        this.destroyRef.onDestroy(() => {
+            if (this.paused()) {
+                return;
+            }
+            this.audio.pause();
+        });
     }
 
 
@@ -37,13 +45,6 @@ export class AudioPlayerComponent implements OnDestroy {
             this.bindAudioEvent();
         }
         return this.audioElement;
-    }
-
-    ngOnDestroy() {
-        if (this.paused()) {
-            return;
-        }
-        this.audio.pause();
     }
 
     public tapVolume() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBookList, IBookListItem } from '../../model';
 import { BookService } from '../../book.service';
@@ -10,7 +10,7 @@ import { DialogService } from '../../../../components/dialog';
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss']
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent {
     private readonly service = inject(BookService);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
@@ -21,7 +21,7 @@ export class DetailComponent implements OnInit {
 
     public readonly items = signal<IBookListItem[]>([]);
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { GenerateService } from '../../generate.service';
 import { IPreviewFile } from '../../model';

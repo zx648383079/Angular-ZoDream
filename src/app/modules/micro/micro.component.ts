@@ -1,10 +1,9 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { MicroService } from './micro.service';
 import { DialogEvent, DialogService } from '../../components/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IMicro, ITopic } from './model';
-import { emptyValidate } from '../../theme/validators';
 import { IErrorResult, IPageQueries } from '../../theme/models/page';
 import { openLink } from '../../theme/utils/deeplink';
 import { Store } from '@ngrx/store';
@@ -14,7 +13,7 @@ import { IUser } from '../../theme/models/user';
 import { IBlockItem } from '../../components/link-rule';
 import { SearchService, ThemeService } from '../../theme/services';
 import { IItem } from '../../theme/models/seo';
-import { Subscription } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -22,7 +21,7 @@ import { Subscription } from 'rxjs';
     templateUrl: './micro.component.html',
     styleUrls: ['./micro.component.scss']
 })
-export class MicroComponent implements OnInit, OnDestroy {
+export class MicroComponent {
     private readonly service = inject(MicroService);
     private readonly toastrService = inject(DialogService);
     private readonly router = inject(Router);
@@ -30,6 +29,7 @@ export class MicroComponent implements OnInit, OnDestroy {
     private readonly store = inject<Store<AppState>>(Store);
     private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public readonly items = signal<IMicro[]>([]);
@@ -69,23 +69,17 @@ export class MicroComponent implements OnInit, OnDestroy {
             value: 'hot',
         }
     ];
-    private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `Micro Blog`);
         this.store.select(selectAuthUser).subscribe(user => {
             this.authUser.set(user);
         });
-    }
-
-    ngOnInit() {
-        this.subItems.add(
-            this.themeService.suggestTextChanged.subscribe(req => {
-                this.service.suggestion({keywords: req.text}).subscribe(res => {
-                    req.suggest(res);
-                });
-            })
-        );
+        this.themeService.suggestTextChanged.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(req => {
+            this.service.suggestion({keywords: req.text}).subscribe(res => {
+                req.suggest(res);
+            });
+        });
         this.themeService.suggestQuerySubmitted.subscribe(res => {
             if (typeof res === 'object') {
                 this.loadTopic(res.id);
@@ -108,10 +102,6 @@ export class MicroComponent implements OnInit, OnDestroy {
             }
             this.tapPage();
         });
-    }
-
-    ngOnDestroy() {
-        this.subItems.unsubscribe();
     }
 
     private loadUser(user: number) {

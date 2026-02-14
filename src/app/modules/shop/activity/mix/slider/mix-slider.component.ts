@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, effect, inject, input, viewChildren } from '@angular/core';
+import { Component, ElementRef, HostListener, afterNextRender, effect, inject, input, viewChildren } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -6,9 +6,8 @@ import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, effect, inject
     templateUrl: './mix-slider.component.html',
     styleUrls: ['./mix-slider.component.scss']
 })
-export class MixSliderComponent implements OnInit, AfterViewInit {
+export class MixSliderComponent {
     private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
-    private readonly renderer = inject(Renderer2);
 
 
     public readonly viewItems = viewChildren<ElementRef<HTMLLIElement>>('itemView');
@@ -44,23 +43,23 @@ export class MixSliderComponent implements OnInit, AfterViewInit {
             this.items();
             this.reset();
         });
-    }
-
-    ngOnInit() {
-        this.renderer.listen(window, 'resize', () => {
-            this.refreshSize();
+        afterNextRender({
+            write: () => {
+                this.refreshSize();
+                const item = this.viewItems().at(0);
+                if (!item || !item.nativeElement) {
+                    return;
+                }
+                const bound = item.nativeElement.getBoundingClientRect();
+                this.itemWidth = bound.width + 48;
+                this.itemHeight = bound.height;
+            }
         });
     }
 
-    ngAfterViewInit() {
+    @HostListener('window:resize')
+    public onResize() {
         this.refreshSize();
-        const item = this.viewItems().at(0);
-        if (!item || !item.nativeElement) {
-            return;
-        }
-        const bound = item.nativeElement.getBoundingClientRect();
-        this.itemWidth = bound.width + 48;
-        this.itemHeight = bound.height;
     }
 
     public tapPrevious() {

@@ -1,4 +1,4 @@
-import { Component, computed, ElementRef, HostListener, input, model, viewChild } from '@angular/core';
+import { afterNextRender, Component, computed, ElementRef, HostListener, input, model, viewChild } from '@angular/core';
 import { formatHour } from '../../../theme/utils';
 
 @Component({
@@ -63,21 +63,24 @@ export class ProgressBarComponent {
         this.isMouseMove = false;
     }
 
-    ngAfterViewInit(): void {
-        const div = this.box().nativeElement as HTMLDivElement;
-        div.addEventListener('click', (event) => {
-            const bound = div.getBoundingClientRect();
-            this.tapProgress((event.clientX - bound.left) * 100 / bound.width);
-        });
-        div.addEventListener('mousedown', (event) => {
-            const bound = div.getBoundingClientRect();
-            const offset = event.clientX - bound.left;
-            const innerWidth = div.querySelector('.inner-bar').getBoundingClientRect().width;
-            if (Math.abs(offset - innerWidth) < 3) {
-                this.isMouseMove = true;
+    constructor() {
+        afterNextRender({
+            write: () => {
+                const div = this.box().nativeElement as HTMLDivElement;
+                div.addEventListener('click', (event) => {
+                    const bound = div.getBoundingClientRect();
+                    this.tapProgress((event.clientX - bound.left) * 100 / bound.width);
+                });
+                div.addEventListener('mousedown', (event) => {
+                    const bound = div.getBoundingClientRect();
+                    const offset = event.clientX - bound.left;
+                    const innerWidth = div.querySelector('.inner-bar').getBoundingClientRect().width;
+                    if (Math.abs(offset - innerWidth) < 3) {
+                        this.isMouseMove = true;
+                    }
+                });
             }
         });
-
     }
 
     public tapProgress(i: number) {

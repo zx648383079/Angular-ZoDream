@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IShortLink } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
 import { ShortLinkService } from './short-link.service';
@@ -13,7 +13,7 @@ import { SearchService } from '../../../theme/services';
     templateUrl: './short-member.component.html',
     styleUrls: ['./short-member.component.scss']
 })
-export class ShortMemberComponent implements OnInit {
+export class ShortMemberComponent {
     private readonly service = inject(ShortLinkService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -37,7 +37,7 @@ export class ShortMemberComponent implements OnInit {
         required(schemaPath.source_url);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(res => {
             this.searchService.getQueries(res, this.queries().value());
             this.tapPage();

@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -13,7 +13,7 @@ import { CmsService } from '../../cms.service';
     templateUrl: './linkage-data.component.html',
     styleUrls: ['./linkage-data.component.scss']
 })
-export class LinkageDataComponent implements OnInit {
+export class LinkageDataComponent {
     private readonly service = inject(CmsService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -44,7 +44,7 @@ export class LinkageDataComponent implements OnInit {
     public typeItems = ['栏目', '内容'];
     public path: ICmsLinkageData[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (params.linkage) {
                 this.queries.linkage().value.set(parseInt(params.linkage, 10));

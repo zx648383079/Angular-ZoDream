@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { FinanceService } from '../../finance.service';
@@ -11,7 +11,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './product.component.html',
     styleUrls: ['./product.component.scss']
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent {
     private readonly service = inject(FinanceService);
     private readonly toastrService = inject(DialogService);
     private readonly location = inject(Location);
@@ -30,7 +30,7 @@ export class ProductComponent implements OnInit {
         required(schemaPath.name);
     });
 
-    ngOnInit() {
+    constructor() {
         this.tapRefresh();
     }
 

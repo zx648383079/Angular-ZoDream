@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, effect, ElementRef, input, viewChild } from '@angular/core';
+import { afterNextRender, Component, effect, ElementRef, input, viewChild } from '@angular/core';
 import { SpectrumType } from '../../model';
 import { IPoint } from '../../../../../theme/utils/canvas';
 
@@ -20,7 +20,7 @@ type RenderSpectumRingFunc = (context: CanvasRenderingContext2D, pen: string, da
     templateUrl: './spectrum-panel.component.html',
     styleUrls: ['./spectrum-panel.component.scss']
 })
-export class SpectrumPanelComponent implements AfterViewInit {
+export class SpectrumPanelComponent {
 
     private readonly drawerElement = viewChild<ElementRef>('drawerBox');
     public readonly value = input<number[]>([]);
@@ -46,6 +46,13 @@ export class SpectrumPanelComponent implements AfterViewInit {
             this.drawer.height = this.height();
             this.drawColumns(this.value());
         });
+        afterNextRender({
+            write: () => {
+                this.drawer.width = this.width();
+                this.drawer.height = this.height();
+                this.ctx = this.drawer.getContext('2d');
+            }
+        });
     }
 
     public get boxStyle() {
@@ -61,12 +68,6 @@ export class SpectrumPanelComponent implements AfterViewInit {
 
     get drawer(): HTMLCanvasElement {
         return this.drawerElement().nativeElement as HTMLCanvasElement;
-    }
-
-    ngAfterViewInit() {
-        this.drawer.width = this.width();
-        this.drawer.height = this.height();
-        this.ctx = this.drawer.getContext('2d');
     }
 
     private drawColumns(items: number[]) {

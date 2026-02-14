@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IConnect } from '../../../../../theme/models/auth';
 import { ShopService } from '../../../shop.service';
 
@@ -8,13 +8,13 @@ import { ShopService } from '../../../shop.service';
     templateUrl: './account-center.component.html',
     styleUrls: ['./account-center.component.scss']
 })
-export class AccountCenterComponent implements OnInit {
+export class AccountCenterComponent {
     private readonly service = inject(ShopService);
 
     public title = '安全中心';
     public readonly items = signal<IConnect[]>([]);
 
-    ngOnInit() {
+    constructor() {
         this.service.connect().subscribe(res => {
             this.items.set(res.data.map(i => {
                 i.icon = this.converterIcon(i.icon);

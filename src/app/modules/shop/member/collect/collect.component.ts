@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShopService } from '../../shop.service';
 
@@ -8,7 +8,7 @@ import { ShopService } from '../../shop.service';
     templateUrl: './collect.component.html',
     styleUrls: ['./collect.component.scss']
 })
-export class CollectComponent implements OnInit {
+export class CollectComponent {
     private readonly service = inject(ShopService);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
@@ -26,8 +26,6 @@ export class CollectComponent implements OnInit {
     constructor() {
         this.tapRefresh();
     }
-
-    ngOnInit() {}
 
     /**
      * tapRefresh

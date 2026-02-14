@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ComponentTypeItems, ICategory, IThemeComponent } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
 import { VisualService } from './visual.service';
@@ -14,7 +14,7 @@ import { UploadButtonEvent } from '../../../components/form';
     templateUrl: './member.component.html',
     styleUrls: ['./member.component.scss']
 })
-export class MemberComponent implements OnInit {
+export class MemberComponent {
     private readonly service = inject(VisualService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -35,7 +35,7 @@ export class MemberComponent implements OnInit {
     public categories: ICategory[] = [];
     public typeItems = ComponentTypeItems;
 
-    ngOnInit() {
+    constructor() {
         this.service.categoryTree().subscribe(res => {
             this.categories = res.data;
         });

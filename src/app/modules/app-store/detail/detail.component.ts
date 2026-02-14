@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
@@ -12,7 +12,7 @@ import { ISoftware, ISoftwarePackage } from '../model';
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss']
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent {
     private readonly service = inject(AppStoreService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -24,7 +24,7 @@ export class DetailComponent implements OnInit {
     public readonly isLoading = signal(false);
     public readonly tabIndex = signal(0);
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(param => {
             if (!param.id) {
                 this.location.back();

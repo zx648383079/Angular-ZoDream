@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,7 +13,7 @@ import { TVService } from '../tv.service';
     templateUrl: './movie.component.html',
     styleUrls: ['./movie.component.scss']
 })
-export class MovieComponent implements OnInit {
+export class MovieComponent {
     private readonly service = inject(TVService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -34,7 +34,7 @@ export class MovieComponent implements OnInit {
     public categories: ICategory[] = [];
     public areaItems: IMovieArea[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.service.categoryTree().subscribe(res => {
             this.categories = res.data;
         });

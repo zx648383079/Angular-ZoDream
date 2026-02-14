@@ -1,4 +1,4 @@
-import { Component, DOCUMENT, OnInit, Renderer2, ViewEncapsulation, inject } from '@angular/core';
+import { Component, DOCUMENT, Renderer2, ViewEncapsulation, inject } from '@angular/core';
 import { ActivationEnd, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from './theme/interfaces';
@@ -12,7 +12,7 @@ import { AuthService, ThemeService } from './theme/services';
                 <app-dialog-container />`,
     encapsulation: ViewEncapsulation.None // Emulated当前  None全局
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
     private readonly auth = inject(AuthService);
     private readonly router = inject(Router);
     private readonly store = inject<Store<AppState>>(Store);
@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
     private readonly document = inject<Document>(DOCUMENT);
 
 
-    ngOnInit() {
+    constructor() {
         this.auth.systemBoot();
         const loading = this.document.querySelector('.loading-theme');
         if (loading) {

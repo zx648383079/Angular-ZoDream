@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, computed, inject, signal } from '@angular/core';
+import { Component, DestroyRef, HostListener, computed, inject, signal } from '@angular/core';
 import { DialogPackage } from '../dialog.injector';
 import { DialogService } from '../dialog.service';
 import { DialogMessageOption } from '../model';
@@ -18,9 +18,10 @@ interface IThemeGroup {
     templateUrl: './dialog-message.component.html',
     styleUrls: ['./dialog-message.component.scss'],
 })
-export class DialogMessageComponent implements OnDestroy {
+export class DialogMessageComponent {
     private readonly data = inject<DialogPackage<DialogMessageOption>>(DialogPackage);
     private readonly service = inject(DialogService);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public icon = '';
@@ -29,8 +30,6 @@ export class DialogMessageComponent implements OnDestroy {
     public content = '';
     public readonly visible = signal(true);
     public readonly offset = signal(0);
-
-    private timeHandle: any;
 
     public readonly boxStyle = computed(() => {
         return {
@@ -44,25 +43,17 @@ export class DialogMessageComponent implements OnDestroy {
         this.title = option.title || '';
         this.content = option.content || '';
         this.applyTheme(option.type);
-        this.timeHandle = setTimeout(() => {
+        const timeHandle = setTimeout(() => {
             this.visible.set(false);
-            this.timeHandle = null;
         }, option.time || 2000);
-    }
-
-    ngOnDestroy() {
-        if (this.timeHandle) {
-            clearTimeout(this.timeHandle);
-        }
+        this.destroyRef.onDestroy(() => {
+            clearTimeout(timeHandle);
+        });
     }
 
     @HostListener('click')
     public close() {
         this.visible.set(false);
-        if (this.timeHandle) {
-            clearTimeout(this.timeHandle);
-            this.timeHandle = null;
-        }
     }
 
     public animationDone() {

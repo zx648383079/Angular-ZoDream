@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, Renderer2, effect, inject, input, model, signal, untracked } from '@angular/core';
+import { Component, HostListener, effect, input, model, signal, untracked } from '@angular/core';
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { FormValueControl } from '@angular/forms/signals';
 
@@ -18,8 +18,7 @@ const MailSuffixMap = [
     templateUrl: './autocomplete.component.html',
     styleUrls: ['./autocomplete.component.scss']
 })
-export class AutocompleteComponent implements FormValueControl<string>, OnInit {
-    private readonly renderer = inject(Renderer2);
+export class AutocompleteComponent implements FormValueControl<string> {
 
 
     public readonly prefix = input('');
@@ -59,21 +58,20 @@ export class AutocompleteComponent implements FormValueControl<string>, OnInit {
         }
     }
 
-    ngOnInit() {
-        this.renderer.listen(document, 'keydown', (event: KeyboardEvent) => {
-            if (this.optionItems.length < 1) {
-                return;
-            }
-            if (event.key === 'ArrowDown') {
-                this.output(this.selectedIndex >= this.optionItems.length - 1 ? 0 : (this.selectedIndex + 1));
-            } else if (event.key === 'ArrowUp') {
-                this.output(this.selectedIndex <= 0 ? this.optionItems.length - 1 : (this.selectedIndex - 1));
-            } else if (event.key === 'Enter' || event.key === 'Tab') {
-                this.panelVisible.set(false);
-            } else {
-                this.selectedIndex = -1;
-            }
-        });
+    @HostListener('document:keydown', ['$event']) 
+    public onKeyDown(event: KeyboardEvent) {
+        if (this.optionItems.length < 1) {
+            return;
+        }
+        if (event.key === 'ArrowDown') {
+            this.output(this.selectedIndex >= this.optionItems.length - 1 ? 0 : (this.selectedIndex + 1));
+        } else if (event.key === 'ArrowUp') {
+            this.output(this.selectedIndex <= 0 ? this.optionItems.length - 1 : (this.selectedIndex - 1));
+        } else if (event.key === 'Enter' || event.key === 'Tab') {
+            this.panelVisible.set(false);
+        } else {
+            this.selectedIndex = -1;
+        }
     }
 
     public tapInput() {

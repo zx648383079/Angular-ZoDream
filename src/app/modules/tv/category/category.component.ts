@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ICategory } from '../model';
@@ -10,7 +10,7 @@ import { TvService } from '../tv.service';
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent {
     private readonly service = inject(TvService);
     private readonly route = inject(ActivatedRoute);
     private readonly location = inject(Location);
@@ -18,7 +18,7 @@ export class CategoryComponent implements OnInit {
     public readonly items = signal<ICategory[]>([]);
     public readonly isLoading = signal(false);
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(param => {
             if (!param.id) {
                 this.location.back();

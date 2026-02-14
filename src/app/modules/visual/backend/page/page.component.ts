@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ISitePage } from '../../model';
 import { IPageQueries } from '../../../../theme/models/page';
 import { VisualService } from '../visual.service';
@@ -13,7 +13,7 @@ import { SearchService } from '../../../../theme/services';
     templateUrl: './page.component.html',
     styleUrls: ['./page.component.scss']
 })
-export class PageComponent implements OnInit {
+export class PageComponent {
     private readonly service = inject(VisualService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -31,7 +31,7 @@ export class PageComponent implements OnInit {
         per_page: 20
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, Renderer2, inject, input, signal, viewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef, Renderer2, afterNextRender, inject, input, signal, viewChild } from '@angular/core';
 import { ScreenFull } from '../../util';
 import { IMediaFile, PlayerEvent, PlayerEvents, PlayerListeners } from '../model';
 import Hls from 'hls.js';
@@ -10,9 +10,9 @@ import { findIndex } from '../../../../theme/utils';
     templateUrl: './movie-player.component.html',
     styleUrls: ['./movie-player.component.scss']
 })
-export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestroy {
+export class MoviePlayerComponent implements PlayerEvent {
     private render = inject(Renderer2);
-
+    private readonly destroyRef = inject(DestroyRef);
 
     private readonly videoElement = viewChild<ElementRef<HTMLVideoElement>>('playerVideo');
     private readonly barElement = viewChild<ElementRef<HTMLDivElement>>('playerBar');
@@ -42,22 +42,25 @@ export class MoviePlayerComponent implements PlayerEvent, AfterViewInit, OnDestr
         return videoElement && videoElement.nativeElement ? videoElement.nativeElement : undefined;
     }
 
-    ngOnDestroy() {
-        if (this.paused || !this.videoPlayer) {
-            return;
-        }
-        this.videoPlayer.pause();
-    }
-
-    ngAfterViewInit() {
-        this.bindVideoEvent();
-        this.render.listen(document, ScreenFull.changeEvent, () => {
-            this.isFull = ScreenFull.isFullScreen;
+    constructor() {
+        afterNextRender({
+            write: () => {
+                this.bindVideoEvent();
+                this.render.listen(document, ScreenFull.changeEvent, () => {
+                    this.isFull = ScreenFull.isFullScreen;
+                });
+                this.render.listen(window, 'resize', () => {
+                    this.resize();
+                });
+                this.resize();
+            }
         });
-        this.render.listen(window, 'resize', () => {
-            this.resize();
+        this.destroyRef.onDestroy(() => {
+            if (this.paused || !this.videoPlayer) {
+                return;
+            }
+            this.videoPlayer.pause();
         });
-        this.resize();
     }
 
     private resize() {

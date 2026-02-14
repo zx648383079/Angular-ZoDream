@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2, inject, viewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, viewChild } from '@angular/core';
 import { EditorWorkBodyComponent } from '../editor-work-body/editor-work-body.component';
 import { AddWeightCommand, MENU_ACTION, Widget } from '../model';
 import { EditorService } from '../editor.service';
@@ -9,8 +9,7 @@ import { EditorService } from '../editor.service';
     templateUrl: './editor-window.component.html',
     styleUrls: ['./editor-window.component.scss']
 })
-export class EditorWindowComponent implements OnInit {
-    private readonly renderer = inject(Renderer2);
+export class EditorWindowComponent {
     private readonly service = inject(EditorService);
 
 
@@ -20,7 +19,7 @@ export class EditorWindowComponent implements OnInit {
     public editorStyle: any = {};
     public workStyle: any = {};
 
-    ngOnInit() {
+    constructor() {
         this.service.editorSize$.subscribe(res => {
             if (!res) {
                 return;
@@ -39,63 +38,6 @@ export class EditorWindowComponent implements OnInit {
                 width: res.width - 460,
                 height: res.height,
             });
-        });
-        this.renderer.listen(document, 'keydown', (event: KeyboardEvent) => {
-            if (event.code === 'Delete' || event.code === 'Backspace') {
-                this.workBody().execute(MENU_ACTION.DELETE);
-                return;
-            }
-            if (event.ctrlKey) {
-                // if (event.code === 'KeyV') {
-                //     // 粘贴
-                //     console.log(window.clipboardData.getData('text/plain'));
-                    
-                // }
-                if (event.code === 'KeyA') {
-                    event.preventDefault();
-                    this.workBody().execute(MENU_ACTION.SELECT_ALL);
-                    return;
-                }
-                if (event.code === 'KeyZ') {
-                    event.stopPropagation();
-                    this.workBody().execute(event.shiftKey ? MENU_ACTION.FORWARD : MENU_ACTION.BACK);
-                    return;
-                }
-                if (event.code === 'KeyG') {
-                    event.preventDefault();
-                    this.workBody().execute(event.shiftKey ? MENU_ACTION.SPLIT : MENU_ACTION.MERGE);
-                    return;
-                }
-                if (event.code === 'KeyH') {
-                    event.preventDefault();
-                    this.workBody().execute(event.shiftKey ? MENU_ACTION.HIDE_RULE : MENU_ACTION.VISIBLE_RULE);
-                    return;
-                }
-                if (event.code === 'Equal') {
-                    event.preventDefault();
-                    // 放大
-                    this.workBody().execute(MENU_ACTION.SCALE_UP);
-                    return;
-                }
-                if (event.code === 'Minus') {
-                    event.preventDefault();
-                    // 缩小
-                    this.workBody().execute(MENU_ACTION.SCALE_DOWN);
-                    return;
-                }
-            }
-        });
-        this.renderer.listen(document, 'paste', (event: any) => {
-            if (event.clipboardData || event.originalEvent) {
-                const clipboardData = (event.clipboardData || (window as any).clipboardData);
-                const val = clipboardData.getData('text');
-            }
-        });
-        this.renderer.listen(document, 'mouseup', (event: MouseEvent) => {
-            this.service.mouseUp$.next({x: event.clientX, y: event.clientY});
-        });
-        this.renderer.listen(document, 'mousemove', (event: MouseEvent) => {
-            this.service.mouseMove$.next({x: event.clientX, y: event.clientY});
         });
         this.service.moveWidget$.subscribe(res => {
             if (!res.start) {
@@ -125,6 +67,68 @@ export class EditorWindowComponent implements OnInit {
             });
 
         });
+    }
+    @HostListener('document:keydown', ['$event'])
+    public onKeyDown(event: KeyboardEvent) {
+        if (event.code === 'Delete' || event.code === 'Backspace') {
+            this.workBody().execute(MENU_ACTION.DELETE);
+            return;
+        }
+        if (event.ctrlKey) {
+            // if (event.code === 'KeyV') {
+            //     // 粘贴
+            //     console.log(window.clipboardData.getData('text/plain'));
+                
+            // }
+            if (event.code === 'KeyA') {
+                event.preventDefault();
+                this.workBody().execute(MENU_ACTION.SELECT_ALL);
+                return;
+            }
+            if (event.code === 'KeyZ') {
+                event.stopPropagation();
+                this.workBody().execute(event.shiftKey ? MENU_ACTION.FORWARD : MENU_ACTION.BACK);
+                return;
+            }
+            if (event.code === 'KeyG') {
+                event.preventDefault();
+                this.workBody().execute(event.shiftKey ? MENU_ACTION.SPLIT : MENU_ACTION.MERGE);
+                return;
+            }
+            if (event.code === 'KeyH') {
+                event.preventDefault();
+                this.workBody().execute(event.shiftKey ? MENU_ACTION.HIDE_RULE : MENU_ACTION.VISIBLE_RULE);
+                return;
+            }
+            if (event.code === 'Equal') {
+                event.preventDefault();
+                // 放大
+                this.workBody().execute(MENU_ACTION.SCALE_UP);
+                return;
+            }
+            if (event.code === 'Minus') {
+                event.preventDefault();
+                // 缩小
+                this.workBody().execute(MENU_ACTION.SCALE_DOWN);
+                return;
+            }
+        }
+    }
+    @HostListener('document:paste', ['$event'])
+    public onPaste(event: ClipboardEvent) {
+        if (event.clipboardData || (event as any).originalEvent) {
+            const clipboardData = (event.clipboardData || (window as any).clipboardData);
+            const val = clipboardData.getData('text');
+        }
+    }
+    @HostListener('document:mousemove', ['$event'])
+    public onMouseMove(event: MouseEvent) {
+        this.service.mouseMove$.next({x: event.clientX, y: event.clientY});
+    }
+
+    @HostListener('document:mouseup', ['$event'])
+    public onMouseUp(event: MouseEvent) {
+        this.service.mouseUp$.next({x: event.clientX, y: event.clientY});
     }
 
 }

@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IUserZone } from '../../../../../theme/models/user';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { AuthService } from '../../auth.service';
@@ -13,7 +13,7 @@ import { SearchService } from '../../../../../theme/services';
     templateUrl: './zone.component.html',
     styleUrls: ['./zone.component.scss']
 })
-export class ZoneComponent implements OnInit {
+export class ZoneComponent {
     private readonly service = inject(AuthService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -40,7 +40,7 @@ export class ZoneComponent implements OnInit {
         required(schemaPath.name);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

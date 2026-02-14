@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -15,7 +15,7 @@ import { ButtonEvent } from '../../../../../components/form';
     templateUrl: './edit.component.html',
     styleUrls: ['./edit.component.scss']
 })
-export class EditUserComponent implements OnInit {
+export class EditUserComponent {
     private readonly service = inject(AuthService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -53,7 +53,7 @@ export class EditUserComponent implements OnInit {
     public readonly zoneItems = signal<IUserZone[]>([]);
     public sexItems = SexItems;
 
-    ngOnInit() {
+    constructor() {
         this.service.batch({
             roles: {},
             zones: {}

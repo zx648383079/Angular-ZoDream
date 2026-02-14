@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameMapDungeon, IGameRouter, IGameScene } from '../../../model';
 
 @Component({
@@ -7,13 +7,13 @@ import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameMapDungeon, I
     templateUrl: './map-level.component.html',
     styleUrls: ['./map-level.component.scss']
 })
-export class MapLevelComponent implements IGameScene, OnInit {
+export class MapLevelComponent implements IGameScene {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
     public readonly items = signal<IGameMapDungeon[]>([]);
 
-    ngOnInit(): void {
+    constructor() {
         this.router.request(GameCommand.MapDungeonQuery).subscribe(res => {
             this.items.set(res.data);
         });

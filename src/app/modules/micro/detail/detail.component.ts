@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogEvent, DialogService } from '../../../components/dialog';
@@ -18,7 +18,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss']
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent {
     private readonly service = inject(MicroService);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
@@ -40,9 +40,6 @@ export class DetailComponent implements OnInit {
         this.store.select(selectAuthUser).subscribe(user => {
             this.authUser.set(user);
         });
-    }
-
-    ngOnInit() {
         this.route.params.subscribe(param => {
             if (!param.id) {
                 this.router.navigate(['../']);

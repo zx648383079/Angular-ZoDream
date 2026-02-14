@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../../components/dialog';
 import { IPageQueries } from '../../../../../../theme/models/page';
@@ -13,7 +13,7 @@ import { ActivityService } from '../../activity.service';
     templateUrl: './seckill-goods.component.html',
     styleUrls: ['./seckill-goods.component.scss']
 })
-export class SeckillGoodsComponent implements OnInit {
+export class SeckillGoodsComponent {
     private readonly service = inject(ActivityService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -41,7 +41,7 @@ export class SeckillGoodsComponent implements OnInit {
         time_id: 0
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (params.activity) {
                 this.queries.act_id().value.set(parseInt(params.activity, 10));

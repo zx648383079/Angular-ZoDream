@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { IUser, IUserStatus } from '../../../theme/models/user';
 import { MemberSpaceService } from './member-space.service';
@@ -14,7 +14,7 @@ import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
     templateUrl: './member-space.component.html',
     styleUrls: ['./member-space.component.scss']
 })
-export class MemberSpaceComponent implements OnInit {
+export class MemberSpaceComponent {
     private readonly store = inject<Store<AppState>>(Store);
     private readonly service = inject(MemberSpaceService);
     private readonly route = inject(ActivatedRoute);
@@ -29,9 +29,6 @@ export class MemberSpaceComponent implements OnInit {
         this.store.select(selectAuthUser).subscribe(user => {
             this.authUser.set(user);
         });
-    }
-
-    ngOnInit() {
         this.route.params.subscribe(params => {
             this.data.set({id: params.user} as any);
             this.tapRefresh();

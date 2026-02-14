@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IAccountLog } from '../../../../../theme/models/auth';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -14,7 +14,7 @@ import { DialogEvent } from '../../../../../components/dialog';
     templateUrl: './account-log.component.html',
     styleUrls: ['./account-log.component.scss']
 })
-export class AccountLogComponent implements OnInit {
+export class AccountLogComponent {
     private readonly service = inject(AuthService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
@@ -33,7 +33,7 @@ export class AccountLogComponent implements OnInit {
     public user: IUser;
     public readonly dataModel = signal<IAccountLog>({} as any);
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

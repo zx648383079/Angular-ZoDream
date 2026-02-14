@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IThread } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
 import { ForumService } from './forum.service';
@@ -13,7 +13,7 @@ import { SearchService } from '../../../theme/services';
     templateUrl: './forum-member.component.html',
     styleUrls: ['./forum-member.component.scss']
 })
-export class ForumMemberComponent implements OnInit {
+export class ForumMemberComponent {
     private readonly service = inject(ForumService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -30,7 +30,7 @@ export class ForumMemberComponent implements OnInit {
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(res => {
             this.searchService.getQueries(res, this.queries().value());
             this.tapPage();

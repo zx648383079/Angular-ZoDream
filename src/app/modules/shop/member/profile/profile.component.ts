@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IErrorResponse } from '../../../../theme/models/page';
@@ -14,7 +14,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
     private readonly service = inject(ShopService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -49,7 +49,7 @@ export class ProfileComponent implements OnInit {
         name: '',
     };
 
-    ngOnInit() {
+    constructor() {
         this.service.profile().subscribe({
             next: user => {
                 this.user = user;

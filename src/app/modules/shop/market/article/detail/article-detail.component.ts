@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { IArticle, IArticleCategory } from '../../../model';
@@ -10,7 +10,7 @@ import { ShopService } from '../../../shop.service';
     templateUrl: './article-detail.component.html',
     styleUrls: ['./article-detail.component.scss']
 })
-export class ArticleDetailComponent implements OnInit {
+export class ArticleDetailComponent {
     private readonly service = inject(ShopService);
     private readonly route = inject(ActivatedRoute);
     private readonly sanitizer = inject(DomSanitizer);
@@ -19,7 +19,7 @@ export class ArticleDetailComponent implements OnInit {
     public readonly data = signal<IArticle>(null);
     public readonly content = signal<SafeHtml>(null);
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.loadArticle(params.id);
         });

@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
@@ -16,7 +16,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './edit.component.html',
     styleUrls: ['./edit.component.scss']
 })
-export class EditShippingComponent implements OnInit {
+export class EditShippingComponent {
     private readonly service = inject(PaymentService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -55,9 +55,6 @@ export class EditShippingComponent implements OnInit {
         this.service.shippingPlugin().subscribe(res => {
             this.items.set(res);
         });
-    }
-
-    ngOnInit() {
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;

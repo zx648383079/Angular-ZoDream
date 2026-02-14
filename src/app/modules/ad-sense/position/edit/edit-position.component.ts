@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { AdService } from '../../ad.service';
@@ -13,7 +13,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './edit-position.component.html',
     styleUrls: ['./edit-position.component.scss']
 })
-export class EditPositionComponent implements OnInit {
+export class EditPositionComponent {
     private readonly service = inject(AdService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -35,7 +35,7 @@ export class EditPositionComponent implements OnInit {
         required(schemaPath.code);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;

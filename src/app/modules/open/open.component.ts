@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { OpenService } from './open.service';
 
 @Component({
@@ -7,14 +7,14 @@ import { OpenService } from './open.service';
     templateUrl: './open.component.html',
     styleUrls: ['./open.component.scss']
 })
-export class OpenComponent implements OnInit {
+export class OpenComponent {
     private readonly service = inject(OpenService);
 
 
     public readonly isLoading = signal(true);
     public readonly data = signal<any>({});
 
-    ngOnInit() {
+    constructor() {
         this.service.statistics().subscribe(res => {
             this.isLoading.set(false);
             this.data.set(res);

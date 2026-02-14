@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { IItem } from '../../../theme/models/seo';
 import { SystemService } from '../system.service';

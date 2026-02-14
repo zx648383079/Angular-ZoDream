@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnDestroy, OnInit, inject, viewChild, signal } from '@angular/core';
+import { Component, inject, viewChild, signal, DestroyRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../components/dialog';
@@ -22,13 +22,14 @@ import { selectSystemConfig } from '../../theme/reducers/system.selectors';
     templateUrl: './navigation.component.html',
     styleUrls: ['./navigation.component.scss']
 })
-export class NavigationComponent implements OnInit, OnDestroy {
+export class NavigationComponent {
     private readonly service = inject(NavigationService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
     private readonly store = inject<Store<AppState>>(Store);
     private readonly themeService = inject(ThemeService);
     private readonly searchService = inject(SearchService);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     private readonly reportModal = viewChild(ReportDialogComponent);
@@ -56,10 +57,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
             }
         });
         this.themeService.titleChanged.next('ZoDream Search');
-
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             if (!this.queries.keywords().value()) {
@@ -67,10 +64,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
             }
             this.tapPage();
         });
-    }
-
-    ngOnDestroy(): void {
-        this.themeService.setBackground();
+        this.destroyRef.onDestroy(() => this.themeService.setBackground());
     }
 
     private wallpager(item: any) {

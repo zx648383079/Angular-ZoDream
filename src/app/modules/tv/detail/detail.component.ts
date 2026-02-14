@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
@@ -11,7 +11,7 @@ import { TvService } from '../tv.service';
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss']
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent {
     private readonly service = inject(TvService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -22,7 +22,7 @@ export class DetailComponent implements OnInit {
     public readonly items = signal<IMovie[]>([]);
     public readonly isLoading = signal(false);
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(param => {
             if (!param.id) {
                 this.location.back();

@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { IProject } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
@@ -14,7 +14,7 @@ import { SearchService } from '../../../theme/services';
     templateUrl: './document-member.component.html',
     styleUrls: ['./document-member.component.scss']
 })
-export class DocumentMemberComponent implements OnInit {
+export class DocumentMemberComponent {
     private readonly service = inject(DocumentService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -32,7 +32,7 @@ export class DocumentMemberComponent implements OnInit {
         keywords: ''
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { LegworkService } from './legwork.service';
 
 @Component({
@@ -7,14 +7,14 @@ import { LegworkService } from './legwork.service';
     templateUrl: './legwork-backend.component.html',
     styleUrls: ['./legwork-backend.component.scss']
 })
-export class LegworkBackendComponent implements OnInit {
+export class LegworkBackendComponent {
     private readonly service = inject(LegworkService);
 
 
     public readonly isLoading = signal(true);
     public readonly data = signal<any>({});
 
-    ngOnInit() {
+    constructor() {
         this.service.statistics().subscribe(res => {
             this.isLoading.set(false);
             this.data.set(res);

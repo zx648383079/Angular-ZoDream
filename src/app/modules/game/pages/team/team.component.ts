@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { GameRouterInjectorToken, IGameRouter, GameScenePath, GameCommand, IGameTeam, IGamePeople } from '../../model';
 
 @Component({
@@ -7,14 +7,14 @@ import { GameRouterInjectorToken, IGameRouter, GameScenePath, GameCommand, IGame
     templateUrl: './team.component.html',
     styleUrls: ['./team.component.scss']
 })
-export class TeamComponent implements OnInit {
+export class TeamComponent {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
     public data: IGameTeam;
     public userItems: IGamePeople[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.router.request(GameCommand.TeamOwn).subscribe(res => {
             this.data = res.data;
             this.userItems = res.data.user_items;

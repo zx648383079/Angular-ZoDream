@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IErrorResponse, IErrorResult } from '../../../../../theme/models/page';
@@ -14,7 +14,7 @@ import { ButtonEvent } from '../../../../../components/form';
     templateUrl: './edit-music.component.html',
     styleUrls: ['./edit-music.component.scss']
 })
-export class EditMusicComponent implements OnInit {
+export class EditMusicComponent {
     private readonly service = inject(VideoService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -35,7 +35,7 @@ export class EditMusicComponent implements OnInit {
 
     private audioElement: HTMLAudioElement;
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.id) {
               return;

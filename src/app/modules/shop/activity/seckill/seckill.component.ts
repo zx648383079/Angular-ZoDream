@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnDestroy, OnInit, inject, viewChildren, signal } from '@angular/core';
+import { Component, inject, viewChildren, signal, DestroyRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IActivityTime, ISeckillGoods } from '../../model';
@@ -16,11 +16,12 @@ import { interval, Subscription } from 'rxjs';
     templateUrl: './seckill.component.html',
     styleUrls: ['./seckill.component.scss']
 })
-export class SeckillComponent implements OnInit, OnDestroy {
+export class SeckillComponent {
     private readonly service = inject(ActivityService);
     private readonly themeService = inject(ThemeService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public readonly countItems = viewChildren(CountdownComponent);
@@ -39,9 +40,6 @@ export class SeckillComponent implements OnInit, OnDestroy {
 
     constructor() {
         this.themeService.titleChanged.next('秒杀');
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
         });
@@ -52,10 +50,7 @@ export class SeckillComponent implements OnInit, OnDestroy {
                 this.startTimer();
             }
         });
-    }
-
-    ngOnDestroy() {
-        this.stopTimer();
+        this.destroyRef.onDestroy(() => this.stopTimer());
     }
 
     public onTimeEnd(item: IActivityTime) {

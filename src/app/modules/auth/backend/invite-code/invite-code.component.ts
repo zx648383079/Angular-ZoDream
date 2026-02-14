@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IInviteCode } from '../../../../theme/models/auth';
@@ -13,7 +13,7 @@ import { SearchService } from '../../../../theme/services';
     templateUrl: './invite-code.component.html',
     styleUrls: ['./invite-code.component.scss']
 })
-export class InviteCodeComponent implements OnInit {
+export class InviteCodeComponent {
     private readonly service = inject(AuthService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -34,7 +34,7 @@ export class InviteCodeComponent implements OnInit {
         expired_at: '',
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

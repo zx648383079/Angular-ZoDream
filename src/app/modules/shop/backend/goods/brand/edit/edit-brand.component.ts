@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
@@ -16,7 +16,7 @@ import { ButtonEvent } from '../../../../../../components/form';
     templateUrl: './edit-brand.component.html',
     styleUrls: ['./edit-brand.component.scss']
 })
-export class EditBrandComponent implements OnInit {
+export class EditBrandComponent {
     private readonly service = inject(GoodsService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -37,7 +37,7 @@ export class EditBrandComponent implements OnInit {
 
     public data: IBrand;
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;

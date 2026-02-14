@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -14,7 +14,7 @@ import { parseNumber } from '../../../../theme/utils';
     templateUrl: './task.component.html',
     styleUrls: ['./task.component.scss']
 })
-export class TaskComponent implements OnInit {
+export class TaskComponent {
     private readonly service = inject(GameMakerService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -42,7 +42,7 @@ export class TaskComponent implements OnInit {
     });
     public typeItems = TaskTypeItems;
 
-    ngOnInit() {
+    constructor() {
         this.route.parent.params.subscribe(params => {
             this.queries.project().value.set(parseNumber(params.game));
         });

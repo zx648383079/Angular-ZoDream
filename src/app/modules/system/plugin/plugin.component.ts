@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, viewChild, signal, computed } from '@angular/core';
+import { Component, inject, viewChild, signal, computed } from '@angular/core';
 import { IPageEditItem, IPageQueries } from '../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
@@ -15,7 +15,7 @@ import { FormPanelComponent } from '../../../components/desktop';
     templateUrl: './plugin.component.html',
     styleUrls: ['./plugin.component.scss']
 })
-export class PluginComponent implements OnInit {
+export class PluginComponent {
     private readonly service = inject(SystemService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -35,7 +35,7 @@ export class PluginComponent implements OnInit {
         per_page: 20,
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

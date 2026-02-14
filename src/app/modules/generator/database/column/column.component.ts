@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GenerateService } from '../../generate.service';
 import { IColumn } from '../../model';
@@ -10,7 +10,7 @@ import { ITableHeaderItem } from '../../../../components/desktop/editable-table/
     templateUrl: './column.component.html',
     styleUrls: ['./column.component.scss']
 })
-export class ColumnComponent implements OnInit {
+export class ColumnComponent {
     private readonly service = inject(GenerateService);
     private readonly route = inject(ActivatedRoute);
 
@@ -29,7 +29,7 @@ export class ColumnComponent implements OnInit {
     public table = '';
     public readonly isLoading = signal(false);
 
-    ngOnInit() {
+    constructor() {
         this.isLoading.set(true);
         this.route.queryParams.subscribe(params => {
             this.schema = params.schema;

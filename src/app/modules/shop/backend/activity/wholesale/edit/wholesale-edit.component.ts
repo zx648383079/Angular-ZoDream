@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { IActivity, IGroupBuyStep, IWholesaleConfigure } from '../../../../model';
 import { ActivatedRoute } from '@angular/router';
@@ -13,7 +13,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './wholesale-edit.component.html',
     styleUrls: ['./wholesale-edit.component.scss']
 })
-export class WholesaleEditComponent implements OnInit {
+export class WholesaleEditComponent {
     private readonly service = inject(ActivityService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -38,7 +38,7 @@ export class WholesaleEditComponent implements OnInit {
 
     public data: IActivity<IWholesaleConfigure>;
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;

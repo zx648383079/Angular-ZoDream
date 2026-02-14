@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { EditorService } from '../editor.service';
 import { Widget, BatchCommand, ResizeWidgetCommand, MENU_ACTION } from '../model';
 import { isMergeable, isSplitable, maxBound } from '../util';
@@ -16,7 +16,7 @@ enum EditMode {
     templateUrl: './editor-reflection.component.html',
     styleUrls: ['./editor-reflection.component.scss']
 })
-export class EditorReflectionComponent implements OnInit {
+export class EditorReflectionComponent {
     private readonly service = inject(EditorService);
 
 
@@ -56,7 +56,7 @@ export class EditorReflectionComponent implements OnInit {
         this.widgetBound = args;
     }
 
-    ngOnInit() {
+    constructor() {
         this.service.selectionChanged$.subscribe(res => {
             this.widgetItems = res;
             if (res.length < 1) {

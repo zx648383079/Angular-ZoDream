@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -14,7 +14,7 @@ import { ButtonEvent } from '../../../../../components/form';
     templateUrl: './edit-site.component.html',
     styleUrls: ['./edit-site.component.scss']
 })
-export class EditSiteComponent implements OnInit {
+export class EditSiteComponent {
     private readonly service = inject(CmsService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -43,7 +43,7 @@ export class EditSiteComponent implements OnInit {
         {name: '上线', value: 5},
     ];
 
-    ngOnInit() {
+    constructor() {
         this.service.batch({
             theme: {}
         }).subscribe(res => {

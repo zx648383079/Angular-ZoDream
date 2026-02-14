@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, Renderer2, effect, inject, input, model, output, signal, untracked, viewChild } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, ElementRef, OnDestroy, Renderer2, afterNextRender, effect, inject, input, model, output, signal, untracked, viewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ScreenFull, mediaIsFrame } from '../util';
 
@@ -8,9 +8,10 @@ import { ScreenFull, mediaIsFrame } from '../util';
     templateUrl: './video-player.component.html',
     styleUrls: ['./video-player.component.scss']
 })
-export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
+export class VideoPlayerComponent {
     private readonly sanitizer = inject(DomSanitizer);
-    private render = inject(Renderer2);
+    private readonly render = inject(Renderer2);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     private readonly videoElement = viewChild<ElementRef<HTMLVideoElement>>('playerVideo');
@@ -45,19 +46,19 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
                 }
             });
         });
-    }
-
-    ngOnDestroy() {
-        if (this.paused() || !this.videoPlayer) {
-            return;
-        }
-        this.videoPlayer.pause();
-    }
-
-    ngAfterViewInit() {
-        this.bindVideoEvent();
         this.render.listen(document, ScreenFull.changeEvent, () => {
             this.isFull.set(ScreenFull.isFullScreen);
+        });
+        afterNextRender({
+            write: () => {
+                this.bindVideoEvent();
+            }
+        });
+        this.destroyRef.onDestroy(() => {
+            if (this.paused() || !this.videoPlayer) {
+                return;
+            }
+            this.videoPlayer.pause();
         });
     }
 

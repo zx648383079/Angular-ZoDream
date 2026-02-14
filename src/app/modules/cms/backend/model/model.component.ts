@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,7 +13,7 @@ import { CmsService } from '../cms.service';
     templateUrl: './model.component.html',
     styleUrls: ['./model.component.scss']
 })
-export class ModelComponent implements OnInit {
+export class ModelComponent {
     private readonly service = inject(CmsService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -32,7 +32,7 @@ export class ModelComponent implements OnInit {
     public typeItems = ['实体', '表单'];
     public siteId = 0;
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.site) {
                 return;

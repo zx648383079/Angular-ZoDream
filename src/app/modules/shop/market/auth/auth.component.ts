@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
@@ -18,7 +18,7 @@ import { CountdownEvent } from '../../../../components/form';
     templateUrl: './auth.component.html',
     styleUrls: ['./auth.component.scss']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent {
     private readonly router = inject(Router);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -68,9 +68,6 @@ export class AuthComponent implements OnInit {
                 }
             }
         );
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(res => {
             this.redirectUri = res.redirect_uri || '/shop';
         });

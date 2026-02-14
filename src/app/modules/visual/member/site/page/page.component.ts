@@ -1,6 +1,6 @@
 import { form, required } from '@angular/forms/signals';
 import { Location } from '@angular/common';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ISitePage } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { VisualService } from '../../visual.service';
@@ -14,7 +14,7 @@ import { SearchService } from '../../../../../theme/services';
     templateUrl: './page.component.html',
     styleUrls: ['./page.component.scss']
 })
-export class SitePageComponent implements OnInit {
+export class SitePageComponent {
     private readonly service = inject(VisualService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -47,7 +47,7 @@ export class SitePageComponent implements OnInit {
         required(schemaPath.name);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
         });

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, ViewContainerRef, inject, input, output, viewChild, model, effect } from '@angular/core';
+import { Component, ElementRef, ViewContainerRef, inject, input, output, viewChild, model, effect, DestroyRef, afterNextRender } from '@angular/core';
 import { IEditor, IEditorBlock, IImageUploadEvent } from '../model';
 import { EditorService } from '../container';
 import { EDITOR_EVENT_CUSTOM, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITOR_READY, EDITOR_FULL_SCREEN_TOOL, EDITOR_PREVIEW_TOOL, IEditorTool } from '../base';
@@ -10,7 +10,9 @@ import { FormValueControl } from '@angular/forms/signals';
     templateUrl: './markdown-editor.component.html',
     styleUrls: ['./markdown-editor.component.scss'],
 })
-export class MarkdownEditorComponent implements AfterViewInit, OnDestroy, FormValueControl<string>, IEditor {
+export class MarkdownEditorComponent implements FormValueControl<string>, IEditor {
+
+    private readonly destroyRef = inject(DestroyRef);
 
     private readonly modalViewContainer = viewChild('modalVC', { read: ViewContainerRef });
     private readonly areaElement = viewChild<ElementRef<HTMLTextAreaElement>>('editorArea');
@@ -56,20 +58,16 @@ export class MarkdownEditorComponent implements AfterViewInit, OnDestroy, FormVa
             }
         });
         effect(() => this.container.value = this.value());
+        afterNextRender({
+            write: () => this.container.ready(this.areaElement().nativeElement, this.modalViewContainer())
+        });
+        this.destroyRef.onDestroy(() => this.container.destroy());
     }
 
     get areaStyle() {
         return {
             height: this.height() + 'px',
         };
-    }
-
-    ngAfterViewInit() {
-        this.container.ready(this.areaElement().nativeElement, this.modalViewContainer());
-    }
-
-    ngOnDestroy(): void {
-        this.container.destroy();
     }
 
     public tapTool(item: IEditorTool, event: MouseEvent) {

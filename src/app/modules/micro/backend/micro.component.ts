@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MicroService } from './micro.service';
 
 @Component({
@@ -7,14 +7,14 @@ import { MicroService } from './micro.service';
     templateUrl: './micro.component.html',
     styleUrls: ['./micro.component.scss']
 })
-export class MicroComponent implements OnInit {
+export class MicroComponent {
     private readonly service = inject(MicroService);
 
 
     public readonly isLoading = signal(true);
     public readonly data = signal<any>({});
 
-    ngOnInit() {
+    constructor() {
         this.service.statistics().subscribe(res => {
             this.isLoading.set(false);
             this.data.set(res);

@@ -1,7 +1,4 @@
-import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
-import {
-    Subscription
-} from 'rxjs';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import {
     Store
 } from '@ngrx/store';
@@ -32,6 +29,7 @@ import { ButtonEvent, CountdownEvent } from '../../../components/form';
 import { selectSystemConfig } from '../../../theme/reducers/system.selectors';
 import { EncryptorService } from '../../../theme/services/encryptor.service';
 import { email, form, minLength, required } from '@angular/forms/signals';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -39,7 +37,7 @@ import { email, form, minLength, required } from '@angular/forms/signals';
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent {
     private readonly store = inject<Store<AppState>>(Store);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
@@ -48,6 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private readonly authService = inject(AuthService);
     private readonly encryptor = inject(EncryptorService);
     private readonly webAuthn = inject(WebAuthn);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public readonly mode = signal(0);
@@ -77,28 +76,19 @@ export class LoginComponent implements OnInit, OnDestroy {
     public readonly captchaImage = signal('');
     private qrToken = '';
     public readonly qrImage = signal('');
-    private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `Sign in`);
-        this.subItems.add(
-            this.store.select(selectSystemConfig).subscribe(res => {
-                this.openAuth.set(res && res.auth_oauth);
-            })
-        );
+        this.store.select(selectSystemConfig).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
+            this.openAuth.set(res && res.auth_oauth);
+        });
         this.openWebAuthn.set(this.webAuthn.enabled);
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(res => {
             this.redirectUri = res.redirect_uri || '/';
             this.redirectIfUserLoggedIn();
         });
     }
 
-    ngOnDestroy() {
-        this.subItems.unsubscribe();
-    }
 
     public tapQr() {
         this.authService.qrRefresh().subscribe({
@@ -199,13 +189,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
     private redirectIfUserLoggedIn() {
-        this.subItems.add(this.store.select(selectAuthStatus).subscribe(
+        this.store.select(selectAuthStatus).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
             data => {
                 if (!data.guest) {
                     this.router.navigateByUrl(this.redirectUri);
                 }
             }
-        ));
+        );
     }
 
     public tapOAuth(type: string) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
@@ -16,7 +16,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './edit-software.component.html',
     styleUrls: ['./edit-software.component.scss']
 })
-export class EditSoftwareComponent implements OnInit {
+export class EditSoftwareComponent {
     private readonly service = inject(AppService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -48,7 +48,7 @@ export class EditSoftwareComponent implements OnInit {
     public tagInput$ = new Subject<string>();
     public tagLoading = false;
 
-    ngOnInit() {
+    constructor() {
         this.service.categoryTree().subscribe(res => {
             this.categories = res.data;
         });

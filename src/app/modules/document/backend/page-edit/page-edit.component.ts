@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -15,7 +15,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './page-edit.component.html',
     styleUrls: ['./page-edit.component.scss']
 })
-export class PageEditComponent implements OnInit {
+export class PageEditComponent {
     private readonly service = inject(DocumentService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -39,7 +39,7 @@ export class PageEditComponent implements OnInit {
         name: ''
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.project) {
                 return;

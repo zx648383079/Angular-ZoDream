@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,7 +13,7 @@ import { OnlineBackendService } from '../online.service';
     templateUrl: './word.component.html',
     styleUrls: ['./word.component.scss']
 })
-export class WordComponent implements OnInit {
+export class WordComponent {
     private readonly service = inject(OnlineBackendService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -38,7 +38,7 @@ export class WordComponent implements OnInit {
         required(schemaPath.content);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (params.category) {
                 this.queries.category().value.set(parseInt(params.category, 10));

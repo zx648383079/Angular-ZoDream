@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ExamService } from '../exam.service';
 import { ICourse, IQuestionCard, IQuestionFormat, IQuestionOption } from '../model';
@@ -9,7 +9,7 @@ import { ICourse, IQuestionCard, IQuestionFormat, IQuestionOption } from '../mod
     templateUrl: './question.component.html',
     styleUrls: ['./question.component.scss']
 })
-export class QuestionComponent implements OnInit {
+export class QuestionComponent {
     private readonly service = inject(ExamService);
     private readonly route = inject(ActivatedRoute);
 
@@ -23,7 +23,7 @@ export class QuestionComponent implements OnInit {
     public cardIndex = 0;
     public editable = true;
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (params.course) {
                 this.service.course(params.course).subscribe(res => {

@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
@@ -12,7 +12,7 @@ import { ICategory, IService } from '../model';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
     private readonly service = inject(LegworkService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
         per_page: 20
     }));
 
-    ngOnInit() {
+    constructor() {
         this.service.categoryList().subscribe(res => {
             this.categories = res.data;
         });

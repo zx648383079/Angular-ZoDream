@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ICmsCategory } from '../../model';
@@ -11,7 +11,7 @@ import { toggleTreeItem } from '../../../../theme/utils';
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent {
     private readonly service = inject(CmsService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -20,7 +20,7 @@ export class CategoryComponent implements OnInit {
     public readonly items = signal<ICmsCategory[]>([]);
     public site = 0;
   
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.site = parseInt(params.site);
             this.tapRefresh();

@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ICategory, IResource } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
 import { ResourceService } from './resource.service';
@@ -13,7 +13,7 @@ import { SearchService } from '../../../theme/services';
     templateUrl: './resource-member.component.html',
     styleUrls: ['./resource-member.component.scss']
 })
-export class ResourceMemberComponent implements OnInit {
+export class ResourceMemberComponent {
     private readonly service = inject(ResourceService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -33,7 +33,7 @@ export class ResourceMemberComponent implements OnInit {
     }));
     public categories: ICategory[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.service.categoryAll().subscribe(res => {
             this.categories = res;
         });

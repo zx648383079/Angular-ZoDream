@@ -1,4 +1,4 @@
-import { Component, OnDestroy, effect, input } from '@angular/core';
+import { Component, DestroyRef, effect, inject, input } from '@angular/core';
 import { twoPad } from '../../../theme/utils';
 
 @Component({
@@ -7,9 +7,11 @@ import { twoPad } from '../../../theme/utils';
     templateUrl: './voice-player.component.html',
     styleUrls: ['./voice-player.component.scss']
 })
-export class VoicePlayerComponent implements OnDestroy {
+export class VoicePlayerComponent {
 
-    public readonly src = input<string>(undefined);
+    private readonly destroyRef = inject(DestroyRef);
+
+    public readonly src = input<string>();
     public progress = 0;
     public duration = 0;
     public paused = true;
@@ -20,6 +22,13 @@ export class VoicePlayerComponent implements OnDestroy {
         effect(() => {
             this.src();
             this.booted = false;
+        });
+
+        this.destroyRef.onDestroy(() => {
+            if (this.paused) {
+                return;
+            }
+            this.audio.pause();
         });
     }
 
@@ -38,13 +47,6 @@ export class VoicePlayerComponent implements OnDestroy {
 
     public get formatDuration() {
         return this.formatMinute(this.duration);
-    }
-
-    ngOnDestroy() {
-        if (this.paused) {
-            return;
-        }
-        this.audio.pause();
     }
 
     public tapPlay() {

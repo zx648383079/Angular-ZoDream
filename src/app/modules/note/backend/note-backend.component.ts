@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { NoteService } from './note.service';
 
 @Component({
@@ -7,14 +7,14 @@ import { NoteService } from './note.service';
     templateUrl: './note-backend.component.html',
     styleUrls: ['./note-backend.component.scss']
 })
-export class NoteBackendComponent implements OnInit {
+export class NoteBackendComponent {
     private readonly service = inject(NoteService);
 
 
     public readonly isLoading = signal(true);
     public readonly data = signal<any>({});
 
-    ngOnInit() {
+    constructor() {
         this.service.statistics().subscribe(res => {
             this.isLoading.set(false);
             this.data.set(res);

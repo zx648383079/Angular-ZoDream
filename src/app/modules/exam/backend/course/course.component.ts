@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { filterTree } from '../../../../theme/utils';
 import { ICourse } from '../../model';
@@ -11,7 +11,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './course.component.html',
     styleUrls: ['./course.component.scss']
 })
-export class CourseComponent implements OnInit {
+export class CourseComponent {
     private readonly service = inject(ExamService);
     private readonly toastrService = inject(DialogService);
 
@@ -31,9 +31,6 @@ export class CourseComponent implements OnInit {
 
     constructor() {
         this.tapRefresh();
-    }
-  
-    ngOnInit() {
     }
 
     public tapRefresh() {

@@ -1,11 +1,11 @@
-import { DOCUMENT, Directive, ElementRef, HostListener, OnInit, inject, input } from '@angular/core';
+import { DOCUMENT, Directive, ElementRef, HostListener, inject, input } from '@angular/core';
 import { scrollTop, toggleClass } from '../../../theme/utils/doc';
 
 @Directive({
     standalone: false,
     selector: '[appScrollFixed]'
 })
-export class ScrollFixedDirective implements OnInit {
+export class ScrollFixedDirective {
     private readonly document = inject<Document>(DOCUMENT);
     private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
@@ -16,7 +16,7 @@ export class ScrollFixedDirective implements OnInit {
     private lastOffset = 0;
     private lastScrollTop = 0;
 
-    ngOnInit(): void {
+    constructor() {
         this.onResize();
     }
 

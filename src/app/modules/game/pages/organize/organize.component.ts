@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameRouter, IGameScene, IGmeRoute } from '../../model';
 
 @Component({
@@ -7,7 +7,7 @@ import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameRouter, IGame
     templateUrl: './organize.component.html',
     styleUrls: ['./organize.component.scss']
 })
-export class OrganizeComponent implements IGameScene, OnInit {
+export class OrganizeComponent implements IGameScene {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
@@ -19,7 +19,7 @@ export class OrganizeComponent implements IGameScene, OnInit {
         {name: '地图', path: GameScenePath.MapGlobe},
     ];
 
-    ngOnInit(): void {
+    constructor() {
         this.router.request(GameCommand.OrganizeOwn).subscribe(res => {
 
         });

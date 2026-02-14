@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, inject, signal, viewChild } from '@angular/core';
+import { afterNextRender, Component, DestroyRef, inject, signal, viewChild } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { MoviePlayerComponent, PlayerEvents } from '../../../components/media-player';
 import { IComment, IVideo } from '../model';
@@ -11,10 +11,10 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './video-detail.component.html',
     styleUrls: ['./video-detail.component.scss']
 })
-export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
+export class VideoDetailComponent {
     private readonly service = inject(VideoService);
     private readonly toastrService = inject(DialogService);
-
+    private readonly destroyRef = inject(DestroyRef);
 
     private readonly videoPlayer = viewChild(MoviePlayerComponent);
     private audioElement: HTMLAudioElement;
@@ -40,7 +40,7 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
         required(schemaPath.content);
     });
 
-    ngOnInit() {
+    constructor() {
         this.tapRefresh(() => {
             if (this.items().length < 1) {
                 return;
@@ -51,6 +51,10 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.tapPlay();
             }, 1000);
         });
+        afterNextRender({
+            write: () => this.bindVideoEvent()
+        });
+        this.destroyRef.onDestroy(() => this.stop());
     }
 
     get audio(): HTMLAudioElement {
@@ -59,14 +63,6 @@ export class VideoDetailComponent implements OnInit, AfterViewInit, OnDestroy {
             this.bindAudioEvent();
         }
         return this.audioElement;
-    }
-
-    ngAfterViewInit() {
-        this.bindVideoEvent();
-    }
-
-    ngOnDestroy() {
-        this.stop();
     }
 
     public tapUser() {

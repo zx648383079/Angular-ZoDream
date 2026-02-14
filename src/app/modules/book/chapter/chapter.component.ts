@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
     IBook,
     IChapter
@@ -17,7 +17,7 @@ import {
     templateUrl: './chapter.component.html',
     styleUrls: ['./chapter.component.scss']
 })
-export class ChapterComponent implements OnInit {
+export class ChapterComponent {
     private readonly service = inject(BookService);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
@@ -26,7 +26,7 @@ export class ChapterComponent implements OnInit {
     public data: IBook;
     public chapterItems: IChapter[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params || !params.id) {
                 return;

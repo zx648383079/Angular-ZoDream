@@ -1,6 +1,6 @@
 import { form, required } from '@angular/forms/signals';
 import { Location } from '@angular/common';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ComponentTypeItems, ISiteComponent, IThemeComponent } from '../../../model';
 import { VisualService } from '../../visual.service';
 import { DialogEvent, DialogService, SearchDialogEvent } from '../../../../../components/dialog';
@@ -13,7 +13,7 @@ import { SearchService } from '../../../../../theme/services';
     templateUrl: './site-weight.component.html',
     styleUrls: ['./site-weight.component.scss']
 })
-export class SiteWeightComponent implements OnInit {
+export class SiteWeightComponent {
     private readonly service = inject(VisualService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -41,7 +41,7 @@ export class SiteWeightComponent implements OnInit {
         required(schemaPath.name);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
         });

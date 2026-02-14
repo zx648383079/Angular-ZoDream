@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IErrorResult, IPageQueries } from '../../../../theme/models/page';
@@ -13,7 +13,7 @@ import { IOrder } from '../../model';
     templateUrl: './center.component.html',
     styleUrls: ['./center.component.scss']
 })
-export class CenterComponent implements OnInit {
+export class CenterComponent {
     private readonly service = inject(LegworkService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -29,7 +29,7 @@ export class CenterComponent implements OnInit {
         per_page: 20
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

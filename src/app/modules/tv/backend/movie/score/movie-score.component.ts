@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -13,7 +13,7 @@ import { TVService } from '../../tv.service';
     templateUrl: './movie-score.component.html',
     styleUrls: ['./movie-score.component.scss']
 })
-export class MovieScoreComponent implements OnInit {
+export class MovieScoreComponent {
     private readonly service = inject(TVService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -38,7 +38,7 @@ export class MovieScoreComponent implements OnInit {
         required(schemaPath.name);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

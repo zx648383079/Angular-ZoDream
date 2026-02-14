@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IStatisticsItem } from '../../../theme/models/seo';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';

@@ -1,4 +1,4 @@
-import { Component, OnInit, effect, input, signal } from '@angular/core';
+import { Component, effect, input, signal } from '@angular/core';
 import { INavLink } from '../../../../theme/models/seo';
 
 @Component({
@@ -7,7 +7,7 @@ import { INavLink } from '../../../../theme/models/seo';
     templateUrl: './waiter-menu.component.html',
     styleUrls: ['./waiter-menu.component.scss']
 })
-export class WaiterMenuComponent implements OnInit {
+export class WaiterMenuComponent {
 
     public readonly items = signal<INavLink[]>([
         {name: '统计', url: '', active: true},
@@ -22,9 +22,6 @@ export class WaiterMenuComponent implements OnInit {
         effect(() => {
             this.checkUrl(this.currentUrl());
         })
-    }
-
-    ngOnInit(): void {
         this.basePath =  this.getBasePath();
     }
 

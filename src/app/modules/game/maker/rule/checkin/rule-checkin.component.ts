@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { GameMakerService } from '../../game-maker.service';
 import { DialogService } from '../../../../../components/dialog';
@@ -16,7 +16,7 @@ interface IPlusItem {
     templateUrl: './rule-checkin.component.html',
     styleUrls: ['./rule-checkin.component.scss']
 })
-export class RuleCheckinComponent implements OnInit {
+export class RuleCheckinComponent {
     private readonly service = inject(GameMakerService);
     private readonly toastrService = inject(DialogService);
     private readonly location = inject(Location);
@@ -30,7 +30,7 @@ export class RuleCheckinComponent implements OnInit {
         }],
     }));
 
-    ngOnInit() {
+    constructor() {
         // this.service.option().subscribe(res => {
         //     this.data = res;
         //     if (res.plus) {

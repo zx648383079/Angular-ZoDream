@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, computed, effect, inject, signal, untracked } from '@angular/core';
+import { Component, DestroyRef, OnDestroy, computed, effect, inject, signal, untracked } from '@angular/core';
 import { Location } from '@angular/common';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -21,11 +21,12 @@ interface IGroupHeader {
     templateUrl: './setting.component.html',
     styleUrls: ['./setting.component.scss']
 })
-export class SettingComponent implements OnDestroy {
+export class SettingComponent {
     private readonly service = inject(MemberService);
     private readonly toastrService = inject(DialogService);
     private readonly searchService = inject(SearchService);
     private readonly location = inject(Location);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly dataForm = form(signal({
         accept_new_bulletin: true,

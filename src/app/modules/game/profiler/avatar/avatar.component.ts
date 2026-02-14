@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -6,7 +6,7 @@ import { Component, OnInit, signal } from '@angular/core';
     templateUrl: './avatar.component.html',
     styleUrls: ['./avatar.component.scss']
 })
-export class AvatarComponent implements OnInit {
+export class AvatarComponent {
 
     public readonly items = signal<any[]>([
         {
@@ -21,7 +21,7 @@ export class AvatarComponent implements OnInit {
     ]);
     public modalVisible = false;
 
-    ngOnInit() {
+    constructor() {
     }
 
     public tapItem(item: any) {

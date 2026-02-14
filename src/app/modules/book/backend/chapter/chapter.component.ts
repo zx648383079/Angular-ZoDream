@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ChapterTypeItems, IBook, IChapter } from '../../model';
@@ -12,7 +12,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './chapter.component.html',
     styleUrls: ['./chapter.component.scss']
 })
-export class ChapterComponent implements OnInit {
+export class ChapterComponent {
     private readonly service = inject(BookService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -29,7 +29,7 @@ export class ChapterComponent implements OnInit {
     public readonly total = signal(0);
     public data: IBook;
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.book) {
                 return;

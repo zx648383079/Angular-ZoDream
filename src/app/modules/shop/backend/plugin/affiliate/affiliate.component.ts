@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AffiliateService } from './affiliate.service';
 
@@ -8,7 +8,7 @@ import { AffiliateService } from './affiliate.service';
     templateUrl: './affiliate.component.html',
     styleUrls: ['./affiliate.component.scss']
 })
-export class AffiliateComponent implements OnInit {
+export class AffiliateComponent {
     private readonly service = inject(AffiliateService);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
@@ -18,7 +18,7 @@ export class AffiliateComponent implements OnInit {
     public readonly isLoading = signal(true);
     public readonly data = signal<any>({});
 
-    ngOnInit() {
+    constructor() {
         this.service.statistics().subscribe(res => {
             this.isLoading.set(false);
             this.data.set(res);

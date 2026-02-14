@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
@@ -13,7 +13,7 @@ import { ResourceService } from '../resource.service';
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent {
     private readonly service = inject(ResourceService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
@@ -33,7 +33,7 @@ export class CategoryComponent implements OnInit {
     public readonly data = signal<ICategory>(null);
     public readonly categories = signal<ICategory[]>([]);
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.data.set({id: params.id} as any);
             if (params.id) {

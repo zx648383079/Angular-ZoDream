@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBlockItem } from '../../../../components/link-rule';
 import { IMessageBase } from '../../../../components/message-container';
@@ -19,7 +19,7 @@ interface IMessageGroup {
     templateUrl: './message.component.html',
     styleUrls: ['./message.component.scss']
 })
-export class MessageComponent implements OnInit {
+export class MessageComponent {
     private readonly service = inject(ShopService);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
@@ -45,7 +45,7 @@ export class MessageComponent implements OnInit {
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
 
-    ngOnInit() {
+    constructor() {
         this.service.bulletinUser().subscribe(res => {
             this.navItems = res.data as any[];
         });

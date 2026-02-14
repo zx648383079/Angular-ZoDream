@@ -1,4 +1,4 @@
-import { Component, OnInit, WritableSignal, inject, signal } from '@angular/core';
+import { Component, WritableSignal, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -34,7 +34,7 @@ interface ICacheRequest {
     templateUrl: './debug.component.html',
     styleUrls: ['./debug.component.scss']
 })
-export class DebugComponent implements OnInit {
+export class DebugComponent {
     private readonly service = inject(DocumentService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -74,7 +74,7 @@ export class DebugComponent implements OnInit {
     public responseHeader: IListOptionItem[] = [];
     public responseInfo: IListOptionItem[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.id) {
                 this.resetCache();

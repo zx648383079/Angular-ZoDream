@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { SearchService } from '../../../theme/services';
@@ -18,7 +18,7 @@ interface IGroupHeader {
     templateUrl: './user-setting.component.html',
     styleUrls: ['./user-setting.component.scss']
 })
-export class UserSettingComponent implements OnInit {
+export class UserSettingComponent {
     private readonly service = inject(UserService);
     private readonly toastrService = inject(DialogService);
     private readonly searchService = inject(SearchService);
@@ -48,7 +48,7 @@ export class UserSettingComponent implements OnInit {
 
     public readonly crumbs = signal<IGroupHeader[]>([]);
 
-    ngOnInit() {
+    constructor() {
         this.service.settings().subscribe(res => {
             this.dataForm().value.update(v => {
                 return this.searchService.getQueries(res, v);

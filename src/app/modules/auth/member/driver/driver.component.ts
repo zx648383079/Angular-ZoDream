@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { MemberService } from '../member.service';
 
@@ -8,14 +8,14 @@ import { MemberService } from '../member.service';
     templateUrl: './driver.component.html',
     styleUrls: ['./driver.component.scss']
 })
-export class DriverComponent implements OnInit {
+export class DriverComponent {
     private readonly service = inject(MemberService);
     private readonly location = inject(Location);
 
     public readonly items = signal<any[]>([]);
     public readonly isLoading = signal(false);
 
-    ngOnInit() {
+    constructor() {
         this.tapRefresh();
     }
 

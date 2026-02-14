@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SuggestChangeEvent } from '../../components/form';
 import { IPageQueries } from '../../theme/models/page';
@@ -14,7 +14,7 @@ import { IProject } from './model';
     templateUrl: './document.component.html',
     styleUrls: ['./document.component.scss']
 })
-export class DocumentComponent implements OnInit {
+export class DocumentComponent {
     private readonly service = inject(DocumentService);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
@@ -32,7 +32,7 @@ export class DocumentComponent implements OnInit {
         keywords: ''
     }));
 
-    ngOnInit() {
+    constructor() {
         this.themeService.titleChanged.next($localize `Document`);
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));

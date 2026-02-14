@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, inject, input, signal } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { IPlatform } from '../../../theme/models/open';
@@ -26,7 +26,7 @@ interface IOptionGroup {
     templateUrl: './platform-option.component.html',
     styleUrls: ['./platform-option.component.scss']
 })
-export class PlatformOptionComponent implements OnInit {
+export class PlatformOptionComponent {
     private readonly http = inject(HttpClient);
     private readonly toastrService = inject(DialogService);
 
@@ -43,7 +43,7 @@ export class PlatformOptionComponent implements OnInit {
     });
     public readonly dataForm = form(this.dataModel);
 
-    ngOnInit() {
+    constructor() {
         this.http.get<IData<IPlatform>>(this.url() + '/platform').subscribe(res => {
             this.platformItems.set(res.data);
             if (res.data.length > 0) {

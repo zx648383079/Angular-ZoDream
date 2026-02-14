@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, input, output, viewChild } from '@angular/core';
+import { afterNextRender, Component, ElementRef, input, output, viewChild } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -6,7 +6,7 @@ import { AfterViewInit, Component, ElementRef, input, output, viewChild } from '
     templateUrl: './gua.component.html',
     styleUrls: ['./gua.component.scss']
 })
-export class GuaComponent implements AfterViewInit {
+export class GuaComponent {
 
     private readonly drawerElement = viewChild<ElementRef<HTMLCanvasElement>>('drawerBox');
     public readonly placeholder = input('刮开有奖');
@@ -19,17 +19,19 @@ export class GuaComponent implements AfterViewInit {
     private disabled = true;
     private isLoaded = false;
 
-    constructor() { }
+    constructor() {
+        afterNextRender({
+            write: () => {
+                this.drawer.width = 300;
+                this.drawer.height = 180;
+                this.ctx = this.drawer.getContext('2d');
+                this.reset();
+            }
+        });
+    }
 
     get drawer(): HTMLCanvasElement {
         return this.drawerElement().nativeElement as HTMLCanvasElement;
-    }
-
-    ngAfterViewInit() {
-        this.drawer.width = 300;
-        this.drawer.height = 180;
-        this.ctx = this.drawer.getContext('2d');
-        this.reset();
     }
 
     public tapStart() {

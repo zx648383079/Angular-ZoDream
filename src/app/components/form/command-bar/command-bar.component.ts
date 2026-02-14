@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostListener, input, contentChildren, effect, signal } from '@angular/core';
+import { Component, HostListener, input, contentChildren, effect, signal, afterNextRender } from '@angular/core';
 import { IButton } from '../event';
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { CommandButtonComponent } from './command-button';
@@ -9,7 +9,7 @@ import { CommandButtonComponent } from './command-button';
     templateUrl: './command-bar.component.html',
     styleUrls: ['./command-bar.component.scss']
 })
-export class CommandBarComponent implements AfterViewInit {
+export class CommandBarComponent {
 
     public readonly items = contentChildren(CommandButtonComponent);
     public readonly max = input(3);
@@ -26,6 +26,13 @@ export class CommandBarComponent implements AfterViewInit {
             this.items();
             this.splitButton();
         });
+        afterNextRender({
+            write: () => {
+                setTimeout(() => {
+                    this.splitButton();
+                }, 100);
+            }
+        });
     }
 
     @HostListener('document:click', ['$event']) 
@@ -40,11 +47,6 @@ export class CommandBarComponent implements AfterViewInit {
         this.splitButton();
     }
 
-    ngAfterViewInit(): void {
-        setTimeout(() => {
-            this.splitButton();
-        }, 100);
-    }
 
     public toggle() {
         this.dropVisible.update(v => !v);

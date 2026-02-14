@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, viewChild, signal } from '@angular/core';
+import { Component, inject, viewChild, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SuggestChangeEvent } from '../../../components/form';
 import { MusicPlayerComponent } from '../../../components/media-player';
@@ -15,7 +15,7 @@ import { TvService } from '../tv.service';
     templateUrl: './music.component.html',
     styleUrls: ['./music.component.scss']
 })
-export class MusicComponent implements OnInit {
+export class MusicComponent {
     private readonly service = inject(TvService);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
@@ -34,7 +34,7 @@ export class MusicComponent implements OnInit {
         keywords: ''
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             if (!this.queries.keywords) {

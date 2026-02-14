@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
@@ -12,7 +12,7 @@ import { disabled, form, required } from '@angular/forms/signals';
     templateUrl: './share.component.html',
     styleUrls: ['./share.component.scss']
 })
-export class ShareComponent implements OnInit {
+export class ShareComponent {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly service = inject(MicroService);
@@ -41,7 +41,7 @@ export class ShareComponent implements OnInit {
         $localize `Private`
     ];
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.dataForm().value.set({
                 shareappid: params.appid || '',

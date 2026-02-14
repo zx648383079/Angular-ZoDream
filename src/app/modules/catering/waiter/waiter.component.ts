@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -6,9 +6,9 @@ import { Component, OnInit } from '@angular/core';
     templateUrl: './waiter.component.html',
     styleUrls: ['./waiter.component.scss']
 })
-export class WaiterComponent implements OnInit {
+export class WaiterComponent {
 
-    ngOnInit() {
+    constructor() {
     }
 
 }

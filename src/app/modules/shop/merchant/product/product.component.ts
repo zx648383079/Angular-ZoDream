@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IBrand, ICategory, IGoods } from '../../model';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
@@ -13,7 +13,7 @@ import { ShopService } from '../shop.service';
     templateUrl: './product.component.html',
     styleUrls: ['./product.component.scss'],
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent {
     private readonly service = inject(ShopService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -45,9 +45,6 @@ export class ProductComponent implements OnInit {
         this.service.brandAll().subscribe(res => {
             this.brandItems.set(res.data);
         });
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

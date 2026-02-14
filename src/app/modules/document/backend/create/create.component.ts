@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -12,7 +12,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './create.component.html',
     styleUrls: ['./create.component.scss']
 })
-export class CreateComponent implements OnInit {
+export class CreateComponent {
     private readonly service = inject(DocumentService);
     private readonly toastrService = inject(DialogService);
     private readonly location = inject(Location);
@@ -46,7 +46,7 @@ export class CreateComponent implements OnInit {
         },
     ];
 
-    ngOnInit() {
+    constructor() {
         this.service.categoryTree().subscribe(res => {
             this.categories = res.data;
         });

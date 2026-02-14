@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { VisualService } from '../visual.service';
 import { ActivatedRoute } from '@angular/router';
 import { ICategory } from '../../model';
@@ -9,7 +9,7 @@ import { ICategory } from '../../model';
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent {
     private readonly service = inject(VisualService);
     private readonly route = inject(ActivatedRoute);
 
@@ -18,7 +18,7 @@ export class CategoryComponent implements OnInit {
     public data: ICategory;
     public categories: ICategory[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.service.category({
                 id: params.id

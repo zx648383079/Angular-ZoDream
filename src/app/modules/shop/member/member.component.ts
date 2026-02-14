@@ -1,4 +1,4 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ISite } from '../../../theme/models/seo';
@@ -6,7 +6,7 @@ import { selectAuth } from '../../../theme/reducers/auth.selectors';
 import { ShopAppState } from '../shop.reducer';
 import { selectSite } from '../shop.selectors';
 import { ShopService } from '../shop.service';
-import { Subscription } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -14,30 +14,26 @@ import { Subscription } from 'rxjs';
     templateUrl: './member.component.html',
     styleUrls: ['./member.component.scss']
 })
-export class MemberComponent implements OnDestroy {
+export class MemberComponent {
     private readonly service = inject(ShopService);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly store = inject<Store<ShopAppState>>(Store);
+    private readonly destroyRef = inject(DestroyRef);
 
     public site: ISite = {} as any;
     public title = '个人中心';
-    private readonly subItems = new Subscription();
 
     constructor() {
-        this.subItems.add(this.store.select(selectAuth).subscribe(res => {
+        this.store.select(selectAuth).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
             if (!res.isLoading && res.guest) {
                 this.router.navigate(['../market/auth'], {relativeTo: this.route});
                 return;
             }
-        }));
-        this.subItems.add(this.store.select(selectSite).subscribe(site => {
+        });
+        this.store.select(selectSite).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(site => {
             this.site = site;
-        }));
-    }
-
-    ngOnDestroy(): void {
-        this.subItems.unsubscribe();
+        });
     }
 
     public onRouterActivate(componentRef: any) {

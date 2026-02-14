@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal, viewChild } from '@angular/core';
+import { Component, computed, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { DialogService } from '../../../../../../components/dialog';
@@ -14,7 +14,7 @@ import { ButtonEvent } from '../../../../../../components/form';
     templateUrl: './edit.component.html',
     styleUrls: ['./edit.component.scss'],
 })
-export class EditLotteryComponent implements OnInit {
+export class EditLotteryComponent {
     private readonly service = inject(ActivityService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -56,7 +56,7 @@ export class EditLotteryComponent implements OnInit {
         return typeof val === 'number' ? val : parseInt(val, 10);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;

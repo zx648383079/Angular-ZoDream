@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { SearchService, ThemeService } from '../../../../theme/services';
 import { IGameProject } from '../../model';
@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
     templateUrl: './game-list.component.html',
     styleUrls: ['./game-list.component.scss']
 })
-export class GameListComponent implements OnInit {
+export class GameListComponent {
     private readonly service = inject(GameMakerService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -39,9 +39,6 @@ export class GameListComponent implements OnInit {
 
     constructor() {
         this.themeService.titleChanged.next($localize `Game Maker`);
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

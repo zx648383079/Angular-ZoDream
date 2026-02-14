@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../components/dialog';
 import { IErrorResult } from '../../theme/models/page';
@@ -13,7 +13,7 @@ import { NavigationDisplayMode } from '../../theme/models/event';
     templateUrl: './agreement.component.html',
     styleUrls: ['./agreement.component.scss']
 })
-export class AgreementComponent implements OnInit {
+export class AgreementComponent {
     private readonly service = inject(FrontendService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -23,7 +23,7 @@ export class AgreementComponent implements OnInit {
     public readonly data = signal<IAgreement>(null);
     public readonly navVisible = signal(true);
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.service.agreement(params.name || 'agreement').subscribe({
                 next: res => {

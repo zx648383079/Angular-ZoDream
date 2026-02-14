@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
@@ -12,7 +12,7 @@ import { IBotMedia } from '../model';
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss']
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent {
     private readonly service = inject(BotService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -27,7 +27,7 @@ export class DetailComponent implements OnInit {
         }
     }
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.service.media({
                 wid: params.wid,

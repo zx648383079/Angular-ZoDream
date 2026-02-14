@@ -1,10 +1,10 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { INavLink } from '../../../theme/models/seo';
-import { Subscription } from 'rxjs';
 import { AppState } from '../../../theme/interfaces';
 import { Store } from '@ngrx/store';
 import { ThemeService } from '../../../theme/services';
 import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -12,12 +12,12 @@ import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
     templateUrl: './game-profiler.component.html',
     styleUrls: ['./game-profiler.component.scss']
 })
-export class GameProfilerComponent implements OnDestroy {
-private readonly store = inject<Store<AppState>>(Store);
-private readonly themeService = inject(ThemeService);
+export class GameProfilerComponent {
+    private readonly store = inject<Store<AppState>>(Store);
+    private readonly themeService = inject(ThemeService);
+    private readonly destroyRef = inject(DestroyRef);
 
-
-public navItems: INavLink[] = [
+    public navItems: INavLink[] = [
         {
             name: $localize `Home`,
             icon: 'icon-home',
@@ -56,20 +56,15 @@ public navItems: INavLink[] = [
             url: '/',
         }
     ];
-    private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `Game Profiler`);
-        this.subItems.add(this.store.select(selectAuthUser).subscribe(user => {
+        this.store.select(selectAuthUser).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(user => {
             if (!user) {
                 return;
             }
             this.bottomNavs[0].name = user.name;
-        }));
-    }
-
-    ngOnDestroy(): void {
-        this.subItems.unsubscribe();
+        });
     }
 
 }

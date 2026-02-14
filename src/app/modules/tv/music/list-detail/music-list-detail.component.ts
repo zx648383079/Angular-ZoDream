@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IMusic, IMusicList } from '../../model';
 import { Location } from '@angular/common';
 
@@ -8,7 +8,7 @@ import { Location } from '@angular/common';
     templateUrl: './music-list-detail.component.html',
     styleUrls: ['./music-list-detail.component.scss']
 })
-export class MusicListDetailComponent implements OnInit {
+export class MusicListDetailComponent {
 
     private readonly location = inject(Location);
     
@@ -16,7 +16,7 @@ export class MusicListDetailComponent implements OnInit {
     public readonly isLoading = signal(false);
     public readonly items = signal<IMusic[]>([]);
 
-    ngOnInit() {
+    constructor() {
     }
 
     public tapBack() {

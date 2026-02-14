@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, ViewEncapsulation, contentChildren, effect, model } from '@angular/core';
+import { Component, ViewEncapsulation, contentChildren, effect, model } from '@angular/core';
 import { StackItemComponent } from './stack-item.component';
 import { checkLoopRange } from '../../../theme/utils';
 import { SwiperEvent } from '../model';
@@ -13,7 +13,7 @@ import { SwiperEvent } from '../model';
     </div>`,
     styleUrls: ['./stack-container.component.scss']
 })
-export class StackContainerComponent implements AfterContentInit, SwiperEvent {
+export class StackContainerComponent implements SwiperEvent {
 
     private readonly items = contentChildren(StackItemComponent);
     public readonly index = model(-1);
@@ -30,10 +30,9 @@ export class StackContainerComponent implements AfterContentInit, SwiperEvent {
             this.items();
             this.lazyRefresh();
         });
-    }
-
-    ngAfterContentInit(): void {
-        this.lazyRefresh();
+        afterRender(() => {
+            this.lazyRefresh();
+        });
     }
 
     private lazyRefresh() {
@@ -90,3 +89,7 @@ export class StackContainerComponent implements AfterContentInit, SwiperEvent {
         }
     }
 }
+function afterRender(arg0: () => void) {
+    throw new Error('Function not implemented.');
+}
+

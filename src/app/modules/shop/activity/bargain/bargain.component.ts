@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, viewChildren, signal } from '@angular/core';
+import { Component, inject, viewChildren, signal, DestroyRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CountdownComponent } from '../../../../components/desktop';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -15,11 +15,12 @@ import { interval, Subscription } from 'rxjs';
     templateUrl: './bargain.component.html',
     styleUrls: ['./bargain.component.scss']
 })
-export class BargainComponent implements OnInit {
+export class BargainComponent {
     private readonly themeService = inject(ThemeService);
     private readonly route = inject(ActivatedRoute);
     private readonly service = inject(ActivityService);
     private readonly searchService = inject(SearchService);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public readonly countItems = viewChildren(CountdownComponent);
@@ -36,18 +37,12 @@ export class BargainComponent implements OnInit {
 
     constructor() {
         this.themeService.titleChanged.next('预售中心');
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
             this.startTimer();
         });
-    }
-
-    ngOnDestroy() {
-        this.stopTimer();
+        this.destroyRef.onDestroy(() => this.stopTimer());
     }
 
     public tapRefresh() {

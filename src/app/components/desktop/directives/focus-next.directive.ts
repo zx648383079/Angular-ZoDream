@@ -1,12 +1,13 @@
-import { Directive, ElementRef, HostListener, OnDestroy, OnInit, inject, input } from '@angular/core';
+import { DestroyRef, Directive, ElementRef, HostListener, inject, input } from '@angular/core';
 
 
 @Directive({
     standalone: false,
     selector: '[appFocusNext]'
 })
-export class FocusNextDirective implements OnInit, OnDestroy {
+export class FocusNextDirective {
     private elementRef = inject(ElementRef);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     static InputItems: FocusNextDirective[] = [];
@@ -31,12 +32,11 @@ export class FocusNextDirective implements OnInit, OnDestroy {
     }
     
 
-    ngOnInit(): void {
+    constructor() {
         FocusNextDirective.Add(this);
-    }
-
-    ngOnDestroy(): void {
-        FocusNextDirective.Remove(this);
+        this.destroyRef.onDestroy(() => {
+            FocusNextDirective.Remove(this);
+        });
     }
 
     /**

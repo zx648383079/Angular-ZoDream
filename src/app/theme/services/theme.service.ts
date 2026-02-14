@@ -162,6 +162,19 @@ export class ThemeService {
         });
     }
 
+    /**
+     * 切换导航栏模式
+     * @param destroyRef 
+     * @param to 
+     * @param from 
+     */
+    public screenSwitch(destroyRef: DestroyRef, to: NavigationDisplayMode, from = NavigationDisplayMode.Inline) {
+        this.navigationDisplayRequest.next(to);
+        destroyRef.onDestroy(() => {
+            this.navigationDisplayRequest.next(from);
+        });
+    }
+
     // public touchable(target: HTMLDivElement, onStart: , onMove, onFinish) {
 
     // }

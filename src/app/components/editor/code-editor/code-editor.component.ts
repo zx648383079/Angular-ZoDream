@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, ViewEncapsulation, effect, inject, input, model } from '@angular/core';
+import { Component, DestroyRef, ElementRef, ViewEncapsulation, afterNextRender, effect, inject, input, model } from '@angular/core';
 import { IEditor, IEditorBlock } from '../model';
 import { CodeElement } from '../base/code';
 import { EDITOR_EVENT_EDITOR_CHANGE } from '../base';
@@ -15,8 +15,9 @@ import { FormValueControl } from '@angular/forms/signals';
         'class': 'code-editor-container'
     },
 })
-export class CodeEditorComponent implements AfterViewInit, OnDestroy, FormValueControl<string>, IEditor {
+export class CodeEditorComponent implements FormValueControl<string>, IEditor {
     private elementRef = inject(ElementRef);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public readonly disabled = input<boolean>(false);
@@ -30,15 +31,12 @@ export class CodeEditorComponent implements AfterViewInit, OnDestroy, FormValueC
             this.value.set(this.container.value);
         });
         effect(() => this.container.value = this.value());
-    }
-
-
-    ngAfterViewInit(): void {
-        this.container.ready(new CodeElement(this.elementRef.nativeElement, this.container));
-    }
-
-    ngOnDestroy(): void {
-        this.container.destroy();
+        afterNextRender({
+            write: () => this.container.ready(new CodeElement(this.elementRef.nativeElement, this.container))
+        });
+        this.destroyRef.onDestroy(() => {
+            this.container.destroy();
+        });
     }
 
     public insert(block: IEditorBlock|string): void {

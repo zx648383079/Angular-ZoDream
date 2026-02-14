@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
@@ -12,7 +12,7 @@ import { ISoftwareDownload } from '../../model';
     templateUrl: './download.component.html',
     styleUrls: ['./download.component.scss']
 })
-export class DownloadComponent implements OnInit {
+export class DownloadComponent {
     private readonly service = inject(AppStoreService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
@@ -28,7 +28,7 @@ export class DownloadComponent implements OnInit {
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

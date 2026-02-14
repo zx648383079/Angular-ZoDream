@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, viewChild, signal } from '@angular/core';
+import { Component, inject, viewChild, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -14,7 +14,7 @@ import { CustomDialogComponent } from '../goods/custom-dialog/custom-dialog.comp
     templateUrl: './users.component.html',
     styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent {
     private readonly service = inject(CateringService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -38,7 +38,7 @@ export class UsersComponent implements OnInit {
         discount: 100,
     };
 
-    ngOnInit() {
+    constructor() {
         this.service.merchantPatronGroup().subscribe(res => {
             this.categoryItems = res.data;
         });

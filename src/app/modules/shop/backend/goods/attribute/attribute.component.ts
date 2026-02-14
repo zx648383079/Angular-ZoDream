@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IAttribute, IAttributeGroup } from '../../../model';
@@ -13,7 +13,7 @@ import { SearchService } from '../../../../../theme/services';
     templateUrl: './attribute.component.html',
     styleUrls: ['./attribute.component.scss']
 })
-export class AttributeComponent implements OnInit {
+export class AttributeComponent {
     private readonly service = inject(AttributeService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -31,7 +31,7 @@ export class AttributeComponent implements OnInit {
     }));
     public group: IAttributeGroup;
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.group) {
                 return;

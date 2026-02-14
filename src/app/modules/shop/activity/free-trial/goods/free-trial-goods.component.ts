@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -15,7 +15,7 @@ import { HttpClient } from '@angular/common/http';
     templateUrl: './free-trial-goods.component.html',
     styleUrls: ['./free-trial-goods.component.scss']
 })
-export class FreeTrialGoodsComponent implements OnInit {
+export class FreeTrialGoodsComponent {
     private readonly service = inject(ActivityService);
     private readonly route = inject(ActivatedRoute);
     private readonly sanitizer = inject(DomSanitizer);
@@ -37,7 +37,7 @@ export class FreeTrialGoodsComponent implements OnInit {
         max(schemaPath.amount, ({valueOf}) => valueOf(schemaPath.stock));
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.service.freeTrial({
                 id: params.id,

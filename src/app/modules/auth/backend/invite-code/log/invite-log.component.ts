@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IInviteLog } from '../../../../../theme/models/auth';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -12,7 +12,7 @@ import { SearchService } from '../../../../../theme/services';
     templateUrl: './invite-log.component.html',
     styleUrls: ['./invite-log.component.scss']
 })
-export class InviteLogComponent implements OnInit {
+export class InviteLogComponent {
     private readonly service = inject(AuthService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
@@ -30,7 +30,7 @@ export class InviteLogComponent implements OnInit {
         inviter: 0,
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

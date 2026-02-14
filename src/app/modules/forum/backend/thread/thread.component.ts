@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { SearchService } from '../../../../theme/services';
@@ -14,7 +14,7 @@ import { mapFormat } from '../../../../theme/utils';
     templateUrl: './thread.component.html',
     styleUrls: ['./thread.component.scss']
 })
-export class ThreadComponent implements OnInit {
+export class ThreadComponent {
     private readonly service = inject(ForumService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -35,7 +35,7 @@ export class ThreadComponent implements OnInit {
     public readonly isChecked = signal(false);
     public readonly isReview = signal(false);
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             const forum = this.queries.forum().value();

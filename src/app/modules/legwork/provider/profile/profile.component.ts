@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { LegworkService } from '../../legwork.service';
 import { ICategory, IProvider } from '../../model';
@@ -10,7 +10,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
     private readonly service = inject(LegworkService);
     private readonly toastrService = inject(DialogService);
 
@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit {
     });
     public categories: ICategory[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.service.providerProfile().subscribe(res => {
             this.data = res;
             if (!res.name) {

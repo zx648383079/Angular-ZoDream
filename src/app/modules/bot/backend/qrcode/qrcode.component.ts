@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,7 +13,7 @@ import { BotService } from '../bot.service';
     templateUrl: './qrcode.component.html',
     styleUrls: ['./qrcode.component.scss']
 })
-export class QrcodeComponent implements OnInit {
+export class QrcodeComponent {
     private readonly service = inject(BotService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -44,7 +44,7 @@ export class QrcodeComponent implements OnInit {
     });
     public readonly expireDay = computed(() => this.editForm.expire_time().value()/(24*3600))
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

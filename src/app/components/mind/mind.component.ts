@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, effect, inject, input, output, viewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Renderer2, afterNextRender, effect, inject, input, output, viewChild } from '@angular/core';
 import { ContextMenuComponent } from '../context-menu';
 import { randomInt } from '../../theme/utils';
 import { MindConfirmEvent, MindLinkSource, MindPointSource, MindUpdateEvent } from './model';
@@ -25,7 +25,7 @@ interface IPointLink {
     templateUrl: './mind.component.html',
     styleUrls: ['./mind.component.scss']
 })
-export class MindComponent implements AfterViewInit, OnInit {
+export class MindComponent {
     private readonly renderer = inject(Renderer2);
     private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
@@ -67,27 +67,29 @@ export class MindComponent implements AfterViewInit, OnInit {
             this.refreshPoint();
             this.refresh();
         });
-    }
-
-    ngOnInit() {
-        this.renderer.listen(document, 'mousemove', (event: MouseEvent) => {
-            if (this.moveListeners.move) {
-                this.moveListeners.move(event);
-            }
-        });
-        this.renderer.listen(document, 'mouseup', (event: MouseEvent) => {
-            if (this.moveListeners.finish) {
-                this.moveListeners.finish(event);
+        afterNextRender({
+            write: () => {
+                const bound = this.elementRef.nativeElement.getBoundingClientRect();
+                this.lineBox.width = bound.width <= 0 ? window.innerWidth : bound.width;
+                this.lineBox.height = bound.height <= 0 ? window.innerHeight : bound.height;
+                this.ctx = this.lineBox.getContext('2d');
+                this.refresh();
             }
         });
     }
 
-    ngAfterViewInit() {
-        const bound = this.elementRef.nativeElement.getBoundingClientRect();
-        this.lineBox.width = bound.width <= 0 ? window.innerWidth : bound.width;
-        this.lineBox.height = bound.height <= 0 ? window.innerHeight : bound.height;
-        this.ctx = this.lineBox.getContext('2d');
-        this.refresh();
+    @HostListener('document:mousemove', ['$event'])
+    public onMouseMove(e: MouseEvent) {
+        if (this.moveListeners.move) {
+            this.moveListeners.move(e);
+        }
+    }
+
+    @HostListener('document:mouseup', ['$event'])
+    public onMouseUp(event: MouseEvent) {
+        if (this.moveListeners.finish) {
+            this.moveListeners.finish(event);
+        }
     }
 
     public onMoveStart(start: MouseEvent, i: number) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IConnect } from '../../../../theme/models/auth';
@@ -13,7 +13,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './connect.component.html',
     styleUrls: ['./connect.component.scss']
 })
-export class ConnectComponent implements OnInit {
+export class ConnectComponent {
     private readonly service = inject(MemberService);
     private readonly toastrService = inject(DialogService);
     private readonly webAuthnn = inject(WebAuthn);
@@ -28,7 +28,7 @@ export class ConnectComponent implements OnInit {
         qr: '',
     }));
 
-    ngOnInit() {
+    constructor() {
         this.tapRefresh();
     }
 

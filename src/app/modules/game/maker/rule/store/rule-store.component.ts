@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IGameItem, IGameStoreItem } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
@@ -14,7 +14,7 @@ import { GameMakerService } from '../../game-maker.service';
     templateUrl: './rule-store.component.html',
     styleUrls: ['./rule-store.component.scss']
 })
-export class RuleStoreComponent implements OnInit {
+export class RuleStoreComponent {
     private readonly service = inject(GameMakerService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -42,7 +42,7 @@ export class RuleStoreComponent implements OnInit {
         required(schemaPath.name);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.parent.params.subscribe(params => {
             this.queries.project().value.set(parseNumber(params.game));
         });

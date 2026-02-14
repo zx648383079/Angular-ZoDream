@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, computed, ElementRef, input, model, viewChild } from '@angular/core';
+import { afterNextRender, Component, computed, ElementRef, input, model, viewChild } from '@angular/core';
 import { wordLength } from '../../../theme/utils';
 import { IEditorRange } from '../model';
 import { FormValueControl } from '@angular/forms/signals';
@@ -9,7 +9,7 @@ import { FormValueControl } from '@angular/forms/signals';
     templateUrl: './text-editor.component.html',
     styleUrls: ['./text-editor.component.scss'],
 })
-export class TextEditorComponent implements AfterViewInit, FormValueControl<string> {
+export class TextEditorComponent implements FormValueControl<string> {
 
     private readonly areaElement = viewChild<ElementRef<HTMLTextAreaElement>>('editorArea');
     public readonly height = input<string | number>('80vh');
@@ -35,8 +35,10 @@ export class TextEditorComponent implements AfterViewInit, FormValueControl<stri
         return this.areaElement().nativeElement as HTMLTextAreaElement;
     }
 
-    ngAfterViewInit() {
-        this.bindAreaEvent();
+    constructor() {
+        afterNextRender({
+            write: () => this.bindAreaEvent()
+        });
     }
 
     public onValueChange(e: Event) {

@@ -1,6 +1,7 @@
-import { Component, computed, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { email, form, required } from '@angular/forms/signals';
-import { interval, Subscription } from 'rxjs';
+import { interval } from 'rxjs';
 
 
 interface ICommentItem {
@@ -15,7 +16,9 @@ interface ICommentItem {
     templateUrl: './comment.component.html',
     styleUrls: ['./comment.component.scss']
 })
-export class ExampleCommentComponent implements OnInit, OnDestroy {
+export class ExampleCommentComponent {
+
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly items = signal<ICommentItem[]>([]);
     public readonly commentForm = form(signal({
@@ -50,12 +53,10 @@ export class ExampleCommentComponent implements OnInit, OnDestroy {
         return this.items().filter(i => i.agreeType === 0);
     });
 
-    private $timer: Subscription;
-
-    ngOnInit() {
-        this.$timer = interval(2000).subscribe(() => {
+    constructor() {
+        const timer$ = interval(2000).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
             if (this.items().length > 100) {
-                this.ngOnDestroy();
+                timer$.unsubscribe();
                 return;
             }
             const rnd = Math.random();
@@ -71,10 +72,6 @@ export class ExampleCommentComponent implements OnInit, OnDestroy {
                 }];
             });
         });
-    }
-
-    ngOnDestroy(): void {
-        this.$timer.unsubscribe();
     }
 
 

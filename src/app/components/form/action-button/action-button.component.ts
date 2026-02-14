@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, effect, inject, input, model, output } from '@angular/core';
+import { Component, ElementRef, afterNextRender, effect, inject, input, model, output } from '@angular/core';
 import { ButtonEvent } from '../event';
 
 @Component({
@@ -10,7 +10,7 @@ import { ButtonEvent } from '../event';
         '(click)': 'tapBody()',
     },
 })
-export class ActionButtonComponent implements AfterViewInit, ButtonEvent {
+export class ActionButtonComponent implements ButtonEvent {
     private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
 
@@ -23,6 +23,20 @@ export class ActionButtonComponent implements AfterViewInit, ButtonEvent {
         effect(() => {
             this.toggleClass('disabled', this.disabled());
         });
+        afterNextRender({
+            write: () => {
+                if (this.height > 0) {
+                    return;
+                }
+                const ele = this.elementRef.nativeElement;
+                const bound = ele.getBoundingClientRect();
+                const style = getComputedStyle(ele);
+                const toInt = (val: string): number => {
+                    return parseInt(val.replace(/[^\d]+/g, ''), 10)
+                };
+                this.height = bound.height - toInt(style.paddingTop) - toInt(style.paddingBottom);
+            }
+        });
     }
 
     get loadingStyle() {
@@ -33,18 +47,6 @@ export class ActionButtonComponent implements AfterViewInit, ButtonEvent {
         };
     }
 
-    ngAfterViewInit() {
-        if (this.height > 0) {
-            return;
-        }
-        const ele = this.elementRef.nativeElement;
-        const bound = ele.getBoundingClientRect();
-        const style = getComputedStyle(ele);
-        const toInt = (val: string): number => {
-            return parseInt(val.replace(/[^\d]+/g, ''), 10)
-        };
-        this.height = bound.height - toInt(style.paddingTop) - toInt(style.paddingBottom);
-    }
 
     /**
      * 开始执行加载

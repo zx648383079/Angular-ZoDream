@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { Component, inject, viewChild } from '@angular/core';
 import { MoviePlayerComponent } from '../../../components/media-player';
 import { PlayerEvent } from '../../../components/media-player/fixed/model';
 import { TvService } from '../tv.service';
@@ -9,13 +9,13 @@ import { TvService } from '../tv.service';
     templateUrl: './live.component.html',
     styleUrls: ['./live.component.scss']
 })
-export class LiveComponent implements OnInit {
+export class LiveComponent {
     private readonly service = inject(TvService);
 
 
     public readonly player = viewChild(MoviePlayerComponent);
 
-    ngOnInit() {
+    constructor() {
         this.service.liveList().subscribe(res => {
             this.player().push(...res.data.map(i => {
                 return {

@@ -1,5 +1,5 @@
 import { disabled, form, required } from '@angular/forms/signals';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { IIssue } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { GoodsService } from '../goods.service';
@@ -15,7 +15,7 @@ import { mapFormat } from '../../../../../theme/utils';
     templateUrl: './goods-issue.component.html',
     styleUrls: ['./goods-issue.component.scss']
 })
-export class GoodsIssueComponent implements OnInit {
+export class GoodsIssueComponent {
     private readonly service = inject(GoodsService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -53,7 +53,7 @@ export class GoodsIssueComponent implements OnInit {
         {name: '软删除', value: 9},
     ];
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

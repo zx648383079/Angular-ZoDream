@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -13,7 +13,7 @@ import { ButtonEvent } from '../../../../../components/form';
     templateUrl: './edit-permission.component.html',
     styleUrls: ['./edit-permission.component.scss']
 })
-export class EditPermissionComponent implements OnInit {
+export class EditPermissionComponent {
     private readonly service = inject(RoleService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -30,7 +30,7 @@ export class EditPermissionComponent implements OnInit {
         required(schemaPath.display_name);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;

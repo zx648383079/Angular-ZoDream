@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit, inject, signal } from '@angular/core';
+import { Component, NgZone, inject, signal } from '@angular/core';
 import {
     BlogService
 } from '../blog.service';
@@ -23,7 +23,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss']
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent {
     private readonly service = inject(BlogService);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
@@ -47,9 +47,6 @@ export class DetailComponent implements OnInit {
                 openLink(this.router, path);
             });
         };
-    }
-
-    ngOnInit() {
         this.route.params.subscribe(param => {
             if (!param.id) {
                 this.router.navigate(['../']);

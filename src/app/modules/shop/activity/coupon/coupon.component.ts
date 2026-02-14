@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IErrorResult, IPageQueries } from '../../../../theme/models/page';
@@ -14,7 +14,7 @@ import { ActivityService } from '../activity.service';
     templateUrl: './coupon.component.html',
     styleUrls: ['./coupon.component.scss']
 })
-export class CouponComponent implements OnInit {
+export class CouponComponent {
     private readonly service = inject(ActivityService);
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
@@ -34,9 +34,6 @@ export class CouponComponent implements OnInit {
 
     constructor() {
         this.themeService.titleChanged.next('领券中心');
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

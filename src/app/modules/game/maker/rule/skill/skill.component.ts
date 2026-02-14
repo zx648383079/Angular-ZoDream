@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IGameSkill } from '../../../model';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService, DialogEvent } from '../../../../../components/dialog';
@@ -14,7 +14,7 @@ import { GameMakerService } from '../../game-maker.service';
     templateUrl: './skill.component.html',
     styleUrls: ['./skill.component.scss']
 })
-export class SkillComponent implements OnInit {
+export class SkillComponent {
     private readonly service = inject(GameMakerService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -40,7 +40,7 @@ export class SkillComponent implements OnInit {
         required(schemaPath.name);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.parent.params.subscribe(params => {
             this.queries.project().value.set(parseNumber(params.game));
         });

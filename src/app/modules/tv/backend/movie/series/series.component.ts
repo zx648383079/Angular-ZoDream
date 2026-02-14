@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -14,7 +14,7 @@ import { TVService } from '../../tv.service';
     templateUrl: './series.component.html',
     styleUrls: ['./series.component.scss']
 })
-export class SeriesComponent implements OnInit {
+export class SeriesComponent {
     private readonly service = inject(TVService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -39,7 +39,7 @@ export class SeriesComponent implements OnInit {
         required(schemaPath.title);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

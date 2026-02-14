@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,7 +13,7 @@ import { ForumService } from '../forum.service';
     templateUrl: './forum-list.component.html',
     styleUrls: ['./forum-list.component.scss']
 })
-export class ForumListComponent implements OnInit {
+export class ForumListComponent {
     private readonly service = inject(ForumService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -32,7 +32,7 @@ export class ForumListComponent implements OnInit {
     }));
     public parent: IForum;
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             const parent = this.queries.parent().value();

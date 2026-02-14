@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBook, IBookList, IBookListItem } from '../../model';
 import { BookService } from '../../book.service';
@@ -11,7 +11,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './edit-list.component.html',
     styleUrls: ['./edit-list.component.scss'],
 })
-export class EditListComponent implements OnInit {
+export class EditListComponent {
     private readonly service = inject(BookService);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
@@ -34,7 +34,7 @@ export class EditListComponent implements OnInit {
         page: 1,
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;

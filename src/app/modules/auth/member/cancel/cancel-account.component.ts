@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, signal } from '@angular/core';
+import { afterNextRender, Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { MemberService } from '../member.service';
 import { DialogService } from '../../../../components/dialog';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
     templateUrl: './cancel-account.component.html',
     styleUrls: ['./cancel-account.component.scss']
 })
-export class CancelAccountComponent implements AfterViewInit {
+export class CancelAccountComponent {
     private readonly authService = inject(AuthService);
     private readonly router = inject(Router);
     private readonly service = inject(MemberService);
@@ -27,15 +27,19 @@ export class CancelAccountComponent implements AfterViewInit {
     ];
     public readonly selectedIndex = signal(0);
 
-    ngAfterViewInit(): void {
-        this.toastrService.confirm({
-            content: $localize `After account cancellation, your account and account data will be deleted and your completed transactions will not be available for sale.`, 
-            title: $localize `Account Cancellation Confirmation`, 
-            confirmText: $localize `Continuing cancel`,
-            cancelText: $localize `hold off cancel`,
-            onCancel() {
-                this.location.back();
-            },
+    constructor() {
+        afterNextRender({
+            write: () => {
+                this.toastrService.confirm({
+                    content: $localize `After account cancellation, your account and account data will be deleted and your completed transactions will not be available for sale.`, 
+                    title: $localize `Account Cancellation Confirmation`, 
+                    confirmText: $localize `Continuing cancel`,
+                    cancelText: $localize `hold off cancel`,
+                    onCancel() {
+                        this.location.back();
+                    },
+                });
+            }
         });
     }
 

@@ -1,6 +1,6 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
-import { IPage, IPageQueries } from '../../../../theme/models/page';
+import { Component, inject, signal } from '@angular/core';
+import { IPageQueries } from '../../../../theme/models/page';
 import { GameCommand, GameRouterInjectorToken, IGameBagItem, IGameRouter, IGameScene, ItemTypeItems } from '../../model';
 
 @Component({
@@ -9,7 +9,7 @@ import { GameCommand, GameRouterInjectorToken, IGameBagItem, IGameRouter, IGameS
     templateUrl: './bag.component.html',
     styleUrls: ['./bag.component.scss']
 })
-export class BagComponent implements IGameScene, OnInit {
+export class BagComponent implements IGameScene {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
@@ -25,7 +25,7 @@ export class BagComponent implements IGameScene, OnInit {
     }));
     public typeItems = ItemTypeItems;
 
-    ngOnInit(): void {
+    constructor() {
         this.tapType(0);
     }
 

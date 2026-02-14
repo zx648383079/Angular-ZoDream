@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -13,7 +13,7 @@ import { ITradeLog } from '../../model';
     templateUrl: './log.component.html',
     styleUrls: ['./log.component.scss']
 })
-export class LogComponent implements OnInit {
+export class LogComponent {
     private readonly service = inject(TrackerBackendService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -46,7 +46,7 @@ export class LogComponent implements OnInit {
         required(schemaPath.price);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

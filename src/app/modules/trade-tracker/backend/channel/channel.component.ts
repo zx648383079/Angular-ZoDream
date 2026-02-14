@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,7 +13,7 @@ import { IChannel } from '../../model';
     templateUrl: './channel.component.html',
     styleUrls: ['./channel.component.scss']
 })
-export class ChannelComponent implements OnInit {
+export class ChannelComponent {
     private readonly service = inject(TrackerBackendService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -39,7 +39,7 @@ export class ChannelComponent implements OnInit {
         required(schemaPath.short_name);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(res => {
             this.searchService.getQueries(res, this.queries().value());
             this.tapPage();

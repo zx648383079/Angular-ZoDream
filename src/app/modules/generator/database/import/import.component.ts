@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { IItem } from '../../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
@@ -10,7 +10,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './import.component.html',
     styleUrls: ['./import.component.scss']
 })
-export class ImportComponent implements OnInit {
+export class ImportComponent {
     private readonly service = inject(GenerateService);
     private readonly toastrService = inject(DialogService);
 
@@ -19,7 +19,7 @@ export class ImportComponent implements OnInit {
         schema: '',
     }));
 
-    ngOnInit() {
+    constructor() {
         this.service.schemaList().subscribe(res => {
             this.schemaItems = res.data.map(i => {
                 return {

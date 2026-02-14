@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -15,7 +15,7 @@ import { AppService } from '../../app.service';
     templateUrl: './version.component.html',
     styleUrls: ['./version.component.scss']
 })
-export class VersionComponent implements OnInit {
+export class VersionComponent {
     private readonly service = inject(AppService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -41,7 +41,7 @@ export class VersionComponent implements OnInit {
         required(schemaPath.name);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             const softwareId = parseNumber(params.app);
             if (!softwareId) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { DialogService } from '../../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../../components/form';
@@ -15,7 +15,7 @@ interface IUserGrade {
     templateUrl: './setting.component.html',
     styleUrls: ['./setting.component.scss']
 })
-export class SettingComponent implements OnInit {
+export class SettingComponent {
     private readonly service = inject(AffiliateService);
     private readonly toastrService = inject(DialogService);
     private readonly location = inject(Location);
@@ -28,7 +28,7 @@ export class SettingComponent implements OnInit {
         by_order_scale: 0
     }));
 
-    ngOnInit() {
+    constructor() {
         this.service.option().subscribe(res => {
             this.dataForm().value.set(res.data);
         });

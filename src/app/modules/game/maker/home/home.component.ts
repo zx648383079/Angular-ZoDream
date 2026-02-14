@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { GameMakerService } from '../game-maker.service';
 import { ActivatedRoute } from '@angular/router';
@@ -10,7 +10,7 @@ import { Location } from '@angular/common';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
     private readonly service = inject(GameMakerService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
     public readonly isLoading = signal(true);
     public readonly data = signal<any>({});
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.service.projectStatistics(params.game).subscribe({
                 next: res => {

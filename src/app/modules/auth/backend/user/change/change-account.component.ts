@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -13,7 +13,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './change-account.component.html',
     styleUrls: ['./change-account.component.scss']
 })
-export class ChangeAccountComponent implements OnInit {
+export class ChangeAccountComponent {
     private readonly service = inject(AuthService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -32,7 +32,7 @@ export class ChangeAccountComponent implements OnInit {
 
     public data: IUser;
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.id) {
                 this.tapBack();

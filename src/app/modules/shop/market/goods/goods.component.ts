@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,7 +20,7 @@ import { HttpClient } from '@angular/common/http';
     templateUrl: './goods.component.html',
     styleUrls: ['./goods.component.scss']
 })
-export class GoodsComponent implements OnInit {
+export class GoodsComponent {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly service = inject(ShopService);
@@ -54,7 +54,7 @@ export class GoodsComponent implements OnInit {
     });
     public readonly stock = computed(() => this.dataForm.stock().value());
 
-    ngOnInit() {
+    constructor() {
         this.dataForm.region().value.set(this.service.regionId);
         this.route.params.subscribe(params => {
             this.loadGoods(parseNumber(params.id), parseNumber(params.product));

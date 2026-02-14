@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IBrand, ICategory, IGoods } from '../../../model';
@@ -12,7 +12,7 @@ import { GoodsService } from '../goods.service';
     templateUrl: './trash.component.html',
     styleUrls: ['./trash.component.scss']
 })
-export class TrashComponent implements OnInit {
+export class TrashComponent {
     private readonly service = inject(GoodsService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -39,9 +39,6 @@ export class TrashComponent implements OnInit {
         this.service.brandAll().subscribe(res => {
             this.brandItems = res.data;
         });
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

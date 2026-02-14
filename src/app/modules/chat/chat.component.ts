@@ -1,4 +1,4 @@
-import { Component, Injector, OnDestroy, OnInit, ViewContainerRef, computed, inject, signal, viewChild } from '@angular/core';
+import { Component, DestroyRef, Injector, ViewContainerRef, computed, inject, signal, viewChild } from '@angular/core';
 import {
     ChatService
 } from './chat.service';
@@ -50,12 +50,13 @@ interface IMessagePing {
     templateUrl: './chat.component.html',
     styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatComponent {
     private readonly service = inject(ChatService);
     private readonly toastrService = inject(DialogService);
     private readonly authService = inject(AuthService);
     private readonly themeService = inject(ThemeService);
-    private injector = inject(Injector);
+    private readonly injector = inject(Injector);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public readonly contextMenu = viewChild(ContextMenuComponent);
@@ -119,9 +120,6 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.themeService.titleChanged.next($localize `Chat`);
         this.request = this.service.createRequest();
         this.recorder = new Recorder();
-    }
-
-    ngOnInit(): void {
         this.request.open(() => {
             this.initRequest();
         });
@@ -135,10 +133,7 @@ export class ChatComponent implements OnInit, OnDestroy {
             this.histories = res[COMMAND_HISTORY].data;
             this.user = res[COMMAND_PROFILE];
         });
-    }
-
-    ngOnDestroy() {
-        this.request.close();
+        this.destroyRef.onDestroy(() => this.request.close());
     }
 
     private initRequest() {

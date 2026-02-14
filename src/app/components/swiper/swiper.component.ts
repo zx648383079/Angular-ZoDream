@@ -1,5 +1,6 @@
-import { AfterContentInit, AfterViewInit, Component, ElementRef, HostListener, 
-    OnDestroy, Renderer2, ViewEncapsulation, inject, input, contentChildren, effect } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewEncapsulation, inject, input, contentChildren, effect, 
+    DestroyRef,
+    afterNextRender} from '@angular/core';
 import { SwiperItemComponent } from './swiper-item.component';
 import { checkLoopRange } from '../../theme/utils';
 import { BehaviorSubject } from 'rxjs';
@@ -18,9 +19,9 @@ import { SwiperEvent } from './model';
         '[class]': 'theme()'
     },
 })
-export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestroy, SwiperEvent {
+export class SwiperComponent implements SwiperEvent {
     private readonly elementRef = inject(ElementRef);
-    private readonly renderer = inject(Renderer2);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public readonly items = contentChildren(SwiperItemComponent);
@@ -71,8 +72,52 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
         effect(() => {
             this.itemCount$.next(this.items().length);
         });
+        afterNextRender({
+            write: () => {
+                const box = this.elementRef.nativeElement;
+                this.resize$.observe(box);
+            }
+        });
+        afterRender(() => {
+            const items = this.items();
+            this.itemCount$.next(items.length);
+            setTimeout(() => {
+                this.navigate(Math.max(0, this.index));
+            }, 1);
+        });
+        this.destroyRef.onDestroy(() => {
+            this.resize$.disconnect();
+            this.itemCount$.unsubscribe();
+            this.tween.close();
+        });
     }
-    
+
+    @HostListener('touchstart', ['$event'])
+    public onTouchStart(e: TouchEvent) {
+        if (!this.touchable()) {
+            return;
+        }
+        e.targetTouches[0].clientX;
+    }
+    @HostListener('touchmove', ['$event'])
+    public onTouchMove(e: TouchEvent) {
+        if (!this.touchable()) {
+            return;
+        }
+        e.touches[0].clientX;
+    }
+    @HostListener('touchend', ['$event'])
+    public onTouchEnd(e: TouchEvent) {
+        if (!this.touchable()) {
+            return;
+        }
+        e.changedTouches[0].clientX;
+    }
+
+    @HostListener('mousedown', ['$event'])
+    public onMouseDown(e: MouseEvent) {
+        e.clientX;
+    }
 
     @HostListener('document:mouseup', ['$event'])
     public onMouseUp(e: MouseEvent) {
@@ -88,7 +133,7 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
         }
     }
 
-    @HostListener('mouseover', [])
+    @HostListener('mouseover')
     public onMouseOver() {
         if (!this.pauseOnOver()) {
             return;
@@ -96,46 +141,12 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
         this.tween.stop();
     }
 
-    @HostListener('mouseleave', [])
+    @HostListener('mouseleave')
     public onMouseLeave() {
         if (!this.pauseOnOver() || !this.autoplay()) {
             return;
         }
         this.tween.next();
-    }
-
-    ngAfterViewInit(): void {
-        const box = this.elementRef.nativeElement;
-        this.resize$.observe(box);
-        if (!this.touchable()) {
-            return;
-        }
-        this.renderer.listen(box, 'mousedown', (e: MouseEvent) => {
-
-        });
-        this.renderer.listen(box, 'touchstart', (e: TouchEvent) => {
-            e.targetTouches[0].clientX;
-        });
-        this.renderer.listen(box, 'touchmove', (e: TouchEvent) => {
-            e.touches[0].clientX;
-        });
-        this.renderer.listen(box, 'touchend', (e: TouchEvent) => {
-            e.changedTouches[0].clientX;
-        });
-    }
-
-    ngAfterContentInit(): void {
-        const items = this.items();
-        this.itemCount$.next(items.length);
-        setTimeout(() => {
-            this.navigate(Math.max(0, this.index));
-        }, 1);
-    }
-
-    ngOnDestroy(): void {
-        this.resize$.disconnect();
-        this.itemCount$.unsubscribe();
-        this.tween.close();
     }
 
     public get backable(): boolean {
@@ -174,3 +185,7 @@ export class SwiperComponent implements AfterViewInit, AfterContentInit, OnDestr
     }
 
 }
+function afterRender(arg0: () => void) {
+    throw new Error('Function not implemented.');
+}
+

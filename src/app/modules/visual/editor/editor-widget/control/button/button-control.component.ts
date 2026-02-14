@@ -1,4 +1,4 @@
-import { Component, OnInit, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { Widget } from '../../../model';
 
 @Component({

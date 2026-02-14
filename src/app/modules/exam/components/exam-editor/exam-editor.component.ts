@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, inject, input, viewChild, model, effect, signal, computed } from '@angular/core';
+import { Component, ElementRef, inject, input, viewChild, model, effect, signal, computed, afterNextRender } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { EditorBlockType, EditorService, IEditor, IEditorBlock, IEditorInclueBlock, IEditorLinkBlock, IEditorTextBlock } from '../../../../components/editor';
 import { FileUploadService } from '../../../../theme/services';
@@ -12,7 +12,7 @@ import { FormValueControl } from '@angular/forms/signals';
     templateUrl: './exam-editor.component.html',
     styleUrls: ['./exam-editor.component.scss'],
 })
-export class ExamEditorComponent implements AfterViewInit, FormValueControl<string>, IEditor, OnInit {
+export class ExamEditorComponent implements FormValueControl<string>, IEditor {
     private readonly uploadService = inject(FileUploadService);
     private readonly toastrService = inject(DialogService);
     private readonly container = inject(EditorService);
@@ -31,6 +31,14 @@ export class ExamEditorComponent implements AfterViewInit, FormValueControl<stri
 
     constructor() {
         effect(() => this.container.value = this.value());
+        this.container.on('change', () => {
+            this.value.set(this.container.value);
+        });
+        afterNextRender({
+            write: () => {
+                this.container.ready(this.areaElement().nativeElement);
+            }
+        });
     }
 
     public readonly size = computed(() => {
@@ -42,15 +50,6 @@ export class ExamEditorComponent implements AfterViewInit, FormValueControl<stri
             height: this.height() + 'px',
         };
     });
-    ngOnInit() {
-        this.container.on('change', () => {
-            this.value.set(this.container.value);
-        });
-    }
-
-    ngAfterViewInit() {
-        this.container.ready(this.areaElement().nativeElement);
-    }
 
 
     public tapTool(name: string) {

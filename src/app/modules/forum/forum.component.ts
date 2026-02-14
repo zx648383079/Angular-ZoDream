@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ThemeService } from '../../theme/services';
 import { ForumService } from './forum.service';
-import { Subscription } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -10,27 +10,20 @@ import { Subscription } from 'rxjs';
     templateUrl: './forum.component.html',
     styleUrls: ['./forum.component.scss']
 })
-export class ForumComponent implements OnInit, OnDestroy {
+export class ForumComponent {
     private readonly themeService = inject(ThemeService);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
     private readonly service = inject(ForumService);
-
-
-    private readonly subItems = new Subscription();
+    private readonly destroyRef = inject(DestroyRef);
 
     constructor() {
         this.themeService.titleChanged.next($localize `Forum`);
-    }
-
-    ngOnInit() {
-        this.subItems.add(
-            this.themeService.suggestTextChanged.subscribe(req => {
-                this.service.suggestion({keywords: req.text}).subscribe(res => {
-                    req.suggest(res);
-                });
-            })
-        );
+        this.themeService.suggestTextChanged.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(req => {
+            this.service.suggestion({keywords: req.text}).subscribe(res => {
+                req.suggest(res);
+            });
+        });
         this.themeService.suggestQuerySubmitted.subscribe(res => {
             if (typeof res === 'object') {
                 this.router.navigate(['thread', res.id], {relativeTo: this.route});
@@ -40,10 +33,6 @@ export class ForumComponent implements OnInit, OnDestroy {
                 keywords: res
             }});
         });
-    }
-
-    ngOnDestroy() {
-        this.subItems.unsubscribe();
     }
 
 }

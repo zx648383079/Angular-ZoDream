@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { INavLink } from '../../../theme/models/seo';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BotService } from './bot.service';
@@ -10,7 +10,7 @@ import { ThemeService } from '../../../theme/services';
     templateUrl: './bot-member.component.html',
     styleUrls: ['./bot-member.component.scss']
 })
-export class BotMemberComponent implements OnInit {
+export class BotMemberComponent {
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
     private readonly service = inject(BotService);
@@ -60,7 +60,7 @@ export class BotMemberComponent implements OnInit {
         },
     ]);
 
-    ngOnInit(): void {
+    constructor() {
         this.themeService.titleChanged.next($localize `Bot Manage`);
         this.route.params.subscribe(res => {
             this.service.baseId = res.wid;

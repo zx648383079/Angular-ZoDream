@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, Renderer2, inject } from '@angular/core';
+import { Component, HostListener, afterNextRender, inject } from '@angular/core';
 import { EditorService } from './editor.service';
 
 @Component({
@@ -7,20 +7,20 @@ import { EditorService } from './editor.service';
     templateUrl: './visual-editor.component.html',
     styleUrls: ['./visual-editor.component.scss']
 })
-export class VisualEditorComponent implements OnInit, AfterViewInit {
+export class VisualEditorComponent {
     private readonly service = inject(EditorService);
-    private readonly renderer = inject(Renderer2);
 
 
     public editable = true;
 
-    ngOnInit() {
-        this.renderer.listen(window, 'resize', () => {
-            this.refreshSize();
+    constructor() {
+        afterNextRender({
+            write: () => this.refreshSize()
         });
     }
 
-    ngAfterViewInit() {
+    @HostListener('window:resize')
+    public onResize() {
         this.refreshSize();
     }
 

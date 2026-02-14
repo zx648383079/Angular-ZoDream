@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { IAuthor } from '../../../model';
@@ -14,7 +14,7 @@ import { ButtonEvent } from '../../../../../components/form';
     templateUrl: './author-detail.component.html',
     styleUrls: ['./author-detail.component.scss']
 })
-export class AuthorDetailComponent implements OnInit {
+export class AuthorDetailComponent {
     private readonly service = inject(BookService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -31,7 +31,7 @@ export class AuthorDetailComponent implements OnInit {
         required(schemaPath.name);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;

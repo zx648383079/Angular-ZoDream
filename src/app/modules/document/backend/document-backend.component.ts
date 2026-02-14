@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -13,7 +13,7 @@ import { DocumentService } from './document.service';
     templateUrl: './document-backend.component.html',
     styleUrls: ['./document-backend.component.scss']
 })
-export class DocumentBackendComponent implements OnInit {
+export class DocumentBackendComponent {
     private readonly service = inject(DocumentService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -30,7 +30,7 @@ export class DocumentBackendComponent implements OnInit {
         keywords: ''
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IGameMapItem } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { GameMakerService } from '../../game-maker.service';
@@ -14,7 +14,7 @@ import { parseNumber } from '../../../../../theme/utils';
     templateUrl: './map-item.component.html',
     styleUrls: ['./map-item.component.scss']
 })
-export class MapItemComponent implements OnInit {
+export class MapItemComponent {
     private readonly service = inject(GameMakerService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -41,7 +41,7 @@ export class MapItemComponent implements OnInit {
         refresh_time: 0,
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.parent.params.subscribe(params => {
             this.queries.project().value.set(parseNumber(params.game));
         });

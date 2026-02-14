@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -16,7 +16,7 @@ import { parseNumber } from '../../../../../theme/utils';
     templateUrl: './product-edit.component.html',
     styleUrls: ['./product-edit.component.scss']
 })
-export class ProductEditComponent implements OnInit {
+export class ProductEditComponent {
     private readonly service = inject(ShopService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -78,9 +78,6 @@ export class ProductEditComponent implements OnInit {
             this.typeItems = res.group;
             this.brandItems = res.brand;
         });
-    }
-
-    ngOnInit() {
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;

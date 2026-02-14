@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IGameAchieve } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { GameMakerService } from '../../game-maker.service';
@@ -14,7 +14,7 @@ import { parseNumber } from '../../../../../theme/utils';
     templateUrl: './achieve.component.html',
     styleUrls: ['./achieve.component.scss']
 })
-export class AchieveComponent implements OnInit {
+export class AchieveComponent {
     private readonly service = inject(GameMakerService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -41,7 +41,7 @@ export class AchieveComponent implements OnInit {
         required(schemaPath.name);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.parent.params.subscribe(params => {
             this.queries.project().value.set(parseNumber(params.game));
         });

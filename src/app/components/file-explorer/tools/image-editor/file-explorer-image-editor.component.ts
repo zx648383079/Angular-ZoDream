@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, signal, viewChild } from '@angular/core';
+import { afterNextRender, Component, ElementRef, HostListener, signal, viewChild } from '@angular/core';
 import { IFileDataSource, IFileExplorerTool, IFileItem } from '../../model';
 import { assetUri } from '../../../../theme/utils';
 import { Canvas } from './Canvas';
@@ -12,7 +12,7 @@ import { ISize } from '../../../../theme/utils/canvas';
     templateUrl: './file-explorer-image-editor.component.html',
     styleUrls: ['./file-explorer-image-editor.component.scss']
 })
-export class FileExplorerImageEditorComponent implements IFileExplorerTool, AfterViewInit {
+export class FileExplorerImageEditorComponent implements IFileExplorerTool {
 
     private readonly imageBox = viewChild<ElementRef<HTMLDivElement>>('imageBox');
     public readonly visible = signal(false);
@@ -39,11 +39,15 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool, Afte
         }
     }
 
-    ngAfterViewInit(): void {
-        if (!this.imageBox()?.nativeElement) {
-            return;
-        }
-        // this.canvas = new Canvas(this.imageBox.nativeElement);
+    constructor() {
+        afterNextRender({
+            write: () => {
+                if (!this.imageBox()?.nativeElement) {
+                    return;
+                }
+                // this.canvas = new Canvas(this.imageBox.nativeElement);
+            }
+        });
     }
 
     public get formatSize() {

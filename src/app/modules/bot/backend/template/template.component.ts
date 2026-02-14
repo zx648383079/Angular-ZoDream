@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -16,7 +16,7 @@ import { BotService } from '../bot.service';
     templateUrl: './template.component.html',
     styleUrls: ['./template.component.scss']
 })
-export class TemplateComponent implements OnInit {
+export class TemplateComponent {
     private readonly service = inject(BotService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -52,7 +52,7 @@ export class TemplateComponent implements OnInit {
     public typeItems: IItem[] = [];
     public categoryItems: IBotTemplateCategory[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

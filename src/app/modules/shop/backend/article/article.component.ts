@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
     ActivatedRoute
 } from '@angular/router';
@@ -20,7 +20,7 @@ import {
     templateUrl: './article.component.html',
     styleUrls: ['./article.component.scss']
 })
-export class ArticleComponent implements OnInit {
+export class ArticleComponent {
     private readonly service = inject(ArticleService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -43,9 +43,6 @@ export class ArticleComponent implements OnInit {
         this.service.categoryTree().subscribe(res => {
             this.categories = res.data;
         });
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(params => {
             const category = parseInt(params.category, 10) || 0;
             if (category) {

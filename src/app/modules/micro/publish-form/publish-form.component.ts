@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, output, signal } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IEmoji } from '../../../theme/models/seo';
 import { IMicro, ITopic } from '../model';

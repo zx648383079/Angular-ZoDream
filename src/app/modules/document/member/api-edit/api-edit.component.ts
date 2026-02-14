@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -18,12 +18,14 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './api-edit.component.html',
     styleUrls: ['./api-edit.component.scss']
 })
-export class ApiEditComponent implements OnInit, OnDestroy {
+export class ApiEditComponent {
     private readonly service = inject(DocumentService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
     private readonly location = inject(Location);
+    private readonly destroyRef = inject(DestroyRef);
+
     public readonly dataModel = signal({
         name: '',
         method: 'GET',
@@ -45,8 +47,8 @@ export class ApiEditComponent implements OnInit, OnDestroy {
     }));
     public methodItems = ['GET', 'POST', 'PUT', 'DELETE', 'OPTION'];
 
-    ngOnInit() {
-        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Compact);
+    constructor() {
+        this.themeService.screenSwitch(this.destroyRef, NavigationDisplayMode.Compact);
         this.route.params.subscribe(params => {
             if (!params.project) {
                 return;
@@ -58,10 +60,6 @@ export class ApiEditComponent implements OnInit, OnDestroy {
             });
 
         });
-    }
-
-    ngOnDestroy(): void {
-        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
     }
 
     public tapBack() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
 
 @Component({
@@ -7,13 +7,9 @@ import { GameCommand, GameRouterInjectorToken, IGameRouter, IGameScene } from '.
     templateUrl: './battle.component.html',
     styleUrls: ['./battle.component.scss']
 })
-export class BattleComponent implements IGameScene, OnInit {
+export class BattleComponent implements IGameScene {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
-
-    ngOnInit(): void {
-        
-    }
 
     public tapBattle() {
         this.router.request(GameCommand.MapBattle, {}).subscribe(res => {

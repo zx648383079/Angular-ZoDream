@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ElementRef, inject, input, model, effect, signal, untracked, computed } from '@angular/core';
+import { Component, HostListener, ElementRef, inject, input, model, effect, signal, untracked, computed } from '@angular/core';
 import { formatDate, twoPad } from '../../theme/utils';
 import { IDay, DayMode } from './datepicker.base';
 import { hasElementByClass } from '../../theme/utils/doc';

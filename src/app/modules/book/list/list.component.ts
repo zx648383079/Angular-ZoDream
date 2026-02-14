@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../theme/interfaces';
@@ -12,7 +12,7 @@ import { BookService } from '../book.service';
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
+export class ListComponent {
     private readonly service = inject(BookService);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
@@ -35,8 +35,6 @@ export class ListComponent implements OnInit {
         });
         this.tapRefresh();
     }
-
-    ngOnInit() {}
 
     public tapView(item: any) {
         this.router.navigate([item.id], {relativeTo: this.route});

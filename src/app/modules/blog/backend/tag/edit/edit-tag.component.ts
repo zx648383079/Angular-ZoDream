@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -13,7 +13,7 @@ import { ButtonEvent } from '../../../../../components/form';
     templateUrl: './edit-tag.component.html',
     styleUrls: ['./edit-tag.component.scss']
 })
-export class EditTagComponent implements OnInit {
+export class EditTagComponent {
     private readonly service = inject(BlogService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -30,7 +30,7 @@ export class EditTagComponent implements OnInit {
 
     public data: ITag;
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
         if (!params.id) {
             return;

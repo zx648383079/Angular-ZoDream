@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ForumService } from './forum.service';
 
 @Component({
@@ -7,14 +7,14 @@ import { ForumService } from './forum.service';
     templateUrl: './forum.component.html',
     styleUrls: ['./forum.component.scss']
 })
-export class ForumComponent implements OnInit {
+export class ForumComponent {
     private readonly service = inject(ForumService);
 
 
     public readonly isLoading = signal(true);
     public readonly data = signal<any>({});
 
-    ngOnInit() {
+    constructor() {
         this.service.statistics().subscribe(res => {
             this.isLoading.set(false);
             this.data.set(res);

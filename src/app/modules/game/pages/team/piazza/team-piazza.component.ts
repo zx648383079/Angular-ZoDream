@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameRouter, IGameScene, IGameTeam } from '../../../model';
 import { IPage, IPageQueries } from '../../../../../theme/models/page';
 
@@ -9,7 +9,7 @@ import { IPage, IPageQueries } from '../../../../../theme/models/page';
     templateUrl: './team-piazza.component.html',
     styleUrls: ['./team-piazza.component.scss']
 })
-export class TeamPiazzaComponent implements IGameScene, OnInit {
+export class TeamPiazzaComponent implements IGameScene {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
@@ -29,7 +29,7 @@ export class TeamPiazzaComponent implements IGameScene, OnInit {
         required(schemaPath.name);
     });
 
-    ngOnInit() {
+    constructor() {
         this.tapRefresh();
     }
 

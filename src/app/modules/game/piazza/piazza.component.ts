@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { GameService } from '../game.service';
 import { IGameProject } from '../model';
 import { ThemeService } from '../../../theme/services';
@@ -9,7 +9,7 @@ import { ThemeService } from '../../../theme/services';
     templateUrl: './piazza.component.html',
     styleUrls: ['./piazza.component.scss']
 })
-export class PiazzaComponent implements OnInit {
+export class PiazzaComponent {
     private readonly service = inject(GameService);
     private readonly themeService = inject(ThemeService);
 
@@ -20,9 +20,6 @@ export class PiazzaComponent implements OnInit {
 
     constructor() {
         this.themeService.titleChanged.next($localize `Piazza of Games`);
-    }
-
-    ngOnInit() {
         this.service.projectList().subscribe(res => {
             this.items.set(res.data);
         });

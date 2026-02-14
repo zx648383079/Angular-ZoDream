@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, input, viewChild, model, computed } from '@angular/core';
+import { Component, ElementRef, inject, input, viewChild, model, computed, afterNextRender } from '@angular/core';
 import { DialogBoxComponent } from '../../../../components/dialog';
 import { IEmoji } from '../../../../theme/models/seo';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
@@ -16,7 +16,7 @@ interface IRange {
     templateUrl: './forum-editor.component.html',
     styleUrls: ['./forum-editor.component.scss'],
 })
-export class ForumEditorComponent implements AfterViewInit, FormValueControl<string> {
+export class ForumEditorComponent implements FormValueControl<string> {
     private readonly uploadService = inject(FileUploadService);
 
 
@@ -48,8 +48,12 @@ export class ForumEditorComponent implements AfterViewInit, FormValueControl<str
         return this.areaElement().nativeElement as HTMLTextAreaElement;
     }
 
-    ngAfterViewInit() {
-        this.bindAreaEvent();
+    constructor() {
+        afterNextRender({
+            write: () => {
+                this.bindAreaEvent();
+            }
+        });
     }
 
     private bindAreaEvent() {

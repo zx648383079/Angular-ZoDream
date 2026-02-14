@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -15,7 +15,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './api-edit.component.html',
     styleUrls: ['./api-edit.component.scss']
 })
-export class ApiEditComponent implements OnInit {
+export class ApiEditComponent {
     private readonly service = inject(DocumentService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -42,7 +42,7 @@ export class ApiEditComponent implements OnInit {
     }));
     public methodItems = ['GET', 'POST', 'PUT', 'DELETE', 'OPTION'];
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.project) {
                 return;

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DiskService } from './disk.service';
 
 @Component({
@@ -7,14 +7,14 @@ import { DiskService } from './disk.service';
     templateUrl: './disk-backend.component.html',
     styleUrls: ['./disk-backend.component.scss']
 })
-export class DiskBackendComponent implements OnInit {
+export class DiskBackendComponent {
     private readonly service = inject(DiskService);
 
 
     public readonly isLoading = signal(true);
     public readonly data = signal<any>({});
 
-    ngOnInit() {
+    constructor() {
         this.service.statistics().subscribe({
             next: res => {
                 this.data.set(res);

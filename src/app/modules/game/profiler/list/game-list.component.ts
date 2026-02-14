@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -6,7 +6,7 @@ import { Component, OnInit, signal } from '@angular/core';
     templateUrl: './game-list.component.html',
     styleUrls: ['./game-list.component.scss']
 })
-export class GameListComponent implements OnInit {
+export class GameListComponent {
 
     public readonly items = signal([
         {
@@ -17,7 +17,7 @@ export class GameListComponent implements OnInit {
         }
     ]);
 
-    ngOnInit() {
+    constructor() {
     }
 
 }

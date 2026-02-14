@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IPageQueries } from '../../../theme/models/page';
 import { TrendService } from '../trend.service';
 import { DialogService } from '../../../components/dialog';
@@ -19,7 +19,7 @@ interface ILogGroup {
     templateUrl: './trend.component.html',
     styleUrls: ['./trend.component.scss']
 })
-export class TrendComponent implements OnInit {
+export class TrendComponent {
     private readonly service = inject(TrendService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -43,7 +43,7 @@ export class TrendComponent implements OnInit {
     public moreOpen = false;
     public markItems: IAnalysisMark[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

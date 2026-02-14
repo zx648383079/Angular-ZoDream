@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -12,7 +12,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './edit-service.component.html',
     styleUrls: ['./edit-service.component.scss']
 })
-export class EditServiceComponent implements OnInit {
+export class EditServiceComponent {
     private readonly service = inject(LegworkService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -44,7 +44,7 @@ export class EditServiceComponent implements OnInit {
     });
     public categories: ICategory[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.service.providerCategory().subscribe(res => {
             this.categories = res.data.filter(i => i.status === 1);
             if (this.categories.length < 1) {

@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CateringService } from '../catering.service';
 import { ICateringCategory, ICateringProduct } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
@@ -10,7 +10,7 @@ import { IPageQueries } from '../../../theme/models/page';
     templateUrl: './store.component.html',
     styleUrls: ['./store.component.scss']
 })
-export class StoreComponent implements OnInit {
+export class StoreComponent {
     private readonly service = inject(CateringService);
 
 
@@ -26,7 +26,7 @@ export class StoreComponent implements OnInit {
         per_page: 20
     }));
 
-    ngOnInit() {
+    constructor() {
         this.service.categoryList().subscribe(res => {
             this.categories = res.data;
             if (this.categories.length > 0) {

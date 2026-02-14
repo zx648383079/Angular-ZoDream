@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef,  OnDestroy, Renderer2, effect, inject, input, signal, viewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef,  HostListener, afterNextRender, effect, inject, input, signal, viewChild } from '@angular/core';
 import { IMediaFile, PlayerEvent, PlayerEvents, PlayerListeners, PlayerLoopMode } from '../model';
 import { assetUri, findIndex, randomInt } from '../../../../theme/utils';
 
@@ -8,9 +8,8 @@ import { assetUri, findIndex, randomInt } from '../../../../theme/utils';
     templateUrl: './music-player.component.html',
     styleUrls: ['./music-player.component.scss']
 })
-export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewInit {
-    private render = inject(Renderer2);
-
+export class MusicPlayerComponent implements PlayerEvent {
+    private readonly destroyRef = inject(DestroyRef);
 
     private readonly boxBody = viewChild<ElementRef<HTMLDivElement>>('playerBar');
     public readonly isFixed = input(true);
@@ -81,32 +80,30 @@ export class MusicPlayerComponent implements PlayerEvent, OnDestroy, AfterViewIn
                 this.resize();
             }
         });
-    }
-
-    ngAfterViewInit() {
-        this.render.listen(window, 'resize', () => {
-            this.resize();
+        this.destroyRef.onDestroy(() => {
+            if (this.paused) {
+                return;
+            }
+            this.audio.pause();
         });
-        setTimeout(() => {
-            this.resize();
-        }, 100);
-        this.booted = true;
+        afterNextRender({
+            write: () => {
+                setTimeout(() => {
+                    this.resize();
+                }, 100);
+                this.booted = true;
+            }
+        });
     }
 
-    private resize() {
+    @HostListener('window:resize')
+    public resize() {
         const width = this.boxBody()?.nativeElement?.offsetWidth
         if (!width || width <= 0) {
             return;
         }
         this.lyricsWidth = width;
         this.moreVisible = width < 769;
-    }
-
-    ngOnDestroy() {
-        if (this.paused) {
-            return;
-        }
-        this.audio.pause();
     }
 
     public formatAsset(val?: string) {

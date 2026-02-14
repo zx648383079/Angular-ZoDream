@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FrontendService } from '../frontend.service';
 import { ILink } from '../../theme/models/seo';
 import { DialogEvent, DialogService } from '../../components/dialog';
@@ -11,7 +11,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './friend-link.component.html',
     styleUrls: ['./friend-link.component.scss']
 })
-export class FriendLinkComponent implements OnInit {
+export class FriendLinkComponent {
     private readonly service = inject(FrontendService);
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
@@ -32,9 +32,6 @@ export class FriendLinkComponent implements OnInit {
         this.service.friendLinks().subscribe(res => {
             this.items.set(res);
         });
-    }
-
-    ngOnInit() {
         this.themeService.titleChanged.next($localize `Friend Link`);
     }
 

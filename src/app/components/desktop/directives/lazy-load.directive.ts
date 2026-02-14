@@ -1,5 +1,5 @@
 import { isPlatformServer } from '@angular/common';
-import { Directive, ElementRef, HostListener, OnInit, PLATFORM_ID, inject, input, output } from '@angular/core';
+import { Directive, ElementRef, HostListener, PLATFORM_ID, inject, input, output } from '@angular/core';
 import { assetUri } from '../../../theme/utils';
 
 interface IRect {

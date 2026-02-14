@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, IGameFarmPlot, IGameRouter, IGameScene, InvestTabItems } from '../../../model';
 
 @Component({
@@ -7,7 +7,7 @@ import { GameCommand, GameRouterInjectorToken, IGameFarmPlot, IGameRouter, IGame
     templateUrl: './farm.component.html',
     styleUrls: ['./farm.component.scss']
 })
-export class FarmComponent implements IGameScene, OnInit {
+export class FarmComponent implements IGameScene {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
     
@@ -15,7 +15,7 @@ export class FarmComponent implements IGameScene, OnInit {
     public tabItems = InvestTabItems;
     public readonly tabIndex = signal(0);
 
-    ngOnInit(): void {
+    constructor() {
         this.tapRefresh();
     }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ComponentTypeItems, ICategory, IThemeComponent } from '../../model';
 import { VisualService } from '../visual.service';
@@ -14,7 +14,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './edit-weight.component.html',
     styleUrls: ['./edit-weight.component.scss']
 })
-export class EditWeightComponent implements OnInit {
+export class EditWeightComponent {
     private readonly service = inject(VisualService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -42,7 +42,7 @@ export class EditWeightComponent implements OnInit {
     private categories: ICategory[] = [];
     public typeItems = ComponentTypeItems;
 
-    ngOnInit() {
+    constructor() {
         this.service.categoryTree().subscribe(res => {
             this.categories = res.data;
         });

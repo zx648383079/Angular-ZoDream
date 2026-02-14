@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { MessageServiceService } from '../ms.service';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,7 @@ import { FormPanelComponent } from '../../../components/desktop';
     templateUrl: './option.component.html',
     styleUrls: ['./option.component.scss']
 })
-export class OptionComponent implements OnInit {
+export class OptionComponent {
     private readonly service = inject(MessageServiceService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -22,7 +22,7 @@ export class OptionComponent implements OnInit {
 
     public readonly isMail = signal(true);
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.isMail.set(params.type === 'mail');
             this.service.option(this.isMail()).subscribe(res => {

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContextMenuComponent } from '../../../components/context-menu';
 import { DialogEvent, DialogService } from '../../../components/dialog';
@@ -19,7 +19,7 @@ import { QuestionFinderComponent } from '../components';
     templateUrl: './page-editor.component.html',
     styleUrls: ['./page-editor.component.scss']
 })
-export class PageEditorComponent implements OnInit {
+export class PageEditorComponent {
     private readonly service = inject(ExamService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -46,7 +46,7 @@ export class PageEditorComponent implements OnInit {
     public readonly courseItems = signal<ICourse[]>([]);
     public readonly gradeItems = signal<IItem[]>([]);
 
-    ngOnInit() {
+    constructor() {
         this.service.courseAll().subscribe(res => {
             this.courseItems.set(res.data);
         });

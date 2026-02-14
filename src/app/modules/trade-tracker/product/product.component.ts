@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { TrackerService } from '../tracker.service';
@@ -17,7 +17,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './product.component.html',
     styleUrls: ['./product.component.scss']
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent {
     private readonly service = inject(TrackerService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -40,7 +40,7 @@ export class ProductComponent implements OnInit {
         type: 0
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(res => {
             const product = parseNumber(res.id);
             this.productSelected.set(product);

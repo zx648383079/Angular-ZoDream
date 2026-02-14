@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IShare, ITask, ITaskComment } from '../../model';
@@ -12,7 +12,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './share-detail.component.html',
     styleUrls: ['./share-detail.component.scss'],
 })
-export class ShareDetailComponent implements OnInit {
+export class ShareDetailComponent {
     private readonly service = inject(TaskService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -41,7 +41,7 @@ export class ShareDetailComponent implements OnInit {
     }));
     public userItems: any[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;

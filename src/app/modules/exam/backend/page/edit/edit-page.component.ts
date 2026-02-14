@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -16,7 +16,7 @@ import { QuestionFinderComponent } from '../../../components';
     templateUrl: './edit-page.component.html',
     styleUrls: ['./edit-page.component.scss']
 })
-export class EditPageComponent implements OnInit {
+export class EditPageComponent {
     private readonly service = inject(ExamService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -69,7 +69,7 @@ export class EditPageComponent implements OnInit {
         total: 0,
     };
 
-    ngOnInit() {
+    constructor() {
         this.service.courseAll().subscribe(res => {
             this.courseItems.set(res.data);
         });

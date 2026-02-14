@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ICategory, IThemeComponent } from '../../model';
 import { IPageQueries } from '../../../../theme/models/page';
 import { VisualService } from '../visual.service';
@@ -13,7 +13,7 @@ import { SearchService } from '../../../../theme/services';
     templateUrl: './weight.component.html',
     styleUrls: ['./weight.component.scss']
 })
-export class WeightComponent implements OnInit {
+export class WeightComponent {
     private readonly service = inject(VisualService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -36,7 +36,7 @@ export class WeightComponent implements OnInit {
     public readonly isMultiple = signal(false);
     public readonly isChecked = signal(false);
 
-    ngOnInit() {
+    constructor() {
         this.service.categoryTree().subscribe(res => {
             this.categories = res.data;
         });

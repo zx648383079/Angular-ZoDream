@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { IStorageFile } from '../../../model';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
@@ -16,7 +16,7 @@ import { ButtonEvent } from '../../../../../components/form';
     templateUrl: './explorer-storage.component.html',
     styleUrls: ['./explorer-storage.component.scss']
 })
-export class ExplorerStorageComponent implements OnInit {
+export class ExplorerStorageComponent {
     private readonly service = inject(DiskService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
@@ -40,7 +40,7 @@ export class ExplorerStorageComponent implements OnInit {
     public readonly isMultiple = signal(false);
     public readonly isChecked = signal(false);
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

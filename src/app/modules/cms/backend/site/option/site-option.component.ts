@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
@@ -16,7 +16,7 @@ import { FormControl, FormGroup } from '@angular/forms';
     templateUrl: './site-option.component.html',
     styleUrls: ['./site-option.component.scss']
 })
-export class SiteOptionComponent implements OnInit {
+export class SiteOptionComponent {
     private readonly service = inject(CmsService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -56,7 +56,7 @@ export class SiteOptionComponent implements OnInit {
         return new FormGroup(groups);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.id = parseInt(params.id, 10);
             this.service.option(this.id).subscribe(res => {

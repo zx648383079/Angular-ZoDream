@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
@@ -16,7 +16,7 @@ import { mapFormat } from '../../../../theme/utils';
     templateUrl: './edit-income.component.html',
     styleUrls: ['./edit-income.component.scss']
 })
-export class EditIncomeComponent implements OnInit {
+export class EditIncomeComponent {
     private readonly service = inject(FinanceService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -94,9 +94,6 @@ export class EditIncomeComponent implements OnInit {
             this.projectItems.set(res.project);
             this.budgetItems.set(res.budget);
         });
-    }
-
-    ngOnInit() {
         this.route.params.subscribe(params => {
             this.action.set(params.action);
             if (!params.id) {

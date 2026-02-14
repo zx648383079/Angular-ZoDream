@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewContainerRef, inject, signal, viewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef, HostListener, ViewContainerRef, afterNextRender, inject, signal, viewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ContextMenuComponent, IMenuItem } from '../../../components/context-menu';
@@ -20,14 +20,14 @@ import { form } from '@angular/forms/signals';
     templateUrl: './book-editor.component.html',
     styleUrls: ['./book-editor.component.scss'],
 })
-export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
+export class BookEditorComponent {
     private readonly service = inject(BookService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
-    private readonly renderer = inject(Renderer2);
     private readonly themeService = inject(ThemeService);
     private readonly editor = inject(EditorService);
     private readonly location = inject(Location);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly contextMenu = viewChild(ContextMenuComponent);
     private readonly publishModal = viewChild<DialogEvent>('publishModal');
@@ -62,34 +62,31 @@ export class BookEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     
     constructor() {
         this.themeService.titleChanged.next('编辑书籍');
-    }
-
-
-
-    ngOnInit() {
-        this.renderer.listen(document, 'keydown', (event: KeyboardEvent) => {
-            if (event.ctrlKey && event.code === 'KeyS') {
-                if (this.topVisible) {
-                    this.tapSaveBook();
-                    return;
-                }
-                if (this.data) {
-                    this.tapSaveChapter();
-                }
-            }
-        });
         this.route.params.subscribe(params => {
             this.loadBook(params.id);
         });
+        afterNextRender({
+            write: () => {
+                this.editor.ready(new TextElement(this.areaElement().nativeElement, this.editor), this.modalViewContainer());
+                this.editor.toggle(false);
+            }
+        });
+        this.destroyRef.onDestroy(() => {
+            this.editor.destroy();
+        });
     }
 
-    ngAfterViewInit(): void {
-        this.editor.ready(new TextElement(this.areaElement().nativeElement, this.editor), this.modalViewContainer());
-        this.editor.toggle(false);
-    }
-
-    ngOnDestroy(): void {
-        this.editor.destroy();
+    @HostListener('document:keydown', ['$event'])
+    public onKeyDown(event: KeyboardEvent) {
+        if (event.ctrlKey && event.code === 'KeyS') {
+            if (this.topVisible) {
+                this.tapSaveBook();
+                return;
+            }
+            if (this.data) {
+                this.tapSaveChapter();
+            }
+        }
     }
 
     private loadBook(id: any, only = false) {

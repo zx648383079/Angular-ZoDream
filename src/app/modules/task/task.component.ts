@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { INavLink } from '../../theme/models/seo';
 import { AppState } from '../../theme/interfaces';
@@ -11,7 +11,7 @@ import { ThemeService } from '../../theme/services';
     templateUrl: './task.component.html',
     styleUrls: ['./task.component.scss']
 })
-export class TaskComponent implements OnInit {
+export class TaskComponent {
     private readonly store = inject<Store<AppState>>(Store);
     private readonly themeService = inject(ThemeService);
 
@@ -140,9 +140,6 @@ export class TaskComponent implements OnInit {
             }
             this.bottomNavs[0].name = user.name;
         });
-    }
-
-    ngOnInit() {
     }
 
 }

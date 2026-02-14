@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentService } from '../document.service';
 import { IDocApi, IDocPage, IProject } from '../model';
@@ -9,7 +9,7 @@ import { IDocApi, IDocPage, IProject } from '../model';
     templateUrl: './project.component.html',
     styleUrls: ['./project.component.scss']
 })
-export class ProjectComponent implements OnInit {
+export class ProjectComponent {
     private readonly service = inject(DocumentService);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
@@ -19,7 +19,7 @@ export class ProjectComponent implements OnInit {
     public readonly catalog = signal<IDocPage[]&IDocApi[]>([]);
     public readonly tabIndex = signal(0);
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;

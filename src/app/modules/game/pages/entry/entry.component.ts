@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, IGameCharacter, IGameCharacterIdentity, IGameDescent, IGameProject, IGameRouter, IGameScene } from '../../model';
 import { IItem } from '../../../../theme/models/seo';
 import { ButtonEvent } from '../../../../components/form';

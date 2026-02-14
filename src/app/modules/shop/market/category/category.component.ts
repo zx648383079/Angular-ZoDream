@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IFilter, IPageQueries } from '../../../../theme/models/page';
 import { ISortItem } from '../../../../theme/models/seo';
@@ -13,7 +13,7 @@ import { ShopService } from '../../shop.service';
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent {
     private readonly route = inject(ActivatedRoute);
     private readonly service = inject(ShopService);
     private readonly searchService = inject(SearchService);
@@ -43,7 +43,7 @@ export class CategoryComponent implements OnInit {
         max: 0
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             const category = this.queries.category().value();

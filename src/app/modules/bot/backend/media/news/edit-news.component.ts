@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -14,12 +14,13 @@ import { NavigationDisplayMode } from '../../../../../theme/models/event';
     templateUrl: './edit-news.component.html',
     styleUrls: ['./edit-news.component.scss']
 })
-export class EditNewsComponent implements OnInit, OnDestroy {
+export class EditNewsComponent {
     private readonly route = inject(ActivatedRoute);
     private readonly service = inject(BotService);
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
     private readonly location = inject(Location);
+    private readonly destroyRef = inject(DestroyRef);
 
     public data: any = {
         title: '',
@@ -33,8 +34,8 @@ export class EditNewsComponent implements OnInit, OnDestroy {
     public onlyItems = ['所有人', '粉丝'];
     public requestUrl = 'wx/admin/media/search?type=news';
 
-    ngOnInit() {
-        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Compact);
+    constructor() {
+        this.themeService.screenSwitch(this.destroyRef, NavigationDisplayMode.Compact);
         this.requestUrl += '&wid=' + this.service.baseId;
         this.route.params.subscribe(params => {
             if (!params.id) {
@@ -50,10 +51,6 @@ export class EditNewsComponent implements OnInit, OnDestroy {
                 }
             })
         });
-    }
-
-    ngOnDestroy(): void {
-        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
     }
 
     public tapSubmit(e?: ButtonEvent) {

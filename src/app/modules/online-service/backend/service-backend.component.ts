@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { AppState } from '../../../theme/interfaces';
@@ -19,10 +19,11 @@ const LOOP_SESSION_TIME = 120;
     templateUrl: './service-backend.component.html',
     styleUrls: ['./service-backend.component.scss']
 })
-export class ServiceBackendComponent implements OnInit, OnDestroy {
+export class ServiceBackendComponent {
     private readonly store = inject<Store<AppState>>(Store);
     private readonly service = inject(OnlineBackendService);
     private readonly toastrService = inject(DialogService);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly dataForm = form(signal({
         keywords: '',
@@ -56,19 +57,14 @@ export class ServiceBackendComponent implements OnInit, OnDestroy {
             }
             this.currentUser = user.id;
         });
-    }
-
-    ngOnInit() {
         this.service.wordAll().subscribe(res => {
             this.categories = res.data;
         });
         this.refreshSession();
         this.startTimer();
+        this.destroyRef.onDestroy(() => this.stopTimer());
     }
 
-    ngOnDestroy() {
-        this.stopTimer();
-    }
 
     public get autoWords() {
         for (const item of this.categories) {

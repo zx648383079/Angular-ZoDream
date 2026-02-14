@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { DialogService } from '../../../components/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -14,7 +14,7 @@ import { IItem } from '../../../theme/models/seo';
     templateUrl: './member.component.html',
     styleUrls: ['./member.component.scss']
 })
-export class MemberComponent implements OnInit {
+export class MemberComponent {
     private readonly service = inject(BlogService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -42,9 +42,6 @@ export class MemberComponent implements OnInit {
             this.categories = res.categories;
             this.statusItems = res.publish_status;
         });
-    }
-
-    ngOnInit() {
         this.themeService.titleChanged.next($localize `My Blog`);
         this.route.queryParams.subscribe(res => {
             this.searchService.getQueries(res, this.queries().value());

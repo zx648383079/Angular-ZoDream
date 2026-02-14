@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { EChartsCoreOption } from 'echarts/core';
 import { TrendService } from '../trend.service';
 import { ITrendStatistics, TimeTabItems } from '../model';
@@ -9,7 +9,7 @@ import { ITrendStatistics, TimeTabItems } from '../model';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
     private readonly service = inject(TrendService);
 
 
@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
     public trendIndex = 0; 
     public trendCompare = 0;
 
-    ngOnInit() {
+    constructor() {
         this.service.batch({
             today: {}
         }).subscribe(res => {

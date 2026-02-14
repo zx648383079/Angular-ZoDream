@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, computed, effect, ElementRef, inject, input, model, signal, viewChild } from '@angular/core';
+import { afterNextRender, Component, computed, effect, ElementRef, inject, input, model, signal, viewChild } from '@angular/core';
 import { FileUploadService } from '../../../../../theme/services';
 import { IGoodsGallery } from '../../../model';
 import { FormValueControl } from '@angular/forms/signals';
@@ -9,7 +9,7 @@ import { FormValueControl } from '@angular/forms/signals';
     templateUrl: './gallery-panel.component.html',
     styleUrls: ['./gallery-panel.component.scss'],
 })
-export class GalleryPanelComponent implements FormValueControl<any>, AfterViewInit {
+export class GalleryPanelComponent implements FormValueControl<any> {
     private readonly uploadService = inject(FileUploadService);
 
 
@@ -30,6 +30,15 @@ export class GalleryPanelComponent implements FormValueControl<any>, AfterViewIn
             const obj = this.value();
             this.items.set(obj instanceof Array ? obj : []);
         });
+        afterNextRender({
+            write: () => {
+                this.imageBox.ondrop = (ev) => {
+                    this.fileDrog(ev.dataTransfer.files);
+                    return false;
+                };
+                this.imageBox.ondragover = () => false;
+            }
+        });
     }
 
     public readonly canUpload = computed(() => {
@@ -41,14 +50,6 @@ export class GalleryPanelComponent implements FormValueControl<any>, AfterViewIn
 
     private get imageBox() {
         return this.imageElement().nativeElement as HTMLDivElement;
-    }
-
-    ngAfterViewInit() {
-        this.imageBox.ondrop = (ev) => {
-            this.fileDrog(ev.dataTransfer.files);
-            return false;
-        };
-        this.imageBox.ondragover = () => false;
     }
 
     public tapRemoveGallary(i: number) {

@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -14,7 +14,7 @@ import { TaskService } from '../../task.service';
     templateUrl: './my-share.component.html',
     styleUrls: ['./my-share.component.scss']
 })
-export class MyShareComponent implements OnInit {
+export class MyShareComponent {
     private readonly service = inject(TaskService);
     private readonly toastrService = inject(DialogService);
     private readonly router = inject(Router);
@@ -43,7 +43,7 @@ export class MyShareComponent implements OnInit {
         },
     ];
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

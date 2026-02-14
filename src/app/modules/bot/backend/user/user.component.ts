@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
@@ -14,7 +14,7 @@ import { BotService } from '../bot.service';
     templateUrl: './user.component.html',
     styleUrls: ['./user.component.scss']
 })
-export class UserComponent implements OnInit {
+export class UserComponent {
     private readonly service = inject(BotService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -44,7 +44,7 @@ export class UserComponent implements OnInit {
         return 'wx/admin/user/group_search?wid=' + this.service.baseId;
     }
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

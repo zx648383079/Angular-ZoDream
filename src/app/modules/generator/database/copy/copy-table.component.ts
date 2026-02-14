@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { IItem } from '../../../../theme/models/seo';
@@ -43,7 +43,7 @@ interface IColumnValue {
     templateUrl: './copy-table.component.html',
     styleUrls: ['./copy-table.component.scss']
 })
-export class CopyTableComponent implements OnInit {
+export class CopyTableComponent {
     private readonly service = inject(GenerateService);
     private readonly toastrService = inject(DialogService);
 
@@ -87,7 +87,7 @@ export class CopyTableComponent implements OnInit {
 
     private cacheItems: any = {};
 
-    ngOnInit() {
+    constructor() {
         this.getSchame(data => {
             this.schemaItems = data.map(i => {
                 return {

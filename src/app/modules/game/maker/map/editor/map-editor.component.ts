@@ -1,9 +1,8 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, afterNextRender, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IBound, IPoint, computedBound, isIntersect, drawLineTo } from '../../../../../theme/utils/canvas';
 import { parseNumber } from '../../../../../theme/utils';
-import { emptyValidate } from '../../../../../theme/validators';
 import { IGameMap, IGameMapArea } from '../../../model';
 import { GameMakerService } from '../../game-maker.service';
 import { form, required } from '@angular/forms/signals';
@@ -17,7 +16,7 @@ const posMap = ['north_id', 'east_id', 'south_id', 'west_id'];
     templateUrl: './map-editor.component.html',
     styleUrls: ['./map-editor.component.scss'],
 })
-export class MapEditorComponent implements OnInit, AfterViewInit {
+export class MapEditorComponent {
     private boxRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
     private readonly service = inject(GameMakerService);
     private readonly toastrService = inject(DialogService);
@@ -84,7 +83,7 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
         }
     }
 
-    ngOnInit() {
+    constructor() {
         this.route.parent.params.subscribe(params => {
             this.queries.project().value.set(parseNumber(params.game));
         });
@@ -93,15 +92,16 @@ export class MapEditorComponent implements OnInit, AfterViewInit {
             this.items.set(res.items);
             this.refreshLine();
         });
-    }
-
-    ngAfterViewInit(): void {
-        const canvas = this.lineCanvasRef()?.nativeElement;
-        if (!canvas) {
-            return;
-        }
-        this.onResize();
-        this.ctx = canvas.getContext('2d');
+        afterNextRender({
+            write: () => {
+                const canvas = this.lineCanvasRef()?.nativeElement;
+                if (!canvas) {
+                    return;
+                }
+                this.onResize();
+                this.ctx = canvas.getContext('2d');
+            }
+        });
     }
     
     public get selectionStyle() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -14,7 +14,7 @@ import { ButtonEvent } from '../../../../../components/form';
     templateUrl: './edit-category.component.html',
     styleUrls: ['./edit-category.component.scss']
 })
-export class EditCategoryComponent implements OnInit {
+export class EditCategoryComponent {
     private readonly service = inject(CmsService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -53,7 +53,7 @@ export class EditCategoryComponent implements OnInit {
     public groupItems: ICmsGroup[] = [];
     private site = 0;
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.site = parseInt(params.site, 10);
             this.service.batch({

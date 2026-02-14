@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -6,11 +6,7 @@ import { Component, OnInit } from '@angular/core';
     templateUrl: './task-dialogue.component.html',
     styleUrls: ['./task-dialogue.component.scss']
 })
-export class TaskDialogueComponent implements OnInit {
+export class TaskDialogueComponent {
 
-    constructor() { }
-
-    ngOnInit() {
-    }
 
 }

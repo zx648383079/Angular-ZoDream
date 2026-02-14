@@ -1,5 +1,5 @@
 import { form, max, min } from '@angular/forms/signals';
-import { Component, OnInit, inject, viewChild, signal, computed } from '@angular/core';
+import { Component, inject, viewChild, signal, computed } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IItem } from '../../../theme/models/seo';
@@ -15,7 +15,7 @@ import { TaskService } from '../task.service';
     templateUrl: './plan.component.html',
     styleUrls: ['./plan.component.scss'],
 })
-export class PlanComponent implements OnInit {
+export class PlanComponent {
     private readonly service = inject(TaskService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -65,9 +65,6 @@ export class PlanComponent implements OnInit {
                 value: index
             });
         }
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

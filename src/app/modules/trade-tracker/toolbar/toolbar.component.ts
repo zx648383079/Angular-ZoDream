@@ -1,7 +1,8 @@
-import { Component, OnDestroy, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { ITradeLog } from '../model';
 import { form } from '@angular/forms/signals';
 import { asyncScheduler, Subject, throttleTime } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -9,8 +10,9 @@ import { asyncScheduler, Subject, throttleTime } from 'rxjs';
     templateUrl: './toolbar.component.html',
     styleUrls: ['./toolbar.component.scss'],
 })
-export class ToolbarComponent implements OnDestroy {
+export class ToolbarComponent {
 
+    private readonly destroyRef = inject(DestroyRef);
     public readonly visible = signal(false);
     public title = 'Toolbar';
 
@@ -27,12 +29,8 @@ export class ToolbarComponent implements OnDestroy {
     private readonly $afterDelay = new Subject<void>();
 
     constructor() {
-        this.$afterDelay.pipe(throttleTime(500, asyncScheduler, { leading: false, trailing: true }))
-                        .subscribe(() => this.changeData(this.matchKey, this.lastKey));
-    }
-
-    ngOnDestroy(): void {
-        this.$afterDelay.unsubscribe();
+        this.$afterDelay.pipe(throttleTime(500, asyncScheduler, { leading: false, trailing: true }), takeUntilDestroyed(this.destroyRef))
+            .subscribe(() => this.changeData(this.matchKey, this.lastKey));
     }
 
     public open(item: ITradeLog) {

@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { ButtonEvent, UploadButtonEvent } from '../../../../components/form';
@@ -14,7 +14,7 @@ import { TVService } from '../tv.service';
     templateUrl: './live.component.html',
     styleUrls: ['./live.component.scss']
 })
-export class LiveComponent implements OnInit {
+export class LiveComponent {
     private readonly service = inject(TVService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -41,7 +41,7 @@ export class LiveComponent implements OnInit {
         required(schemaPath.title);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

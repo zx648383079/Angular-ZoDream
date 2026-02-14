@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ShopService } from '../../shop.service';
 import { IAccountLog } from '../../../../theme/models/auth';
@@ -7,8 +7,8 @@ import { SearchService } from '../../../../theme/services';
 import { Store } from '@ngrx/store';
 import { ShopAppState } from '../../shop.reducer';
 import { IUser } from '../../../../theme/models/user';
-import { Subscription } from 'rxjs';
 import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -16,11 +16,12 @@ import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
     templateUrl: './account.component.html',
     styleUrls: ['./account.component.scss']
 })
-export class AccountComponent implements OnInit, OnDestroy {
+export class AccountComponent {
     private readonly service = inject(ShopService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
     private readonly store = inject<Store<ShopAppState>>(Store);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public title = '我的账户';
@@ -35,25 +36,15 @@ export class AccountComponent implements OnInit, OnDestroy {
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
     public user: IUser;
-    private readonly subItems = new Subscription();
 
     constructor() {
-        this.subItems.add(
-            this.store.select(selectAuthUser).subscribe(res => {
-                this.user = res;
-            })
-        );
-    }
-
-    ngOnInit() {
+        this.store.select(selectAuthUser).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
+            this.user = res;
+        });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
-    }
-
-    ngOnDestroy(): void {
-        this.subItems.unsubscribe();
     }
 
     public tapType(i: number) {

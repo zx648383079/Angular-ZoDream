@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, afterNextRender, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { assetUri, parseNumber, uriEncode } from '../../../theme/utils';
@@ -11,7 +11,7 @@ import { IDataOne } from '../../../theme/models/page';
     templateUrl: './visual-studio.component.html',
     styleUrls: ['./visual-studio.component.scss']
 })
-export class VisualStudioComponent implements OnInit, AfterViewInit {
+export class VisualStudioComponent {
     private readonly http = inject(HttpClient);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -27,7 +27,7 @@ export class VisualStudioComponent implements OnInit, AfterViewInit {
         id: 0
     };
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.data = {
                 site: parseNumber(params.site),
@@ -45,18 +45,19 @@ export class VisualStudioComponent implements OnInit, AfterViewInit {
                 this.toastrService.error(err);
             }
         });
-    }
-
-    ngAfterViewInit(): void {
-        const frame = this.frame().nativeElement;
-        if (!frame) {
-            return;
-        }
-        this.isReady = true;
-        frame.onload = () => {
-            this.isLoading.set(false);
-        };
-        this.readyFn && this.readyFn(frame);
+        afterNextRender({
+            write: () => {
+                const frame = this.frame().nativeElement;
+                if (!frame) {
+                    return;
+                }
+                this.isReady = true;
+                frame.onload = () => {
+                    this.isLoading.set(false);
+                };
+                this.readyFn && this.readyFn(frame);
+            }
+        });
     }
 
     private onReady(cb: (frame: HTMLIFrameElement) => void) {

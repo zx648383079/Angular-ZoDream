@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IConnect } from '../../../theme/models/auth';
 import { UserService } from '../user.service';
 
@@ -8,7 +8,7 @@ import { UserService } from '../user.service';
     templateUrl: './connect.component.html',
     styleUrls: ['./connect.component.scss']
 })
-export class ConnectComponent implements OnInit {
+export class ConnectComponent {
     private readonly service = inject(UserService);
 
 
@@ -16,9 +16,6 @@ export class ConnectComponent implements OnInit {
 
     constructor() {
         this.tapRefresh();
-    }
-
-    ngOnInit() {
     }
 
     public tapRefresh() {

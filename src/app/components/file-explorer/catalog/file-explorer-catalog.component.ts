@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, output, signal } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { FILE_PROVIDER, IFileCatalogItem, IFileItem, IFileProvider } from '../model';
 
 @Component({
@@ -7,7 +7,7 @@ import { FILE_PROVIDER, IFileCatalogItem, IFileItem, IFileProvider } from '../mo
     templateUrl: './file-explorer-catalog.component.html',
     styleUrls: ['./file-explorer-catalog.component.scss']
 })
-export class FileExplorerCatalogComponent implements OnInit {
+export class FileExplorerCatalogComponent {
     private readonly service = inject<IFileProvider>(FILE_PROVIDER);
 
 
@@ -43,7 +43,7 @@ export class FileExplorerCatalogComponent implements OnInit {
     ]);
     public readonly activePath = signal('');
 
-    ngOnInit() {
+    constructor() {
         this.service.driveList().subscribe(data => {
             const items = this.items();
             for (let i = items.length - 1; i >= 0; i--) {

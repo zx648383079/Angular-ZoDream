@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { UploadCustomEvent } from '../../../../components/form';
@@ -16,7 +16,7 @@ import { TVService } from '../tv.service';
     templateUrl: './music.component.html',
     styleUrls: ['./music.component.scss']
 })
-export class MusicComponent implements OnInit {
+export class MusicComponent {
     private readonly service = inject(TVService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -51,7 +51,7 @@ export class MusicComponent implements OnInit {
         {name: '歌词', value: 11},
     ]
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

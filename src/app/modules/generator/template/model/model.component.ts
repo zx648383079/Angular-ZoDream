@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { IItem } from '../../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
@@ -11,7 +11,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './model.component.html',
     styleUrls: ['./model.component.scss']
 })
-export class ModelComponent implements OnInit {
+export class ModelComponent {
     private readonly service = inject(GenerateService);
     private readonly toastrService = inject(DialogService);
 
@@ -26,7 +26,7 @@ export class ModelComponent implements OnInit {
         table: '',
     }));
 
-    ngOnInit() {
+    constructor() {
         this.service.tableList().subscribe(res => {
             this.tableItems = res.data.map(i => {
                 return {

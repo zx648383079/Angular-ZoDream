@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { INavLink } from '../../theme/models/seo';
 import { AppState } from '../../theme/interfaces';
@@ -11,7 +11,7 @@ import { ThemeService } from '../../theme/services';
     templateUrl: './disk.component.html',
     styleUrls: ['./disk.component.scss']
 })
-export class DiskComponent implements OnInit {
+export class DiskComponent {
     private readonly store = inject<Store<AppState>>(Store);
     private readonly themeService = inject(ThemeService);
 
@@ -125,9 +125,6 @@ export class DiskComponent implements OnInit {
         this.store.select(selectAuthUser).subscribe(user => {
             this.bottomNavs[0].name = user.name;
         });
-    }
-
-    ngOnInit(): void {
         this.themeService.titleChanged.next($localize `Disk`);
     }
 

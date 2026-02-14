@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ICategory, IResource } from '../model';
 import { ResourceService } from '../resource.service';
@@ -10,7 +10,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
     private readonly service = inject(ResourceService);
@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
     public newItems: IResource[] = [];
     public newLoading = true;
 
-    ngOnInit() {
+    constructor() {
         this.service.batch({
             recommend: {
                 extra: 'items'

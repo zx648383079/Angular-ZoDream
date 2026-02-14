@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import {
     ActivatedRoute
@@ -25,7 +25,7 @@ import { ButtonEvent } from '../../../../../components/form';
     templateUrl: './edit-category.component.html',
     styleUrls: ['./edit-category.component.scss']
 })
-export class EditCategoryComponent implements OnInit {
+export class EditCategoryComponent {
     private readonly service = inject(ArticleService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -51,9 +51,6 @@ export class EditCategoryComponent implements OnInit {
         this.service.categoryTree().subscribe(res => {
             this.categories = res.data;
         });
-    }
-
-    ngOnInit() {
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;

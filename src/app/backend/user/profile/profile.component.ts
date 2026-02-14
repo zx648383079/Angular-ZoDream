@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { AppState } from '../../../theme/interfaces';
 import { Store } from '@ngrx/store';
 import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
@@ -8,8 +8,8 @@ import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
-import { Subscription } from 'rxjs';
 import { email, form, required } from '@angular/forms/signals';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -17,12 +17,13 @@ import { email, form, required } from '@angular/forms/signals';
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit, OnDestroy {
+export class ProfileComponent {
     private readonly service = inject(UserService);
     private readonly store = inject<Store<AppState>>(Store);
     private readonly toastrService = inject(DialogService);
     private readonly authService = inject(AuthService);
     private readonly router = inject(Router);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public readonly dataModel = signal({
@@ -49,12 +50,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
     public reasonSelected = 0;
     public minDate: Date;
     public maxDate: Date;
-    private readonly subItems = new Subscription();
 
     constructor() {
         this.maxDate = new Date();
         this.minDate = new Date(this.maxDate.getFullYear() - 130, this.maxDate.getMonth(), this.maxDate.getDate());
-        this.subItems.add(this.store.select(selectAuthUser).subscribe(user => {
+        this.store.select(selectAuthUser).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(user => {
             this.data = user;
             this.dataModel.set({
                 name: user.name,
@@ -63,14 +63,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 avatar: user.avatar,
                 birthday: user.birthday,
             });
-        }));
-    }
-
-    ngOnInit() {
-    }
-
-    ngOnDestroy(): void {
-        this.subItems.unsubscribe();
+        });
     }
 
     public tapSubmit(e?: ButtonEvent) {

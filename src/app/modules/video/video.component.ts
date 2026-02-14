@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, HostListener, OnInit, inject, signal } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../components/dialog';
 import { IPageQueries } from '../../theme/models/page';
@@ -14,7 +14,7 @@ import { VideoService } from './video.service';
     templateUrl: './video.component.html',
     styleUrls: ['./video.component.scss']
 })
-export class VideoComponent implements OnInit {
+export class VideoComponent {
     private readonly service = inject(VideoService);
     private readonly toastrService = inject(DialogService);
     private readonly router = inject(Router);
@@ -36,6 +36,10 @@ export class VideoComponent implements OnInit {
 
     constructor() {
         this.themeService.titleChanged.next($localize `Short video`);
+        this.route.queryParams.subscribe(params => {
+            this.queries().value.update(v => this.searchService.getQueries(params, v));
+            this.tapPage();
+        });
     }
 
     @HostListener('scroll', [
@@ -46,13 +50,6 @@ export class VideoComponent implements OnInit {
     ): void {
         const target = event.target as HTMLElement;
         this.isFixed.set(target.scrollTop > window.innerHeight / 2);
-    }
-
-    ngOnInit() {
-        this.route.queryParams.subscribe(params => {
-            this.queries().value.update(v => this.searchService.getQueries(params, v));
-            this.tapPage();
-        });
     }
 
     public tapPlay(item: IVideo) {

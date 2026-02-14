@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -15,7 +15,7 @@ import { HttpClient } from '@angular/common/http';
     templateUrl: './group-buy-goods.component.html',
     styleUrls: ['./group-buy-goods.component.scss']
 })
-export class GroupBuyGoodsComponent implements OnInit {
+export class GroupBuyGoodsComponent {
     private readonly service = inject(ActivityService);
     private readonly route = inject(ActivatedRoute);
     private readonly sanitizer = inject(DomSanitizer);
@@ -37,7 +37,7 @@ export class GroupBuyGoodsComponent implements OnInit {
         max(schemaPath.amount, ({valueOf}) => valueOf(schemaPath.stock));
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.service.groupBuy({
                 id: params.id,

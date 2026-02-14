@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EChartsCoreOption } from 'echarts/core';
 import { DialogService } from '../../../../components/dialog';
@@ -16,7 +16,7 @@ import * as echarts from 'echarts/core';
     templateUrl: './district.component.html',
     styleUrls: ['./district.component.scss']
 })
-export class DistrictComponent implements OnInit {
+export class DistrictComponent {
     private readonly service = inject(TrendService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -41,7 +41,7 @@ export class DistrictComponent implements OnInit {
     public options?: EChartsCoreOption;
     public data?: ITrendAnalysis;
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
         });

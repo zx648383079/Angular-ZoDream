@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, viewChild, signal } from '@angular/core';
+import { Component, inject, viewChild, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -14,7 +14,7 @@ import { CustomDialogComponent } from '../goods/custom-dialog/custom-dialog.comp
     templateUrl: './stock.component.html',
     styleUrls: ['./stock.component.scss']
 })
-export class StockComponent implements OnInit {
+export class StockComponent {
     private readonly service = inject(CateringService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -35,7 +35,7 @@ export class StockComponent implements OnInit {
     }));
     public categoryItems: ICateringCategory[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.service.merchantStockCategory().subscribe(res => {
             this.categoryItems = res.data;
         });

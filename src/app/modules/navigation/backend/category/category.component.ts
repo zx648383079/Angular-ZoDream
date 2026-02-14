@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { filterTree } from '../../../../theme/utils';
 import { ISiteCategory } from '../../model';
@@ -11,7 +11,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent {
     private readonly service = inject(NavigationService);
     private readonly toastrService = inject(DialogService);
 
@@ -28,7 +28,7 @@ export class CategoryComponent implements OnInit {
     });
     public readonly categories = signal<ISiteCategory[]>([]);
 
-    ngOnInit() {
+    constructor() {
         this.load();
     }
 

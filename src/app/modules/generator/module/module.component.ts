@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
@@ -14,7 +14,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './module.component.html',
     styleUrls: ['./module.component.scss']
 })
-export class ModuleComponent implements OnInit {
+export class ModuleComponent {
     private readonly service = inject(GenerateService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -41,7 +41,7 @@ export class ModuleComponent implements OnInit {
     public previewItems: IPreviewFile[] = [];
     public routeItems: IItem[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.tapTab(parseInt(params.type, 10) || 0);
         });

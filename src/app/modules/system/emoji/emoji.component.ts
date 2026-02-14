@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { IEmoji, IEmojiCategory } from '../../../theme/models/seo';
 import { SystemService } from '../system.service';
 import { DialogEvent, DialogService } from '../../../components/dialog';
@@ -14,7 +14,7 @@ import { parseNumber } from '../../../theme/utils';
     templateUrl: './emoji.component.html',
     styleUrls: ['./emoji.component.scss']
 })
-export class EmojiComponent implements OnInit {
+export class EmojiComponent {
     private readonly service = inject(SystemService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -49,9 +49,6 @@ export class EmojiComponent implements OnInit {
         this.service.emojiCategoryList({}).subscribe(res => {
             this.categories = res.data;
         });
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

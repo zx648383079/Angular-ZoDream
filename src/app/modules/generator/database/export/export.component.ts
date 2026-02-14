@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
 import { IItem } from '../../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
@@ -12,7 +12,7 @@ import { FileUploadService } from '../../../../theme/services';
     templateUrl: './export.component.html',
     styleUrls: ['./export.component.scss']
 })
-export class ExportComponent implements OnInit {
+export class ExportComponent {
     private readonly service = inject(GenerateService);
     private readonly toastrService = inject(DialogService);
     private readonly uploadService = inject(FileUploadService);
@@ -36,7 +36,7 @@ export class ExportComponent implements OnInit {
         {name: 'ZIP压缩文件', value: 'zip'},
     ];
 
-    ngOnInit() {
+    constructor() {
         this.service.schemaList().subscribe(res => {
             this.schemaItems = res.data.map(i => {
                 return {

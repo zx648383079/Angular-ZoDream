@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBook, IBookRecord } from '../model';
 import { BookService } from '../book.service';
@@ -11,7 +11,7 @@ import { DialogService } from '../../../components/dialog';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
     private readonly service = inject(BookService);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
         per_page: 20
     });
 
-    ngOnInit() {
+    constructor() {
         this.tapRefresh();
     }
 

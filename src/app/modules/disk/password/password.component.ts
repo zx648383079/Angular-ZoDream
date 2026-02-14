@@ -1,6 +1,5 @@
 import {
-    Component,
-    OnInit
+    Component
 } from '@angular/core';
 
 @Component({
@@ -9,10 +8,6 @@ import {
     templateUrl: './password.component.html',
     styleUrls: ['./password.component.scss']
 })
-export class PasswordComponent implements OnInit {
-
-    constructor() {}
-
-    ngOnInit() {}
+export class PasswordComponent {
 
 }

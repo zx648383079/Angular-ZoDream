@@ -1,4 +1,4 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { DialogLoadingOption } from '..';
 import { DialogPackage } from '../dialog.injector';
 import { DialogService } from '../dialog.service';
@@ -9,15 +9,14 @@ import { DialogService } from '../dialog.service';
     templateUrl: './dialog-loading.component.html',
     styleUrls: ['./dialog-loading.component.scss']
 })
-export class DialogLoadingComponent implements OnDestroy {
+export class DialogLoadingComponent {
     private readonly data = inject<DialogPackage<DialogLoadingOption>>(DialogPackage);
     private readonly service = inject(DialogService);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public title = '';
     public closeable = true;
-
-    private timeHandle: any;
 
     constructor() {
         const data = this.data;
@@ -33,9 +32,12 @@ export class DialogLoadingComponent implements OnDestroy {
         if (option.time < 1) {
             return;
         }
-        this.timeHandle = setTimeout(() => {
+        const timeHandle = setTimeout(() => {
             this.service.remove(this.data.dialogId);
         }, option.time);
+        this.destroyRef.onDestroy(() => {
+            clearTimeout(timeHandle);
+        });
     }
 
     public close() {
@@ -43,11 +45,5 @@ export class DialogLoadingComponent implements OnDestroy {
             return;
         }
         this.service.remove(this.data.dialogId);
-    }
-
-    ngOnDestroy() {
-        if (this.timeHandle) {
-            clearTimeout(this.timeHandle);
-        }
     }
 }

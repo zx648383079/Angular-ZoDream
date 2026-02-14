@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, input, signal } from '@angular/core';
+import { Component, ViewChild, input, signal } from '@angular/core';
 import { ICateringOrder, ICateringOrderGoods } from '../../../model';
 import { emptyValidate } from '../../../../../theme/validators';
 

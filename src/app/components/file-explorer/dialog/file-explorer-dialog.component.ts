@@ -1,4 +1,4 @@
-import { Component, ComponentRef, Injector, OnInit, ViewContainerRef, inject, input, model, signal, viewChild } from '@angular/core';
+import { Component, ComponentRef, Injector, ViewContainerRef, inject, input, model, signal, viewChild } from '@angular/core';
 import { IBreadcrumbItem, IFileExplorerTool, IFileItem } from '../model';
 import { FileExplorerPanelComponent } from '../panel/file-explorer-panel.component';
 import { FileExplorerImageEditorComponent } from '../tools';

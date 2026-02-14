@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CmsService } from './cms.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { CmsService } from './cms.service';
     templateUrl: './cms-backend.component.html',
     styleUrls: ['./cms-backend.component.scss']
 })
-export class CmsBackendComponent implements OnInit {
+export class CmsBackendComponent {
     private readonly service = inject(CmsService);
 
 
@@ -15,7 +15,7 @@ export class CmsBackendComponent implements OnInit {
     public readonly isLoading = signal(false);
     public readonly data = signal<any>({});
 
-    ngOnInit() {
+    constructor() {
         this.service.statistics().subscribe({
             next: res => {
                 this.data.set(res);

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { UserService } from '../user.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -30,7 +30,7 @@ interface IMessageGroup {
     templateUrl: './message.component.html',
     styleUrls: ['./message.component.scss']
 })
-export class MessageComponent implements OnInit, OnDestroy {
+export class MessageComponent {
     private readonly store = inject<Store<AppState>>(Store);
     private readonly service = inject(UserService);
     private readonly router = inject(Router);
@@ -38,6 +38,7 @@ export class MessageComponent implements OnInit, OnDestroy {
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
     private readonly location = inject(Location);
+    private readonly destroyRef = inject(DestroyRef);
 
     public navItems: IMessageGroup[] = [];
     public navIndex = -1;
@@ -61,11 +62,8 @@ export class MessageComponent implements OnInit, OnDestroy {
         this.store.select(selectAuthUser).subscribe(user => {
             this.authUser = user as any;
         });
-    }
-
-    ngOnInit() {
         this.themeService.titleChanged.next($localize `My Messages`);
-        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Compact);
+        this.themeService.screenSwitch(this.destroyRef, NavigationDisplayMode.Compact);
         this.route.queryParams.subscribe(params => {
             const extra = parseNumber(params.user);
             this.service.bulletinUser(extra).subscribe(res => {
@@ -73,10 +71,6 @@ export class MessageComponent implements OnInit, OnDestroy {
                 this.tapUser(extra);
             });
         });
-    }
-
-    ngOnDestroy(): void {
-        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
     }
 
     public readonly wordLength = computed(() => {

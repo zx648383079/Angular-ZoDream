@@ -1,10 +1,10 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { INavLink } from '../../../theme/models/seo';
 import { AppState } from '../../../theme/interfaces';
 import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
 import { ThemeService } from '../../../theme/services';
-import { Subscription } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -12,9 +12,10 @@ import { Subscription } from 'rxjs';
     templateUrl: './merchant.component.html',
     styleUrls: ['./merchant.component.scss']
 })
-export class MerchantComponent implements OnDestroy {
+export class MerchantComponent {
     private readonly store = inject<Store<AppState>>(Store);
     private readonly themeService = inject(ThemeService);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public navItems: INavLink[] = [{
@@ -125,23 +126,15 @@ export class MerchantComponent implements OnDestroy {
             url: '/shop',
         }
     ];
-    private readonly subItems = new Subscription();
-    
 
     constructor() {
         this.themeService.titleChanged.next('商家中心');
-        this.subItems.add(
-            this.store.select(selectAuthUser).subscribe(user => {
-                if (!user) {
-                    return;
-                }
-                this.bottomNavs[0].name = user.name;
-            })
-        );
-    }
-
-    ngOnDestroy(): void {
-        this.subItems.unsubscribe();
+        this.store.select(selectAuthUser).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(user => {
+            if (!user) {
+                return;
+            }
+            this.bottomNavs[0].name = user.name;
+        });
     }
 
 }

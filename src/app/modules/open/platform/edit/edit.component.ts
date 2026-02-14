@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
@@ -15,7 +15,7 @@ import { parseNumber } from '../../../../theme/utils';
     templateUrl: './edit.component.html',
     styleUrls: ['./edit.component.scss']
 })
-export class EditComponent implements OnInit {
+export class EditComponent {
     private readonly service = inject(OpenService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -79,7 +79,7 @@ export class EditComponent implements OnInit {
     ];
     public readonly reviewable = signal(false);
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.reviewable.set(window.location.href.indexOf('review') > 0);
             if (!params.id) {

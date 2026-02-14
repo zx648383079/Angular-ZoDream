@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IPageQueries } from '../../../../../theme/models/page';
 import { IGameDescent } from '../../../model';
 import { ActivatedRoute } from '@angular/router';
@@ -14,7 +14,7 @@ import { GameMakerService } from '../../game-maker.service';
     templateUrl: './descent.component.html',
     styleUrls: ['./descent.component.scss']
 })
-export class DescentComponent implements OnInit {
+export class DescentComponent {
     private readonly service = inject(GameMakerService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -40,7 +40,7 @@ export class DescentComponent implements OnInit {
         required(schemaPath.name);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.parent.params.subscribe(params => {
             this.queries.project().value.set(parseNumber(params.game));
         });

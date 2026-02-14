@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IEquityCard } from '../../../../theme/models/auth';
@@ -13,7 +13,7 @@ import { SearchService } from '../../../../theme/services';
     templateUrl: './equity-card.component.html',
     styleUrls: ['./equity-card.component.scss']
 })
-export class EquityCardComponent implements OnInit {
+export class EquityCardComponent {
     private readonly service = inject(AuthService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -38,7 +38,7 @@ export class EquityCardComponent implements OnInit {
         required(schemaPath.name);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

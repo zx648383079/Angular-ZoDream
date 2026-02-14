@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -14,7 +14,7 @@ import { HttpClient } from '@angular/common/http';
     templateUrl: './bargain-goods.component.html',
     styleUrls: ['./bargain-goods.component.scss']
 })
-export class BargainGoodsComponent implements OnInit {
+export class BargainGoodsComponent {
     private readonly service = inject(ActivityService);
     private readonly route = inject(ActivatedRoute);
     private readonly sanitizer = inject(DomSanitizer);
@@ -32,7 +32,7 @@ export class BargainGoodsComponent implements OnInit {
     public dataType: 0|1|2 = 0; // 0 没有记录 1 别人的记录 2 自己的记录
     public log: any;
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.service.bargain({
                 id: params.id,

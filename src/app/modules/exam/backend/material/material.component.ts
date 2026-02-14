@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { SearchService } from '../../../../theme/services';
@@ -12,7 +12,7 @@ import { ExamService } from '../exam.service';
     templateUrl: './material.component.html',
     styleUrls: ['./material.component.scss']
 })
-export class MaterialComponent implements OnInit {
+export class MaterialComponent {
     private readonly service = inject(ExamService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -43,7 +43,7 @@ export class MaterialComponent implements OnInit {
     public readonly courseItems = signal<ICourse[]>([]);
     public typeItems = ['文本', '音频', '视频'];
 
-    ngOnInit() {
+    constructor() {
         this.service.courseAll().subscribe(res => {
             this.courseItems.set(res.data);
         });

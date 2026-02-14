@@ -1,6 +1,6 @@
 import { form, required } from '@angular/forms/signals';
 import { Location } from '@angular/common';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { INote } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
 import { NoteService } from './note.service';
@@ -14,7 +14,7 @@ import { SearchService } from '../../../theme/services';
     templateUrl: './note-member.component.html',
     styleUrls: ['./note-member.component.scss']
 })
-export class NoteMemberComponent implements OnInit {
+export class NoteMemberComponent {
     private readonly service = inject(NoteService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -37,7 +37,7 @@ export class NoteMemberComponent implements OnInit {
         required(schemaPath.content);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(res => {
             this.searchService.getQueries(res, this.queries().value());
             this.tapPage();

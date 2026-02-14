@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { EditorService } from '../editor.service';
 import { WidgetPreview, WidgetSource, WidgetType } from '../model';
 
@@ -8,7 +8,7 @@ import { WidgetPreview, WidgetSource, WidgetType } from '../model';
     templateUrl: './editor-soul.component.html',
     styleUrls: ['./editor-soul.component.scss']
 })
-export class EditorSoulComponent implements OnInit {
+export class EditorSoulComponent {
     private readonly service = inject(EditorService);
 
 
@@ -17,7 +17,7 @@ export class EditorSoulComponent implements OnInit {
     public panelItems: WidgetPreview[] = [];
     public bodyStyle: any = {};
 
-    ngOnInit() {
+    constructor() {
         this.service.editorSize$.subscribe(res => {
             if (!res) {
                 return;

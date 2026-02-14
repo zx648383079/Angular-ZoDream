@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -18,7 +18,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './emulate.component.html',
     styleUrls: ['./emulate.component.scss']
 })
-export class EmulateComponent implements OnInit {
+export class EmulateComponent {
     private readonly service = inject(BotService);
     private readonly route = inject(ActivatedRoute);
     private readonly themeService = inject(ThemeService);
@@ -50,9 +50,6 @@ export class EmulateComponent implements OnInit {
                 this.user = user;
             }
         });
-    }
-
-    ngOnInit() {
         this.route.params.subscribe(params => {
             this.load(params.id);
         });

@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
@@ -14,7 +14,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './edit-attribute.component.html',
     styleUrls: ['./edit-attribute.component.scss']
 })
-export class EditAttributeComponent implements OnInit {
+export class EditAttributeComponent {
     private readonly service = inject(AttributeService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -44,9 +44,6 @@ export class EditAttributeComponent implements OnInit {
             this.groupItems = res.data;
             this.onGroupChange();
         });
-    }
-
-    ngOnInit() {
         this.route.params.subscribe(params => {
             if (!params.id) {
                 this.dataForm.group_id().value.set(params.group);

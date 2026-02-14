@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { INavLink } from '../../theme/models/seo';
 import { AppState } from '../../theme/interfaces';
 import { selectAuthUser } from '../../theme/reducers/auth.selectors';
 import { ThemeService } from '../../theme/services';
-import { Subscription } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -12,9 +12,10 @@ import { Subscription } from 'rxjs';
     templateUrl: './book.component.html',
     styleUrls: ['./book.component.scss']
 })
-export class BookComponent implements OnDestroy {
+export class BookComponent{
     private readonly store = inject<Store<AppState>>(Store);
     private readonly themeService = inject(ThemeService);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public navItems: INavLink[] = [
@@ -57,20 +58,15 @@ export class BookComponent implements OnDestroy {
             url: '/',
         }
     ];
-    private readonly subItems = new Subscription();
 
     constructor() {
         this.themeService.titleChanged.next($localize `Book`);
-        this.subItems.add(this.store.select(selectAuthUser).subscribe(user => {
+        this.store.select(selectAuthUser).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(user => {
             if (!user) {
                 return;
             }
             this.bottomNavs[0].name = user.name;
-        }));
-    }
-
-    ngOnDestroy(): void {
-        this.subItems.unsubscribe();
+        });
     }
 
 }

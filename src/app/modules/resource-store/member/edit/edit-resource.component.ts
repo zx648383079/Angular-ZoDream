@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { EditorBlockType, IEditorFileBlock, IImageUploadEvent } from '../../../../components/editor';
 import { FileTypeItems, ICategory, IResource, IResourceFile, ITag, MediaTypeItems } from '../../model';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
@@ -25,13 +25,14 @@ interface IResFile {
     templateUrl: './edit-resource.component.html',
     styleUrls: ['./edit-resource.component.scss']
 })
-export class EditResourceComponent implements OnInit, OnDestroy {
+export class EditResourceComponent {
     private readonly service = inject(ResourceService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
     private readonly uploadService = inject(FileUploadService);
     private readonly themeService = inject(ThemeService);
     private readonly location = inject(Location);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly dataModel = signal({
         id: 0,
@@ -66,8 +67,8 @@ export class EditResourceComponent implements OnInit, OnDestroy {
     public previewTypeItems = MediaTypeItems;
     public fileTypeItems = FileTypeItems;
 
-    ngOnInit() {
-        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Compact);
+    constructor() {
+        this.themeService.screenSwitch(this.destroyRef, NavigationDisplayMode.Compact);
         this.service.categoryAll().subscribe(res => {
             this.categories = res;
         });
@@ -114,10 +115,6 @@ export class EditResourceComponent implements OnInit, OnDestroy {
                 ))
             )
         );
-    }
-
-    ngOnDestroy(): void {
-        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
     }
 
 

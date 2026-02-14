@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../../theme/models/page';
 import { IActivity, IMixConfigure } from '../../model';
@@ -13,7 +13,7 @@ import { ActivityService } from '../activity.service';
     templateUrl: './mix.component.html',
     styleUrls: ['./mix.component.scss']
 })
-export class MixComponent implements OnInit {
+export class MixComponent {
     private readonly themeService = inject(ThemeService);
     private readonly route = inject(ActivatedRoute);
     private readonly service = inject(ActivityService);
@@ -32,9 +32,6 @@ export class MixComponent implements OnInit {
 
     constructor() {
         this.themeService.titleChanged.next('超值礼包');
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

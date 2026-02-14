@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ICateringStore } from '../../../model';
 import { CateringBackendService } from '../../catering.service';
@@ -15,7 +15,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './edit-store.component.html',
     styleUrls: ['./edit-store.component.scss']
 })
-export class EditStoreComponent implements OnInit {
+export class EditStoreComponent {
     private readonly service = inject(CateringBackendService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -36,7 +36,7 @@ export class EditStoreComponent implements OnInit {
     });
     public data: ICateringStore;
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;

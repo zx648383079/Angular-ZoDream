@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, Renderer2, inject, signal, viewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef, HostListener, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IChapter } from '../model';
 import { BookService } from '../book.service';
@@ -13,14 +13,13 @@ import { form } from '@angular/forms/signals';
     templateUrl: './reader.component.html',
     styleUrls: ['./reader.component.scss']
 })
-export class ReaderComponent implements OnInit, OnDestroy {
+export class ReaderComponent {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly service = inject(BookService);
-    private readonly renderer = inject(Renderer2);
     private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
-
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly containerElement = viewChild<ElementRef<HTMLDivElement>>('container');
 
@@ -55,9 +54,8 @@ export class ReaderComponent implements OnInit, OnDestroy {
     private lastProgress = -30;
     private cacheChapters: {[id: number]: IChapter} = {};
 
-    ngOnInit() {
-        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Collapse);
-        this.renderer.listen(window, 'scroll', this.onScroll.bind(this));
+    constructor() {
+        this.themeService.screenSwitch(this.destroyRef, NavigationDisplayMode.Collapse);
         this.scrollTop = this.themeService.scrollTop();
         this.route.params.subscribe(params => {
             if (!params.id) {
@@ -72,10 +70,6 @@ export class ReaderComponent implements OnInit, OnDestroy {
                 }});
             }
         });
-    }
-
-    ngOnDestroy() {
-        this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
     }
 
     get container() {
@@ -225,7 +219,8 @@ export class ReaderComponent implements OnInit, OnDestroy {
         this.mode = this.mode === 2 ? 0 : 2;
     }
 
-    private onScroll(_: any) {
+    @HostListener('window:scroll')
+    public onScroll() {
         const oldTop = this.scrollTop;
         this.scrollTop = this.themeService.scrollTop();
         const scrollWindowBottom = this.scrollTop + this.themeService.windowHeight();

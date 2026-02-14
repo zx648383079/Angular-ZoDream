@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ITaskReview } from '../model';
 import { TaskService } from '../task.service';
@@ -11,7 +11,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './review.component.html',
     styleUrls: ['./review.component.scss']
 })
-export class ReviewComponent implements OnInit {
+export class ReviewComponent {
     private readonly service = inject(TaskService);
     private readonly route = inject(ActivatedRoute);
 
@@ -50,7 +50,7 @@ export class ReviewComponent implements OnInit {
         series: []
     };
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             const type = parseInt(params.type, 10) || 0;
             if (type) {

@@ -1,4 +1,4 @@
-import { ApplicationRef, ComponentRef, Directive, ElementRef, Injector, NgZone, OnInit, Renderer2, TemplateRef, ViewContainerRef, inject, input } from '@angular/core';
+import { ApplicationRef, ComponentRef, Directive, ElementRef, HostListener, Injector, NgZone, Renderer2, TemplateRef, ViewContainerRef, inject, input } from '@angular/core';
 import { DialogPopupComponent } from './popup/dialog-popup.component';
 import { IPoint } from '../../theme/utils/canvas';
 import { css } from '../../theme/utils/doc';
@@ -7,7 +7,7 @@ import { css } from '../../theme/utils/doc';
     standalone: false,
     selector: '[appPopup]'
 })
-export class PopupDirective implements OnInit {
+export class PopupDirective {
     private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
     private readonly renderer = inject(Renderer2);
     private readonly injector = inject(Injector);
@@ -21,13 +21,7 @@ export class PopupDirective implements OnInit {
 
     private popupRef: ComponentRef<DialogPopupComponent>;
 
-    ngOnInit(): void {
-        const ele = this.elementRef.nativeElement;
-        this.renderer.listen(ele, 'click', () => {
-            this.toggle();
-        });
-    }
-
+    @HostListener('click')
     public toggle() {
         if (this.popupRef) {
             this.close();
@@ -54,9 +48,6 @@ export class PopupDirective implements OnInit {
             const offset = this.getPosition(ele);
             css(ele, {
                 transform: `translate3d(${offset.x}px, ${offset.y}px, 0px)`
-            });
-            this.renderer.listen(ele, 'click', () => {
-                this.close();
             });
         });
     }

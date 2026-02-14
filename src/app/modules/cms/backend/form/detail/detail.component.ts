@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -16,7 +16,7 @@ import { FormControl, FormGroup } from '@angular/forms';
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss']
 })
-export class FormDetailComponent implements OnInit {
+export class FormDetailComponent {
     private readonly service = inject(CmsService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -44,7 +44,7 @@ export class FormDetailComponent implements OnInit {
         return new FormGroup(groups);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.service.content(this.queries().value()).subscribe(res => {

@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { parseNumber, twoPad } from '../../../theme/utils';
 import { TaskService } from '../task.service';
@@ -10,7 +10,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './record.component.html',
     styleUrls: ['./record.component.scss']
 })
-export class RecordComponent implements OnInit {
+export class RecordComponent {
     private readonly service = inject(TaskService);
     private readonly route = inject(ActivatedRoute);
 
@@ -25,7 +25,7 @@ export class RecordComponent implements OnInit {
 
     public readonly typeValue = computed(() => parseNumber(this.queries.type().value()));
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             const type = parseInt(params.type, 10) || 0;
             if (type) {

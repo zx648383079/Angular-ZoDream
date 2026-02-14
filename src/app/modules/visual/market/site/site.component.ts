@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { ISortItem } from '../../../../theme/models/seo';
 import { ActivatedRoute } from '@angular/router';
@@ -13,7 +13,7 @@ import { ISite } from '../../model';
     templateUrl: './site.component.html',
     styleUrls: ['./site.component.scss']
 })
-export class SiteComponent implements OnInit {
+export class SiteComponent {
     private readonly route = inject(ActivatedRoute);
     private readonly service = inject(VisualService);
     private readonly searchService = inject(SearchService);
@@ -37,7 +37,7 @@ export class SiteComponent implements OnInit {
     public readonly sortKey = signal('');
     public readonly orderAsc = signal(true);
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

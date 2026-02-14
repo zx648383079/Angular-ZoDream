@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { SearchService } from '../../../../../theme/services';
@@ -12,7 +12,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './movie-area.component.html',
     styleUrls: ['./movie-area.component.scss']
 })
-export class MovieAreaComponent implements OnInit {
+export class MovieAreaComponent {
     private readonly service = inject(TVService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -28,7 +28,7 @@ export class MovieAreaComponent implements OnInit {
         required(schemaPath.name);
     });
 
-    ngOnInit() {
+    constructor() {
         this.load()
     }
 

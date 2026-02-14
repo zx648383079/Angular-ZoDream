@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IMessageBase } from '../../../../components/message-container';
 import { IBlockItem } from '../../../../components/link-rule';
 import { GameCommand, GameRouterInjectorToken, IGameRouter, IGameScene } from '../../model';
@@ -9,7 +9,7 @@ import { GameCommand, GameRouterInjectorToken, IGameRouter, IGameScene } from '.
     templateUrl: './chat.component.html',
     styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements IGameScene, OnInit {
+export class ChatComponent implements IGameScene {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
@@ -24,7 +24,7 @@ export class ChatComponent implements IGameScene, OnInit {
     public detailMode = false;
     public canReply = false;
     
-    ngOnInit(): void {
+    constructor() {
         this.router.request(GameCommand.MessageOwn).subscribe(res => {
             // this.items.set(res.data);
         });

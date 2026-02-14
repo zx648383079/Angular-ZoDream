@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -6,9 +6,9 @@ import { Component, OnInit } from '@angular/core';
     templateUrl: './list-detail.component.html',
     styleUrls: ['./list-detail.component.scss']
 })
-export class ListDetailComponent implements OnInit {
+export class ListDetailComponent {
 
-    ngOnInit() {
+    constructor() {
     }
 
 }

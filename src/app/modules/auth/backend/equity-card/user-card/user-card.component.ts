@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IEquityCard, IUserCard } from '../../../../../theme/models/auth';
@@ -14,7 +14,7 @@ import { SearchService } from '../../../../../theme/services';
     templateUrl: './user-card.component.html',
     styleUrls: ['./user-card.component.scss']
 })
-export class UserCardComponent implements OnInit {
+export class UserCardComponent {
     private readonly service = inject(AuthService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -37,7 +37,7 @@ export class UserCardComponent implements OnInit {
     });
     public readonly cardItems = signal<IEquityCard[]>([]);
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.user.set({id: params.user} as any);
             this.service.user(params.user).subscribe(user => {

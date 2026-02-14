@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, viewChild, signal } from '@angular/core';
+import { Component, inject, viewChild, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -15,7 +15,7 @@ import { RoleDialogComponent } from './role/role-dialog.component';
     templateUrl: './staff.component.html',
     styleUrls: ['./staff.component.scss']
 })
-export class StaffComponent implements OnInit {
+export class StaffComponent {
     private readonly service = inject(CateringService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -37,7 +37,7 @@ export class StaffComponent implements OnInit {
     }));
     public categoryItems: ICateringStaffRole[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.service.merchantStaffRole().subscribe(res => {
             this.categoryItems = res.data;
         });

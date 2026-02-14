@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -6,9 +6,9 @@ import { Component, OnInit } from '@angular/core';
     templateUrl: './option.component.html',
     styleUrls: ['./option.component.scss']
 })
-export class PaymentOptionComponent implements OnInit {
+export class PaymentOptionComponent {
 
-    ngOnInit() {
+    constructor() {
     }
 
 }

@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -13,7 +13,7 @@ import { ExamService } from '../../exam.service';
     templateUrl: './course-grade.component.html',
     styleUrls: ['./course-grade.component.scss']
 })
-export class CourseGradeComponent implements OnInit {
+export class CourseGradeComponent {
     private readonly service = inject(ExamService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -41,7 +41,7 @@ export class CourseGradeComponent implements OnInit {
     });
     public courseItems: ICourse[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.service.courseAll().subscribe(res => {
             this.courseItems = res.data;
         });

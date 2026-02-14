@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { LegworkService } from '../legwork.service';
@@ -12,7 +12,7 @@ import { ButtonEvent } from '../../../components/form';
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss']
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent {
     private readonly service = inject(LegworkService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -36,7 +36,7 @@ export class DetailComponent implements OnInit {
         });
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.loadService(params.id);
         });

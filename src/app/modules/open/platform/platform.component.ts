@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IPlatform } from '../../../theme/models/open';
@@ -14,7 +14,7 @@ import { SearchService } from '../../../theme/services';
     templateUrl: './platform.component.html',
     styleUrls: ['./platform.component.scss']
 })
-export class PlatformComponent implements OnInit {
+export class PlatformComponent {
     private readonly service = inject(OpenService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -32,7 +32,7 @@ export class PlatformComponent implements OnInit {
     }));
     public readonly reviewable = signal(false);
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.reviewable.set(window.location.href.indexOf('review') > 0);
             this.queries().value.update(v => this.searchService.getQueries(params, v));

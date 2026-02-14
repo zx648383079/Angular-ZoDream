@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import {
     BlogService
 } from '../blog.service';
@@ -18,8 +18,8 @@ import { SearchService, ThemeService } from '../../../../theme/services';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../theme/interfaces';
 import { selectSystemConfig } from '../../../../theme/reducers/system.selectors';
-import { Subscription } from 'rxjs';
 import { parseNumber } from '../../../../theme/utils';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -27,12 +27,13 @@ import { parseNumber } from '../../../../theme/utils';
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class ListComponent {
     private readonly service = inject(BlogService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
     private readonly store = inject<Store<AppState>>(Store);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly categories = signal<ICategory[]>([]);
     public readonly newItems = signal<IBlog[]>([]);
@@ -69,11 +70,9 @@ export class ListComponent implements OnInit, OnDestroy {
     }));
     public listView = 0;
 
-    private readonly subItems = new Subscription();
-
     constructor() {
         this.themeService.titleChanged.next($localize `Blog`);
-        this.store.select(selectSystemConfig).subscribe(res => {
+        this.store.select(selectSystemConfig).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
             this.listView = parseNumber(res.blog_list_view);
         });
         this.service.batch({
@@ -93,19 +92,14 @@ export class ListComponent implements OnInit, OnDestroy {
                 }
             });
         });
-    }
-
-    ngOnInit() {
-        this.subItems.add(
-            this.themeService.suggestQuerySubmitted.subscribe(res => {
-                if (typeof res === 'object') {
-                    return;
-                }
-                this.queries.keywords().value.set(res);
-                this.tapRefresh();
-                return false;
-            })
-        );
+        this.themeService.suggestQuerySubmitted.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
+            if (typeof res === 'object') {
+                return;
+            }
+            this.queries.keywords().value.set(res);
+            this.tapRefresh();
+            return false;
+        });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             const tag = this.queries.tag().value();
@@ -114,10 +108,6 @@ export class ListComponent implements OnInit, OnDestroy {
             }
             this.tapRefresh();
         });
-    }
-
-    ngOnDestroy() {
-        this.subItems.unsubscribe();
     }
 
     public tapRefresh() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { IArticle } from '../../../model';
@@ -10,7 +10,7 @@ import { ShopService } from '../../../shop.service';
     templateUrl: './help.component.html',
     styleUrls: ['./help.component.scss']
 })
-export class HelpComponent implements OnInit {
+export class HelpComponent {
     private readonly service = inject(ShopService);
     private readonly route = inject(ActivatedRoute);
     private readonly sanitizer = inject(DomSanitizer);
@@ -20,7 +20,7 @@ export class HelpComponent implements OnInit {
     public readonly data = signal<IArticle>(null);
     public readonly content = signal<SafeHtml>(null);
 
-    ngOnInit() {
+    constructor() {
         this.service.help().subscribe(res => {
             this.items.set(res.data);
         });

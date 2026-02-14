@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { IForum, IForumClassify } from '../../model';
@@ -15,7 +15,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './edit.component.html',
     styleUrls: ['./edit.component.scss']
 })
-export class EditComponent implements OnInit {
+export class EditComponent {
     private readonly service = inject(ForumService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -55,9 +55,6 @@ export class EditComponent implements OnInit {
         this.service.forumAll().subscribe(res => {
             this.categories = res.data;
         });
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(params => {
             if (params.parent) {
                 this.dataForm.parent_id().value.set(parseInt(params.parent, 10) as any);

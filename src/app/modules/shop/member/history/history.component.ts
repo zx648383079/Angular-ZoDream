@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShopService } from '../../shop.service';
 import { IGoodsHistory } from '../../model';
@@ -9,7 +9,7 @@ import { IGoodsHistory } from '../../model';
     templateUrl: './history.component.html',
     styleUrls: ['./history.component.scss']
 })
-export class HistoryComponent implements OnInit {
+export class HistoryComponent {
     private readonly service = inject(ShopService);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
@@ -26,8 +26,6 @@ export class HistoryComponent implements OnInit {
     constructor() {
         this.tapRefresh();
     }
-
-    ngOnInit() {}
 
 
     /**

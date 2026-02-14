@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -13,7 +13,7 @@ import { WarehouseService } from '../warehouse.service';
     templateUrl: './log.component.html',
     styleUrls: ['./log.component.scss']
 })
-export class LogComponent implements OnInit {
+export class LogComponent {
     private readonly service = inject(WarehouseService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -31,7 +31,7 @@ export class LogComponent implements OnInit {
         warehouse: 0,
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.searchService.getQueries(params, this.queries().value())
         });

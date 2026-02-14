@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBook, IChapter } from '../model';
 import { BookService } from '../book.service';
@@ -12,7 +12,7 @@ import { FileUploadService } from '../../../theme/services';
     templateUrl: './book-detail.component.html',
     styleUrls: ['./book-detail.component.scss']
 })
-export class BookDetailComponent implements OnInit {
+export class BookDetailComponent {
     private readonly service = inject(BookService);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
@@ -23,7 +23,7 @@ export class BookDetailComponent implements OnInit {
     public data: IBook;
     public chapterItems: IChapter[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params || !params.id) {
                 return;

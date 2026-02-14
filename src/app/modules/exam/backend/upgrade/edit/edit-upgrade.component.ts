@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
@@ -14,7 +14,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './edit-upgrade.component.html',
     styleUrls: ['./edit-upgrade.component.scss']
 })
-export class EditUpgradeComponent implements OnInit {
+export class EditUpgradeComponent {
     private readonly service = inject(ExamService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -46,7 +46,7 @@ export class EditUpgradeComponent implements OnInit {
         course: 0,
     };
 
-    ngOnInit() {
+    constructor() {
         this.service.courseAll().subscribe(res => {
             this.courseItems = res.data;
         });

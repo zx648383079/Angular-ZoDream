@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppStoreService } from '../app-store.service';
 import { ICategory, ISoftware } from '../model';
@@ -10,7 +10,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
     private readonly service = inject(AppStoreService);
@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
     public newItems: ISoftware[] = [];
     public newLoading = true;
 
-    ngOnInit() {
+    constructor() {
         this.service.batch({
             recommend: {
                 extra: 'items'

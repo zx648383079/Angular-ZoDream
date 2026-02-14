@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { Component, DestroyRef, OnDestroy, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -16,13 +16,13 @@ import { HttpClient } from '@angular/common/http';
     templateUrl: './auction-goods.component.html',
     styleUrls: ['./auction-goods.component.scss']
 })
-export class AuctionGoodsComponent implements OnInit, OnDestroy {
+export class AuctionGoodsComponent {
     private readonly service = inject(ActivityService);
     private readonly route = inject(ActivatedRoute);
     private readonly sanitizer = inject(DomSanitizer);
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
-
+    private readonly destroyRef = inject(DestroyRef);
 
     public data: IGoods;
     public activity: IActivity<IAuctionConfigure>;
@@ -42,7 +42,7 @@ export class AuctionGoodsComponent implements OnInit, OnDestroy {
     private isLoading = false;
     private $timer: Subscription;
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.service.auction({
                 id: params.id,
@@ -68,12 +68,9 @@ export class AuctionGoodsComponent implements OnInit, OnDestroy {
                 this.startTimer();
             });
         });
+        this.destroyRef.onDestroy(() => this.stopTimer());
     }
-
-    ngOnDestroy() {
-        this.stopTimer();
-    }
-
+    
     public get minBid() {
         if (!this.activity) {
             return 0;

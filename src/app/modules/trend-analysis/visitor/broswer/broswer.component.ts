@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { ITrendAnalysis, TimeTabItems } from '../../model';
 import { TrendService } from '../../trend.service';
@@ -15,7 +15,7 @@ import { EChartsCoreOption } from 'echarts/core';
     templateUrl: './broswer.component.html',
     styleUrls: ['./broswer.component.scss']
 })
-export class BroswerComponent implements OnInit {
+export class BroswerComponent {
     private readonly service = inject(TrendService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -46,7 +46,7 @@ export class BroswerComponent implements OnInit {
     public options?: EChartsCoreOption;
     public data?: ITrendAnalysis;
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

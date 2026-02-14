@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ICmsModelField } from '../../../model';
@@ -10,7 +10,7 @@ import { CmsService } from '../../cms.service';
     templateUrl: './model-field.component.html',
     styleUrls: ['./model-field.component.scss']
 })
-export class ModelFieldComponent implements OnInit {
+export class ModelFieldComponent {
     private readonly service = inject(CmsService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -20,7 +20,7 @@ export class ModelFieldComponent implements OnInit {
     public readonly isLoading = signal(false);
     public model = 0;
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.model = parseInt(params.model, 10);
             this.tapRefresh();

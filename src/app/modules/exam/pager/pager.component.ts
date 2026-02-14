@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
@@ -14,7 +14,7 @@ import { formatPager } from '../util';
     templateUrl: './pager.component.html',
     styleUrls: ['./pager.component.scss']
 })
-export class PagerComponent implements OnInit {
+export class PagerComponent {
     private readonly service = inject(ExamService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -30,7 +30,7 @@ export class PagerComponent implements OnInit {
     private saveHandle = 0;
     private saveData = [];
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.service.pager({
                 id: params.id || 0,

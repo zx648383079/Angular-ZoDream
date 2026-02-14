@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
@@ -12,7 +12,7 @@ import { CheckinService } from '../checkin.service';
     templateUrl: './log.component.html',
     styleUrls: ['./log.component.scss']
 })
-export class LogComponent implements OnInit {
+export class LogComponent {
     private readonly service = inject(CheckinService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
@@ -29,7 +29,7 @@ export class LogComponent implements OnInit {
         per_page: 20,
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

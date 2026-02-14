@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
 import { ThemeService } from '../../theme/services';
@@ -32,7 +32,7 @@ interface IDeveloperProfile {
     templateUrl: './about.component.html',
     styleUrls: ['./about.component.scss']
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent {
     private readonly service = inject(FrontendService);
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
@@ -49,7 +49,7 @@ export class AboutComponent implements OnInit {
     });
     public readonly developer = signal<IDeveloperProfile>(null);
 
-    ngOnInit() {
+    constructor() {
         this.themeService.titleChanged.next($localize `Abount`);
         this.service.developer().subscribe(res => {
             this.developer.set({...res, skills: res.skills.map(i => {

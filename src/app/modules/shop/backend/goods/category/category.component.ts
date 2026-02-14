@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../../components/dialog';
 import { ICategory } from '../../../model';
 import { GoodsService } from '../goods.service';
@@ -9,7 +9,7 @@ import { GoodsService } from '../goods.service';
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent {
     private readonly service = inject(GoodsService);
     private readonly toastrService = inject(DialogService);
 
@@ -17,7 +17,7 @@ export class CategoryComponent implements OnInit {
     public categories: ICategory[] = [];
     public readonly isLoading = signal(false);
 
-    ngOnInit() {
+    constructor() {
         this.isLoading.set(true);
         this.service.categoryTree().subscribe({
             next: res => {

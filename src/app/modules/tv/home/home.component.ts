@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, inject, signal } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { ICategory, IMovie } from '../model';
 import { TvService } from '../tv.service';
 
@@ -8,7 +8,7 @@ import { TvService } from '../tv.service';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
     private readonly service = inject(TvService);
 
 
@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
         }
     }
 
-    ngOnInit() {
+    constructor() {
         this.service.categoryList({}).subscribe(res => {
             this.categories.set(res.data);
         });

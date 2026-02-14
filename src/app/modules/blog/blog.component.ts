@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import {
     BlogService
 } from './blog.service';
@@ -23,7 +23,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './blog.component.html',
     styleUrls: ['./blog.component.scss']
 })
-export class BlogComponent implements OnInit {
+export class BlogComponent {
     private readonly service = inject(BlogService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -63,9 +63,6 @@ export class BlogComponent implements OnInit {
         this.service.getCategories().subscribe(res => {
             this.categories.set(res);
         });
-    }
-
-    ngOnInit(): void {
         this.tapRefresh();
         this.route.params.subscribe(params => {
             if (!params.id || params.id < 1) {

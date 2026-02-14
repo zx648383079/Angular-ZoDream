@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { EChartsCoreOption } from 'echarts/core';
 import { Observable, map, of } from 'rxjs';
 import { randomInt } from '../../theme/utils';
@@ -9,11 +9,11 @@ import { randomInt } from '../../theme/utils';
     templateUrl: './chart.component.html',
     styleUrls: ['./chart.component.scss']
 })
-export class ExampleChartComponent implements OnInit {
+export class ExampleChartComponent {
 
     public options: Observable<EChartsCoreOption> ;
     
-    ngOnInit() {
+    constructor() {
         const items = [];
         for (let i = 0; i < 20; i++) {
             items.push({

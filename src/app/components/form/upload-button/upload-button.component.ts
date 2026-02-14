@@ -1,4 +1,4 @@
-import { Component, ElementRef, effect, inject, input, model, output } from '@angular/core';
+import { Component, ElementRef, afterNextRender, effect, inject, input, model, output } from '@angular/core';
 import { FileUploadService } from '../../../theme/services';
 import { ButtonEvent, UploadButtonEvent } from '../event';
 
@@ -27,6 +27,20 @@ export class UploadButtonComponent implements ButtonEvent {
         effect(() => {
             this.toggleClass('disabled', this.disabled());
         });
+        afterNextRender({
+            write: () => {
+                if (this.height > 0) {
+                    return;
+                }
+                const ele = this.elementRef.nativeElement;
+                const bound = ele.getBoundingClientRect();
+                const style = getComputedStyle(ele);
+                const toInt = (val: string): number => {
+                    return parseInt(val.replace(/[^\d]+/g, ''), 10)
+                };
+                this.height = bound.height - toInt(style.paddingTop) - toInt(style.paddingBottom);
+            }
+        });
     }
 
     get loadingStyle() {
@@ -35,19 +49,6 @@ export class UploadButtonComponent implements ButtonEvent {
             height: width + 'px',
             width: width + 'px',
         };
-    }
-
-    ngAfterViewInit() {
-        if (this.height > 0) {
-            return;
-        }
-        const ele = this.elementRef.nativeElement;
-        const bound = ele.getBoundingClientRect();
-        const style = getComputedStyle(ele);
-        const toInt = (val: string): number => {
-            return parseInt(val.replace(/[^\d]+/g, ''), 10)
-        };
-        this.height = bound.height - toInt(style.paddingTop) - toInt(style.paddingBottom);
     }
 
     /**

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { ContextMenuComponent } from '../../../../components/context-menu';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
 import { emptyValidate } from '../../../../theme/validators';
@@ -13,7 +13,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './editor-layer.component.html',
     styleUrls: ['./editor-layer.component.scss']
 })
-export class EditorLayerComponent implements OnInit {
+export class EditorLayerComponent {
     private dialogService = inject(DialogService);
     private readonly service = inject(EditorService);
 
@@ -29,7 +29,7 @@ export class EditorLayerComponent implements OnInit {
     }));
     public bodyStyle: any = {};
 
-    ngOnInit() {
+    constructor() {
         this.service.editorSize$.subscribe(res => {
             if (!res) {
                 return;

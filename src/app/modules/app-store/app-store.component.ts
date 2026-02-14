@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
@@ -14,7 +14,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './app-store.component.html',
     styleUrls: ['./app-store.component.scss']
 })
-export class AppStoreComponent implements OnInit {
+export class AppStoreComponent {
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
     private readonly store = inject<Store<AppState>>(Store);
@@ -36,7 +36,7 @@ export class AppStoreComponent implements OnInit {
         return this.navItems[this.navIndex].children;
     }
 
-    ngOnInit() {
+    constructor() {
         this.searchVisible = window.location.pathname.indexOf('category') > 0;
         this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ILoginLog } from '../../../theme/models/auth';
 import { IPageQueries } from '../../../theme/models/page';
@@ -12,7 +12,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './login-log.component.html',
     styleUrls: ['./login-log.component.scss']
 })
-export class LoginLogComponent implements OnInit {
+export class LoginLogComponent {
     private readonly service = inject(UserService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
@@ -28,7 +28,7 @@ export class LoginLogComponent implements OnInit {
         per_page: 20,
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

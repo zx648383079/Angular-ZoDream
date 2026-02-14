@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -13,7 +13,7 @@ import { ButtonEvent } from '../../../../../components/form';
     templateUrl: './edit-model.component.html',
     styleUrls: ['./edit-model.component.scss']
 })
-export class EditModelComponent implements OnInit {
+export class EditModelComponent {
     private readonly service = inject(CmsService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -48,7 +48,7 @@ export class EditModelComponent implements OnInit {
     public modelItems: ICmsModel[] = [];
     public typeItems = ['实体', '表单'];
 
-    ngOnInit() {
+    constructor() {
         this.service.modelAll(1).subscribe(res => {
             this.modelItems = res.data;
         });

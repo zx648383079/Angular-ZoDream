@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
@@ -17,7 +17,7 @@ import { NavigationDisplayMode } from '../../../theme/models/event';
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss']
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent {
     private readonly service = inject(TaskService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -34,7 +34,7 @@ export class DetailComponent implements OnInit {
     public readonly items = signal<ITask[]>([]);
     public readonly expanded = signal(false);
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;
@@ -56,17 +56,6 @@ export class DetailComponent implements OnInit {
             });
         });
     }
-
-    // ngAfterViewInit() {
-    //     this.childrenComponent.changes.subscribe((items: QueryList<CircleProgressComponent>) => {
-    //         this.progressor = items.first;
-    //         if (this.data && this.data.log && this.data.status === 9) {
-    //             this.maxProgress = this.data.task.every_time * 60;
-    //             this.progress = this.data.log?.time;
-    //             this.progressor.start(this.progress, this.maxProgress);
-    //         }
-    //     });
-    // }
 
 
     public toggleExpand() {

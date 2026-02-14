@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ComponentRef, Injector, OnInit, Type, ViewContainerRef, inject, viewChild } from '@angular/core';
+import { Component, ComponentRef, Injector, Type, ViewContainerRef, afterNextRender, inject, viewChild } from '@angular/core';
 import { GameService } from './game.service';
 import { ThemeService } from '../../theme/services';
 import { GameCommand, GameScenePath, IGameCharacter, IGamePeople, IGameProject, IGameRouter, IGameScene } from './model';
@@ -17,7 +17,7 @@ import { DialogueComponent } from './pages/dialogue/dialogue.component';
     templateUrl: './game.component.html',
     styleUrls: ['./game.component.scss']
 })
-export class GameComponent implements OnInit, AfterViewInit, IGameRouter {
+export class GameComponent implements IGameRouter {
     private readonly service = inject(GameService);
     private readonly router = inject(Router);
     private readonly themeService = inject(ThemeService);
@@ -40,21 +40,19 @@ export class GameComponent implements OnInit, AfterViewInit, IGameRouter {
 
         this.themeService.titleChanged.next('Game');
         this.injector = new GameInjector(this, injector);
-    }
-
-    ngOnInit() {
         this.route.params.subscribe(params => {
             this.load(parseNumber(params.game));
         });
-    }
-
-    ngAfterViewInit(): void {
-        if (this.readyFn) {
-            setTimeout(() => {
-                this.readyFn();
-                this.readyFn = undefined;
-            }, 1);
-        }
+        afterNextRender({
+            write: () => {
+                if (this.readyFn) {
+                    setTimeout(() => {
+                        this.readyFn();
+                        this.readyFn = undefined;
+                    }, 1);
+                } 
+            }
+        });
     }
 
     public execute(command: string, data?: any): void {

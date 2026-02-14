@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
@@ -15,7 +15,7 @@ import { NavigationService } from '../navigation.service';
     templateUrl: './page.component.html',
     styleUrls: ['./page.component.scss']
 })
-export class PageComponent implements OnInit {
+export class PageComponent {
     private readonly service = inject(NavigationService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -51,7 +51,7 @@ export class PageComponent implements OnInit {
     public wordInput$ = new Subject<string>();
     public wordLoading = false;
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

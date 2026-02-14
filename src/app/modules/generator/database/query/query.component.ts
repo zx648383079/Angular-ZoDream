@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { GenerateService } from '../../generate.service';
@@ -10,7 +10,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './query.component.html',
     styleUrls: ['./query.component.scss']
 })
-export class QueryComponent implements OnInit {
+export class QueryComponent {
     private readonly service = inject(GenerateService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -27,7 +27,7 @@ export class QueryComponent implements OnInit {
         table: '',
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => {
                 v.schema = params.schema ?? '';

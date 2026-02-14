@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
@@ -14,7 +14,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './edit-thread.component.html',
     styleUrls: ['./edit-thread.component.scss']
 })
-export class EditThreadComponent implements OnInit {
+export class EditThreadComponent {
     private readonly service = inject(ForumService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -34,7 +34,7 @@ export class EditThreadComponent implements OnInit {
     public readonly data = signal<IThread>(null);
     public readonly forum = signal<IForum>(null);
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             const forum_id = parseInt(params.forum, 10);
             this.service.getForum(forum_id, false).subscribe(res => {

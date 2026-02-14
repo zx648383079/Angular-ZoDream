@@ -1,9 +1,8 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IBlog, ICategory } from '../../model';
-import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { BlogService } from '../blog.service';
 import { IItem } from '../../../../theme/models/seo';
@@ -16,7 +15,7 @@ import { mapFormat } from '../../../../theme/utils';
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
+export class ListComponent {
     private readonly service = inject(BlogService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -44,9 +43,6 @@ export class ListComponent implements OnInit {
             this.categories.set(res.categories);
             this.statusItems.set(res.publish_status);
         });
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(res => {
             this.searchService.getQueries(res, this.queries().value());
             this.tapPage();

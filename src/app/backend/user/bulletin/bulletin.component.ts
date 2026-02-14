@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IBlockItem } from '../../../components/link-rule';
@@ -15,7 +15,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './bulletin.component.html',
     styleUrls: ['./bulletin.component.scss']
 })
-export class BulletinComponent implements OnInit {
+export class BulletinComponent {
     private readonly service = inject(UserService);
     private readonly toastrService = inject(DialogService);
     private readonly router = inject(Router);
@@ -33,7 +33,7 @@ export class BulletinComponent implements OnInit {
         per_page: 20,
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -14,7 +14,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './edit-account.component.html',
     styleUrls: ['./edit-account.component.scss']
 })
-export class EditAccountComponent implements OnInit {
+export class EditAccountComponent {
     private readonly service = inject(BotService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -45,7 +45,7 @@ export class EditAccountComponent implements OnInit {
 
     public typeItems = ['订阅号', '认证订阅号', '企业号', '认证服务号'];    public platformItems = PlatformTypeItems;
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (!params.id) {
               return;

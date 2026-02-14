@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { GameMakerService } from '../../game-maker.service';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
@@ -12,7 +12,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './rule-farm.component.html',
     styleUrls: ['./rule-farm.component.scss']
 })
-export class RuleFarmComponent implements OnInit {
+export class RuleFarmComponent {
     private readonly service = inject(GameMakerService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -33,7 +33,7 @@ export class RuleFarmComponent implements OnInit {
         upgrade_rules: [],
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.parent.params.subscribe(params => {
             this.queries.project().value.set(parseNumber(params.game));
         });

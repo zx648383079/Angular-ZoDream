@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../../components/dialog';
 import { IArticleCategory } from '../../../model';
 import { ArticleService } from '../../article.service';
@@ -9,7 +9,7 @@ import { ArticleService } from '../../article.service';
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent {
     private readonly service = inject(ArticleService);
     private readonly toastrService = inject(DialogService);
 
@@ -29,8 +29,6 @@ export class CategoryComponent implements OnInit {
             }
         });
     }
-
-    ngOnInit() {}
 
     public tapRemove(item: IArticleCategory) {
         this.toastrService.confirm('确定删除“' + item.name + '”分类？', () => {

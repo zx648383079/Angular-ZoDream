@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, viewChildren, signal } from '@angular/core';
+import { Component, inject, viewChildren, signal, DestroyRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CountdownComponent } from '../../../../components/desktop';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -15,11 +15,12 @@ import { interval, Subscription } from 'rxjs';
     templateUrl: './free-trial.component.html',
     styleUrls: ['./free-trial.component.scss']
 })
-export class FreeTrialComponent implements OnInit {
+export class FreeTrialComponent {
     private readonly themeService = inject(ThemeService);
     private readonly route = inject(ActivatedRoute);
     private readonly service = inject(ActivityService);
     private readonly searchService = inject(SearchService);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public readonly countItems = viewChildren(CountdownComponent);
@@ -36,19 +37,14 @@ export class FreeTrialComponent implements OnInit {
 
     constructor() {
         this.themeService.titleChanged.next('预售中心');
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
             this.startTimer();
         });
+        this.destroyRef.onDestroy(() => this.stopTimer());
     }
 
-    ngOnDestroy() {
-        this.stopTimer();
-    }
 
     public tapRefresh() {
         this.goPage(1);

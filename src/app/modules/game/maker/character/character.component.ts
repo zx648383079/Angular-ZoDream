@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { GameMakerService } from '../game-maker.service';
 import { ActivatedRoute } from '@angular/router';
@@ -14,7 +14,7 @@ import { parseNumber } from '../../../../theme/utils';
     templateUrl: './character.component.html',
     styleUrls: ['./character.component.scss']
 })
-export class CharacterComponent implements OnInit {
+export class CharacterComponent {
     private readonly service = inject(GameMakerService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -32,7 +32,7 @@ export class CharacterComponent implements OnInit {
         project: 0
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.parent.params.subscribe(params => {
             this.queries.project().value.set(parseNumber(params.game));
         });

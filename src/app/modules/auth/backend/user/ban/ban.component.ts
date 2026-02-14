@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../../components/dialog';
@@ -9,7 +9,7 @@ import { IPageQueries } from '../../../../../theme/models/page';
 import { selectAuthRole } from '../../../../../theme/reducers/auth.selectors';
 import { AuthService } from '../../auth.service';
 import { SearchService } from '../../../../../theme/services';
-import { Subscription } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -17,12 +17,13 @@ import { Subscription } from 'rxjs';
     templateUrl: './ban.component.html',
     styleUrls: ['./ban.component.scss']
 })
-export class BanComponent implements OnInit, OnDestroy {
+export class BanComponent {
     private readonly service = inject(AuthService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
     private readonly store = inject<Store<AppState>>(Store);
     private readonly searchService = inject(SearchService);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly items = signal<IBanAccount[]>([]);
     private hasMore = true;
@@ -34,24 +35,16 @@ export class BanComponent implements OnInit, OnDestroy {
         per_page: 20,
     }));
     public editable = false;
-    private readonly subItems = new Subscription();
 
 
     constructor() {
-        this.subItems.add(this.store.select(selectAuthRole).subscribe(roles => {
+        this.store.select(selectAuthRole).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(roles => {
             this.editable = roles.indexOf('user_manage') >= 0;
-        }));
-    }
-
-    ngOnInit() {
+        });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
-    }
-
-    ngOnDestroy(): void {
-        this.subItems.unsubscribe();
     }
 
     public tapRefresh() {

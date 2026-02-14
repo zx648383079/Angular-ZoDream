@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IButton } from '../../../../components/form';
 import { IPageQueries } from '../../../../theme/models/page';
@@ -13,7 +13,7 @@ import { ISoftwareLog } from '../../model';
     templateUrl: './history.component.html',
     styleUrls: ['./history.component.scss']
 })
-export class HistoryComponent implements OnInit {
+export class HistoryComponent {
     private readonly service = inject(AppStoreService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
@@ -36,7 +36,7 @@ export class HistoryComponent implements OnInit {
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

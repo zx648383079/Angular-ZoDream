@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import {
     IThread, IThreadPost, IThreadUser
 } from '../model';
@@ -36,7 +36,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './thread.component.html',
     styleUrls: ['./thread.component.scss']
 })
-export class ThreadComponent implements OnInit {
+export class ThreadComponent {
     private readonly toastrService = inject(DialogService);
     private readonly store = inject<Store<AppState>>(Store);
     private readonly service = inject(ForumService);
@@ -89,9 +89,6 @@ export class ThreadComponent implements OnInit {
         this.store.select(selectAuthUser).subscribe(user => {
             this.user.set(user);
         });
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
         });

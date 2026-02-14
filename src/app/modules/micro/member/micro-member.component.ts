@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { IMicro } from '../model';
 import { IPageQueries } from '../../../theme/models/page';
@@ -14,7 +14,7 @@ import { SearchService } from '../../../theme/services';
     templateUrl: './micro-member.component.html',
     styleUrls: ['./micro-member.component.scss']
 })
-export class MicroMemberComponent implements OnInit {
+export class MicroMemberComponent {
     private readonly service = inject(MicroService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -31,7 +31,7 @@ export class MicroMemberComponent implements OnInit {
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(res => {
             this.searchService.getQueries(res, this.queries().value());
             this.tapPage();

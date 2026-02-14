@@ -1,8 +1,7 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, viewChild, signal } from '@angular/core';
+import { Component, inject, viewChild, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import { IItem } from '../../../../theme/models/seo';
 import { SearchService } from '../../../../theme/services';
 import { IBook, ICategory } from '../../model';
@@ -15,7 +14,7 @@ import { SpiderComponent } from '../spider/spider.component';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
     private readonly service = inject(BookService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -52,9 +51,6 @@ export class HomeComponent implements OnInit {
         this.service.categoryAll().subscribe(res => {
             this.categories = res.data;
         });
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(res => {
             this.searchService.getQueries(res, this.queries().value());
             this.tapPage();

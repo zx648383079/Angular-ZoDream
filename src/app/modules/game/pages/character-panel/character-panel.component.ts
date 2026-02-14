@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, IGameBagItem, IGameCharacter, IGameEquipItem, IGameRouter, IGameScene } from '../../model';
 
 @Component({
@@ -7,7 +7,7 @@ import { GameCommand, GameRouterInjectorToken, IGameBagItem, IGameCharacter, IGa
     templateUrl: './character-panel.component.html',
     styleUrls: ['./character-panel.component.scss']
 })
-export class CharacterPanelComponent implements IGameScene, OnInit {
+export class CharacterPanelComponent implements IGameScene {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
@@ -16,10 +16,6 @@ export class CharacterPanelComponent implements IGameScene, OnInit {
 
     constructor() {
         this.data = this.router.character;
-    }
-
-
-    ngOnInit(): void {
         this.router.request(GameCommand.CharacterStatus).subscribe(res => {
             this.data = res.data;
             this.equipItems = res.data.equip_items || [];

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { EditorService } from '../editor.service';
 import { alginOptions, WidgetType } from '../model';
 

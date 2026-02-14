@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -13,7 +13,7 @@ import { form } from '@angular/forms/signals';
     templateUrl: './position.component.html',
     styleUrls: ['./position.component.scss']
 })
-export class PositionComponent implements OnInit {
+export class PositionComponent {
     private readonly service = inject(AdService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -30,7 +30,7 @@ export class PositionComponent implements OnInit {
         keywords: '',
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

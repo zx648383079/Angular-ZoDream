@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { IItem } from '../../../theme/models/seo';
 import { GenerateService } from '../generate.service';
@@ -12,7 +12,7 @@ import { ButtonEvent } from '../../../components/form';
     templateUrl: './database.component.html',
     styleUrls: ['./database.component.scss']
 })
-export class DatabaseComponent implements OnInit {
+export class DatabaseComponent {
     private readonly service = inject(GenerateService);
     private readonly toastrService = inject(DialogService);
 
@@ -35,7 +35,7 @@ export class DatabaseComponent implements OnInit {
         required(schemaPath.name);
     });
 
-    ngOnInit() {
+    constructor() {
         this.isLoading.set(true);
         this.service.schemaList(true).subscribe(res => {
             this.isLoading.set(false);

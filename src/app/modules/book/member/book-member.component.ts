@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogEvent, DialogService } from '../../../components/dialog';
@@ -16,7 +16,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './book-member.component.html',
     styleUrls: ['./book-member.component.scss']
 })
-export class BookMemberComponent implements OnInit {
+export class BookMemberComponent {
     private readonly store = inject<Store<AppState>>(Store);
     private readonly service = inject(BookService);
     private readonly router = inject(Router);
@@ -39,9 +39,6 @@ export class BookMemberComponent implements OnInit {
         this.store.select(selectAuthUser).subscribe(user => {
             this.user = user;
         });
-    }
-
-    ngOnInit() {
         this.service.profile().subscribe(res => {
             this.data = res;
         });

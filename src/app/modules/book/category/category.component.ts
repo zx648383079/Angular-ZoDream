@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ICategory } from '../model';
 import { BookService } from '../book.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent {
     private readonly service = inject(BookService);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
@@ -17,7 +17,7 @@ export class CategoryComponent implements OnInit {
 
     public categories?: ICategory[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.service.getCategories().subscribe(res => {
             this.categories = res;
         });

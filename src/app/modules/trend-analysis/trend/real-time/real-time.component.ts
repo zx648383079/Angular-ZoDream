@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IPageQueries } from '../../../../theme/models/page';
 import { TrendService } from '../../trend.service';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,7 @@ import { SearchService } from '../../../../theme/services';
     templateUrl: './real-time.component.html',
     styleUrls: ['./real-time.component.scss']
 })
-export class RealTimeComponent implements OnInit {
+export class RealTimeComponent {
     private readonly service = inject(TrendService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -29,7 +29,7 @@ export class RealTimeComponent implements OnInit {
         per_page: 20
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

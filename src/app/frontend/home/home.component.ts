@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ThemeService } from '../../theme/services';
 import { environment } from '../../../environments/environment';
 import { DialogService } from '../../components/dialog';
@@ -15,7 +15,7 @@ interface IMetaLink {
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements AfterViewInit {
+export class HomeComponent {
     private readonly themeService = inject(ThemeService);
     private readonly toastrService = inject(DialogService);
 
@@ -146,18 +146,4 @@ export class HomeComponent implements AfterViewInit {
         }
     }
 
-    ngAfterViewInit(): void {
-        // window.scrollTo({
-        //     top: document.body.scrollHeight
-        // });
-        // setTimeout(() => {
-        //     this.toastrService.tour({
-        //         items: [
-        //             {selector: 'app-message-panel', content: '第一步，'},
-        //             {selector: '.navbar-brand', content: '第二步，'},
-        //             {selector: 'app-notice-panel', content: '第三步，'},
-        //         ]
-        //     })
-        // }, 2000);
-    }
 }

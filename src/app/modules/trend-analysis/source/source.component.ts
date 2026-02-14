@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -13,7 +13,7 @@ import { TimeTabItems } from '../model';
     templateUrl: './source.component.html',
     styleUrls: ['./source.component.scss']
 })
-export class SourceComponent implements OnInit {
+export class SourceComponent {
     private readonly service = inject(TrendService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -34,7 +34,7 @@ export class SourceComponent implements OnInit {
     public tabItems = TimeTabItems;
     public tabIndex = '';
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

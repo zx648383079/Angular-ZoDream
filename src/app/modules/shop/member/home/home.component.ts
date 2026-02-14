@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IErrorResponse } from '../../../../theme/models/page';
@@ -12,7 +12,7 @@ import { ShopService } from '../../shop.service';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
     private readonly service = inject(ShopService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
     public orderSutotal: IOrderCount = {};
     public accountSubtotal: IAccountSubtotal = {} as any;
 
-    ngOnInit() {
+    constructor() {
         this.service.profile().subscribe({
             next: res => {
                 this.user = res;

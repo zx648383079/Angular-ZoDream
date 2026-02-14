@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { FinanceService } from '../../finance.service';
@@ -11,7 +11,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './project.component.html',
     styleUrls: ['./project.component.scss']
 })
-export class ProjectComponent implements OnInit {
+export class ProjectComponent {
     private readonly service = inject(FinanceService);
     private readonly toastrService = inject(DialogService);
     private readonly location = inject(Location);
@@ -39,7 +39,7 @@ export class ProjectComponent implements OnInit {
     public accountItems: IAccount[] = [];
     public productItems: IFinancialProduct[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.tapRefresh();
         this.service.batch({
             account: {},

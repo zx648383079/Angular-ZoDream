@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IPageQueries } from '../../../theme/models/page';
@@ -13,7 +13,7 @@ import { MessageServiceService } from '../ms.service';
     templateUrl: './signature.component.html',
     styleUrls: ['./signature.component.scss']
 })
-export class SignatureComponent implements OnInit {
+export class SignatureComponent {
     private readonly service = inject(MessageServiceService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -37,7 +37,7 @@ export class SignatureComponent implements OnInit {
         required(schemaPath.name);
     });
 
-    ngOnInit(): void {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

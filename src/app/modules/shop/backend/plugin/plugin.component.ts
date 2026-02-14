@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IData } from '../../../../theme/models/page';
 import { IShopPlugin } from '../../model';
 import { DialogService } from '../../../../components/dialog';
@@ -20,7 +20,7 @@ interface IPluginItem {
     templateUrl: './plugin.component.html',
     styleUrls: ['./plugin.component.scss']
 })
-export class PluginComponent implements OnInit {
+export class PluginComponent {
     private readonly http = inject(HttpClient);
     private readonly toastrService = inject(DialogService);
 
@@ -44,7 +44,7 @@ export class PluginComponent implements OnInit {
         },
     ]);
 
-    ngOnInit() {
+    constructor() {
         this.pluginList().subscribe(res => {
             const map: any = {};
             for (const item of res.data) {

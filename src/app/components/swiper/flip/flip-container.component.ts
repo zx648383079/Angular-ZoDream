@@ -1,7 +1,9 @@
-import { AfterContentInit, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, 
+import { Component, ElementRef, 
     ViewEncapsulation, inject, contentChildren, model, effect, 
     computed,
-    signal} from '@angular/core';
+    signal,
+    DestroyRef,
+    afterNextRender} from '@angular/core';
 import { FlipItemComponent } from './flip-item.component';
 import { SwiperEvent } from '../model';
 
@@ -17,9 +19,9 @@ import { SwiperEvent } from '../model';
     `,
     styleUrls: ['./flip-container.component.scss'],
 })
-export class FlipContainerComponent implements OnInit, AfterContentInit, AfterViewInit, OnDestroy, SwiperEvent {
-    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
-
+export class FlipContainerComponent implements SwiperEvent {
+    private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly items = contentChildren(FlipItemComponent);
     public readonly index = model(0);
@@ -28,15 +30,6 @@ export class FlipContainerComponent implements OnInit, AfterContentInit, AfterVi
     public readonly itemWidth = signal(0);
     private historyItems: number[] = [0];
 
-    constructor() {
-        effect(() => {
-            this.navigate(this.index());
-        });
-        effect(() => {
-            this.itemCount = this.items().length;
-        });
-    }
-    
 
     public readonly flipStyle = computed(() => {
         const width = this.itemWidth();
@@ -49,7 +42,13 @@ export class FlipContainerComponent implements OnInit, AfterContentInit, AfterVi
         };
     });
 
-    ngOnInit() {
+    constructor() {
+        effect(() => {
+            this.navigate(this.index());
+        });
+        effect(() => {
+            this.itemCount = this.items().length;
+        });
         this.resize$ = new ResizeObserver(entries => {
             for (const item of entries) {
                 if (item.contentRect.width === this.itemWidth()) {
@@ -59,19 +58,18 @@ export class FlipContainerComponent implements OnInit, AfterContentInit, AfterVi
                 this.updateWidth();
             }
         });
-    }
-
-    ngAfterViewInit(): void {
-        const box = this.elementRef.nativeElement;
-        this.resize$.observe(box);
-    }
-
-    ngAfterContentInit(): void {
-        this.itemCount = this.items().length;
-    }
-
-    ngOnDestroy(): void {
-        this.resize$.disconnect();
+        afterNextRender({
+            write: () => {
+                const box = this.elementRef.nativeElement;
+                this.resize$.observe(box);
+            }
+        });
+        afterRender(() => {
+            this.itemCount = this.items().length;
+        });
+        this.destroyRef.onDestroy(() => {
+            this.resize$.disconnect();
+        })
     }
 
     public get backable(): boolean {
@@ -140,3 +138,7 @@ export class FlipContainerComponent implements OnInit, AfterContentInit, AfterVi
     }
 
 }
+function afterRender(arg0: () => void) {
+    throw new Error('Function not implemented.');
+}
+

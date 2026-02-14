@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { UserService } from '../user.service';
 import { ThemeService } from '../../../theme/services';
@@ -12,7 +12,7 @@ import { DialogService } from '../../../components/dialog';
     templateUrl: './zone.component.html',
     styleUrls: ['./zone.component.scss']
 })
-export class ZoneComponent implements OnInit {
+export class ZoneComponent {
     private readonly themeService = inject(ThemeService);
     private readonly toastrService = inject(DialogService);
     private readonly service = inject(UserService);
@@ -25,9 +25,6 @@ export class ZoneComponent implements OnInit {
 
     constructor() {
         this.themeService.titleChanged.next($localize `Zone Selection`);
-    }
-
-    ngOnInit(): void {
         this.service.zoneList().subscribe(res => {
             this.items.set(res.data);
             this.selectedItems.set(res.selected);

@@ -1,4 +1,4 @@
-import { DestroyRef, Directive, ElementRef, NgZone, OnDestroy, afterNextRender, afterRenderEffect, inject, input } from '@angular/core';
+import { DestroyRef, Directive, ElementRef, NgZone, afterNextRender, afterRenderEffect, inject, input } from '@angular/core';
 import { CHART_TOKEN, ChartConfigs } from './model';
 import { ECharts, EChartsCoreOption, EChartsInitOpts } from 'echarts/core';
 import { asyncScheduler, Subject, throttleTime } from 'rxjs';

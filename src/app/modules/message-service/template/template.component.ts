@@ -1,8 +1,7 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
-import { IPageQueries } from '../../../theme/models/page';
 import { ITemplate } from '../model';
 import { SearchService } from '../../../theme/services';
 import { MessageServiceService } from '../ms.service';
@@ -14,7 +13,7 @@ import { mapFormat } from '../../../theme/utils';
     templateUrl: './template.component.html',
     styleUrls: ['./template.component.scss']
 })
-export class TemplateComponent implements OnInit {
+export class TemplateComponent {
     private readonly service = inject(MessageServiceService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -37,9 +36,6 @@ export class TemplateComponent implements OnInit {
         this.service.typeItems().subscribe(res => {
             this.typeItems.set(res);
         });
-    }
-
-    ngOnInit(): void {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

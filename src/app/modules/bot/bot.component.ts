@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPageQueries } from '../../theme/models/page';
 import { SearchService } from '../../theme/services';
@@ -13,7 +13,7 @@ import { IBotAccount } from './model';
     templateUrl: './bot.component.html',
     styleUrls: ['./bot.component.scss']
 })
-export class BotComponent implements OnInit {
+export class BotComponent {
     private readonly service = inject(BotService);
     private readonly route = inject(ActivatedRoute);
     private readonly themeService = inject(ThemeService);
@@ -33,9 +33,6 @@ export class BotComponent implements OnInit {
 
     constructor() {
         this.themeService.titleChanged.next($localize `Bot`);
-    }
-
-    ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
     ActivatedRoute
 } from '@angular/router';
@@ -20,7 +20,7 @@ import {
     templateUrl: './region.component.html',
     styleUrls: ['./region.component.scss']
 })
-export class RegionComponent implements OnInit {
+export class RegionComponent {
     private readonly service = inject(RegionService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -45,7 +45,7 @@ export class RegionComponent implements OnInit {
         parent: 0,
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();

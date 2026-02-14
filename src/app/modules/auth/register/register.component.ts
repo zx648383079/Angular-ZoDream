@@ -1,4 +1,4 @@
-import { Component, OnDestroy, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import {
     emptyValidate
 } from '../../../theme/validators';
@@ -13,9 +13,9 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../theme/interfaces';
 import { selectSystemConfig } from '../../../theme/reducers/system.selectors';
 import { parseNumber } from '../../../theme/utils';
-import { Subscription } from 'rxjs';
 import { EncryptorService } from '../../../theme/services/encryptor.service';
 import { email, form, minLength, required, validate } from '@angular/forms/signals';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -23,12 +23,13 @@ import { email, form, minLength, required, validate } from '@angular/forms/signa
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnDestroy {
+export class RegisterComponent {
     private readonly toastrService = inject(DialogService);
     private readonly authService = inject(AuthService);
     private readonly themeService = inject(ThemeService);
     private readonly encryptor = inject(EncryptorService);
     private readonly store = inject<Store<AppState>>(Store);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public isObserve = false;
@@ -68,19 +69,11 @@ export class RegisterComponent implements OnDestroy {
             return null;
         });
     });
-    private readonly subItems = new Subscription();
-
     constructor() {
         this.themeService.titleChanged.next($localize `Sign up`);
-        this.subItems.add(
-            this.store.select(selectSystemConfig).subscribe(res => {
-                this.openStatus = parseNumber(res.auth_register);
-            })
-        );
-    }
-
-    ngOnDestroy() {
-        this.subItems.unsubscribe();
+        this.store.select(selectSystemConfig).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
+            this.openStatus = parseNumber(res.auth_register);
+        });
     }
 
     public tapSubmit(e: Event) {

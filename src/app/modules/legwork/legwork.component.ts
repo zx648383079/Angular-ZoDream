@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { INavLink } from '../../theme/models/seo';
 import { ThemeService } from '../../theme/services';
 import { LegworkService } from './legwork.service';
@@ -9,7 +9,7 @@ import { LegworkService } from './legwork.service';
     templateUrl: './legwork.component.html',
     styleUrls: ['./legwork.component.scss']
 })
-export class LegworkComponent implements OnInit {
+export class LegworkComponent {
     private readonly service = inject(LegworkService);
     private readonly themeService = inject(ThemeService);
 
@@ -23,8 +23,6 @@ export class LegworkComponent implements OnInit {
         });
     }
 
-    ngOnInit() {
-    }
 
     public tapNav(item: INavLink) {
         this.items.update(v => {

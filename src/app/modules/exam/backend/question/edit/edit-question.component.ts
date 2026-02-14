@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService, SearchDialogEvent } from '../../../../../components/dialog';
@@ -15,7 +15,7 @@ import { applyEach, form, required } from '@angular/forms/signals';
     templateUrl: './edit-question.component.html',
     styleUrls: ['./edit-question.component.scss']
 })
-export class EditQuestionComponent implements OnInit {
+export class EditQuestionComponent {
     private readonly service = inject(ExamService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -63,7 +63,7 @@ export class EditQuestionComponent implements OnInit {
         content: ''
     }));
 
-    ngOnInit() {
+    constructor() {
         this.service.courseAll().subscribe(res => {
             this.courseItems.set(res.data);
         });

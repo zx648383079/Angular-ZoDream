@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
@@ -14,7 +14,7 @@ import { ButtonEvent } from '../../../../../../components/form';
     templateUrl: './edit-field.component.html',
     styleUrls: ['./edit-field.component.scss']
 })
-export class EditFieldComponent implements OnInit {
+export class EditFieldComponent {
     private readonly service = inject(CmsService);
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
@@ -46,7 +46,7 @@ export class EditFieldComponent implements OnInit {
     public typeItems: IItem[] = [];
     public tabItems: string[] = [];
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             const model = parseInt(params.model, 10);
             this.service.batch({

@@ -1,4 +1,4 @@
-import { Component, OnInit, input, signal } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -6,15 +6,10 @@ import { Component, OnInit, input, signal } from '@angular/core';
     templateUrl: './editor-map-panel.component.html',
     styleUrls: ['./editor-map-panel.component.scss']
 })
-export class EditorMapPanelComponent implements OnInit {
+export class EditorMapPanelComponent {
 
     public readonly visible = signal(false);
     public readonly targetId = input(0);
-
-    constructor() { }
-
-    ngOnInit() {
-    }
 
     public open() {
         this.visible.set(true);

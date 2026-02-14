@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IUserStatus } from '../../../../../theme/models/user';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../auth.service';
@@ -11,7 +11,7 @@ import { AccountStatusItems } from '../../../../../theme/models/auth';
     templateUrl: './user-detail.component.html',
     styleUrls: ['./user-detail.component.scss']
 })
-export class UserDetailComponent implements OnInit {
+export class UserDetailComponent {
     private readonly route = inject(ActivatedRoute);
     private readonly service = inject(AuthService);
 
@@ -20,7 +20,7 @@ export class UserDetailComponent implements OnInit {
     public readonly tabIndex = signal(0);
     public tabItems = ['账户信息', '账户变动记录', '账号操作记录', '账号登录记录', '数据中心'];
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             this.service.userAccount({id: params.id}).subscribe(user => {
                 this.user = user;

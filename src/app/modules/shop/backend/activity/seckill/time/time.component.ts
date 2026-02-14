@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../../components/dialog';
 import { IActivityTime } from '../../../../model';
@@ -12,7 +12,7 @@ import { form, required } from '@angular/forms/signals';
     templateUrl: './time.component.html',
     styleUrls: ['./time.component.scss']
 })
-export class TimeComponent implements OnInit {
+export class TimeComponent {
     private readonly service = inject(ActivityService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -30,7 +30,7 @@ export class TimeComponent implements OnInit {
         required(schemaPath.title);
     });
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (params.activity) {
                 this.activity = parseInt(params.activity, 10);

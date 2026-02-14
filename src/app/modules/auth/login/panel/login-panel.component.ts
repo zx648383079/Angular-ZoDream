@@ -1,4 +1,4 @@
-import { Component, OnDestroy, inject, output, signal } from '@angular/core';
+import { Component, DestroyRef, inject, output, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { environment } from '../../../../../environments/environment';
 import { DialogService } from '../../../../components/dialog';
@@ -10,10 +10,10 @@ import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
 import { AuthService, WebAuthn } from '../../../../theme/services';
 import { apiUri } from '../../../../theme/utils';
 import { emailValidate, mobileValidate, passwordValidate } from '../../../../theme/validators';
-import { Subscription } from 'rxjs';
 import { selectSystemConfig } from '../../../../theme/reducers/system.selectors';
 import { EncryptorService } from '../../../../theme/services/encryptor.service';
 import { form } from '@angular/forms/signals';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -21,12 +21,13 @@ import { form } from '@angular/forms/signals';
     templateUrl: './login-panel.component.html',
     styleUrls: ['./login-panel.component.scss']
 })
-export class LoginPanelComponent implements OnDestroy {
+export class LoginPanelComponent {
     private readonly store = inject<Store<AppState>>(Store);
     private readonly toastrService = inject(DialogService);
     private readonly authService = inject(AuthService);
     private readonly encryptor = inject(EncryptorService);
     private readonly webAuthn = inject(WebAuthn);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public readonly logined = output<IUser>();
@@ -51,28 +52,19 @@ export class LoginPanelComponent implements OnDestroy {
     private qrToken = '';
     public qrImage = '';
     public qrStatus = 0;
-    private readonly subItems = new Subscription();
     private inputData: any = {};
 
     constructor() {
-        this.subItems.add(
-            this.store.select(selectAuthUser).subscribe(res => {
-                if (!res) {
-                    return;
-                }
-                this.logined.emit(res);
-            })
-        );
-        this.subItems.add(
-            this.store.select(selectSystemConfig).subscribe(res => {
-                this.openAuth = res && res.auth_oauth;
-            })
-        );
+        this.store.select(selectAuthUser).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
+            if (!res) {
+                return;
+            }
+            this.logined.emit(res);
+        });
+        this.store.select(selectSystemConfig).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
+            this.openAuth = res && res.auth_oauth;
+        });
         this.openWebAuthn = this.webAuthn.enabled;
-    }
-
-    ngOnDestroy() {
-        this.subItems.unsubscribe();
     }
 
     public tapTab(i: number) {

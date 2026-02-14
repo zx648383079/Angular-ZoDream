@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameCharacter, IGameMessage, IGameRouter, IGameScene, IGmeRoute } from '../../model';
 
 @Component({
@@ -7,7 +7,7 @@ import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameCharacter, IG
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements IGameScene, OnInit {
+export class MainComponent implements IGameScene {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
@@ -34,9 +34,6 @@ export class MainComponent implements IGameScene, OnInit {
 
     constructor() {
         this.character = this.router.character;
-    }
-
-    ngOnInit(): void {
         this.router.request({
             [GameCommand.CharacterNow]: {},
             [GameCommand.ChatPublic]: {}

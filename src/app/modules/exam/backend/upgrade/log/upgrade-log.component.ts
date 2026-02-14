@@ -1,5 +1,5 @@
 import { form } from '@angular/forms/signals';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IPageQueries } from '../../../../../theme/models/page';
@@ -12,7 +12,7 @@ import { ExamService } from '../../exam.service';
     templateUrl: './upgrade-log.component.html',
     styleUrls: ['./upgrade-log.component.scss']
 })
-export class UpgradeLogComponent implements OnInit {
+export class UpgradeLogComponent {
     private readonly service = inject(ExamService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -32,7 +32,7 @@ export class UpgradeLogComponent implements OnInit {
         upgrade: 0,
     }));
 
-    ngOnInit() {
+    constructor() {
         this.route.params.subscribe(params => {
             if (params.id) {
                 return;
