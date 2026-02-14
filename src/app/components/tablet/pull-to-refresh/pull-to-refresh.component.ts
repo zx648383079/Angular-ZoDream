@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, input, effect, model, computed, signal, DOCUMENT } from '@angular/core';
+import { Component, HostListener, inject, input, effect, model, computed, signal, DOCUMENT, output } from '@angular/core';
 import { interval } from 'rxjs';
 import { TouchDirection } from '../model';
 import { scrollBottom, scrollTop } from '../../../theme/utils/doc';
@@ -27,11 +27,11 @@ export class PullToRefreshComponent implements ButtonEvent {
     /**
      * 是否允许刷新
      */
-    public readonly refresh = model(true);
+    public readonly upDisabled = input(false);
     /**
      * 是否可以加载更多
      */
-    public readonly more = model(true);
+    public readonly downDisabled = model(false);
     /**
      * 距离底部距离触发加载更多
      */
@@ -42,8 +42,11 @@ export class PullToRefreshComponent implements ButtonEvent {
     public readonly loading = input(false);
     public readonly maxHeight = input(100);
 
-    public readonly state = model(PullState.NONE);
-    public readonly topHeight = model<number>(0);
+    public readonly state = signal(PullState.NONE);
+    public readonly topHeight = signal<number>(0);
+
+    public readonly pullup = output<ButtonEvent>();
+    public readonly pulldown = output<ButtonEvent>();
 
     private startY = 0;
     private startUp = TouchDirection.None; // 一开始滑动的方向
@@ -51,7 +54,7 @@ export class PullToRefreshComponent implements ButtonEvent {
 
     constructor() {
         effect(() => {
-            if (!this.more() && this.state() === PullState.MORE) {
+            if (this.downDisabled() && this.state() === PullState.MORE) {
                 this.state.set(PullState.NONE);
             }
         });
@@ -65,8 +68,7 @@ export class PullToRefreshComponent implements ButtonEvent {
 
     @HostListener('window:scroll', [])
     public onScroll() {
-        const more = this.more();
-        if (!more) {
+        if (this.downDisabled()) {
             return;
         }
         this.scrollTop = scrollTop(this.document);
@@ -74,7 +76,7 @@ export class PullToRefreshComponent implements ButtonEvent {
             return;
         }
         this.state.set(PullState.MORE);
-        this.more.set(more);
+        this.pulldown.emit(this);
     }
 
     @HostListener('scroll', [
@@ -86,10 +88,9 @@ export class PullToRefreshComponent implements ButtonEvent {
         const target = event.target as HTMLElement;
         const height = target.scrollHeight;
         const y = target.scrollTop + target.offsetHeight;
-        const more = this.more();
-        if (more && y + this.distance() > height) {
+        if (!this.downDisabled() && y + this.distance() > height) {
             this.state.set(PullState.MORE);
-            this.more.set(true);
+            this.pulldown.emit(this);
         }
     }
 
@@ -113,6 +114,12 @@ export class PullToRefreshComponent implements ButtonEvent {
             height: this.topHeight + 'px'
         };
     });
+
+    public readonly isAnimateIcon = computed(() => {
+        const state = this.state();
+        return state === PullState.REFRESHING;
+    });
+
     public readonly isPullState = computed(() => {
         const state = this.state();
         return state > PullState.NONE && state < PullState.MORE;
@@ -244,7 +251,7 @@ export class PullToRefreshComponent implements ButtonEvent {
             }
         }
         // 上拉加载更多
-        if (this.startUp === TouchDirection.Top && this.more()) {
+        if (this.startUp === TouchDirection.Top && !this.downDisabled()) {
             this.state.set(Math.abs(diff) > this.distance() ? PullState.MORE : PullState.NONE);
         }
     }
@@ -259,11 +266,11 @@ export class PullToRefreshComponent implements ButtonEvent {
             return;
         }
         if (state === PullState.PULLED) {
-            this.refresh.set(this.refresh());
+            this.pullup.emit(this);
             return;
         }
         if (state === PullState.MORE) {
-            this.more.set(this.more());
+            this.pulldown.emit(this);
         }
     }
 

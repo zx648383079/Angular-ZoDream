@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, inject, output, signal } from '@angular/core';
+import { Component, computed, ElementRef, HostListener, inject, output, signal } from '@angular/core';
 import { DialogService } from '../../components/dialog';
 import { ButtonEvent } from '../../components/form';
 import { IErrorResult } from '../../theme/models/page';
@@ -11,7 +11,7 @@ import { hasElementByClass } from '../../theme/utils/doc';
 interface IDay {
     val: string;
     day?: number;
-    disable?: boolean;
+    disabled?: boolean;
     active?: boolean;
     log?: ICheckIn;
 }
@@ -44,7 +44,7 @@ export class CheckinComponent {
         }
     }
 
-    get panelStyle() {
+    public readonly panelStyle = computed(() => {
         const bound = this.elementRef.nativeElement.getBoundingClientRect();
         const diff = window.innerWidth - bound.left - 300;
         // const top = bound.top;
@@ -52,7 +52,7 @@ export class CheckinComponent {
             'margin-left': (diff >= 0 ? 0 : diff) + 'px',
             // 'margin-top': (top >= 0 ? 0 : -310) + 'px',
         };
-    }
+    });
 
     public formatDayTitle(item: IDay): string {
         if (!item.active) {
@@ -161,23 +161,27 @@ export class CheckinComponent {
             isObj = true;
             dayMap.push(new Date(i.created_at).getDate());
         }
-        for (const item of this.dayItems()) {
-            if (!item.day) {
-                continue;
+        this.dayItems.update(v => {
+            for (const item of v) {
+                if (!item.day) {
+                    continue;
+                }
+                const i = dayMap.indexOf(item.day);
+                if (i < 0) {
+                    continue;
+                }
+                item.active = true;
+                len --;
+                if (isObj) {
+                    item.log = days[i] as ICheckIn;
+                }
+                if (len < 1) {
+                    break;
+                }
             }
-            const i = dayMap.indexOf(item.day);
-            if (i < 0) {
-                continue;
-            }
-            item.active = true;
-            len --;
-            if (isObj) {
-                item.log = days[i] as ICheckIn;
-            }
-            if (len < 1) {
-                break;
-            }
-        }
+            return [...v];
+        });
+        
     }
 
     public tapCheck(e?: ButtonEvent) {

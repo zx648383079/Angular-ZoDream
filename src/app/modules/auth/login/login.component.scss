@@ -15,13 +15,15 @@
     }
 
     a {
+        --#{theme.$prefix}link-text: var(--#{theme.$prefix}body-text);
         font-size: 1.875rem;
-        color: var(--#{theme.$prefix}body-text);
         margin: 0.3125rem;
         text-decoration: none;
-
         .iconfont {
             font-size: 1.875rem;
+        }
+        &:hover {
+            color: var(--#{theme.$prefix}link-hover-text);
         }
     }
 }

@@ -62,6 +62,7 @@ export class IncomeComponent {
         channel_id: '',
         project_id: '',
         budget_id: '',
+        trading_object: '',
         count: 0,
     }), schemaPath => {
         required(schemaPath.keywords);

@@ -8,6 +8,7 @@ import { IAccount, IBudget, IConsumptionChannel, IFinancialProject } from '../..
 import { form, required } from '@angular/forms/signals';
 import { ButtonEvent } from '../../../../components/form';
 import { ThemeService } from '../../../../theme/services';
+import { mapFormat } from '../../../../theme/utils';
 
 @Component({
     standalone: false,
@@ -69,7 +70,7 @@ export class EditIncomeComponent implements OnInit {
     public readonly title = computed(() => {
         switch(this.action()) {
             case 'repay':
-                return '还款';
+                return mapFormat(this.dataForm.type().value(), ['偿还账款', '收回账款'], '<类型错误>') ;
             case 'bad':
                 return '计提坏账';
             case 'edit':

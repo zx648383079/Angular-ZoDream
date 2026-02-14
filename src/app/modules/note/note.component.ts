@@ -1,5 +1,5 @@
 import { form, required } from '@angular/forms/signals';
-import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, DestroyRef, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../components/dialog';
@@ -13,7 +13,7 @@ import { wordLength } from '../../theme/utils';
 import { INote } from './model';
 import { NoteService } from './note.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Subscription } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     standalone: false,
@@ -21,7 +21,7 @@ import { Subscription } from 'rxjs';
     templateUrl: './note.component.html',
     styleUrls: ['./note.component.scss']
 })
-export class NoteComponent implements OnInit, OnDestroy {
+export class NoteComponent {
     private readonly service = inject(NoteService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
@@ -29,6 +29,7 @@ export class NoteComponent implements OnInit, OnDestroy {
     private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
     private readonly sanitizer = inject(DomSanitizer);
+    private readonly destroyRef = inject(DestroyRef);
 
 
     public readonly items = signal<INote[]>([]);
@@ -49,30 +50,20 @@ export class NoteComponent implements OnInit, OnDestroy {
     });
     public readonly authUser = signal<IUser>(null);
 
-    private readonly subItems = new Subscription();
-
+    public readonly size = computed(() => wordLength(this.editForm.content().value()));
     constructor() {
         this.themeService.titleChanged.next($localize `Note`);
         this.store.select(selectAuthUser).subscribe(user => {
             this.authUser.set(user);
         });
-    }
-
-    public readonly size = computed(() => wordLength(this.editForm.content().value()));
-
-    ngOnInit() {
-        this.subItems.add(this.themeService.suggestQuerySubmitted.subscribe(res => {
+        this.themeService.suggestQuerySubmitted.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
             this.queries.keywords().value.set(res);
             this.tapRefresh();
-        }));
+        });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
-    }
-
-    ngOnDestroy() {
-        this.subItems.unsubscribe();
     }
 
     public toggleVisible() {
@@ -153,7 +144,7 @@ export class NoteComponent implements OnInit, OnDestroy {
                 this.isLoading.set(false);
                 this.items.set(page < 2 ? data : [].concat(this.items, data));
                 this.queries().value.set(queries);
-            this.searchService.applyHistory(queries, false);
+                this.searchService.applyHistory(queries, false);
             },
             error: () => {
                 this.isLoading.set(false);

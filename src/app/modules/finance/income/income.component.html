@@ -287,6 +287,12 @@
             </select>
         </div>
     </div>
+    <div class="form-group">
+        <label for="trading_object">交易对象</label>
+        <div class="input-group-control">
+            <input type="text" id="trading_object" class="form-control" [formField]="editForm.trading_object">
+        </div>
+    </div>
 </app-dialog-box>
 
 <app-dialog-box #previewModal [title]="'预览:' + previewModel()?.id" [footerVisible]="false">
@@ -335,7 +341,7 @@
 </app-dialog-box>
 
 <app-progress-dialog/>
-<app-upload-dialog accept=".csv,.xlsx,.zip"/>
+<app-upload-dialog accept=".csv,.xlsx,.zip" [multiple]="true"/>
 
 @if (menuVisible()) {
     <div class="tablet-mask" animate.enter="dialog-mask-opened" (click)="menuVisible.set(false)"></div>

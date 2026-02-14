@@ -37,7 +37,7 @@
 </div>
 
 
-<app-pull-to-refresh  (refreshChange)="tapRefresh()" (moreChange)="tapMore()" [more]="hasMore()" [loading]="isLoading()">
+<app-pull-to-refresh  (pullup)="tapRefresh()" (pulldown)="tapMore()" [downDisabled]="!hasMore()" [loading]="isLoading()">
     @for (item of items(); track $index) {
         <a class="movie-item"  [routerLink]="['../category', item.cat_id, item.id]">
             <div class="item-image">

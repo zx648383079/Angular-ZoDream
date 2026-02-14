@@ -1,5 +1,5 @@
 <div class="container">
-    <app-pull-to-refresh [loading]="isLoading()" [more]="hasMore()" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
+    <app-pull-to-refresh [loading]="isLoading()" [downDisabled]="!hasMore()" (pulldown)="tapMore()" (pullup)="tapRefresh()">
         <div class="row">
             @if (authUser()) {
             <div class="col-md-4">

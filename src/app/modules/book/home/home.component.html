@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <app-pull-to-refresh [loading]="isLoading()" [more]="hasMore()" (refreshChange)="tapRefresh()" (moreChange)="tapMore()">
+    <app-pull-to-refresh [loading]="isLoading()" [downDisabled]="!hasMore()" (pullup)="tapRefresh()" (pulldown)="tapMore()">
         @for (item of items(); track $index) {
             <div class="book-item" (click)="tapRead(item)" (contextmenu)="tapContextMenu($event, item)">
                 <div class="cover">

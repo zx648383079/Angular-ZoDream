@@ -12,7 +12,7 @@
         </label>
     </div>
     <div class="panel-body">
-        <app-pull-to-refresh [loading]="isLoading()" [more]="hasMore()" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
+        <app-pull-to-refresh [loading]="isLoading()" [downDisabled]="!hasMore()" (pulldown)="tapMore()" (pullup)="tapRefresh()">
             @for (item of items(); track $index) {
                 <div class="comment-item">
                 <div class="content">

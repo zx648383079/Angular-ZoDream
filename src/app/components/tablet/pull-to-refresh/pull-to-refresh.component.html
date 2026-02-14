@@ -1,6 +1,6 @@
-@if (isLoadState()) {
+@if (isPullState()) {
 <div class="scroll-top">
-    <div>
+    <div [class.--with-animate]="isAnimateIcon()">
         <i [class]="['iconfont', stateIcon()]"></i>
         {{ stateLabel() }}
     </div>
@@ -11,7 +11,7 @@
 </div>
 @if (isLoadState()) {
 <div class="scroll-bottom">
-    <div>
+    <div [class.--with-animate]="isAnimateIcon()">
         <i [class]="['iconfont', stateIcon()]"></i>
         {{ stateLabel() }}
     </div>

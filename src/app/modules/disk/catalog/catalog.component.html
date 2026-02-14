@@ -84,8 +84,7 @@
         </a>
     </div>
 </div>
-<app-pull-to-refresh class="items-box" (refreshChange)="tapRefresh()" (moreChange)="tapMore()" [more]="hasMore()"
-    [loading]="isLoading()">
+<app-pull-to-refresh class="items-box" (pullup)="tapRefresh()" (pulldown)="tapMore()" [downDisabled]="!hasMore()" [loading]="isLoading()">
     <div class="catalog-body" [class]="{'file-view': viewMode, 'file-edit': editMode}">
         <div class="file-header">
             <div class="check-box" [class.checked]="isChecked()" (click)="tapCheckAll()"></div>

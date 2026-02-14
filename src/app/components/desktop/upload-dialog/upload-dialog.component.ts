@@ -25,6 +25,7 @@ export class UploadDialogComponent implements ButtonEvent {
     public readonly confirmText = input($localize `Ok`);
     public readonly cancelText = input($localize `Cancel`);
     public readonly accept = input('image/*');
+    public readonly multiple = input(false);
     public readonly isLoading = signal(false);
     public readonly password = signal('');
     public readonly selectedItem = signal('');
@@ -47,7 +48,7 @@ export class UploadDialogComponent implements ButtonEvent {
      * 确认事件
      */
     private confirmFn: (data: FormData) => void;
-    private lastFile: File;
+    private lastFile: FileList|File[];
 
     constructor() {
         this.progress$.pipe(
@@ -76,7 +77,14 @@ export class UploadDialogComponent implements ButtonEvent {
             return;
         }
         const form = new FormData();
-        form.append('file', this.lastFile);
+        if (this.multiple()) {
+            for (let i = 0; i < this.lastFile.length; i++) {
+                form.append('file[]', this.lastFile[i], this.lastFile[i].name);
+            }
+        } else {
+            form.append('file', this.lastFile[0]);
+        }
+        
         form.append('password', this.password() ?? '');
         this.confirmFn(form);
         this.stepIndex.set(1);
@@ -129,7 +137,7 @@ export class UploadDialogComponent implements ButtonEvent {
         if (files.length < 1) {
             return;
         }
-        this.lastFile = files[0];
-        this.selectedItem.set(files[0].name);
+        this.lastFile = files;
+        this.selectedItem.set(files.length > 1 ? `${files[0].name}...(${files.length})` : files[0].name);
     }
 }

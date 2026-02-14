@@ -56,7 +56,7 @@
             </div>
         </div>
         <div id="comment-box">
-            <app-pull-to-refresh [more]="hasMore()" [loading]="isLoading()" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
+            <app-pull-to-refresh [downDisabled]="!hasMore()" [loading]="isLoading()" (pulldown)="tapMore()" (pullup)="tapRefresh()">
                 @for (item of items(); track $index) {
                     <app-comment-item [value]="item" [user]="user()" [status]="status()" [guestUser]="guestForm().value()" (commenting)="onReply($event)" />
                 }

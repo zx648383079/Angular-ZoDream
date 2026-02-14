@@ -3,7 +3,7 @@
         <app-auto-suggest-box id="keywords" [formField]="queries.keywords" (confirm)="tapSearch($event)" />
     </div>
     
-    <app-pull-to-refresh [more]="hasMore()" [loading]="isLoading()" (moreChange)="tapMore()" (refreshChange)="tapRefresh()">
+    <app-pull-to-refresh [downDisabled]="!hasMore()" [loading]="isLoading()" (pulldown)="tapMore()" (pullup)="tapRefresh()">
         <div class="row">
             @for (item of items(); track $index) {
                 <div class="col-md-3 col-xs-6" >

@@ -17,7 +17,7 @@
                     <p i18n>Select file(s)</p>
                     <p i18n>or drag and drop your files here</p>
                 }
-                <input type="file" [id]="fileName" (change)="uploadFile($event)" [accept]="accept()">
+                <input type="file" [id]="fileName" (change)="uploadFile($event)" [accept]="accept()" [multiple]="multiple()">
             </label>
 
             <div>

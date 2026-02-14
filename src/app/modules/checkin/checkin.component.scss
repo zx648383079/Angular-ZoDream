@@ -1,4 +1,7 @@
-$size: 40px;
+@use '../../theme/theme';
+@use '../../../bootstrap/mixins';
+
+$size: 2.5rem;
 $boxWidth: $size * 7;
 
 .checkin-picker {
@@ -8,36 +11,33 @@ $boxWidth: $size * 7;
         position: absolute;
         z-index: 999;
         user-select: none;
-        background: #fff;
-        color: #333;
-        box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
+        background-color: var(--#{theme.$prefix}panel);
+        color: var(--#{theme.$prefix}body-text);
+        @include mixins.box-shadow(var(--#{theme.$prefix}box-shadow));
         text-align: left;
     }
     .picker-header {
-        padding: 5px 15px;
-        font-size: 14px;
-        color: #222;
-        line-height: 30px;
+        padding: 0.3125rem 0.9375rem;
+        font-size: 0.875rem;
+        color: var(--#{theme.$prefix}body-text);
+        line-height: 1.875rem;
         .iconfont {
-            color: #ccc;
+            color: var(--#{theme.$prefix}border);
         }
         .title {
-            margin: 0 10px;
+            margin: 0 0.625rem;
         }
-    }
-    .picker-body {
-
     }
     .picker-footer {
         display: block;
         text-align: center;
         line-height: 3rem;
-        color: #b4b4b4;
-        background-color: #f1f2f4;
+        color: var(--#{theme.$prefix}meta-text);
+        background-color: var(--#{theme.$prefix}body);
         cursor: pointer;
     }
     ol {
-        background: #eee;
+        background: var(--#{theme.$prefix}body);
         margin: 0;
         padding: 0;
     }
@@ -48,7 +48,7 @@ $boxWidth: $size * 7;
         text-align: center;
         box-sizing: border-box;
         list-style: none;
-        color: #333;
+        color: var(--#{theme.$prefix}body-text);
     }
     ul {
         margin: 0;
@@ -56,20 +56,20 @@ $boxWidth: $size * 7;
         li {
             cursor: pointer;
             &.active {
-                background: #006cff;
-                color: #fff;
+                background: var(--#{theme.$prefix}primary);
+                color: var(--#{theme.$prefix}primary-text);
                 border-radius: 50%;
                 &:before {
                     font-family: "iconfont";
                     font-weight: 900;
                     content: "\e648";
-                    color: rgba(255, 255, 255, .3);
-                    font-size: 30px;
+                    color: rgba(var(--#{theme.$prefix}primary-text-rgb), .3);
+                    font-size: 1.875rem;
                     position: absolute;
                 }
             }
-            &.disable {
-                color: #ccc;
+            &.disabled {
+                color: var(--#{theme.$prefix}input-disabled);
             }
         }
     }
