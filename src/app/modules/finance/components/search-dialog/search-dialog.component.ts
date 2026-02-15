@@ -1,67 +1,48 @@
-import { Component, computed, effect, inject, input, signal, untracked } from '@angular/core';
-import { IUploadFile } from '../../../theme/models/open';
-import { IPageQueries } from '../../../theme/models/page';
-import { FileUploadService, SearchService } from '../../../theme/services';
-import { SearchDialogEvent } from '../../dialog';
-import { IItem } from '../../../theme/models/seo';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { form } from '@angular/forms/signals';
+import { ILog, LogTypeItems } from '../../model';
+import { SearchDialogEvent } from '../../../../components/dialog';
+import { FinanceService } from '../../finance.service';
 
 @Component({
     standalone: false,
-    selector: 'app-file-online',
-    templateUrl: './file-online.component.html',
-    styleUrls: ['./file-online.component.scss']
+    selector: 'app-search-dialog',
+    templateUrl: './search-dialog.component.html',
+    styleUrls: ['./search-dialog.component.scss']
 })
-export class FileOnlineComponent implements SearchDialogEvent {
-    private readonly uploadService = inject(FileUploadService);
-    private readonly searchService = inject(SearchService);
+export class SearchDialogComponent implements SearchDialogEvent {
 
-    public readonly accept = input('image/*');
+    private readonly service = inject(FinanceService);
+
     public readonly multiple = input(false);
-    public readonly placeholder = input($localize `Select online file`);
+    public readonly placeholder = input($localize `Select logs`);
+
     /**
      * 是否显示
      */
     public readonly visible = signal(false);
 
-    public readonly items = signal<IUploadFile[]>([]);
+    public readonly items = signal<ILog[]>([]);
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
-        accept: '*/*',
+        type: '0',
         page: 1,
         per_page: 20,
     }));
-    public typeItems: IItem[] = [];
-    public readonly selectedItems = signal<IUploadFile[]>([]);
+    public readonly typeItems = ['全部', ...LogTypeItems];
+    public readonly selectedItems = signal<ILog[]>([]);
     public readonly onlySelected = signal(false);
-    private confirmFn: (items: IUploadFile|IUploadFile[]) => void;
-    private checkFn: (items: IUploadFile[]) => boolean;
+    private confirmFn: (items: ILog|ILog[]) => void;
+    private checkFn: (items: ILog[]) => boolean;
 
-    constructor() {
-        effect(() => {
-            const accept = this.accept();
-            untracked(() => {
-                this.items.set([]);
-                this.selectedItems.set([]);
-                this.queries.page().value.set(0);
-                this.queries.accept().value.set(accept);
-                this.typeItems = accept === '*/*' || !accept ? [
-                    {name: $localize `All files`, value: '*/*'},
-                    {name: $localize `Image`, value: 'image/*'},
-                    {name: $localize `Video`, value: 'video/*'},
-                    {name: $localize `Audio`, value: 'audio/*'},
-                ] : [];
-            });
-        });
-    }
 
-    public open(confirm: (data: IUploadFile|IUploadFile[]) => void): void;
-    public open(data: any|any[], confirm: (data: IUploadFile|IUploadFile[]) => void): void;
-    public open(data: any|any[], confirm: (data: IUploadFile|IUploadFile[]) => void, check: (data: IUploadFile[]) => boolean): void;
-    public open(data: any, confirm?: (data: IUploadFile|IUploadFile[]) => void, check?: (data: IUploadFile[]) => boolean) {
+    public open(confirm: (data: ILog|ILog[]) => void): void;
+    public open(data: any|any[], confirm: (data: ILog|ILog[]) => void): void;
+    public open(data: any|any[], confirm: (data: ILog|ILog[]) => void, check: (data: ILog[]) => boolean): void;
+    public open(data: any, confirm?: (data: ILog|ILog[]) => void, check?: (data: ILog[]) => boolean) {
         this.visible.set(true);
         if (typeof data === 'function') {
             this.confirmFn = data;
@@ -80,24 +61,24 @@ export class FileOnlineComponent implements SearchDialogEvent {
         this.onlySelected.update(v => !v);
     }
 
-    public isSelected(item: IUploadFile) {
+    public isSelected(item: ILog) {
         const items = this.selectedItems();
         for (const i of items) {
-            if (i.url === item.url) {
+            if (i.id === item.id) {
                 return true;
             }
         }
         return false;
     }
 
-    public tapSelected(item: IUploadFile) {
+    public tapSelected(item: ILog) {
         if (!this.multiple()) {
             this.selectedItems.set([item]);
             return;
         }
         this.selectedItems.update(v => {
             for (let i = 0; i < v.length; i++) {
-                if (item.url === v[i].url) {
+                if (item.id === v[i].id) {
                     v.splice(i, 1);
                     return [...v];
                 }
@@ -131,7 +112,7 @@ export class FileOnlineComponent implements SearchDialogEvent {
     }
 
     public readonly formatItems = computed(() => {
-        return this.onlySelected() ? this.selectedItems().map(i => i as IUploadFile) : this.items();
+        return this.onlySelected() ? this.selectedItems().map(i => i as ILog) : this.items();
     });
 
 
@@ -163,8 +144,7 @@ export class FileOnlineComponent implements SearchDialogEvent {
         }
         this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
-        const cb = this.accept().indexOf('image') >= 0 ? this.uploadService.images : this.uploadService.files;
-        cb.call(this.uploadService, queries).subscribe({
+        this.service.search(queries).subscribe({
             next: res => {
                 this.isLoading.set(false);
                 this.items.set(res.data);
@@ -211,5 +191,4 @@ export class FileOnlineComponent implements SearchDialogEvent {
         //     this.selectedItems = res.data;
         // });
     }
-
 }

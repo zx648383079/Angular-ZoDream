@@ -28,11 +28,11 @@
     <div class="body-container">
         @for (item of formatItems; track $index) {
             <div class="option-item" [class]="{selected: isSelected(item)}" (click)="tapSelected(item)">
-                <div class="thumb">
+                <div class="item-thumb">
                     <img [src]="item.thumb">
                 </div>
-                <div class="name">{{ item.name }}</div>
-                <div class="price">{{ item.price }}</div>
+                <div class="item-name">{{ item.name }}</div>
+                <div class="item-price">{{ item.price }}</div>
             </div>
         }
     </div>

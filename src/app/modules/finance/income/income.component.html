@@ -116,7 +116,7 @@
                 <app-swipe-control>
                     <div class="line-row-item --with-icon">
                         <div class="item-icon">
-                            {{ formatType(item.type) }}
+                            {{ item.type | logType:'short'}}
                         </div>
                         <div class="item-body">
                             <div class="item-title">{{ item.remark || item.account?.name || '-' }}</div>

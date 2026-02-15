@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { mapFormat } from '../../theme/utils';
+import { LogTypeItems } from './model';
 
 @Pipe({
     standalone: false,
@@ -7,8 +8,10 @@ import { mapFormat } from '../../theme/utils';
 })
 export class LogTypePipe implements PipeTransform {
 
-    transform(value: number): string {
-        return mapFormat(value, ['支出', '收入', '借出', '借入']);
+    transform(value: number, args?: any): string {
+        if (args === 'short') {
+            return mapFormat(value, LogTypeItems.map(i => i[0]));
+        }
+        return mapFormat(value, LogTypeItems);
     }
-
 }

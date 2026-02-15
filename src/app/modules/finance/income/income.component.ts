@@ -6,7 +6,7 @@ import { DialogEvent, DialogService } from '../../../components/dialog';
 import { FileUploadService, SearchService, ThemeService } from '../../../theme/services';
 import { emptyValidate } from '../../../theme/validators';
 import { FinanceService } from '../finance.service';
-import { IAccount, IBudget, IConsumptionChannel, IFinancialProject, ILog, ILogGroup } from '../model';
+import { IAccount, IBudget, IConsumptionChannel, IFinancialProject, ILog, ILogGroup, LogTypeItems } from '../model';
 import { formatDate, mapFormat } from '../../../theme/utils';
 import { ProgressDialogComponent, UploadDialogComponent } from '../../../components/desktop';
 import { IDataOne } from '../../../theme/models/page';
@@ -48,7 +48,7 @@ export class IncomeComponent {
         per_page: 20,
     }));
 
-    public readonly typeItems = ['全部', '支出', '收入', '借出', '借入'];
+    public readonly typeItems = ['全部', ...LogTypeItems];
     public readonly accountItems = signal<IAccount[]>([]);
     public readonly channelItems = signal<IConsumptionChannel[]>([]);
     public readonly projectItems = signal<IFinancialProject[]>([]);
@@ -128,10 +128,6 @@ export class IncomeComponent {
 
     public tapBack() {
         this.location.back();
-    }
-
-    public formatType(val: number) {
-        return mapFormat(val, ['支', '收', '借', '还']);
     }
 
     public tapRefresh() {

@@ -30,9 +30,7 @@ export class StackContainerComponent implements SwiperEvent {
             this.items();
             this.lazyRefresh();
         });
-        afterRender(() => {
-            this.lazyRefresh();
-        });
+        afterRenderEffet(() => this.lazyRefresh());
     }
 
     private lazyRefresh() {
@@ -89,7 +87,7 @@ export class StackContainerComponent implements SwiperEvent {
         }
     }
 }
-function afterRender(arg0: () => void) {
+function afterRenderEffet(arg0: () => void) {
     throw new Error('Function not implemented.');
 }
 

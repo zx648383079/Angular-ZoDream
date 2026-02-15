@@ -1,10 +1,10 @@
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../../components/dialog';
+import { DialogService, SearchDialogEvent } from '../../../../components/dialog';
 import { emptyValidate } from '../../../../theme/validators';
 import { FinanceService } from '../../finance.service';
-import { IAccount, IBudget, IConsumptionChannel, IFinancialProject } from '../../model';
+import { IAccount, IBudget, IConsumptionChannel, IFinancialProject, ILog, LogTypeItems } from '../../model';
 import { form, required } from '@angular/forms/signals';
 import { ArraySource, ButtonEvent } from '../../../../components/form';
 import { ThemeService } from '../../../../theme/services';
@@ -57,7 +57,8 @@ export class EditIncomeComponent {
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.account_id);
     });
-    public readonly typeItems = ArraySource.fromOrder('支出', '收入', '借出', '借入');
+    public readonly parent = signal<ILog>(null);
+    public readonly typeItems = ArraySource.fromOrder(...LogTypeItems);
     public readonly accountItems = signal<IAccount[]>([]);
     public readonly channelItems = signal<IConsumptionChannel[]>([]);
     public readonly projectItems = signal<IFinancialProject[]>([]);
@@ -100,6 +101,11 @@ export class EditIncomeComponent {
                 return;
             }
             this.service.log(params.id).subscribe(res => {
+                if (params.action === 'repay') {
+                    this.parent.set(res);
+                } else {
+                    this.parent.set(res.parent && params.action !== 'clone' ? res.parent : null);
+                }
                 this.dataModel.update(v => {
                     if (params.action === 'repay') {
                         return {...v, 
@@ -111,6 +117,7 @@ export class EditIncomeComponent {
                     if (params.action !== 'clone') {
                         v.id = res.id;
                         v.happened_at = res.happened_at;
+                        v.parent_id = res.parent_id;
                     }
                     v.account_id = res.account_id as any;
                     v.type = res.type;
@@ -172,6 +179,19 @@ export class EditIncomeComponent {
         this.service.logSave(this.dataForm().value()).subscribe(_ => {
             this.toastrService.success($localize `Save Successfully`);
             this.tapBack();
+        });
+    }
+
+    public tapParent(model: SearchDialogEvent) {
+        model.open(this.parent(), (data: ILog) => {
+            this.parent.set(data);
+            this.dataForm.parent_id().value.set(data.id);
+        }, items => {
+            const exclude = this.dataForm.id().value();
+            if (!exclude) {
+                return true;
+            }
+            return items.filter(i => i.id == exclude || i.parent_id == exclude).length === 0;
         });
     }
 

@@ -115,9 +115,6 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
         right: 0;
         z-index: 20;
     }
-    &.dialog-open {
-        transform: translate3d(0, 0, 0);
-    }
     &.dialog-not-header {
         .dialog-invail-tip {
             top: 0;
@@ -199,36 +196,37 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
             text-align: center;
             display: inline-block;
             background-color:  var(--#{theme.$prefix}input);
-            margin: 3px;
+            margin: 0.1875rem;
             position: relative;
-            .thumb {
+            .item-thumb {
                 width: 6.25rem;
                 height: 6.25rem;
                 img {
                     width: 100%;
                     height: 100%;
+                    object-fit: contain;
                 }
             }
-            .name {
+            .item-name {
                 width: 6.25rem;
                 overflow: hidden;
                 color: var(--#{theme.$prefix}body-text);
                 font-size: 0.75rem;
                 height: 1rem;
             }
-            .price {
+            .item-price {
                 color: var(--#{theme.$prefix}danger);
             }
             &.selected {
                 background-color: var(--#{theme.$prefix}input-selected);
                 &::after {
                     position: absolute;
-                    font-size: 100px;
+                    font-size: 6.25rem;
                     color: rgba(var(--#{theme.$prefix}primary-rgb),.3);
                     font-family: "iconfont";
                     content: "\e648";
                     font-weight: 900;
-                    top: 10px;
+                    top: 0.625rem;
                     left: 0;
                 }
             }
@@ -432,21 +430,45 @@ $shadow: rgba(var(--#{theme.$prefix}mask-rgb), 0.2);
     box-shadow: rgba(var(--#{theme.$prefix}mask-rgb), .8) 0px 0px 1px 2px, rgba(var(--#{theme.$prefix}mask-rgb), .5) 0px 0px 0px 312.5rem;
     opacity: 1;
 }
-.lead-dialog-box {
+.dialog-lead-box {
+    position: fixed;
+    background-color: var(--#{theme.$prefix}panel);
+    color: var(--#{theme.$prefix}dialog-text);
     z-index: variables.$zindex-overlay;
     width: 100%;
     max-width: 20rem;
-    margin-top: 0;
-    margin-left: 0;
     left: 0;
     top: 0;
     transform: none;
     box-shadow: none;
     .dialog-header {
-        border-bottom: none;
+        position: relative;
+        height: 2.5rem;
+        line-height: 1.875rem;
+        text-align: center;
+        padding: 0.3125rem 0.625rem;
+        .iconfont {
+            width: 1.875rem;
+            height: 1.875rem;
+            border: none;
+            position: absolute;
+            top: 0;
+            line-height: 1.875rem;
+        }
+        .icon-arrow-left {
+            left: 0;
+            top: 0.3125rem;
+        }
+        .dialog-close {
+            right: 0;
+            top: 0.375rem;
+        }
+    }
+    .dialog-body {
+        padding: 0.625rem;
+        @include scrollbar.scrollbar();
     }
     .dialog-footer {
-        border-top: none;
         display: flex;
         .btn {
             flex: 1;

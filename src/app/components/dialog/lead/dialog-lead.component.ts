@@ -9,7 +9,7 @@ import { scrollTop } from '../../../theme/utils/doc';
     selector: 'app-dialog-lead-tour',
     template: `
     <div class="lead-overlay-container" [style]="overlayStyle()"></div>
-    <div class="dialog-box lead-dialog-box" [style]="dialogStyle()">
+    <div class="dialog-lead-box" [style]="dialogStyle()">
         <div class="dialog-header">
             <div class="dialog-title">{{ title() }}</div>
             <i class="iconfont icon-close dialog-close" (click)="close()"></i>

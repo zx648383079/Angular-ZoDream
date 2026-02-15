@@ -1,3 +1,6 @@
+export const LogTypeItems = ['支出', '收入', '借出', '贷入'];
+
+
 export interface IBudget {
     id: number;
     name: string;
@@ -75,6 +78,7 @@ export interface ILog {
     trading_object: string;
     updated_at:     string;
     created_at:     string;
+    parent?: ILog;
 }
 
 export interface ILogGroup {

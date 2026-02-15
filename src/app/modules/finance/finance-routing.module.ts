@@ -17,6 +17,7 @@ import { ProductComponent } from './money/product/product.component';
 import { ProjectComponent } from './money/project/project.component';
 import { SettingComponent } from './setting/setting.component';
 import { DateRangePickerComponent } from './components/date-range-picker/date-range-picker.component';
+import { SearchDialogComponent } from './components/search-dialog/search-dialog.component';
 
 
 const routes: Routes = [
@@ -81,5 +82,6 @@ export class FinanceRoutingModule {}
 export const financeRoutedComponents = [
     FinanceComponent, HomeComponent, MoneyComponent, IncomeComponent,
     BudgetComponent, ProductComponent, ProjectComponent, ChannelComponent,
-    EditIncomeComponent, SettingComponent, BudgetContainerComponent, DateRangePickerComponent
+    EditIncomeComponent, SettingComponent, BudgetContainerComponent, 
+    DateRangePickerComponent, SearchDialogComponent
 ];

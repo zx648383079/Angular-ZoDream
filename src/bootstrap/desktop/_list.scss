@@ -158,6 +158,8 @@
 
 .line-row-item {
     --#{theme.$prefix}row-label: var(--#{theme.$prefix}meta-text);
+    --#{theme.$prefix}row-icon: var(--#{theme.$prefix}secondary-text);
+    --#{theme.$prefix}row-icon-bg: var(--#{theme.$prefix}secondary);
     padding: .2rem 0;
     display: flex;
     align-items: center;
@@ -182,8 +184,8 @@
         border-radius: 50%;
         width: 3rem;
         height: 3rem;
-        background-color: var(--#{theme.$prefix}secondary);
-        color: var(--#{theme.$prefix}secondary-text);
+        background-color: var(--#{theme.$prefix}row-icon-bg);
+        color: var(--#{theme.$prefix}row-icon);
     }
     &.--with-icon {
         .item-body {
@@ -207,6 +209,18 @@
         .--with-danger {
             color: var(--#{theme.$prefix}danger);
         }
+    }
+    &.--with-control {
+        user-select: none;
+        margin: .4rem 0;
+        padding: 0.375rem 0.75rem;
+        width: 16rem;
+        border-radius: .375rem;
+        border: 1px solid var(--#{theme.$prefix}input-border);
+    }
+    &.selected {
+        --#{theme.$prefix}row-icon: var(--#{theme.$prefix}success-text);
+        --#{theme.$prefix}row-icon-bg: var(--#{theme.$prefix}success);
     }
 }
 

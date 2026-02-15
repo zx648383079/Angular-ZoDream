@@ -21,7 +21,7 @@ export class HomeComponent {
     public readonly queries = form(signal({
         start_at: formatDate(new Date(), 'yyyy-mm-01'),
         end_at: '',
-        type: 1,
+        type: 0,
         log_type: 0
     }));
     public readonly typeItems = ['天', '月', '季度', '年'];

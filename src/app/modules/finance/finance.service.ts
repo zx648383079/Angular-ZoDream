@@ -55,6 +55,10 @@ export class FinanceService {
         });
     }
 
+    
+    public search(params: any) {
+        return this.http.get<IPage<ILog>>('finance/log/search', {params});
+    }
 
     public logList(params: any) {
         return this.http.get<IPage<ILog>>('finance/log', {params});

@@ -11,7 +11,24 @@
             <div class="input-group-control">
                 <label for="parent">主体</label>
                 <div>
-                    
+                    @if (parent()) {
+                        <div class="line-row-item --with-icon --with-control" (click)="tapParent(modal)">
+                            <div class="item-icon">
+                                {{ parent().type | logType:'short' }}
+                            </div>
+                            <div class="item-body">
+                                <div class="item-title">{{ parent().remark || parent().account?.name || '-' }}</div>
+                                <div class="item-meta">{{ parent().money | numberFormat }}</div>
+                            </div>
+                        </div>
+                    } @else {
+                        <div class="line-row-item --with-icon --with-control" (click)="tapParent(modal)">
+                            <div class="item-body">
+                                <div class="item-title">--</div>
+                                <div class="item-meta">[点击更改]</div>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
             <div class="input-group-control">
@@ -206,3 +223,5 @@
         </div>
     </div>
 </div>
+
+<app-search-dialog #modal/>

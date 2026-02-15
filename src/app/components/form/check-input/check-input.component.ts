@@ -23,6 +23,7 @@ export class CheckInputComponent implements ControlValueAccessor, FormValueContr
 
     public readonly disabled = input<boolean>(false);
     public readonly value = model<any>();
+    private previousValue: any;
     private changeFn: any = () => {};
 
     constructor() {
@@ -60,11 +61,14 @@ export class CheckInputComponent implements ControlValueAccessor, FormValueContr
         if (!this.multiple()) {
             res = selectedItems.length === 0 ? src.format() : selectedItems[0];
         }
-        this.value.set(res);
+        this.value.set(this.previousValue = res);
         this.changeFn(res);
     }
 
     private formatValue(obj: any) {
+        if (this.previousValue === obj) {
+            return;
+        }
         const selected = typeof obj === 'object' && obj instanceof Array ? obj : [obj];
         selectItems(this.items(), ...selected);
     }

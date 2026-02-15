@@ -3,7 +3,8 @@ import { Component, ElementRef,
     computed,
     signal,
     DestroyRef,
-    afterNextRender} from '@angular/core';
+    afterNextRender,
+    untracked} from '@angular/core';
 import { FlipItemComponent } from './flip-item.component';
 import { SwiperEvent } from '../model';
 
@@ -47,7 +48,10 @@ export class FlipContainerComponent implements SwiperEvent {
             this.navigate(this.index());
         });
         effect(() => {
-            this.itemCount = this.items().length;
+            const count = this.items().length;
+            untracked(() => {
+                this.itemCount = count;
+            })
         });
         this.resize$ = new ResizeObserver(entries => {
             for (const item of entries) {
@@ -63,9 +67,6 @@ export class FlipContainerComponent implements SwiperEvent {
                 const box = this.elementRef.nativeElement;
                 this.resize$.observe(box);
             }
-        });
-        afterRender(() => {
-            this.itemCount = this.items().length;
         });
         this.destroyRef.onDestroy(() => {
             this.resize$.disconnect();
@@ -137,8 +138,5 @@ export class FlipContainerComponent implements SwiperEvent {
         });
     }
 
-}
-function afterRender(arg0: () => void) {
-    throw new Error('Function not implemented.');
 }
 

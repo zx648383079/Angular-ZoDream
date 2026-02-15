@@ -1,6 +1,7 @@
 import { Component, ElementRef, HostListener, ViewEncapsulation, inject, input, contentChildren, effect, 
     DestroyRef,
-    afterNextRender} from '@angular/core';
+    afterNextRender,
+    afterRenderEffect} from '@angular/core';
 import { SwiperItemComponent } from './swiper-item.component';
 import { checkLoopRange } from '../../theme/utils';
 import { BehaviorSubject } from 'rxjs';
@@ -78,7 +79,7 @@ export class SwiperComponent implements SwiperEvent {
                 this.resize$.observe(box);
             }
         });
-        afterRender(() => {
+        afterRenderEffect(() => {
             const items = this.items();
             this.itemCount$.next(items.length);
             setTimeout(() => {
@@ -185,7 +186,3 @@ export class SwiperComponent implements SwiperEvent {
     }
 
 }
-function afterRender(arg0: () => void) {
-    throw new Error('Function not implemented.');
-}
-
