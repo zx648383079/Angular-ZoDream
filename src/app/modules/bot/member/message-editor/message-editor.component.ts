@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, model } from '@angular/core';
+import { Component, computed, effect, inject, input, model } from '@angular/core';
 import { IPage } from '../../../../theme/models/page';
 import { IItem } from '../../../../theme/models/seo';
 import { mapFormat, parseNumber } from '../../../../theme/utils';
@@ -6,6 +6,8 @@ import { EditorTypeItems, IBotMedia, IBotReplyTemplate, IBotReplyTemplateField, 
 import { formatTemplateField } from '../../util';
 import { BotService } from '../bot.service';
 import { FormValueControl } from '@angular/forms/signals';
+import { HttpClient } from '@angular/common/http';
+import { NetSource } from '../../../../components/form';
 
 interface IEditorData {
     type: number;
@@ -29,7 +31,7 @@ interface IEditorData {
 })
 export class MessageEditorComponent implements FormValueControl<IEditorData> {
     private readonly service = inject(BotService);
-
+    private readonly http = inject(HttpClient);
 
     public readonly other = input('');
     public readonly source = input(0);
@@ -42,11 +44,19 @@ export class MessageEditorComponent implements FormValueControl<IEditorData> {
 
     public typeItems: IItem[] = [...EditorTypeItems];
     public sceneItems: IItem[] = [];
-    public requestUrl = 'wx/admin/media/search';
     private template: IBotReplyTemplate;
 
+    public readonly mediaSource = computed(() => {
+        return NetSource.createSearchArray(this.http, 'wx/admin/media/search?wid=' + this.service.baseId, 'title', i => {
+            const tag = mapFormat(i.type, MediaTypeItems);
+            return {
+                name: `[${tag}]${i.title}`,
+                value: i.id
+            }
+        });
+    });
+
     constructor() {
-        this.requestUrl += '?wid=' + this.service.baseId;
         this.service.batch({scenes: {}}).subscribe(res => {
             this.sceneItems = res.scenes;
         });
@@ -57,15 +67,6 @@ export class MessageEditorComponent implements FormValueControl<IEditorData> {
             this.data = this.parseData(this.value());
         });
     }
-
-    
-    public formatFn = (res: IPage<IBotMedia>): IBotMedia[] => {
-        return res.data.map(i => {
-            const tag = mapFormat(i.type, MediaTypeItems);
-            i.title = `[${tag}]${i.title}`;
-            return i;
-        });
-    };
 
 
     public onTypeChange() {

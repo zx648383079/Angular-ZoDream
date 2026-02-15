@@ -1,12 +1,13 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, computed, DestroyRef, inject } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
-import { ArraySource, ButtonEvent } from '../../../../../components/form';
+import { ArraySource, ButtonEvent, NetSource } from '../../../../../components/form';
 import { ThemeService } from '../../../../../theme/services';
 import { emptyValidate } from '../../../../../theme/validators';
 import { BotService } from '../../bot.service';
 import { NavigationDisplayMode } from '../../../../../theme/models/event';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -21,6 +22,7 @@ export class EditNewsComponent {
     private readonly themeService = inject(ThemeService);
     private readonly location = inject(Location);
     private readonly destroyRef = inject(DestroyRef);
+    private readonly http = inject(HttpClient);
 
     public data: any = {
         title: '',
@@ -32,11 +34,12 @@ export class EditNewsComponent {
         open_comment: 0,
     };
     public readonly onlyItems = ArraySource.fromOrder('所有人', '粉丝');
-    public requestUrl = 'wx/admin/media/search?type=news';
+    public readonly mediaSource = computed(() => {
+        return NetSource.createSearchArray(this.http, 'wx/admin/media/search?type=news&wid=' + this.service.baseId, 'title', 'id', 'title');
+    });
 
     constructor() {
         this.themeService.screenSwitch(this.destroyRef, NavigationDisplayMode.Compact);
-        this.requestUrl += '&wid=' + this.service.baseId;
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;

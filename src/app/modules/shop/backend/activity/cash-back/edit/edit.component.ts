@@ -7,7 +7,8 @@ import { ActivityService } from '../../activity.service';
 import { ActivityRuleItems } from '../../model';
 import { form, required } from '@angular/forms/signals';
 import { parseNumber } from '../../../../../../theme/utils';
-import { ButtonEvent } from '../../../../../../components/form';
+import { ArraySource, ButtonEvent, NetSource } from '../../../../../../components/form';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -20,6 +21,7 @@ export class EditCashBackComponent {
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
     private readonly location = inject(Location);
+    private readonly http = inject(HttpClient);
 
     public readonly dataModel = signal({
         id: 0,
@@ -47,16 +49,16 @@ export class EditCashBackComponent {
         return parseNumber(this.dataForm.scope_type().value());
     });
 
-    public readonly selectUrl = computed(() => {
+    public readonly scopeSource = computed(() => {
         switch (this.scopeType()) {
             case 2:
-                return 'shop/admin/brand/search';
+                return NetSource.createSearchArray(this.http, 'shop/admin/brand/search');
             case 1:
-                return 'shop/admin/category/search';
+                return NetSource.createSearchArray(this.http, 'shop/admin/category/search');
             case 3:
-                return 'shop/admin/goods/search';
+                return NetSource.createSearchArray(this.http, 'shop/admin/goods/search');
             default:
-                return null;
+                return ArraySource.empty;
         }
     });
 

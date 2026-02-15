@@ -7,7 +7,8 @@ import { ActivityService } from '../../activity.service';
 import { ActivityRuleItems } from '../../model';
 import { form, required } from '@angular/forms/signals';
 import { parseNumber } from '../../../../../../theme/utils';
-import { ButtonEvent } from '../../../../../../components/form';
+import { ArraySource, ButtonEvent, NetSource } from '../../../../../../components/form';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -18,6 +19,7 @@ import { ButtonEvent } from '../../../../../../components/form';
 export class EditDiscountComponent {
     private readonly service = inject(ActivityService);
     private readonly route = inject(ActivatedRoute);
+    private readonly http = inject(HttpClient);
     private readonly toastrService = inject(DialogService);
     private readonly location = inject(Location);
 
@@ -46,6 +48,8 @@ export class EditDiscountComponent {
         required(schemaPath.name);
     });
 
+    public readonly goodsSource = NetSource.createSearchArray(this.http, 'shop/admin/goods/search');
+
     public data: IActivity<IDiscountConfigure>;
     public ruleItems = ActivityRuleItems;
 
@@ -53,18 +57,18 @@ export class EditDiscountComponent {
         return parseNumber(this.dataForm.scope_type().value());
     });
 
-    public readonly selectUrl = computed(() => {
+    public readonly scopeSource = computed(() => {
         switch (this.scopeType()) {
             case 2:
-                return 'shop/admin/brand/search';
+                return NetSource.createSearchArray(this.http, 'shop/admin/brand/search');
             case 1:
-                return 'shop/admin/category/search';
+                return NetSource.createSearchArray(this.http, 'shop/admin/category/search');
             case 3:
-                return 'shop/admin/goods/search';
+                return NetSource.createSearchArray(this.http, 'shop/admin/goods/search');
             default:
-                return null;
+                return ArraySource.empty;
         }
-    })
+    });
 
     public readonly configureType = computed(() => {
         return parseNumber(this.dataForm.configure.type().value());

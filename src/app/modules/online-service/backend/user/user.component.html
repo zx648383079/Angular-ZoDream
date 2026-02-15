@@ -51,7 +51,7 @@
     <div class="form-group">
         <label for="name-input">名称</label>
         <div class="input-group-control">
-            <app-select-input url="auth/admin/user/search" [multiple]="true" [formField]="dataForm.users" />
+            <app-select-input [source]="userSource" [multiple]="true" [formField]="dataForm.users" />
         </div>
     </div>
 </app-dialog-box>

@@ -2,12 +2,13 @@ import { form, readonly, required } from '@angular/forms/signals';
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
-import { ButtonEvent } from '../../../../../components/form';
+import { ArraySource, ButtonEvent, NetSource } from '../../../../../components/form';
 import { IPage, IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
 import { IBotReplyTemplate, IBotReplyTemplateField, IBotUser } from '../../../model';
 import { formatTemplateField, renderTemplateField } from '../../../util';
 import { BotService } from '../../bot.service';
+import { HttpClient } from '@angular/common/http';
 
 
 
@@ -22,6 +23,7 @@ export class ReplyTemplateComponent {
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
+    private readonly http = inject(HttpClient);
 
 
     public readonly items = signal<IBotReplyTemplate[]>([]);
@@ -63,23 +65,14 @@ export class ReplyTemplateComponent {
         readonly(schemaPath.content);
     });
 
-    public formatUser = (res: IPage<IBotUser>) => {
-        return res.data.map(i => {
-            return {
-                id: i.id,
-                name: i.note_name || i.nickname
-            };
-        });
-    };
-
-    public readonly selectUrl = computed(() => {
+    public readonly toSource = computed(() => {
         switch (this.sendForm.to_type().value()) {
             case 2:
-                return 'wx/admin/user/search?wid=' + this.service.baseId;
+                return NetSource.createSearchArray(this.http, 'wx/admin/user/search?wid=' + this.service.baseId, 'keywords', i => i.note_name || i.nickname);
             case 1:
-                return 'wx/admin/user/group_search?wid=' + this.service.baseId;
+                return NetSource.createSearchArray(this.http, 'wx/admin/user/group_search?wid=' + this.service.baseId);
             default:
-                return null;
+                return ArraySource.empty;
         }
     });
 

@@ -25,7 +25,7 @@
         <div class="input-group-control">
             <label for="scope">商品</label>
             <div>
-                <app-select-input url="shop/admin/goods/search" [formField]="dataForm.scope" />
+                <app-select-input [source]="goodsSource" [formField]="dataForm.scope" />
             </div>
         </div>
         <div class="input-group-control">

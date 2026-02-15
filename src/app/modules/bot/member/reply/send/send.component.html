@@ -15,7 +15,7 @@
                     }
                 </select>
                 <div [hidden]="dataForm.to_type().value() == '0'">
-                    <app-select-input [url]="selectUrl()" [formField]="dataForm.to" [formatFn]="formatUser" />
+                    <app-select-input [source]="toSource()" [formField]="dataForm.to" />
                 </div>
             </div>
         </div>

@@ -6,6 +6,8 @@ import { IPageQueries } from '../../../../../../theme/models/page';
 import { ISeckillGoods } from '../../../../model';
 import { SearchService } from '../../../../../../theme/services';
 import { ActivityService } from '../../activity.service';
+import { NetSource } from '../../../../../../components/form';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -40,6 +42,8 @@ export class SeckillGoodsComponent {
         act_id: 0,
         time_id: 0
     }));
+
+    public readonly goodsSource = NetSource.createSearchArray(inject(HttpClient), 'shop/admin/goods/search');
 
     constructor() {
         this.route.params.subscribe(params => {

@@ -5,7 +5,8 @@ import { DialogService } from '../../../../../../components/dialog';
 import { IActivity, IBargainConfigure } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 import { form, required } from '@angular/forms/signals';
-import { ButtonEvent } from '../../../../../../components/form';
+import { ButtonEvent, NetSource } from '../../../../../../components/form';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -39,6 +40,8 @@ export class EditBargainComponent {
         required(schemaPath.name);
         required(schemaPath.scope);
     });
+
+    public readonly goodsSource = NetSource.createSearchArray(inject(HttpClient), 'shop/admin/goods/search');
 
     public data: IActivity<IBargainConfigure>;
 

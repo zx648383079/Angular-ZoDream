@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { IForum, IThread } from '../model';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
-import { IUser } from '../../../theme/models/user';
+import { IUser, IUserZone } from '../../../theme/models/user';
 
 @Injectable()
 export class ForumService {
@@ -17,10 +17,6 @@ export class ForumService {
 
     public forumList(params: any) {
         return this.http.get<IPage<IForum>>('forum/admin/forum', {params});
-    }
-
-    public forumAll() {
-        return this.http.get<IData<IForum>>('forum/admin/forum/all');
     }
 
     public forum(id: any) {
@@ -53,6 +49,16 @@ export class ForumService {
 
     public threadRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('forum/admin/thread/delete', {params: {'id[]': id}});
+    }
+
+    public batch(data: {
+        forums?: any;
+        zones?: any;
+    }) {
+        return this.http.post<{
+            forums: IForum[];
+            zones: IUserZone[];
+        }>('forum/admin/batch', data);
     }
 
     public statistics() {

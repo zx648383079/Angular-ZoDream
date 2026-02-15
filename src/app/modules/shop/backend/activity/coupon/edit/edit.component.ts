@@ -8,7 +8,8 @@ import { ICoupon } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 import { ActivityRuleItems } from '../../model';
 import { form, required } from '@angular/forms/signals';
-import { ButtonEvent } from '../../../../../../components/form';
+import { ArraySource, ButtonEvent, NetSource } from '../../../../../../components/form';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -19,6 +20,7 @@ import { ButtonEvent } from '../../../../../../components/form';
 export class EditCouponComponent {
     private readonly service = inject(ActivityService);
     private readonly route = inject(ActivatedRoute);
+    private readonly http = inject(HttpClient);
     private readonly toastrService = inject(DialogService);
     private readonly location = inject(Location);
 
@@ -59,17 +61,16 @@ export class EditCouponComponent {
     public readonly sendType = computed(() => {
         return parseNumber(this.dataForm.send_type().value());
     });
-
-    public readonly selectUrl = computed(() => {
+    public readonly scopeSource = computed(() => {
         switch (this.ruleType()) {
             case 2:
-                return 'shop/admin/brand/search';
+                return NetSource.createSearchArray(this.http, 'shop/admin/brand/search');
             case 1:
-                return 'shop/admin/category/search';
+                return NetSource.createSearchArray(this.http, 'shop/admin/category/search');
             case 3:
-                return 'shop/admin/goods/search';
+                return NetSource.createSearchArray(this.http, 'shop/admin/goods/search');
             default:
-                return null;
+                return ArraySource.empty;
         }
     });
 

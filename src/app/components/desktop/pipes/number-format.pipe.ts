@@ -6,6 +6,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class NumberFormatPipe implements PipeTransform {
 
+    static formatter = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+        useGrouping: false  // 不添加千位分隔符
+    });
+
     transform(value: number, args?: any): string {
         if (!value) {
             return '0';
@@ -15,10 +21,14 @@ export class NumberFormatPipe implements PipeTransform {
         const k = 10000;
         const sizes = ['', '万', '亿', '万亿'];
         if (val < k) {
-            return prefix + val.toFixed(2);
+            return prefix + this.format(val);
         }
         const i = Math.floor(Math.log(val) / Math.log(k));
-        return prefix + ((val / Math.pow(k, i))).toFixed(2) + sizes[i];
+        return prefix + this.format((val / Math.pow(k, i))) + sizes[i];
+    }
+
+    private format(val: number): string {
+        return NumberFormatPipe.formatter.format(val);
     }
 
 }

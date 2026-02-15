@@ -4,22 +4,44 @@ import { IDataSource } from './IDataSource';
 import { map, mergeMap, Observable, of } from 'rxjs';
 import { IDataOne } from '../../../theme/models/page';
 import { TreeSource } from './TreeSource';
+import { eachObject } from '../../../theme/utils';
+
+type FormatFn = (data: any) => IControlOption;
 
 export class NetSource implements IDataSource {
 
     static cacheMaps: {[url: string]: any} = {};
+
+    public static createArray(http: HttpClient, url: string,
+        rangeKey = 'id',
+        rangeLabel = 'name'): NetSource {
+        return new NetSource(http, url, 1, '', rangeKey, rangeLabel, '');
+    }
+
+    public static createSearchArray(http: HttpClient, url: string, searchKey = 'id',
+        rangeKey: string|FormatFn = 'id',
+        rangeLabel = 'name'): NetSource {
+        return new NetSource(http, url, 1, searchKey, rangeKey, rangeLabel, '');
+    }
 
     constructor(
         private readonly http: HttpClient,
         private readonly url: string,
         private readonly maxLevel: number,
         private readonly searchKey = 'id',
-        private readonly rangeKey = 'id',
+        rangeKey: string|FormatFn = 'id',
         private readonly rangeLabel = 'name',
         private readonly rangeChildren = 'children'
     ) {
-
+        if (typeof rangeKey === 'function') {
+            this.formatFn = rangeKey;
+        } else {
+            this.rangeKey = rangeKey;
+        }
     }
+
+    private readonly rangeKey: string = 'value';
+    private readonly formatFn: FormatFn;
 
     private convertSource?: IDataSource;
 
@@ -96,7 +118,14 @@ export class NetSource implements IDataSource {
         return this.http.get<IDataOne<any>>(this.url, {
             params
         }).pipe(map(res => {
-            return NetSource.cacheMaps[key] = res.data;
+            let items = res.data;
+            if (this.formatFn) {
+                items = [];
+                eachObject(res.data, v => {
+                    items.push(this.formatFn(v));
+                });
+            }
+            return NetSource.cacheMaps[key] = items;
         }));
     }
 }

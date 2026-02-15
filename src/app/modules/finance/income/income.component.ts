@@ -7,7 +7,7 @@ import { FileUploadService, SearchService, ThemeService } from '../../../theme/s
 import { emptyValidate } from '../../../theme/validators';
 import { FinanceService } from '../finance.service';
 import { IAccount, IBudget, IConsumptionChannel, IFinancialProject, ILog, ILogGroup, LogTypeItems } from '../model';
-import { formatDate, mapFormat } from '../../../theme/utils';
+import { formatDate } from '../../../theme/utils';
 import { ProgressDialogComponent, UploadDialogComponent } from '../../../components/desktop';
 import { IDataOne } from '../../../theme/models/page';
 import { ArraySource } from '../../../components/form';
@@ -44,6 +44,7 @@ export class IncomeComponent {
         budget: '0',
         start_at: '',
         end_at: '',
+        goto: '',
         page: 1,
         per_page: 20,
     }));
@@ -130,6 +131,32 @@ export class IncomeComponent {
         this.location.back();
     }
 
+    public tapGoto(time?: string) {
+        this.queries().value.update(v => {
+            if (time) {
+                return {
+                    keywords: '',
+                    start_at: '',
+                    end_at: '',
+                    type: '0',
+                    account: '0',
+                    project: '0',
+                    channel: '0',
+                    budget: '0',
+                    page: 1,
+                    per_page: 20,
+                    goto: time,
+                };
+            } else {
+                v.goto = v.start_at;
+                v.start_at = '';
+                return v;
+            }
+        });
+        
+        this.tapRefresh();
+    }
+
     public tapRefresh() {
         this.goPage(1);
     }
@@ -165,6 +192,11 @@ export class IncomeComponent {
                 this.total.set(res.paging.total);
                 this.groupItems.set(this.formatGroup());
                 this.isLoading.set(false);
+                if (queries.goto) {
+                    queries.page = res.paging.offset;
+                    queries.per_page = res.paging.limit;
+                    queries.goto = '';
+                }
                 this.queries().value.set(queries);
             },
             error: () => {

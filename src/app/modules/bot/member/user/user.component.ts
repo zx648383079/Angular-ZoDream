@@ -1,12 +1,13 @@
 import { form } from '@angular/forms/signals';
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
-import { ButtonEvent } from '../../../../components/form';
+import { ButtonEvent, NetSource } from '../../../../components/form';
 import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService, ThemeService } from '../../../../theme/services';
 import { IBotUser } from '../../model';
 import { BotService } from '../bot.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -20,7 +21,7 @@ export class UserComponent {
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
     private readonly themeService = inject(ThemeService);
-
+    private readonly http = inject(HttpClient);
 
     public readonly items = signal<IBotUser[]>([]);
 
@@ -41,9 +42,9 @@ export class UserComponent {
         group_id: 0,
     }));
 
-    get selectUrl() {
-        return 'wx/admin/user/group_search?wid=' + this.service.baseId;
-    }
+    public readonly groupSource = computed(() => {
+        return NetSource.createSearchArray(this.http, 'wx/admin/user/group_search?wid=' + this.service.baseId);
+    });
 
     constructor() {
         this.themeService.titleChanged.next($localize `Account Center`);

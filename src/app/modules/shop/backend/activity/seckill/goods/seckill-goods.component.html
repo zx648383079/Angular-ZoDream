@@ -56,7 +56,7 @@
     <div class="form-group">
         <label for="goods">选择商品</label>
         <div class="input-group-control">
-            <app-select-input url="shop/admin/goods/search" [formField]="editForm.goods_id" />
+            <app-select-input [source]="goodsSource" [formField]="editForm.goods_id" />
         </div>
     </div>
     }

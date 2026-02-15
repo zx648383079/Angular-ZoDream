@@ -15,10 +15,16 @@
                 <label>上级</label>
                 <select id="parent_id" class="form-control" [formField]="dataForm.parent_id">
                     <option value="0">-- 无上级板块 --</option>
-                    @for (item of categories; track $index) {
+                    @for (item of categories(); track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                     }
                 </select>
+            </div>
+            <div class="input-group-control">
+                <label>分区</label>
+                <div>
+                    <app-select-input [source]="zoneItems()" [formField]="dataForm.zone_id" placeholder="选择分区" />
+                </div>
             </div>
             <div class="input-group-control">
                 <label for="thumb">图标</label>
@@ -43,7 +49,7 @@
         <div class="row">
             <div class="col-md-6">
                 <app-panel title="主题分类">
-                    @for (item of classifyItems; track $index) {
+                    @for (item of classifyItems(); track $index) {
                     <div class="card-item">
                         <div class="thumb">
                             @if (item.icon) {
@@ -67,7 +73,7 @@
             </div>
             <div class="col-md-6">
                 <app-panel title="版主">
-                    @for (item of userItems; track $index) {
+                    @for (item of userItems(); track $index) {
                     <div class="card-item">
                         <div class="thumb">
                             @if (item.avatar) {
@@ -122,7 +128,7 @@
             <input class="form-control" id="name-input" [formField]="userForm.keywords" placeholder="请输入名称" (input)="tapSearchUser()">
         </div>
     </div>
-    @for (item of users; track $index) {
+    @for (item of users(); track $index) {
         <div class="card-item" [class]="{active: item.checked}" (click)="item.checked = !item.checked">
             <div class="thumb">
                 @if (item.avatar) {

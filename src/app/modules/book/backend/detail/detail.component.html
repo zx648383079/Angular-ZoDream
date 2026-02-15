@@ -23,7 +23,7 @@
         <div class="input-group-control">
             <label for="author_id">作者</label>
             <div>
-                <app-select-input [formField]="dataForm.author_id" url="book/admin/author/search" />
+                <app-select-input [formField]="dataForm.author_id" [source]="authorSource"/>
             </div>
         </div>
         <div class="input-group-control">

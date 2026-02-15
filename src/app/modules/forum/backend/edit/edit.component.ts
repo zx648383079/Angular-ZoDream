@@ -2,12 +2,13 @@ import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { IForum, IForumClassify } from '../../model';
-import { IUser } from '../../../../theme/models/user';
+import { IUser, IUserZone } from '../../../../theme/models/user';
 import { filterTree } from '../../../../theme/utils';
 import { ForumService } from '../forum.service';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
-import { ButtonEvent } from '../../../../components/form';
+import { ArraySource, ButtonEvent, NetSource } from '../../../../components/form';
 import { form, required } from '@angular/forms/signals';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -28,6 +29,7 @@ export class EditComponent {
         parent_id: '0',
         description: '',
         type: 0,
+        zone_id: 0,
         position: 99,
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
@@ -35,9 +37,10 @@ export class EditComponent {
     });
 
     public data: IForum;
-    public categories: IForum[] = [];
-    public classifyItems: IForumClassify[] = [];
-    public userItems: IUser[] = [];
+    public readonly categories = signal<IForum[]>([]);
+    public readonly zoneItems = signal(ArraySource.empty);
+    public readonly classifyItems = signal<IForumClassify[]>([]);
+    public readonly userItems = signal<IUser[]>([]);
     public readonly editForm = form(signal({
         id: 0,
         name: '',
@@ -49,11 +52,15 @@ export class EditComponent {
     public readonly userForm = form(signal({
         keywords: ''
     }));
-    public users: IUser[] = [];
+    public readonly users = signal<IUser[]>([]);
 
     constructor() {
-        this.service.forumAll().subscribe(res => {
-            this.categories = res.data;
+        this.service.batch({
+            forums: {},
+            zones: {}
+        }).subscribe(res => {
+            this.categories.set(res.forums);
+            this.zoneItems.set(new ArraySource(res.zones));
         });
         this.route.queryParams.subscribe(params => {
             if (params.parent) {
@@ -66,16 +73,17 @@ export class EditComponent {
             }
             this.service.forum(params.id).subscribe(res => {
                 this.data = res;
-                this.categories = filterTree(this.categories, res.id);
+                this.categories.update(v => filterTree(v, res.id));
                 if (res.classifies) {
-                    this.classifyItems = res.classifies;
+                    this.classifyItems.set(res.classifies);
                 }
                 if (res.moderators) {
-                    this.userItems = res.moderators;
+                    this.userItems.set(res.moderators);
                 }
                 this.dataModel.set({
                     id: res.id,
                     name: res.name,
+                    zone_id: res.zone_id,
                     parent_id: res.parent_id as any,
                     thumb: res.thumb,
                     description: res.description,
@@ -101,8 +109,8 @@ export class EditComponent {
             return;
         }
         const data: IForum = this.dataForm().value() as any;
-        data.classifies = this.classifyItems;
-        data.moderators = this.userItems;
+        data.classifies = this.classifyItems();
+        data.moderators = this.userItems();
         e?.enter();
         this.service.forumSave(data).subscribe({
             next: _ => {
@@ -126,7 +134,7 @@ export class EditComponent {
         });
         modal.open(() => {
             if (!item) {
-                this.classifyItems.push(this.editForm().value());
+                this.classifyItems.update(v => [...v, this.editForm().value()]);
             } else {
                 item.icon = this.editForm.icon().value();
                 item.name = this.editForm.name().value();
@@ -135,36 +143,40 @@ export class EditComponent {
     }
 
     public removeClassify(item: IForumClassify) {
-        this.classifyItems = this.classifyItems.filter(res => res.name !== item.name || res.icon !== item.icon);
+        this.classifyItems.update(v => v.filter(res => res.name !== item.name || res.icon !== item.icon));
     }
 
     public tapSearchUser() {
         this.service.userList(this.userForm().value()).subscribe(res => {
-            this.users = res.data;
+            this.users.set(res.data);
         });
     }
 
     public addUser(modal: DialogEvent) {
         modal.open(() => {
-            for (const user of this.users) {
-                if (!user.checked) {
-                    continue;
-                }
-                let had = false;
-                for (const item of this.userItems) {
-                    if (item.id === user.id) {
-                        had = true;
+            this.userItems.update(v => {
+                for (const user of this.users()) {
+                    if (!user.checked) {
+                        continue;
+                    }
+                    let had = false;
+                    for (const item of v) {
+                        if (item.id === user.id) {
+                            had = true;
+                        }
+                    }
+                    if (!had) {
+                        v.push(user);
                     }
                 }
-                if (!had) {
-                    this.userItems.push(user);
-                }
-            }
+                return [...v];
+            });
+            
         });
     }
 
     public removeUser(item: IUser) {
-        this.userItems = this.userItems.filter(res => res.id !== item.id);
+        this.userItems.update(v => v.filter(res => res.id !== item.id));
     }
 
 }

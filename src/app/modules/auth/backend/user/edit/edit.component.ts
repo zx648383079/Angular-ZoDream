@@ -49,8 +49,8 @@ export class EditUserComponent {
         });
     });
 
-    public readonly roleItems = signal<IRole[]>([]);
-    public readonly zoneItems = signal<IUserZone[]>([]);
+    public readonly roleItems = signal(ArraySource.empty);
+    public readonly zoneItems = signal(ArraySource.empty);
     public readonly sexItems = ArraySource.fromItems(SexItems);
 
     constructor() {
@@ -58,8 +58,8 @@ export class EditUserComponent {
             roles: {},
             zones: {}
         }).subscribe(res => {
-            this.roleItems.set(res.roles);
-            this.zoneItems.set(res.zones);
+            this.roleItems.set(new ArraySource(res.roles, 'id', 'display_name'));
+            this.zoneItems.set(new ArraySource(res.zones));
         });
         this.route.params.subscribe(params => {
             if (!params.id) {

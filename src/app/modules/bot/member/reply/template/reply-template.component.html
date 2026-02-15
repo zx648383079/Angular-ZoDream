@@ -96,7 +96,7 @@
                 <label for="">接收者</label>
                 <div>
                     <div>
-                        <app-select-input [url]="selectUrl()" [formField]="sendForm.to" [formatFn]="formatUser" />
+                        <app-select-input [source]="toSource()" [formField]="sendForm.to"/>
                     </div>
                 </div>
             </div>

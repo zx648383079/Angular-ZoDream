@@ -38,7 +38,7 @@
         <div class="input-group-control" [hidden]="ruleType() < 1">
             <label for="scope">使用范围</label>
             <div>
-                <app-select-input [url]="selectUrl()" [formField]="dataForm.rule_value" [multiple]="true" />
+                <app-select-input [source]="scopeSource()" [formField]="dataForm.rule_value" [multiple]="true" />
             </div>
         </div>
         <div class="input-group-control">

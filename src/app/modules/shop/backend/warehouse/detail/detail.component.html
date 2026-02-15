@@ -37,7 +37,7 @@
         <div class="input-group-control">
             <label for="region">支持地区</label>
             <div>
-                <app-select-input url="shop/region/search" [formField]="dataForm.region" [multiple]="true" />
+                <app-select-input [source]="regionSource" [formField]="dataForm.region" [multiple]="true" />
             </div>
         </div>
 

@@ -1,12 +1,13 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
-import { ButtonEvent } from '../../../../../components/form';
+import { ArraySource, ButtonEvent, NetSource } from '../../../../../components/form';
 import { IPage } from '../../../../../theme/models/page';
 import { emptyValidate } from '../../../../../theme/validators';
 import { BotService } from '../../bot.service';
 import { form } from '@angular/forms/signals';
 import { parseNumber } from '../../../../../theme/utils';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -18,6 +19,7 @@ export class SendComponent {
     private readonly service = inject(BotService);
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
+    private readonly http = inject(HttpClient);
 
 
     public toTypeItems = ['全部用户', '指定分组', '指定用户'];
@@ -31,26 +33,14 @@ export class SendComponent {
     };
 
 
-    public formatUser = (res: IPage<any>) => {
-        return res.data.map(i => {
-            if (i.name) {
-                return i;
-            }
-            return {
-                id: i.id,
-                name: i.note_name || i.nickname
-            };
-        });
-    };
-
-    public readonly selectUrl = computed(() => {
-        switch (parseNumber(this.dataForm.to_type().value())) {
-            case 2:
-                return 'wx/admin/user/search?wid=' + this.service.baseId;
-            case 1:
-                return 'wx/admin/user/group_search?wid=' + this.service.baseId;
+    public readonly toSource = computed(() => {
+        switch (this.dataForm.to_type().value()) {
+            case '2':
+                return NetSource.createSearchArray(this.http, 'wx/admin/user/search?wid=' + this.service.baseId, 'keywords', i => i.note_name || i.nickname);
+            case '1':
+                return NetSource.createSearchArray(this.http, 'wx/admin/user/group_search?wid=' + this.service.baseId);
             default:
-                return null;
+                return ArraySource.empty;
         }
     });
 

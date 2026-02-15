@@ -16,11 +16,11 @@
         @if (isLoading()) {
             <div class="loading-option-item" i18n>Loading...</div>
         }
-        @for (item of optionItems(); track $index) {
+        @for (item of items(); track $index; let i = $index) {
             <div class="option-item" 
                 [class.selected]="item.checked"
                 [class.disabled]="item.disabled"
-                (click)="tapSelected(item)">
+                (click)="tapSelected(i)">
                 {{ item.name }}
             </div>
         }

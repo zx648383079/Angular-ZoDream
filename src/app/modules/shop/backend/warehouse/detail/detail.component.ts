@@ -5,7 +5,8 @@ import { DialogService } from '../../../../../components/dialog';
 import { IWarehouse } from '../../../model';
 import { WarehouseService } from '../warehouse.service';
 import { form, required } from '@angular/forms/signals';
-import { ButtonEvent } from '../../../../../components/form';
+import { ButtonEvent, NetSource } from '../../../../../components/form';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -34,7 +35,8 @@ export class DetailComponent {
         required(schemaPath.link_user);
         required(schemaPath.address);
     });
-
+    
+    public readonly regionSource = NetSource.createSearchArray(inject(HttpClient), 'shop/region/search');
     public data: IWarehouse;
 
     constructor() {

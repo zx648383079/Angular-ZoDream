@@ -35,7 +35,7 @@
         <div class="input-group-control" [hidden]="scopeType() < 1">
             <label for="scope">范围区间</label>
             <div>
-                <app-select-input [url]="selectUrl()" [formField]="dataForm.scope" [multiple]="true" />
+                <app-select-input [source]="scopeSource()" [formField]="dataForm.scope" [multiple]="true" />
             </div>
         </div>
         <div>

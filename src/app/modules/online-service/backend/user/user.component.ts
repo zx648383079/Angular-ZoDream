@@ -7,6 +7,8 @@ import { IUser } from '../../../../theme/models/user';
 import { SearchService } from '../../../../theme/services';
 import { ICategoryUser } from '../../model';
 import { OnlineBackendService } from '../online.service';
+import { NetSource } from '../../../../components/form';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -35,6 +37,8 @@ export class UserComponent {
     public readonly dataForm = form(signal({
         users: <IUser[]>[]
     }));
+
+    public readonly userSource = NetSource.createSearchArray(inject(HttpClient), 'auth/admin/user/search');
 
     constructor() {
         this.route.params.subscribe(params => {

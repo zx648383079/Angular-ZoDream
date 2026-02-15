@@ -14,7 +14,7 @@
 @if (data.type < 1) {
     <textarea class="form-control" [(value)]="data.text" (valueChange)="onContentChange()"></textarea>
 } @else if (data.type >= 1 && data.type <= 2) {
-    <app-select-input id="parent_id" rangeKey="id" rangeLabel="title" [formatFn]="formatFn" [url]="requestUrl" [(value)]="data.media" (valueChange)="onContentChange()" />
+    <app-select-input id="parent_id" [source]="mediaSource()" [(value)]="data.media" (valueChange)="onContentChange()" />
 } @else if (data.type == 3) {
     <div class="input-group-control">
         <label for="template_id">模板ID</label>

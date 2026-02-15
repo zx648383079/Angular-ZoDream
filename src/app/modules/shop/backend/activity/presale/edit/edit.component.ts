@@ -6,7 +6,8 @@ import { IActivity, IGroupBuyStep, IPreSaleConfigure } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 import { form, required } from '@angular/forms/signals';
 import { parseNumber } from '../../../../../../theme/utils';
-import { ButtonEvent } from '../../../../../../components/form';
+import { ButtonEvent, NetSource } from '../../../../../../components/form';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -45,6 +46,8 @@ export class EditPresaleComponent {
         required(schemaPath.name);
         required(schemaPath.scope);
     });
+
+    public readonly goodsSource = NetSource.createSearchArray(inject(HttpClient), 'shop/admin/goods/search');
 
     public readonly priceType = computed(() => parseNumber(this.dataForm.configure.price_type().value()));
     public readonly depositScale = computed(() => parseNumber(this.dataForm.configure.deposit_scale().value()));

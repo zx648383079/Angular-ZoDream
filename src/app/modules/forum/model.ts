@@ -5,6 +5,7 @@ export interface IForum {
     name: string;
     thumb: string;
     parent_id?: number;
+    zone_id?: number;
     description: string;
     thread_count: number;
     post_count: number;

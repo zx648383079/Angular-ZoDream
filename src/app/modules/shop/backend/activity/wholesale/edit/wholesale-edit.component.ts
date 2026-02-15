@@ -4,8 +4,9 @@ import { IActivity, IGroupBuyStep, IWholesaleConfigure } from '../../../../model
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../../components/dialog';
 import { ActivityService } from '../../activity.service';
-import { ButtonEvent } from '../../../../../../components/form';
+import { ButtonEvent, NetSource } from '../../../../../../components/form';
 import { form, required } from '@angular/forms/signals';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -35,6 +36,8 @@ export class WholesaleEditComponent {
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name);
     });
+
+    public readonly goodsSource = NetSource.createSearchArray(inject(HttpClient), 'shop/admin/goods/search');
 
     public data: IActivity<IWholesaleConfigure>;
 

@@ -161,7 +161,7 @@ export class TrendComponent {
                 if (queries.goto) {
                     queries.page = res.paging.offset;
                     queries.per_page = res.paging.limit;
-                    delete queries['goto'];
+                    queries.goto = '';
                 }
                 this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
