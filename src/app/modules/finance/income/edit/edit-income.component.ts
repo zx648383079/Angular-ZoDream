@@ -5,7 +5,7 @@ import { DialogService, SearchDialogEvent } from '../../../../components/dialog'
 import { emptyValidate } from '../../../../theme/validators';
 import { FinanceService } from '../../finance.service';
 import { IAccount, IBudget, IConsumptionChannel, IFinancialProject, ILog, LogTypeItems } from '../../model';
-import { form, required } from '@angular/forms/signals';
+import { form, min, required, validate } from '@angular/forms/signals';
 import { ArraySource, ButtonEvent } from '../../../../components/form';
 import { ThemeService } from '../../../../theme/services';
 import { mapFormat } from '../../../../theme/utils';
@@ -55,7 +55,25 @@ export class EditIncomeComponent {
         },
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
-        required(schemaPath.account_id);
+        required(schemaPath.account_id, {message: $localize `The account is required`});
+        min(schemaPath.money, 0, {message: $localize `The money must be an integer.`});
+        min(schemaPath.frozen_money, 0, {message: $localize `The frozen money must be an integer.`});
+        required(schemaPath.happened_at, {
+            message: $localize `The happened time is required.`,
+            when: () => this.mode() === 0
+        });
+        validate(schemaPath.money, ({value, valueOf}) => {
+            if (this.mode() > 0) {
+                return null;
+            }
+            if (value() <= 0 && valueOf(schemaPath.frozen_money) <= 0) {
+                return {
+                    kind: 'money',
+                    message: $localize `The money must be more than 0`,
+                };
+            }
+            return null;
+        });
     });
     public readonly parent = signal<ILog>(null);
     public readonly typeItems = ArraySource.fromOrder(...LogTypeItems);
@@ -96,7 +114,7 @@ export class EditIncomeComponent {
             this.budgetItems.set(res.budget);
         });
         this.route.params.subscribe(params => {
-            this.action.set(params.action);
+            this.action.set(params.action || 'create');
             if (!params.id) {
                 return;
             }
@@ -145,12 +163,12 @@ export class EditIncomeComponent {
         this.mode.set(mode);
     }
 
-    public tapSubmit(e?: ButtonEvent) {
+    public tapSubmit(e?: ButtonEvent, isContinue = false) {
         if (this.dataForm().invalid()) {
             return;
         }
         if (this.mode() < 1) {
-            this.saveLog();
+            this.saveLog(e, isContinue);
             return;
         }
         if (emptyValidate(this.dataForm.day().value())) {
@@ -171,14 +189,35 @@ export class EditIncomeComponent {
         });
     }
 
-    private saveLog() {
+    private saveLog(e?: ButtonEvent, isContinue = false) {
         if (emptyValidate(this.dataForm.happened_at().value())) {
             this.toastrService.warning($localize `Incomplete filling of the form`);
             return;
         }
-        this.service.logSave(this.dataForm().value()).subscribe(_ => {
-            this.toastrService.success($localize `Save Successfully`);
-            this.tapBack();
+        this.service.logSave(this.dataForm().value()).subscribe({
+            next: _ => {
+                this.toastrService.success($localize `Save Successfully`);
+                if (!isContinue) {
+                    this.tapBack();
+                    return;
+                }
+                this.tapResest();
+            },
+            error: err => {
+                e?.reset();
+                this.toastrService.error(err);
+            }
+        });
+    }
+
+    public tapResest() {
+        this.action.set('create');
+        this.dataForm().value.update(v => {
+            v.id = 0;
+            v.parent_id = 0;
+            v.money = 0;
+            v.frozen_money = 0;
+            return {...v};
         });
     }
 

@@ -19,7 +19,7 @@
                         <div>
                             <input type="text" id="name" class="form-control" [formField]="dataForm.name" placeholder="例如:zodream">
                             @if (dataForm.name().invalid()) {
-                            <div class="input-tip" >请输入昵称</div>
+                            <div class="control-tooltip" >请输入昵称</div>
                             }
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                         <div>
                             <input type="email" id="email" class="form-control" [formField]="dataForm.email">
                             @if (dataForm.email().invalid()) {
-                            <div class="input-tip" >请输入邮箱</div>
+                            <div class="control-tooltip" >请输入邮箱</div>
                             }
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                             <input type="password" id="confirm_password" class="form-control" [formField]="dataForm.confirm_password"
                                 placeholder="输入确认密码">
                             @if (dataForm.confirm_password().invalid()) {
-                                <div class="input-tip" >两次密码不一致</div>
+                                <div class="control-tooltip" >两次密码不一致</div>
                             }
                         </div>
                     </div>

@@ -6,7 +6,7 @@
             <div>
                 <input type="text" id="name" class="form-control" [formField]="dataForm.name">
                 @if (dataForm.name().invalid()) {
-                <div class="input-tip">请输入唯一代码</div>
+                <div class="control-tooltip">请输入唯一代码</div>
                 }
             </div>
         </div>
@@ -15,7 +15,7 @@
             <div>
                 <input type="text" id="title" class="form-control" [formField]="dataForm.title">
                 @if (dataForm.title().invalid()) {
-                <div class="input-tip">请输入标题</div>
+                <div class="control-tooltip">请输入标题</div>
                 }
             </div>
         </div>

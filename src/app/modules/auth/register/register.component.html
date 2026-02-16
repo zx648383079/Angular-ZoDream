@@ -1,27 +1,27 @@
 @if (openStatus < 2) {
     <form class="form-icon-control login-form" (submit)="tapSubmit($event)">
-        <div class="input-group-control" [class.error]="dataForm.name().touched() && dataForm.name().invalid()">
+        <div class="input-group-control" [class.--with-warning]="dataForm.name().touched() && dataForm.name().invalid()">
             <input type="text" [formField]="dataForm.name" i18n-placeholder placeholder="Please input nickname">
             <i class="iconfont icon-user" aria-hidden="true"></i>
         </div>
-        <div class="input-group-control" [class.error]="dataForm.email().touched() && dataForm.email().invalid()">
+        <div class="input-group-control" [class.--with-warning]="dataForm.email().touched() && dataForm.email().invalid()">
             <input type="email" [formField]="dataForm.email" i18n-placeholder placeholder="Please input your email">
             <i class="iconfont icon-at" aria-hidden="true"></i>
         </div>
-        <div class="input-group-control" [class.error]="dataForm.password().touched() && dataForm.password().invalid()">
+        <div class="input-group-control" [class.--with-warning]="dataForm.password().touched() && dataForm.password().invalid()">
             <input type="password" [formField]="dataForm.password" i18n-placeholder
                 placeholder="Please input password">
             <i class="iconfont icon-lock" aria-hidden="true"></i>
         </div>
-        <div class="input-tip">
+        <div class="control-tooltip">
             <app-password-strong [value]="dataForm.password().value()" />
         </div>
-        <div class="input-group-control" [class.error]="dataForm.confirm_password().touched() && dataForm.confirm_password().invalid()">
+        <div class="input-group-control" [class.--with-warning]="dataForm.confirm_password().touched() && dataForm.confirm_password().invalid()">
             <input type="password" [formField]="dataForm.confirm_password" i18n-placeholder
                 placeholder="Please confirm your password">
             <i class="iconfont icon-check" aria-hidden="true"></i>
         </div>
-        <div class="input-group-control" [class.error]="dataForm.invite_code().touched() && dataForm.invite_code().invalid()">
+        <div class="input-group-control" [class.--with-warning]="dataForm.invite_code().touched() && dataForm.invite_code().invalid()">
             <input type="text" [formField]="dataForm.invite_code" i18n-placeholder placeholder="Please input the invite code">
             <i class="iconfont icon-gift" aria-hidden="true"></i>
         </div>

@@ -99,12 +99,15 @@ i {
 
 .input-line-group,
 .input-group-control {
-    .input-tip {
+    .control-tooltip {
         color: var(--#{theme.$prefix}meta-text);
         font-size: 0.75rem;
         padding: 0 0 0.625rem 0.625rem;
     }
-    &.error {
+    .select-input-container {
+        max-width: 20rem;
+    }
+    &.--with-warning {
         input {
             border: 1px solid var(--#{theme.$prefix}danger);
             border-bottom-color: var(--#{theme.$prefix}danger);
@@ -510,7 +513,8 @@ i {
     --#{theme.$prefix}selected-border: var(--#{theme.$prefix}input-focus-border);
     .selected-item {
         font-size: 0.9em;
-        margin-bottom: .3125rem;
+        margin-bottom: .1rem;
+        line-height: 1.5rem;
         background-color: var(--#{theme.$prefix}selected);
         border: 1px solid var(--#{theme.$prefix}selected-border);
         border-radius: .125rem;
@@ -536,13 +540,26 @@ i {
         border-radius: .125rem;
         display: inline-block;
     }
+    &.--with-only {
+        --#{theme.$prefix}selected-border: var(--#{theme.$prefix}input-border);
+        flex: 1;
+        .selected-item {
+            display: block;
+            border: none;
+            line-height: inherit;
+            margin-right: 0;
+            background-color: transparent;
+            margin-bottom: 0;
+        }
+    }
 }
 
 .select-input-container {
     --#{theme.$prefix}select-line-height: 2.25rem;
+    display: block;
     color: var(--#{theme.$prefix}input-text);
     background-color: var(--#{theme.$prefix}input);
-    border-radius: 4px;
+    border-radius: #{variables.$input-border-radius};
     border: 1px solid var(--#{theme.$prefix}input-border);
     min-height: var(--#{theme.$prefix}select-line-height);
     align-items: center;
@@ -642,6 +659,8 @@ i {
         }
     }
     &.--with-open {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
         .option-container {
             opacity: 1;
             display: block;

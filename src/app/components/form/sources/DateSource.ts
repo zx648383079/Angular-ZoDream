@@ -1,4 +1,4 @@
-import { Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { IControlOption } from '../event';
 import { IDataSource } from './IDataSource';
 import { parseDate, rangeStep, twoPad } from '../../../theme/utils';
@@ -57,6 +57,14 @@ export class DateSource implements IDataSource {
             maxDay = this.getLastOfMonth(this.getFromSelected('y', items), this.getFromSelected('m', items));
         }
         return of(this.create(column.format, maxDay));
+    }
+
+    public search(items: IControlOption[], column: number, keywords: string): Observable<IControlOption[]> {
+        const res = this.select(items, column);
+        if (!keywords) {
+            return res;
+        }
+        return res.pipe(map(res => res.filter(i => i.name.indexOf(keywords) >= 0)));
     }
 
     public influence(column: number): number {

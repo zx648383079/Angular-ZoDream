@@ -9,6 +9,13 @@ export interface IDataSource {
      * @param next 需要的位置
      */
     select(items: IControlOption[], next: number): Observable<IControlOption[]>;
+    /**
+     * 搜索
+     * @param items 
+     * @param column 
+     * @param keywords 
+     */
+    search(items: IControlOption[], column: number, keywords: string): Observable<IControlOption[]>;
 
     /**
      * 当前列选择变化，需要更新第几列
@@ -98,10 +105,37 @@ export function selectIndex(items: IControlOption[], index: number, multiple = f
     }
     if (multiple) {
         items[index].checked = !items[index].checked;
-        return index;
+        return items[index].checked ? index : -1;
     }
     for (let i = 0; i < items.length; i++) {
         items[i].checked = i === index;
     }
     return index;
+}
+
+export function equalValue(val: any, next: any): boolean {
+    if (val === next) {
+        return true;
+    }
+    if (!val || !next) {
+        return false;
+    }
+    if (typeof val === typeof next) {
+        return false;
+    }
+    return val.toString() === next.toString();
+}
+
+export function equalOption(value: IControlOption, target: IControlOption): boolean {
+    return value === target || equalValue(value.value, target.value);
+}
+
+export function toggleSelectedItems(items: IControlOption[], target: IControlOption, isPush = true, multiple = false): IControlOption[] {
+    if (!multiple) {
+        return isPush ? [target] : [];
+    }
+    if (isPush) {
+        return [...items, target];
+    }
+    return items.filter(i => equalOption(i, target));
 }

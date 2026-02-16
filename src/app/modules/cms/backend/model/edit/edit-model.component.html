@@ -63,49 +63,49 @@
                 <label for="setting_is_show">显示</label>
                 <div >
                     <app-switch [formField]="dataForm.setting.is_show" />
-                    <div class="input-tip">允许显示在前台</div>
+                    <div class="control-tooltip">允许显示在前台</div>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="setting_is_only">唯一</label>
                 <div >
                     <app-switch [formField]="dataForm.setting.is_only" />
-                    <div class="input-tip">是否保持用户唯一</div>
+                    <div class="control-tooltip">是否保持用户唯一</div>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="setting_is_extend_auth">是否继承拓展用户表单</label>
                 <div >
                     <app-switch [formField]="dataForm.setting.is_extend_auth" />
-                    <div class="input-tip">在会员注册时需要填写此表单数据</div>
+                    <div class="control-tooltip">在会员注册时需要填写此表单数据</div>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="setting_open_captcha">验证码</label>
                 <div >
                     <app-switch [formField]="dataForm.setting.open_captcha" />
-                    <div class="input-tip">是否开启验证码</div>
+                    <div class="control-tooltip">是否开启验证码</div>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="setting_form_template">表单模板</label>
                 <div >
                     <input class="form-control" [formField]="dataForm.setting.form_template">
-                    <div class="input-tip">表单填写的模板，文件夹为Form</div>
+                    <div class="control-tooltip">表单填写的模板，文件夹为Form</div>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="setting_show_template">显示模板</label>
                 <div >
                     <input class="form-control" [formField]="dataForm.show_template">
-                    <div class="input-tip">表单内容显示的模板，文件夹为Content</div>
+                    <div class="control-tooltip">表单内容显示的模板，文件夹为Content</div>
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="setting_notify_mail">邮件通知地址</label>
                 <div >
                     <input class="form-control" [formField]="dataForm.setting.notify_mail">
-                    <div class="input-tip">是否需要同时把表单发送到指定的邮箱</div>
+                    <div class="control-tooltip">是否需要同时把表单发送到指定的邮箱</div>
                 </div>
             </div>
         </div>

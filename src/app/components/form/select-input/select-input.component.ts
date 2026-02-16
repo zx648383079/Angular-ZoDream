@@ -2,7 +2,7 @@ import { Component, HostListener, effect, forwardRef, input, model, signal, untr
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { FormValueControl } from '@angular/forms/signals';
 import { IControlOption } from '../event';
-import { IDataSource, selectIndex, selectItems } from '../sources/IDataSource';
+import { equalOption, IDataSource, selectIndex, selectItems, toggleSelectedItems } from '../sources/IDataSource';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -10,6 +10,10 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
     selector: 'app-select-input',
     templateUrl: './select-input.component.html',
     styleUrls: ['./select-input.component.scss'],
+    host: {
+        'class': 'select-input-container',
+        '[class.--with-open]': 'panelVisible()'
+    },
     providers: [{
         provide: NG_VALUE_ACCESSOR,
         useExisting: forwardRef(() => SelectInputComponent),
@@ -21,6 +25,10 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
     public readonly items = signal<IControlOption[]>([]);
     public readonly source = input.required<IDataSource>();
     public readonly multiple = input(false);
+    /**
+     * 是否可以创造
+    */
+    public readonly creatable = input(false);
 
     public readonly disabled = input<boolean>(false);
     public readonly value = model<T | T[] | number | string>();
@@ -61,25 +69,49 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
         if (this.disabled()) {
             return;
         }
-        this.items.update(v => {
-            selectIndex(v, index, this.multiple());
-            return [...v];
+        const isMultiple = this.multiple();
+        const items = this.items();
+        const isPush = selectIndex(items, index, isMultiple) >= 0;
+        const target = items[index];
+        if (target.created) {
+            this.panelVisible.set(false);
+            target.name = target.value;
+            this.onKeywordsChange('');
+        } else {
+            this.items.set(items);
+        }
+        this.selectedItems.update(v => {
+            return toggleSelectedItems(v, target, isPush, isMultiple);
         });
         this.output();
+        if (isMultiple) {
+            return;
+        }
+        this.panelVisible.set(false);
     }
 
     public tapUnselect(item: IControlOption) {
         item.checked = false;
         this.selectedItems.update(v => {
-            return v.filter(i => {
-                return item.value !== i.value;
-            });
+            return v.filter(i => !equalOption(i, item));
         });
         this.output();
     }
 
     public onKeywordsChange(val: string) {
         this.keywords.set(val);
+        this.source().search([], 0, val).subscribe(res => {
+            if (val && res.length === 0 && this.creatable()) {
+                res = [{
+                    name: `Add item "${val}"`,
+                    value: val,
+                    created: true
+                }];
+            } else {
+                selectItems(res, ...this.selectedItems());
+            }
+            this.items.set(res);
+        });
     }
 
     public onFocus() {
@@ -99,10 +131,6 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
         }
         this.value.set(this.previousValue = res);
         this.changeFn(res);
-    }
-
-    private initialize(data: IControlOption[]) {
-        this.items.set(data);
     }
 
     private formatValue(obj: any) {

@@ -35,6 +35,9 @@
                 <label for="money">金额</label>
                 <div>
                     <input type="number" id="money" class="form-control" [formField]="dataForm.money">
+                    @for (item of dataForm.money().errors(); track $index) {
+                        <div class="control-tooltip">{{ item.message }}</div>
+                    }
                 </div>
             </div>
             <div class="input-group-control">
@@ -50,6 +53,9 @@
                         <option [value]="item.id">{{ item.name }}</option>
                         }
                     </select>
+                    @for (item of dataForm.account_id().errors(); track $index) {
+                        <div class="control-tooltip">{{ item.message }}</div>
+                    }
                 </div>
             </div>
             <div class="input-group-control">
@@ -95,13 +101,18 @@
                 <label for="happened_at">发生时间</label>
                 <div>
                     <app-date-input id="happened_at" [formField]="dataForm.happened_at" format="yyyy-mm-dd hh:ii:ss" />
+                    @for (item of dataForm.happened_at().errors(); track $index) {
+                        <div class="control-tooltip">{{ item.message }}</div>
+                    }
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="remark">备注</label>
                 <div>
                     <textarea id="remark" class="form-control" [formField]="dataForm.remark"></textarea>
-            
+                    @for (item of dataForm.remark().errors(); track $index) {
+                        <div class="control-tooltip">{{ item.message }}</div>
+                    }
                 </div>
             </div>
         } @else {
@@ -119,6 +130,9 @@
                         <option [value]="item.id">{{ item.name }}</option>
                         }
                     </select>
+                    @for (item of dataForm.account_id().errors(); track $index) {
+                        <div class="control-tooltip">{{ item.message }}</div>
+                    }
                 </div>
             </div>
             <div class="input-group-control">
@@ -212,6 +226,10 @@
         }
         <div class="btn-group">
             <app-action-button class="btn btn-primary" (tapped)="tapSubmit($event)" [disabled]="dataForm().invalid()">确认保存</app-action-button>
+            @if (modeToggle() && mode() < 1) {
+                <app-action-button class="btn btn-success" (tapped)="tapSubmit($event, true)" [disabled]="dataForm().invalid()">新增并继续</app-action-button>
+            }
+
             <a class="btn btn-danger" (click)="tapBack()">取消修改</a>
             @if (modeToggle()) {
                 @if (mode() < 1) {

@@ -7,7 +7,7 @@
             <div>
                 <input type="text" id="name" class="form-control" [formField]="dataForm.name">
                 @if (dataForm.name().invalid()) {
-                    <div class="input-tip">请输入名称</div>
+                    <div class="control-tooltip">请输入名称</div>
                 }
             </div>
         </div>
@@ -16,7 +16,7 @@
             <div>
                 <input type="text" id="code" class="form-control" [formField]="dataForm.code">
                 @if (dataForm.code().invalid()) {
-                    <div class="input-tip">请输入调用代码，显示广告时使用</div>
+                    <div class="control-tooltip">请输入调用代码，显示广告时使用</div>
                 }
             </div>
         </div>

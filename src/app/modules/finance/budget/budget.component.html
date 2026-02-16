@@ -32,9 +32,9 @@
                     <td>
                         <a [routerLink]="[item.id]">{{ item.name }}</a>
                     </td>
-                    <td>{{ item.budget }}</td>
-                    <td>{{ item.spent }}</td>
-                    <td>{{ item.remain }}</td>
+                    <td>{{ item.budget | numberFormat}}</td>
+                    <td>{{ item.spent | numberFormat }}</td>
+                    <td>{{ item.remain | numberFormat }}</td>
                     <td>
                         <div class="btn-group">
                             <a class="btn btn-info" (click)="open(modal, item)">编辑</a>

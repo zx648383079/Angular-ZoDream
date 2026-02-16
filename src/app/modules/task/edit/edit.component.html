@@ -36,14 +36,14 @@
             <label for="duration">每日次数：</label>
             <div>
                 <input type="number" id="duration" class="form-control" [formField]="dataForm.duration" placeholder="请输入每日次数">
-                <div class="input-tip">大于0表示每天会自动增加</div>
+                <div class="control-tooltip">大于0表示每天会自动增加</div>
             </div>
         </div>
         <div class="input-group-control time-box">
             <label for="start_at">开始时间：</label>
             <div>
                 <app-date-input id="start_at" [formField]="dataForm.start_at" />
-                <div class="input-tip">从哪一天开始自动增加次数</div>
+                <div class="control-tooltip">从哪一天开始自动增加次数</div>
             </div>
         </div>
 

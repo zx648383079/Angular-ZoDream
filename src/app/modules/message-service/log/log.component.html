@@ -37,7 +37,7 @@
           </thead>
           <tbody>
               @for (item of items(); track $index) {
-                <tr [class]="{'tr-sending': item.status == 1, 'tr-error': item.status == 4}">
+                <tr [class.--with-sending]="item.status == 1" [class.--with-warning]="item.status == 4">
                   <td>{{ item.id }}</td>
                   <td>{{ item.target }}</td>
                   <td>{{ item.template_name }}</td>

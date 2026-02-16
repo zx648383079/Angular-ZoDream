@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IImageUploadEvent } from '../../../components/editor';
-import { ButtonEvent } from '../../../components/form';
+import { ArraySource, ButtonEvent } from '../../../components/form';
 import { IBlog, ITag } from '../../../modules/blog/model';
 import { ICategory } from '../../../modules/shop/model';
 import { IItem } from '../../../theme/models/seo';
@@ -52,18 +52,14 @@ export class ExampleFormComponent {
         required(schemaPath.term_id);
     });
 
-    public tagItems: ITag[] = [];
-    public categories: ICategory[] = [];
-    public languages: string[] = [];
-    public weathers: IItem[] = [];
-    public licenses: IItem[] = [];
-    public tags: ITag[] = [];
-    public statusItems: IItem[] = [];
-    public openItems: IItem[] = [];
-
-    public addTagFn(name: string) {
-        return {name};
-    }
+    public readonly tagItems = ArraySource.empty;
+    public readonly categories: ICategory[] = [];
+    public readonly languages: string[] = [];
+    public readonly weathers: IItem[] = [];
+    public readonly licenses: IItem[] = [];
+    public readonly tags: ITag[] = [];
+    public readonly statusItems: IItem[] = [];
+    public readonly openItems: IItem[] = [];
 
     public tapBack() {
         this.location.back();

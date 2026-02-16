@@ -7,7 +7,7 @@
             <div>
                 <input type="text" id="name" class="form-control" [formField]="dataForm.name" placeholder="例如:admin">
                 @if (dataForm.name().invalid()) {
-                    <div class="input-tip">请输入角色名</div>
+                    <div class="control-tooltip">请输入角色名</div>
                 }
             </div>
         </div>
@@ -17,7 +17,7 @@
                 <input type="text" id="display_name" class="form-control" [formField]="dataForm.display_name"
                     placeholder="例如: 管理员">
                 @if (dataForm.display_name().invalid()) {
-                    <div class="input-tip">请输入别名</div>
+                    <div class="control-tooltip">请输入别名</div>
                 }
 
 

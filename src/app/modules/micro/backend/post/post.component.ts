@@ -101,7 +101,11 @@ export class PostComponent {
             status
         }).subscribe(_ => {
             item.status = status;
-            ctl.next();
+            if (ctl.nextable) {
+                ctl.next();
+                return;
+            }
+            this.tapMore();
         });
     }
 

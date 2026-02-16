@@ -30,18 +30,18 @@ export class ForumListComponent {
         keywords: '',
         parent: 0,
     }));
-    public parent: IForum;
+    public readonly parent = signal<IForum>(null);
 
     constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             const parent = this.queries.parent().value();
-            if (parent < 1 || this.parent?.id === parent) {
+            if (parent < 1 || this.parent()?.id === parent) {
                 this.tapPage();
                 return;
             }
-            this.service.forum(this.queries.parent).subscribe(data => {
-                this.parent = data;
+            this.service.forum(parent).subscribe(data => {
+                this.parent.set(data);
                 this.tapPage();
             });
         });
@@ -72,13 +72,18 @@ export class ForumListComponent {
         }
         this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
-        this.service.forumList(queries).subscribe(res => {
-            this.isLoading.set(false);
-            this.items.set(res.data);
-            this.hasMore = res.paging.more;
-            this.total.set(res.paging.total);
-            this.searchService.applyHistory(queries);
-                this.queries().value.set(queries);
+        this.service.forumList(queries).subscribe({
+            next: res => {
+                this.isLoading.set(false);
+                this.items.set(res.data);
+                this.hasMore = res.paging.more;
+                this.total.set(res.paging.total);
+                this.searchService.applyHistory(queries);
+                    this.queries().value.set(queries);
+            },
+            error: _ => {
+                this.isLoading.set(false);
+            }
         });
     }
 
@@ -104,7 +109,7 @@ export class ForumListComponent {
     }
 
     public tapViewChild(item?: IForum) {
-        this.parent = item;
+        this.parent.set(item);
         this.queries().value.update(v => {
             v.keywords = '';
             v.parent = item ? item.id : 0;
@@ -114,7 +119,7 @@ export class ForumListComponent {
     }
 
     public tapParent() {
-        const parentId = this.parent ? this.parent.parent_id : 0;
+        const parentId = this.parent()?.parent_id || 0;
         if (parentId < 1) {
             this.tapViewChild();
             return;

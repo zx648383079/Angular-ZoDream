@@ -96,7 +96,7 @@
                     <div class="input-group-control">
                         <label>标签</label>
                         <div>
-                            <ng-select [multiple]="true" [items]="tagItems" bindLabel="name" [addTag]="addTagFn" placeholder="选择标签" />
+                            <app-select-input [multiple]="true" [source]="tagItems" [creatable]="true" placeholder="选择标签" />
                         </div>
                     </div>
                 </app-panel>
@@ -158,7 +158,7 @@
                         <label for="meta_seo_link">链接别名</label>
                         <div>
                             <input type="text" id="meta_seo_link" class="form-control" [formField]="dataForm.seo_link">
-                            <div class="input-tip">
+                            <div class="control-tooltip">
                                 请使用数字字母-_组成，请不要输入空格、/
                             </div>
                         </div>

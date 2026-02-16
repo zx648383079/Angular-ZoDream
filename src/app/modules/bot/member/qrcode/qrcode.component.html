@@ -76,7 +76,7 @@
             <label for="">二维码类型</label>
             <div>
                 <app-switch [formField]="editForm.type" offLabel="临时" onLabel="永久" />
-                <div class="input-tip">
+                <div class="control-tooltip">
                     注意永久二维码上限10万个
                 </div>
             </div>
@@ -100,7 +100,7 @@
             <div>
                 <input type="number" class="form-control" [formField]="editForm.scene_id">
                 @if (editForm.type) {
-                <div class="input-tip">
+                <div class="control-tooltip">
                     区间为1~100000
                 </div>
                 }
@@ -112,7 +112,7 @@
             <label for="">有效期</label>
             <div>
                 <input type="number" class="form-control" [formField]="editForm.expire_time" placeholder="单位：秒，最大2592000（30天）">
-                <div class="input-tip">
+                <div class="control-tooltip">
                     最大30天，当前设置：{{ expireDay() }}天
                 </div>
             </div>

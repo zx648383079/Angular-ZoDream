@@ -187,7 +187,6 @@ export class IncomeComponent {
                     }
                     return res.data;
                 });
-                this.searchService.applyHistory(queries, !isTablet);
                 this.hasMore.set(res.paging.more);
                 this.total.set(res.paging.total);
                 this.groupItems.set(this.formatGroup());
@@ -198,6 +197,7 @@ export class IncomeComponent {
                     queries.goto = '';
                 }
                 this.queries().value.set(queries);
+                this.searchService.applyHistory(queries, !isTablet);
             },
             error: () => {
                 this.isLoading.set(false);
@@ -267,6 +267,7 @@ export class IncomeComponent {
             this.service.logBatchEdit(this.editForm().value()).subscribe({
                 next: res => {
                     this.toastrService.success(res.message);
+                    this.tapRefresh();
                 },
                 error: err => {
                     this.toastrService.error(err);

@@ -14,15 +14,13 @@
             @if (item.isLoading) {
                 <div class="loading-option-item" i18n>Loading...</div>
             }
-            @if (item.items && item.items.length > 0) {
-                <div class="scroll-option-body">
-                    @for (option of item.items; track $index; let j = $index) {
-                    <div class="option-item" [hidden]="option.disabled" [class.selected]="option.checked" (click)="tapItem(i, j)">
-                        {{ option.name }}
-                    </div>
-                    }
+            <div class="scroll-option-body">
+                @for (option of item.items; track $index; let j = $index) {
+                <div class="option-item" [hidden]="option.disabled" [class.selected]="option.checked" (click)="tapItem(i, j)">
+                    {{ option.name }}
                 </div>
-            }
+                }
+            </div>
         </div>
     </div>
 }

@@ -112,7 +112,7 @@
             <input class="form-control" id="name-input2" [formField]="editForm.domain" placeholder="请输入域名" (blur)="onLinkBlur()">
         </div>
         @if (editExistData) {
-        <div class="input-tip" title="已存在相同站点">
+        <div class="control-tooltip" title="已存在相同站点">
             <i class="iconfont icon-close-circle"></i>
             <a [href]="editExistData.schema + '://' + editExistData.domain" target="_blank">{{ editExistData.name }}</a>
         </div>

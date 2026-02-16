@@ -69,6 +69,7 @@ export interface IControlOption {
     checked?: boolean;
     disabled?: boolean;
 	marked?: boolean;
+    created?: boolean;
 	name?: string;
 	value?: string | any;
 }

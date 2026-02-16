@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, input, viewChild, model, computed, afterNextRender } from '@angular/core';
+import { Component, ElementRef, inject, input, viewChild, model, computed, afterNextRender, signal } from '@angular/core';
 import { DialogBoxComponent } from '../../../../components/dialog';
 import { IEmoji } from '../../../../theme/models/seo';
 import { FileUploadService } from '../../../../theme/services/file-upload.service';
@@ -28,23 +28,28 @@ export class ForumEditorComponent implements FormValueControl<string> {
     public readonly disabled = input<boolean>(false);
     public readonly value = model<string>('');
     private range: IRange;
-    public dialogData: any = {
-        title: '',
+    public readonly dialogData = signal({
         mode: 0,
-    };
-    public uploadKey = this.uploadService.uniqueId();
+        price: '',
+        lang: '',
+        card: 0,
+        link: '',
+        content: '',
+        items: [{content: ''}]
+    });
+    public readonly uploadKey = this.uploadService.uniqueId();
 
     public readonly size = computed(() => {
         return wordLength(this.value());
     });
 
-    get areaStyle() {
+    public readonly areaStyle = computed(() => {
         return {
             height: this.height() + 'px',
         };
-    }
+    });
 
-    get area(): HTMLTextAreaElement {
+    private get area(): HTMLTextAreaElement {
         return this.areaElement().nativeElement as HTMLTextAreaElement;
     }
 
@@ -250,31 +255,53 @@ export class ForumEditorComponent implements FormValueControl<string> {
     }
 
     private openDialog<T>(data: T, cb: (data: T) => void, check?: (data: T) => boolean|any) {
-        this.dialogData = data;
-        this.modal().open(() => {
-            cb(this.dialogData);
-        }, () => {
-            return check(this.dialogData);
+        this.dialogData.update(v => {
+            return {...v, ...data};
         });
+        this.modal().open(() => {
+            cb(this.dialogData() as any);
+        }, () => {
+            return check(this.dialogData() as any);
+        }, (data as any).title);
     }
     
     public tapAddItem() {
-        this.dialogData.items.push({
-            content: '',
+        this.dialogData.update(v => {
+            v.items.push({content: ''});
+            return {...v}
         });
     }
 
     public tapRemoveItem(i: number) {
-        const items = this.dialogData.items as any[];
-        if (items.length < 3) {
-            return;
-        }
-        items.splice(i, 1);
+        this.dialogData.update(v => {
+            if (v.items.length < 3) {
+                return v;
+            }
+            v.items.splice(i, 1);
+            return {...v}
+        });
     }
 
     public setContent(value: string) {
         this.value.set(this.area.value = value);
     }
 
+    public onValueChange(e: Event) {
+        this.value.set((e.target as HTMLTextAreaElement).value);
+    }
+
+    public onDialogChange(value: string|Event|boolean|number, key: string|number) {
+        if (typeof value === 'object') {
+            value = ((value as Event).target as HTMLTextAreaElement).value;
+        }
+        this.dialogData.update(v => {
+            if (typeof key === 'number') {
+                v.items[key].content = value as any;
+            } else {
+                v[key] = value;
+            }
+            return {...v};
+        });
+    }
 
 }

@@ -43,7 +43,6 @@ export class PlanPendantComponent {
         .subscribe(() => {
             this.value.set(Math.ceil((Date.now() - this.startTime) / 1000));
         });
-        this.visible.set(true);
     }
 
 

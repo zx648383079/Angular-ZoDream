@@ -6,7 +6,7 @@
             <div>
                 <input type="text" id="name" class="form-control" [formField]="dataForm.name">
                 @if (dataForm.name().invalid()) {
-                <div class="input-tip">请输入名称</div>
+                <div class="control-tooltip">请输入名称</div>
                 }
             </div>
         </div>
@@ -28,7 +28,7 @@
                         <option [value]="item">{{ item }}</option>
                     }
                 </select>
-                <div class="input-tip">
+                <div class="control-tooltip">
                     当前仅在“唯一属性”下生效
                 </div>
             </div>
@@ -61,7 +61,7 @@
                     <input type="radio" id="type2" [formField]="dataForm.type" value="2">
                     <label for="type2">复选属性</label>
                 </span>
-                <div class="input-tip">
+                <div class="control-tooltip">
                     选择"单选/复选属性"时，可以对商品该属性设置多个值，复选属性还能对不同属性值指定不同的价格加价，用户购买商品时需要选定具体的属性值。选择"唯一属性"时，商品的该属性值只能设置一个值，用户只能查看该值。
                 </div>
             </div>

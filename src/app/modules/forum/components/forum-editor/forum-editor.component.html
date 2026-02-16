@@ -39,60 +39,56 @@
         </div>
     </div>
     <div class="editor-area">
-        <textarea #editorArea [style]="areaStyle" [(value)]="value"
+        <textarea #editorArea [style]="areaStyle()" [value]="value()" (input)="onValueChange($event)"
         [disabled]="disabled()"  spellcheck="false" [placeholder]="placeholder()"></textarea>
         <div class="editor-footer" i18n>{{ size() }} words</div>
     </div>
 </div>
 
-<app-dialog-box [title]="dialogData.title">
-    @switch (dialogData.mode) {
+<app-dialog-box>
+    @switch (dialogData().mode) {
         @case (1) {
         <div class="form-group">
             <label for="lang" i18n>Code Type</label>
-            <input type="text"
-              class="form-control" [formField]="dialogData.lang" id="lang" i18n-placeholder placeholder="Example:js">
+            <input type="text" class="form-control" [value]="dialogData().lang" (input)="onDialogChange($event.target.value, 'lang')" id="lang" i18n-placeholder placeholder="Example:js">
           </div>
           <div class="form-group">
             <label for="content" i18n>Content</label>
-            <textarea class="form-control" [formField]="dialogData.content" id="content" rows="3"></textarea>
+            <textarea class="form-control" [value]="dialogData().content" (input)="onDialogChange($event, 'content')" id="content" rows="3"></textarea>
           </div>
         }
         @case (2) {
             <div class="form-group">
             <label for="price" i18n>Purchase Price</label>
-            <input type="number"
-              class="form-control" [formField]="dialogData.price" id="price" i18n-placeholder placeholder="0 means free but login required">
+            <input type="number" class="form-control" [value]="dialogData().price" (input)="onDialogChange($event.target.value, 'price')" id="price" i18n-placeholder placeholder="0 means free but login required">
           </div>
           <div class="form-group">
             <label for="content" i18n>Content</label>
-            <textarea class="form-control" [formField]="dialogData.content" id="content" rows="3"></textarea>
+            <textarea class="form-control" [value]="dialogData().content" (input)="onDialogChange($event, 'content')" id="content" rows="3"></textarea>
           </div>
         }
         @case (3) {
             <div class="form-group">
             <label for="link" i18n>Link</label>
-            <input type="text"
-              class="form-control" [formField]="dialogData.link" id="link" i18n-placeholder placeholder="Example:https://zodream.cn">
+            <input type="text" class="form-control" [value]="dialogData().link" (input)="onDialogChange($event.target.value, 'link')" id="link" i18n-placeholder placeholder="Example:https://zodream.cn">
           </div>
           <div class="form-group">
             <label for="content" i18n>Title</label>
-            <input type="text"
-              class="form-control" [formField]="dialogData.content" id="content" i18n-placeholder placeholder="Example:zodream">
+            <input type="text" class="form-control" [value]="dialogData().content" (input)="onDialogChange($event.target.value, 'content')" id="content" i18n-placeholder placeholder="Example:zodream">
           </div>
           <div class="form-group">
             <label for="content" i18n>Switch to card</label>
-            <app-switch [formField]="dialogData.card" />
+            <app-switch [value]="dialogData().card" (valueChange)="onDialogChange($event, 'card')"/>
           </div>
         }
         @case (4) {
         <div class="form-group">
             <label for="content" i18n>Description</label>
-            <textarea class="form-control" [formField]="dialogData.content" id="content" rows="3"></textarea>
+            <textarea class="form-control" [value]="dialogData().content" (input)="onDialogChange($event, 'content')" id="content" rows="3"></textarea>
         </div>
-        @for (item of dialogData.items; track $index; let i = $index) {
+        @for (item of dialogData().items; track $index; let i = $index) {
         <div class="vote-item">
-            <input type="text" class="form-control" [formField]="item.content" id="content" i18n-placeholder placeholder="Content of options">
+            <input type="text" class="form-control" [value]="item.content" (input)="onDialogChange($event.target.value, i)" id="content" i18n-placeholder placeholder="Content of options">
             <i class="iconfont icon-close" (click)="tapRemoveItem(i)"></i>
         </div>
         }

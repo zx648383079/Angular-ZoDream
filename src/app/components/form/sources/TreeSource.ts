@@ -1,6 +1,6 @@
-import { Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { IControlOption } from '../event';
-import { IDataSource } from './IDataSource';
+import { equalValue, IDataSource } from './IDataSource';
 import { eachObject } from '../../../theme/utils';
 
 export class TreeSource implements IDataSource {
@@ -41,7 +41,7 @@ export class TreeSource implements IDataSource {
             const selected = items[i ++].value;
             let next: any;
             eachObject(src, item => {
-                if (this.equal(item[this.rangeKey], selected)) {
+                if (equalValue(item[this.rangeKey], selected)) {
                     next = item[this.rangeChildren];
                     return false;
                 }
@@ -53,6 +53,14 @@ export class TreeSource implements IDataSource {
             src = next;
         }
         return of(this.toArray(src));
+    }
+
+    public search(items: IControlOption[], column: number, keywords: string): Observable<IControlOption[]> {
+        const res = this.select(items, column);
+        if (!keywords) {
+            return res;
+        }
+        return res.pipe(map(res => res.filter(i => i.name.indexOf(keywords) >= 0)));
     }
 
     public influence(column: number): number {
@@ -109,7 +117,7 @@ export class TreeSource implements IDataSource {
         const findPath = (data: any): any[] => {
             let res = [];
             eachObject(data, item => {
-                if (this.equal(item[this.rangeKey], id)) {
+                if (equalValue(item[this.rangeKey], id)) {
                     res = [item];
                     return false;
                 }
@@ -126,25 +134,6 @@ export class TreeSource implements IDataSource {
             return res;
         };
         return findPath(this.items);
-    }
-
-
-
-    private equal(val: any, next: any): boolean {
-        if (val === next) {
-            return true;
-        }
-        if (!val || !next) {
-            return false;
-        }
-        if (typeof val === typeof next) {
-            return false;
-        }
-        return val.toString() === next.toString();
-    }
-
-    private equalOption(value: IControlOption, target: IControlOption): boolean {
-        return value === target || this.equal(value.value, target.value);
     }
 
     private toArray(data: any, selected?: any): IControlOption[] {

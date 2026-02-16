@@ -10,7 +10,7 @@
                 <input type="text" id="title" class="form-control title-input" [formField]="dataForm.title" (change)="onTitleChange()">
                 <i class="iconfont icon-eye" title="预览" (click)="openPreview(previewModal, 'title')"></i>
                 @if (sameItems().length > 0) {
-                <div class="input-tip">
+                <div class="control-tooltip">
                     存在{{ sameItems().length }}个相似题目
                     <a (click)="sameModal.open()">点击查看</a>
                 </div>
@@ -47,7 +47,7 @@
                         <i class="iconfont icon-plus"></i>
                     </div>
                 }
-                <div class="input-tip">可以不选，同一素材将合并成同一个大题下面的小题</div>
+                <div class="control-tooltip">可以不选，同一素材将合并成同一个大题下面的小题</div>
             </div>
         </div>
         <div class="input-group-control">
@@ -72,7 +72,7 @@
             <label for="dynamic">可变内容</label>
             <div>
                 <textarea id="dynamic" class="form-control" [formField]="dataForm.dynamic" ></textarea>
-                <div class="input-tip">在题目中可以用“&#64;1” 代替</div>
+                <div class="control-tooltip">在题目中可以用“&#64;1” 代替</div>
             </div>
         </div>
         <div class="input-group-control">
@@ -103,7 +103,7 @@
                         <label for="answer">答案<i class="iconfont icon-eye" title="预览" (click)="openPreview(previewModal, 'answer')"></i></label>
                         <div>
                             <textarea id="answer" class="form-control" [formField]="dataForm.answer"></textarea>
-                            <div class="input-tip">请在题目中用“____” 代替，如果需要计算请使用“&#64;1+&#64;2*3”等公式，填空题为一行一个</div>
+                            <div class="control-tooltip">请在题目中用“____” 代替，如果需要计算请使用“&#64;1+&#64;2*3”等公式，填空题为一行一个</div>
                         </div>
                     </div>
                 }
@@ -126,7 +126,7 @@
                                     <i class="iconfont icon-plus"></i>
                                 </a>
                             </div>
-                            <div class="input-tip">请按“____”顺序对应答案，可以多不可以少，多出部分选项为错误选择项,如果需要计算请使用“&#64;1+&#64;2*3”等公式</div>
+                            <div class="control-tooltip">请按“____”顺序对应答案，可以多不可以少，多出部分选项为错误选择项,如果需要计算请使用“&#64;1+&#64;2*3”等公式</div>
                         </div>
                     </div>
                 }

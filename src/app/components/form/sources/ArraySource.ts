@@ -1,4 +1,4 @@
-import { Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { IControlOption } from '../event';
 import { IDataSource, selectItem } from './IDataSource';
 import { IItem } from '../../../theme/models/seo';
@@ -59,8 +59,18 @@ export class ArraySource implements IDataSource {
             return of([]);
         }
         const data = [...this.items];
-        selectItem(data, items.length > 0 ? items[0].value : data[0].value);
+        if (data.length > 0) {
+            selectItem(data, items.length > 0 ? items[0].value : data[0].value);
+        }
         return of(data);
+    }
+
+    public search(items: IControlOption[], column: number, keywords: string): Observable<IControlOption[]> {
+        const res = this.select(items, column);
+        if (!keywords) {
+            return res;
+        }
+        return res.pipe(map(res => res.filter(i => i.name.indexOf(keywords) >= 0)));
     }
 
     public influence(column: number): number {
@@ -68,7 +78,7 @@ export class ArraySource implements IDataSource {
     }
 
     public initialize(value?: any): Observable<IControlOption[][]> {
-        if (typeof value === 'undefined' || value === null) {
+        if ((typeof value === 'undefined' || value === null) && this.items.length > 0) {
             value = this.items[0].value;
         }
         const items = [...this.items];

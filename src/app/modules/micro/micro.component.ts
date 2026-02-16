@@ -55,7 +55,7 @@ export class MicroComponent {
     public readonly user = signal<any>(null);
     public readonly topic = signal<ITopic>(null);
     public readonly authUser = signal<IUser>(null);
-    public tabItems: IItem[] = [
+    public readonly tabItems: IItem[] = [
         {
             name: $localize `Recommend`,
             value: 'recommend',

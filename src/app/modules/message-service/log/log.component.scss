@@ -1,11 +1,11 @@
 @use '../../../theme/theme';
-.tr-sending {
+.--with-sending {
     td {
         background-color: var(--#{theme.$prefix}info);
     }
 }
 
-.tr-error {
+.--with-warning {
     td {
         background-color: var(--#{theme.$prefix}danger);
     }

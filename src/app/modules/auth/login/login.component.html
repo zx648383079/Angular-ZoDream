@@ -1,18 +1,18 @@
 <form class="form-icon-control login-form" (submit)="tapSubmit2($event)" [class]="{slided: mode() > 0}" [hidden]="mode() > 6">
   <div class="input-box">
         <app-autocomplete [formField]="dataForm.email">
-            <div class="input-group-control" [class.error]="dataForm.email().touched() && dataForm.email().invalid()">
+            <div class="input-group-control" [class.--with-warning]="dataForm.email().touched() && dataForm.email().invalid()">
                 <input type="email" appFocusNext [formField]="dataForm.email" i18n-placeholder placeholder="Please input username" autocomplete="off">
                 <i class="iconfont icon-user" aria-hidden="true"></i>
             </div>
         </app-autocomplete>
-        <div class="input-group-control" [class.error]="dataForm.password().touched() && dataForm.password().invalid()">
+        <div class="input-group-control" [class.--with-warning]="dataForm.password().touched() && dataForm.password().invalid()">
             <input type="password" appFocusNext [formField]="dataForm.password" i18n-placeholder placeholder="Please input the password" autocomplete="off" (keypress)="focusNext($event)">
             <i class="iconfont icon-lock" aria-hidden="true"></i>
         </div>
 
         @if (captchaImage()) {
-        <div class="input-group-control captcha-input" [class.error]="dataForm.captcha().touched() && dataForm.captcha().invalid()">
+        <div class="input-group-control captcha-input" [class.--with-warning]="dataForm.captcha().touched() && dataForm.captcha().invalid()">
             <input type="text" appFocusNext [formField]="dataForm.captcha" i18n-placeholder placeholder="Please enter verification code" autocomplete="off" (keypress)="focusNext($event)">
             <i class="iconfont icon-key" aria-hidden="true"></i>
             <a (click)="tapCaptcha()" class="btn" i18n-title title="Click refresh">
@@ -21,7 +21,7 @@
         </div>
         }
 
-        <!-- <div class="input-group-control code-input" [class]="{error: password.invalid}">
+        <!-- <div class="input-group-control code-input" [class.--with-warning]="password.invalid">
             <input type="text" [formField]="dataForm.code" i18n-placeholder placeholder="lease enter verification code">
             <i class="iconfont icon-lock" aria-hidden="true"></i>
             <app-countdown-button class="send-btn" (tapped)="tapSendCode($event)"></app-countdown-button>
