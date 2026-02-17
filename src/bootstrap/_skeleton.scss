@@ -1,57 +1,162 @@
-$prefix: 'bs-' !default;
+@use './scheme';
+@use './dark';
+@use './functions';
 
 @use './controls/root' with (
-    $prefix: $prefix
+    $prefix: scheme.$prefix
 );
 
 @use './controls/flexbox' with (
-    $prefix: $prefix
+    $prefix: scheme.$prefix
 );
 @use './controls/tooltip' with (
-    $prefix: $prefix
+    $prefix: scheme.$prefix
 );
 
 @use './controls/progress' with (
-    $prefix: $prefix
+    $prefix: scheme.$prefix
 );
 
 @use './controls/buttons' with (
-    $prefix: $prefix
+    $prefix: scheme.$prefix
 );
 
 @use './controls/tables' with (
-    $prefix: $prefix
+    $prefix: scheme.$prefix
+);
+@use './controls/badge' with (
+    $prefix: scheme.$prefix
 );
 
 @use './controls/forms' with (
-    $prefix: $prefix
+    $prefix: scheme.$prefix
 );
 
 @use './controls/dropdown' with (
-    $prefix: $prefix
+    $prefix: scheme.$prefix
 );
 
 @use './controls/navbar' with (
-    $prefix: $prefix
+    $prefix: scheme.$prefix
 );
 
 @use './controls/tab' with (
-    $prefix: $prefix
+    $prefix: scheme.$prefix
 );
 
 @use './controls/pagination' with (
-    $prefix: $prefix
+    $prefix: scheme.$prefix
 );
 @use './controls/breadcrumb' with (
-    $prefix: $prefix
+    $prefix: scheme.$prefix
 );
 
 @use './controls/select' with (
-    $prefix: $prefix
+    $prefix: scheme.$prefix
 );
 
 @use './controls/search' with (
-    $prefix: $prefix
+    $prefix: scheme.$prefix
+);
+
+@use './controls/text' with (
+    $prefix: scheme.$prefix
 );
 
 @use './controls/margin';
+
+
+$enable-dark-mode: true !default;
+
+:root,
+[data-theme="light"] {
+    @each $color, $value in scheme.$theme-colors {
+        --#{scheme.$prefix}#{$color}: #{$value};
+    }
+    @each $color, $value in scheme.$theme-colors-text {
+        --#{scheme.$prefix}#{$color}-text: #{$value};
+    }
+
+    --#{scheme.$prefix}primary-rgb: #{functions.to-rgb(scheme.$primary)};
+    --#{scheme.$prefix}primary-text-rgb: #{functions.to-rgb(scheme.$primary-text)};
+    --#{scheme.$prefix}primary-hovered: #{scheme.$primary-hovered};
+    --#{scheme.$prefix}primary-hovered-text: #{scheme.$primary-hovered-text};
+
+    --#{scheme.$prefix}body: #{scheme.$body};
+    --#{scheme.$prefix}body-text: #{scheme.$body-text};
+    --#{scheme.$prefix}body-text-rgb: #{functions.to-rgb(scheme.$body-text)};
+    --#{scheme.$prefix}meta-text: #{scheme.$meta-text};
+
+    --#{scheme.$prefix}surface: #{scheme.$surface};
+    --#{scheme.$prefix}surface-hovered: #{scheme.$surface-hovered};
+    --#{scheme.$prefix}surface-selected: #{scheme.$surface-selected};
+    --#{scheme.$prefix}surface-selected-text: #{scheme.$surface-selected-text};
+    --#{scheme.$prefix}surface-child: #{scheme.$surface-child};
+    --#{scheme.$prefix}surface-text: #{scheme.$surface-text};
+
+    --#{scheme.$prefix}panel: #{scheme.$panel};
+    --#{scheme.$prefix}repeater: #{scheme.$repeater};
+
+    --#{scheme.$prefix}tertiary: #{scheme.$tertiary};
+    --#{scheme.$prefix}tertiary-text: #{scheme.$tertiary-text};
+
+    --#{scheme.$prefix}accent: #{scheme.$accent};
+    --#{scheme.$prefix}accent-text: #{scheme.$accent-text};
+
+    --#{scheme.$prefix}mask-rgb: #{functions.to-rgb(scheme.$mask)};
+
+    --#{scheme.$prefix}dialog: #{scheme.$dialog};
+    --#{scheme.$prefix}dialog-text: #{scheme.$dialog-text};
+    --#{scheme.$prefix}dialog-mask: #{scheme.$dialog-mask};
+
+    --#{scheme.$prefix}border: #{scheme.$border};
+    --#{scheme.$prefix}box-shadow: #{scheme.$box-shadow};
+    --#{scheme.$prefix}box-shadow-inset: #{scheme.$box-shadow-inset};
+
+
+    --#{scheme.$prefix}form-valid-text: #{scheme.$form-valid};
+    --#{scheme.$prefix}form-valid-border: #{scheme.$form-valid-border};
+    --#{scheme.$prefix}form-invalid-text: #{scheme.$form-invalid};
+    --#{scheme.$prefix}form-invalid-border: #{scheme.$form-invalid-border};
+
+    --#{scheme.$prefix}link-text: #{scheme.$link-text};
+    --#{scheme.$prefix}link-hover-text: #{scheme.$link-hovered-text};
+
+    --#{scheme.$prefix}input-text: #{scheme.$input-text};
+    --#{scheme.$prefix}input: #{scheme.$input};
+    --#{scheme.$prefix}input-disabled: #{scheme.$input-disabled};
+    --#{scheme.$prefix}input-hovered: #{scheme.$input-hovered};
+    --#{scheme.$prefix}input-selected: #{scheme.$input-selected};
+
+    --#{scheme.$prefix}input-icon: #{scheme.$input-icon};
+    --#{scheme.$prefix}input-hover-icon: #{scheme.$input-hovered-icon};
+    --#{scheme.$prefix}input-label: #{scheme.$input-label};
+
+    --#{scheme.$prefix}input-placeholder: #{scheme.$input-placeholder};
+    --#{scheme.$prefix}input-border: #{scheme.$input-border};
+    --#{scheme.$prefix}input-focus-border: #{scheme.$input-focus-border};
+}
+
+@mixin theme-dark {
+    --#{scheme.$prefix}body: #{dark.$body};
+    --#{scheme.$prefix}body-color: #{dark.$body-text};
+    --#{scheme.$prefix}panel: #{dark.$panel};
+    --#{scheme.$prefix}body-text: #{dark.$body-text};
+}
+
+
+@if $enable-dark-mode {
+    :root,
+    [data-theme="dark"] {
+        @include theme-dark;
+    }
+} @else {
+    [data-theme="dark"] {
+        @include theme-dark;
+    }
+    @media (prefers-color-scheme: dark) {
+        :root {
+            @include theme-dark;
+        }
+    }
+}

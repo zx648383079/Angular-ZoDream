@@ -4,18 +4,8 @@
 @use '../mixins';
 @use '../functions';
 @use '../colors';
+@use '../scheme';
 $prefix: 'bs-' !default;
-
-$theme-colors: (
-  'primary':    colors.$blue,
-  'secondary':  colors.$gray-600,
-  'success':    colors.$green,
-  'info':       colors.$cyan,
-  'warning':    colors.$yellow,
-  'danger':     colors.$red,
-  'light':      colors.$gray-100,
-  'dark':       colors.$gray-900
-) !default;
 
 $color-contrast-dark:      colors.$black !default;
 $color-contrast-light:     colors.$white !default;
@@ -209,7 +199,7 @@ $btn-active-border-tint-amount:   10% !default;
 //
 
 // scss-docs-start btn-variant-loops
-@each $color, $value in $theme-colors {
+@each $color, $value in scheme.$theme-colors {
     .btn-#{$color} {
         @if $color == "light" {
             @include button-variant(
@@ -235,7 +225,7 @@ $btn-active-border-tint-amount:   10% !default;
     }
 }
 
-@each $color, $value in $theme-colors {
+@each $color, $value in scheme.$theme-colors {
     .btn-outline-#{$color} {
         @include button-outline-variant($value);
     }
@@ -304,9 +294,3 @@ $btn-active-border-tint-amount:   10% !default;
 }
 
 
-@each $color, $value in $theme-colors {
-    .text-#{$color} {
-        --#{$prefix}table-color: var(--#{$prefix}#{$color});
-        color: var(--#{$prefix}#{$color});
-    }
-}

@@ -37,6 +37,7 @@ export class BudgetComponent {
         name: '',
         cycle: '0',
         budget: 0,
+        remark: '',
     }), schemaPath => {
         required(schemaPath.name);
     });
@@ -121,6 +122,7 @@ export class BudgetComponent {
             v.name = item?.name ?? '';
             v.cycle = item?.cycle as any ?? '0';
             v.budget = item?.budget ?? 0;
+            v.remark = item?.remark ?? '';
             return {...v};
         });
         modal.open(() => {

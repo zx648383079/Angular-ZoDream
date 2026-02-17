@@ -1,16 +1,8 @@
 @use './app/theme/theme';
 @use './assets/iconfont/iconfont';
 
-
-@use './bootstrap/default' with (
-    $prefix: theme.$prefix
-);
-@use './bootstrap/dark' with (
-    $prefix: theme.$prefix,
-    $enable-dark-mode: false
-);
 @use './bootstrap/skeleton' with (
-    $prefix: theme.$prefix
+    $enable-dark-mode: false
 );
 
 

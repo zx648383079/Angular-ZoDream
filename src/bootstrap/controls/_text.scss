@@ -1,0 +1,19 @@
+@use '../scheme';
+@use '../functions';
+$prefix: 'bs-' !default;
+
+$enable-important-utilities: true;
+
+@each $color, $value in scheme.$theme-colors {
+    .text-#{$color} {
+        --#{$prefix}table-color: var(--#{$prefix}#{$color});
+        color: var(--#{$prefix}#{$color}) if(sass($enable-important-utilities): !important);
+    }
+}
+
+@each $color, $value in scheme.$theme-colors {
+    .text-bg-#{$color} {
+        color: functions.color-contrast($value) if(sass($enable-important-utilities): !important);
+        background-color: var(--#{$prefix}#{$color}) if(sass($enable-important-utilities): !important);
+    }
+}

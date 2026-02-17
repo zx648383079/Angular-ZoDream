@@ -1,8 +1,5 @@
 // 黑暗模式
 $prefix: 'bs-' !default;
-$enable-dark-mode: true !default;
-
-
 
 $primary: #2e2e2e;
 $primary-text: #eee;
@@ -51,28 +48,3 @@ $input-label: #929292;
 $input-border: #6B6B6B;
 $input-focus-border: #808080;
 $input-focus-shadow: 0 0 0 1px #808080 inset;
-
-
-@mixin theme-dark {
-    --#{$prefix}body: #{$body};
-    --#{$prefix}body-color: #{$body-text};
-    --#{$prefix}panel: #{$panel};
-    --#{$prefix}body-text: #{$body-text};
-}
-
-
-@if $enable-dark-mode {
-    :root,
-    [data-theme="dark"] {
-        @include theme-dark;
-    }
-} @else {
-    [data-theme="dark"] {
-        @include theme-dark;
-    }
-    @media (prefers-color-scheme: dark) {
-        :root {
-            @include theme-dark;
-        }
-    }
-}

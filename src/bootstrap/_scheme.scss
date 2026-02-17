@@ -1,0 +1,4 @@
+@use '../app/theme/theme';
+@forward './default' with (
+    $prefix: theme.$prefix
+);

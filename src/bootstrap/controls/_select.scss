@@ -1,15 +1,16 @@
 @use '../mixins';
 @use '../functions';
+@use '../scheme';
 // ng-select 主题
 
 $prefix: 'bs-' !default;
 
-$ng-select-highlight: #007eff !default;
-$ng-select-primary-text: #333 !default;
+$ng-select-highlight: scheme.$primary !default;
+$ng-select-primary-text: scheme.$body-text !default;
 $ng-select-disabled-text: #f9f9f9 !default;
-$ng-select-border: #ccc !default;
+$ng-select-border: scheme.$border !default;
 $ng-select-border-radius: 4px !default;
-$ng-select-bg: #ffffff !default;
+$ng-select-bg: scheme.$input !default;
 $ng-select-selected: functions.tint-color($ng-select-highlight, 46%) !default;
 $ng-select-selected-text: $ng-select-primary-text !default;
 
@@ -17,8 +18,8 @@ $ng-select-marked: functions.tint-color($ng-select-highlight, 48%) !default;
 $ng-select-marked-text: $ng-select-primary-text !default;
 
 $ng-select-box-shadow:
-	inset 0 1px 1px rgba(0, 0, 0, 0.075),
-	0 0 0 3px rgba(0, 126, 255, 0.1) !default;
+	inset 0 1px 1px rgba(var(--#{$prefix}mask-rgb), 0.075),
+	0 0 0 3px rgba(var(--#{$prefix}mask-rgb), 0.1) !default;
 $ng-select-placeholder: functions.tint-color($ng-select-primary-text, 40%) !default;
 $ng-select-height: 36px !default;
 $ng-select-value-padding-left: 10px !default;
@@ -27,13 +28,13 @@ $ng-select-value-text: $ng-select-primary-text !default;
 
 $ng-select-dropdown-bg: $ng-select-bg !default;
 $ng-select-dropdown-border: $ng-select-border !default;
-$ng-select-dropdown-optgroup-text: rgba(0, 0, 0, 0.54) !default;
+$ng-select-dropdown-optgroup-text: rgba(var(--#{$prefix}mask-rgb), 0.54) !default;
 $ng-select-dropdown-optgroup-marked: $ng-select-dropdown-optgroup-text !default;
 $ng-select-dropdown-option-bg: $ng-select-dropdown-bg !default;
-$ng-select-dropdown-option-text: rgba(0, 0, 0, 0.87) !default;
+$ng-select-dropdown-option-text: rgba(var(--#{$prefix}mask-rgb), 0.87) !default;
 $ng-select-dropdown-option-disabled: functions.tint-color($ng-select-primary-text, 60%) !default;
 
-$ng-select-input-text: #000000 !default;
+$ng-select-input-text: scheme.$input-text !default;
 
 .ng-select {
 	&.ng-select-opened {

@@ -33,19 +33,19 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <td>时间</td>
-                    <td>账户</td>
-                    <td>金额(元)</td>
-                    <td>备注</td>
-                    <td>操作</td>
+                    <td class="resize-time">时间</td>
+                    <td class="resize-account">账户</td>
+                    <td class="resize-money">金额(元)</td>
+                    <td class="resize-text">备注</td>
+                    <td class="resize-action">操作</td>
                 </tr>
             </thead>
             <tbody>
                 @for (item of items(); track $index) {
-                    <tr [class]="{danger: item.type != 1}">
-                    <td>{{ item.happened_at }}</td>
-                    <td>{{ item.account ? item.account.name : '-' }}</td>
-                    <td class="money-td">
+                    <tr class="resize-time" [class.--with-danger]="item.type != 1">
+                    <td class="resize-account">{{ item.happened_at }}</td>
+                    <td class="resize-money">{{ item.account ? item.account.name : '-' }}</td>
+                    <td class="resize-money">
                         @if (item.type != 1) {
                             <div class="tool-flex-group">
                                 <span class="tool-tag btn-danger">
@@ -58,8 +58,13 @@
                             {{ item.money }}
                         }
                     </td>
-                    <td>{{ item.remark }}</td>
-                    <td>
+                    <td class="resize-text">
+                        @if (item.budget) {
+                            <span class="badge text-bg-info">{{ item.budget.name }}</span>
+                        }
+                        {{ item.remark }}
+                    </td>
+                    <td class="resize-action">
                         <div class="btn-group">
                             <a class="btn btn-info" (click)="tapPreview(previewModal, item)">预览</a>
                             <a class="btn btn-primary" [routerLink]="['clone', item.id]">克隆</a>
@@ -120,7 +125,11 @@
                         </div>
                         <div class="item-body">
                             <div class="item-title">{{ item.remark || item.account?.name || '-' }}</div>
-                            <div class="item-meta">{{ item.happened_at | timestamp: 'hh:ii' }}</div>
+                            <div class="item-meta">
+                                @if (item.budget) {
+                                    <span class="badge text-bg-info">{{ item.budget.name }}</span>
+                                }
+                                {{ item.happened_at | timestamp: 'hh:ii' }}</div>
                         </div>
                         <div class="item-count" [class]="{'--with-danger': item.type != 1}">{{ item.money | numberFormat }}</div>
                     </div>
@@ -317,19 +326,19 @@
     </div>
     <div class="line-row-item">
         <span class="item-label">账户：</span>
-        <span class="item-body">{{ formatAccount(previewModel().account_id) }}</span>
+        <span class="item-body">{{ previewModel().account?.name || '--' }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">项目：</span>
-        <span class="item-body">{{ formatProject(previewModel().project_id) }}</span>
+        <span class="item-body">{{ previewModel().project?.name || '--' }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">渠道：</span>
-        <span class="item-body">{{ formatChannel(previewModel().channel_id) }}</span>
+        <span class="item-body">{{ previewModel().channel?.name || '--' }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">预算：</span>
-        <span class="item-body">{{ formatBudget(previewModel().budget_id) }}</span>
+        <span class="item-body">{{ previewModel().budget?.name || '--' }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">交易对象：</span>

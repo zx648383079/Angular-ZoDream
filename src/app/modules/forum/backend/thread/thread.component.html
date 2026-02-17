@@ -34,9 +34,10 @@
                     </th>
                     <th>ID</th>
                     <th>标题</th>
-                    <th>发布者</th>
+                    <th class="auto-hide">发布者</th>
                     <th>板块</th>
-                    <th>统计</th>
+                    <th class="auto-hide">统计</th>
+                    <th>状态</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -48,9 +49,10 @@
                     </td>
                     <td>{{ item.id }}</td>
                     <td>{{ item.title }}</td>
-                    <td>{{ item.user?.name }}</td>
+                    <td class="auto-hide">{{ item.user?.name }}</td>
                     <td>{{ item.forum?.name }}</td>
-                    <td>浏览：{{ item.view_count }}/ 回复：{{ item.post_count }}</td>
+                    <td class="auto-hide">浏览：{{ item.view_count }}/ 回复：{{ item.post_count }}</td>
+                    <td>{{ formatStatus(item.status) }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>

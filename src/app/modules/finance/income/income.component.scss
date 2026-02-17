@@ -1,9 +1,14 @@
 @use '../../../theme/theme';
-.money-td {
+.resize-money {
     text-align: right;
     .btn {
         float: left;
     }
+}
+
+.resize-text {
+    max-width: 10rem;
+    white-space: wrap;
 }
 
 .file-input {
@@ -34,5 +39,33 @@
     .item-meta {
         color: var(--#{theme.$prefix}meta-text);
         font-size: .8rem;
+    }
+}
+
+@media (min-width: 60rem) {
+    .resize-text {
+        max-width: 20rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+@media (min-width: 71.25rem) {
+    .resize-time {
+        width: 12.5rem;
+    }
+    .resize-account {
+        width: 7.5rem;
+    }
+    .resize-money {
+        width: 12.5rem;
+    }
+    .resize-text {
+        max-width: 50%;
+        white-space: wrap;
+    }
+    .resize-action {
+        min-width: 16rem;
     }
 }

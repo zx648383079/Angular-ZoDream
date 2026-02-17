@@ -8,6 +8,7 @@ export interface IBudget {
     cycle: number;
     spent: number;
     remain: number;
+    remark: string;
     user_id: number;
     deleted_at: string;
     created_at: string;
@@ -61,7 +62,6 @@ export interface IFinancialProject {
 }
 
 export interface ILog {
-    account:        IAccount;
     id:             number;
     parent_id:      number;
     type:           number;
@@ -78,6 +78,10 @@ export interface ILog {
     trading_object: string;
     updated_at:     string;
     created_at:     string;
+    channel?: IConsumptionChannel,
+    project?: IFinancialProject;
+    account?: IAccount;
+    budget?: IBudget;
     parent?: ILog;
 }
 

@@ -181,6 +181,7 @@ export class IncomeComponent {
         this.service.logList(queries).subscribe({
             next: res => {
                 const isTablet = this.themeService.tabletChanged.value;
+                res.data = this.linkItems(res.data);
                 this.items.update(v => {
                     if (isTablet) {
                         return [...v, ...res.data]
@@ -277,6 +278,10 @@ export class IncomeComponent {
     }
 
     public tapPreview(modal: DialogEvent, item: ILog) {
+        this.formatAccount(item);
+        this.formatBudget(item);
+        this.formatChannel(item);
+        this.formatProject(item);
         this.previewModel.set(item);
         modal.open();
     }
@@ -294,20 +299,54 @@ export class IncomeComponent {
         });
     }
 
-    public formatAccount(id: number) {
-        return this.formatNameFrom(id, this.accountItems());
+    private formatAccount(item: ILog) {
+        if (item.account || !item.account_id) {
+            return;
+        }
+        item.account = {
+            name: this.formatNameFrom(item.account_id, this.accountItems())
+        } as any;
     }
 
-    public formatChannel(id: number) {
-        return this.formatNameFrom(id, this.channelItems());
+    private formatChannel(item: ILog) {
+        if (item.channel || !item.channel_id) {
+            return;
+        }
+        item.channel = {
+            name: this.formatNameFrom(item.channel_id, this.channelItems())
+        } as any;
     }
 
-    public formatProject(id: number) {
-        return this.formatNameFrom(id, this.projectItems());
+    private formatProject(item: ILog) {
+        if (item.project || !item.project_id) {
+            return;
+        }
+        item.project = {
+            name: this.formatNameFrom(item.project_id, this.projectItems())
+        } as any;
     }
 
-    public formatBudget(id: number) {
-        return this.formatNameFrom(id, this.budgetItems());
+    private formatBudget(item: ILog) {
+        if (item.budget || !item.budget_id) {
+            return;
+        }
+        item.budget = {
+            name: this.formatNameFrom(item.budget_id, this.budgetItems())
+        } as any;
+    }
+
+
+    private linkItems(items: ILog[]): ILog[] {
+        const maps = {};
+        for (const item of this.budgetItems()) {
+            maps[item.id] = item;
+        }
+        for (const item of items) {
+            if (item.budget_id > 0) {
+                item.budget = maps[item.budget_id];
+            }   
+        }
+        return items;
     }
 
     private formatNameFrom(id: number, items: any[]) {
