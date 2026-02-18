@@ -84,8 +84,12 @@ export class FinanceService {
 
     public logRemove(id: any) {
         return this.http.delete<IDataOne<true>>('finance/log/delete', {
-            params: {id}
+            params: {'id[]': id}
         });
+    }
+
+    public logMerge(id: any) {
+        return this.http.post<IDataOne<true>>('finance/log/merge', {id});
     }
 
     public logImport(data: any) {
@@ -207,5 +211,17 @@ export class FinanceService {
             res.log_list = items;
             return res;
         }));
+    }
+
+    public budgetMonthStatistics(params: any) {
+        return this.http.get<IData<{
+            id: number;
+            name: string;
+            total: number;
+            items: {
+                date: string,
+                money: number
+            }[]
+        }>>('finance/statistics/budget', {params});
     }
 }

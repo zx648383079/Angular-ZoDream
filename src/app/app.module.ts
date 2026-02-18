@@ -12,7 +12,7 @@ import { provideHttpClient, withInterceptors, withJsonpSupport } from '@angular/
 import { ResponseInterceptorFn, TokenInterceptorFn, TransferStateInterceptorFn } from './theme/interceptors';
 import { ZreChartModule } from './components/chart';
 import * as echarts from 'echarts/core';
-import { BarChart, LineChart } from 'echarts/charts';
+import { BarChart, LineChart, PieChart } from 'echarts/charts';
 import {
   TitleComponent,
   TooltipComponent,
@@ -35,6 +35,7 @@ echarts.use([
     LegendComponent,
     BarChart,
     LineChart,
+    PieChart,
     LabelLayout,
     UniversalTransition,
     CanvasRenderer

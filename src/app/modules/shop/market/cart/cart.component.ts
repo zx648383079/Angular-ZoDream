@@ -103,6 +103,7 @@ export class CartComponent {
 
     public toggleCheckGroup(item: ICartGroup) {
         item.checked = !item.checked;
+        this.items.update(v => [...v]);
         for (const cart of item.goods_list) {
             cart.is_checked = item.checked;
         }

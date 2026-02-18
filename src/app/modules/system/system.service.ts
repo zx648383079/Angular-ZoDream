@@ -105,7 +105,7 @@ export class SystemService {
     }
 
     public emojiRemove(id: any) {
-        return this.http.delete<IDataOne<boolean>>('seo/admin/emoji/delete', {params: {id}});
+        return this.http.delete<IDataOne<boolean>>('seo/admin/emoji/delete', {params: {'id[]': id}});
     }
 
     public emojiCategoryList(params: any) {

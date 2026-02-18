@@ -45,7 +45,7 @@ export class VisualService {
     }
 
     public componentRemove(id: any) {
-        return this.http.delete<IDataOne<boolean>>('tpl/admin/component/delete', {params: {id}});
+        return this.http.delete<IDataOne<boolean>>('tpl/admin/component/delete', {params: {'id[]': id}});
     }
 
     public componentReview(id: any, data: any) {

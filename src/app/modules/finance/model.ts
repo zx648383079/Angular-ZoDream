@@ -1,3 +1,5 @@
+import { IPageEditItem } from '../../theme/models/page';
+
 export const LogTypeItems = ['支出', '收入', '借出', '贷入'];
 
 
@@ -61,7 +63,7 @@ export interface IFinancialProject {
     created_at:      string;
 }
 
-export interface ILog {
+export interface ILog extends IPageEditItem {
     id:             number;
     parent_id:      number;
     type:           number;

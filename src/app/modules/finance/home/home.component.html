@@ -22,7 +22,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6 col-xxl-3">
             <div class="column-full-item">
                 @if (isLoading()) {
                 <div class="overlay">
@@ -42,7 +42,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6 col-xxl-3">
             <div class="column-full-item">
                 @if (isLoading()) {
                 <div class="overlay">
@@ -62,7 +62,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6 col-xxl-3">
             <div class="column-full-item">
                 @if (isLoading()) {
                 <div class="overlay">
@@ -72,6 +72,26 @@
                 <div class="inner">
                     <h3>{{ data().income_current || 0 | numberFormat }}/{{ data().income_last || 0 | numberFormat }}/{{ data().income_total || 0 | numberFormat }}</h3>
                     <p>当{{ formatType(queries.type().value()) }}/上{{ formatType(queries.type().value()) }}/总收入</p>
+                </div>
+                <div class="icon">
+                    <i class="iconfont icon-gift"></i>
+                </div>
+                <a class="column-footer" routerLink="income">
+                    查看更多
+                    <i class="iconfont icon-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-6 col-xxl-3">
+            <div class="column-full-item">
+                @if (isLoading()) {
+                <div class="overlay">
+                    <i class="iconfont icon-refresh"></i>
+                </div>
+                }
+                <div class="inner">
+                    <h3>{{ data().lend_total || 0 | numberFormat }}/{{ data().borrow_total || 0 | numberFormat }}</h3>
+                    <p>借出/贷入</p>
                 </div>
                 <div class="icon">
                     <i class="iconfont icon-gift"></i>

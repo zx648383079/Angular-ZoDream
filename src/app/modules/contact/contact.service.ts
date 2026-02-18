@@ -78,9 +78,7 @@ export class ContactService {
 
     public reportRemove(id: any) {
         return this.http.delete<IDataOne<true>>('contact/admin/report/delete', {
-            params: {
-                id
-            }
+            params: {'id[]': id}
         });
     }
 

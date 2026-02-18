@@ -24,7 +24,7 @@ export class NoteService {
 
     public noteRemove(id: any) {
         return this.http.delete<IDataOne<true>>('note/admin/home/delete', {
-            params: {id}
+            params: {'id[]': id}
         });
     }
 

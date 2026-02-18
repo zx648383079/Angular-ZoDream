@@ -65,6 +65,7 @@ export class ShareComponent {
 
     public tapFile(item: any) {
         item.checked = !item.checked;
+        this.items.update(v => [...v]);
         if (!item.checked) {
             this.isChecked.set(false);
         } else {

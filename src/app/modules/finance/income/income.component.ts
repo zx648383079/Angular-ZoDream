@@ -49,6 +49,9 @@ export class IncomeComponent {
         per_page: 20,
     }));
 
+    public readonly isMultiple = signal(false);
+    public readonly isChecked = signal(false);
+
     public readonly typeItems = ['全部', ...LogTypeItems];
     public readonly accountItems = signal<IAccount[]>([]);
     public readonly channelItems = signal<IConsumptionChannel[]>([]);
@@ -125,6 +128,37 @@ export class IncomeComponent {
             last.items.push(item);
         }
         return items;
+    }
+
+    public readonly checkedItems = computed(() => {
+        return this.items().filter(i => i.checked);
+    });
+
+    public toggleMultiple() {
+        this.isMultiple.update(v => !v);
+    }
+
+    public toggleCheck(item?: ILog) {
+        if (!item) {
+            this.isChecked.update(v => !v);
+            const isChecked = this.isChecked();
+            this.items.update(v => {
+                return v.map(i => {
+                    i.checked = isChecked;
+                    return i;
+                });
+            });
+            return;
+        }
+        item.checked = !item.checked;
+        this.items.update(v => [...v]);
+        if (!item.checked) {
+            this.isChecked.set(false);
+            return;
+        }
+        if (this.checkedItems().length === this.items().length) {
+            this.isChecked.set(true);
+        }
     }
 
     public tapBack() {
@@ -224,6 +258,45 @@ export class IncomeComponent {
                         return it.id !== item.id;
                     });
                 });
+            });
+        });
+    }
+
+    public tapMergeMultiple() {
+        const items = this.checkedItems();
+        if (items.length < 1) {
+            this.toastrService.warning($localize `No item selected!`);
+            return;
+        }
+        this.toastrService.confirm(`确认合并选中的 ${items.length} 条记录？只支持同类型。`, () => {
+            this.service.logMerge(items.map(i => i.id)).subscribe({
+                next: res => {
+                    if (!res.data) {
+                        return;
+                    }
+                    this.toastrService.success($localize `Merge Successfully`);
+                    this.tapPage();
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            });
+        });
+    }
+
+    public tapRemoveMultiple() {
+        const items = this.checkedItems();
+        if (items.length < 1) {
+            this.toastrService.warning($localize `No item selected!`);
+            return;
+        }
+        this.toastrService.confirm(`确认删除选中的 ${items.length} 条记录？`, () => {
+            this.service.logRemove(items.map(i => i.id)).subscribe(res => {
+                if (!res.data) {
+                    return;
+                }
+                this.toastrService.success($localize `Delete Successfully`);
+                this.tapPage();
             });
         });
     }

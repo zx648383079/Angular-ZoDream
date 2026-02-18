@@ -61,7 +61,7 @@
                 </tr>
                 }
             </tbody>
-            <tfoot [hidden]="!isMultiple || items().length < 1">
+            <tfoot [hidden]="!isMultiple() || items().length < 1">
                 <tr>
                     <td>
                         <i class="checkbox" [class.checked]="isChecked()" (click)="toggleCheck()"></i>

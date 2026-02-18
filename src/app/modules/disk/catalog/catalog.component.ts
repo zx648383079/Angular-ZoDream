@@ -186,6 +186,7 @@ export class CatalogComponent {
         this.playerMode.set(0);
         if (this.editMode()) {
             item.checked = !item.checked;
+            this.items.update(v => [...v]);
             if (!item.checked) {
                 this.isChecked.set(false);
             } else {

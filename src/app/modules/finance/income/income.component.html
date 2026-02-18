@@ -21,7 +21,8 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="pull-right btn-group">
-                    <a class="btn btn-info" (click)="panelVisible.set(true)">高级搜索</a>
+                    <a class="btn btn-secondary" (click)="panelVisible.set(true)">高级搜索</a>
+                    <a class="btn" [class]="{'btn-danger': isMultiple(), 'btn-outline-info': !isMultiple()}" (click)="toggleMultiple()">批量操作</a>
                     <a class="btn btn-primary" routerLink="create">新增流水</a>
                     <a class="btn btn-info" (click)="tapImport()">导入</a>
                     <a class="btn btn-success" (click)="tapExport()">导出</a>
@@ -33,18 +34,24 @@
         <table class="table table-hover">
             <thead>
                 <tr>
+                    <th [hidden]="!isMultiple()">
+                        <i class="checkbox" [class.checked]="isChecked()" (click)="toggleCheck()"></i>
+                    </th>
                     <td class="resize-time">时间</td>
                     <td class="resize-account">账户</td>
                     <td class="resize-money">金额(元)</td>
                     <td class="resize-text">备注</td>
-                    <td class="resize-action">操作</td>
+                    <td class="resize-action" [hidden]="isMultiple()">操作</td>
                 </tr>
             </thead>
             <tbody>
                 @for (item of items(); track $index) {
-                    <tr class="resize-time" [class.--with-danger]="item.type != 1">
-                    <td class="resize-account">{{ item.happened_at }}</td>
-                    <td class="resize-money">{{ item.account ? item.account.name : '-' }}</td>
+                <tr [class.--with-danger]="item.type != 1">
+                    <td [hidden]="!isMultiple()">
+                        <i class="checkbox" [class.checked]="item.checked" (click)="toggleCheck(item)"></i>
+                    </td>
+                    <td class="resize-time">{{ item.happened_at }}</td>
+                    <td class="resize-account">{{ item.account ? item.account.name : '-' }}</td>
                     <td class="resize-money">
                         @if (item.type != 1) {
                             <div class="tool-flex-group">
@@ -64,7 +71,7 @@
                         }
                         {{ item.remark }}
                     </td>
-                    <td class="resize-action">
+                    <td class="resize-action" [hidden]="isMultiple()">
                         <div class="btn-group">
                             <a class="btn btn-info" (click)="tapPreview(previewModal, item)">预览</a>
                             <a class="btn btn-primary" [routerLink]="['clone', item.id]">克隆</a>
@@ -82,6 +89,19 @@
                 }
                 
             </tbody>
+            <tfoot [hidden]="!isMultiple() || items().length < 1">
+                <tr>
+                    <td>
+                        <i class="checkbox" [class.checked]="isChecked()" (click)="toggleCheck()"></i>
+                    </td>
+                    <td colspan="4">
+                        <div class="btn-group">
+                            <button class="btn btn-success" [disabled]="checkedItems().length < 1" (click)="tapMergeMultiple()">合并选中项</button>
+                            <button class="btn btn-danger" [disabled]="checkedItems().length < 1" (click)="tapRemoveMultiple()">删除选中项（{{ checkedItems().length }}）</button>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
         <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />

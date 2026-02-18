@@ -102,6 +102,7 @@ export class RoleDialogComponent {
             kid.checked = !kid.checked;
             item.checked = this.isCheckedAll(item.items);
         }
+        this.items.update(v => [...v]);
         this.isChecked.set(this.isCheckedAll(this.items()));
     }
 

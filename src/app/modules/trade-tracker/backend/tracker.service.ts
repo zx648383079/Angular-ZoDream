@@ -46,7 +46,7 @@ export class TrackerBackendService {
 
     public logRemove(id: any) {
         return this.http.delete<IDataOne<true>>('tracker/admin/log/delete', {
-          params: {id}
+          params: {'id[]': id}
         });
     }
 

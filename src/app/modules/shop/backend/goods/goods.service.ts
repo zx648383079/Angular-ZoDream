@@ -188,9 +188,7 @@ export class GoodsService {
 
     public issueRemove(id: any) {
         return this.http.delete<IDataOne<true>>('shop/admin/goods/issue_delete', {
-            params: {
-                id
-            }
+            params: {'id[]': id}
         });
     }
 

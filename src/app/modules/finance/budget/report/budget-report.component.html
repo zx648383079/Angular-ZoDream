@@ -1,0 +1,43 @@
+<div class="container-fluid tablet-collapse">
+    <app-page-tip>
+        <ul>
+            <li>预算支出报告</li>
+        </ul>
+    </app-page-tip>
+    <div class="row">
+        <div class="col-12">
+            <app-date-input [formField]="queries.start_at" (valueChange)="onQueriesChange()" />
+            ~
+            <app-date-input [formField]="queries.end_at" (valueChange)="onQueriesChange()" />
+        </div>
+    </div>
+    
+
+</div>
+
+<div class="tablet-large-header tablet-visible">
+    <div class="route-bar">
+        <a class="route-icon" (click)="tapBack()">
+            <i class="iconfont icon-chevron-left"></i>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </a>
+        <div class="route-title">
+            <app-date-range-picker [(begin)]="queries.start_at().value" [(end)]="queries.end_at().value" (valueChange)="onQueriesChange()"/>
+        </div>
+    </div>
+    <h2 class="title-bar"> 
+        预算支出报告
+    </h2>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div appChart [options]="options()" class="chart-lg"></div>
+        </div>
+        <div class="col-md-12">
+            <div appChart [options]="monthOptions()" class="chart-lg"></div>
+        </div>
+    </div>
+
+</div>

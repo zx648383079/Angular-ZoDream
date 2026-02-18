@@ -51,7 +51,7 @@ export class DiskService implements IFileProvider {
 
     public storageRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('disk/admin/explorer/storage_delete', {
-            params: {id},
+            params: {'id[]': id},
         });
     }
 

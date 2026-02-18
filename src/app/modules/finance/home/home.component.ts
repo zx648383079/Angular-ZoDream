@@ -3,7 +3,6 @@ import { EChartsCoreOption } from 'echarts/core';
 import { formatDate, mapFormat } from '../../../theme/utils';
 import { FinanceService } from '../finance.service';
 import { form } from '@angular/forms/signals';
-import { DateSource } from '../../../components/form';
 
 
 @Component({
