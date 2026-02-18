@@ -96,7 +96,7 @@
                     </td>
                     <td colspan="4">
                         <div class="btn-group">
-                            <button class="btn btn-success" [disabled]="checkedItems().length < 1" (click)="tapMergeMultiple()">合并选中项</button>
+                            <button class="btn btn-success" [disabled]="checkedItems().length < 2" (click)="tapMergeMultiple()">合并选中项</button>
                             <button class="btn btn-danger" [disabled]="checkedItems().length < 1" (click)="tapRemoveMultiple()">删除选中项（{{ checkedItems().length }}）</button>
                         </div>
                     </td>
