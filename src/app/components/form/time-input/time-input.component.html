@@ -1,25 +1,22 @@
-<div class="select-input-container" [class.--with-open]="panelVisible()">
-    <div class="input-container">
-        <input type="text" [value]="value()" (change)="onValueChange($event)" [disabled]="disabled()" [placeholder]="placeholder()" (focus)="onFocus()">
-        <div class="dropdown-toggle"></div>
-    </div>
-    <div class="option-container">
-        <div class="flex-grid">
-            <div class="scroll-column">
-                <ul>
-                    @for (item of hourItems; track $index) {
-                        <li [class.selected]="item == currentHour()" (click)="tapHour(item)">{{ twoPad(item) }}</li>
-                    }
-                    
-                </ul>
-            </div>
-            <div class="scroll-column">
-                <ul>
-                    @for (item of minuteItems; track $index) {
-                        <li [class.selected]="item == currentMinute()" (click)="tapMinute(item)">{{ twoPad(item) }}</li>
-                    }
-                </ul>
-            </div>
+<div class="input-container">
+    <input type="text" [value]="value()" (change)="onValueChange($event)" [disabled]="disabled()" [placeholder]="placeholder()" (focus)="onFocus()" autocomplete="off">
+    <div class="dropdown-toggle"></div>
+</div>
+<div class="option-container">
+    <div class="flex-grid">
+        <div class="scroll-option-body">
+            <ul>
+                @for (item of hourItems(); track $index) {
+                    <li class="option-item" [class.selected]="item == currentHour()" (click)="tapHour(item)">{{ twoPad(item) }}</li>
+                }
+            </ul>
+        </div>
+        <div class="scroll-option-body">
+            <ul>
+                @for (item of minuteItems(); track $index) {
+                    <li class="option-item" [class.selected]="item == currentMinute()" (click)="tapMinute(item)">{{ twoPad(item) }}</li>
+                }
+            </ul>
         </div>
     </div>
 </div>

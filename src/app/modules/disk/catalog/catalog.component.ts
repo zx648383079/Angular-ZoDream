@@ -47,9 +47,9 @@ export class CatalogComponent {
     private readonly musicPlayer = viewChild(MusicPlayerComponent);
     private readonly imagePlayer = viewChild(ImagePlayerComponent);
 
-    public playerMode = 0; // 1 视频 2 音频 3 图片
-    public viewMode = false;
-    public editMode = false;
+    public readonly playerMode = signal(0); // 1 视频 2 音频 3 图片
+    public readonly viewMode = signal(false);
+    public readonly editMode = signal(false);
     public readonly isChecked = signal(false);
     public readonly items = signal<IDisk[]>([]);
     public readonly queries = form(signal({
@@ -60,20 +60,20 @@ export class CatalogComponent {
     }));
     public readonly hasMore = signal(true);
     public readonly isLoading = signal(false);
-    public crumbs: ICrumb[] = [
+    public readonly crumbs = signal<ICrumb[]>([
         {
             name: $localize `All files`,
             icon: 'icon-desktop',
             disable: true
         },
-    ];
-    public sortKey = '';
-    public orderAsc = true;
+    ]);
+    public readonly sortKey = signal('');
+    public readonly orderAsc = signal(true);
     public readonly editForm = form(signal({
         id: 0,
         name: ''
     }));
-    public playerStyle: any = {};
+    public readonly playerStyle = signal<any>({});
 
     constructor() {
         this.route.queryParams.subscribe(params => {
@@ -81,27 +81,28 @@ export class CatalogComponent {
             this.tapRefresh();
         });
         this.themeService.navigationChanged.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
-            this.playerStyle = {
+            this.playerStyle.set({
                 left: res.paneWidth + 'px',
-            }
+            });
         });
     }
 
 
-    get path() {
+    public readonly path = computed(() => {
         const items = [];
-        for (const item of this.crumbs) {
+        for (const item of this.crumbs()) {
             items.push(item.id || '');
         }
         return items.join('/');
-    }
+    });
 
-    get lastFolder() {
-        if (this.crumbs.length < 2) {
+    public readonly lastFolder= computed(() => {
+        const items = this.crumbs();
+        if (items.length < 2) {
             return '';
         }
-        return this.crumbs[this.crumbs.length - 1].id;
-    }
+        return items[items.length - 1].id;
+    });
 
     public readonly checkCount = computed(() => {
         let count = 0;
@@ -115,11 +116,13 @@ export class CatalogComponent {
 
     public readonly filterItems = computed(() => {
         const items = this.items();
-        if (!this.sortKey) {
+        const sortKey = this.sortKey();
+        if (!sortKey) {
             return items;
         }
+        const orderAsc = this.orderAsc();
         return items.sort((a, b) => {
-            const [av, bv] = this.orderAsc ? [this.formatValue(a, this.sortKey), this.formatValue(b, this.sortKey)] : [this.formatValue(b, this.sortKey), this.formatValue(a, this.sortKey)];
+            const [av, bv] = orderAsc ? [this.formatValue(a, sortKey), this.formatValue(b, sortKey)] : [this.formatValue(b, sortKey), this.formatValue(a, sortKey)];
             if (av == bv) {
                 return 0;
             }
@@ -143,25 +146,36 @@ export class CatalogComponent {
         return item[k];
     }
 
+    public toggleEditable() {
+        this.editMode.update(v => !v);
+    }
+
+    public toggleView() {
+        this.viewMode.update(v => !v);
+    }
+
     public tapBack() {
-        if (this.crumbs.length < 2) {
-            return;
-        }
-        this.crumbs.pop();
+        this.crumbs.update(v => {
+            if (v.length < 2) {
+                return v;
+            }
+            v.pop();
+            return [...v];
+        });
         this.tapRefresh();
     }
 
     public tapSort(i: string, asc?: boolean) {
         if (typeof asc === 'boolean') {
-            this.sortKey = i;
-            this.orderAsc = asc;
+            this.sortKey.set(i);
+            this.orderAsc.set(asc);
             return;
         }
-        if (this.sortKey == i) {
-            this.orderAsc = !this.orderAsc;
+        if (this.sortKey() == i) {
+            this.orderAsc.update(v => !v);
         } else {
-            this.sortKey = i;
-            this.orderAsc = true;
+            this.sortKey.set(i);
+            this.orderAsc.set(true);
         }
     }
 
@@ -169,8 +183,8 @@ export class CatalogComponent {
     }
 
     public tapFile(item: IDisk) {
-        this.playerMode = 0;
-        if (this.editMode) {
+        this.playerMode.set(0);
+        if (this.editMode()) {
             item.checked = !item.checked;
             if (!item.checked) {
                 this.isChecked.set(false);
@@ -197,13 +211,13 @@ export class CatalogComponent {
             }
             let player: PlayerEvent;
             if (item.type === 'image') {
-                this.playerMode = 3;
+                this.playerMode.set(3);
                 player = this.imagePlayer();
             } else if (item.type === 'music') {
-                this.playerMode = 2;
+                this.playerMode.set(2);
                 player = this.musicPlayer();
             } else if (item.type === 'movie') {
-                this.playerMode = 1;
+                this.playerMode.set(1);
                 player = this.moviePlayer();
             } else {
                 return;
@@ -236,10 +250,12 @@ export class CatalogComponent {
         if (item.file_id > 0 && item.file) {
             return;
         }
-        this.crumbs.push({
-            id: item.id,
-            name: item.name,
-            icon: 'icon-folder-o',
+        this.crumbs.update(v => {
+            return [...v, {
+                id: item.id,
+                name: item.name,
+                icon: 'icon-folder-o',
+            }];
         });
         this.tapRefresh();
     }
@@ -415,7 +431,7 @@ export class CatalogComponent {
     }
 
     public tapMore() {
-        if (!this.hasMore) {
+        if (!this.hasMore()) {
             return;
         }
         this.goPage(this.queries.page().value() + 1);

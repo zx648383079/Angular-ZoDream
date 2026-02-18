@@ -1,5 +1,5 @@
 import { Component, HostListener,  computed,  effect, input, model, signal } from '@angular/core';
-import { rangeStep, twoPad } from '../../../theme/utils';
+import { checkLoopRange, checkRange, rangeStep, twoPad } from '../../../theme/utils';
 import { hasElementByClass } from '../../../theme/utils/doc';
 import { FormValueControl } from '@angular/forms/signals';
 
@@ -8,6 +8,10 @@ import { FormValueControl } from '@angular/forms/signals';
     selector: 'app-time-input',
     templateUrl: './time-input.component.html',
     styleUrls: ['./time-input.component.scss'],
+    host: {
+        class: 'select-input-container',
+        '[class.--with-open]': 'panelVisible()'
+    }
 })
 export class TimeInputComponent implements FormValueControl<string> {
 
@@ -16,20 +20,13 @@ export class TimeInputComponent implements FormValueControl<string> {
     public readonly placeholder = input($localize `Please select...`);
     public readonly disabled = input<boolean>(false);
     public readonly value = model<string>('');
-    public hourItems: number[] = [];
-    public minuteItems: number[] = [];
+    public readonly hourItems = signal<number[]>([]);
+    public readonly minuteItems = signal<number[]>([]);
     public readonly panelVisible = signal(false);
 
-    @HostListener('document:click', ['$event']) 
-    public hideCalendar(event: any) {
-        if (!event.target.closest('.select-input-container') && !hasElementByClass(event.path, 'select-input-container')) {
-            this.panelVisible.set(false);
-        }
-    }
-
     constructor() {
-        this.minuteItems = rangeStep(0, 59);
-        this.hourItems = rangeStep(0, 23);
+        this.minuteItems.set(rangeStep(0, 59));
+        this.hourItems.set(rangeStep(0, 23));
         effect(() => {
             this.minimum();
             this.maximum();
@@ -39,11 +36,36 @@ export class TimeInputComponent implements FormValueControl<string> {
 
     public readonly currentHour = computed(() => {
         return this.timeInt(this.value());
-    })
+    });
 
     public readonly currentMinute = computed(() => {
         return this.timeInt(this.value(), 1);
-    })
+    });
+
+    @HostListener('document:click', ['$event']) 
+    public hideCalendar(event: any) {
+        if (!event.target.closest('.select-input-container') && !hasElementByClass(event.path, 'select-input-container')) {
+            this.panelVisible.set(false);
+        }
+    }
+
+    @HostListener('wheel', ['$event'])
+    public onWheel(e: WheelEvent) {
+        if (!(e.target instanceof HTMLInputElement)) {
+            return;
+        }
+        e.preventDefault();
+        const target = e.target.getBoundingClientRect();
+        const index = (e.clientX - target.left - (target.width / 2)) < 0 ? 0 : 1;
+        const offset = e.deltaY < 0 ? -1 : 1;
+        this.value.update(v => {
+            const args = this.timeParse(v);
+            args[index] = index < 1 
+                ? this.checkHourRange(args[index] + offset) 
+                : this.checkMinuteRange(args[index] + offset);
+            return args.map(twoPad).join(':');
+        });
+    }
 
     public twoPad(val: number) {
         if (val < 10) {
@@ -72,7 +94,7 @@ export class TimeInputComponent implements FormValueControl<string> {
     }
 
     private refreshHours() {
-        this.hourItems = rangeStep(this.timeInt(this.minimum()), this.timeInt(this.maximum(), 0, 23));
+        this.hourItems.set(rangeStep(this.timeInt(this.minimum()), this.timeInt(this.maximum(), 0, 23)));
     }
 
     private refreshMinutes() {
@@ -87,7 +109,7 @@ export class TimeInputComponent implements FormValueControl<string> {
         if (hour === max[1]) {
             end = max[1];
         }
-        this.minuteItems = rangeStep(start, end);
+        this.minuteItems.set(rangeStep(start, end));
     }
 
     private timeInt(val?: string, i = 0, def = 0): number {
@@ -104,6 +126,16 @@ export class TimeInputComponent implements FormValueControl<string> {
         }
         const items = val.split(':');
         return [parseInt(items[0], 10), items.length > 1 ? parseInt(items[1], 10) : 0];
+    }
+
+    private checkHourRange(val: number) {
+        const items = this.hourItems();
+        return checkRange(val, items[0], items[items.length - 1]);
+    }
+
+    private checkMinuteRange(val: number) {
+        const items = this.minuteItems();
+        return checkLoopRange(val, items[0], items[items.length - 1]);
     }
 
 }

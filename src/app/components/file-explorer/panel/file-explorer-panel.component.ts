@@ -18,11 +18,11 @@ export class FileExplorerPanelComponent implements IFileDataSource {
     public readonly pathChange = output<string>();
     public readonly selectedChange = output<IFileItem>();
     public readonly items = signal<IFileItem[]>([]);
-    public listViewMode = false;
-    public listEditable = false;
+    public readonly listViewMode = signal(false);
+    public readonly listEditable = signal(false);
     public readonly isChecked = signal(false);
-    public sortKey = '';
-    public orderAsc = true;
+    public readonly sortKey = signal('');
+    public readonly orderAsc = signal(true);
     public readonly queries = form(signal({
         path: '',
         keywords: '',
@@ -33,11 +33,13 @@ export class FileExplorerPanelComponent implements IFileDataSource {
 
     public readonly filterItems = computed(() => {
         const items = this.items();
-        if (!this.sortKey) {
+        const sortKey = this.sortKey();
+        if (!sortKey) {
             return items;
         }
+        const orderAsc = this.orderAsc();
         return items.sort((a, b) => {
-            const [av, bv] = this.orderAsc ? [this.formatValue(a, this.sortKey), this.formatValue(b, this.sortKey)] : [this.formatValue(b, this.sortKey), this.formatValue(a, this.sortKey)];
+            const [av, bv] = orderAsc ? [this.formatValue(a, sortKey), this.formatValue(b, sortKey)] : [this.formatValue(b, sortKey), this.formatValue(a, sortKey)];
             if (av == bv) {
                 return 0;
             }
@@ -71,6 +73,15 @@ export class FileExplorerPanelComponent implements IFileDataSource {
     public readonly count = computed(() => {
         return this.items().length;
     });
+
+    public toggleEditable() {
+        this.listEditable.update(v => !v);
+    }
+
+    public toggleView() {
+        this.listViewMode.update(v => !v);
+    }
+
     public indexOf(file: IFileItem): number {
         return this.items().indexOf(file);
     }
@@ -100,15 +111,15 @@ export class FileExplorerPanelComponent implements IFileDataSource {
 
     public tapSort(i: string, asc?: boolean) {
         if (typeof asc === 'boolean') {
-            this.sortKey = i;
-            this.orderAsc = asc;
+            this.sortKey.set(i);
+            this.orderAsc.set(asc);
             return;
         }
-        if (this.sortKey == i) {
-            this.orderAsc = !this.orderAsc;
+        if (this.sortKey() == i) {
+            this.orderAsc.update(v => !v);
         } else {
-            this.sortKey = i;
-            this.orderAsc = true;
+            this.sortKey.set(i);
+            this.orderAsc.set(true);
         }
     }
 
@@ -155,7 +166,7 @@ export class FileExplorerPanelComponent implements IFileDataSource {
     }
 
     public tapMore() {
-        if (!this.hasMore) {
+        if (!this.hasMore()) {
             return;
         }
         this.goPage(this.page + 1);

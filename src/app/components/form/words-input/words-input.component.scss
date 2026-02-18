@@ -1,14 +1,16 @@
 @use '../../../theme/theme';
-.words-input {
-    padding-top: 5px;
-    padding-left: 7px;
-    display: flex;
-    flex-direction: row;
+@use '../../../../bootstrap/variables';
+:host {
+    --#{theme.$prefix}select-line-height: 2.25rem;
     color: var(--#{theme.$prefix}input-text);
     background-color: var(--#{theme.$prefix}input);
-    border-radius: 4px;
+    border-radius: #{variables.$input-border-radius};
     border: 1px solid var(--#{theme.$prefix}input-border);
-    min-height: 36px;
+    padding-left: 0.4375rem;
+    min-height: var(--#{theme.$prefix}select-line-height);
+    line-height: var(--#{theme.$prefix}select-line-height);
+    display: flex;
+    flex-direction: row;
     input {
         flex: 1;
         box-sizing: content-box;

@@ -1,6 +1,7 @@
 @use '../mixins';
 @use '../variables';
 @use '../../app/theme/theme';
+@use './scrollbar';
 
 .checkbox {
     position: relative;
@@ -611,6 +612,12 @@ i {
     .scroll-option-body {
         overflow-y: auto;
         max-height: 20rem;
+        @include scrollbar.scrollbar();
+        ul,li {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
     }
     .search-option-item {
         position: relative;

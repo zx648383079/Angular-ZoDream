@@ -26,7 +26,7 @@
                 </div>
                 <div class="item-body">
                     <div class="item-title">{{ item.remark || item.account?.name || '-' }}</div>
-                    <div class="item-meta">{{ item.happened_at | timestamp: 'hh:ii' }}</div>
+                    <div class="item-meta">{{ item.happened_at | timestamp }}</div>
                 </div>
                 <div class="item-count" [class]="{'--with-danger': item.type != 1}">{{ item.money | numberFormat }}</div>
             </div>

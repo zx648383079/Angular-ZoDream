@@ -28,49 +28,49 @@
         </div>
         <div class="action-group">
             <div class="action-item">
-                <i class="iconfont icon-check-square-o" (click)="listEditable = !listEditable"></i>
+                <i class="iconfont icon-check-square-o" (click)="toggleEditable()"></i>
             </div>
             <div class="action-item">
-                <i class="iconfont" [class]="{'icon-sort-alpha-asc': orderAsc, 'icon-sort-alpha-desc': !orderAsc}"></i>
+                <i class="iconfont" [class]="{'icon-sort-alpha-asc': orderAsc(), 'icon-sort-alpha-desc': !orderAsc()}"></i>
                 <div class="action-dropdown">
                     <a class="nav-item" (click)="tapSort('name', true)">
                         <span class="nav-name" i18n>Name</span>
-                        <i class="iconfont" [class]="{'icon-sort-alpha-asc': sortKey == 'name' && orderAsc, 'icon-sort-alpha-desc': sortKey == 'name' && !orderAsc}"></i>
+                        <i class="iconfont" [class]="{'icon-sort-alpha-asc': sortKey() == 'name' && orderAsc(), 'icon-sort-alpha-desc': sortKey() == 'name' && !orderAsc()}"></i>
                     </a>
                     <a class="nav-item" (click)="tapSort('size', false)">
                         <span class="nav-name" i18n>Size</span>
-                        <i class="iconfont" [class]="{'icon-sort-alpha-asc': sortKey == 'size' && orderAsc, 'icon-sort-alpha-desc': sortKey == 'size' && !orderAsc}"></i>
+                        <i class="iconfont" [class]="{'icon-sort-alpha-asc': sortKey() == 'size' && orderAsc(), 'icon-sort-alpha-desc': sortKey() == 'size' && !orderAsc()}"></i>
                     </a>
                     <a class="nav-item" (click)="tapSort('created_at', true)">
                         <span class="nav-name" i18n>Created At</span>
-                        <i class="iconfont" [class]="{'icon-sort-alpha-asc': sortKey == 'created_at' && orderAsc, 'icon-sort-alpha-desc': sortKey == 'created_at' && !orderAsc}"></i>
+                        <i class="iconfont" [class]="{'icon-sort-alpha-asc': sortKey() == 'created_at' && orderAsc(), 'icon-sort-alpha-desc': sortKey() == 'created_at' && !orderAsc()}"></i>
                     </a>
                 </div>
             </div>
-            <div class="action-item" (click)="listViewMode = !listViewMode">
-                <i class="iconfont icon-th-list" [class]="{'icon-th-large': listViewMode, 'icon-th-list': !listViewMode}"></i>
+            <div class="action-item" (click)="toggleView()">
+                <i class="iconfont icon-th-list" [class]="{'icon-th-large': listViewMode(), 'icon-th-list': !listViewMode()}"></i>
             </div>
             <div class="action-item">
                 <i class="iconfont icon-ellipsis-h"></i>
             </div>
         </div>
     </div>
-    <div class="file-list-body" [class]="{'file-list-view': listViewMode, 'file-list-edit': listEditable}">
+    <div class="file-list-body" [class]="{'file-list-view': listViewMode(), 'file-list-edit': listEditable()}">
         <div class="file-row-header">
             <div class="file-check" (click)="toggleCheck()">
-                <i class="iconfont" [class]="{'icon-check-square-o': isChecked, 'icon-square-o': !isChecked}" ></i>
+                <i class="iconfont" [class]="{'icon-check-square-o': isChecked(), 'icon-square-o': !isChecked()}" ></i>
             </div>
             <div class="file-sortable flex-1" (click)="tapSort('name')">
                 <span i18n>FileName</span>
-                <i class="iconfont" [class]="{'icon-sort-alpha-asc': sortKey == 'name' && orderAsc, 'icon-sort-alpha-desc': sortKey == 'name' && !orderAsc}"></i>
+                <i class="iconfont" [class]="{'icon-sort-alpha-asc': sortKey() == 'name' && orderAsc, 'icon-sort-alpha-desc': sortKey() == 'name' && !orderAsc()}"></i>
             </div>
             <div class="file-sortable file-row-meta" (click)="tapSort('size')">
                 <span i18n>Size</span>
-                <i class="iconfont" [class]="{'icon-sort-alpha-asc': sortKey == 'size' && orderAsc, 'icon-sort-alpha-desc': sortKey == 'size' && !orderAsc}"></i>
+                <i class="iconfont" [class]="{'icon-sort-alpha-asc': sortKey() == 'size' && orderAsc, 'icon-sort-alpha-desc': sortKey() == 'size' && !orderAsc()}"></i>
             </div>
             <div class="file-sortable file-row-meta" (click)="tapSort('created_at')">
                 <span i18n>Created At</span>
-                <i class="iconfont" [class]="{'icon-sort-alpha-asc': sortKey == 'created_at' && orderAsc, 'icon-sort-alpha-desc': sortKey == 'created_at' && !orderAsc}"></i>
+                <i class="iconfont" [class]="{'icon-sort-alpha-asc': sortKey() == 'created_at' && orderAsc(), 'icon-sort-alpha-desc': sortKey() == 'created_at' && !orderAsc()}"></i>
             </div>
         </div>
         <div class="file-row-body" appInfiniteScroll (scrollEnd)="tapMore()" [disabled]="!hasMore()" [offset]="5">

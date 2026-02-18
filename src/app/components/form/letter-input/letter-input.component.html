@@ -4,5 +4,5 @@
     }
     
     <input type="text" class="letter-input" [disabled]="disabled()" [value]="value()" 
-    (focus)="onFocus()" (blur)="onBlur()" (input)="onValueChanged($event.target.value)">
+    (focus)="onFocus()" (blur)="onBlur()" (input)="onValueChanged($event.target.value)" autocomplete="off">
 </div>

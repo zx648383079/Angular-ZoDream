@@ -157,7 +157,9 @@ export class ListComponent {
         }
         this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
-        this.service.getThreadList({...queries, forum: this.forum().id, sort: this.sortKey, order: this.orderAsc ? 'asc' : 'desc'}).subscribe({
+        this.service.getThreadList({...queries, 
+            forum: this.forum().id, 
+            sort: this.sortKey(), order: this.orderAsc() ? 'asc' : 'desc'}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading.set(false);

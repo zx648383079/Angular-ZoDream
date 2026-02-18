@@ -134,9 +134,9 @@ export class EditIncomeComponent {
                     }
                     if (params.action !== 'clone') {
                         v.id = res.id;
-                        v.happened_at = res.happened_at;
                         v.parent_id = res.parent_id;
                     }
+                    v.happened_at = res.happened_at;
                     v.account_id = res.account_id as any;
                     v.type = res.type;
                     if (params.action === 'bad') {

@@ -35,7 +35,7 @@
         "hls.js": "^1.6.15",
         "immutable": "^5.1.4",
         "katex": "^0.16.28",
-        "marked": "^17.0.2",
+        "marked": "^17.0.3",
         "ngrx-store-freeze": "^0.2.4",
         "reselect": "^5.1.1",
         "rxjs": "^7.8.2",

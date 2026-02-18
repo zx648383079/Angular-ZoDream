@@ -1,6 +1,6 @@
 <div class="nav-header">
     <div class="nav-left">
-        <a class="nav-item" [class]="{disable: this.crumbs.length < 2}" (click)="tapBack()">
+        <a class="nav-item" [class]="{disable: crumbs().length < 2}" (click)="tapBack()">
             <i class="iconfont icon-chevron-left"></i>
         </a>
         <a class="nav-item disable" (click)="tapForward()">
@@ -16,7 +16,7 @@
     </div>
 
     <div class="nav-crumbs">
-        @for (item of crumbs; track $index) {
+        @for (item of crumbs(); track $index) {
             <a class="crumb-item" [class]="{disable: item.disable}">
                 @if (item.icon) {
                 <i class="iconfont" [class]="item.icon"></i>
@@ -52,10 +52,10 @@
         <a class="nav-item nav-hide" (click)="tapRefresh()">
             <i class="iconfont icon-refresh"></i>
         </a>
-        <a class="nav-item" [class]="{active: viewMode}" (click)="viewMode = true">
+        <a class="nav-item" [class]="{active: viewMode}" (click)="viewMode.set(true)">
             <i class="iconfont icon-th-large"></i>
         </a>
-        <a class="nav-item" [class]="{active: !viewMode}" (click)="viewMode = false">
+        <a class="nav-item" [class]="{active: !viewMode}" (click)="viewMode.set(false)">
             <i class="iconfont icon-th-list"></i>
         </a>
         <a class="nav-item nav-hide">
@@ -85,14 +85,14 @@
     </div>
 </div>
 <app-pull-to-refresh class="items-box" (pullup)="tapRefresh()" (pulldown)="tapMore()" [downDisabled]="!hasMore()" [loading]="isLoading()">
-    <div class="catalog-body" [class]="{'file-view': viewMode, 'file-edit': editMode}">
+    <div class="catalog-body" [class]="{'file-view': viewMode(), 'file-edit': editMode()}">
         <div class="file-header">
             <div class="check-box" [class.checked]="isChecked()" (click)="tapCheckAll()"></div>
-            <div class="name" [class]="{'sort-asc': sortKey == 'name' && orderAsc, 'sort-desc': sortKey == 'name' && !orderAsc}" (click)="tapSort('name')">文件名</div>
-            <div class="size" [class]="{'sort-asc': sortKey == 'size' && orderAsc, 'sort-desc': sortKey == 'size' && !orderAsc}" (click)="tapSort('size')">大小</div>
-            <div class="time" [class]="{'sort-asc': sortKey == 'updated_at' && orderAsc, 'sort-desc': sortKey == 'updated_at' && !orderAsc}" (click)="tapSort('updated_at')">修改日期</div>
+            <div class="name" [class]="{'sort-asc': sortKey() == 'name' && orderAsc(), 'sort-desc': sortKey() == 'name' && !orderAsc()}" (click)="tapSort('name')">文件名</div>
+            <div class="size" [class]="{'sort-asc': sortKey() == 'size' && orderAsc(), 'sort-desc': sortKey() == 'size' && !orderAsc()}" (click)="tapSort('size')">大小</div>
+            <div class="time" [class]="{'sort-asc': sortKey() == 'updated_at' && orderAsc(), 'sort-desc': sortKey() == 'updated_at' && !orderAsc()}" (click)="tapSort('updated_at')">修改日期</div>
         </div>
-        @if (editMode) {
+        @if (editMode()) {
         <div class="file-edit-header">
             <div class="check-box" [class.checked]="isChecked()" (click)="tapCheckAll()"></div>
             <div class="check-count">
@@ -148,8 +148,8 @@
 </app-dialog-box>
 
 <app-uploader (uploading)="onUploading($event)" />
-<div class="player-box" [style]="playerStyle">
-    <app-movie-player [hidden]="playerMode != 1" [isFixed]="false" />
-    <app-music-player [hidden]="playerMode != 2" [isFixed]="false" />
-    <app-image-player [visible]="playerMode == 3" />
+<div class="player-box" [style]="playerStyle()">
+    <app-movie-player [hidden]="playerMode() != 1" [isFixed]="false" />
+    <app-music-player [hidden]="playerMode() != 2" [isFixed]="false" />
+    <app-image-player [visible]="playerMode() == 3" />
 </div>

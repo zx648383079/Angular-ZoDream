@@ -6,7 +6,7 @@
         <div class="option-container">
             @if (item.searchable) {
             <div class="search-option-item">
-                <input type="search" i18n-placeholder placeholder="Enter to search" [(value)]="item.keywords" (keydown)="onKeydown($event, item)">
+                <input type="search" i18n-placeholder placeholder="Enter to search" [(value)]="item.keywords" (keydown)="onKeydown($event, item)" autocomplete="off">
                 <i class="iconfont icon-search"></i>
             </div>
             }

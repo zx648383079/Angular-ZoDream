@@ -7,6 +7,10 @@ import { FormValueControl } from '@angular/forms/signals';
     selector: 'app-words-input',
     templateUrl: './words-input.component.html',
     styleUrls: ['./words-input.component.scss'],
+    host: {
+        class: 'words-input',
+        '[class.--with-focus]': 'isFocus()',
+    }
 })
 export class WordsInputComponent implements FormValueControl<string[] | number | string> {
 

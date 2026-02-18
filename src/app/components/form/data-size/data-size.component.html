@@ -1,9 +1,7 @@
-<div class="data-size-input">
-    <input type="number" class="form-control" [value]="unitValue()" [disabled]="disabled()" 
+<input type="number" class="form-control" [value]="unitValue()" [disabled]="disabled()" 
     (input)="onValueChange($event.target.value)" [placeholder]="placeholder()">
-    <select class="form-control" [value]="unitIndex()" (change)="onUnitChange($event)" [disabled]="disabled()">
-        @for (item of unitItems(); track $index;let i = $index) {
-            <option [value]="i">{{ item }}</option>
-        }
-    </select>
-</div>
+<select class="form-control" [value]="unitIndex()" (change)="onUnitChange($event)" [disabled]="disabled()">
+    @for (item of unitItems(); track $index;let i = $index) {
+        <option [value]="i">{{ item }}</option>
+    }
+</select>

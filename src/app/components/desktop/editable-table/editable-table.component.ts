@@ -42,13 +42,15 @@ export class EditableTableComponent {
 
     public readonly filterItems = computed(() => {
         const items = this.searchItems();
-        if (this.sortKey() < 0) {
+        const sortKey = this.sortKey();
+        if (sortKey < 0) {
             return items;
         }
-        const column = this.columnItems()[this.sortKey()];
+        const column = this.columnItems()[sortKey];
+        const orderAsc = this.orderAsc();
         const compare = column.compare;
         return items.sort((a, b) => {
-            const [av, bv] = this.orderAsc ? [a[column.name], b[column.name]] : [b[column.name], a[column.name]];
+            const [av, bv] = orderAsc ? [a[column.name], b[column.name]] : [b[column.name], a[column.name]];
             if (compare) {
                 return compare(av, bv);
             }
@@ -83,7 +85,6 @@ export class EditableTableComponent {
             }
         });
     }
-
 
     public toggleDrop() {
         this.openDrop.update(v => !v);

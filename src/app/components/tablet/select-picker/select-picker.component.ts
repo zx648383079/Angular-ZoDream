@@ -99,6 +99,12 @@ export class SelectPickerComponent {
         this.touchEnd();
     }
 
+    @HostListener('wheel', ['$event'])
+    public onWheel(e: WheelEvent) {
+        e.preventDefault();
+        this.doMove(Math.abs(e.deltaY) / 3, e.deltaY > 0, e.clientX);
+    }
+
     public tapItem(index: number, i: number) {
         const items = this.items();
         this.select(items, index, i);
@@ -177,7 +183,7 @@ export class SelectPickerComponent {
 
     private doMove(distance: number, isUp = true, x = 0) {
         const lineHeight = this.lineHeight();
-        const diff: number = isUp ? Math.floor(distance / lineHeight) : - Math.ceil(distance / lineHeight);
+        const diff: number = isUp ? Math.floor(distance / lineHeight) : - Math.floor(distance / lineHeight);
         let column = 0;
         if (diff === 0) {
             return;

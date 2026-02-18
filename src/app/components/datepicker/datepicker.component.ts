@@ -1,5 +1,5 @@
 import { Component, HostListener, ElementRef, inject, input, model, effect, signal, untracked, computed } from '@angular/core';
-import { formatDate, twoPad } from '../../theme/utils';
+import { formatDate, parseDate, twoPad } from '../../theme/utils';
 import { IDay, DayMode } from './datepicker.base';
 import { hasElementByClass } from '../../theme/utils/doc';
 
@@ -45,6 +45,7 @@ export class DatepickerComponent {
     public readonly hasTime = signal(true);
     public readonly visible = signal(false);
     public readonly gridMode = signal(DayMode.Day);
+    private previousValue: any;
 
     constructor() {
         effect(() => {
@@ -54,9 +55,12 @@ export class DatepickerComponent {
             });
         });
         effect(() => {
-            const val = this.parseDate(this.value());
+            const val = this.value();
             untracked(() => {
-                this.currentDate = val;
+                if (this.previousValue === val) {
+                    return;
+                }
+                this.currentDate = this.parseDate(val);
                 this.refresh();
             })
         });
@@ -74,7 +78,6 @@ export class DatepickerComponent {
             this.initMinutes();
             this.initSeconds();
         }
-        // this.output();
     }
 
     private transformMax(value: Date|string): Date|undefined {
@@ -126,13 +129,7 @@ export class DatepickerComponent {
         if (!date) {
             return new Date();
         }
-        if (typeof date === 'number') {
-            return new Date(date * 1000);
-        }
-        if (typeof date === 'string') {
-            return new Date(date);
-        }
-        return date;
+        return parseDate(date);
     }
 
     /**
@@ -378,7 +375,7 @@ export class DatepickerComponent {
     }
 
     private output() {
-        this.value.set(formatDate(this.currentDate, this.format()));
+        this.value.set(this.previousValue = formatDate(this.currentDate, this.format()));
     }
 
     public open() {

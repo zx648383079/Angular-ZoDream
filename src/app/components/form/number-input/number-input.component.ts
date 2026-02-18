@@ -1,4 +1,4 @@
-import { Component, computed, input, model } from '@angular/core';
+import { Component, computed, HostListener, input, model } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
@@ -23,34 +23,47 @@ export class NumberInputComponent implements FormValueControl<number|string> {
         if (this.disabled()) {
             return true;
         }
-        return this.valueInt <= this.min();
+        return this.valueInt() <= this.min();
     });
 
     public readonly maxDisabled = computed(() => {
         if (this.disabled()) {
             return true;
         }
-        return this.max() > 0 && this.valueInt >= this.max();
+        return this.max() > 0 && this.valueInt() >= this.max();
     });
 
-    public get valueInt(): number {
+    public readonly valueInt = computed(() => {
         return this.parseInt(this.value());
+    });
+
+    @HostListener('wheel', ['$event'])
+    public onWheel(e: WheelEvent) {
+        if (!(e.target instanceof HTMLInputElement)) {
+            return;
+        }
+        e.preventDefault();
+        if (e.deltaY < 0) {
+            this.tapPlus();
+        } else {
+            this.tapMinus();
+        }
     }
 
     public tapMinus() {
-        if (this.minDisabled) {
+        if (this.minDisabled()) {
             return;
         }
         const step = this.step();
-        this.tapChange(this.valueInt - Math.max(typeof step === 'string' ? parseFloat(step) : step, 1));
+        this.tapChange(this.valueInt() - Math.max(typeof step === 'string' ? parseFloat(step) : step, 1));
     }
 
     public tapPlus() {
-        if (this.maxDisabled) {
+        if (this.maxDisabled()) {
             return;
         }
         const step = this.step();
-        this.tapChange(this.valueInt + Math.max(typeof step === 'string' ? parseFloat(step) : step, 1));
+        this.tapChange(this.valueInt() + Math.max(typeof step === 'string' ? parseFloat(step) : step, 1));
     }
 
     public onValueChange(e: Event) {

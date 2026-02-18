@@ -1,9 +1,6 @@
-app-datepicker {
-    display: inline-block;
+:host {
+    display: inline-flex;
     vertical-align: top;
-}
-.calendar-input {
-    display: inline-block;
     .form-control {
         display: inline-block;
         width: auto;
@@ -13,5 +10,5 @@ app-datepicker {
     .btn {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
-    }   
+    } 
 }

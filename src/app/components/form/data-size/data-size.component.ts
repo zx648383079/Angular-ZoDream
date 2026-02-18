@@ -1,4 +1,4 @@
-import { Component, effect, input, model, signal } from '@angular/core';
+import { Component, effect, HostListener, input, model, signal } from '@angular/core';
 import { parseNumber } from '../../../theme/utils';
 import { FormValueControl } from '@angular/forms/signals';
 
@@ -7,6 +7,9 @@ import { FormValueControl } from '@angular/forms/signals';
     selector: 'app-data-size',
     templateUrl: './data-size.component.html',
     styleUrls: ['./data-size.component.scss'],
+    host: {
+        class: 'data-size-input'
+    }
 })
 export class DataSizeComponent implements FormValueControl<string|number> {
 
@@ -21,6 +24,22 @@ export class DataSizeComponent implements FormValueControl<string|number> {
 
     constructor() {
         effect(() => this.writeValue(this.value()));
+    }
+
+    @HostListener('wheel', ['$event'])
+    public onWheel(e: WheelEvent) {
+        if (!(e.target instanceof HTMLInputElement)) {
+            return;
+        }
+        e.preventDefault();
+        this.unitValue.update(v => {
+            if (e.deltaY > 0) {
+                return v - 1;
+            } else {
+                return v + 1;
+            }
+        });
+        this.value.set(Math.pow(this.unitBase(), this.unitIndex()) * this.unitValue());
     }
 
     public onValueChange(val: number|string) {
