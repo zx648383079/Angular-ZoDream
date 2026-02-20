@@ -3,7 +3,7 @@ import { DialogService } from '../../../../components/dialog';
 import { IItem } from '../../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
 import { form } from '@angular/forms/signals';
-import { ButtonEvent } from '../../../../components/form';
+import { ArraySource, ButtonEvent } from '../../../../components/form';
 import { FileUploadService } from '../../../../theme/services';
 
 @Component({
@@ -18,8 +18,8 @@ export class ExportComponent {
     private readonly uploadService = inject(FileUploadService);
 
 
-    public schemaItems: IItem[] = [];
-    public tableItems: IItem[] = [];
+    public readonly schemaItems = signal(ArraySource.empty);
+    public readonly tableItems = signal(ArraySource.empty);
     public readonly dataForm = form(signal({
         schema: '',
         tables: [],
@@ -38,23 +38,13 @@ export class ExportComponent {
 
     constructor() {
         this.service.schemaList().subscribe(res => {
-            this.schemaItems = res.data.map(i => {
-                return {
-                    name: i,
-                    value: i,
-                };
-            });
+            this.schemaItems.set(ArraySource.fromValue(...res.data));
         });
     }
 
     public onSchemaChange() {
         this.service.tableList(this.dataForm.schema().value()).subscribe(res => {
-            this.tableItems = res.data.map(i => {
-                return {
-                    name: i,
-                    value: i,
-                };
-            });
+            this.tableItems.set(ArraySource.fromValue(...res.data));
         });
     }
 

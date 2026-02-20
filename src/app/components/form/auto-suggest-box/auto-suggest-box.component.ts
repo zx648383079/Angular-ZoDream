@@ -1,6 +1,6 @@
 import { Component, HostListener, effect, input, model, output, signal } from '@angular/core';
 import { SuggestChangeEvent } from '../event';
-import { hasElementByClass } from '../../../theme/utils/doc';
+import { isParentOf } from '../../../theme/utils/doc';
 
 @Component({
     standalone: false,
@@ -33,8 +33,8 @@ export class AutoSuggestBoxComponent implements SuggestChangeEvent {
     }
 
     @HostListener('document:click', ['$event']) 
-    public hideSearchBar(event: any) {
-        if (!event.target.closest('.search-box') && !hasElementByClass(event.path, 'search-box')) {
+    public hideSearchBar(event: MouseEvent) {
+        if (isParentOf(event.target as Node, 'search-box') < 0) {
             this.openType.set(0);
         }
     }

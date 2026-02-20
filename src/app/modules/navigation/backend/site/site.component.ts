@@ -1,14 +1,12 @@
 import { form, min, required } from '@angular/forms/signals';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
-import { emptyValidate } from '../../../../theme/validators';
 import { ISite, ISiteCategory, ISiteTag } from '../../model';
 import { NavigationService } from '../navigation.service';
-import { parseNumber } from '../../../../theme/utils';
+import { NetSource } from '../../../../components/form';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -36,8 +34,7 @@ export class SiteComponent {
         tag: 0,
     }));
     public categories: ISiteCategory[] = [];
-    public tagItems$: Observable<ISiteTag[]>;
-    public tagInput$ = new Subject<string>();
+    public readonly tagSource = NetSource.createSearchArray(inject(HttpClient), 'navigation/admin/tag', 'keywords');
     public tagLoading = false;
     public topItems = ['无', '推荐'];
     public readonly editForm = form(signal({
@@ -72,18 +69,6 @@ export class SiteComponent {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
-        this.tagItems$ = concat(
-            of([]), // default items
-            this.tagInput$.pipe(
-                distinctUntilChanged(),
-                tap(() => this.tagLoading = true),
-                switchMap(keywords => this.service.tagList({keywords}).pipe(
-                    catchError(() => of([])), // empty list on error
-                    tap(() => this.tagLoading = false),
-                    map(res => res instanceof Array ? res : res.data)
-                ))
-            )
-        );
     }
 
     public addTagFn(name: string) {

@@ -39,26 +39,26 @@
                             </app-checkin>
                         </li>
                         <li class="nav-item dropdown" [class.show]="dropVisible()">
-                            <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown" role="button" (click)="toggleDropDown()">
+                            <a class="nav-link dropdown-toggle" (click)="toggleDropDown()">
                                 {{ user().name }}
                                 @if (user().bulletin_count > 0) {
                                     <em class="bubble-tip" title="There are unread messages" i18n-title></em>
                                 }
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown" [class.show]="dropVisible()">
+                            <ul class="dropdown-menu" [class.show]="dropVisible()">
                                 @for (item of dropNavItems; track $index) {
                                     @if (item.name && !item.hidden) {
-                                        <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" [routerLink]="item.url">
+                                        <li (click)="toggleDropDown()"><a class="dropdown-item" [routerLink]="item.url">
                                             {{ item.name }}
                                             @if (item.count > 0) {
                                                 <em class="bubble">{{ item.count  > 99 ? '99+' : item.count }}</em>
                                             }
                                         </a></li>
                                     } @else if (!item.hidden) {
-                                        <li ngbDropdownItem><hr class="dropdown-divider"></li>
+                                        <li><hr class="dropdown-divider"></li>
                                     }
                                 }
-                                <li ngbDropdownItem (click)="toggleDropDown()"><a class="dropdown-item" (click)="tapLogout()" i18n>Sign out</a></li>
+                                <li (click)="toggleDropDown()"><a class="dropdown-item" (click)="tapLogout()" i18n>Sign out</a></li>
                             </ul>
                         </li>
                     }

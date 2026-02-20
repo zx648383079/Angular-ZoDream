@@ -1,5 +1,5 @@
-import { Component, computed, HostListener, model, signal } from '@angular/core';
-import { hasElementByClass } from '../../theme/utils/doc';
+import { Component, computed, ElementRef, HostListener, inject, model, signal } from '@angular/core';
+import { isParentOf } from '../../theme/utils/doc';
 import { IMenuButton, IMenuItem, MenuEvent } from './model';
 
 @Component({
@@ -9,6 +9,8 @@ import { IMenuButton, IMenuItem, MenuEvent } from './model';
     styleUrls: ['./context-menu.component.scss']
 })
 export class ContextMenuComponent {
+
+    private readonly elementRef = inject(ElementRef);
 
     public readonly items = model<IMenuItem[]>([]);
 
@@ -20,8 +22,8 @@ export class ContextMenuComponent {
     private finished: MenuEvent;
 
     @HostListener('document:click', ['$event']) 
-    public hideCalendar(event: any) {
-        if (!event.target.closest('.dialog-menu') && !hasElementByClass(event.path, 'dialog-menu')) {
+    public hideCalendar(event: MouseEvent) {
+        if (isParentOf(event.target as Node, this.elementRef.nativeElement) < 0) {
             this.visible.set(false);
         }
     }

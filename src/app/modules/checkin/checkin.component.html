@@ -1,30 +1,27 @@
-<div class="checkin-picker">
-    <div (click)="tapButton()" class="checkin-picker__button">
-        <ng-content />
-    </div>
-    @if (panelVisible()) {
-    <div class="checkin-picker_container" [style]="panelStyle()">
-        <div class="picker-header">
-            <i class="iconfont icon-chevron-left previousMonth" (click)="tapPrevious()"></i>
-            <span class="title" i18n>{{ month() }} cumulative checked in</span>
-            @if (nextable()) {
-                <i class="iconfont icon-chevron-right nextMonth" (click)="tapNext()"></i>
-            }
-            
-        </div>
-        <div class="picker-body">
-            <ol class="gird-header"><li i18n>Mon</li><li i18n>Tue</li><li i18n>Wed</li><li i18n>Thu</li><li i18n>Fri</li><li i18n>Sat</li><li i18n>Sun</li></ol>
-            <ul class="gird-body">
-                @for (item of dayItems(); track $index) {
-                    <li [class.disabled]="item.disabled"
-                        [class.active]="item.active" [title]="formatDayTitle(item)">{{ item.val }}</li>
-                }
-            </ul>
-        </div>
-        @if (!data) {
-            <app-action-button class="picker-footer" (tapped)="tapCheck($event)" i18n>Check in</app-action-button>
-        }
-    </div>
-    }
-    
+<div (click)="tapButton()" class="checkin-picker__button">
+    <ng-content />
 </div>
+@if (panelVisible()) {
+<div class="checkin-picker_container" [style]="panelStyle()">
+    <div class="picker-header">
+        <i class="iconfont icon-chevron-left previousMonth" (click)="tapPrevious()"></i>
+        <span class="title" i18n>{{ month() }} cumulative checked in</span>
+        @if (nextable()) {
+            <i class="iconfont icon-chevron-right nextMonth" (click)="tapNext()"></i>
+        }
+        
+    </div>
+    <div class="picker-body">
+        <ol class="gird-header"><li i18n>Mon</li><li i18n>Tue</li><li i18n>Wed</li><li i18n>Thu</li><li i18n>Fri</li><li i18n>Sat</li><li i18n>Sun</li></ol>
+        <ul class="gird-body">
+            @for (item of dayItems(); track $index) {
+                <li [class.disabled]="item.disabled"
+                    [class.active]="item.active" [title]="formatDayTitle(item)">{{ item.val }}</li>
+            }
+        </ul>
+    </div>
+    @if (!data) {
+        <app-action-button class="picker-footer" (tapped)="tapCheck($event)" i18n>Check in</app-action-button>
+    }
+</div>
+}

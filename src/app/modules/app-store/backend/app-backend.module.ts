@@ -5,7 +5,6 @@ import { ThemeModule } from '../../../theme/theme.module';
 import { AppService } from './app.service';
 import { DialogModule } from '../../../components/dialog';
 import { ZreEditorModule } from '../../../components/editor';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { ZreFormModule } from '../../../components/form';
 import { DesktopModule } from '../../../components/desktop';
 import { FormField } from '@angular/forms/signals';
@@ -17,7 +16,6 @@ import { FormField } from '@angular/forms/signals';
         DesktopModule,
         BackendRoutingModule,
         DialogModule,
-        NgSelectModule,
         FormField,
         ZreEditorModule,
         ZreFormModule,

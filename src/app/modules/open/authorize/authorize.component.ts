@@ -2,10 +2,10 @@ import { form, required } from '@angular/forms/signals';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
-import { IAuthorize, IPlatform } from '../../../theme/models/open';
-import { IPageQueries } from '../../../theme/models/page';
+import { IAuthorize } from '../../../theme/models/open';
 import { OpenService } from '../open.service';
 import { SearchService } from '../../../theme/services';
+import { ArraySource } from '../../../components/form';
 
 @Component({
     standalone: false,
@@ -24,12 +24,12 @@ export class AuthorizeComponent {
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         keywords: ''
     }));
-    public readonly platformItems = signal<IPlatform[]>([]);
+    public readonly platformItems = signal(ArraySource.empty);
     public readonly editForm = form(signal({
         platform_id: 0,
         expired_at: '',
@@ -43,7 +43,7 @@ export class AuthorizeComponent {
             this.tapPage();
         });
         this.service.authorizePlatform().subscribe(res => {
-            this.platformItems.set(res.data);
+            this.platformItems.set(new ArraySource(res.data));
         });
     }
 

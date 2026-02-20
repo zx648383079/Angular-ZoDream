@@ -9,7 +9,6 @@ import {
     LegworkRoutingModule
 } from './legwork-routing.module';
 import { LegworkService } from './legwork.service';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { ThemeModule } from '../../theme/theme.module';
 import { ZreFormModule } from '../../components/form';
 import { DesktopModule } from '../../components/desktop';
@@ -22,7 +21,6 @@ import { FormField } from '@angular/forms/signals';
         FormField,
         LegworkRoutingModule,
         ThemeModule,
-        NgSelectModule,
         ZreFormModule,
     ],
     declarations: [...legworkRoutingComponents],

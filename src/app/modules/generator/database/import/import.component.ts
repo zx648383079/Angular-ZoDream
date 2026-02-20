@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
-import { IItem } from '../../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
 import { form } from '@angular/forms/signals';
+import { ArraySource } from '../../../../components/form';
 
 @Component({
     standalone: false,
@@ -14,19 +14,14 @@ export class ImportComponent {
     private readonly service = inject(GenerateService);
     private readonly toastrService = inject(DialogService);
 
-    public schemaItems: IItem[] = [];
+    public readonly schemaItems = signal(ArraySource.empty);
     public readonly dataForm = form(signal({
         schema: '',
     }));
 
     constructor() {
         this.service.schemaList().subscribe(res => {
-            this.schemaItems = res.data.map(i => {
-                return {
-                    name: i,
-                    value: i,
-                };
-            });
+            this.schemaItems.set(ArraySource.fromValue(...res.data));
         });
     }
 

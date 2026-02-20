@@ -4,7 +4,6 @@ import { backendRoutedComponents, BackendRoutingModule } from './backend-routing
 import { ThemeModule } from '../../../theme/theme.module';
 import { ResourceService } from './resource.service';
 import { DialogModule } from '../../../components/dialog';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { ZreEditorModule } from '../../../components/editor';
 import { ZreFormModule } from '../../../components/form';
 import { DesktopModule } from '../../../components/desktop';
@@ -18,7 +17,6 @@ import { FormField } from '@angular/forms/signals';
         FormField,
         BackendRoutingModule,
         DialogModule,
-        NgSelectModule,
         ZreEditorModule,
         ZreFormModule,
     ],

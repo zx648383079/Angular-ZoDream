@@ -2,8 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
-import { ButtonEvent } from '../../../../../components/form';
-import { IItem } from '../../../../../theme/models/seo';
+import { ArraySource, ButtonEvent } from '../../../../../components/form';
 import { parseNumber } from '../../../../../theme/utils';
 import { IRegion, IShipping, IShippingGroup } from '../../../model';
 import { PaymentService } from '../../payment.service';
@@ -25,7 +24,7 @@ export class EditShippingComponent {
 
     public data: IShipping;
 
-    public readonly items = signal<IItem[]>([]);
+    public readonly items = signal(ArraySource.empty);
 
     public regionItems: IRegion[] = [];
     public selectedItems: IRegion[] = [];
@@ -53,7 +52,7 @@ export class EditShippingComponent {
 
     constructor() {
         this.service.shippingPlugin().subscribe(res => {
-            this.items.set(res);
+            this.items.set(ArraySource.from(res));
         });
         this.route.params.subscribe(params => {
             if (!params.id) {
@@ -121,6 +120,7 @@ export class EditShippingComponent {
         const isNew = !item;
         if (!item) {
             item = {
+                region_label: '',
                 regions: [],
                 is_all: false,
                 first_step: 0,

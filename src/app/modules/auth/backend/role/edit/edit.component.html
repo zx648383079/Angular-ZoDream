@@ -33,7 +33,7 @@
         <div class="input-group-control">
             <label>权限</label>
             <div>
-                <ng-select [multiple]="true" [items]="permissionItems" bindValue="id" bindLabel="display_name"
+                <app-select-input [multiple]="true" [source]="permissionItems()"
                     [formField]="dataForm.permissions" placeholder="选择权限" />
             </div>
         </div>

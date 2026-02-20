@@ -16,7 +16,7 @@ export class TableComponent {
 
 
     public readonly items = signal<ITable[]>([]);
-    public headerItems: ITableHeaderItem[] = [
+    public readonly headerItems: ITableHeaderItem[] = [
         {name: 'Name', label: '表', searchable: true},
         {name: 'Rows', label: '行数', format: 'numberFormat'},
         {name: 'Engine', label: '类型', hidden: true},
@@ -25,17 +25,27 @@ export class TableComponent {
         {name: 'Comment', label: '注释'},
         {name: 'Data_free', label: '碎片', format: 'size', hidden: true},
     ];
-    public schema = '';
+    public readonly schema = signal('');
     public readonly isLoading = signal(false);
 
     constructor() {
         this.isLoading.set(true);
         this.route.queryParams.subscribe(params => {
-            this.schema = params.schema;
-            this.service.tableList(this.schema, true).subscribe(res => {
+            this.schema.set(params.schema);
+            this.onSchemaChange();
+        });
+    }
+
+
+    public onSchemaChange() {
+        this.service.tableList(this.schema(), true).subscribe({
+            next: res => {
                 this.isLoading.set(false);
                 this.items.set(res.data);
-            });
+            },
+            error: _ => {
+                this.isLoading.set(false);
+            }
         });
     }
 

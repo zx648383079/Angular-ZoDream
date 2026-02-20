@@ -2,7 +2,7 @@ import { Component, HostListener, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ICart, ICartItem } from '../../model';
-import { hasElementByClass } from '../../../../theme/utils/doc';
+import { isParentOf } from '../../../../theme/utils/doc';
 import { setCart } from '../../shop.actions';
 import { ShopAppState } from '../../shop.reducer';
 import { selectShopCart } from '../../shop.selectors';
@@ -29,8 +29,9 @@ export class CartDialogComponent {
         });
     }
 
-    @HostListener('document:click', ['$event']) hideCalendar(event: any) {
-        if (!event.target.closest('.cart-button') && !hasElementByClass(event.path, 'cart-button')) {
+    @HostListener('document:click', ['$event']) 
+    public hideCalendar(event: MouseEvent) {
+        if (isParentOf(event.target as Node, 'cart-button') < 0) {
             this.cartOpen.set(false);
         }
     }

@@ -1,9 +1,9 @@
 import { Component, inject, signal, viewChild } from '@angular/core';
 import { DialogBoxComponent, DialogService } from '../../../../components/dialog';
-import { IItem } from '../../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
 import { IPreviewFile } from '../../model';
 import { form } from '@angular/forms/signals';
+import { ArraySource } from '../../../../components/form';
 
 @Component({
     standalone: false,
@@ -18,7 +18,7 @@ export class ModelComponent {
 
     public readonly modal = viewChild(DialogBoxComponent);
 
-    public tableItems: IItem[] = [];
+    public readonly tableItems = signal(ArraySource.empty);
 
     public previewItems: IPreviewFile[] = [];
     public readonly dataForm = form(signal({
@@ -28,12 +28,7 @@ export class ModelComponent {
 
     constructor() {
         this.service.tableList().subscribe(res => {
-            this.tableItems = res.data.map(i => {
-                return {
-                    name: i,
-                    value: i,
-                };
-            });
+            this.tableItems.set(ArraySource.fromValue(...res.data));
         });
     }
 

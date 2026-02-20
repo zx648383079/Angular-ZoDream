@@ -2,6 +2,7 @@ import { Component, signal, viewChild } from '@angular/core';
 import { FlipContainerComponent } from '../../../../../components/swiper';
 import { ICateringRecipeMaterial } from '../../../model';
 import { emptyValidate } from '../../../../../theme/validators';
+import { ArraySource } from '../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -19,6 +20,8 @@ export class GoodsDialogComponent {
     public readonly visible = signal(false);
     public readonly tabIndex = signal(0);
     public readonly items = signal<ICateringRecipeMaterial[]>([]);
+
+    public readonly recipeSource = signal(ArraySource.empty);
     public multipleEditable = false;
     public nextData: any = {
         name: '',

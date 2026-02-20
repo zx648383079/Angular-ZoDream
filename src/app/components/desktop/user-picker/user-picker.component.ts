@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, HostListener, inject, input, model, signal, viewChild } from '@angular/core';
 import { IUser } from '../../../theme/models/user';
 import { IPageQueries, IPage } from '../../../theme/models/page';
-import { hasElementByClass } from '../../../theme/utils/doc';
+import { isParentOf } from '../../../theme/utils/doc';
 import { form, FormValueControl } from '@angular/forms/signals';
 
 @Component({
@@ -13,6 +13,7 @@ import { form, FormValueControl } from '@angular/forms/signals';
 })
 export class UserPickerComponent implements FormValueControl<IUser> {
     private readonly http = inject(HttpClient);
+    private readonly elementRef = inject(ElementRef);
 
 
     private readonly inputor = viewChild<ElementRef<HTMLInputElement>>('inputor');
@@ -20,7 +21,7 @@ export class UserPickerComponent implements FormValueControl<IUser> {
 
     public readonly disabled = input<boolean>(false);
     public readonly value = model<IUser>();
-    public isFocus = false;
+    public readonly isFocus = signal(false);
 
     public readonly queries = signal<IPageQueries>({
         keywords: '',
@@ -34,9 +35,9 @@ export class UserPickerComponent implements FormValueControl<IUser> {
 
 
     @HostListener('document:click', ['$event'])
-    public hideCalendar(event: any) {
-        if (!event.target.closest('.user-picker') && !hasElementByClass(event.path, 'user-picker')) {
-            this.isFocus = false;
+    public hideCalendar(event: MouseEvent) {
+        if (isParentOf(event.target as Node, this.elementRef.nativeElement) < 0) {
+            this.isFocus.set(false);
         }
     }
 
@@ -44,7 +45,7 @@ export class UserPickerComponent implements FormValueControl<IUser> {
         if (this.disabled()) {
             return;
         }
-        this.isFocus = true;
+        this.isFocus.set(true);
         this.inputor().nativeElement.focus();
     }
 

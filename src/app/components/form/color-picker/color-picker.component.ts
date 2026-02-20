@@ -1,6 +1,6 @@
-import { Component, HostListener, input, model, signal } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, input, model, signal } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
-import { hasElementByClass } from '../../../theme/utils/doc';
+import { isParentOf } from '../../../theme/utils/doc';
 
 @Component({
     standalone: false,
@@ -9,13 +9,16 @@ import { hasElementByClass } from '../../../theme/utils/doc';
     styleUrls: ['./color-picker.component.scss'],
 })
 export class ColorPickerComponent implements FormValueControl<string>  {
+
+    private readonly elementRef = inject(ElementRef);
+
     public readonly disabled = input(true);
     public readonly value = model('');
     public readonly visible = signal(false);
     
     @HostListener('document:click', ['$event']) 
-    public hideCalendar(event: any) {
-        if (!event.target.closest('.color-picker') && !hasElementByClass(event.path, 'color-picker-calendar')) {
+    public hideCalendar(event: MouseEvent) {
+        if (isParentOf(event.target as Node, this.elementRef.nativeElement) < 0) {
             this.visible.set(false);
         }
     }

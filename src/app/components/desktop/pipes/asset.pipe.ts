@@ -7,7 +7,7 @@ import { assetUri } from '../../../theme/utils';
 })
 export class AssetPipe implements PipeTransform {
 
-    transform(value: string, args?: any): any {
+    transform(value?: string, args?: any): any {
         return assetUri(value);
     }
 

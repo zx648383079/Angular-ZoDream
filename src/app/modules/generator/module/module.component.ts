@@ -1,8 +1,7 @@
 import { Component, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogBoxComponent, DialogService } from '../../../components/dialog';
-import { ButtonEvent } from '../../../components/form';
-import { IItem } from '../../../theme/models/seo';
+import { ArraySource, ButtonEvent } from '../../../components/form';
 import { emptyValidate } from '../../../theme/validators';
 import { GenerateService } from '../generate.service';
 import { IPreviewFile } from '../model';
@@ -22,8 +21,8 @@ export class ModuleComponent {
 
     public readonly modal = viewChild(DialogBoxComponent);
     public readonly tabIndex = signal(0);
-    public moduleItems: IItem[] = [];
-    public tableItems: IItem[] = [];
+    public readonly moduleItems = signal(ArraySource.empty);
+    public readonly tableItems = signal(ArraySource.empty);
     public readonly installForm = form(signal({
         name: '',
         module: '',
@@ -39,7 +38,7 @@ export class ModuleComponent {
         name: '',
     }));
     public previewItems: IPreviewFile[] = [];
-    public routeItems: IItem[] = [];
+    public readonly routeItems = signal(ArraySource.empty);
 
     constructor() {
         this.route.queryParams.subscribe(params => {
@@ -50,14 +49,9 @@ export class ModuleComponent {
             tables: {},
             routes: {},
         }).subscribe(res => {
-            this.moduleItems = res.modules.data;
-            this.routeItems = res.routes.data;
-            this.tableItems = res.tables.data.map(i => {
-                return {
-                    name: i,
-                    value: i
-                };
-            });
+            this.moduleItems.set(ArraySource.from(res.modules.data));
+            this.routeItems.set(ArraySource.from(res.routes.data));
+            this.tableItems.set(ArraySource.fromValue(...res.tables.data));
         });
     }
 
@@ -111,7 +105,7 @@ export class ModuleComponent {
             return;
         }
         const module = this.installForm.module().value()
-        for (const item of this.moduleItems) {
+        for (const item of this.moduleItems().items) {
             if (item.value === module) {
                 this.installForm.name().value.set(item.name.toLowerCase());
                 return;

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ThemeModule } from '../../../theme/theme.module';
 import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { ZreEditorModule } from '../../../components/editor';
 import { BotBackendRoutingModule, botBackendRoutingComponents } from './backend-routing.module';
 import { BotService } from './bot.service';
@@ -21,7 +20,6 @@ import { FormField } from '@angular/forms/signals';
         TabletModule,
         BotBackendRoutingModule,
         ZreFormModule,
-        NgSelectModule,
         ZreEditorModule,
     ],
     declarations: [...botBackendRoutingComponents],

@@ -1,5 +1,5 @@
-import { Component, HostListener, input, model, effect, signal, computed, untracked } from '@angular/core';
-import { hasElementByClass } from '../../../theme/utils/doc';
+import { Component, HostListener, input, model, effect, signal, computed, untracked, ElementRef, inject } from '@angular/core';
+import { isParentOf } from '../../../theme/utils/doc';
 import { FormValueControl } from '@angular/forms/signals';
 import { IDataSource, selectItem } from '../sources/IDataSource';
 import { IControlOption } from '../event';
@@ -12,6 +12,9 @@ import { findIndex } from '../../../theme/utils';
     templateUrl: 'region.component.html',
 })
 export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
+
+    private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
+    
     public readonly canYes = input(false);
     public readonly placeholder = input($localize `Please select...`);
     public readonly source = input.required<IDataSource>();
@@ -47,8 +50,8 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
     });
 
     @HostListener('document:click', ['$event']) 
-    public hideCalendar(event: any) {
-        if (!event.target.closest('.select-input-container') && !hasElementByClass(event.path, 'select-input-container')) {
+    public hideCalendar(event: MouseEvent) {
+        if (isParentOf(event.target as Node, this.elementRef.nativeElement) < 0) {
             this.panelVisible.set(false);
         }
     }

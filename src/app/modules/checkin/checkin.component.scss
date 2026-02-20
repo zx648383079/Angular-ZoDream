@@ -4,7 +4,8 @@
 $size: 2.5rem;
 $boxWidth: $size * 7;
 
-.checkin-picker {
+:host {
+    display: block;
     position: relative;
     .checkin-picker_container {
         width: $boxWidth;

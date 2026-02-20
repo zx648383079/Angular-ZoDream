@@ -8,11 +8,11 @@
     <div class="panel-container">
         <div class="table-bar">
             目标表：<span class="dist-item" (click)="tapDist(tableModal)">
-                {{ formatTable(distTable) }}
+                {{ formatTable(distTable()) }}
             </span>
             &lt;-
             数据表：
-            @for (item of srcTable; track $index; let i = $index) {
+            @for (item of srcTable(); track $index; let i = $index) {
             <span class="table-item">
                 {{ item.table }}
                 <i class="iconfont icon-close" (click)="tapRemoveTable(i)"></i>
@@ -21,7 +21,7 @@
             <span class="iconfont icon-plus" (click)="tapAddTable(tableModal)"></span>
         </div>
         <div class="link-body">
-            @for (item of linkItems; track $index; let i = $index) {
+            @for (item of linkItems(); track $index; let i = $index) {
             <div class="link-item">
                 <span class="dist-column">{{ item.dist.label }}</span>
                 <i>&lt;-</i>
@@ -48,26 +48,26 @@
         <div class="input-group-control">
             <label for="">数据库</label>
             <div>
-                <ng-select [formField]="tableForm.schema" [items]="schemaItems" bindLabel="name" bindValue="value" (valueChange)="onSchemaChange()" />
+                <app-select-input [formField]="tableForm.schema" [source]="schemaItems()"/>
             </div>
         </div>
         <div class="input-group-control">
             <label for="">表</label>
             <div>
-                <ng-select [formField]="tableForm.table" [items]="tableItems" bindLabel="name" bindValue="value" (valueChange)="onTableChange()" />
+                <app-select-input [formField]="tableForm.table" [source]="tableItems()"/>
             </div>
         </div>
         @if (tableForm.type().value() > 1) {
         <div class="input-group-control">
             <label for="">列</label>
             <div>
-                <ng-select [formField]="tableForm.column" [items]="columnItems" bindLabel="label" bindValue="value" />
+                <app-select-input [formField]="tableForm.column" [source]="columnItems()"/>
             </div>
         </div>
         <div class="input-group-control">
             <label for="">外接列</label>
             <div>
-                <ng-select [formField]="tableForm.foreign" [items]="srcColumnItems" bindLabel="label" />
+                <app-select-input [formField]="tableForm.foreign" [source]="srcColumnItems()"/>
             </div>
         </div>
         }
@@ -103,7 +103,7 @@
                 <div class="input-group-control">
                     <label for="">列</label>
                     <div>
-                        <ng-select [formField]="columnForm.column" [items]="srcColumnItems" bindLabel="label" />
+                        <app-select-input [formField]="columnForm.column" [source]="srcColumnItems()"/>
                     </div>
                 </div>
                 <div class="input-group-control">

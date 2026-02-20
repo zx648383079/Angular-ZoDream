@@ -34,22 +34,22 @@
             @if (searchable()) {
             <tr>
                 <td></td>
-                @for (item of nameItems(); track item.index) {
+                @for (item of nameItems(); track item.index; let i = $index) {
                     <td>
                         @if (item.searchable) {
                             @switch (item.inputType) {
                                 @case ('switch') {
-                                    <app-switch [formField]="item.value" />
+                                    <app-switch [value]="item.value" (valueChange)="onValueChange($event, i)"/>
                                 }
                                 @case ('select') {
-                                    <select class="form-control" [formField]="item.value">
+                                    <select class="form-control" [value]="item.value" (change)="onValueChange($event, i)">
                                         @for (option of item.optionItems; track option.value) {
                                             <option [value]="option.value">{{ option.name }}</option>
                                         }
                                     </select>
                                 }
                                 @default {
-                                    <input type="text" class="form-control" [formField]="item.value" i18n-placeholder placeholder="Please input keywords">
+                                    <input type="text" class="form-control" [value]="item.value" (input)="onValueChange($event, i)" i18n-placeholder placeholder="Please input keywords">
                                 }
                             }
                         }
@@ -66,7 +66,7 @@
                     <i class="iconfont" [class]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}" (click)="toggleCheck(item)"></i>
                 </td>
                 @for (name of nameItems(); track name.index) {
-                    <th>
+                    <td>
                         @switch (name.format) {
                             @case ('img') {
                                 <img [class]="'img-' + name.name" [src]="item[name.name] | asset">
@@ -88,7 +88,7 @@
                             }
                         }
                         {{ formatValue(item, name) }}
-                    </th>
+                    </td>
                 }
                 <td>
                     <ng-container *ngTemplateOutlet="action(); context:item" />
@@ -120,7 +120,7 @@
         <app-pagination [value]="page()" [total]="total()" [perPage]="perPage()" (valueChange)="tapPage($event)" />
     }
 } @else {
-    <div class="loading-box">
+    <div class="loading-tip-box">
         <app-loading-ring />
     </div>
 }

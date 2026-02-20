@@ -1,5 +1,5 @@
-import { Component, HostListener, effect, input, model, signal, untracked } from '@angular/core';
-import { hasElementByClass } from '../../../theme/utils/doc';
+import { Component, ElementRef, HostListener, effect, inject, input, model, signal, untracked } from '@angular/core';
+import { isParentOf } from '../../../theme/utils/doc';
 import { FormValueControl } from '@angular/forms/signals';
 
 const MailSuffixMap = [
@@ -16,10 +16,15 @@ const MailSuffixMap = [
     standalone: false,
     selector: 'app-autocomplete',
     templateUrl: './autocomplete.component.html',
-    styleUrls: ['./autocomplete.component.scss']
+    styleUrls: ['./autocomplete.component.scss'],
+    host: {
+        class: 'autocomplete',
+        '[class.--with-open]': 'panelVisible() && optionItems().length > 0'
+    }
 })
 export class AutocompleteComponent implements FormValueControl<string> {
 
+    private readonly elementRef = inject(ElementRef);
 
     public readonly prefix = input('');
     public readonly suffix = input('@');
@@ -52,8 +57,8 @@ export class AutocompleteComponent implements FormValueControl<string> {
     }
 
     @HostListener('document:click', ['$event']) 
-    public hideCalendar(event: any) {
-        if (!event.target.closest('.autocomplete') && !hasElementByClass(event.path, 'autocomplete')) {
+    public hideCalendar(event: MouseEvent) {
+        if (isParentOf(event.target as Node, this.elementRef.nativeElement) < 0) {
             this.panelVisible.set(false);
         }
     }

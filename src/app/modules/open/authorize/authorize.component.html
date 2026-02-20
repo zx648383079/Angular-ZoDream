@@ -34,7 +34,7 @@
                 @for (item of items(); track $index) {
                     <tr>
                     <td>{{ item.id }}</td>
-                    <td>{{ item.platform.name }}</td>
+                    <td>{{ item.platform?.name }}</td>
                     <td>{{ item.token }}</td>
                     <td>{{ item.status }}</td>
                     <td>{{ item.expired_at }}</td>
@@ -59,7 +59,7 @@
         <div class="input-group-control">
             <label for="">应用</label>
             <div>
-                <ng-select [formField]="editForm.platform_id" [items]="platformItems()" bindValue="id" bindLabel="name" />
+                <app-select-input [formField]="editForm.platform_id" [source]="platformItems()"/>
             </div>
         </div>
         <div class="input-group-control">

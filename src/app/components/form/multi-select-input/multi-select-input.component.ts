@@ -3,7 +3,7 @@ import { FormValueControl } from '@angular/forms/signals';
 import { IDataSource, selectedIndex, selectIndex } from '../sources/IDataSource';
 import { IControlOption } from '../event';
 import { checkRange } from '../../../theme/utils';
-import { hasElementByClass } from '../../../theme/utils/doc';
+import { isParentOf } from '../../../theme/utils/doc';
 
 interface ISelectColumn {
     label?: string;
@@ -45,8 +45,8 @@ export class MultiSelectInputComponent<T = any> implements FormValueControl<T> {
     }
 
     @HostListener('document:click', ['$event']) 
-    public hideCalendar(event: any) {
-        if (!event.target.closest('.select-input-container') && !hasElementByClass(event.path, 'select-input-container')) {
+    public hideCalendar(event: MouseEvent) {
+        if (isParentOf(event.target as Node, 'select-input-container') < 0) {
             this.items.update(v => {
                 for (const item of v) {
                     item.focus = false;

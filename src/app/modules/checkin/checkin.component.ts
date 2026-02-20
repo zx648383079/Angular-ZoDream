@@ -6,7 +6,7 @@ import { ThemeService } from '../../theme/services';
 import { twoPad } from '../../theme/utils';
 import { CheckinService } from './checkin.service';
 import { ICheckIn } from './model';
-import { hasElementByClass } from '../../theme/utils/doc';
+import { isParentOf } from '../../theme/utils/doc';
 
 interface IDay {
     val: string;
@@ -20,7 +20,10 @@ interface IDay {
     standalone: false,
     selector: 'app-checkin',
     templateUrl: './checkin.component.html',
-    styleUrls: ['./checkin.component.scss']
+    styleUrls: ['./checkin.component.scss'],
+    host: {
+        class: 'checkin-picker'
+    }
 })
 export class CheckinComponent {
     private readonly service = inject(CheckinService);
@@ -38,8 +41,9 @@ export class CheckinComponent {
     private monthDate: Date;
     public readonly checkedChange = output<boolean>();
 
-    @HostListener('document:click', ['$event']) hideCalendar(event: any) {
-        if (!event.target.closest('.checkin-picker') && !hasElementByClass(event.path, 'checkin-picker_container')) {
+    @HostListener('document:click', ['$event']) 
+    public hideCalendar(event: MouseEvent) {
+        if (isParentOf(event.target as Node, this.elementRef.nativeElement) < 0) {
             this.panelVisible.set(false);
         }
     }

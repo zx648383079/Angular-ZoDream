@@ -128,7 +128,7 @@
                     <div class="input-group-control">
                         <label i18n>Tags</label>
                         <div>
-                            <ng-select [multiple]="true" [items]="tagItems()" bindLabel="name" [formField]="dataForm.tags" [addTag]="addTagFn" i18n placeholder="Select tags" />
+                            <app-select-input [multiple]="true" [source]="tagItems()" [formField]="dataForm.tags" [creatable]="true" i18n placeholder="Select tags" />
                         </div>
                     </div>
                 </app-expand-card>

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { ThemeModule } from '../../theme/theme.module';
 import { userRoutedComponents, UserRoutingModule } from './user-routing.module';
 import { UserService } from './user.service';
@@ -14,7 +13,6 @@ import { FormField } from '@angular/forms/signals';
     imports: [
         CommonModule,
         FormField,
-        NgSelectModule,
         ThemeModule,
         DesktopModule,
         UserRoutingModule,

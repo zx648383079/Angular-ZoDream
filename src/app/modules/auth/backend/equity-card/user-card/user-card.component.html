@@ -60,7 +60,7 @@
         <div class="input-group-control">
             <label for="">权益卡</label>
             <div>
-                <ng-select [items]="cardItems()" bindValue="id" bindLabel="name" [formField]="editForm.card_id" placeholder="权益卡" />
+                <app-select-input [source]="cardItems()" [formField]="editForm.card_id" placeholder="权益卡" />
             </div>
         </div>
         <div class="input-group-control">

@@ -1,34 +1,31 @@
-<div class="emoji-picker">
-    <div (click)="tapButton()" class="emoji-picker__button">
-        <ng-content />
+<div (click)="tapButton()" class="emoji-picker__button">
+    <ng-content />
+</div>
+@if (panelVisible()) {
+<div class="emoji-picker_container" [style]="panelStyle()">
+    <div class="picker-header">
+        {{ navTitle() }}
+        <i class="iconfont icon-close" (click)="panelVisible.set(false)"></i>
     </div>
-    @if (panelVisible()) {
-    <div class="emoji-picker_container" [style]="panelStyle()">
-        <div class="picker-header">
-            {{ navTitle() }}
-            <i class="iconfont icon-close" (click)="panelVisible.set(false)"></i>
-        </div>
-        <div class="picker-body">
-            @for (item of fiterItems(); track $index) {
-                @if (item.type > 0) {
-                    <div class="item-text" [title]="item.name" (click)="tapItem(item)">
-                        {{ item.content }}
-                    </div>
-                } @else {
-                    <div class="item-image" [title]="item.name" (click)="tapItem(item)">
-                        <img [src]="item.content" [alt]="item.name">
-                    </div>
-                }
-            }
-        </div>
-        <div class="nav-bar">
-            @for (item of navItems(); track $index; let i = $index) {
-                <div class="item" [class]="{active: i === navIndex()}" (click)="navIndex.set(i)">
-                    {{ item.name }}
+    <div class="picker-body">
+        @for (item of fiterItems(); track $index) {
+            @if (item.type > 0) {
+                <div class="item-text" [title]="item.name" (click)="tapItem(item)">
+                    {{ item.content }}
+                </div>
+            } @else {
+                <div class="item-image" [title]="item.name" (click)="tapItem(item)">
+                    <img [src]="item.content" [alt]="item.name">
                 </div>
             }
-        </div>
+        }
     </div>
-    }
-    
+    <div class="nav-bar">
+        @for (item of navItems(); track $index; let i = $index) {
+            <div class="item" [class]="{active: i === navIndex()}" (click)="navIndex.set(i)">
+                {{ item.name }}
+            </div>
+        }
+    </div>
 </div>
+}

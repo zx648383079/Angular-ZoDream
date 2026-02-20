@@ -1,13 +1,13 @@
 import { form, required } from '@angular/forms/signals';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
-import { IWebPage, IWebPageKeywords } from '../../model';
+import { IWebPage } from '../../model';
 import { formatDomain } from '../../util';
 import { NavigationService } from '../navigation.service';
+import { NetSource } from '../../../../components/form';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -26,14 +26,14 @@ export class PageComponent {
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         keywords: '',
         site: 0,
         user: 0,
     }));
-    public readonly editForm = form(signal<IWebPage>({
+    public readonly editForm = form(signal({
         id: 0,
         title: '',
         description: '',
@@ -47,27 +47,13 @@ export class PageComponent {
         required(schemaPath.link);
     });
     public editExistData: IWebPage|undefined;
-    public wordItems$: Observable<IWebPageKeywords[]>;
-    public wordInput$ = new Subject<string>();
-    public wordLoading = false;
+    public readonly wordSource = NetSource.createSearchArray(inject(HttpClient), 'navigation/admin/keyword', 'keywords', 'id', 'word');
 
     constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
         });
-        this.wordItems$ = concat(
-            of([]), // default items
-            this.wordInput$.pipe(
-                distinctUntilChanged(),
-                tap(() => this.wordLoading = true),
-                switchMap(keywords => this.service.keywordList({keywords}).pipe(
-                    catchError(() => of([])), // empty list on error
-                    tap(() => this.wordLoading = false),
-                    map(res => res instanceof Array ? res : res.data)
-                ))
-            )
-        );
     }
 
     public formatDomain(v: string) {

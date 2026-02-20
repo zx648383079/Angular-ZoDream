@@ -1,6 +1,6 @@
-import { Component, inject, signal, viewChild } from '@angular/core';
+import { Component, effect, inject, signal, untracked, viewChild } from '@angular/core';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
-import { ButtonEvent } from '../../../../components/form';
+import { ArraySource, ButtonEvent } from '../../../../components/form';
 import { IItem } from '../../../../theme/models/seo';
 import { GenerateService } from '../../generate.service';
 import { ITableColumn } from '../../model';
@@ -49,15 +49,15 @@ export class CopyTableComponent {
 
 
     public readonly previewModal = viewChild<DialogEvent>('previewModal');
-    public distTable?: ITableItem;
-    public srcTable: ITableItem[] = [];
-    public linkItems: ILinkItem[] = [];
+    public readonly distTable = signal<ITableItem>(null);
+    public readonly srcTable = signal<ITableItem[]>([]);
+    public readonly linkItems = signal<ILinkItem[]>([]);
 
 
-    public schemaItems: IItem[] = [];
-    public tableItems: IItem[] = [];
-    public columnItems: IColumnItem[] = [];
-    public srcColumnItems: IColumnItem[] = [];
+    public readonly schemaItems = signal(ArraySource.empty);
+    public readonly tableItems = signal(ArraySource.empty);
+    public readonly columnItems = signal(ArraySource.empty);
+    public readonly srcColumnItems = signal(ArraySource.empty);
     public readonly tableForm = form(signal({
         type: 0,
         schema: '',
@@ -88,22 +88,26 @@ export class CopyTableComponent {
     private cacheItems: any = {};
 
     constructor() {
+        effect(() => {
+            this.tableForm.schema().value();
+            untracked(() => this.onSchemaChange());
+        });
+        effect(() => {
+            this.tableForm.table().value();
+            untracked(() => this.onTableChange());
+        });
+
         this.getSchame(data => {
-            this.schemaItems = data.map(i => {
-                return {
-                    name: i,
-                    value: i,
-                };
-            });
+            this.schemaItems.set(ArraySource.fromValue(...data));
         });
     }
 
     public tapSubmit(preview = true, e: ButtonEvent) {
-        if (!this.distTable || this.srcTable.length < 1) {
+        if (!this.distTable() || this.srcTable().length < 1) {
             this.toastrService.warning('请选择数据表');
             return;
         }
-        for (const item of this.linkItems) {
+        for (const item of this.linkItems()) {
             if (!item.src) {
                 this.toastrService.warning('请设置完整数据');
                 return;
@@ -111,9 +115,9 @@ export class CopyTableComponent {
         }
         e.enter();
         this.service.copy({
-            dist: this.distTable,
-            src: this.srcTable,
-            column: this.linkItems,
+            dist: this.distTable(),
+            src: this.srcTable(),
+            column: this.linkItems(),
             preview
         }).subscribe({
             next: res => {
@@ -140,27 +144,27 @@ export class CopyTableComponent {
 
     public tapDist(modal: DialogEvent) {
         modal.open(() => {
-            this.distTable = {
+            this.distTable.set({
                 schema: this.tableForm.schema().value(),
                 table: this.tableForm.table().value(),
-            };
-            this.getColumn(this.distTable, data => {
-                this.linkItems = data.map(i => {
+            });
+            this.getColumn(this.distTable(), data => {
+                this.linkItems.set(data.map(i => {
                     return {
                         dist: i
                     };
-                });
+                }));
             });
         }, '请选择目标表');
     }
 
     public tapAddTable(modal: DialogEvent) {
-        if (!this.distTable) {
+        if (!this.distTable()) {
             this.toastrService.warning('请先选择目标表');
             return;
         }
         this.tableForm().value.update(v => {
-            v.type = this.srcTable.length > 0 ? 2 : 1;
+            v.type = this.srcTable().length > 0 ? 2 : 1;
             v.table = '';
             return {...v};
         })
@@ -176,19 +180,19 @@ export class CopyTableComponent {
                 table.foreignTable = data.foreign.table;
                 table.foreignSchema = data.foreign.schema;
             }
-            this.srcTable.push(table);
+            this.srcTable.update(v => [...v, table]);
             this.refreshSrcColumn();
             this.autoLinkColumn();
         }, '请选择数据表');
     }
 
     public tapColumn(modal: DialogEvent, item: ILinkItem) {
-        if (this.srcTable.length < 1) {
+        if (this.srcTable().length < 1) {
             this.toastrService.warning('请先选择数据表');
             return;
         }
         this.columnForm().value.update(v => {
-            return item.src ? {...item.src} as any : {type: 0, value: '', valueType: 'string', column: undefined, append: '0', appendType: 'number',};
+            return item.src ? {...item.src} as any : {type: 0, value: '', valueType: 'string', column: null, append: '0', appendType: 'number',};
         });
         modal.open(() => {
             const data = this.columnForm().value() as any;
@@ -197,42 +201,36 @@ export class CopyTableComponent {
     }
 
     public tapRemoveTable(i: number) {
-        this.srcTable.splice(i, 1);
+        this.srcTable.update(v => {
+            v.splice(i, 1);
+            return [...v];
+        });
     }
 
     public tapRemoveItem(i: number) {
-        this.linkItems.splice(i, 1);
+        this.linkItems.update(v => {
+            v.splice(i, 1);
+            return [...v];
+        });
     }
 
     public onSchemaChange() {
         this.getTable(this.tableForm.schema().value(), data => {
-            this.tableItems = data.map(i => {
-                return {
-                    name: i,
-                    value: i,
-                };
-            });
+            this.tableItems.set(ArraySource.fromValue(...data));
         });
     }
 
     public onTableChange() {
         this.getColumn(this.tableForm().value(), data => {
-            this.columnItems = data.map(i => {
-                return {
-                    schema: this.tableForm.schema().value(),
-                    table: this.tableForm.table().value(),
-                    column: i.value,
-                    label: i.label,
-                };
-            });
+            this.columnItems.set(new ArraySource(data, 'value', 'label'));
         });
     }
 
     public tapReset() {
-        this.srcColumnItems = [];
-        this.srcTable = [];
-        this.distTable = undefined;
-        this.linkItems = [];
+        this.srcColumnItems.set(ArraySource.empty);
+        this.srcTable.set([]);
+        this.distTable.set(null);
+        this.linkItems.set([]);
     }
 
     private formatColumnValue(item: IColumnValue) {
@@ -249,16 +247,16 @@ export class CopyTableComponent {
     }
 
     private autoLinkColumn() {
-        for (const item of this.linkItems) {
+        for (const item of this.linkItems()) {
             if (item.src) {
                 continue;
             }
-            for (const column of this.srcColumnItems) {
-                if (item.dist.value === column.column) {
+            for (const column of this.srcColumnItems().items) {
+                if (item.dist.value === column.value.column) {
                     item.src = {
                         type: 1,
                         column: {...column},
-                        label: column.label
+                        label: column.value.label
                     } as any;
                 }
             }
@@ -267,7 +265,7 @@ export class CopyTableComponent {
 
     private refreshSrcColumn() {
         const items: IColumnItem[] = [];
-        for (const item of this.srcTable) {
+        for (const item of this.srcTable()) {
             this.getColumn(item, data => {
                 data.forEach(i => {
                     items.push({
@@ -279,7 +277,7 @@ export class CopyTableComponent {
                 });
             });
         }
-        this.srcColumnItems = items;
+        this.srcColumnItems.set(new ArraySource(items, '', 'label'));
     }
 
     private getSchame(cb: (data: string[]) => void) {
@@ -310,6 +308,10 @@ export class CopyTableComponent {
     }
     private getColumn(table: string|ITableItem, cb: (data: ITableColumn[]) => void) {
         const [schame, tab] = typeof table === 'object' ? [table.schema, table.table] : table.split('.');
+        if (!tab) {
+            cb([]);
+            return;
+        }
         const columns = this.cacheItems.hasOwnProperty(schame) && this.cacheItems[schame].hasOwnProperty(tab) ? this.cacheItems[schame][tab] : [];
         if (columns.length > 0) {
             return cb(columns);

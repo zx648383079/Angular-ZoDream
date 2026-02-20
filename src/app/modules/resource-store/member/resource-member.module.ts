@@ -7,7 +7,6 @@ import { DesktopModule } from '../../../components/desktop';
 import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
 import { ZreEditorModule } from '../../../components/editor';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { FormField } from '@angular/forms/signals';
 
 @NgModule({
@@ -19,7 +18,6 @@ import { FormField } from '@angular/forms/signals';
         DialogModule,
         ZreFormModule,
         ZreEditorModule,
-        NgSelectModule,
         ResourceMemberRoutingModule
     ],
     declarations: [...resourceMemberRoutingComponents],

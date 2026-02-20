@@ -8,7 +8,7 @@
         <div class="input-group-control">
             <label for="">数据表</label>
             <div>
-                <ng-select [formField]="dataForm.table" [items]="tableItems" bindLabel="name" bindValue="value" [multiple]="true" />
+                <app-select-input [formField]="dataForm.table" [source]="tableItems()" [multiple]="true" />
             </div>
         </div>
         <div class="input-group-control">

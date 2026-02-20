@@ -3,18 +3,21 @@ import { Component, computed, ElementRef, HostListener, inject, input, output, s
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IEmoji, IEmojiCategory } from '../../../theme/models/seo';
-import { hasElementByClass } from '../../../theme/utils/doc';
+import { isParentOf } from '../../../theme/utils/doc';
 import { IData } from '../../../theme/models/page';
 
 @Component({
     standalone: false,
     selector: 'app-emoji-picker',
     templateUrl: './emoji-picker.component.html',
-    styleUrls: ['./emoji-picker.component.scss']
+    styleUrls: ['./emoji-picker.component.scss'],
+    host: {
+        class: 'emoji-picker'
+    }
 })
 export class EmojiPickerComponent {
     private readonly http = inject(HttpClient);
-    private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
+    private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
 
     static cacheMaps: {[url: string]: IEmojiCategory[]} = {};
@@ -27,8 +30,8 @@ export class EmojiPickerComponent {
     private booted = false;
 
     @HostListener('document:click', ['$event']) 
-    public hideCalendar(event: any) {
-        if (!event.target.closest('.emoji-picker') && !hasElementByClass(event.path, 'emoji-picker_container')) {
+    public hideCalendar(event: MouseEvent) {
+        if (isParentOf(event.target as Node, this.elementRef.nativeElement) < 0) {
             this.panelVisible.set(false);
         }
     }

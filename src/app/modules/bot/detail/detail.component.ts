@@ -1,8 +1,8 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
-import { hasElementByClass } from '../../../theme/utils/doc';
+import { isParentOf } from '../../../theme/utils/doc';
 import { BotService } from '../bot.service';
 import { IBotMedia } from '../model';
 
@@ -19,11 +19,12 @@ export class DetailComponent {
     private readonly location = inject(Location);
 
     public data: IBotMedia;
-    public dropToggle = false;
+    public readonly dropToggle = signal(false);
 
-    @HostListener('document:click', ['$event']) hideCalendar(event: any) {
-        if (!event.target.closest('.rich_media_meta_nickname') && !hasElementByClass(event.path, 'drop-box')) {
-            this.dropToggle = false;
+    @HostListener('document:click', ['$event']) 
+    public hideCalendar(event: MouseEvent) {
+        if (isParentOf(event.target as Node, '.rich_media_meta_nickname') < 0) {
+            this.dropToggle.set(false);
         }
     }
 
@@ -42,6 +43,10 @@ export class DetailComponent {
                 }
             });
         });
+    }
+
+    public toggle() {
+        this.dropToggle.update(v => !v);
     }
 
 }

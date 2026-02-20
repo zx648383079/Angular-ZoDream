@@ -6,7 +6,6 @@ import { ZreFormModule } from '../../../components/form';
 import { ZreEditorModule } from '../../../components/editor';
 import { BlogMemberRoutingModule, blogMemberRoutingComponents } from './blog-routing.module';
 import { BlogService } from './blog.service';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { DesktopModule } from '../../../components/desktop';
 import { FormField } from '@angular/forms/signals';
 
@@ -19,7 +18,6 @@ import { FormField } from '@angular/forms/signals';
         DesktopModule,
         BlogMemberRoutingModule,
         ZreFormModule,
-        NgSelectModule,
         ZreEditorModule,
     ],
     declarations: [...blogMemberRoutingComponents],

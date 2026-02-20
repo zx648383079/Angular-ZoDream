@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { ShopBackendRoutingModule, shopBackendRoutedComponents } from './shop-routing.module';
 import { ThemeModule } from '../../../theme/theme.module';
 import { ShopService } from './shop.service';
@@ -19,7 +18,6 @@ import { FormField } from '@angular/forms/signals';
     declarations: [...shopBackendRoutedComponents],
     imports: [
         CommonModule,
-        NgSelectModule,
         FormField,
         ThemeModule,
         DesktopModule,

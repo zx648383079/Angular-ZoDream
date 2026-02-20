@@ -6,9 +6,10 @@ import { TVService } from '../../tv.service';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { FileUploadService } from '../../../../../theme/services';
-import { ButtonEvent } from '../../../../../components/form';
+import { ButtonEvent, NetSource } from '../../../../../components/form';
 import { EditorBlockType, IEditorFileBlock, IImageUploadEvent } from '../../../../../components/editor';
 import { form, required } from '@angular/forms/signals';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -51,9 +52,7 @@ export class EditMovieComponent {
     });
     public categories: ICategory[] = [];
     public areaItems: IMovieArea[] = [];
-    public tagItems$: Observable<ITag[]>;
-    public tagInput$ = new Subject<string>();
-    public tagLoading = false;
+    public readonly tagSource = NetSource.createSearchArray(inject(HttpClient), 'tv/admin/tag', 'keywords');
 
     constructor() {
         this.service.batch({
@@ -96,18 +95,6 @@ export class EditMovieComponent {
                 }
             });
         });
-        this.tagItems$ = concat(
-            of([]), // default items
-            this.tagInput$.pipe(
-                distinctUntilChanged(),
-                tap(() => this.tagLoading = true),
-                switchMap(keywords => this.service.tagList({keywords}).pipe(
-                    catchError(() => of([])), // empty list on error
-                    tap(() => this.tagLoading = false),
-                    map(res => res instanceof Array ? res : res.data)
-                ))
-            )
-        );
     }
 
     public tapBack() {

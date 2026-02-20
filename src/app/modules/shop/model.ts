@@ -236,7 +236,7 @@ export interface IShipping {
 
 export interface IShippingGroup {
     regions: IRegion[];
-    region_label?: string;
+    region_label: string;
     id?: number;
     shipping_id?: number;
     first_step: number;

@@ -4,7 +4,7 @@ import { IBlog, ICategory, ITag } from '../../model';
 import { BlogService } from '../blog.service';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
-import { ButtonEvent } from '../../../../components/form';
+import { ArraySource, ButtonEvent } from '../../../../components/form';
 import { mapFormat, parseNumber } from '../../../../theme/utils';
 import { EDITOR_EVENT_CLOSE_TOOL, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITOR_READY, EDITOR_EVENT_UNDO_CHANGE, EDITOR_REDO_TOOL, EDITOR_UNDO_TOOL, EditorBlockType, EditorService, IEditorBlock, IEditorFileBlock, IEditorTool, IImageUploadEvent } from '../../../../components/editor';
 import { IItem } from '../../../../theme/models/seo';
@@ -73,7 +73,7 @@ export class EditBlogComponent {
 
     public readonly metaSize = computed(() => this.dataForm.description().value().length);
 
-    public readonly tagItems = signal<ITag[]>([]);
+    public readonly tagItems = signal(ArraySource.empty);
     public readonly categories = signal<ICategory[]>([]);
     public readonly languages = signal<string[]>([]);
     public readonly localizes = signal<IItem[]>([]);
@@ -120,7 +120,7 @@ export class EditBlogComponent {
             this.size.set(this.editor.wordLength);
         });
         this.service.editOption().subscribe(res => {
-            this.tagItems.set(res.tags);
+            this.tagItems.set(new ArraySource(res.tags, 'id', 'name', true));
             this.categories.set(res.categories);
             this.languages.set(res.languages);
             this.weathers.set(res.weathers);

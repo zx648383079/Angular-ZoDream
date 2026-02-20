@@ -19,8 +19,7 @@
             <div class="input-group-control">
                 <label for="code">Code</label>
                 <div>
-                    <ng-select [items]="items()" bindValue="value" bindLabel="name" [formField]="dataForm.code" />
-
+                    <app-select-input [source]="items()" [formField]="dataForm.code" />
                 </div>
             </div>
             <div class="input-group-control">

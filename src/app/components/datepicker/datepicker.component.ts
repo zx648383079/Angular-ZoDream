@@ -1,7 +1,7 @@
 import { Component, HostListener, ElementRef, inject, input, model, effect, signal, untracked, computed } from '@angular/core';
 import { formatDate, parseDate, twoPad } from '../../theme/utils';
 import { IDay, DayMode } from './datepicker.base';
-import { hasElementByClass } from '../../theme/utils/doc';
+import { isParentOf } from '../../theme/utils/doc';
 
 @Component({
     standalone: false,
@@ -98,8 +98,8 @@ export class DatepickerComponent {
     }
 
     @HostListener('document:click', ['$event']) 
-    public hideCalendar(event: any) {
-        if (!event.target.closest('.datepicker') && !hasElementByClass(event.path, 'datepicker__calendar')) {
+    public hideCalendar(event: MouseEvent) {
+        if (isParentOf(event.target as Node, this.elementRef.nativeElement) < 0) {
             this.visible.set(false);
         }
     }

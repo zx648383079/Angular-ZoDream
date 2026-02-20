@@ -1,6 +1,6 @@
 import { Component, HostListener, TemplateRef, computed, effect, input, model, output, signal } from '@angular/core';
 import { IColumnLink, ITableHeaderItem } from './model';
-import { hasElementByClass } from '../../../theme/utils/doc';
+import { isParentOf } from '../../../theme/utils/doc';
 import { eachObject } from '../../../theme/utils';
 
 @Component({
@@ -71,8 +71,8 @@ export class EditableTableComponent {
     });
 
     @HostListener('document:click', ['$event']) 
-    public hideCalendar(event: any) {
-        if (!event.target.closest('.drop-menu-btn') && !hasElementByClass(event.path, 'drop-menu-btn')) {
+    public hideCalendar(event: MouseEvent) {
+        if (isParentOf(event.target as Node, 'drop-menu-btn') < 0) {
             this.openDrop.set(false);
         }
     }
@@ -115,6 +115,16 @@ export class EditableTableComponent {
             const columnItems = this.columnItems();
             this.orderAsc.set(typeof columnItems[i].asc !== 'boolean' || columnItems[i].asc);
         }
+    }
+
+    public onValueChange(val: any, index: number) {
+        if (typeof val === 'object') {
+            val = (val.target as HTMLSelectElement).value;
+        }
+        this.nameItems.update(v => {
+            v[index].value = val;
+            return v;
+        });
     }
 
     public formatValue(item: any, name: IColumnLink) {
@@ -218,6 +228,7 @@ export class EditableTableComponent {
             items.push({
                 name: item.name,
                 label: item.label || item.name,
+                value: item.inputType === 'switch' ? 0 : '',
                 index: i,
                 searchable: item.searchable,
                 inputType: item.inputType,

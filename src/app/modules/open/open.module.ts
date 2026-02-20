@@ -6,7 +6,6 @@ import { PlatformOptionComponent } from './platform-option/platform-option.compo
 import { OpenService } from './open.service';
 import { ZreFormModule } from '../../components/form';
 import { DialogModule } from '../../components/dialog';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { DesktopModule } from '../../components/desktop';
 import { FormField } from '@angular/forms/signals';
 
@@ -19,7 +18,6 @@ import { FormField } from '@angular/forms/signals';
         OpenRoutingModule,
         ZreFormModule,
         DialogModule,
-        NgSelectModule,
     ],
     declarations: [...openRoutedComponents, PlatformOptionComponent],
     exports: [PlatformOptionComponent],

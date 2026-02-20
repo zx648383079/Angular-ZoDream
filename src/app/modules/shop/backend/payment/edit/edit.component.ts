@@ -2,8 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
-import { ButtonEvent } from '../../../../../components/form';
-import { IItem } from '../../../../../theme/models/seo';
+import { ArraySource, ButtonEvent } from '../../../../../components/form';
 import { IPayment, IShipping } from '../../../model';
 import { PaymentService } from '../../payment.service';
 import { form, required } from '@angular/forms/signals';
@@ -21,8 +20,8 @@ export class EditPaymentComponent {
     private readonly location = inject(Location);
 
     public data: IPayment;
-    public readonly items = signal<IItem[]>([]);
-    public shippingItems: IShipping[] = [];
+    public readonly items = signal(ArraySource.empty);
+    public readonly shippingItems = signal(ArraySource.empty);
     public readonly dataModel = signal({
         id: 0,
         name: '',
@@ -39,10 +38,10 @@ export class EditPaymentComponent {
 
     constructor() {
         this.service.paymentPlugin().subscribe(res => {
-            this.items.set(res);
+            this.items.set(ArraySource.from(res));
         });
         this.service.shippingAll().subscribe(res => {
-            this.shippingItems = res;
+            this.shippingItems.set(new ArraySource(res));
         });
         this.route.params.subscribe(params => {
             if (!params.id) {

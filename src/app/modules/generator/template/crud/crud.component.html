@@ -15,7 +15,7 @@
         <div class="input-group-control">
             <label for="">数据表</label>
             <div>
-                <ng-select [formField]="dataForm.table" [items]="tableItems" bindLabel="name" bindValue="value" />
+                <app-select-input [formField]="dataForm.table" [source]="tableItems()"/>
             </div>
         </div>
         <div class="input-group-control">

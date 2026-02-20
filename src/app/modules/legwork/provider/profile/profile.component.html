@@ -29,7 +29,7 @@
     <div class="form-group row">
         <label for="address" class="col-md-3 col-form-label" i18n>Category</label>
         <div class="col-md-9">
-            <ng-select [multiple]="true" [items]="categories" bindValue="id" bindLabel="name" [formField]="dataForm.categories" i18n-placeholder placeholder="Select categories" />
+            <app-select-input [multiple]="true" [source]="categories()" [formField]="dataForm.categories" i18n-placeholder placeholder="Select categories" />
         </div>
     </div>
 

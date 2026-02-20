@@ -2,6 +2,7 @@ import { Component, input, signal, viewChild } from '@angular/core';
 import { ICateringPurchaseOrder, ICateringPurchaseOrderGoods } from '../../../model';
 import { emptyValidate } from '../../../../../theme/validators';
 import { FlipContainerComponent } from '../../../../../components/swiper';
+import { ArraySource } from '../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -22,6 +23,8 @@ export class StockDialogComponent {
         name: '',
         unit: '',
      };
+
+     public readonly userSource = ArraySource.empty;
      
     public open() {
         this.visible.set(true);

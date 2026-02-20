@@ -4,23 +4,23 @@
         <h2 class="rich_media_title">{{ data.title }}</h2>
         <div class="rich_media_meta_list">
             <span class="rich_media_meta rich_media_meta_nickname">
-                <a (click)="dropToggle = !dropToggle">
-                    {{ data.account.name }}
+                <a (click)="toggle()">
+                    {{ data.account?.name }}
                 </a>
                 <div class="drop-box" [class]="{open: dropToggle}">
                     <div class="box-qr">
-                        <img class="profile_avatar" [src]="data.account.qrcode | asset" [alt]="data.account.name">
+                        <img class="profile_avatar" [src]="data.account?.qrcode | asset" [alt]="data.account?.name">
                     </div>
                     <div class="box-body">
-                        <strong class="profile_nickname">{{ data.account.name }}</strong>
+                        <strong class="profile_nickname">{{ data.account?.name }}</strong>
                     
                         <p class="profile_meta">
                             <label class="profile_meta_label" i18n>Account</label>
-                            <span class="profile_meta_value">{{ data.account.account }}</span>
+                            <span class="profile_meta_value">{{ data.account?.account }}</span>
                         </p>
                         <p class="profile_meta">
                             <label class="profile_meta_label" i18n>Description</label>
-                            <span class="profile_meta_value">{{ data.account.description }}</span>
+                            <span class="profile_meta_value">{{ data.account?.description }}</span>
                         </p>
                     </div>
                 </div>

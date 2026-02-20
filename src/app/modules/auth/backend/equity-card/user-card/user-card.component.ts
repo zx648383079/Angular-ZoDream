@@ -7,6 +7,7 @@ import { IPageQueries } from '../../../../../theme/models/page';
 import { IUser } from '../../../../../theme/models/user';
 import { AuthService } from '../../auth.service';
 import { SearchService } from '../../../../../theme/services';
+import { ArraySource } from '../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -35,7 +36,7 @@ export class UserCardComponent {
     }), schemaPath => {
         required(schemaPath.card_id);
     });
-    public readonly cardItems = signal<IEquityCard[]>([]);
+    public readonly cardItems = signal(ArraySource.empty);
 
     constructor() {
         this.route.params.subscribe(params => {
@@ -45,7 +46,7 @@ export class UserCardComponent {
             });
         });
         this.service.cardSearch({}).subscribe(res => {
-            this.cardItems.set(res.data);
+            this.cardItems.set(new ArraySource(res.data));
         });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));

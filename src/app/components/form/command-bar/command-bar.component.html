@@ -14,7 +14,7 @@
 
     
     @if (dropItems().length > 0) {
-    <div class="command-control-icon" (click)="toggle()">
+    <div class="command-control-icon" (click)="toggle($event)">
         <i class="iconfont icon-ellipsis-v"></i>
     </div>
     <ul class="command-secondary-bar">

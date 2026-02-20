@@ -6,8 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class TreeLevelPipe implements PipeTransform {
 
-    transform(value: number): string {
-        return '├' + '─'.repeat(value);
+    transform(value?: number): string {
+        return '├' + '─'.repeat(value || 0);
     }
 
 }

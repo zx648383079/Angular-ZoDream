@@ -22,7 +22,7 @@
             <div class="input-label">描述</div>
             <textarea class="form-control"></textarea>
 
-            <div class="line-menu-bar" (click)="flipModal().navigate(1)">
+            <div class="line-menu-bar" (click)="flipModal()?.navigate(1)">
                 <div class="menu-name">配料</div>
                 <div class="menu-arrow">
                     <i class="iconfont icon-chevron-right"></i>
@@ -35,7 +35,7 @@
                 <div class="item" [class]="{active: tabIndex() > 0}" (click)="tabIndex.set(1)">食材</div>
             </div>
             <div [hidden]="tabIndex() > 0">
-                <ng-select />
+                <app-select-input [source]="recipeSource()"/>
             </div>
             <div class="multiple-panel"  [hidden]="tabIndex() < 1">
                 @for (item of items(); track $index) {

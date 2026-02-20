@@ -1,11 +1,12 @@
 @use '../../../../bootstrap/desktop/scrollbar';
+@use '../../../theme/theme';
 .drop-menu-btn {
     position: relative;
     .drop-menu-body {
         display: none;
         position: absolute;
-        background-color: white;
-        box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+        background-color: var(--#{theme.$prefix}panel);
+        box-shadow: 0 2px 8px rgba(var(--#{theme.$prefix}mask-rgb), .15);
         max-height: 50vh;
         overflow-y: auto;
         min-width: 10em;
@@ -19,7 +20,7 @@
         cursor: default;
         user-select: none;
         &:hover {
-            background: rgba(0, 0, 0, 0.1);
+            background-color: var(--#{theme.$prefix}input-selected);
         }
     }
     &.open-drop {
@@ -27,4 +28,11 @@
             display: block;
         }
     }
+}
+
+.loading-tip-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40vh;
 }

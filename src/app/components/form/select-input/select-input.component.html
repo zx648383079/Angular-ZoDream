@@ -1,4 +1,4 @@
-<div class="input-container">
+<div class="input-container" (click)="onFocus()">
     <div class="selected-container" [class.--with-only]="selectedItems().length > 0 && !multiple()">
         @for (item of selectedItems(); track $index) {
             <div class="selected-item">
@@ -8,7 +8,7 @@
         }
     </div>
     <input type="text" [value]="keywords()" [placeholder]="placeholder()" (input)="onKeywordsChange($event.target.value)" 
-    [disabled]="disabled()" (focus)="onFocus()" (blur)="onBlur()" autocomplete="off">
+    [disabled]="disabled()" autocomplete="off">
     <div class="dropdown-toggle"></div>
 </div>
 <div class="option-container">

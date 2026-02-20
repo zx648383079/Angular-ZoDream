@@ -4,13 +4,14 @@ import { ActivatedRoute } from '@angular/router';
 import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { DialogService } from '../../../../../components/dialog';
 import { EditorBlockType, IEditorFileBlock, IImageUploadEvent } from '../../../../../components/editor';
-import { ButtonEvent, UploadCustomEvent } from '../../../../../components/form';
+import { ButtonEvent, NetSource, UploadCustomEvent } from '../../../../../components/form';
 import { FileUploadService } from '../../../../../theme/services';
 import { parseNumber } from '../../../../../theme/utils';
 import { FileTypeItems, ICategory, IResource, IResourceFile, ITag, MediaTypeItems } from '../../../model';
 import { ResourceService } from '../../resource.service';
 import { ReviewStatusItems } from '../../../../../theme/models/auth';
 import { form, required } from '@angular/forms/signals';
+import { HttpClient } from '@angular/common/http';
 
 interface IResFile {
     id: number;
@@ -59,9 +60,7 @@ export class EditResourceComponent {
 
     public data: IResource;
     public categories: ICategory[] = [];
-    public tagItems$: Observable<ITag[]>;
-    public tagInput$ = new Subject<string>();
-    public tagLoading = false;
+    public readonly tagSource = NetSource.createSearchArray(inject(HttpClient), 'res/admin/tag', 'keywords');
     public previewTypeItems = MediaTypeItems;
     public reviewItems = ReviewStatusItems;
     public fileTypeItems = FileTypeItems;
@@ -103,18 +102,6 @@ export class EditResourceComponent {
                 }
             });
         });
-        this.tagItems$ = concat(
-            of([]), // default items
-            this.tagInput$.pipe(
-                distinctUntilChanged(),
-                tap(() => this.tagLoading = true),
-                switchMap(keywords => this.service.tagList({keywords}).pipe(
-                    catchError(() => of([])), // empty list on error
-                    tap(() => this.tagLoading = false),
-                    map(res => res instanceof Array ? res : res.data)
-                ))
-            )
-        );
     }
 
     public tapBack() {

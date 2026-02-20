@@ -3,6 +3,7 @@ import { DialogService } from '../../../../components/dialog';
 import { LegworkService } from '../../legwork.service';
 import { ICategory, IProvider } from '../../model';
 import { form, required } from '@angular/forms/signals';
+import { ArraySource } from '../../../../components/form';
 
 @Component({
     standalone: false,
@@ -29,7 +30,7 @@ export class ProfileComponent {
         required(schemaPath.tel);
         required(schemaPath.address);
     });
-    public categories: ICategory[] = [];
+    public readonly categories = signal(ArraySource.empty);
 
     constructor() {
         this.service.providerProfile().subscribe(res => {
@@ -46,7 +47,7 @@ export class ProfileComponent {
             });
         });
         this.service.categoryList().subscribe(res => {
-            this.categories = res.data;
+            this.categories.set(new ArraySource(res.data));
         });
     }
 

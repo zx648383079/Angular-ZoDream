@@ -1,5 +1,5 @@
-import { Component, HostListener, effect, forwardRef, input, model, signal, untracked } from '@angular/core';
-import { hasElementByClass } from '../../../theme/utils/doc';
+import { Component, ElementRef, HostListener, effect, forwardRef, inject, input, model, signal, untracked } from '@angular/core';
+import { isParentOf } from '../../../theme/utils/doc';
 import { FormValueControl } from '@angular/forms/signals';
 import { IControlOption } from '../event';
 import { equalOption, IDataSource, selectIndex, selectItems, toggleSelectedItems } from '../sources/IDataSource';
@@ -12,7 +12,8 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
     styleUrls: ['./select-input.component.scss'],
     host: {
         'class': 'select-input-container',
-        '[class.--with-open]': 'panelVisible()'
+        '[class.--with-open]': 'panelVisible()',
+        '[class.--with-flow-top]': 'flowTop()',
     },
     providers: [{
         provide: NG_VALUE_ACCESSOR,
@@ -21,6 +22,8 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
     }]
 })
 export class SelectInputComponent<T = any> implements FormValueControl< T | T[] | number | string> {
+
+    private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
     public readonly placeholder = input($localize `Please select...`);
     public readonly items = signal<IControlOption[]>([]);
     public readonly source = input.required<IDataSource>();
@@ -36,7 +39,7 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
     public readonly keywords = signal('');
     public readonly panelVisible = signal(false);
     public readonly isLoading = signal(false);
-    private booted = false;
+    public readonly flowTop = signal(false);
     private previousValue: any;
     private changeFn: any = () => {};
 
@@ -59,8 +62,8 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
 
 
     @HostListener('document:click', ['$event']) 
-    public hideCalendar(event: any) {
-        if (!event.target.closest('.select-input-container') && !hasElementByClass(event.path, 'select-input-container')) {
+    public hideCalendar(event: MouseEvent) {
+        if (isParentOf(event.target as Node, this.elementRef.nativeElement) < 0) {
             this.panelVisible.set(false);
         }
     }
@@ -115,6 +118,8 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
     }
 
     public onFocus() {
+        const offset = this.elementRef.nativeElement.getBoundingClientRect();
+        this.flowTop.set(offset.top < 0 || offset.bottom > window.innerHeight - 320);
         this.panelVisible.set(true);
     }
 
@@ -124,7 +129,7 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
 
     private output() {
         const src = this.source();
-        const selectedItems = this.items().filter(i => i.checked).map(i => src.format(i));
+        const selectedItems = this.selectedItems().map(i => src.format(i));
         let res = selectedItems;
         if (!this.multiple()) {
             res = selectedItems.length === 0 ? src.format() : selectedItems[0];
@@ -137,8 +142,10 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
         if (this.previousValue === obj) {
             return;
         }
-        const selected = typeof obj === 'object' && obj instanceof Array ? obj : [obj];
-        selectItems(this.items(), ...selected);
+        this.source().initialize(this.value()).subscribe(res => {
+            this.items.set(res[0]);
+            this.selectedItems.set(res[0].filter(i => i.checked));
+        });
     }
 
     writeValue(obj: any): void {

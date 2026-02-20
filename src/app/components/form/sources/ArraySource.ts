@@ -1,6 +1,6 @@
 import { map, Observable, of } from 'rxjs';
 import { IControlOption } from '../event';
-import { IDataSource, selectItem } from './IDataSource';
+import { IDataSource, selectIndex, selectItem, selectItems } from './IDataSource';
 import { IItem } from '../../../theme/models/seo';
 
 export class ArraySource implements IDataSource {
@@ -13,6 +13,7 @@ export class ArraySource implements IDataSource {
     public static fromOrder(...items: (string|number)[]): ArraySource {
         return new ArraySource(items, 1);
     }
+
     /**
      * 以项为值
      * @param items 
@@ -39,8 +40,10 @@ export class ArraySource implements IDataSource {
 
     constructor(
         items: any[],
-        public readonly rangeKey: string|number|false = 'id',
-        public readonly rangeLabel = 'name',
+        private readonly rangeKey: string|number|false = 'id',
+        private readonly rangeLabel = 'name',
+        private readonly valueIsObject = false
+
     ) {
         if (this.rangeKey === false) {
             this.items = items;
@@ -78,16 +81,40 @@ export class ArraySource implements IDataSource {
     }
 
     public initialize(value?: any): Observable<IControlOption[][]> {
-        if ((typeof value === 'undefined' || value === null) && this.items.length > 0) {
-            value = this.items[0].value;
-        }
         const items = [...this.items];
-        selectItem(items, value);
+        if (value instanceof Array) {
+            const selected = this.valueIsObject ? value.map(i => i[this.rangeKey as string]) : value;
+            selectItems(items, ...selected);
+        } else if ((typeof value === 'undefined' || value === null) && this.items.length > 0) {
+            selectIndex(items, 0);
+        } else if (!this.valueIsObject && typeof value !== 'object') {
+            selectItem(items, value);
+        } else if (typeof value === 'object' && value !== null) {
+            selectItem(items, value[this.rangeKey as string]);
+        }
         return of([items]);
     }
 
     public format(...items: IControlOption[]): any {
-        return items.length > 0 ? items[0].value : (typeof this.rangeKey === 'number' ? -1 : null);
+        if (items.length === 0) {
+            return typeof this.rangeKey === 'number' ? -1 : null;
+        }
+        if (items.length > 1) {
+            return items.map(i => this.format(i));
+        }
+        const val = items[0];
+        if (!this.valueIsObject) {
+            return val.value;
+        }
+        if (val.created) {
+            return {
+                [this.rangeLabel]: val.name,
+            };
+        }
+        return {
+            [this.rangeKey as string]: val.value,
+            [this.rangeLabel]: val.name,
+        };
     }
     
     public display(...items: any[]): string {

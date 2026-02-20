@@ -557,10 +557,11 @@ i {
 
 .select-input-container {
     --#{theme.$prefix}select-line-height: 2.25rem;
+    --#{theme.$prefix}select-radius: #{variables.$input-border-radius};
     display: block;
     color: var(--#{theme.$prefix}input-text);
     background-color: var(--#{theme.$prefix}input);
-    border-radius: #{variables.$input-border-radius};
+    border-radius: var(--#{theme.$prefix}select-radius);
     border: 1px solid var(--#{theme.$prefix}input-border);
     min-height: var(--#{theme.$prefix}select-line-height);
     align-items: center;
@@ -580,6 +581,7 @@ i {
             outline: none;
             padding: 0;
             cursor: default;
+            min-width: 0;
         }
         &.--with-placeholder {
             color: var(--#{theme.$prefix}input-placeholder);
@@ -666,8 +668,7 @@ i {
         }
     }
     &.--with-open {
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
+        border-radius: var(--#{theme.$prefix}select-radius) var(--#{theme.$prefix}select-radius) 0 0;
         .option-container {
             opacity: 1;
             display: block;
@@ -676,6 +677,13 @@ i {
             &::after {
                 transform: rotate(180deg);
             }
+        }
+    }
+    &.--with-flow-top {
+        border-radius: 0 0 var(--#{theme.$prefix}select-radius) var(--#{theme.$prefix}select-radius);
+        .option-container {
+            top: auto;
+            bottom: 100%;
         }
     }
 }

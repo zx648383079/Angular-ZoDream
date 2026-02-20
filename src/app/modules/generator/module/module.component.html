@@ -29,8 +29,7 @@
                     <div class="input-group-control">
                         <label for="">命名空间</label>
                         <div>
-                            <ng-select [formField]="installForm.module" [items]="moduleItems" 
-                            bindLabel="name" bindValue="value" (valueChange)="onModuleChange()" />
+                            <app-select-input [formField]="installForm.module" [source]="moduleItems()" (valueChange)="onModuleChange()" />
                         </div>
                     </div>
                     <div class="input-group-control">
@@ -66,7 +65,7 @@
                     <div class="input-group-control">
                         <label for="">路由</label>
                         <div>
-                            <ng-select [formField]="routeForm.name" [items]="routeItems" bindLabel="name" bindValue="name" />
+                            <app-select-input [formField]="routeForm.name" [source]="routeItems()" />
                         </div>
                     </div>
                     <div class="btn btn-danger" (click)="tapUninstall()">卸载</div>
@@ -88,7 +87,7 @@
                     <div class="input-group-control">
                         <label for="">数据表</label>
                         <div>
-                            <ng-select [formField]="generateForm.table" [items]="tableItems" bindLabel="name" bindValue="value" [multiple]="true" />
+                            <app-select-input [formField]="generateForm.table" [source]="tableItems()" [multiple]="true" />
                         </div>
                     </div>
                     <div class="btn-group">

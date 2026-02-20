@@ -3,7 +3,7 @@ import { SuggestChangeEvent, SuggestEvent } from '../../../components/form';
 import { ISearchBar, ISearchEngine, SearchEngineItems } from './engine';
 import { HttpClient } from '@angular/common/http';
 import { parseNumber } from '../../../theme/utils';
-import { hasElementByClass } from '../../../theme/utils/doc';
+import { isParentOf } from '../../../theme/utils/doc';
 
 @Component({
     standalone: false,
@@ -47,8 +47,8 @@ export class SearchBarComponent implements SuggestEvent, ISearchBar {
     }
 
     @HostListener('document:click', ['$event']) 
-    hideSearchBar(event: any) {
-        if (!event.target.closest('.search-box') && !hasElementByClass(event.path, 'search-box')) {
+    public hideSearchBar(event: MouseEvent) {
+        if (isParentOf(event.target as Node, 'search-box') < 0) {
             this.openType.set(0);
         }
     }

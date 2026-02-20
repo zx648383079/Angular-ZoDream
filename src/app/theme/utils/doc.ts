@@ -1,20 +1,27 @@
 import { camelCase, eachObject } from '.';
 
-export function hasElementByClass(path: Array<Element>, className: string): boolean {
-    if (!path) {
-        return false;
+export function isParentOf(from: Node, parent: Node|string): number {
+    if (!from || !parent) {
+        return -1;
     }
-    let hasClass = false;
-    for (const item of path) {
-        if (!item || !item.className) {
-            continue;
+    const isEqual = (a: Node) => {
+        if (typeof parent !== 'string') {
+            return a === parent;
         }
-        hasClass = item.className.indexOf(className) >= 0;
-        if (hasClass) {
-            return true;
-        }
+        return a instanceof HTMLElement && a.classList.contains(parent);
+    };
+    if (isEqual(from)) {
+        return 0;
     }
-    return hasClass;
+    let level = 0;
+    while (from.parentNode) {
+        level ++;
+        if (isEqual(from.parentNode)) {
+            return level;
+        }
+        from = from.parentNode;
+    }
+    return -1;
 }
 
 

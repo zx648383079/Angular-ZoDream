@@ -1,5 +1,5 @@
 @use '../../../theme/theme';
-.autocomplete {
+:host {
     position: relative;
     .autocomplete__container {
         box-sizing: border-box;

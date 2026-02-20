@@ -1,6 +1,6 @@
-import { Component, HostListener,  computed,  effect, input, model, signal } from '@angular/core';
+import { Component, ElementRef, HostListener,  computed,  effect, inject, input, model, signal } from '@angular/core';
 import { checkLoopRange, checkRange, rangeStep, twoPad } from '../../../theme/utils';
-import { hasElementByClass } from '../../../theme/utils/doc';
+import { isParentOf } from '../../../theme/utils/doc';
 import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
@@ -14,6 +14,8 @@ import { FormValueControl } from '@angular/forms/signals';
     }
 })
 export class TimeInputComponent implements FormValueControl<string> {
+
+    private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
     public readonly minimum = input('00:00');
     public readonly maximum = input('23:59');
@@ -43,8 +45,8 @@ export class TimeInputComponent implements FormValueControl<string> {
     });
 
     @HostListener('document:click', ['$event']) 
-    public hideCalendar(event: any) {
-        if (!event.target.closest('.select-input-container') && !hasElementByClass(event.path, 'select-input-container')) {
+    public hideCalendar(event: MouseEvent) {
+        if (isParentOf(event.target as Node, this.elementRef.nativeElement) < 0) {
             this.panelVisible.set(false);
         }
     }

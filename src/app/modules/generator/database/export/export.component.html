@@ -8,14 +8,13 @@
         <div class="input-group-control">
             <label for="">数据库</label>
             <div>
-                <ng-select [formField]="dataForm.schema" [items]="schemaItems" bindLabel="name" bindValue="value" 
-                (valueChange)="onSchemaChange()" />
+                <app-select-input [formField]="dataForm.schema" [source]="schemaItems()" (valueChange)="onSchemaChange()" />
             </div>
         </div>
         <div class="input-group-control" [hidden]="tableItems.length < 1">
             <label for="">数据表</label>
             <div>
-                <ng-select [formField]="dataForm.tables" [items]="tableItems" bindLabel="name" bindValue="value" 
+                <app-select-input [formField]="dataForm.tables" [source]="tableItems()" 
                 [multiple]="true" />
             </div>
         </div>

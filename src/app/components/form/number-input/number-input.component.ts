@@ -7,7 +7,7 @@ import { FormValueControl } from '@angular/forms/signals';
     templateUrl: './number-input.component.html',
     styleUrls: ['./number-input.component.scss'],
 })
-export class NumberInputComponent implements FormValueControl<number|string> {
+export class NumberInputComponent implements FormValueControl<any> {
 
     public readonly min = input(0);
     public readonly max = input(0);
@@ -17,7 +17,7 @@ export class NumberInputComponent implements FormValueControl<number|string> {
      */
     public readonly only = input(true);
     public readonly disabled = input<boolean>(false);
-    public readonly value = model<number|string>(1);
+    public readonly value = model<any>(1);
 
     public readonly minDisabled = computed(() => {
         if (this.disabled()) {
@@ -104,7 +104,7 @@ export class NumberInputComponent implements FormValueControl<number|string> {
         return isNaN(v) ? 0 : v;
     }
 
-    private renderInt(value: number, format = this.value()): number|string {
+    private renderInt(value: number, format: any = this.value()): any {
         if (this.only() || !format || typeof format === 'number') {
             return value;
         }

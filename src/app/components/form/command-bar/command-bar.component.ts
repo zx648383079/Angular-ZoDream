@@ -1,6 +1,6 @@
 import { Component, HostListener, input, contentChildren, effect, signal, afterNextRender } from '@angular/core';
 import { IButton } from '../event';
-import { hasElementByClass } from '../../../theme/utils/doc';
+import { isParentOf } from '../../../theme/utils/doc';
 import { CommandButtonComponent } from './command-button';
 
 @Component({
@@ -36,8 +36,8 @@ export class CommandBarComponent {
     }
 
     @HostListener('document:click', ['$event']) 
-    public hideDrop(event: any) {
-        if (!event.target.closest('.command-control-icon') && !hasElementByClass(event.path, 'command-secondary-bar')) {
+    public hideDrop(event: MouseEvent) {
+        if (isParentOf(event.target as Node, 'command-secondary-bar') < 0) {
             this.dropVisible.set(false);
         }
     }
@@ -48,7 +48,8 @@ export class CommandBarComponent {
     }
 
 
-    public toggle() {
+    public toggle(e?: MouseEvent) {
+        e.stopPropagation();
         this.dropVisible.update(v => !v);
     }
 

@@ -17,7 +17,7 @@
         <div class="input-group-control">
             <label for="code">Code</label>
             <div>
-                <ng-select [items]="items()" bindValue="value" bindLabel="name" [formField]="dataForm.code" />
+                <app-select-input [source]="items()" [formField]="dataForm.code" />
             </div>
         </div>
         <div class="input-group-control">
@@ -35,7 +35,7 @@
         <div class="input-group-control">
             <label>限定配送</label>
             <div>
-                <ng-select [multiple]="true" [items]="shippingItems" bindValue="id" bindLabel="name" [formField]="dataForm.shipping" placeholder="选择配送" />
+                <app-select-input [multiple]="true" [source]="shippingItems()" [formField]="dataForm.shipping" placeholder="选择配送" />
             </div>
         </div>
 

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { BlogBackendRoutingModule, blogBackendRoutedComponents } from './blog-routing.module';
 import { ThemeModule } from '../../../theme/theme.module';
 import { BlogService } from './blog.service';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { ZreEditorModule } from '../../../components/editor';
 import { ZreFormModule } from '../../../components/form';
 import { DesktopModule } from '../../../components/desktop';
@@ -19,7 +18,6 @@ import { FormField } from '@angular/forms/signals';
         FormField,
         DesktopModule,
         BlogBackendRoutingModule,
-        NgSelectModule,
         ZreEditorModule,
         ZreSwiperModule,
         ZreFormModule,

@@ -1,5 +1,5 @@
 import { Component, HostListener, effect, input, output, signal } from '@angular/core';
-import { hasElementByClass } from '../../../theme/utils/doc';
+import { isParentOf } from '../../../theme/utils/doc';
 import { ButtonEvent, ButtonGroupEvent, IButton } from '../event';
 
 @Component({
@@ -20,8 +20,8 @@ export class ButtonGroupComponent implements ButtonEvent {
     public readonly tapped = output<ButtonGroupEvent>();
 
     @HostListener('document:click', ['$event']) 
-    public hideDrop(event: any) {
-        if (!event.target.closest('.btn-group-custom') && !hasElementByClass(event.path, 'dropdown-menu')) {
+    public hideDrop(event: MouseEvent) {
+        if (isParentOf(event.target as Node, 'dropdown-menu') < 0) {
             this.dropVisible.set(false);
         }
     }

@@ -2,10 +2,9 @@ import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
-import { IPermission } from '../../../../../theme/models/auth';
 import { RoleService } from '../role.service';
 import { form, required } from '@angular/forms/signals';
-import { ButtonEvent } from '../../../../../components/form';
+import { ArraySource, ButtonEvent } from '../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -31,11 +30,11 @@ export class EditComponent {
         required(schemaPath.display_name);
     });
 
-    public permissionItems: IPermission[] = [];
+    public readonly permissionItems = signal(ArraySource.empty);
 
     constructor() {
         this.service.permissionAll().subscribe(res => {
-            this.permissionItems = res.data;
+            this.permissionItems.set(new ArraySource(res.data, 'id', 'display_name'));
         });
         this.route.params.subscribe(params => {
             if (!params.id) {

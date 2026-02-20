@@ -4,7 +4,7 @@ import { IItem } from '../../../theme/models/seo';
 import { GenerateService } from '../generate.service';
 import { ITableHeaderItem } from '../../../components/desktop/editable-table/model';
 import { form, required } from '@angular/forms/signals';
-import { ButtonEvent } from '../../../components/form';
+import { ArraySource, ButtonEvent } from '../../../components/form';
 
 @Component({
     standalone: false,
@@ -23,10 +23,10 @@ export class DatabaseComponent {
         {name: 'collation', label: '排序规则'},
     ];
 
-    public collationItems: IItem[] = [
+    public readonly collationItems = ArraySource.from([
         {name: 'UTF8编码', value: 'utf8_general_ci'},
         {name: 'UTF8M64编码', value: 'utf8mb4_general_ci'},
-    ];
+    ]);
     public readonly isLoading = signal(false);
     public readonly editForm = form(signal({
         name: '',

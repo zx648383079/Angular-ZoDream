@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AuthRoutingModule, authRoutedComponents } from './auth-routing.module';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { AuthService } from './auth.service';
 import { DialogModule } from '../../../components/dialog';
 import { ZreFormModule } from '../../../components/form';
@@ -18,7 +17,6 @@ import { FormField } from '@angular/forms/signals';
         CommonModule,
         DesktopModule,
         FormField,
-        NgSelectModule,
         ThemeModule,
         AuthRoutingModule,
         OpenModule,

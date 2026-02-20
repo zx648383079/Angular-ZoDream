@@ -1,49 +1,49 @@
 @use '../../../../bootstrap/desktop/scrollbar';
-$size: 40px;
+@use '../../../theme/theme';
+$size: 2.5rem;
 $boxWidth: $size * 8;
 
-.emoji-picker {
+:host {
     position: relative;
     .emoji-picker_container {
         width: $boxWidth;
         position: absolute;
         z-index: 999;
         user-select: none;
-        background: #fff;
-        color: #333;
-        box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
+        background-color: var(--#{theme.$prefix}panel);
+        color: var(--#{theme.$prefix}body-text);
+        box-shadow: 0 0 1px rgba(var(--#{theme.$prefix}mask-rgb), .1), 0 1px 3px rgba(var(--#{theme.$prefix}mask-rgb), .2);
         text-align: left;
     }
     .picker-header {
-        padding: 5px 15px;
-        font-size: 14px;
-        color: #222;
+        padding: 0.3125rem 0.9375rem;
+        font-size: 0.875rem;
         .iconfont {
             position: absolute;
-            top: 5px;
-            right: 15px;
-            width: 14px;
-            height: 14px;
-            color: #999;
+            top: 0.3125rem;
+            right: 0.9375rem;
+            width: 0.875rem;
+            height: 0.875rem;
+            color: var(--#{theme.$prefix}meta-text);
             cursor: pointer;
         }
     }
     .picker-body {
         @include scrollbar.scrollbar();
-        padding: 0 15px;
+        padding: 0 0.9375rem;
         overflow-y: auto;
-        height: 200px;
+        height: 12.5rem;
         text-align: left;
         .item-image,
         .item-text {
             display: inline-block;
             width: $size;
             height: $size;
-            padding: 5px;
+            padding: 0.3125rem;
             line-height: $size;
             box-sizing: content-box;
             &:hover {
-                background-color: #eaeaea;
+                background-color: var(--#{theme.$prefix}input-selected);
             }
         }
         .item-text {
@@ -58,15 +58,15 @@ $boxWidth: $size * 8;
     }
     .nav-bar {
         @include scrollbar.scrollbar();
-        background-color: #f4f4f4;
+        background-color: var(--#{theme.$prefix}body);
         overflow-x: auto;
         white-space: nowrap;
         .item {
-            padding: 6px 15px;
+            padding: 0.375rem 0.9375rem;
             min-width: $size;
             display: inline-block;
             &.active {
-                background-color: #fff;
+                background-color: var(--#{theme.$prefix}input-selected);
             }
         }
     }

@@ -142,7 +142,7 @@
     </div>
     <div class="form-group">
         <label>标签</label>
-        <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [formField]="editForm.tags" [addTag]="addTagFn" placeholder="选择标签" />
+        <app-select-input [multiple]="true" [source]="tagSource" [formField]="editForm.tags" [creatable]="true" placeholder="选择标签" />
     </div>
     @if (!editForm.id) {
     <div class="form-group">
@@ -150,7 +150,7 @@
         <app-switch [formField]="editForm.also_page" />
     </div>
     }
-    @if (!editForm.id && editForm.also_page) {
+    @if (!editForm.id().value() && editForm.also_page().value()) {
     <div class="form-group">
         <label>关键词</label>
         <app-words-input [formField]="editForm.keywords" />

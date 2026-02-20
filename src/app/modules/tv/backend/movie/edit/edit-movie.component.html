@@ -52,7 +52,7 @@
                     <div class="input-group-control">
                         <label>标签</label>
                         <div>
-                            <ng-select [multiple]="true" [items]="tagItems$ | async" [loading]="tagLoading" [typeahead]="tagInput$" bindLabel="name" [formField]="dataForm.tags" [addTag]="addTagFn" placeholder="选择标签" />
+                            <app-select-input [multiple]="true" [source]="tagSource" [formField]="dataForm.tags" [creatable]="true" placeholder="选择标签" />
                         </div>
                     </div>
                 </app-panel>
