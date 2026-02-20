@@ -2,13 +2,12 @@ import { form, readonly, required } from '@angular/forms/signals';
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
-import { ArraySource, ButtonEvent, NetSource } from '../../../../../components/form';
+import { ArraySource, ButtonEvent } from '../../../../../components/form';
 import { IPage, IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
 import { IBotReplyTemplate, IBotReplyTemplateField, IBotUser } from '../../../model';
 import { formatTemplateField, renderTemplateField } from '../../../util';
 import { BotService } from '../../bot.service';
-import { HttpClient } from '@angular/common/http';
 
 
 
@@ -23,7 +22,6 @@ export class ReplyTemplateComponent {
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
-    private readonly http = inject(HttpClient);
 
 
     public readonly items = signal<IBotReplyTemplate[]>([]);
@@ -31,7 +29,7 @@ export class ReplyTemplateComponent {
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
     public selected = 0;
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
         page: 1,
         per_page: 20,
@@ -68,9 +66,9 @@ export class ReplyTemplateComponent {
     public readonly toSource = computed(() => {
         switch (this.sendForm.to_type().value()) {
             case 2:
-                return NetSource.createSearchArray(this.http, 'wx/admin/user/search?wid=' + this.service.baseId, 'keywords', i => i.note_name || i.nickname);
+                return this.service.userSource();
             case 1:
-                return NetSource.createSearchArray(this.http, 'wx/admin/user/group_search?wid=' + this.service.baseId);
+                return this.service.groupSource();
             default:
                 return ArraySource.empty;
         }

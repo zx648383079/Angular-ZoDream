@@ -7,7 +7,6 @@ import {
     AdService
 } from '../ad.service';
 import { DialogService } from '../../../components/dialog';
-import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
 import { IAd } from '../model';
 
@@ -28,7 +27,7 @@ export class AdComponent {
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         keywords: '',
@@ -86,7 +85,7 @@ export class AdComponent {
         if (typeof e === 'object') {
             e.preventDefault();
         }
-        this.queries.position_id().value.set(positionId);
+        this.queries.position().value.set(positionId);
         this.tapRefresh();
     }
 

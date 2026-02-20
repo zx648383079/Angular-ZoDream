@@ -7,8 +7,6 @@ import { IUser } from '../../../../theme/models/user';
 import { SearchService } from '../../../../theme/services';
 import { ICategoryUser } from '../../model';
 import { OnlineBackendService } from '../online.service';
-import { NetSource } from '../../../../components/form';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -27,7 +25,7 @@ export class UserComponent {
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         keywords: '',
@@ -38,7 +36,7 @@ export class UserComponent {
         users: <IUser[]>[]
     }));
 
-    public readonly userSource = NetSource.createSearchArray(inject(HttpClient), 'auth/admin/user/search');
+    public readonly userSource = this.service.userSource();
 
     constructor() {
         this.route.params.subscribe(params => {

@@ -1,13 +1,11 @@
 import { form } from '@angular/forms/signals';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
-import { ButtonEvent, NetSource } from '../../../../components/form';
-import { IPageQueries } from '../../../../theme/models/page';
+import { ButtonEvent } from '../../../../components/form';
 import { SearchService } from '../../../../theme/services';
 import { IBotUser } from '../../model';
 import { BotService } from '../bot.service';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -20,14 +18,13 @@ export class UserComponent {
     private readonly toastrService = inject(DialogService);
     private readonly route = inject(ActivatedRoute);
     private readonly searchService = inject(SearchService);
-    private readonly http = inject(HttpClient);
 
     public readonly items = signal<IBotUser[]>([]);
 
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
         page: 1,
         per_page: 20,
@@ -41,9 +38,7 @@ export class UserComponent {
         group_id: 0,
     }));
 
-    public readonly groupSource = computed(() => {
-        return NetSource.createSearchArray(this.http, 'wx/admin/user/group_search?wid=' + this.service.baseId);
-    });
+    public readonly groupSource = this.service.groupSource();
 
     constructor() {
         this.route.queryParams.subscribe(params => {

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { IAuthor, IBook, IBookList, IBookSpiderItem, ICategory, IChapter } from '../model';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
+import { NetSource } from '../../../components/form';
 
 @Injectable()
 export class BookService {
@@ -31,6 +32,10 @@ export class BookService {
         return this.http.delete<IDataOne<true>>('book/admin/category/delete', {
           params: {id}
         });
+    }
+
+    public authorSource() {
+        return NetSource.createSearchArray(this.http, 'book/admin/author/search');
     }
 
     public authorList(params: any) {

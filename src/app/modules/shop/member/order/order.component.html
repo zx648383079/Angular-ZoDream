@@ -8,7 +8,7 @@
                <div class="col-md-8">
                     <div class="header-tab">
                         @for (item of tabItems; track $index) {
-                        <a [class]="{active: queries.status == item.value}" (click)="tapTab(item)">{{ item.name }}</a>
+                        <a [class.active]="queries.status().value() == item.value" (click)="tapTab(item)">{{ item.name }}</a>
                         }
                     </div>
                </div>

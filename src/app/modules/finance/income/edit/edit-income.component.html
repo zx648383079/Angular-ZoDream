@@ -1,4 +1,6 @@
-<app-edit-header [title]="title()"(submited)="tapSubmit($event)" />
+<app-edit-header [title]="title()"(submited)="tapSubmit($event)">
+    借出、贷入进行还款后类型需变更为支出、收入
+</app-edit-header>
 <div class="container-fluid">
     <div class="form-table-control panel-container">
         @if (mode() < 1) {

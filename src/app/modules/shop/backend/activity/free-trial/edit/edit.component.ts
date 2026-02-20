@@ -5,8 +5,7 @@ import { DialogService } from '../../../../../../components/dialog';
 import { IActivity, IFreeTrialConfigure } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 import { form, required } from '@angular/forms/signals';
-import { ButtonEvent, NetSource } from '../../../../../../components/form';
-import { HttpClient } from '@angular/common/http';
+import { ButtonEvent } from '../../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -37,7 +36,7 @@ export class EditFreeTrialComponent {
         required(schemaPath.name);
     });
 
-    public readonly goodsSource = NetSource.createSearchArray(inject(HttpClient), 'shop/admin/goods/search');
+    public readonly goodsSource = this.service.goodsSource();
 
     public data: IActivity<IFreeTrialConfigure>;
 

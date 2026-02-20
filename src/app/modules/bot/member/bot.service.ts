@@ -2,8 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
-import { IBotAccount, IBotUser, IBotMedia, IBotMenuItem, IBotQr, IBotReply, IBotReplyTemplate, IBotTemplate, IBotTemplateCategory, IBotUserGroup } from '../model';
+import { IBotAccount, IBotUser, IBotMedia, IBotMenuItem, IBotQr, IBotReply, IBotReplyTemplate, IBotTemplate, IBotTemplateCategory, IBotUserGroup, MediaTypeItems } from '../model';
 import { Router } from '@angular/router';
+import { NetSource } from '../../../components/form';
+import { mapFormat } from '../../../theme/utils';
 
 @Injectable({
     providedIn: 'root'
@@ -30,6 +32,27 @@ export class BotService {
         });
         return false;
     }
+
+    public groupSource() {
+        return NetSource.createSearchArray(this.http, 'wx/admin/user/group_search?wid=' + this.baseId);
+    }
+
+    public userSource() {
+        return NetSource.createSearchArray(this.http, 'wx/admin/user/search?wid=' + this.baseId, 'keywords', i => i.note_name || i.nickname);
+    }
+
+    public mediaSource(isOnlyNews = false) {
+        if (isOnlyNews) {
+            return NetSource.createSearchArray(this.http, 'wx/admin/media/search?type=news&wid=' + this.baseId, 'title', 'id', 'title');
+        }
+        return NetSource.createSearchArray(this.http, 'wx/admin/media/search?wid=' + this.baseId, 'title', i => {
+            const tag = mapFormat(i.type, MediaTypeItems);
+            return {
+                name: `[${tag}]${i.title}`,
+                value: i.id
+            }
+        });
+    };
 
     public accountList(params: any) {
         return this.http.get<IPage<IBotAccount>>('bot/member/account', {params});

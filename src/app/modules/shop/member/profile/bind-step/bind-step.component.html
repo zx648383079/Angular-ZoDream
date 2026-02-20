@@ -19,7 +19,7 @@
 <div class="step-body min-body">
     <div class="inline-input disabled" (click)="tapToggleVerify()">
         <label>{{ verifyLabel() }}</label>
-        <input type="text" [value]="verify_value" readonly>
+        <input type="text" [value]="verify_value()" readonly>
     </div>
     <div class="code-input">
         <input type="text" [formField]="dataForm.verify">

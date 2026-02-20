@@ -31,7 +31,7 @@ export class DetailComponent {
         version: '0',
         keywords: ''
     }));
-    public kindItems = [
+    public readonly kindItems = [
         $localize `All`,
         $localize `Request`,
         $localize `Response`,

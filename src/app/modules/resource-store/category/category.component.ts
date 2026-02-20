@@ -19,7 +19,7 @@ export class CategoryComponent {
     private readonly searchService = inject(SearchService);
 
 
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
         page: 1,
         per_page: 20,

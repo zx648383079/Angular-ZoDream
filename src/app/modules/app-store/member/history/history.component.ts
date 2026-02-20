@@ -26,7 +26,7 @@ export class HistoryComponent {
         {name: 'Write a comment', icon: 'icon-edit'},
         {name: 'Uninstall', icon: 'icon-trash'},
     ];
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
         page: 1,
         per_page: 20,

@@ -1,7 +1,7 @@
 import { form } from '@angular/forms/signals';
 import { Location } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { IFilter, IPageQueries } from '../../../../theme/models/page';
+import { IFilter } from '../../../../theme/models/page';
 import { ISortItem } from '../../../../theme/models/seo';
 import { IMusicList } from '../../model';
 
@@ -19,14 +19,15 @@ export class MusicListComponent {
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
+        keywords: '',
         page: 1,
         per_page: 20,
         category: 0,
     }));
     public readonly filterVisible = signal(false);
     public readonly filterItems = signal<IFilter[]>([]);
-    public sortItems: ISortItem[] = [
+    public readonly sortItems: ISortItem[] = [
         {name: '默认', value: ''},
         {name: '播放量', value: 'play_count', asc: false},
         {name: '评价', value: 'comment', asc: false},

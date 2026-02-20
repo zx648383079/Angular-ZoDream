@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnDestroy, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -7,8 +7,6 @@ import { ThemeService } from '../../../../../theme/services';
 import { ActivityService } from '../../activity.service';
 import { form, max, min } from '@angular/forms/signals';
 import { interval, Subscription } from 'rxjs';
-import { NetSource } from '../../../../../components/form';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -28,7 +26,7 @@ export class AuctionGoodsComponent {
     public activity: IActivity<IAuctionConfigure>;
     public galleryItems: IGoodsGallery[] = [];
     public content: SafeHtml;
-    public readonly regionSource = new NetSource(inject(HttpClient), 'shop/region/tree', 3);
+    public readonly regionSource = this.service.regionSource();
     public readonly tabIndex = signal(0);
     public readonly dataForm = form(signal({
         min: 0,

@@ -4,6 +4,7 @@ import { IData, IDataOne, IPage } from '../../../../theme/models/page';
 import { IAddress, ICartItem, ICashierData, ICoupon, IDelivery, IOrder, IPayment, IShipping } from '../../model';
 import { map } from 'rxjs';
 import { IUser } from '../../../../theme/models/user';
+import { NetSource } from '../../../../components/form';
 
 @Injectable()
 export class OrderService {
@@ -89,5 +90,9 @@ export class OrderService {
 
     public checkoutOrder(data: ICashierData) {
         return this.http.post<IOrder>('shop/admin/cashier/checkout', data);
+    }
+
+    public regionSource() {
+        return new NetSource(this.http, 'shop/region/tree', 3);
     }
 }

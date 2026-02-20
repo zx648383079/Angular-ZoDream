@@ -28,7 +28,7 @@ export class VideoComponent {
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
     public readonly isFixed = signal(false);
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
         per_page: 20,
         page: 1,

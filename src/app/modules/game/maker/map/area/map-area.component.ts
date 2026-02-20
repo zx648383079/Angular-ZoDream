@@ -32,7 +32,7 @@ export class MapAreaComponent {
     }), schemaPath => {
         required(schemaPath.name);
     });
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         keywords: '',

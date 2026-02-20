@@ -27,7 +27,7 @@ export class CommentPanelComponent {
     public readonly hasMore = signal(true);
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
         page: 1,
         per_page: 20,

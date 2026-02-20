@@ -23,7 +23,7 @@ export class TradeTrackerComponent {
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
         product: '',
         channel: 0,

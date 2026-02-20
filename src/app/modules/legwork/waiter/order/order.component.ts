@@ -23,7 +23,7 @@ export class OrderComponent {
     public readonly items = signal<IOrder[]>([]);
     private hasMore = true;
     public readonly isLoading = signal(false);
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
         page: 1,
         per_page: 20

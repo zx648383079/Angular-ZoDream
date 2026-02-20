@@ -35,7 +35,7 @@ export class MediaComponent {
         {name: '视频素材', value: 'video'},
         {name: '图文素材', value: 'news'},
     ];
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         type: this.tabItems[0].value,
         keywords: '',
         page: 1,

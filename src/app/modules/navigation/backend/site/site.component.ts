@@ -5,8 +5,6 @@ import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { SearchService } from '../../../../theme/services';
 import { ISite, ISiteCategory, ISiteTag } from '../../model';
 import { NavigationService } from '../navigation.service';
-import { NetSource } from '../../../../components/form';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -34,7 +32,7 @@ export class SiteComponent {
         tag: 0,
     }));
     public categories: ISiteCategory[] = [];
-    public readonly tagSource = NetSource.createSearchArray(inject(HttpClient), 'navigation/admin/tag', 'keywords');
+    public readonly tagSource = this.service.tagSource();
     public tagLoading = false;
     public topItems = ['无', '推荐'];
     public readonly editForm = form(signal({

@@ -2,11 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { IDataOne, IPage } from '../../../../theme/models/page';
 import { IWarehouse, IWarehouseGoods, IWarehouseLog } from '../../model';
+import { NetSource } from '../../../../components/form';
 
 @Injectable()
 export class WarehouseService {
     private readonly http = inject(HttpClient);
 
+
+    public regionSource() {
+        return NetSource.createSearchArray(this.http, 'shop/region/search');
+    }
 
     public warehouseList(params: any) {
         return this.http.get<IPage<IWarehouse>>('shop/admin/warehouse', {

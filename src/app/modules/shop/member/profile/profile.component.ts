@@ -23,7 +23,7 @@ export class ProfileComponent {
 
     public readonly sexItems = ArraySource.fromItems(SexItems);
 
-    public user: IUser;
+    public readonly user = signal<IUser>(null);
     public readonly dataModel = signal({
         name: '',
         sex: 0,
@@ -33,14 +33,14 @@ export class ProfileComponent {
         required(schemaPath.name);
     });
     public readonly tabIndex = signal(0);
-    public stepData = {
+    public readonly stepForm = form(signal({
         name: '',
-    };
+    }));
 
     constructor() {
         this.service.profile().subscribe({
             next: user => {
-                this.user = user;
+                this.user.set(user);
                 this.dataModel.set({
                     name: user.name,
                     sex: user.sex,
@@ -55,13 +55,14 @@ export class ProfileComponent {
 
     public tapStepEdit(name = 'email') {
         this.tabIndex.set(2);
-        this.stepData.name = name;
+        this.stepForm.name().value.set(name);
     }
 
 
     public tapSex(item: IItem) {
-        this.user.sex = item.value as number;
-        this.user.sex_label = item.name;
+        this.user.update(v => {
+            return {...v, sex: item.value as number, sex_label: item.name};
+        });
         this.dataForm.sex().value.set(parseNumber(item.value));
     }
 
@@ -84,7 +85,7 @@ export class ProfileComponent {
     public uploadFile(event: any) {
         const files = event.target.files as FileList;
         this.service.uploadAvatar(files[0]).subscribe(res => {
-            this.user = res;
+            this.user.set(res);
             this.toastrService.success('头像已更换');
         });
     }

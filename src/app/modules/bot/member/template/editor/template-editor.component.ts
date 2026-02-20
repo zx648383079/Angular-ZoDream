@@ -27,7 +27,7 @@ export class TemplateEditorComponent implements FormValueControl<string> {
     public readonly hasMore = signal(true);
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         type: 0,
         keywords: '',
         page: 1,

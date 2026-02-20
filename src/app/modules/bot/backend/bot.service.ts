@@ -2,18 +2,21 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
-import { Router } from '@angular/router';
 import { IBotAccount, IBotMedia, IBotMenuItem, IBotTemplate, IBotReply, IBotReplyTemplate, IBotUser, IBotUserGroup, IBotQr, IBotTemplateCategory } from '../model';
+import { NetSource } from '../../../components/form';
 
 @Injectable({
     providedIn: 'root'
 })
 export class BotService {
     private readonly http = inject(HttpClient);
-    private readonly router = inject(Router);
 
 
     public baseId = 0;
+
+    public groupSource() {
+        return NetSource.createSearchArray(this.http, 'wx/admin/user/group_search?wid=' + this.baseId);
+    }
 
     public accountList(params: any) {
         return this.http.get<IPage<IBotAccount>>('bot/admin/account', {params});

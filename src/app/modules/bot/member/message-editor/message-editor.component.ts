@@ -1,13 +1,10 @@
-import { Component, computed, effect, inject, input, model } from '@angular/core';
-import { IPage } from '../../../../theme/models/page';
+import { Component, effect, inject, input, model } from '@angular/core';
 import { IItem } from '../../../../theme/models/seo';
-import { mapFormat, parseNumber } from '../../../../theme/utils';
-import { EditorTypeItems, IBotMedia, IBotReplyTemplate, IBotReplyTemplateField, MediaTypeItems, MenuTypeItems } from '../../model';
+import { parseNumber } from '../../../../theme/utils';
+import { EditorTypeItems, IBotReplyTemplate, IBotReplyTemplateField, MediaTypeItems, MenuTypeItems } from '../../model';
 import { formatTemplateField } from '../../util';
 import { BotService } from '../bot.service';
 import { FormValueControl } from '@angular/forms/signals';
-import { HttpClient } from '@angular/common/http';
-import { NetSource } from '../../../../components/form';
 
 interface IEditorData {
     type: number;
@@ -31,7 +28,6 @@ interface IEditorData {
 })
 export class MessageEditorComponent implements FormValueControl<IEditorData> {
     private readonly service = inject(BotService);
-    private readonly http = inject(HttpClient);
 
     public readonly other = input('');
     public readonly source = input(0);
@@ -46,15 +42,7 @@ export class MessageEditorComponent implements FormValueControl<IEditorData> {
     public sceneItems: IItem[] = [];
     private template: IBotReplyTemplate;
 
-    public readonly mediaSource = computed(() => {
-        return NetSource.createSearchArray(this.http, 'wx/admin/media/search?wid=' + this.service.baseId, 'title', i => {
-            const tag = mapFormat(i.type, MediaTypeItems);
-            return {
-                name: `[${tag}]${i.title}`,
-                value: i.id
-            }
-        });
-    });
+    public readonly mediaSource = this.service.mediaSource();
 
     constructor() {
         this.service.batch({scenes: {}}).subscribe(res => {

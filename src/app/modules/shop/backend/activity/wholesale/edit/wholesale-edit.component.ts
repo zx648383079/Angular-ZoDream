@@ -6,7 +6,6 @@ import { DialogService } from '../../../../../../components/dialog';
 import { ActivityService } from '../../activity.service';
 import { ButtonEvent, NetSource } from '../../../../../../components/form';
 import { form, required } from '@angular/forms/signals';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -37,7 +36,7 @@ export class WholesaleEditComponent {
         required(schemaPath.name);
     });
 
-    public readonly goodsSource = NetSource.createSearchArray(inject(HttpClient), 'shop/admin/goods/search');
+    public readonly goodsSource = this.service.goodsSource();
 
     public data: IActivity<IWholesaleConfigure>;
 

@@ -31,7 +31,7 @@ export class GoodsComponent {
     private readonly location = inject(Location);
 
 
-    public readonly regionSource = new NetSource(inject(HttpClient), 'shop/region/tree', 3);
+    public readonly regionSource = this.service.regionSource();
     public readonly data = signal<IGoods>(null);
     public readonly galleryItems = signal<IGoodsGallery[]>([]);
     public readonly content = signal<SafeHtml>(null);

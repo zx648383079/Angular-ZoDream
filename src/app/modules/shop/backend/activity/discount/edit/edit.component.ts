@@ -7,8 +7,7 @@ import { ActivityService } from '../../activity.service';
 import { ActivityRuleItems } from '../../model';
 import { form, required } from '@angular/forms/signals';
 import { parseNumber } from '../../../../../../theme/utils';
-import { ArraySource, ButtonEvent, NetSource } from '../../../../../../components/form';
-import { HttpClient } from '@angular/common/http';
+import { ArraySource, ButtonEvent } from '../../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -19,7 +18,6 @@ import { HttpClient } from '@angular/common/http';
 export class EditDiscountComponent {
     private readonly service = inject(ActivityService);
     private readonly route = inject(ActivatedRoute);
-    private readonly http = inject(HttpClient);
     private readonly toastrService = inject(DialogService);
     private readonly location = inject(Location);
 
@@ -48,7 +46,7 @@ export class EditDiscountComponent {
         required(schemaPath.name);
     });
 
-    public readonly goodsSource = NetSource.createSearchArray(this.http, 'shop/admin/goods/search');
+    public readonly goodsSource = this.service.goodsSource();
 
     public data: IActivity<IDiscountConfigure>;
     public ruleItems = ActivityRuleItems;
@@ -60,11 +58,11 @@ export class EditDiscountComponent {
     public readonly scopeSource = computed(() => {
         switch (this.scopeType()) {
             case 2:
-                return NetSource.createSearchArray(this.http, 'shop/admin/brand/search');
+                return this.service.brandSource();
             case 1:
-                return NetSource.createSearchArray(this.http, 'shop/admin/category/search');
+                return this.service.categorySource();
             case 3:
-                return NetSource.createSearchArray(this.http, 'shop/admin/goods/search');
+                return this.service.goodsSource();
             default:
                 return ArraySource.empty;
         }

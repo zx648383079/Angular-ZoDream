@@ -12,6 +12,7 @@ import {
 } from './model';
 import { IUser } from '../../theme/models/user';
 import { IAd } from '../ad-sense/model';
+import { NetSource } from '../../components/form';
 
 const REGION_KEY = 'region';
 
@@ -35,6 +36,10 @@ export class ShopService {
     public set regionId(id: number) {
         window.localStorage.setItem(REGION_KEY, id.toString());
         this._regionId = id;
+    }
+
+    public regionSource() {
+        return new NetSource(this.http, 'shop/region/tree', 3);
     }
 
     public categories(parent: any = 0) {

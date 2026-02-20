@@ -2,7 +2,6 @@ import { form } from '@angular/forms/signals';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import { IItem } from '../../../../theme/models/seo';
 import { IOrder } from '../../model';
 import { SearchService } from '../../../../theme/services';
@@ -21,12 +20,12 @@ export class OrderComponent {
     private readonly toastrService = inject(DialogService);
     private readonly searchService = inject(SearchService);
 
-    public title = '我的订单';
+    public readonly title = '我的订单';
     public readonly items = signal<IOrder[]>([]);
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public tabItems: IItem[] = [
+    public readonly tabItems: IItem[] = [
         {
             name: '全部订单',
             value: 0,
@@ -48,7 +47,7 @@ export class OrderComponent {
             value: 60,
         },
     ];
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
         status: 0,
         page: 1,

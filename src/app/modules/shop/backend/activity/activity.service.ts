@@ -9,11 +9,22 @@ import {
     IPreSaleConfigure,
     ISeckillGoods,
     IWholesaleConfigure} from '../../model';
+import { NetSource } from '../../../../components/form';
 
 @Injectable()
 export class ActivityService {
     private readonly http = inject(HttpClient);
 
+    public goodsSource() {
+        return NetSource.createSearchArray(this.http, 'shop/admin/goods/search');
+    }
+
+    public categorySource() {
+        return NetSource.createSearchArray(this.http, 'shop/admin/category/search');
+    }
+    public brandSource() {
+        return NetSource.createSearchArray(this.http, 'shop/admin/brand/search');
+    }
 
     public auctionList(params: any) {
         return this.http.get<IPage<IActivity<IAuctionConfigure>>>('shop/admin/activity/auction', {

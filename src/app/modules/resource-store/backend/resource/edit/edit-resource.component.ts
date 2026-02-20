@@ -1,17 +1,15 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { DialogService } from '../../../../../components/dialog';
 import { EditorBlockType, IEditorFileBlock, IImageUploadEvent } from '../../../../../components/editor';
-import { ButtonEvent, NetSource, UploadCustomEvent } from '../../../../../components/form';
+import { ButtonEvent, UploadCustomEvent } from '../../../../../components/form';
 import { FileUploadService } from '../../../../../theme/services';
 import { parseNumber } from '../../../../../theme/utils';
 import { FileTypeItems, ICategory, IResource, IResourceFile, ITag, MediaTypeItems } from '../../../model';
 import { ResourceService } from '../../resource.service';
 import { ReviewStatusItems } from '../../../../../theme/models/auth';
 import { form, required } from '@angular/forms/signals';
-import { HttpClient } from '@angular/common/http';
 
 interface IResFile {
     id: number;
@@ -60,7 +58,7 @@ export class EditResourceComponent {
 
     public data: IResource;
     public categories: ICategory[] = [];
-    public readonly tagSource = NetSource.createSearchArray(inject(HttpClient), 'res/admin/tag', 'keywords');
+    public readonly tagSource = this.service.tagSource();
     public previewTypeItems = MediaTypeItems;
     public reviewItems = ReviewStatusItems;
     public fileTypeItems = FileTypeItems;

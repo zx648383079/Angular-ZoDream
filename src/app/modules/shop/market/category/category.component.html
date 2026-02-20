@@ -13,18 +13,18 @@
       }
 
       <div class="goods-area">
-          <div class="filter-box">
+          <div class="filter-container">
               @for (item of filterItems(); track $index) {
-              <div class="filter-line">
-                    <div class="filter-header">
+              <div class="filter-group">
+                    <div class="group-header">
                         {{ item.label }}
                     </div>
-                    <div class="filter-body">
+                    <div class="group-body">
                         @for (it of item.items; track $index) {
-                            <a [class]="{active: it.selected}" (click)="tapFilter(item.name, it.value)">{{ it.label }}</a>
+                            <a [class.active]="it.selected" (click)="tapFilter(item.name, it.value)">{{ it.label }}</a>
                         }
                         @if (item.name == 'price') {
-                            <div class="price-input">
+                            <div class="filter-range-group">
                                 <input type="number" class="form-control" [formField]="priceForm.min">
                                 -
                                 <input type="number" class="form-control" [formField]="priceForm.max">
@@ -33,11 +33,11 @@
                     </div>
               </div>
               }
-              <div class="filter-line">
-                <div class="filter-header">
+              <div class="filter-group">
+                <div class="group-header">
                     排序
                 </div>
-                <div class="filter-body">
+                <div class="group-body">
                     @for (item of sortItems; track $index) {
                         <a [class]="{active: item.value == sortKey()}" (click)="tapSort(item)">{{ item.name }}
                             @if (item.value && sortKey() == item.value) {

@@ -12,7 +12,7 @@ export class NumberFormatPipe implements PipeTransform {
         useGrouping: false  // 不添加千位分隔符
     });
 
-    transform(value: number, args?: any): string {
+    transform(value?: number, args?: any): string {
         if (!value) {
             return '0';
         }

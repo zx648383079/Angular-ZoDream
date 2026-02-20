@@ -8,7 +8,6 @@ import { FileUploadService } from '../../../../../theme/services';
 import { ICategory, ISoftware, ITag } from '../../../model';
 import { AppService } from '../../app.service';
 import { form, required } from '@angular/forms/signals';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -44,7 +43,7 @@ export class EditSoftwareComponent {
         required(schemaPath.cat_id);
     });
     public categories: ICategory[] = [];
-    public readonly tagSource = NetSource.createSearchArray(inject(HttpClient), 'app/admin/tag', 'keywords', 'id', 'name');
+    public readonly tagSource = this.service.tagSource();
 
     constructor() {
         this.service.categoryTree().subscribe(res => {

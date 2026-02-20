@@ -16,14 +16,14 @@
         <div class="bar-top">
             <ul class="tree-box">
                 @for (item of formatCatalog(); track $index) {
-                <li class="tree-item" [class]="{open: item.expanded, active: data && item.id == data().id}">
+                <li class="tree-item" [class]="{open: item.expanded, active: item.id == data()?.id}">
                     <div class="tree-name" (click)="tapRead(item)">
                         <i class="iconfont" [class]="{'icon-chevron-right': item.children && !item.expanded, 'icon-chevron-down': item.children && item.expanded}"></i>
                         {{ item.name }}
                     </div>
                     <ul class="tree-body">
                         @for (it of item.children; track $index) {
-                        <li class="tree-item" [class]="{active: data && it.id == data().id}">
+                        <li class="tree-item" [class]="{active: it.id == data()?.id}">
                             <div class="tree-name" (click)="tapRead(it)">{{ it.name }}</div>
                         </li>
                         }
@@ -90,7 +90,7 @@
                         </table>
                     </div>
                 </div>
-                @if (data().header && data().header.length > 0) {
+                @if (data()?.header && data().header!.length > 0) {
                 <div class="panel">
                     <div class="panel-header" i18n>
                         Header parameters
@@ -117,7 +117,7 @@
                     </div>
                 </div>
                 }
-                @if (data().request && data().request.length > 0) {
+                @if (data()?.request && data().request!.length > 0) {
                 <div class="panel">
                     <div class="panel-header" i18n>
                         Request parameters
@@ -152,7 +152,7 @@
                     </div>
                 </div>
                 }
-                @if (data().response && data().response.length > 0) {
+                @if (data()?.response && data().response!.length > 0) {
                 <div class="panel">
                     <div class="panel-header" i18n>
                         Response parameters

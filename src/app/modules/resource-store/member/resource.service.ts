@@ -4,6 +4,7 @@ import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { ICategory, IResource, ITag } from '../model';
 import { map } from 'rxjs';
 import { IUploadResult } from '../../../theme/models/open';
+import { NetSource } from '../../../components/form';
 
 @Injectable({
     providedIn: 'root'
@@ -11,6 +12,9 @@ import { IUploadResult } from '../../../theme/models/open';
 export class ResourceService {
     private readonly http = inject(HttpClient);
 
+    public tagSource() {
+        return NetSource.createSearchArray(this.http, 'res/tag', 'keywords');
+    }
 
 
     public categoryAll() {

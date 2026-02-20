@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { IUploadResult } from '../../../theme/models/open';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { ICategory, IComment, ISoftware, ISoftwarePackage, ISoftwareVersion, ITag } from '../model';
+import { NetSource } from '../../../components/form';
 
 @Injectable({
     providedIn: 'root'
@@ -10,6 +11,9 @@ import { ICategory, IComment, ISoftware, ISoftwarePackage, ISoftwareVersion, ITa
 export class AppService {
     private readonly http = inject(HttpClient);
 
+    public tagSource() {
+        return NetSource.createSearchArray(this.http, 'app/admin/tag', 'keywords', 'id', 'name');
+    }
 
     public categoryTree() {
         return this.http.get<IData<ICategory>>('app/admin/category/all');

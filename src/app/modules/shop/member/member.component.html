@@ -4,10 +4,10 @@
     <div class="header-main">
         <div class="container">
             <div class="header-logo">
-                <img [src]="site.logo" alt="">
+                <img [src]="site()?.logo" alt="">
             </div>
             <div class="header-title">
-                {{ title }}
+                {{ title() }}
             </div>
         </div>
     </div>

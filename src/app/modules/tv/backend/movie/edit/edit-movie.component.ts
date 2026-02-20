@@ -1,7 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ICategory, IMovie, IMovieArea, ITag } from '../../../model';
-import { catchError, concat, distinctUntilChanged, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { TVService } from '../../tv.service';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -52,7 +51,7 @@ export class EditMovieComponent {
     });
     public categories: ICategory[] = [];
     public areaItems: IMovieArea[] = [];
-    public readonly tagSource = NetSource.createSearchArray(inject(HttpClient), 'tv/admin/tag', 'keywords');
+    public readonly tagSource = this.service.tagSource();
 
     constructor() {
         this.service.batch({

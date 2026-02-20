@@ -2,11 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { ICategory, ICategoryUser, IMessage, ISession, IWord } from '../model';
+import { NetSource } from '../../../components/form';
 
 @Injectable()
 export class OnlineBackendService {
     private readonly http = inject(HttpClient);
 
+    public userSource() {
+        return NetSource.createSearchArray(this.http, 'auth/admin/user/search');
+    }
 
     public categoryList(params: any) {
         return this.http.get<IPage<ICategory>>('os/admin/category', {params});

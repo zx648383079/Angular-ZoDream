@@ -22,7 +22,7 @@ export class HomeComponent {
     public readonly items = signal<IService[]>([]);
     private hasMore = true;
     public readonly isLoading = signal(false);
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         category: 0,
         keywords: '',
         page: 1,

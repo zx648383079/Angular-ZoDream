@@ -22,7 +22,7 @@ export class MicroMemberComponent {
     private readonly location = inject(Location);
 
     public readonly items = signal<IMicro[]>([]);
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         keywords: '',
         page: 1,
         per_page: 20,

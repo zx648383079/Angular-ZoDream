@@ -59,7 +59,7 @@ export class CashierComponent {
     }), schemaPath => {
         required(schemaPath.code);
     });
-    public readonly regionSource = new NetSource(inject(HttpClient), 'shop/region/tree', 3);
+    public readonly regionSource = this.service.regionSource();
     public readonly addressIsEdit = signal(true);
     public readonly editForm = form(signal<IAddress>({
         id: 0,

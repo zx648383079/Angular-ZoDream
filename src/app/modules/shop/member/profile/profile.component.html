@@ -12,7 +12,7 @@
                     隐私
                 </a>
             </div>
-            @if (user) {
+            @if (user()) {
             <div class="row" [hidden]="tabIndex() == 1">
                 <div class="col-md-4">
                     <h2>基本</h2>
@@ -25,7 +25,7 @@
                                 <label for="fileUpload">用户头像</label>
                                 <div>
                                     <div class="avatar-input">
-                                        <img [src]="user.avatar">
+                                        <img [src]="user().avatar">
                                         <label class="iconfont icon-camera" for="fileUpload"></label>
                                         <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*"/>
                                     </div>
@@ -40,7 +40,7 @@
                             <div class="input-group-control">
                                 <label for="email">邮　　箱</label>
                                 <div>
-                                    <input type="email" id="email" class="form-control" placeholder="请输入 邮箱" [value]="user?.email" (click)="tapStepEdit()" readonly>
+                                    <input type="email" id="email" class="form-control" placeholder="请输入 邮箱" [value]="user()?.email" (click)="tapStepEdit()" readonly>
                                 </div>
                             </div>
                             <div class="input-group-control">
@@ -52,7 +52,7 @@
                             <div class="input-group-control">
                                 <label for="mobile">手机号码</label>
                                 <div>
-                                    <input type="text" id="mobile" class="form-control" [value]="user?.mobile" (click)="tapStepEdit('mobile')" readonly>
+                                    <input type="text" id="mobile" class="form-control" [value]="user()?.mobile" (click)="tapStepEdit('mobile')" readonly>
                                 </div>
                             </div>
                             <div class="input-group-control">
@@ -68,7 +68,7 @@
                     </div>
 
                     @if (tabIndex() == 2) {
-                        <app-bind-step [name]="stepData.name" [user]="user" />
+                        <app-bind-step [name]="stepForm.name().value()" [user]="user()" />
                     }
                 </div>
             </div>

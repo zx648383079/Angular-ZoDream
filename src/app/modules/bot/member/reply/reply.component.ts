@@ -32,7 +32,7 @@ export class ReplyComponent {
         {name: '收到消息回复', value: 'default'},
         {name: '被关注回复', value: 'subscribe'},
     ];
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         event: this.tabItems[0].value,
         keywords: '',
         page: 1,

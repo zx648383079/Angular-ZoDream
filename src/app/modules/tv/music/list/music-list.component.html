@@ -41,7 +41,7 @@
     }
 
 
-    @if (queries.keywords) {
+    @if (queries.keywords().value()) {
     <div class="search-body">
         @for (item of items(); track $index) {
             <a class="music-list-item" [routerLink]="['list', item.id]">

@@ -35,7 +35,7 @@ export class NoteComponent {
     public readonly items = signal<INote[]>([]);
     public readonly hasMore = signal(true);
     public readonly isLoading = signal(false);
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         keywords: '',

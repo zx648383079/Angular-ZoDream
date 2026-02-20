@@ -7,10 +7,9 @@ import { Location } from '@angular/common';
 import { DialogService } from '../../../../components/dialog';
 import { FileUploadService, ThemeService } from '../../../../theme/services';
 import { parseNumber } from '../../../../theme/utils';
-import { ButtonEvent, NetSource, UploadCustomEvent } from '../../../../components/form';
+import { ButtonEvent, UploadCustomEvent } from '../../../../components/form';
 import { NavigationDisplayMode } from '../../../../theme/models/event';
 import { form, required } from '@angular/forms/signals';
-import { HttpClient } from '@angular/common/http';
 
 interface IResFile {
     id: number;
@@ -61,7 +60,7 @@ export class EditResourceComponent {
 
     public data: IResource;
     public categories: ICategory[] = [];
-    public readonly tagSource = NetSource.createSearchArray(inject(HttpClient), 'res/tag', 'keywords');
+    public readonly tagSource = this.service.tagSource();
     public previewTypeItems = MediaTypeItems;
     public fileTypeItems = FileTypeItems;
 

@@ -6,8 +6,6 @@ import { IPageQueries } from '../../../../../../theme/models/page';
 import { ISeckillGoods } from '../../../../model';
 import { SearchService } from '../../../../../../theme/services';
 import { ActivityService } from '../../activity.service';
-import { NetSource } from '../../../../../../components/form';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -35,7 +33,7 @@ export class SeckillGoodsComponent {
         every_amount: 1,
         price: 1,
     }));
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         per_page: 20,
         keywords: '',
@@ -43,7 +41,7 @@ export class SeckillGoodsComponent {
         time_id: 0
     }));
 
-    public readonly goodsSource = NetSource.createSearchArray(inject(HttpClient), 'shop/admin/goods/search');
+    public readonly goodsSource = this.service.goodsSource();
 
     constructor() {
         this.route.params.subscribe(params => {

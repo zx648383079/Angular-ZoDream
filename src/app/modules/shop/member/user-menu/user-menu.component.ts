@@ -86,8 +86,8 @@ export class UserMenuComponent {
         },
     ]);
 
-    public readonly current = input<ActivatedRoute>(undefined);
-    public readonly currentUrl = input<string>(undefined);
+    public readonly current = input<ActivatedRoute>();
+    public readonly currentUrl = input<string>();
 
     constructor() {
         effect(() => {
@@ -111,6 +111,9 @@ export class UserMenuComponent {
     }
 
     private checkRoute(route: ActivatedRoute) {
+        if (!route) {
+            return;
+        }
         route.url.subscribe(res => {
             this.checkUrl(res.map(i => i.path).join('/'), false);
         });

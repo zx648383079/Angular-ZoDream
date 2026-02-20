@@ -6,8 +6,6 @@ import { SearchService } from '../../../../theme/services';
 import { IWebPage } from '../../model';
 import { formatDomain } from '../../util';
 import { NavigationService } from '../navigation.service';
-import { NetSource } from '../../../../components/form';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -47,7 +45,7 @@ export class PageComponent {
         required(schemaPath.link);
     });
     public editExistData: IWebPage|undefined;
-    public readonly wordSource = NetSource.createSearchArray(inject(HttpClient), 'navigation/admin/keyword', 'keywords', 'id', 'word');
+    public readonly wordSource = this.service.wordSource();
 
     constructor() {
         this.route.queryParams.subscribe(params => {

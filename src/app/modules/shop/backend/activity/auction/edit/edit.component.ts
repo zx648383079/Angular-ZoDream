@@ -5,8 +5,7 @@ import { DialogService } from '../../../../../../components/dialog';
 import { IActivity, IAuctionConfigure } from '../../../../model';
 import { ActivityService } from '../../activity.service';
 import { form, required } from '@angular/forms/signals';
-import { ButtonEvent, NetSource } from '../../../../../../components/form';
-import { HttpClient } from '@angular/common/http';
+import { ButtonEvent } from '../../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -41,7 +40,7 @@ export class EditAuctionComponent {
         required(schemaPath.scope);
     });
 
-    public readonly goodsSource = NetSource.createSearchArray(inject(HttpClient), 'shop/admin/goods/search');
+    public readonly goodsSource = this.service.goodsSource();
 
     public data: IActivity<IAuctionConfigure>;
 

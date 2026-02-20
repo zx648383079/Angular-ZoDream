@@ -2,6 +2,7 @@
     <app-page-tip>
         <ul>
             <li>管理流水列表</li>
+            <li>借出、贷入进行还款后类型变更为支出、收入</li>
         </ul>
     </app-page-tip>
     <div class="panel-container">
@@ -50,7 +51,7 @@
                     <td [hidden]="!isMultiple()">
                         <i class="checkbox" [class.checked]="item.checked" (click)="toggleCheck(item)"></i>
                     </td>
-                    <td class="resize-time">{{ item.happened_at }}</td>
+                    <td class="resize-time" (click)="tapGoto(item.happened_at)">{{ item.happened_at }}</td>
                     <td class="resize-account">{{ item.account ? item.account.name : '-' }}</td>
                     <td class="resize-money">
                         @if (item.type != 1) {

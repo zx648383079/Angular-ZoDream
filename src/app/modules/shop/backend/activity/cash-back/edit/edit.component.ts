@@ -7,7 +7,7 @@ import { ActivityService } from '../../activity.service';
 import { ActivityRuleItems } from '../../model';
 import { form, required } from '@angular/forms/signals';
 import { parseNumber } from '../../../../../../theme/utils';
-import { ArraySource, ButtonEvent, NetSource } from '../../../../../../components/form';
+import { ArraySource, ButtonEvent } from '../../../../../../components/form';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -21,7 +21,6 @@ export class EditCashBackComponent {
     private readonly route = inject(ActivatedRoute);
     private readonly toastrService = inject(DialogService);
     private readonly location = inject(Location);
-    private readonly http = inject(HttpClient);
 
     public readonly dataModel = signal({
         id: 0,
@@ -52,11 +51,11 @@ export class EditCashBackComponent {
     public readonly scopeSource = computed(() => {
         switch (this.scopeType()) {
             case 2:
-                return NetSource.createSearchArray(this.http, 'shop/admin/brand/search');
+                return this.service.brandSource();
             case 1:
-                return NetSource.createSearchArray(this.http, 'shop/admin/category/search');
+                return this.service.categorySource();
             case 3:
-                return NetSource.createSearchArray(this.http, 'shop/admin/goods/search');
+                return this.service.goodsSource();
             default:
                 return ArraySource.empty;
         }

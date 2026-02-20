@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { IActivity, IActivityTime, ICoupon, ISeckillGoods } from '../model';
+import { NetSource } from '../../../components/form';
 
 @Injectable()
 export class ActivityService {
@@ -102,5 +103,9 @@ export class ActivityService {
 
     public bargainApply(data: any) {
         return this.http.post<any>('shop/activity/bargain/apply', data);
+    }
+
+    public regionSource() {
+        return new NetSource(this.http, 'shop/region/tree', 3);
     }
 }

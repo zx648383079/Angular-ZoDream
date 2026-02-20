@@ -2,11 +2,19 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { ISite, ISiteCategory, ISiteTag, IWebPage, IWebPageKeywords } from '../model';
+import { NetSource } from '../../../components/form';
 
 @Injectable()
 export class NavigationService {
     private readonly http = inject(HttpClient);
 
+    public tagSource() {
+        return NetSource.createSearchArray(this.http, 'navigation/admin/tag', 'keywords');
+    }
+
+    public wordSource() {
+        return NetSource.createSearchArray(this.http, 'navigation/admin/keyword', 'keywords', 'id', 'word');
+    }
 
     public categoryList(params: any) {
         return this.http.get<IPage<ISiteCategory>>('navigation/admin/category', {params});

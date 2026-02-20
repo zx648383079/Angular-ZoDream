@@ -41,7 +41,7 @@ export class NavigationComponent {
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public readonly queries = form(signal<IPageQueries>({
+    public readonly queries = form(signal({
         page: 1,
         keywords: '',
         per_page: 20,

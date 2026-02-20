@@ -7,7 +7,6 @@ import { IBook, ICategory } from '../../model';
 import { BookService } from '../book.service';
 import { form, required } from '@angular/forms/signals';
 import { ButtonEvent, NetSource } from '../../../../components/form';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -48,7 +47,7 @@ export class DetailComponent {
         {name: '已审核', value: 1},
         {name: '已拒绝', value: 9},
     ];
-    public readonly authorSource = NetSource.createSearchArray(inject(HttpClient), 'book/admin/author/search');
+    public readonly authorSource = this.service.authorSource();
 
     constructor() {
         this.service.categoryList().subscribe(res => {

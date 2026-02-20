@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ISite } from '../../../theme/models/seo';
@@ -21,8 +21,8 @@ export class MemberComponent {
     private readonly store = inject<Store<ShopAppState>>(Store);
     private readonly destroyRef = inject(DestroyRef);
 
-    public site: ISite = {} as any;
-    public title = '个人中心';
+    public readonly site = signal<ISite>({} as any);
+    public readonly title = signal('个人中心');
 
     constructor() {
         this.store.select(selectAuth).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
@@ -32,14 +32,12 @@ export class MemberComponent {
             }
         });
         this.store.select(selectSite).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(site => {
-            this.site = site;
+            this.site.set(site);
         });
     }
 
     public onRouterActivate(componentRef: any) {
-        setTimeout(() => {
-            this.title = componentRef.title || '个人中心';
-        }, 100);
+        this.title.set(componentRef.title || '个人中心');
     }
 
 }
