@@ -9,6 +9,7 @@ import { DialogContainerComponent } from './container/dialog-container.component
 import { PopupDirective } from './popup.directive';
 import { DialogPopupComponent } from './popup/dialog-popup.component';
 import { DialogLeadComponent } from './lead/dialog-lead.component';
+import { DialogPromptComponent } from './prompt/dialog-prompt.component';
 
 const COMPONENTS = [
     DialogBoxComponent,
@@ -18,6 +19,7 @@ const COMPONENTS = [
     DialogContainerComponent,
     DialogPopupComponent,
     DialogLeadComponent,
+    DialogPromptComponent,
     PopupDirective,
 ];
 

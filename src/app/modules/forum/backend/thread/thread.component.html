@@ -36,9 +36,9 @@
                     <th>标题</th>
                     <th class="auto-hide">发布者</th>
                     <th>板块</th>
-                    <th class="auto-hide">统计</th>
+                    <th class="auto-hide" [hidden]="isMultiple()">统计</th>
                     <th>状态</th>
-                    <th>操作</th>
+                    <th [hidden]="isMultiple()">操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -51,9 +51,9 @@
                     <td>{{ item.title }}</td>
                     <td class="auto-hide">{{ item.user?.name }}</td>
                     <td>{{ item.forum?.name }}</td>
-                    <td class="auto-hide">浏览：{{ item.view_count }}/ 回复：{{ item.post_count }}</td>
+                    <td class="auto-hide" [hidden]="isMultiple()">浏览：{{ item.view_count }}/ 回复：{{ item.post_count }}</td>
                     <td>{{ formatStatus(item.status) }}</td>
-                    <td>
+                    <td [hidden]="isMultiple()">
                         <div class="btn-group  btn-group-xs">
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
@@ -85,6 +85,8 @@
                             <app-post-block [value]="item.content" />
                         }
 
+                        <app-thread-post-panel [target]="item.id"/>
+
                         <div class="review-stamp" [class]="{'btn-success': item.status == 1, 'btn-danger': item.status == 9}">
                             {{ formatStatus(item.status) }}
                         </div>
@@ -100,7 +102,7 @@
                         </div>
                         <div class="review-action">
                             <div class="btn-group">
-                                <a class="btn btn-info" (click)="stack.back()">
+                                <a class="btn btn-info" (click)="tapPrevious(stack)">
                                     <i class="iconfont icon-chevron-left"></i>
                                 </a>
                                 @if (item.status != 1) {
@@ -110,7 +112,7 @@
                                     <a class="btn btn-warning"  (click)="tapReview(stack, item, 9)">拒绝</a>
                                 }
                                 <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
-                                <a class="btn btn-info" (click)="stack.next()">
+                                <a class="btn btn-info"  (click)="tapNext(stack)">
                                     <i class="iconfont icon-chevron-right"></i>
                                 </a>
                             </div>

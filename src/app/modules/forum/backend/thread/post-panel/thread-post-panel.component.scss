@@ -1,0 +1,54 @@
+@use '../../../../../theme/theme';
+.load-tooltip {
+    display: block;
+    margin-top: 2rem;
+    background-color: var(--#{theme.$prefix}dialog-mask);
+    line-height: 2.5rem;
+    text-align: center;
+    color: var(--#{theme.$prefix}meta-text);
+    cursor: pointer;
+}
+
+.comment-item {
+    position: relative;
+    margin-top: .75em;
+    background-color: var(--#{theme.$prefix}panel);
+    box-shadow: 0 0 2px 0 rgba(var(--#{theme.$prefix}mask-rgb), .25);
+    padding: 0.9375rem 0.625rem;
+    .comment-content {
+        margin: 15px 0;
+    }
+    .comment-author {
+        img {
+            border-radius: 50%;
+            width: 3em;
+            height: 3em;
+            float: left;
+            margin-right: .75em;
+        }
+        .name {
+            display: block;
+            font-weight: 700;
+        }
+        .date {
+            float: left;
+        }
+        &::after {
+            content: ".";
+            display: block;
+            clear: both;
+            visibility: hidden;
+            line-height: 0;
+            height: 0;
+        }
+    }
+    .comment-footer {
+        position: absolute;
+        top: 1.5em;
+        right: 4.6875375%;
+        a {
+            cursor: pointer;
+            margin-left: .8rem;
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import { Component, computed, input, model, output } from '@angular/core';
+import { Component, computed, input, model, output, signal } from '@angular/core';
 import { DialogActionFn, DialogCheckFn, DialogConfirmFn, DialogEvent } from '../model';
 
 @Component({
@@ -49,7 +49,7 @@ export class DialogBoxComponent implements DialogEvent {
      */
     private confirmFn: DialogConfirmFn;
     private actionFn: DialogActionFn;
-    public invalidTip = '';
+    public readonly invalidTip = signal('');
     public readonly confirm = output();
     private asyncHandler = 0;
 
@@ -177,12 +177,12 @@ export class DialogBoxComponent implements DialogEvent {
         if (this.asyncHandler > 0) {
             clearTimeout(this.asyncHandler);
         }
-        this.invalidTip = msg;
+        this.invalidTip.set(msg);
         if (!msg) {
             return;
         }
         this.asyncHandler = window.setTimeout(() => {
-            this.invalidTip = '';
+            this.invalidTip.set('');
         }, time);
     }
 

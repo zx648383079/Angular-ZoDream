@@ -1,3 +1,4 @@
+@use '../../../../theme/theme';
 .comment-container {
     .title-bar {
         margin-bottom: 1rem;
@@ -28,9 +29,9 @@
         position: relative;
         margin-bottom: .75em;
         .comment {
-            background: #fff;
-            box-shadow: 0 0 2px 0 rgba(0, 0, 0, .25);
-            padding: 15px 10px;
+            background-color: var(--#{theme.$prefix}panel);
+            box-shadow: 0 0 2px 0 rgba(var(--#{theme.$prefix}mask-rgb), .25);
+            padding: 0.9375rem 0.625rem;
         }
         .comment-content {
             margin: 15px 0;
@@ -66,7 +67,7 @@
         }
         .children {
             padding-left: 1.5em;
-            border-left: solid 1px #fff;
+            border-left: solid 1px var(--#{theme.$prefix}panel);
             margin: .75em 0;
         }
     }

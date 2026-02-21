@@ -26,8 +26,8 @@
                     <th>称呼</th>
                     <th>邮箱</th>
                     <th>状态</th>
-                    <th>订阅时间</th>
-                    <th>操作</th>
+                    <th [hidden]="isMultiple()">订阅时间</th>
+                    <th [hidden]="isMultiple()">操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,8 +41,8 @@
                     <td>
                         {{item.status < 1 ? '待审核' : '已通过'}}
                     </td>
-                    <td [title]="item.created_at">{{ item.created_at | ago }}</td>
-                    <td>
+                    <td [title]="item.created_at" [hidden]="isMultiple()">{{ item.created_at | ago }}</td>
+                    <td [hidden]="isMultiple()">
                         <div class="btn-group">
                             <a class="btn" [class]="{'btn-success': item.status < 1, 'btn-info': item.status == 1}" (click)="tapToggle(item)">{{ item.status < 1 ? '通过' : '下架' }}</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>

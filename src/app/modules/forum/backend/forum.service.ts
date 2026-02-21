@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { IForum, IThread } from '../model';
+import { IForum, IThread, IThreadPost } from '../model';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { IUser, IUserZone } from '../../../theme/models/user';
 
@@ -49,6 +49,19 @@ export class ForumService {
 
     public threadRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('forum/admin/thread/delete', {params: {'id[]': id}});
+    }
+
+    
+    public postList(params: any) {
+        return this.http.get<IPage<IThreadPost>>('forum/admin/thread/post', {params});
+    }
+
+    public postSave(data: any) {
+        return this.http.post<IThreadPost>('forum/admin/thread/post_save', data);
+    }
+
+    public postRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('forum/admin/thread/post_delete', {params: {id}});
     }
 
     public batch(data: {

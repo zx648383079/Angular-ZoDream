@@ -29,8 +29,8 @@
                     <th>网址</th>
                     <th>简介</th>
                     <th>状态</th>
-                    <th>申请时间</th>
-                    <th>操作</th>
+                    <th [hidden]="isMultiple()">申请时间</th>
+                    <th [hidden]="isMultiple()">操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -49,14 +49,14 @@
                     <td>
                         {{item.status < 1 ? '待审核' : '已通过'}}
                     </td>
-                    <td [title]="item.created_at">{{ item.created_at | ago }}</td>
-                    <td>
+                    <td [title]="item.created_at" [hidden]="isMultiple()">{{ item.created_at | ago }}</td>
+                    <td [hidden]="isMultiple()">
                         <div class="btn-group">
                             @if (item.status < 1) {
-                            <a class="btn btn-success" (click)="tapPass(item, toggleModal)" data-tip="确认审核通过此友情链接？">审核</a>
+                            <a class="btn btn-success" (click)="tapPass(item)" data-tip="确认审核通过此友情链接？">审核</a>
                             }
                             @if (item.status == 1) {
-                            <a class="btn btn-info"  (click)="tapOff(item, toggleModal)">下架</a>
+                            <a class="btn btn-info"  (click)="tapOff(item)">下架</a>
                             }
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
@@ -118,5 +118,3 @@
         </div>
     </div>
 </app-dialog-box>
-
-<app-manage-dialog #toggleModal />

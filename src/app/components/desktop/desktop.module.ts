@@ -10,7 +10,6 @@ import { EmojiPickerComponent } from './emoji-picker/emoji-picker.component';
 import { EditableTableComponent } from './editable-table/editable-table.component';
 import { LoadingRingComponent } from './loading-ring/loading-ring.component';
 import { LoadingTipComponent } from './loading-tip/loading-tip.component';
-import { ManageDialogComponent } from './manage-dialog/manage-dialog.component';
 import { CaptchaComponent } from './captcha/captcha.component';
 import { UserPickerComponent } from './user-picker/user-picker.component';
 import { ToggleBarComponent } from './toggle-bar/toggle-bar.component';
@@ -61,7 +60,6 @@ const COMPONENTS = [
     EditableTableComponent,
     LoadingRingComponent,
     LoadingTipComponent,
-    ManageDialogComponent,
     CaptchaComponent,
     UserPickerComponent,
     ToggleBarComponent,

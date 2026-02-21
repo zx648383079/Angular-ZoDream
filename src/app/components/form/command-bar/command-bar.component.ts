@@ -1,5 +1,5 @@
 import { Component, HostListener, input, contentChildren, effect, signal, afterNextRender } from '@angular/core';
-import { IButton } from '../event';
+import { IButtonControl } from '../event';
 import { isParentOf } from '../../../theme/utils/doc';
 import { CommandButtonComponent } from './command-button';
 
@@ -16,8 +16,8 @@ export class CommandBarComponent {
     public readonly min = input(1);
     public readonly flowLeft = input(false);
     public readonly dropVisible = signal(false);
-    public readonly inlineItems = signal<IButton[]>([]);
-    public readonly dropItems = signal<IButton[]>([]);
+    public readonly inlineItems = signal<IButtonControl[]>([]);
+    public readonly dropItems = signal<IButtonControl[]>([]);
 
     constructor() {
         effect(() => {
@@ -54,7 +54,7 @@ export class CommandBarComponent {
     }
 
     private splitButton() {
-        const items = this.items().filter(i => !i.disabled);
+        const items = this.items().filter(i => !i.disabled());
         if (items.length < 1) {
             this.inlineItems.set([]);
             this.dropItems.set([]);
@@ -73,8 +73,8 @@ export class CommandBarComponent {
         }
     }
 
-    public tapItem(item: IButton) {
-        if (item.disabled) {
+    public tapItem(item: IButtonControl) {
+        if (item.disabled()) {
             return;
         }
         if (item.onTapped) {

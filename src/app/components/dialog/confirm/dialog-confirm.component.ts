@@ -42,7 +42,7 @@ export class DialogConfirmComponent {
     }
 
     public animationDone() {
-        if (this.visible) {
+        if (this.visible()) {
             return;
         }
         this.service.remove(this.data.dialogId);

@@ -14,9 +14,9 @@
     
     <div class="dialog-body" [class]="{scrollable: scrollable()}">
         <ng-content />
-        @if (invalidTip) {
+        @if (invalidTip()) {
         <div class="dialog-invail-tip">
-            {{ invalidTip }}
+            {{ invalidTip() }}
         </div>
         }
         

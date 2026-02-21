@@ -161,27 +161,30 @@ export class FriendLinkComponent {
         this.tapRefresh();
     }
 
-    public tapPass(item: IFriendLink, modal: ManageDialogEvent) {
-        this.toggleItem(item, modal, '确认审核通过此友情链接？', '已审核通过！');
+    public tapPass(item: IFriendLink) {
+        this.toggleItem(item, '确认审核通过此友情链接？', '已审核通过！');
     }
 
-    public tapOff(item: IFriendLink, modal: ManageDialogEvent) {
-        this.toggleItem(item, modal, '确认下架此友情链接？', '已下架！');
+    public tapOff(item: IFriendLink) {
+        this.toggleItem(item, '确认下架此友情链接？', '已下架！');
     }
 
-    private toggleItem(item: IFriendLink, modal: ManageDialogEvent, title: string, success: string) {
-        modal.open(data => {
-            this.service.friendLinkToggle({
-                ...data,
-                id: item.id,
-            }).subscribe(res => {
-                if (!res) {
-                    return;
-                }
-                this.toastrService.success(success);
-                item.status = res.status;
-            });
-        }, title);
+    private toggleItem(item: IFriendLink, title: string, success: string) {
+        this.toastrService.prompt({
+            title,
+            onConfirm: remark => {
+                this.service.friendLinkToggle({
+                    remark,
+                    id: item.id,
+                }).subscribe(res => {
+                    if (!res) {
+                        return;
+                    }
+                    this.toastrService.success(success);
+                    item.status = res.status;
+                });
+            }
+        });
     }
 
     public tapRemove(item: IFriendLink) {

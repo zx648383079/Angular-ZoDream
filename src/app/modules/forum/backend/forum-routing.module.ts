@@ -5,6 +5,7 @@ import { EditComponent } from './edit/edit.component';
 import { ForumComponent } from './forum.component';
 import { ForumListComponent } from './list/forum-list.component';
 import { ThreadComponent } from './thread/thread.component';
+import { ThreadPostPanelComponent } from './thread/post-panel/thread-post-panel.component';
 
 const routes: Routes = [
     {
@@ -30,11 +31,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
 export class ForumRoutingModule { }
 
 export const forumRoutedComponents = [
-  ForumComponent, ThreadComponent, EditComponent, ForumListComponent,
+    ForumComponent, ThreadComponent, EditComponent, ForumListComponent,
+    ThreadPostPanelComponent,
 ];

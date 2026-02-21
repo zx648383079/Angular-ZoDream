@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { IUser, IUserStatus } from '../../../theme/models/user';
 import { MemberSpaceService } from './member-space.service';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService, ManageDialogEvent } from '../../../components/dialog';
+import { DialogService } from '../../../components/dialog';
 import { AppState } from '../../../theme/interfaces';
 import { Store } from '@ngrx/store';
 import { selectAuthUser } from '../../../theme/reducers/auth.selectors';
@@ -69,22 +69,23 @@ export class MemberSpaceComponent {
         });
     }
 
-    public tapReport(modal: ManageDialogEvent) {
-        modal.open(data => {
-            if (!data.remark) {
-                return false;
+    public tapReport() {
+        this.toastrService.prompt({
+            title: $localize `Confirm to report the user?`,
+            placeholder: $localize `Please enter the reason`,
+            onConfirm: reason => {
+                this.service.report({
+                    user: this.data().id,
+                    reason
+                }).subscribe({
+                    next: _ => {
+                        this.toastrService.success($localize `Report successful, waiting for manual review`);
+                    },
+                    error: err => {
+                        this.toastrService.error(err.error);
+                    }
+                });
             }
-            this.service.report({
-                user: this.data().id,
-                reason: data.remark
-            }).subscribe({
-                next: _ => {
-                    this.toastrService.success($localize `Report successful, waiting for manual review`);
-                },
-                error: err => {
-                    this.toastrService.error(err.error);
-                }
-            });
         });
     }
 

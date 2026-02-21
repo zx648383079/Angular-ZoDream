@@ -1,0 +1,27 @@
+@if (!isBooted()) {
+    <a class="load-tooltip" (click)="tapRefresh()">加载帖子</a>
+}
+
+@for (item of items(); track $index) {
+    <div class="comment-item">
+        <div class="comment-author">
+            <img [src]="item.user.avatar" alt="">
+            <div class="comment-meta">
+                <span class="name">{{ item.user.name }}</span>
+                <div class="date">{{ item.created_at|ago }}</div>
+            </div>
+        </div>
+        <div class="comment-content">
+            @if (item.html) {
+                <app-post-block [value]="item.html" />
+            }
+        </div>
+        <div class="comment-footer">
+            <a (click)="tapEdit(item)"><i class="iconfont icon-edit"></i><span i18n>Edit</span></a>
+            <a (click)="tapRemove(item)"><i class="iconfont icon-trash"></i><span i18n>Delete</span></a>
+        </div>
+    </div>
+}
+
+<app-loading-tip [loading]="isLoading()" [visible]="isLoading()" />
+<app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />

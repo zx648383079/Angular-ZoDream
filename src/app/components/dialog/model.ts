@@ -20,6 +20,16 @@ export interface DialogConfirmOption extends DialogOption {
     onCancel?: () => void;
 }
 
+export interface DialogPromptOption extends DialogOption {
+    title?: string;
+    required?: boolean;
+    placeholder?: string;
+    confirmText?: string;
+    cancelText?: string;
+    onConfirm?: (value: string) => void;
+    onCancel?: () => void;
+}
+
 export interface DialogNotifyOption extends DialogOption {
     title?: string;
     icon?: string;

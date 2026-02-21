@@ -101,7 +101,7 @@ export class ThreadComponent {
         });
     }
 
-    public formatStatus(val: number) {
+    public formatStatus(val?: number) {
         return mapFormat(val, [
             {name: '待审核', value: 0},
             {name: '通过', value: 1},
@@ -157,12 +157,29 @@ export class ThreadComponent {
             status
         }).subscribe(_ => {
             item.status = status;
-            if (ctl.nextable) {
-                ctl.next();
-                return;
-            }
-            this.tapMore();
+            this.tapNext(ctl);
         });
+    }
+
+    public tapPrevious(ctl: SwiperEvent) {
+        if (ctl.backable) {
+            ctl.back();
+            return;
+        }
+        const page = this.queries.page().value();
+        if (page > 1) {
+            this.goPage(page - 1);
+        }
+    }
+
+     public tapNext(ctl: SwiperEvent) {
+        if (ctl.nextable) {
+            ctl.next();
+            return;
+        }
+        if (this.hasMore) {
+            this.tapMore();
+        }
     }
 
     public tapRemove(item: IThread) {

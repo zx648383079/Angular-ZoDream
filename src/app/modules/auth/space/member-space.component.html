@@ -51,7 +51,7 @@
                             <span class="item-label" i18n>Unmark user</span>
                         </a>
                         }
-                        <a class="action-item" (click)="tapReport(reportModal)">
+                        <a class="action-item" (click)="tapReport()">
                             <i class="iconfont icon-exclamation-triangle"></i>
                             <span class="item-label" i18n>Report user</span>
                         </a>
@@ -86,5 +86,3 @@
     </div>
     }
 </div>
-
-<app-manage-dialog i18n-title title="Confirm to report the user?" i18n-placeholder placeholder="Please enter the reason" #reportModal />

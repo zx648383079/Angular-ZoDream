@@ -1,0 +1,21 @@
+@if (visible()) {
+    <div class="dialog-mask" animate.enter="dialog-mask-opened" (click)="close()"></div>
+    <div class="dialog-box" animate.enter="dialog-top-opened" animate.leave="dialog-top-closed" (animationend)="animationDone()">
+        @if (title()) {
+        <div class="dialog-header">
+            <div class="dialog-title">{{ title() }}</div>
+            <i class="iconfont icon-close dialog-close" (click)="close()"></i>
+        </div>
+        }
+        
+        <div class="dialog-body">
+            <textarea [value]="content()" rows="6" (input)="onValueChange($event)" class="form-control" [placeholder]="placeholder()"></textarea>
+        </div>
+        <div class="dialog-footer">
+            <div class="btn-group">
+                <button type="button" [disabled]="!valid()" class="btn btn-primary" (click)="close(true)">{{ confirmText() }}</button>
+                <div class="btn btn-danger" (click)="close()">{{ cancelText() }}</div>
+            </div>
+        </div>
+    </div>
+}

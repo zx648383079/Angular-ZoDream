@@ -1,4 +1,4 @@
-import { WritableSignal } from '@angular/core';
+import { InputSignal, WritableSignal } from '@angular/core';
 import { IUploadResult } from '../../theme/models/open';
 import { IItem } from '../../theme/models/seo';
 import { ArraySource } from './sources/ArraySource';
@@ -8,6 +8,14 @@ export interface IButton {
     icon: string;
     color?: string;
     disabled?: boolean;
+    onTapped?: (event: ButtonEvent) => void;
+}
+
+export interface IButtonControl {
+    label: InputSignal<string>;
+    icon: InputSignal<string>;
+    disabled: InputSignal<boolean>;
+    theme: InputSignal<string>;
     onTapped?: (event: ButtonEvent) => void;
 }
 

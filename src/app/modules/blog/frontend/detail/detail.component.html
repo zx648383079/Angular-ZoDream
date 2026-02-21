@@ -7,10 +7,10 @@
         </div>
         <div class="panel-sort-container">
             <div class="info">
-                @if (data().languages && data().languages.length > 1) {
+                @if (data().languages && data().languages!.length > 1) {
                 <div class="language-toggle">
                     @for (item of data().languages; track $index) {
-                        <a (click)="loadBlog(item.id)" [class]="{active: item.id === data().id}">{{ item.name }}</a>
+                        <a (click)="loadBlog(item.id!)" [class]="{active: item.id === data().id}">{{ item.name }}</a>
                     }
                 </div>
                 }
@@ -32,9 +32,9 @@
             </div>
             <article id="content" class="content">
                 @if (data().video_url) {
-                     <app-video-player [src]="data().video_url" />
+                     <app-video-player [src]="data().video_url!" />
                 } @else if (data().audio_url) {
-                    <app-audio-player [src]="data().audio_url" />
+                    <app-audio-player [src]="data().audio_url!" />
                 }
                 <app-markdown-block [value]="content()" />
 
@@ -114,19 +114,19 @@
 
         <div class="book-navigation">
             @if (data().previous) {
-                <a class="prev" (click)="loadBlog(data().previous.id)" i18n-title [title]="'Previous: ' + data().previous.title">
+                <a class="prev" (click)="loadBlog(data().previous!.id)" i18n-title [title]="'Previous: ' + data().previous!.title">
                     <i class="iconfont icon-chevron-left"></i>
                     <div class="prev-text">
                         <span class="prev-label" i18n>Previous</span>
-                        <span class="prev-title">{{ data().previous.title }}</span>
+                        <span class="prev-title">{{ data().previous!.title }}</span>
                     </div>
                 </a>
             }
             @if (data().next) {
-                <a class="next" (click)="loadBlog(data().next.id)" i18n-title [title]="'Next: ' + data().next.title">
+                <a class="next" (click)="loadBlog(data().next!.id)" i18n-title [title]="'Next: ' + data().next!.title">
                     <div class="next-text">
                         <span class="next-label" i18n>Next</span>
-                        <span class="next-title">{{ data().next.title }}</span>
+                        <span class="next-title">{{ data().next!.title }}</span>
                     </div>
                     <i class="iconfont icon-chevron-right"></i>
                 </a>
@@ -153,10 +153,10 @@
         }
         
 
-        @if (data().comment_status > 0) {
+        @if (data().comment_status! > 0) {
             <div aria-live="polite" aria-atomic="true">
                 @defer (on viewport) {
-                    <app-comment [itemId]="data().id" [status]="data().comment_status" />
+                    <app-comment [itemId]="data().id" [status]="data().comment_status!" />
                 } @placeholder {
                     <p>Loading ...</p>
                 }

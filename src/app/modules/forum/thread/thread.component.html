@@ -35,7 +35,7 @@
                 }
                 @if (thread().classify) {
                 <em class="tag-item">
-                    [<a>{{ thread().classify.name }}</a>]
+                    [<a>{{ thread().classify?.name }}</a>]
                 </em>
                 }
 
@@ -144,10 +144,10 @@
                             </div>
                         </div>
                         <div class="item-content">
-                            @if (item.status > 0) {
+                            @if (item.status! > 0) {
                                 <div class="stamp">{{ formatStatus(item) }}</div>
                             }
-                            <app-post-block [value]="item.content" [readable]="item.is_public_post" (tapped)="tapBlock($event, item)" />
+                            <app-post-block [value]="item.content" [readable]="item.is_public_post!" (tapped)="tapBlock($event, item)" />
                           </div>
                         <div class="item-footer">
                             <app-command-bar [flowLeft]="true">

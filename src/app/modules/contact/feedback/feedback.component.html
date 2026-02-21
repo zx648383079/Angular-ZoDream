@@ -34,8 +34,8 @@
                     <th class="auto-hide">联系方式</th>
                     <th>显示状态</th>
                     <th>状态</th>
-                    <th class="auto-hide">留言时间</th>
-                    <th>操作</th>
+                    <th class="auto-hide" [hidden]="isMultiple()">留言时间</th>
+                    <th [hidden]="isMultiple()">操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -55,8 +55,8 @@
                             <app-switch [(value)]="item.open_status" (valueChange)="onOpenToggle(item)" />
                         </td>
                         <td>{{ item.status | status }}</td>
-                        <td class="auto-hide">{{ item.created_at | ago }}</td>
-                        <td>
+                        <td class="auto-hide" [title]="item.created_at" [hidden]="isMultiple()">{{ item.created_at | ago }}</td>
+                        <td [hidden]="isMultiple()">
                             <div class="btn-group  btn-group-xs">
                                 <a class="btn btn-info btn-xs"
                                     (click)="tapView(modal, item)">查看</a>

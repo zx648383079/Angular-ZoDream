@@ -4,8 +4,9 @@ import { DialogConfirmComponent } from './confirm/dialog-confirm.component';
 import { DialogInjector, DialogPackage } from './dialog.injector';
 import { DialogLoadingComponent } from './loading/dialog-loading.component';
 import { DialogMessageComponent } from './message/dialog-message.component';
-import { DialogConfirmOption, DialogMessageOption, DialogNotifyOption, DialogTipOption, DialogLoadingOption, DialogLeadTour } from './model';
+import { DialogConfirmOption, DialogMessageOption, DialogNotifyOption, DialogTipOption, DialogLoadingOption, DialogLeadTour, DialogPromptOption } from './model';
 import { DialogLeadComponent } from './lead/dialog-lead.component';
+import { DialogPromptComponent } from './prompt/dialog-prompt.component';
 
 
 
@@ -82,6 +83,16 @@ export class DialogService {
             onConfirm,
         };
         this.createDailog(DialogConfirmComponent, opt);
+    }
+
+    public prompt(content: string, onConfirm: (value: string) => void): void;
+    public prompt(option: DialogPromptOption): void;
+    public prompt(option: DialogPromptOption|string, onConfirm?: (value: string) => void) {
+        const opt = typeof option === 'object' ? option : {
+            content: option,
+            onConfirm,
+        };
+        this.createDailog(DialogPromptComponent, opt);
     }
 
     /**

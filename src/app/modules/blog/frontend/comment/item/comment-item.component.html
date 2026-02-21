@@ -6,9 +6,9 @@
     </div>
     <div class="item-body">
         <div class="content">
-            <app-rule-block [value]="value().content" [rules]="value().extra_rule" (tapped)="tapBlock($event)" />
+            <app-rule-block [value]="value().content!" [rules]="value().extra_rule!" (tapped)="tapBlock($event)" />
         </div>
-        @if (value().reply_count && value().reply_count > 0) {
+        @if (value().reply_count && value().reply_count! > 0) {
             @if (expanded()) {
                 <span class="expand-icon" (click)="toggleExpand()" i18n>Fold</span>
             } @else {
@@ -35,7 +35,7 @@
             </div>
             <div class="item-body">
                 <div class="content">
-                    <app-rule-block [value]="it.content" [rules]="it.extra_rule"(tapped)="tapBlock($event)" />
+                    <app-rule-block [value]="it.content!" [rules]="it.extra_rule!"(tapped)="tapBlock($event)" />
                 </div>
                 <span>&nbsp;</span>
                 <span class="comment-icon" (click)="tapCommenting(it)"><i class="iconfont icon-commenting"></i></span>

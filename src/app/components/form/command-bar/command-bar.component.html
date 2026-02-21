@@ -4,9 +4,9 @@
 <div class="command-bar" [class]="{'--with-open': dropVisible(), 'command-flow-left': flowLeft()}">
     <ul class="command-primary-bar">
         @for (item of inlineItems(); track $index) {
-        <li [class]="item.color" (click)="tapItem(item)" [title]="item.name">
-            <i class="iconfont btn-icon" [class]="item.icon"></i>
-            <span class="btn-label">{{ item.name }}</span>
+        <li [class]="item.theme()" (click)="tapItem(item)" [title]="item.label()">
+            <i [class]="['iconfont', 'btn-icon', item.icon()]"></i>
+            <span class="btn-label">{{ item.label() }}</span>
         </li>
         }
         
@@ -19,9 +19,9 @@
     </div>
     <ul class="command-secondary-bar">
         @for (item of dropItems(); track $index) {
-        <li [class]="item.color" (click)="tapItem(item)">
-            <i class="iconfont btn-icon" [class]="item.icon"></i>
-            <span class="btn-label">{{ item.name }}</span>
+        <li [class]="item.theme()" (click)="tapItem(item)" [title]="item.label()">
+            <i [class]="['iconfont', 'btn-icon', item.icon()]"></i>
+            <span class="btn-label">{{ item.label() }}</span>
         </li>
         }
         
