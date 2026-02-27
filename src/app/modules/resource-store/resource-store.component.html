@@ -12,7 +12,7 @@
                         
                 </a>
                 <div class="inner-group">
-                    <a href="">
+                    <a>
                         <i class="iconfont icon-shopping-cart"></i>
                     </a>
                     @if (!user()) {
@@ -27,16 +27,17 @@
             </div>
         </div>
     </div>
-    <div class="navbar" [class]="{open: navOpen()}">
+    <div class="navbar" [class.open]="navOpen()">
         <div class="container-fluid">
-            <ul class="navbar-main">
+            <ul class="navbar-main" [class.--with-next]="subNavVisible()">
                 @for (item of navItems(); track $index; let i = $index) {
-                    <li [class]="{active: i == navIndex()}" (click)="navIndex.set(i)">
+                    <li [class.active]="i == navIndex()" (click)="tapItem(i)">
                         <a >{{ item.name }}</a>
                     </li>
                 }
             </ul>
         </div>
+        @if (subNavVisible()) {
         <div class="container-fluid navbar-next-bar">
             <ul class="navbar-next">
                 @for (item of subNavItems(); track $index) {
@@ -67,6 +68,8 @@
             </form>
             }
         </div>
+        }
+        
         
     </div>
 </header>

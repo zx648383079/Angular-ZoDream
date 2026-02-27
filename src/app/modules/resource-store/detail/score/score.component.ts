@@ -7,7 +7,7 @@ import { form, validate } from '@angular/forms/signals';
 
 @Component({
     standalone: false,
-    selector: 'app-score',
+    selector: 'app-res-score',
     templateUrl: './score.component.html',
     styleUrls: ['./score.component.scss']
 })

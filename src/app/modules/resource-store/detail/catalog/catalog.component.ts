@@ -3,7 +3,7 @@ import { IResourceCatalog } from '../../model';
 
 @Component({
     standalone: false,
-    selector: 'app-catalog',
+    selector: 'app-res-catalog',
     templateUrl: './catalog.component.html',
     styleUrls: ['./catalog.component.scss']
 })

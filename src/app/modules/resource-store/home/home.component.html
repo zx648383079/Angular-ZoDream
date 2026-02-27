@@ -43,7 +43,7 @@
                     }
                     <div class="item-body">
                         <div class="item-icon">
-                            <img [ngSrc]="item.thumb" width="80" height="80" alt="">
+                            <img [ngSrc]="item.thumb!" width="80" height="80" alt="">
                         </div>
                         <div class="item-cover">
                             <img ngSrc="assets/images/banner.jpg" alt="" fill>
@@ -92,7 +92,7 @@
                                         {{ item.title }}
                                     </a>
                                     <div class="item-meta">
-                                        by <a>{{ item.user.name }}</a> in <a>{{ item.category.name }}</a>
+                                        by <a>{{ item.user!.name }}</a> in <a>{{ item.category!.name }}</a>
                                     </div>
                                     <div class="item-action">
                                         <div class="item-price">
@@ -155,7 +155,7 @@
                                 {{ item.title }}
                             </a>
                             <div class="item-meta">
-                                by <a href="">{{ item.user.name }}</a> in <a href="">{{ item.category.name }}</a>
+                                by <a>{{ item.user!.name }}</a> in <a>{{ item.category!.name }}</a>
                             </div>
                             <div class="item-action">
                                 <div class="item-price">

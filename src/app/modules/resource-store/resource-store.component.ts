@@ -37,8 +37,9 @@ export class ResourceStoreComponent {
     public readonly searchVisible = signal(false);
     public readonly navOpen = signal(false);
 
-    public readonly subNavItems = computed(() => {
-        return this.navItems[this.navIndex()]?.children ?? [];
+    public readonly subNavItems = signal<any[]>([]);
+    public readonly subNavVisible = computed(() => {
+        return this.subNavItems().length > 0 || this.searchVisible();
     });
 
     constructor() {
@@ -74,4 +75,13 @@ export class ResourceStoreComponent {
         this.navOpen.update(v => !v);
     }
 
+    public tapItem(index: number) {
+        this.navIndex.set(index);
+        const item = this.navItems()[index];
+        this.subNavItems.set(item.children ?? []);
+        if (item.children?.length > 0) {
+            return;
+        }
+        this.router.navigate(['category', item.id], {relativeTo: this.route});
+    }
 }

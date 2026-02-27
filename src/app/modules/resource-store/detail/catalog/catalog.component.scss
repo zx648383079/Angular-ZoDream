@@ -1,7 +1,11 @@
+:host {
+    display: block;
+    
+}
 .tree-box {
     list-style: none;
     li {
-        line-height: 30px;
+        line-height: 1.875rem;
         .name {
             cursor: pointer;
             user-select: none;
@@ -13,7 +17,7 @@
     ul {
         display: none;
         list-style: none;
-        margin-left: 40px;
+        margin-left: 2.5rem;
         padding-left: 0;
     }
     .tree-parent {

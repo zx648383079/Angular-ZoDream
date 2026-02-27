@@ -17,7 +17,7 @@
 
             <div class="tag-bar">
                 <a >
-                    By {{ data().user.name }}
+                    By {{ data().user!.name }}
                 </a>
                 <a>
                     <i class="iconfont icon-shopping-cart"></i>
@@ -84,7 +84,7 @@
                 </div>
                 <div class="tab-item" [class.active]="tabIndex() == 1">
                     <div class="group-box">
-                        <app-catalog [items]="catalogItems()" />
+                        <app-res-catalog class="group-flip-box" [items]="catalogItems()" />
                     </div>
                 </div>
                 <div class="tab-item" [class.active]="tabIndex() == 2">
@@ -92,7 +92,9 @@
                         <ul class="file-panel">
                             @for (item of data().files; track $index) {
                             <li>
-                                <span>{{ formatType(item.file_type) }}</span>
+                                <span>
+                                    <i class="iconfont icon-download"></i>
+                                    {{ formatType(item.file_type) }}</span>
                                 @if (item.file_type < 1) {
                                 <a class="btn btn-info" i18n>Download</a>
                                 } @else if (item.file_type > 0 && item.file_type < 3) {
@@ -107,7 +109,7 @@
                 </div>
                 <div class="tab-item" [class.active]="tabIndex() == 3" aria-live="polite" aria-atomic="true">
                     @defer (on viewport) {
-                        <app-score [itemId]="data().id"/>
+                        <app-res-score [itemId]="data().id"/>
                     } @placeholder {
                         <p>Loading...</p>
                     }
@@ -115,7 +117,7 @@
                 <div class="tab-item" [class.active]="tabIndex() == 4">
                     <div class="group-box" aria-live="polite" aria-atomic="true">
                         @defer (on viewport) {
-                            <app-comment [itemId]="data().id"/>
+                            <app-res-comment [itemId]="data().id"/>
                         } @placeholder {
                             <p>Loading...</p>
                         }
@@ -169,7 +171,7 @@
                         <td class="line-label" i18n>Size</td>
                         <td class="line-body">{{ data().size|size }}</td>
                     </tr>
-                    @if (data().tags && data().tags.length > 0) {
+                    @if (data().tags && data().tags!.length > 0) {
                     <tr class="tag-line-bar">
                         <td class="line-label" i18n>Tags</td>
                         <td class="line-body">

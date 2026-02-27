@@ -111,7 +111,7 @@
         height: 100%;
         display: block;
         content: "";
-        border: .2rem dotted var(--#{theme.$prefix}danger);
+        border: .2rem dotted var(--#{theme.$prefix}surface);
         border-radius: .8rem;
         z-index: -1;
     }

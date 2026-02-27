@@ -2,10 +2,10 @@
 
 header,
 footer {
-    background-color: var(--#{theme.$prefix}primary);
-    color:  var(--#{theme.$prefix}primary-text);
+    background-color: var(--#{theme.$prefix}surface);
+    color:  var(--#{theme.$prefix}surface-text);
     a {
-        color: var(--#{theme.$prefix}primary-text);
+        color: var(--#{theme.$prefix}surface-text);
         text-decoration: none;
     }
     ul,
@@ -42,7 +42,7 @@ footer {
     }
     .inner-group {
         display: inline-block;
-        background-color: var(--#{theme.$prefix}primary-hovered);
+        background-color: var(--#{theme.$prefix}surface-hovered);
         padding: 0 .8rem;
         border-radius: 0 0 .25rem .25rem;
     }
@@ -157,6 +157,9 @@ footer {
         }
         .item-meta {
             color: var(--#{theme.$prefix}meta-text);
+            a {
+                color: var(--#{theme.$prefix}link-text);
+            }
         }
         .item-body {
             padding: .8rem;
@@ -183,7 +186,7 @@ footer {
 }
 
 
-@media only screen and (min-width: 991px) {
+@media only screen and (min-width: 62rem) {
     .top-bar {
         .navbar-icon {
             display: none;
@@ -200,13 +203,14 @@ footer {
         }
     }
     .navbar-main {
+        --#{theme.$prefix}next-arrow: var(--#{theme.$prefix}body);
         display: block;
         margin-bottom: 0;
         li {
             display: inline-block;
             position: relative;
             a {
-                color: var(--#{theme.$prefix}primary-text);
+                color: var(--#{theme.$prefix}surface-text);
                 padding: .6rem 1rem;
                 display: inline-block;
             }
@@ -217,14 +221,17 @@ footer {
                     left: 50%;
                     margin-left: -.75rem;
                     border: .6rem solid transparent;
-                    border-bottom-color: var(--#{theme.$prefix}primary-hovered-text);
+                    border-bottom-color: var(--#{theme.$prefix}next-arrow);
                     content: " ";
                     display: block;
                 }
                 a {
-                    color: var(--#{theme.$prefix}primary-hovered-text);
+                    color: var(--#{theme.$prefix}surface-selected-text);
                 }
             }
+        }
+        &.--with-next {
+            --#{theme.$prefix}next-arrow: var(--#{theme.$prefix}panel);
         }
     }
     .navbar-next-bar {
@@ -246,7 +253,7 @@ footer {
             position: relative;
             padding: .5rem 1rem;
             &:hover {
-                background-color: #aaa;
+                background-color: var(--#{theme.$prefix}surface-selected-text);
                 .nav-sub {
                     display: block;
                 }

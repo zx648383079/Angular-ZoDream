@@ -1,31 +1,33 @@
+@use '../../../../theme/theme';
 .score-panel {
-    background-color: #ebebeb;
+    background-color: var(--#{theme.$prefix}panel);
     border-radius: .35rem;
     padding: .8rem;
     margin-bottom: 1rem;
     .rate {
-        font-size: 36px;
-        color: #E36844;
-        line-height: 36px;
-        margin-bottom: 8px;
+        font-size: 2.25rem;
+        color: var(--#{theme.$prefix}info);
+        line-height: 2.25rem;
+        margin-bottom: 0.5rem;
     }
     .tag-box {
         span {
             display: inline-block;
-            margin: 0 10px 10px 0;
-            padding: 0 7px 0 16px;
-            line-height: 26px;
-            border-radius: 100px;
-            background-color: #F5F3EF;
+            margin: 0 0.625rem 0.625rem 0;
+            padding: 0 0.4375rem 0 1rem;
+            line-height: 1.625rem;
+            border-radius: 6.25rem;
+            background-color: var(--#{theme.$prefix}body);
             cursor: pointer;
             &.active {
-                background-color: #b4a078;
-                color: #fff;
+                background-color: var(--#{theme.$prefix}surface);
+                color: var(--#{theme.$prefix}surface-text);
             }
         }
     }
     .score-input {
         margin-top: 3rem;
+        line-height: 2rem;
     }
     .text-right {
         text-align: right;

@@ -1,6 +1,6 @@
 @use '../../../theme/theme';
 
-$panel: #ebebeb;
+$panel: var(--#{theme.$prefix}panel);
 
 .tag-bar {
     a {
@@ -27,8 +27,8 @@ $panel: #ebebeb;
     .count-label {
         display: inline-block;
         padding: 0 .5rem;
-        background-color: var(--#{theme.$prefix}primary);
-        color: var(--#{theme.$prefix}primary-text);
+        background-color: var(--#{theme.$prefix}surface);
+        color: var(--#{theme.$prefix}surface-text);
         margin-right: -1rem;
     }
 }
@@ -70,6 +70,10 @@ $panel: #ebebeb;
     margin-bottom: 1rem;
     img {
         max-width: 100%;
+    }
+    .group-flip-box {
+        background-color: var(--#{theme.$prefix}body);
+        border-radius: .35rem;
     }
 }
 
@@ -136,7 +140,7 @@ $panel: #ebebeb;
     a {
         display: inline-block;
         padding: .5rem;
-        background-color: var(--#{theme.$prefix}panel);
+        background-color: var(--#{theme.$prefix}body);
         &:not(:last-child) {
             border-right: 1px solid var(--#{theme.$prefix}border);
         }

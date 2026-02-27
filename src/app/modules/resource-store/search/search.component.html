@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-lg-6 offset-lg-3 col-md-12">
             <form class="search-input" (submit)="tapSearch($event)">
                 <input type="text" class="form-control" [formField]="queryForm.keywords">
                 @if (queryForm.keywords().value()) {
@@ -9,6 +9,8 @@
                 
                 <button class="btn btn-primary" i18n>Search</button>
             </form>
+        </div>
+        <div class="col-md-12">
             <div class="search-tip-bar" i18n>
                 You found {{ total() | numberFormat }} resources.
             </div>
@@ -134,7 +136,7 @@
                                         {{ item.title }}
                                     </a>
                                     <div class="item-meta">
-                                        by <a (click)="tapUser(item.user_id)">{{ item.user.name }}</a> in <a (click)="tapCategory(item.cat_id)">{{ item.category.name }}</a>
+                                        by <a (click)="tapUser(item.user_id)">{{ item.user!.name }}</a> in <a (click)="tapCategory(item.cat_id)">{{ item.category!.name }}</a>
                                     </div>
                                     <div class="item-action">
                                         <div class="item-price">
@@ -173,7 +175,7 @@
                                 {{ item.title }}
                             </a>
                             <div class="item-meta">
-                                by <a (click)="tapUser(item.user_id)">{{ item.user.name }}</a> in <a (click)="tapCategory(item.cat_id)">{{ item.category.name }}</a>
+                                by <a (click)="tapUser(item.user_id)">{{ item.user!.name }}</a> in <a (click)="tapCategory(item.cat_id)">{{ item.category!.name }}</a>
                             </div>
                             <div class="item-desc">
                                 {{ item.description }}

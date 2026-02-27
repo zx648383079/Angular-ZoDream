@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
 import { AppState } from '../../../../theme/interfaces';
-import { IPageQueries } from '../../../../theme/models/page';
 import { IUser } from '../../../../theme/models/user';
 import { selectAuthUser } from '../../../../theme/reducers/auth.selectors';
 import { IComment } from '../../model';
@@ -13,7 +12,7 @@ import { ICommentSubtotal } from '../../../shop/model';
 
 @Component({
     standalone: false,
-    selector: 'app-comment',
+    selector: 'app-res-comment',
     templateUrl: './comment.component.html',
     styleUrls: ['./comment.component.scss']
 })
