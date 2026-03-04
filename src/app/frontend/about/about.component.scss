@@ -59,61 +59,19 @@
             line-height: 1.6em;
         }
     }
-    input[type="text"],
-    input[type="email"],
-    textarea {
+    .form-group {
         width: 100%;
-        padding: 0.75rem 0.75rem;
-        border: 1px solid var(--#{theme.$prefix}border);
-        font-size: 0.9375rem;
         margin-bottom: 1.5em;
-        color: var(--#{theme.$prefix}meta-text);
-        outline: none;
-        font-weight: 400;
     }
     textarea {
         resize: none;
-        height: 12rem;
+        height: 10rem;
     }
     .btn {
-        width: 6.25rem;
-        border: 1px solid var(--#{theme.$prefix}primary);
-        border-radius: 0;
+        --#{theme.$prefix}btn-padding-x: 2rem;
     }
 }
 
-.btn-show {
-    background: 0 0;
-    display: inline-block;
-    vertical-align: middle;
-    transform: translateZ(0);
-    box-shadow: 0 0 1px transparent;
-    backface-visibility: hidden;
-    position: relative;
-    transition-property: color;
-    transition-duration: .3s;
-    &::before {
-        content: "";
-        position: absolute;
-        z-index: -1;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: var(--#{theme.$prefix}primary);
-        transform: scaleX(0);
-        transform-origin: 50%;
-        transition-property: transform;
-        transition-duration: .3s;
-        transition-timing-function: ease-out;
-    }
-    &:hover {
-        color: var(--#{theme.$prefix}primary-text);
-        &::before {
-            transform: scaleX(1);
-        }
-    }
-}
 
 .about-box {
     margin-top: 3rem;

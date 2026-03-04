@@ -22,11 +22,7 @@
         line-height: 1.5em;
         background-image: none;
     }
-  
-    .bubble {
-        color: var(--#{theme.$prefix}navbar-color);
-        background-color: var(--#{theme.$prefix}navbar-color);
-    }
+
 }
 
 .navbar-custom {
@@ -44,21 +40,13 @@
     @extend %navbar-custom;
 }
 
-.bubble-tip {
-    background-color: yellow;
+.badge {
     border-radius: 50%;
-    display: inline-block;
-    width: .6rem;
-    height: .6rem;
-    vertical-align: top;
-}
-
-.bubble {
-    border-radius: 50%;
+    padding: 0;
     display: block;
-    width: 1.5625rem;
-    height: 1.5625rem;
-    line-height: 1.5625rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
     text-align: center;
     font-size: 0.625rem;
     overflow: hidden;

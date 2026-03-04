@@ -3,10 +3,15 @@ $radius: .375rem;
 .dialog-box {
     width: 20rem;
     margin-left: -10rem;
+    height: auto;
     border-radius: $radius;
     .btn-group {
         display: flex;
     }
+}
+
+textarea {
+    resize: vertical;
 }
 .user-box {
     text-align: center;

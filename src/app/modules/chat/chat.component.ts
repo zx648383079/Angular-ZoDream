@@ -66,9 +66,9 @@ export class ChatComponent {
     /**
      * 在小尺寸下进入聊天界面
      */
-    public roomMode = false;
+    public readonly roomMode = signal(false);
 
-    public navOpen = false;
+    public readonly navOpen = signal(false);
 
     /**
      * 切换分组
@@ -77,29 +77,29 @@ export class ChatComponent {
     /**
      * 进入搜索用户
      */
-    public searchMode = false;
+    public readonly searchMode = signal(false);
     public readonly searchForm = form(signal({
         keywords: ''
     }));
 
-    public histories: IChatHistory[] = [];
+    public readonly histories = signal<IChatHistory[]>([]);
 
-    public friends: IFriendGroup[] = [];
+    public readonly friends = signal<IFriendGroup[]>([]);
 
-    public user: IFriend;
+    public readonly user = signal<IFriend>(null);
 
-    public chatUser: IChatUser;
+    public readonly chatUser = signal<IChatUser>(null);
 
-    public page = 1;
+    public readonly page = signal(1);
     private hasMore = true;
     public readonly isLoading = signal(false);
-    public messageItems: IMessageBase[] = [];
+    public readonly messageItems = signal<IMessageBase[]>([]);
     public readonly messageForm = form(signal({
         content: ''
     }), schemaPath => {
         required(schemaPath.content);
     });
-    public recording = false;
+    public readonly recording = signal(false);
     private nextTime = 0;
     private startTime = 0;
     private spaceTime = 0;
@@ -107,7 +107,7 @@ export class ChatComponent {
     private recorder: Recorder;
 
 
-    public request: IRequest;
+    private readonly request: IRequest;
     public editClassify: any = {
         id: 0,
         name: ''
@@ -129,9 +129,9 @@ export class ChatComponent {
             [COMMAND_FRIENDS]: {},
             [COMMAND_GROUPS]: {},
         }).subscribe(res => {
-            this.friends = res[COMMAND_FRIENDS].data;
-            this.histories = res[COMMAND_HISTORY].data;
-            this.user = res[COMMAND_PROFILE];
+            this.friends.set(res[COMMAND_FRIENDS].data);
+            this.histories.set(res[COMMAND_HISTORY].data);
+            this.user.set(res[COMMAND_PROFILE]);
         });
         this.destroyRef.onDestroy(() => this.request.close());
     }
@@ -148,7 +148,7 @@ export class ChatComponent {
                 res.data = [res.data];
             }
             if (res.data.length > 0) {
-                this.messageItems = [].concat(this.messageItems, res.data);
+                this.messageItems.update(v => [...v, ...res.data]);
             }
             if (res.next_time) {
                 this.nextTime = res.next_time;
@@ -163,10 +163,10 @@ export class ChatComponent {
             if (res.apply_count > 0) {
                 this.tapApplyLog();
             }
-            if (res.data && res.data.length > 0 && this.chatUser) {
+            if (res.data && res.data.length > 0 && this.chatUser()) {
                 for (const item of res.data) {
-                    if (item.type === this.chatUser.type && item.id === this.chatUser.id) {
-                        this.messageItems = [].concat(this.messageItems, item.items);
+                    if (item.type === this.chatUser().type && item.id === this.chatUser().id) {
+                        this.messageItems.update(v => [...v, ...item.items]);
                     }
                 }
             }
@@ -188,7 +188,7 @@ export class ChatComponent {
             return [];
         }
         const items = [];
-        for (const group of this.friends) {
+        for (const group of this.friends()) {
             for (const item of group.users) {
                 if (item.name.indexOf(keywords) >= 0) {
                     items.push(item);
@@ -199,7 +199,7 @@ export class ChatComponent {
     });
 
     public tapCloseFilter() {
-        this.searchMode = false;
+        this.searchMode.set(false);
         this.searchForm.keywords().value.set('');
     }
 
@@ -229,7 +229,10 @@ export class ChatComponent {
         return false;
     }
 
- 
+    
+    public toggleDrop() {
+        this.navOpen.update(v => !v);
+    }
 
     /**
      * 点击消息记录开启聊天
@@ -245,11 +248,11 @@ export class ChatComponent {
     }
 
     private openChatRoom(item: IChatUser) {
-        this.roomMode = true;
-        if (this.chatUser && this.chatUser.id === item.id && this.chatUser.type === item.type) {
+        this.roomMode.set(true);
+        if (this.chatUser() && this.chatUser().id === item.id && this.chatUser().type === item.type) {
             return;
         }
-        this.chatUser = item;
+        this.chatUser.set(item);
         this.nextTime = 0;
         this.tapRefresh();
     }
@@ -260,7 +263,7 @@ export class ChatComponent {
      * @returns 
      */
     public tapUser(item: IFriend) {
-        if (item.user.id === this.user.user.id) {
+        if (item.user.id === this.user().user.id) {
             return;
         }
         this.openChatRoom({
@@ -296,17 +299,17 @@ export class ChatComponent {
         if (!this.hasMore) {
             return;
         }
-        this.goPage(this.page + 1);
+        this.goPage(this.page() + 1);
     }
 
     public goPage(page: number) {
-        if (this.isLoading || !this.chatUser) {
+        if (this.isLoading() || !this.chatUser()) {
             return;
         }
         this.isLoading.set(true);
         this.request.emit(COMMAND_MESSAGE, {
-            type: this.chatUser.type,
-            id: this.chatUser.id
+            type: this.chatUser().type,
+            id: this.chatUser().id
         });
     }
 
@@ -314,11 +317,11 @@ export class ChatComponent {
         this.recorder.open(() => {
             if (this.recorder.isPaused) {
                 this.recorder.start();
-                this.recording = true;
+                this.recording.set(true);
                 return;
             }
             this.recorder.stop();
-            this.recording = false;
+            this.recording.set(false);
             const blob = this.recorder.toBlob();
             if (!blob) {
                 this.toastrService.warning('录音失败');
@@ -326,7 +329,7 @@ export class ChatComponent {
             }
             const form = new FormData();
             form.append('file', blob, 'voice.mp3');
-            this.service.sendVoice(this.chatUser, form).subscribe(res => this.addMessage(res.data));
+            this.service.sendVoice(this.chatUser(), form).subscribe(res => this.addMessage(res.data));
         });
     }
 
@@ -336,24 +339,24 @@ export class ChatComponent {
 
     public uploadImage(event: any) {
         const files = event.target.files as FileList;
-        this.service.sendImage(this.chatUser, files).subscribe(res => this.addMessage(res.data));
+        this.service.sendImage(this.chatUser(), files).subscribe(res => this.addMessage(res.data));
     }
 
     public uploadVideo(event: any) {
         const files = event.target.files as FileList;
-        this.service.sendVideo(this.chatUser, files).subscribe(res => this.addMessage(res.data));
+        this.service.sendVideo(this.chatUser(), files).subscribe(res => this.addMessage(res.data));
     }
 
     public uploadFile(event: any) {
         const files = event.target.files as FileList;
-        this.service.sendFile(this.chatUser, files).subscribe(res => this.addMessage(res.data));
+        this.service.sendFile(this.chatUser(), files).subscribe(res => this.addMessage(res.data));
     }
 
     public tapSend() {
         if (this.messageForm().invalid()) {
             return;
         }
-        this.service.sendText(this.chatUser, this.messageForm.content().value())
+        this.service.sendText(this.chatUser(), this.messageForm.content().value())
             .subscribe(res => this.addMessage(res.data));
         this.messageForm.content().value.set('');
     }
@@ -363,9 +366,9 @@ export class ChatComponent {
             return;
         }
         if (data instanceof Array) {
-            this.messageItems = [].concat(this.messageItems, data);
+            this.messageItems.update(v => [...v, ...data]);
         } else {
-            this.messageItems.push(data);
+            this.messageItems.update(v => [...v, data]);
         }
     }
 
@@ -377,7 +380,7 @@ export class ChatComponent {
             if (this.isLoading()) {
 
             }
-            if (!this.chatUser) {
+            if (!this.chatUser()) {
                 return;
             }
             this.spaceTime --;
@@ -390,8 +393,8 @@ export class ChatComponent {
     private tapNext() {
         this.isLoading.set(true);
         this.request.emit(COMMAND_MESSAGE_PING, {
-            type: this.chatUser.type,
-            id: this.chatUser.id,
+            type: this.chatUser().type,
+            id: this.chatUser().id,
             start_time: this.nextTime,
         });
     }
@@ -406,7 +409,7 @@ export class ChatComponent {
     /** 消息操作 end */
 
     public tapApplyLog() {
-        this.navOpen = false;
+        this.navOpen.set(false);
         const modalRef = this.modalViewContainer().createComponent(ApplyDialogComponent, {
             injector: this.injector
         });
@@ -416,7 +419,7 @@ export class ChatComponent {
     }
 
     public tapRename(user?: IUser) {
-        this.navOpen = false;
+        this.navOpen.set(false);
         const modalRef = this.modalViewContainer().createComponent(RenameDialogComponent, {
             injector: this.injector
         });
@@ -426,23 +429,23 @@ export class ChatComponent {
     }
 
     public tapProfile(user?: IUser) {
-        this.navOpen = false;
+        this.navOpen.set(false);
         const modalRef = this.modalViewContainer().createComponent(ProfileDialogComponent, {
             injector: this.injector
         });
-        modalRef.instance.open(user ?? this.user.user, () => {
+        modalRef.instance.open(user ?? this.user().user, () => {
             modalRef.destroy();
         });
     }
 
     public tapMoveGroup(item: IUser) {
-        this.navOpen = false;
+        this.navOpen.set(false);
         const modalRef = this.modalViewContainer().createComponent(SelectDialogComponent, {
             injector: this.injector
         });
-        modalRef.instance.open(this.friends, 0, res => {
+        modalRef.instance.open(this.friends(), 0, res => {
             if (res) {
-                this.service.friendMove({user: item.id, group: modalRef.instance.selected}).subscribe(_ => {});
+                this.service.friendMove({user: item.id, group: modalRef.instance.selected()}).subscribe(_ => {});
             }
             modalRef.destroy();
         });

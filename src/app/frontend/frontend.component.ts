@@ -9,10 +9,11 @@ import { IUserStatus } from '../theme/models/user';
 import { AuthService, ThemeService } from '../theme/services';
 import { DialogService } from '../components/dialog';
 import { LoginDialogComponent } from '../modules/auth/login/dialog/login-dialog.component';
-import { debounceTime } from 'rxjs';
+import { debounceTime, filter } from 'rxjs';
 import { selectSystemConfig } from '../theme/reducers/system.selectors';
 import { NavigationDisplayMode } from '../theme/models/event';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { KeepAliveService } from '../theme/services/keep-alive.service';
 
 interface IMenuItem {
   name: string;
@@ -40,12 +41,13 @@ export class FrontendComponent {
     private readonly authService = inject(AuthService);
     private readonly toastrService = inject(DialogService);
     private readonly themeService = inject(ThemeService);
+    private readonly liveService = inject(KeepAliveService);
     private readonly destroyRef = inject(DestroyRef);
 
 
     private readonly loginModal = viewChild(LoginDialogComponent);
 
-    public menus: IMenuItem[] = [
+    public readonly menus: IMenuItem[] = [
         {name: $localize `Home`, url: '../'},
         {name: $localize `Blog`, url: 'blog'},
         {name: $localize `Friend Link`, url: 'friend_link'},
@@ -53,18 +55,19 @@ export class FrontendComponent {
     ];
 
     public readonly friendLinks = signal<ILink[]>([]);
-    public navExpand = false;
-    public fixedTop = false;
+    public readonly navExpand = signal(false);
+    public readonly fixedTop = signal(false);
     public readonly diplayMode = signal(NavigationDisplayMode.Inline);
-    public navStyle = true;
-    public activeUri = '';
+    public readonly navStyle = signal(true);;
+    public readonly activeUri = signal('');
     public readonly site = signal<ISystemOption>(null);
     public readonly user = signal<IUserStatus>(null);
     public readonly userLoading = signal(false);
     public readonly dropVisible = signal(false);
-    public dropNavItems: IDropNavItem[] = [
+    public readonly bulletinCount = signal(0);
+    public readonly dropNavItems = signal<IDropNavItem[]>([
         {name: $localize `Account`, url: 'user'},
-        {name: $localize `Message`, url: 'user/bulletin', count: 0},
+        {name: $localize `Message`, url: 'user/bulletin'},
         {name: $localize `Profile`, url: 'user/account/profile'},
         {},
         {name: $localize `Help`, url: 'agreement'},
@@ -74,7 +77,7 @@ export class FrontendComponent {
             hidden: true, is_access: true,
         },
         {}
-    ];
+    ]);
     public readonly isGuest = computed(() => this.userLoading() || !this.user());
 
     constructor() {
@@ -87,11 +90,14 @@ export class FrontendComponent {
             if (!res.isLoading && !res.guest) {
                 this.authService.loadProfile('bulletin_count,today_checkin,post_count,follower_count,following_count').subscribe(profile => {
                     this.user.set({...profile});
-                    this.dropNavItems[1].count = profile.bulletin_count;
-                    this.dropNavItems.forEach(i => {
-                        if (i.is_access) {
-                            i.hidden = !profile.is_admin;
-                        }
+                    this.bulletinCount.set(profile.bulletin_count);
+                    this.dropNavItems.update(v => {
+                        return v.map(i => {
+                            if (i.is_access) {
+                                i.hidden = !profile.is_admin;
+                            }
+                            return i;
+                        });
                     });
                 });
             }
@@ -105,6 +111,12 @@ export class FrontendComponent {
         });
         this.themeService.loginRequest.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
             this.loginModal().open();
+        });
+        this.liveService.pulsed.pipe(
+            takeUntilDestroyed(this.destroyRef),
+            filter(i => typeof i.bulletin_count === 'number')
+        ).subscribe(res => {
+            this.bulletinCount.set(res.bulletin_count);
         });
         this.themeService.navigationDisplayRequest.pipe(debounceTime(100), takeUntilDestroyed(this.destroyRef)).subscribe(toggle => {
             this.diplayMode.set(toggle);
@@ -138,6 +150,10 @@ export class FrontendComponent {
         });
     }
 
+    public toggleOpen() {
+        this.navExpand.update(v => !v);
+    }
+
     public toggleDropDown() {
         this.dropVisible.update(v => !v);
     }
@@ -155,14 +171,14 @@ export class FrontendComponent {
     }
 
     private routerChanged(url: string) {
-        this.navExpand = false;
+        this.navExpand.set(false);
         for (const item of ['about', 'friend_link', 'blog']) {
             if (url.indexOf(item) > 0) {
-                this.activeUri = item;
+                this.activeUri.set(item);
                 return;
             }
         }
-        this.activeUri = '';
+        this.activeUri.set('');
     }
 
 }

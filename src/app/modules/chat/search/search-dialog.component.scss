@@ -1,5 +1,7 @@
 @use '../../../theme/theme';
 .dialog-box {
+    display: flex;
+    flex-direction: column;
     .dialog-header {
         height: auto;
         border-bottom: none;
@@ -58,7 +60,7 @@
         display: none;
         right: .5rem;
     }
-    &.on-edit {
+    &.--with-inputing {
         .icon-search {
             display: none;
         }
@@ -70,6 +72,10 @@
             padding-right: 3rem;
         }
     }
+}
+.search-body {
+    overflow-y: auto;
+    flex: 1;
 }
 .user-item {
     position: relative;

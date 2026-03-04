@@ -49,7 +49,7 @@ export class AuthorizeComponent {
 
     public open(modal: DialogEvent) {
         modal.open(() => {
-            this.service.authorizeCreate(this.editForm).subscribe({
+            this.service.authorizeCreate(this.editForm().value()).subscribe({
                 next: res => {
                     this.tapRefresh();
                 },

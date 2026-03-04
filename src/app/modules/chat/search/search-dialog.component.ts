@@ -1,7 +1,6 @@
 import { form } from '@angular/forms/signals';
 import { Component, inject, viewChild, signal } from '@angular/core';
 import { ChatService } from '../chat.service';
-import { IPageQueries } from '../../../theme/models/page';
 import { ProfileDialogComponent } from '../profile/profile-dialog.component';
 import { IUser } from '../../../theme/models/user';
 
@@ -17,7 +16,7 @@ export class SearchDialogComponent {
 
     private readonly profileModal = viewChild(ProfileDialogComponent);
 
-    public isInput = false;
+    public readonly isInput = signal(false);
     public readonly queries = form(signal({
         keywords: '',
         page: 1,
@@ -62,15 +61,16 @@ export class SearchDialogComponent {
 
     public tapSearchTab(i: number) {
         this.tabIndex.set(i);
+        this.goPage(1);
     }
 
     public tapSearchInput() {
-        this.isInput = true;
+        this.isInput.set(true);
     }
 
     public tapSearchClear() {
         this.queries.keywords().value.set('');
-        this.isInput = false;
+        this.isInput.set(false);
     }
 
     public onSearchKeyDown(event: KeyboardEvent) {
@@ -97,7 +97,8 @@ export class SearchDialogComponent {
 
     private goPage(page: number) {
         const queries = {...this.queries().value(), page};
-        this.service.search(queries).subscribe(res => {
+        const subject = this.tabIndex() > 0 ? this.service.teamSearch(queries) : this.service.search(queries);
+        subject.subscribe(res => {
             this.items.set(res.data);
             this.queries().value.set(queries);
             this.hasMore.set(res.paging.more);

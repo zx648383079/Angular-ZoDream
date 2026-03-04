@@ -109,7 +109,7 @@ export class WordComponent {
             return {...v};
         });
         modal.open(() => {
-            this.service.wordSave(Object.assign({}, this.editForm)).subscribe(res => {
+            this.service.wordSave(Object.assign({}, this.editForm().value())).subscribe(res => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapPage();
             });

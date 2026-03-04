@@ -105,7 +105,7 @@ export class SiteComponent {
         if (i > 2) {
             this.editForm.schema().value.set(link.substring(0, i - 1));
         }
-        this.service.siteCheck(this.editForm).subscribe(res => {
+        this.service.siteCheck(this.editForm().value()).subscribe(res => {
             this.editExistData = res.data;
         });
     }

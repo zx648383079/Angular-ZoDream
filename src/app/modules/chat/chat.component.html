@@ -1,10 +1,10 @@
-@if (user) {
-<div class="page-box" [class]="{'room-mode': roomMode}">
-    <div class="chat-pane" [class]="{'search-mode': searchMode}">
+@if (user()) {
+<div class="page-box" [class]="{'room-mode': roomMode()}">
+    <div class="chat-pane" [class]="{'search-mode': searchMode()}">
         <div class="pane-nav-bar">
-            <a class="nav-item" (click)="navOpen = !navOpen">
+            <a class="nav-item" (click)="toggleDrop()">
                 <i class="iconfont icon-ellipsis-h"></i>
-                <div class="menu-flyout menu-flyout-body" [hidden]="!navOpen">
+                <div class="menu-flyout menu-flyout-body" [hidden]="!navOpen()">
                     <a class="menu-flyout-item menu-item-body">
                         <i class="iconfont icon-user"></i>
                         <span>个人资料</span>
@@ -18,7 +18,7 @@
                         <span>设置</span>
                     </a>
                     <div class="menu-divider"></div>
-                    <a class="menu-flyout-item menu-item-body">
+                    <a class="menu-flyout-item menu-item-body" routerLink="/">
                         <i class="iconfont icon-sign-out"></i>
                         <span>退出</span>
                     </a>
@@ -27,35 +27,35 @@
         </div>
         <div class="pane-header">
             <div class="avatar">
-                <img [src]="user.user.avatar | asset">
-                <i class="status-icon"></i>
+                <img [src]="user().user.avatar | asset">
+                <i class="badge-dot"></i>
             </div>
-            <div class="name">{{ user.name }}</div>
-            <div class="remark">{{ user.signature }}</div>
+            <div class="name">{{ user().name }}</div>
+            <div class="remark">{{ user().signature }}</div>
         </div>
-        <div class="search-input" (click)="searchMode = true">
+        <div class="search-input" (click)="searchMode.set(true)">
             <i class="iconfont icon-search"></i>
             <span>用户、群组和消息</span>
             <i class="iconfont icon-plus" (click)="tapAdd($event)"></i>
         </div>
         <div class="tab-box">
             <div class="tab-header">
-                <a [class]="{active: tabIndex() < 1}" (click)="tabIndex.set(0)">
+                <a [class.active]="tabIndex() < 1" (click)="tabIndex.set(0)">
                     <i class="iconfont icon-commenting"></i>
                     <span>聊天</span>
                 </a>
-                <a [class]="{active: tabIndex() == 1}" (click)="tabIndex.set(1)">
+                <a [class.active]="tabIndex() == 1" (click)="tabIndex.set(1)">
                     <i class="iconfont icon-user"></i>
                     <span>联系人</span>
                 </a>
-                <a [class]="{active: tabIndex() == 2}" (click)="tabIndex.set(2)">
+                <a [class.active]="tabIndex() == 2" (click)="tabIndex.set(2)">
                     <i class="iconfont icon-group"></i>
                     <span>群组</span>
                 </a>
             </div>
             <div class="tab-body">
-                <div class="tab-item" [class]="{active: tabIndex() < 1}">
-                    @for (item of histories; track $index) {
+                <div class="tab-item" [class.active]="tabIndex() < 1">
+                    @for (item of histories(); track $index) {
                         <div class="user-item" (click)="tapHistory(item)"  (contextmenu)="tapContextMenu($event, item.user)">
                             <div class="user-avatar">
                                 <img [src]="item.user.avatar | asset" alt="">
@@ -80,8 +80,8 @@
                         </div>
                     }
                 </div>
-                <div class="tab-item" [class]="{active: tabIndex() == 1}" (contextmenu)="tapContextMenu($event)">
-                    @for (group of friends; track $index) {
+                <div class="tab-item" [class.active]="tabIndex() == 1" (contextmenu)="tapContextMenu($event)">
+                    @for (group of friends(); track $index) {
                         <div class="expand-box" [class]="{open: group.expand}">
                             <div class="expand-header" (click)="group.expand = !group.expand">
                                 <i class="expand-icon"></i>
@@ -107,7 +107,7 @@
                         </div>
                     }
                 </div>
-                <div class="tab-item" [class]="{active: tabIndex() == 2}">
+                <div class="tab-item" [class.active]="tabIndex() == 2">
 
                 </div>
             </div>
@@ -115,7 +115,7 @@
 
         <div class="search-box">
             <div class="search-input">
-                <input type="text" placeholder="搜索用户" [formField]="searchForm.keywords">
+                <input type="text" placeholder="搜索用户" [formField]="searchForm.keywords" autocomplete="false">
                 <i class="iconfont icon-close" (click)="tapCloseFilter()"></i>
             </div>
             <div class="search-body">
@@ -138,12 +138,12 @@
         </div>
     </div>
     <div class="chat-room">
-        @if (chatUser) {
+        @if (chatUser()) {
         <div class="title">
-            <i class="iconfont icon-arrow-left" (click)="roomMode = false"></i>
-            <span>与 {{ chatUser.name }} 聊天中</span>
+            <i class="iconfont icon-arrow-left" (click)="roomMode.set(false)"></i>
+            <span>与 {{ chatUser().name }} 聊天中</span>
         </div>
-        <app-message-container class="message-box" [items]="messageItems" [currentId]="user.user.id" />
+        <app-message-container class="message-box" [items]="messageItems()" [currentId]="user().user.id" />
         <div class="message-tools">
             <app-emoji-picker class="tool-item" (tapped)="tapEmoji($event)">
                 <i class="iconfont icon-smile-o"></i>
@@ -166,7 +166,7 @@
             <label class="tool-item">
                 <i class="iconfont icon-gift"></i>
             </label>
-            <label class="tool-item" [class]="{active: recording}" (click)="tapVoice()" [title]="recording ? '正在录音...(点击结束录音)' : '点击开始录音'">
+            <label class="tool-item" [class.active]="recording()" (click)="tapVoice()" [title]="recording() ? '正在录音...(点击结束录音)' : '点击开始录音'">
                 <i class="iconfont icon-microphone"></i>
             </label>
         </div>

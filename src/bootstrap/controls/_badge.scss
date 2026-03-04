@@ -14,6 +14,7 @@ $badge-border-radius: var(--#{$prefix}border-radius);
 
 .badge {
     // scss-docs-start badge-css-vars
+    --#{$prefix}badge: var(--#{$prefix}danger);
     --#{$prefix}badge-padding-x: #{$badge-padding-x};
     --#{$prefix}badge-padding-y: #{$badge-padding-y};
     @include rfs.rfs($badge-font-size, --#{$prefix}badge-font-size);
@@ -23,6 +24,7 @@ $badge-border-radius: var(--#{$prefix}border-radius);
     // scss-docs-end badge-css-vars
 
     display: inline-block;
+    background-color: var(--#{$prefix}badge);
     padding: var(--#{$prefix}badge-padding-y) var(--#{$prefix}badge-padding-x);
     @include rfs.font-size(var(--#{$prefix}badge-font-size));
     font-weight: var(--#{$prefix}badge-font-weight);
@@ -32,5 +34,16 @@ $badge-border-radius: var(--#{$prefix}border-radius);
     white-space: nowrap;
     vertical-align: baseline;
     @include mixins.border-radius(var(--#{$prefix}badge-border-radius));
+    @include mixins.gradient-bg();
+}
+
+.badge-dot {
+    --#{$prefix}badge: var(--#{$prefix}danger);
+    background-color: var(--#{$prefix}badge);
+    border-radius: 50%;
+    display: inline-block;
+    width: .6rem;
+    height: .6rem;
+    vertical-align: top;
     @include mixins.gradient-bg();
 }

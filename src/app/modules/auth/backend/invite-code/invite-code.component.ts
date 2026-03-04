@@ -43,7 +43,7 @@ export class InviteCodeComponent {
 
     public open(modal: DialogEvent) {
         modal.open(() => {
-            this.service.inviteCodeCreate(this.editForm).subscribe({
+            this.service.inviteCodeCreate(this.editForm().value()).subscribe({
                 next: res => {
                     this.tapRefresh();
                 },

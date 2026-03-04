@@ -1,19 +1,19 @@
 <header class="tablet-collapse" [hidden]="diplayMode() > 3">
-    <nav class="navbar navbar-expand-lg" [class]="{'fixed-top': fixedTop, 'navbar-not': !navStyle && !navExpand, 'navbar-custom': navStyle || navExpand}">
+    <nav class="navbar navbar-expand-lg" [class]="{'fixed-top': fixedTop(), 'navbar-not': !navStyle() && !navExpand(), 'navbar-custom': navStyle() || navExpand()}">
         <div class="container">
             <a class="navbar-brand" routerLink="./">ZoDream</a>
-            <button class="navbar-toggler" type="button" (click)="navExpand = !navExpand" data-toggle="collapse"
+            <button class="navbar-toggler" type="button" (click)="toggleOpen()" data-toggle="collapse"
                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon iconfont icon-bars"></span>
             </button>
 
-            <div class="collapse navbar-collapse" [class]="{show: navExpand}" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" [class.show]="navExpand()" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     @for (item of menus; track $index) {
-                        <li class="nav-item" [class]="{active: activeUri === item.url}">
+                        <li class="nav-item" [class.active]="activeUri() === item.url">
                             <a class="nav-link" [routerLink]="item.url">{{ item.name }}
-                                @if (activeUri === item.url) {
+                                @if (activeUri() === item.url) {
                                     <span class="sr-only" i18n>(current)</span>
                                 }
                             </a>
@@ -22,7 +22,7 @@
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" (click)="searchModal.open();navExpand=false">
+                        <a class="nav-link" (click)="searchModal.open();navExpand.set(false)">
                             <i class="iconfont icon-search"></i>
                         </a>
                     </li>
@@ -41,17 +41,17 @@
                         <li class="nav-item dropdown" [class.show]="dropVisible()">
                             <a class="nav-link dropdown-toggle" (click)="toggleDropDown()">
                                 {{ user().name }}
-                                @if (user().bulletin_count > 0) {
-                                    <em class="bubble-tip" title="There are unread messages" i18n-title></em>
+                                @if (bulletinCount() > 0) {
+                                    <em class="badge-dot" title="There are unread messages" i18n-title></em>
                                 }
                             </a>
                             <ul class="dropdown-menu" [class.show]="dropVisible()">
-                                @for (item of dropNavItems; track $index) {
+                                @for (item of dropNavItems(); track $index;let i = $index) {
                                     @if (item.name && !item.hidden) {
                                         <li (click)="toggleDropDown()"><a class="dropdown-item" [routerLink]="item.url">
                                             {{ item.name }}
-                                            @if (item.count > 0) {
-                                                <em class="bubble">{{ item.count  > 99 ? '99+' : item.count }}</em>
+                                            @if (i == 1 && bulletinCount() > 0) {
+                                                <em class="badge">{{ bulletinCount() | numberFormat: 99}}</em>
                                             }
                                         </a></li>
                                     } @else if (!item.hidden) {
@@ -131,7 +131,9 @@
     </a>
 </div>
 
-<app-online-service class="tablet-collapse" [hidden]="diplayMode() > 0" />
+@if (!user()) {
+    <app-online-service class="tablet-collapse" [hidden]="diplayMode() > 0" />
+}
 <app-search-control #searchModal />
 <app-login-dialog />
 <app-cookie-bar />

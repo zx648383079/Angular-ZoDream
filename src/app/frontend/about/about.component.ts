@@ -44,8 +44,8 @@ export class AboutComponent {
         phone: '',
         content: '',
     }), schemaPath => {
-        required(schemaPath.name, {message: '请输入称呼'});
-        required(schemaPath.content, {message: '请输入内容'});
+        required(schemaPath.name, {message: $localize `Nickname is required`});
+        required(schemaPath.content, {message: $localize `Content is required`});
     });
     public readonly developer = signal<IDeveloperProfile>(null);
 
@@ -68,13 +68,13 @@ export class AboutComponent {
 
     public tapSubmit(e: ButtonEvent) {
         if (this.dataForm().invalid()) {
-            this.toastrService.warning('请输入内容');
+            this.toastrService.warning($localize `Content is required`);
             return;
         }
         e?.enter();
         this.service.feedback(this.dataForm().value()).subscribe({
             next: _ => {
-                this.toastrService.success('提交成功');
+                this.toastrService.success($localize `Submission successful`);
                 this.dataForm.content().value.set('');
                 e?.reset();
             },

@@ -255,7 +255,7 @@ export class CashierComponent {
     }
 
     public tapEditSave() {
-        const data = Object.assign({}, this.editForm);
+        const data = Object.assign({}, this.editForm().value());
         if (!data.name || data.name.length < 1) {
             this.toastrService.warning('请输入收货人姓名');
             return;

@@ -115,7 +115,7 @@ export class DetailComponent {
             return {...v};
         });
         modal.open(() => {
-            this.service.forward(this.editForm).subscribe(res => {
+            this.service.forward(this.editForm().value()).subscribe(res => {
                 this.toastrService.success($localize `Forwarded`);
             });
         }, () => this.editForm().valid());

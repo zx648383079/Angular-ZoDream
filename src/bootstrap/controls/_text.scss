@@ -17,3 +17,9 @@ $enable-important-utilities: true;
         background-color: var(--#{$prefix}#{$color}) if(sass($enable-important-utilities): !important);
     }
 }
+
+@each $color, $value in scheme.$theme-colors {
+    .bg-#{$color} {
+        background-color: var(--#{$prefix}#{$color}) if(sass($enable-important-utilities): !important);
+    }
+}

@@ -16,6 +16,9 @@ export class NumberFormatPipe implements PipeTransform {
         if (!value) {
             return '0';
         }
+        if (typeof args === 'number') {
+            return value > args ? `${args}+` : value.toString();
+        }
         const prefix = value < 0 ? '-' : '';
         const val = value < 0 ? - value : value;
         const k = 10000;

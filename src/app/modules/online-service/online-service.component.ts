@@ -3,11 +3,9 @@ import { DialogService } from '../../components/dialog';
 import { IEmoji } from '../../theme/models/seo';
 import { OnlineService } from './online.service';
 import { form, required } from '@angular/forms/signals';
-import { interval, Subscription } from 'rxjs';
 import { KeepAliveService } from '../../theme/services/keep-alive.service';
-
-const LOOP_SPACE_TIME = 20;
-const SESSION_KEY = 'session_token';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
 
 @Component({
     standalone: false,
@@ -21,7 +19,6 @@ export class OnlineServiceComponent {
     private readonly toastrService = inject(DialogService);
     private readonly destroyRef = inject(DestroyRef);
 
-
     public readonly dialogOpen = signal(false);
     public readonly dataForm = form(signal({
         content: ''
@@ -29,21 +26,22 @@ export class OnlineServiceComponent {
         required(schemaPath.content);
     });
     public readonly items = signal<any[]>([]);
-    private sessionToken = '';
     private nextTime = 0;
     private startTime = 0;
-    private spaceTime = 0;
     private isLoading = false;
-    private $timer: Subscription;
 
     constructor() {
-        this.sessionToken = window.localStorage.getItem(SESSION_KEY) || '';
-        this.destroyRef.onDestroy(() => this.stopTimer());
+        this.liveService.pulsed.pipe(
+            takeUntilDestroyed(this.destroyRef),
+            filter(i => i.ms_count > 0)
+        ).subscribe(res => {
+            this.tapNext();
+        });
     }
 
     public tapOpenChat() {
         this.dialogOpen.set(true);
-        if (this.sessionToken.length > 0) {
+        if (this.liveService.token.length > 0) {
             this.tapNext();
         }
     }
@@ -60,7 +58,6 @@ export class OnlineServiceComponent {
     public tapUploadImage(event: any) {
         const files = event.target.files as FileList;
         const form = new FormData();
-        // tslint:disable-next-line: prefer-for-of
         for (let i = 0; i < files.length; i++) {
             form.append('file[]', files[i], files[i].name);
         }
@@ -83,7 +80,7 @@ export class OnlineServiceComponent {
             return;
         }
         this.service.getList({
-            session_token: this.sessionToken,
+            session_token: this.liveService.token,
             last_id: lastId,
         }).subscribe((res: any) => {
             if (res.data.length > 0) {
@@ -94,10 +91,10 @@ export class OnlineServiceComponent {
 
     private send(data: any) {
         if (data instanceof FormData) {
-            data.append('session_token', this.sessionToken);
+            data.append('session_token', this.liveService.token);
             data.append('start_time', this.nextTime as any);
         } else {
-            data.session_token = this.sessionToken;
+            data.session_token = this.liveService.token;
             data.start_time = this.nextTime;
         }
         this.isLoading = true;
@@ -110,31 +107,12 @@ export class OnlineServiceComponent {
                 if (!this.startTime) {
                     this.startTime = this.nextTime;
                 }
-                this.sessionToken = res.session_token;
-                this.spaceTime = LOOP_SPACE_TIME;
+                this.liveService.token = res.session_token;
                 this.isLoading = false;
-                this.saveToken();
-                this.startTimer();
             }, 
             error: _ => {
                 this.isLoading = false;
             }
-        });
-    }
-
-    private startTimer() {
-        if (this.$timer) {
-            return;
-        }
-        this.$timer = interval(1000).subscribe(() => {
-            if (this.isLoading) {
-                return;
-            }
-            this.spaceTime --;
-            if (this.spaceTime > 0) {
-                return;
-            }
-            this.tapNext();
         });
     }
 
@@ -144,7 +122,7 @@ export class OnlineServiceComponent {
         }
         this.isLoading = true;
         this.service.getList({
-            session_token: this.sessionToken,
+            session_token: this.liveService.token,
             start_time: this.nextTime,
         }).subscribe({
             next: (res: any) => {
@@ -157,28 +135,12 @@ export class OnlineServiceComponent {
                 if (!this.startTime) {
                     this.startTime = this.nextTime;
                 }
-                this.sessionToken = res.session_token;
-                this.spaceTime = LOOP_SPACE_TIME;
+                this.liveService.token = res.session_token;
                 this.isLoading = false;
-                this.startTimer();
             }, 
             error: _ => {
                 this.isLoading = false;
             }
         });
-    }
-
-    private stopTimer() {
-        if (this.$timer) {
-            this.$timer.unsubscribe();
-            this.$timer = null;
-        }
-    }
-
-    private saveToken() {
-        if (this.sessionToken.length < 1) {
-            return;
-        }
-        window.localStorage.setItem(SESSION_KEY, this.sessionToken);
     }
 }

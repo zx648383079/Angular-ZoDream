@@ -64,7 +64,7 @@ export class LogComponent {
 
     public open(modal: DialogEvent) {
         modal.open(() => {
-            this.service.logAdd(this.editForm).subscribe(_ => {
+            this.service.logAdd(this.editForm().value()).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });

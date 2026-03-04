@@ -63,10 +63,10 @@ export class PageComponent {
     }
 
     public onLinkBlur() {
-        if (!this.editForm.link) {
+        if (!this.editForm.link().value()) {
             return;
         }
-        this.service.pageCheck(this.editForm).subscribe(res => {
+        this.service.pageCheck(this.editForm().value()).subscribe(res => {
             this.editExistData = res.data;
         });
     }

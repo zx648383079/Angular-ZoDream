@@ -58,11 +58,15 @@ export class FriendLinkComponent {
     }
 
     public tapAdd(modal: DialogEvent) {
-        for (const key in this.editForm) {
-            if (Object.prototype.hasOwnProperty.call(this.editForm, key)) {
-                this.editForm[key] = '';
+        this.editForm().value.update(v => {
+            for (const key in v) {
+                if (Object.hasOwn(v, key)) {
+                    v[key] = '';
+                }
             }
-        }
+            return {...v};
+        });
+        
         modal.open(() => {
             this.service.friendLinkSave(this.editForm().value()).subscribe({
                 next: res => {

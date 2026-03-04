@@ -9,6 +9,7 @@ import { IUser } from '../../theme/models/user';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IApplyLog, IChatHistory, IChatWith, IFriend, IFriendGroup, IGroup, IMessage } from './model';
 import { FileUploadService } from '../../theme/services';
+import { map, Observable } from 'rxjs';
 
 @Injectable()
 export class ChatService {
@@ -31,7 +32,7 @@ export class ChatService {
         return this.http.get<IData<IGroup>>(COMMAND_GROUPS);
     }
 
-    public search(params: any) {
+    public search(params: any): Observable<IPage<IUser>> {
         return this.http.get<IPage<IUser>>('chat/friend/search', {params});
     }
 
@@ -54,7 +55,18 @@ export class ChatService {
         return this.http.post<IDataOne<boolean>>('chat/friend/agree', data);
     }
 
-
+    public teamSearch(params: any): Observable<IPage<IUser>> {
+        return this.http.get<IPage<IGroup>>('team/home/search', {params}).pipe(map(res => {
+            return {...res, data: res.data.map(i => {
+                return <IUser>{
+                    id: i.id,
+                    avatar: i.logo,
+                    name: i.name,
+                    
+                };
+            })};
+        }));
+    }
 
     public messages(user: IChatWith, start_time?: number) {
         return this.http.get<{

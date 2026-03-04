@@ -10,7 +10,7 @@ import { IFriendGroup } from '../model';
 export class SelectDialogComponent {
 
     public readonly items = signal<IFriendGroup[]>([]);
-    public selected = 0;
+    public readonly selected = signal(0);
     public readonly visible = signal(false);
 
     private confirmFn: Function;
@@ -18,7 +18,7 @@ export class SelectDialogComponent {
 
     public open(items: IFriendGroup[], value: number, cb: (res: boolean) => void) {
         this.items.set(items);
-        this.selected = value;
+        this.selected.set(value);
         this.visible.set(true);
         this.confirmFn = cb;
     }

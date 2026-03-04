@@ -8,7 +8,7 @@ export const COMMAND_PROFILE = 'chat/user';
 export const COMMAND_MESSAGE = 'chat/message';
 export const COMMAND_HISTORY = 'chat/chat';
 export const COMMAND_FRIENDS = 'chat/friend';
-export const COMMAND_GROUPS = 'chat/group';
+export const COMMAND_GROUPS = 'team';
 
 export const COMMAND_MESSAGE_PING = 'chat/message/ping';
 export const COMMAND_MESSAGE_SEND = 'chat/message/send';

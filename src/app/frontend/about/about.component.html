@@ -77,13 +77,27 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <input type="text" [formField]="dataForm.name" i18n-placeholder placeholder="Nick Name" >
-                <input type="email" [formField]="dataForm.email"  i18n-placeholder placeholder="Email" >
-                <input type="text" [formField]="dataForm.phone"  i18n-placeholder placeholder="Contact">
+                <div class="form-group" [class.was-validated]="dataForm.name().touched()">
+                    <input type="text" class="form-control" [formField]="dataForm.name" i18n-placeholder placeholder="Nickname" >
+                    @for (item of dataForm.name().errors(); track $index) {
+                        <div class="invalid-feedback">{{ item.message }}</div>
+                    }
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" [formField]="dataForm.email"  i18n-placeholder placeholder="Email" >
+                </div>
+                
+                <input type="text" class="form-control" [formField]="dataForm.phone"  i18n-placeholder placeholder="Contact">
             </div>
             <div class="col-md-6">
-                <textarea [formField]="dataForm.content"  i18n-placeholder placeholder="Feedback Content"></textarea>
-                <app-action-button class="btn btn-show" (tapped)="tapSubmit($event)" i18n>Send</app-action-button>
+                <div class="form-group" [class.was-validated]="dataForm.content().touched()">
+                    <textarea [formField]="dataForm.content" class="form-control" i18n-placeholder placeholder="Feedback Content"></textarea>
+                    @for (item of dataForm.content().errors(); track $index) {
+                        <div class="invalid-feedback">{{ item.message }}</div>
+                    }
+                </div>
+                
+                <app-action-button class="btn btn-primary" [disabled]="dataForm().invalid()" (tapped)="tapSubmit($event)" i18n>Send</app-action-button>
             </div>
         </div>
     </div>
