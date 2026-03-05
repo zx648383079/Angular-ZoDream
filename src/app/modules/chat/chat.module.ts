@@ -9,6 +9,8 @@ import { ContextMenuModule } from '../../components/context-menu';
 import { DialogModule } from '../../components/dialog';
 import { DesktopModule } from '../../components/desktop';
 import { FormField } from '@angular/forms/signals';
+import { ZreSwiperModule } from '../../components/swiper';
+import { ZreFormModule } from '../../components/form';
 
 
 @NgModule({
@@ -23,6 +25,8 @@ import { FormField } from '@angular/forms/signals';
         ChatRoutingModule,
         MessageContainerModule,
         ContextMenuModule,
+        ZreSwiperModule,
+        ZreFormModule,
         DialogModule,
     ],
     providers: [

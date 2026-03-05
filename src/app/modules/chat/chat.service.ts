@@ -68,6 +68,10 @@ export class ChatService {
         }));
     }
 
+    public teamCreate(data: any) {
+        return this.http.post<IDataOne<boolean>>('team/home/create', data);
+    }
+
     public messages(user: IChatWith, start_time?: number) {
         return this.http.get<{
             next_time: number;

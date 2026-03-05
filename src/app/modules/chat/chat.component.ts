@@ -26,6 +26,7 @@ import { ProfileDialogComponent } from './profile/profile-dialog.component';
 import { SelectDialogComponent } from './select/select-dialog.component';
 import { form, required } from '@angular/forms/signals';
 import { interval, Subscription } from 'rxjs';
+import { TeamCreateComponent } from './team/create/team-create.component';
 
 const LOOP_SPACE_TIME = 20;
 interface IChatUser extends IChatWith {
@@ -434,6 +435,16 @@ export class ChatComponent {
             injector: this.injector
         });
         modalRef.instance.open(user ?? this.user().user, () => {
+            modalRef.destroy();
+        });
+    }
+
+    public tapTeamCreate() {
+        this.navOpen.set(false);
+        const modalRef = this.modalViewContainer().createComponent(TeamCreateComponent, {
+            injector: this.injector
+        });
+        modalRef.instance.open(() => {
             modalRef.destroy();
         });
     }

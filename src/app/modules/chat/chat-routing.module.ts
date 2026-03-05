@@ -7,6 +7,7 @@ import { RenameDialogComponent } from './rename/rename-dialog.component';
 import { SearchDialogComponent } from './search/search-dialog.component';
 import { SelectDialogComponent } from './select/select-dialog.component';
 import { ApplyDialogComponent } from './apply/apply-dialog.component';
+import { TeamCreateComponent } from './team/create/team-create.component';
 
 const routes: Routes = [{ path: '', component: ChatComponent }];
 
@@ -19,5 +20,6 @@ export class ChatRoutingModule { }
 
 export const contactRoutedComponents = [
     ChatComponent, 
-    ProfileDialogComponent, RenameDialogComponent, SearchDialogComponent, SelectDialogComponent, ApplyDialogComponent
+    ProfileDialogComponent, RenameDialogComponent, SearchDialogComponent, SelectDialogComponent, ApplyDialogComponent,
+    TeamCreateComponent,
 ];

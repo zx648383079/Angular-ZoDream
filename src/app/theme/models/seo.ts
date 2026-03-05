@@ -31,6 +31,10 @@ export interface IItem {
     meta?: string;
 }
 
+export interface IIconItem extends IItem {
+    icon: string;
+}
+
 export interface IMediaFileItem {
     url: string;
     size?: number;

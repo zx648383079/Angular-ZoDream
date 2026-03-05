@@ -284,11 +284,14 @@ i {
 }
 
 .large-icon-button {
+    --#{theme.$prefix}control-text: var(--#{theme.$prefix}body-text);
+    --#{theme.$prefix}control-border: var(--#{theme.$prefix}border);
     display: inline-block;
     width: 8rem;
     text-align: center;
+    color: var(--#{theme.$prefix}control-text);
     .item-body {
-        border: 2px solid var(--#{theme.$prefix}border);
+        border: 2px solid var(--#{theme.$prefix}control-border);
         border-radius: .25rem;
         height: 8rem;
         width: 8rem;
@@ -301,10 +304,12 @@ i {
         line-height: 2rem;
     }
     &:hover {
-        color: var(--#{theme.$prefix}primary);
-        .item-body {
-            border-color: var(--#{theme.$prefix}primary);
-        }
+        --#{theme.$prefix}control-text: var(--#{theme.$prefix}primary);
+        --#{theme.$prefix}control-border: var(--#{theme.$prefix}primary);
+    }
+    &.selected {
+        // --#{theme.$prefix}control-text: var(--#{theme.$prefix}input-selected);
+        --#{theme.$prefix}control-border: var(--#{theme.$prefix}input-selected);
     }
 }
 .large-icon-option {

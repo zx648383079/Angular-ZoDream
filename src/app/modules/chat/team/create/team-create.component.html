@@ -1,0 +1,84 @@
+@if (visible()) {
+    <div class="dialog-mask" (click)="close()"></div>
+    <div class="dialog-flip-box" animate.enter="dialog-opened" animate.leave="dialog-closed">
+    <div class="dialog-header">
+        <div class="dialog-close" (click)="close()">
+            <i class="iconfont icon-close"></i>
+        </div>
+        @if (page() == 3) {
+            <div class="dialog-action" (click)="close()">
+                跳过
+            </div>
+        }
+    </div>
+    <app-flip-container #flipModal [(index)]="page">
+        <app-flip-item>
+            <div class="title-bar">
+                <span>选择类型</span>
+                <p>不同类型对应的功能不同，不能变更类型</p>
+            </div>
+            @for (item of typeItems; track $index) {
+                <div class="large-icon-button" [class.selected]="dataForm.type().value() == item.value" (click)="tapType(item.value)">
+                    <div class="item-body">
+                        <i [class]="['iconfont', item.icon]"></i>
+                    </div>
+                    <div class="item-name">{{ item.name }}</div>
+                </div>
+            }
+        </app-flip-item>
+        <app-flip-item>
+            <div class="input-group-control">
+                <label for="">群名称</label>
+                <div>
+                    <input type="text" class="form-control" [formField]="dataForm.name">
+                </div>
+            </div>
+            <div class="input-group-control input-mt">
+                <label for="">LOGO</label>
+                <div>
+                    <app-file-input [formField]="dataForm.logo"/>
+                </div>
+            </div>
+            <div class="input-group-control input-mt">
+                <label for="">群介绍</label>
+                <div>
+                    <textarea class="form-control" id="" [formField]="dataForm.description"></textarea>
+                </div>
+            </div>
+            <div class="input-group-control input-mt">
+                <label for="">群公开</label>
+                <div>
+                    <app-check-input [source]="openTypeSource" [formField]="dataForm.open_type"/>
+                </div>
+            </div>
+            @if (dataForm.open_type().value() == 1) {
+                <div class="input-group-control">
+                <label for="">群名称</label>
+                <div>
+                    <input type="text" class="form-control"  [formField]="dataForm.open_rule">
+                </div>
+            </div>
+            }
+        </app-flip-item>
+        <app-flip-item>
+            <div class="title-bar">
+                <span>创建成功</span>
+                <p>分享邀请链接邀请更多群友</p>
+            </div>
+        </app-flip-item>
+    </app-flip-container>
+    <div class="dialog-footer">
+        <div class="dialog-action" (click)="flipModal.back()">
+            @if (page() > 0) {
+                <i class="iconfont icon-chevron-left"></i>
+                后退
+            }
+        </div>
+        <app-flip-dot [value]="page()" [max]="3" />
+        <div class="btn-group">
+            <div class="btn btn-secondary" (click)="close()">取消</div>
+            <div class="btn btn-primary" (click)="close(true)">保存</div>
+        </div>
+    </div>
+</div>
+}

@@ -2,10 +2,19 @@
 <div class="page-box" [class]="{'room-mode': roomMode()}">
     <div class="chat-pane" [class]="{'search-mode': searchMode()}">
         <div class="pane-nav-bar">
-            <a class="nav-item" (click)="toggleDrop()">
-                <i class="iconfont icon-ellipsis-h"></i>
+            <a class="nav-item">
+                <i class="iconfont icon-ellipsis-h" (click)="toggleDrop()"></i>
                 <div class="menu-flyout menu-flyout-body" [hidden]="!navOpen()">
-                    <a class="menu-flyout-item menu-item-body">
+                    <a class="menu-flyout-item menu-item-body" (click)="tapTeamCreate()">
+                        <i class="iconfont icon-group"></i>
+                        <span>创建群聊</span>
+                    </a>
+                    <a class="menu-flyout-item menu-item-body" (click)="tapAdd($event)">
+                        <i class="iconfont icon-plus"></i>
+                        <span>添加朋友</span>
+                    </a>
+                    <div class="menu-divider"></div>
+                    <a class="menu-flyout-item menu-item-body" (click)="tapProfile()">
                         <i class="iconfont icon-user"></i>
                         <span>个人资料</span>
                     </a>

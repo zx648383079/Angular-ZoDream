@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, effect, input, model, signal } from '@angular/core';
+import { Component, ViewEncapsulation, effect, input, model, signal, untracked } from '@angular/core';
 import { rangeStep } from '../../../theme/utils';
 
 @Component({
@@ -24,7 +24,10 @@ export class FlipDotComponent {
 
     constructor() {
         effect(() => {
-            this.items.set(rangeStep(0, this.max()));
+            const max = this.max();
+            untracked(() => {
+                this.items.set(rangeStep(0, max - 1));
+            });
         });
     }
 
