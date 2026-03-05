@@ -5,7 +5,7 @@
         <div class="dialog-close" (click)="close()">
             <i class="iconfont icon-close"></i>
         </div>
-        @if (page() == 3) {
+        @if (page() > 1) {
             <div class="dialog-action" (click)="close()">
                 跳过
             </div>
@@ -27,10 +27,18 @@
             }
         </app-flip-item>
         <app-flip-item>
-            <div class="input-group-control">
+            @if (invalidTip()) {
+            <div class="dialog-invail-tip">
+                {{ invalidTip() }}
+            </div>
+            }
+            <div class="input-group-control" [class.was-validated]="dataForm.name().touched()">
                 <label for="">群名称</label>
                 <div>
                     <input type="text" class="form-control" [formField]="dataForm.name">
+                    @for (item of dataForm.name().errors(); track $index) {
+                        <div class="invalid-feedback">{{ item.message }}</div>
+                    }
                 </div>
             </div>
             <div class="input-group-control input-mt">
@@ -77,7 +85,9 @@
         <app-flip-dot [value]="page()" [max]="3" />
         <div class="btn-group">
             <div class="btn btn-secondary" (click)="close()">取消</div>
-            <div class="btn btn-primary" (click)="close(true)">保存</div>
+            @if (page() == 1) {
+                <app-action-button class="btn btn-primary" [disabled]="dataForm().invalid()" (tapped)="tapSubmit($event)">保存</app-action-button>
+            }
         </div>
     </div>
 </div>
