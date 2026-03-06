@@ -9,10 +9,10 @@
         }
         @if (dropItems().length > 0) {
         <div class="btn-group btn-group-custom" (click)="toggle()">
-            <button class="btn btn-setting dropdown-toggle" [class]="{show: dropVisible()}">
+            <button class="btn btn-setting dropdown-toggle" [class.show]="dropVisible()">
                 <i class="iconfont icon-cog"></i>
             </button>
-            <ul class="dropdown-menu" [class]="{show: dropVisible()}">
+            <ul class="dropdown-menu" [class.show]="dropVisible()">
                 @for (item of dropItems(); track $index) {
                 <li [class]="item.color" (click)="tapItem(item)">
                     <i class="iconfont btn-icon" [class]="item.icon"></i>

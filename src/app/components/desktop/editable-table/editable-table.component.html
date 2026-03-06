@@ -17,7 +17,7 @@
                     </th>
                 }
                 <th>
-                    <div class="drop-menu-btn" [class]="{'open-drop': openDrop()}">
+                    <div class="drop-menu-btn" [class.open-drop]="openDrop()">
                         <i class="iconfont icon-cog" (click)="toggleDrop()"></i>
                         <div class="drop-menu-body">
                             @for (item of columnItems(); track $index; let i = $index) {

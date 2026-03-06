@@ -42,7 +42,7 @@ export class UserComponent {
         order: 'desc',
     }));
 
-    public editable = false;
+    public readonly editable = signal(false);
     public readonly editForm = form(signal({
         name: '',
         id_card: ''
@@ -78,7 +78,7 @@ export class UserComponent {
 
     constructor() {
         this.store.select(selectAuthRole).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(roles => {
-            this.editable = roles.indexOf('user_manage') >= 0;
+            this.editable.set(roles.indexOf('user_manage') >= 0);
         });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));

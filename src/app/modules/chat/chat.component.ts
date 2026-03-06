@@ -207,22 +207,22 @@ export class ChatComponent {
     public tapContextMenu(e: MouseEvent, user?: IUser) {
         this.contextMenu().open(e, !user ? [
             {
-                name: '新建分组',
+                name: $localize `Add Group`,
                 icon: 'icon-plus',
                 onTapped: () => this.tapRename()
             }] : [
             {
-                name: '修改备注',
+                name: $localize `Edit Remark`,
                 icon: 'icon-edit',
                 onTapped: () => this.tapRename(user)
             },
             {
-                name: '移至分组',
+                name: $localize `Move to Group`,
                 icon: 'icon-mark1',
                 onTapped: () => this.tapMoveGroup(user)
             },
             {
-                name: '查看资料',
+                name: $localize `View Information`,
                 icon: 'icon-user',
                 onTapped: () => this.tapProfile(user)
             },
@@ -325,7 +325,7 @@ export class ChatComponent {
             this.recording.set(false);
             const blob = this.recorder.toBlob();
             if (!blob) {
-                this.toastrService.warning('录音失败');
+                this.toastrService.warning($localize `Recording failed`);
                 return;
             }
             const form = new FormData();

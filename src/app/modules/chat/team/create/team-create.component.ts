@@ -21,12 +21,13 @@ export class TeamCreateComponent {
 
 
     public readonly typeItems: IIconItem[] = [
-        {name: '交流讨论', icon: 'icon-comments', value: 0},
-        {name: '公告', icon: 'icon-paper-plane', value: 2},
-        {name: '共享租借', icon: 'icon-chain', value: 3},
+        {name: $localize `Discussion`, icon: 'icon-comments', value: 0},
+        {name: $localize `Announcement`, icon: 'icon-paper-plane', value: 2},
+        {name: $localize `Shared rental`, icon: 'icon-chain', value: 3},
     ];
 
-    public readonly openTypeSource = ArraySource.fromOrder('公开', '口令', '审核', '不允许任何人');
+    public readonly openTypeSource = ArraySource.fromOrder(
+        $localize `Public`, $localize `Password`, $localize `Review`, $localize `No one is allowed`);
     public readonly dataForm = form(signal({
         name: '',
         logo: '',

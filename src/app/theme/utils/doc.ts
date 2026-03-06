@@ -1,10 +1,13 @@
 import { camelCase, eachObject } from '.';
 
-export function isParentOf(from: Node, parent: Node|string): number {
+export function isParentOf(from: Node, parent: Node|string, ...others: string[]): number {
     if (!from || !parent) {
         return -1;
     }
     const isEqual = (a: Node) => {
+        if (a instanceof HTMLElement && others.length > 0 && others.filter(i => a.classList.contains(i)).length > 0) {
+            return true;
+        }
         if (typeof parent !== 'string') {
             return a === parent;
         }

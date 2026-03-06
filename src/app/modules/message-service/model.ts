@@ -14,6 +14,7 @@ export interface ITemplate extends IPageBaeItem {
     target_no: string;
     content: string;
     data: any;
+    status: number;
 }
 
 export interface ILog extends IPageBaeItem {

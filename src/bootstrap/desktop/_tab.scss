@@ -123,6 +123,7 @@
 
 .tab-header-bar {
     --#{theme.$prefix}tab-radius: 0.3125rem;
+    --#{theme.$prefix}tab-padding-y: 1rem;
     --#{theme.$prefix}tab: transparent;
     --#{theme.$prefix}tab-text: var(--#{theme.$prefix}body-text);
     --#{theme.$prefix}tab-hover: var(--#{theme.$prefix}tertiary);
@@ -134,7 +135,7 @@
         --#{theme.$prefix}btn-color: var(--#{theme.$prefix}tab-text);
         display: inline-flex;
         text-decoration: none;
-        padding: 0 1rem;
+        padding: 0 var(--#{theme.$prefix}tab-padding-y);
         font-size: 1rem;
         background-color: var(--#{theme.$prefix}btn-bg);
         color: var(--#{theme.$prefix}btn-color);
@@ -157,6 +158,12 @@
         &.active {
             background-color: var(--#{theme.$prefix}tab-active);
             color: var(--#{theme.$prefix}tab-active-text);
+        }
+    }
+    &.--with-icon {
+        --#{theme.$prefix}tab-padding-y: 0;
+        span {
+            padding: 0 1rem;
         }
     }
 }

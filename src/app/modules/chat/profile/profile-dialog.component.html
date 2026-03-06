@@ -15,20 +15,24 @@
     
     @if (mode == 2) {
     <div class="form-group">
-        <label for="user-name">修改备注</label>
-        <input type="text" class="form-control" id="user-name" [(value)]="remark" placeholder="备注名称">
+        <label for="user-name" i18n>Edit Remark</label>
+        <input type="text" class="form-control" id="user-name" [(value)]="remark" i18n-placeholder placeholder="Remark">
     </div>
     } @else if (mode == 1) {
     <div class="form-group">
-        <label for="apply-remark">申请理由</label>
-        <textarea class="form-control" id="apply-remark" [(value)]="remark" placeholder="申请理由"></textarea>
+        <label for="apply-remark" i18n>Reason for application</label>
+        <textarea class="form-control" id="apply-remark" [(value)]="remark" i18n-placeholder placeholder="Reason for application"></textarea>
     </div>
     }
 
     @if (mode > 0) {
         <div class="btn-group">
-            <a class="btn btn-primary" (click)="close(true)">{{ mode == 2 ? '确定' : '添加好友' }}</a>
-            <a class="btn btn-secondary" (click)="close()">取消</a>
+            @if (mode == 2) {
+                <a class="btn btn-primary" (click)="close(true)" i18n>Confirm</a>
+            } @else {
+                <a class="btn btn-primary" (click)="close(true)" i18n>Add Friend</a>
+            }
+            <a class="btn btn-secondary" (click)="close()" i18n>Cancel</a>
         </div>
     }
 </div>

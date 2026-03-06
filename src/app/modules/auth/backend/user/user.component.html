@@ -13,7 +13,7 @@
               </div>
               <button type="submit" class="btn btn-primary">搜索</button>
               <div class="btn-group pull-right">
-                @if (editable) {
+                @if (editable()) {
                     <a class="btn btn-info" routerLink="create">新增用户</a>
                     <a routerLink="ban" class="btn btn-danger">管理黑名单</a>
                 }
@@ -35,12 +35,12 @@
               <th class="auto-hide">邮箱</th>
               <th class="auto-hide">性别</th>
               <th>余额</th>
-              @if (editable) {
+              @if (editable()) {
                 <th>实名认证</th>
                 <th>状态</th>
               }
               
-              <th class="auto-hide">更新时间</th>
+              <th class="auto-hide">最近活跃</th>
               <th class="auto-hide">注册时间</th>
               <th>操作</th>
           </tr>
@@ -55,14 +55,14 @@
                   </td>
                   <td class="auto-hide">{{ item.sex_label }}</td>
                   <td>{{ item.money }}</td>
-                  @if (editable) {
+                  @if (editable()) {
                   <td>
                         <app-switch [value]="item.is_verified" (valueChange)="onVerify(item, modal)" />
                   </td>
                   <td>{{ formatStatus(item.status) }}</td>
                   }
                   
-                  <td class="auto-hide" [title]="item.updated_at">{{ item.updated_at | ago }}</td>
+                  <td class="auto-hide" [title]="item.activated_at | timestamp">{{ item.activated_at | ago }}</td>
                   <td class="auto-hide" [title]="item.created_at">{{ item.created_at | ago }}</td>
                   <td>
                         <app-button-group [items]="formatButtons(item)" (tapped)="onActionTap($event, item)" />

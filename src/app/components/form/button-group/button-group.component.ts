@@ -21,7 +21,7 @@ export class ButtonGroupComponent implements ButtonEvent {
 
     @HostListener('document:click', ['$event']) 
     public hideDrop(event: MouseEvent) {
-        if (isParentOf(event.target as Node, 'dropdown-menu') < 0) {
+        if (isParentOf(event.target as Node, 'dropdown-menu', 'dropdown-toggle') < 0) {
             this.dropVisible.set(false);
         }
     }

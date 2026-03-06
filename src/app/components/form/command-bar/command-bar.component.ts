@@ -37,7 +37,7 @@ export class CommandBarComponent {
 
     @HostListener('document:click', ['$event']) 
     public hideDrop(event: MouseEvent) {
-        if (isParentOf(event.target as Node, 'command-secondary-bar') < 0) {
+        if (isParentOf(event.target as Node, 'command-secondary-bar', 'command-control-icon') < 0) {
             this.dropVisible.set(false);
         }
     }

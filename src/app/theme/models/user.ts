@@ -14,6 +14,7 @@ export interface IUser {
     last_at?: string;
     created_at?: string;
     updated_at?: string;
+    activated_at?: number;
     sex_label?: string;
     roles?: number[];
     zone_id?: number;

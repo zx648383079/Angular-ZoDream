@@ -20,7 +20,7 @@ export class MessageServiceService {
 
 
     public logList(params: any) {
-        return this.http.get < IPage < ILog >> ('ms/admin/log', {
+        return this.http.get<IPage<ILog>>('ms/admin/log', {
             params,
         });
     }
@@ -58,7 +58,7 @@ export class MessageServiceService {
     }
 
     public signatureRemove(id: any) {
-        return this.http.delete < IDataOne < true >> ('ms/admin/signature/delete', {
+        return this.http.delete < IDataOne < true >>('ms/admin/signature/delete', {
             params: {
                 id
             }
@@ -66,17 +66,17 @@ export class MessageServiceService {
     }
 
     public signatureAll() {
-        return this.http.get < IData < ISignature >> ('ms/admin/signature/all');
+        return this.http.get<IData<ISignature>>('ms/admin/signature/all');
     }
 
     public templateList(params: any) {
-        return this.http.get < IPage < ITemplate >> ('ms/admin/template', {
+        return this.http.get<IPage<ITemplate>>('ms/admin/template', {
             params,
         });
     }
 
     public template(id: any) {
-        return this.http.get < ITemplate > ('ms/admin/template/detail', {
+        return this.http.get<ITemplate>('ms/admin/template/detail', {
             params: {
                 id
             },
@@ -84,7 +84,13 @@ export class MessageServiceService {
     }
 
     public templateSave(data: any) {
-        return this.http.post < ITemplate > ('ms/admin/template/save', data);
+        return this.http.post<ITemplate>('ms/admin/template/save', data);
+    }
+
+    public templateChange(id: any, data: any) {
+        return this.http.post<ITemplate>('ms/admin/template/change', {
+            id, data
+        });
     }
 
     public templateRemove(id: any) {

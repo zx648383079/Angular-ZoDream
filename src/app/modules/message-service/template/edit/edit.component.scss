@@ -1,0 +1,6 @@
+@use '../../../../theme/theme';
+
+.tab-header-bar {
+    --#{theme.$prefix}tab: var(--#{theme.$prefix}body);
+    line-height: 2.25rem;
+}

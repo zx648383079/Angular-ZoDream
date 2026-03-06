@@ -84,6 +84,12 @@ export class TemplateComponent {
         this.tapRefresh();
     }
 
+    public onStatusToggle(item: ITemplate) {
+        this.service.templateChange(item.id, ['status']).subscribe(res => {
+            item.status = res.status;
+        });
+    }
+
     public tapRemove(item: ITemplate) {
         this.toastrService.confirm('确定删除本条模板？', () => {
             this.service.templateRemove(item.id).subscribe(res => {
