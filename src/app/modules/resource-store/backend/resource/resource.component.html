@@ -15,7 +15,7 @@
                     <label>分类</label>
                     <select [formField]="queries.category" class="form-control">
                         <option value="0">请选择</option>
-                        @for (item of categories; track $index) {
+                        @for (item of categories(); track $index) {
                         <option [value]="item.id">{{ item.level | treeLevel }}{{ item.name }}</option>
                         }
                     </select>

@@ -8,6 +8,7 @@ import { BlogService } from '../blog.service';
 import { IItem } from '../../../../theme/models/seo';
 import { SwiperEvent } from '../../../../components/swiper';
 import { mapFormat } from '../../../../theme/utils';
+import { ReviewStatusItems } from '../../../../theme/models/auth';
 
 @Component({
     standalone: false,
@@ -50,11 +51,7 @@ export class ListComponent {
     }
 
     public formatStatus(val: number) {
-        return mapFormat(val, [
-            {name: '待审核', value: 0},
-            {name: '通过', value: 1},
-            {name: '拒绝', value: 9}
-        ]);
+        return mapFormat(val, ReviewStatusItems);
     }
 
     public toggleReview() {

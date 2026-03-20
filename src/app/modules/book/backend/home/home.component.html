@@ -15,7 +15,7 @@
                     <label>分类</label>
                     <select [formField]="queries.category" class="form-control">
                         <option value="0">请选择</option>
-                        @for (item of categories; track $index) {
+                        @for (item of categories(); track $index) {
                             <option [value]="item.id">{{ item.name }}</option>
                         }
                     </select>
@@ -32,7 +32,7 @@
                 <div class="btn-group pull-right">
                     <a class="btn btn-danger" (click)="tapSortOut()">整理书籍</a>
                     <a class="btn btn-info" (click)="tapImport()">导入书籍</a>
-                    <a class="btn btn-success" routerLink="./book/create">新增书籍</a>
+                    <a class="btn btn-success" routerLink="../book/create">新增书籍</a>
                 </div>
             </form>
         </div>
@@ -60,7 +60,7 @@
                     </td>
                     <td>{{ item.category?.name || '--' }}</td>
                     <td>{{ item.author.name }}</td>
-                    <td>{{ item.size }}</td>
+                    <td>{{ item.size | numberFormat}}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
                             <a class="btn btn-info btn-xs"

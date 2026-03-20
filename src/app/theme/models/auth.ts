@@ -13,7 +13,9 @@ export const AccountStatusItems: IItem[] = [
 export const ReviewStatusItems: IItem[] = [
     {name: '待审核', value: 0},
     {name: '正常', value: 1},
+    {name: '已读', value: 7},
     {name: '未通过', value: 9},
+    {name: '已删除', value: 99},
 ];
 
 export interface IBulletinUser {

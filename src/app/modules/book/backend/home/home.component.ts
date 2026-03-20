@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IItem } from '../../../../theme/models/seo';
 import { SearchService } from '../../../../theme/services';
-import { IBook, ICategory } from '../../model';
+import { ClassifyTypeItems, IBook, ICategory } from '../../model';
 import { BookService } from '../book.service';
 import { SpiderComponent } from '../spider/spider.component';
 
@@ -26,17 +26,8 @@ export class HomeComponent {
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public categories: ICategory[] = [];
-    public classifyItems: IItem[] = [
-        {
-            name: '无分级',
-            value: 0,
-        },
-        {
-            name: '成人级',
-            value: 1,
-        },
-    ];
+    public readonly categories = signal<ICategory[]>([]);
+    public readonly classifyItems: IItem[] = ClassifyTypeItems;
     public readonly queries = form(signal({
         keywords: '',
         category: '',
@@ -49,7 +40,7 @@ export class HomeComponent {
 
     constructor() {
         this.service.categoryAll().subscribe(res => {
-            this.categories = res.data;
+            this.categories.set(res.data);
         });
         this.route.queryParams.subscribe(res => {
             this.searchService.getQueries(res, this.queries().value());

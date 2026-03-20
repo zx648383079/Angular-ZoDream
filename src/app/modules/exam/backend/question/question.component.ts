@@ -31,11 +31,11 @@ export class QuestionComponent {
         course: '0',
         material: 0,
     }));
-    public courseItems: ICourse[] = [];
+    public readonly courseItems = signal<ICourse[]>([]);
 
     constructor() {
         this.service.courseAll().subscribe(res => {
-            this.courseItems = res.data;
+            this.courseItems.set(res.data);
         });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
@@ -68,13 +68,18 @@ export class QuestionComponent {
         }
         this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
-        this.service.questionList(queries).subscribe(res => {
-            this.isLoading.set(false);
-            this.items.set(res.data);
-            this.hasMore = res.paging.more;
-            this.total.set(res.paging.total);
-            this.searchService.applyHistory(queries);
-                this.queries().value.set(queries);
+        this.service.questionList(queries).subscribe({
+            next: res => {
+                this.isLoading.set(false);
+                this.items.set(res.data);
+                this.hasMore = res.paging.more;
+                this.total.set(res.paging.total);
+                this.searchService.applyHistory(queries);
+                    this.queries().value.set(queries);
+            },
+            error: _ => {
+                this.isLoading.set(false);
+            }
         });
     }
 

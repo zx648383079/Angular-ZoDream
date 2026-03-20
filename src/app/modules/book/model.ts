@@ -7,6 +7,11 @@ export const ChapterTypeItems: IItem[] = [
     {name: '卷', value: 9},
 ];
 
+export const ClassifyTypeItems: IItem[] = [
+    {name: '无分级', value: 0},
+    {name: '成人级', value: 18},
+];
+
 export interface ICategory {
     id: number;
     name: string;

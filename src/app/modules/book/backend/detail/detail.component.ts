@@ -3,10 +3,11 @@ import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IItem } from '../../../../theme/models/seo';
-import { IBook, ICategory } from '../../model';
+import { ClassifyTypeItems, IBook, ICategory } from '../../model';
 import { BookService } from '../book.service';
 import { form, required } from '@angular/forms/signals';
 import { ButtonEvent, NetSource } from '../../../../components/form';
+import { ReviewStatusItems } from '../../../../theme/models/auth';
 
 @Component({
     standalone: false,
@@ -37,21 +38,14 @@ export class DetailComponent {
         required(schemaPath.author_id);
     });
 
-    public categories: ICategory[] = [];
-    public classifyItems: IItem[] = [
-        {name: '无分级', value: 0},
-        {name: '成人级', value: 18},
-    ];
-    public statusItems: IItem[] = [
-        {name: '审核中', value: 0},
-        {name: '已审核', value: 1},
-        {name: '已拒绝', value: 9},
-    ];
+    public readonly categories = signal<ICategory[]>([]);
+    public readonly classifyItems: IItem[] = ClassifyTypeItems;
+    public readonly statusItems: IItem[] = ReviewStatusItems;
     public readonly authorSource = this.service.authorSource();
 
     constructor() {
         this.service.categoryList().subscribe(res => {
-            this.categories = res.data;
+            this.categories.set(res.data);
         });
         this.route.params.subscribe(params => {
             if (!params.id) {

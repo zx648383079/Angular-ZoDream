@@ -2,7 +2,6 @@ import { form } from '@angular/forms/signals';
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
-import { IPageQueries } from '../../../theme/models/page';
 import { ISubscribe } from '../../../theme/models/seo';
 import { ContactService } from '../contact.service';
 import { SearchService } from '../../../theme/services';

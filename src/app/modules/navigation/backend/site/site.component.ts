@@ -31,10 +31,9 @@ export class SiteComponent {
         user: 0,
         tag: 0,
     }));
-    public categories: ISiteCategory[] = [];
+    public readonly categories = signal<ISiteCategory[]>([]);
     public readonly tagSource = this.service.tagSource();
-    public tagLoading = false;
-    public topItems = ['无', '推荐'];
+    public readonly topItems = ['无', '推荐'];
     public readonly editForm = form(signal({
         id: 0,
         name: '',
@@ -61,7 +60,7 @@ export class SiteComponent {
 
     constructor() {
         this.service.categoryTree().subscribe(res => {
-            this.categories = res.data;
+            this.categories.set(res.data);
         });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));

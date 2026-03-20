@@ -31,11 +31,11 @@ export class ResourceComponent {
         page: 1,
         per_page: 20
     }));
-    public categories: ICategory[] = [];
+    public readonly categories = signal<ICategory[]>([]);
 
     constructor() {
         this.service.categoryTree().subscribe(res => {
-            this.categories = res.data;
+            this.categories.set(res.data);
         });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
