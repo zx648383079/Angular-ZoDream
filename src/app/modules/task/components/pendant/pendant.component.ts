@@ -18,12 +18,13 @@ export class PlanPendantComponent {
     private readonly liveService = inject(KeepAliveService);
     private readonly destroyRef = inject(DestroyRef);
     
-    public readonly visible = signal(false);
+    public readonly visible = signal(true);
     public readonly isActive = signal(true);
     public readonly isPaused = signal(true);
+    public readonly paneVisible = signal(false);
     public readonly value = signal(0);
     public readonly max = signal(0);
-    public readonly current = signal<ITask>(null);
+    public readonly current = signal<ITask|null>(null);
     private startTime = 0;
 
     public readonly progressStyle = computed(() => {
@@ -52,6 +53,10 @@ export class PlanPendantComponent {
         } else {
             this.stop();
         }
+    }
+
+    public togglePane() {
+        this.paneVisible.update(v => !v);
     }
 
     public start(value = 0, max = 0) {

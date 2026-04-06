@@ -25,7 +25,7 @@ $box-gap: 10px;
 .control-meta-bar {
     padding-left: #{$box-height + $box-gap};
     height: #{$box-height};
-    width: 10rem;
+    width: 12rem;
     border-radius: #{math.div($box-height, 2)};
     background-color: var(--#{theme.$prefix}surface);
     color: var(--#{theme.$prefix}surface-text);
@@ -35,6 +35,10 @@ $box-gap: 10px;
     justify-content: center;
     .meta-control {
         font-size: .8rem;
+    }
+    &.--with-drop {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
     }
 }
 
@@ -119,4 +123,38 @@ $box-gap: 10px;
     //     white-space: nowrap;
     //     font-size: 1.125rem;
     // }
+}
+
+
+.control-drop-pane {
+    position: absolute;
+    background-color: var(--#{theme.$prefix}surface);
+    color: var(--#{theme.$prefix}surface-text);
+    bottom: #{$box-height};
+    right: 0;
+    width: 11rem;
+    border-radius: .375rem .375rem 0 0;
+}
+
+.task-option-item {
+    display: flex;
+    align-content: center;
+    gap: .4rem;
+    border-bottom: 1px solid var(--#{theme.$prefix}border);
+    padding: .4rem;
+    .item-body {
+        flex: 1;
+    }
+    .item-icon {
+        height: 2rem;
+        width: 2rem;
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--#{theme.$prefix}surface-child);
+    }
+    .item-meta {
+        font-size: .8rem;
+    }
 }

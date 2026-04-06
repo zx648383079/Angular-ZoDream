@@ -123,7 +123,7 @@ export class CommentPanelComponent {
         }
         this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
-        this.service.commentList({...queries, task_id: this.itemId()}).subscribe({
+        this.service.commentList({...queries, task: this.itemId()}).subscribe({
             next: res => {
                 this.hasMore.set(res.paging.more);
                 this.isLoading.set(false);

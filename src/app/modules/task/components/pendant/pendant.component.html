@@ -1,5 +1,34 @@
 @if (visible()) {
-<div class="control-meta-bar">
+<div class="control-drop-pane" [hidden]="!paneVisible()">
+     <div class="task-option-item">
+        <div class="item-icon">
+            25
+        </div>
+        <div class="item-body">
+            <div class="item-name">任务名</div>
+            <div class="item-meta">说明</div>
+        </div>
+    </div>
+     <div class="task-option-item">
+        <div class="item-icon">
+            25
+        </div>
+        <div class="item-body">
+            <div class="item-name">任务名</div>
+            <div class="item-meta">说明</div>
+        </div>
+    </div>
+    <div class="task-option-item">
+        <div class="item-icon">
+            25
+        </div>
+        <div class="item-body">
+            <div class="item-name">任务名</div>
+            <div class="item-meta">说明</div>
+        </div>
+    </div>
+</div>
+<div class="control-meta-bar" [class.--with-drop]="paneVisible()" (click)="togglePane()">
     <div class="name-control">任务名</div>
     <div class="meta-control">说明</div>
 </div>

@@ -26,13 +26,16 @@ export class CaptchaComponent {
 
 
     public readonly visible = signal(false);
-    public readonly data = signal<ICaptcha>(null);
+    public readonly data = signal<ICaptcha|null>(null);
     public readonly value = signal<any>('');
     public readonly x = signal(0);
     public readonly maskItems = signal<IPoint[]>([]);
     public readonly token = input('');
     public readonly submited = output();
-    private mouseMoveListeners = {
+    private mouseMoveListeners: {
+        move?: (p: IPoint) => void,
+        finish?: (p: IPoint) => void,
+    } = {
         move: undefined,
         finish: undefined,
     };
