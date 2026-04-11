@@ -9,7 +9,7 @@ import { Widget } from '../../../model';
 })
 export class MapControlComponent  {
 
-    public readonly value = input<Widget>(undefined);
+    public readonly value = input<Widget>();
 
 
 }

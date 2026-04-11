@@ -13,7 +13,7 @@ export class BulletinSendComponent {
     public readonly lastUsers = signal<any[]>([]);
     public readonly users = signal<any[]>([]);
     public readonly messages = signal<any[]>([]);
-    public readonly currentUser = signal<any>(null);
+    public readonly currentUser = signal<any|null>(null);
     public readonly hasMore = signal(false);
     public readonly isListMode = signal(false);
     public page = 0;

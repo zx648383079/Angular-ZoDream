@@ -19,9 +19,9 @@ export class PayComponent {
     private readonly themeService = inject(ThemeService);
 
 
-    public readonly data = signal<IOrder>(null);
+    public readonly data = signal<IOrder|null>(null);
     public readonly paymentItems = signal<IPayment[]>([]);
-    public readonly payment = signal<IPayment>(null);
+    public readonly payment = signal<IPayment|null>(null);
 
     constructor() {
         this.themeService.titleChanged.next('订单支付');

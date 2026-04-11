@@ -78,8 +78,8 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
      * 编辑区域的世界坐标
      */
     public get wordShellBound() {
-        const res = this.service.workspaceSize$.value;
-        return wordRect(res, this.service.shellSize$.value.size);
+        const res = this.service.workspaceSize$.value!;
+        return wordRect(res, this.service.shellSize$.value!.size);
     }
 
 
@@ -107,18 +107,18 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
      * @returns 
      */
     public getPosition<T extends IPoint>(point: T): T {
-        const res = this.service.shellSize$.value;
+        const res = this.service.shellSize$.value!;
         if (res.scale === 100) {
             return relativePoint(this.wordShellBound, point);
         }
-        const zoom = this.service.workspaceSize$.value;
+        const zoom = this.service.workspaceSize$.value!;
         const p = pointFromScale(point, res.size, res.scale, 100);
         return relativePoint(zoom, p);
     }
 
     public onResizing(e: IPoint) {
         let lastY = e.y;
-        const shell = this.service.shellSize$.value.size;
+        const shell = this.service.shellSize$.value!.size;
         let oldValue: ISize = {width: shell.width, height: shell.height};
         this.service.mouseMove(event => {
             shell.height += event.y - lastY;
@@ -134,7 +134,7 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
     public onContext(e: MouseEvent, item?: Widget|boolean) {
         const items: Widget[] = item && item instanceof Widget ? [item] : (item === true ? this.service.selectionChanged$.value : filterItems(this.widgetItems$.value, this.getPosition({x: e.clientX, y: e.clientY})));
         const navItems = items.length > 0 ? menu.EditorSelected(isMergeable(items), isSplitable(items)) : menu.EditorNotSelected;
-        return this.contextMenu().open(e, navItems, menu => {
+        return this.contextMenu()!.open(e, navItems, menu => {
             if (typeof menu.data === 'undefined') {
                 return;
             }
@@ -180,7 +180,7 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
     }
 
     public select(rect: IBound) {
-        const bound = boundFromScale(this.getPosition(rect), this.service.shellSize$.value.scale, 100);
+        const bound = boundFromScale(this.getPosition(rect), this.service.shellSize$.value!.scale, 100);
         const items = filterItems(this.widgetItems$.value, bound);
         this.service.selectionChanged$.next(items);
     }
@@ -211,7 +211,7 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
     }
 
     public push(weight: Widget, location?: IPoint) {
-        if (!location && !this.inBound(location)) {
+        if (!location && !this.inBound(location!)) {
             return false;
         }
         if (location) {
@@ -248,10 +248,10 @@ export class EditorWorkBodyComponent extends CommandManager implements IWorkEdit
                 this.reverseUndo();
                 return;
             case MENU_ACTION.VISIBLE_RULE:
-                this.rulePanel().lineVisible = true;
+                this.rulePanel()!.lineVisible.set(true);
                 return;
             case MENU_ACTION.HIDE_RULE:
-                this.rulePanel().lineVisible = false;
+                this.rulePanel()!.lineVisible.set(false);
                 return;
             case MENU_ACTION.SELECT_ALL:
                 this.service.selectionChanged$.next(this.widgetItems$.value);

@@ -32,13 +32,13 @@ export class GoodsComponent {
 
 
     public readonly regionSource = this.service.regionSource();
-    public readonly data = signal<IGoods>(null);
+    public readonly data = signal<IGoods|null>(null);
     public readonly galleryItems = signal<IGoodsGallery[]>([]);
     public readonly content = signal<SafeHtml>(null);
     public readonly tabIndex = signal(0);
     public readonly recommendItems = signal<IGoods[]>([]);
     public readonly hotItems = signal<IGoods[]>([]);
-    public readonly activity = signal<IActivity<any>>(null);
+    public readonly activity = signal<IActivity<any>|null>(null);
     public readonly couponItems = signal<ICoupon[]>([]);
     public readonly promoteItems = signal<IActivity[]>([]);
     public readonly productItems = signal<IProduct[]>([]);

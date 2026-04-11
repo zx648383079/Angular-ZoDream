@@ -1,4 +1,4 @@
-import { Component, ElementRef, effect, input, output, viewChild } from '@angular/core';
+import { Component, ElementRef, computed, effect, input, output, signal, viewChild } from '@angular/core';
 import { PanelWidget, TreeEvent, TreeItem, TREE_ACTION, Widget } from '../../model';
 
 @Component({
@@ -11,10 +11,10 @@ export class CatalogItemComponent {
 
     public readonly InputRef = viewChild<ElementRef<HTMLInputElement>>('input');
 
-    public readonly value = input<TreeItem>(undefined);
+    public readonly value = input<TreeItem>();
     public readonly level = input(0);
     public readonly tapped = output<TreeEvent>();
-    public isWidget = false;
+    public readonly isWidget = signal(false);
 
     constructor() {
         effect(() => {
@@ -23,18 +23,18 @@ export class CatalogItemComponent {
         });
     }
 
-    public get headerStyle() {
+    public readonly headerStyle = computed(() => {
         return {
             'padding-left': this.level() * 30 + 'px' 
         };
-    }
+    });
 
     public tapEdit(e: MouseEvent) {
         e.stopPropagation();
-        if (this.isWidget) {
+        if (this.isWidget()) {
             return;
         }
-        this.value().onEdit = true;
+        this.value()!.onEdit = true;
         setTimeout(() => {
             const InputRef = this.InputRef();
             if (InputRef) {
@@ -47,14 +47,14 @@ export class CatalogItemComponent {
         e.stopPropagation();
         this.tapped.emit({
             action: TREE_ACTION.CONTEXT,
-            data: this.value(),
+            data: this.value()!,
             event: e,
         });
         return false;
     }
 
     public tapFinish() {
-        const value = this.value();
+        const value = this.value()!;
         value.onEdit = false;
         this.tapped.emit({
             action: TREE_ACTION.EDIT,
@@ -64,7 +64,7 @@ export class CatalogItemComponent {
 
     public tapExpand(e: MouseEvent) {
         e.stopPropagation();
-        const value = this.value();
+        const value = this.value()!;
         if (value.canExpand) {
             value.expand = !value.expand;
         }
@@ -79,28 +79,28 @@ export class CatalogItemComponent {
     public tapSetHome() {
         this.tapped.emit({
             action: TREE_ACTION.HOME,
-            data: this.value()
+            data: this.value()!
         });
     }
 
     public tapCopy() {
         this.tapped.emit({
             action: TREE_ACTION.COPY,
-            data: this.value()
+            data: this.value()!
         });
     }
 
     public tapTrash() {
         this.tapped.emit({
             action: TREE_ACTION.TRASH,
-            data: this.value()
+            data: this.value()!
         });
     }
 
     private format() {
-        this.isWidget = this.value() instanceof Widget;
-        const value = this.value();
-        if (this.isWidget) {
+        this.isWidget.set(this.value() instanceof Widget);
+        const value = this.value()!;
+        if (this.isWidget()) {
             value.canExpand = value instanceof PanelWidget;
         }
         if (value.icon) {

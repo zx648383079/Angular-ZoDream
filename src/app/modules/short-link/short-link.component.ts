@@ -21,7 +21,7 @@ export class ShortLinkComponent {
     }), schemaPath => {
         required(schemaPath.source_url);
     });
-    public readonly result = signal<IShortLink>(null);
+    public readonly result = signal<IShortLink|null>(null);
 
     public tapGenerate(e: ButtonEvent) {
         if (this.dataForm().invalid()) {

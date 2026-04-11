@@ -153,9 +153,9 @@ export class LocationPoint implements IPoint {
         return obj;
     }
     
-    public move(p: IPoint);
-    public move(x: number, y: number)
-    public move(x: number|MouseEvent|IPoint, y?: number) {
+    public move(p: IPoint): void;
+    public move(x: number, y: number): void;
+    public move(x: number|MouseEvent|IPoint, y?: number): void {
         if (typeof x === 'object') {
             [x, y] = [x.x, x.y];
         }

@@ -5,11 +5,11 @@
         <p i18n>To be added to the site component library</p>
         <div class="source-item">
            <div class="item-cover">
-                <img [src]="sourceData.thumb" alt="">
+                <img [src]="sourceData()!.thumb" alt="">
             </div>
             <div class="item-body">
-                <div class="item-name">{{ sourceData.name }}</div>
-                <div class="item-meta">{{ sourceData.description }}</div>
+                <div class="item-name">{{ sourceData()!.name }}</div>
+                <div class="item-meta">{{ sourceData()!.description }}</div>
             </div>
         </div>
     </div>

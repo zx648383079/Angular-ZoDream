@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { EditorService } from '../editor.service';
 import { Widget, BatchCommand, ResizeWidgetCommand, MENU_ACTION } from '../model';
 import { isMergeable, isSplitable, maxBound } from '../util';
@@ -20,14 +20,14 @@ export class EditorReflectionComponent {
     private readonly service = inject(EditorService);
 
 
-    public mode = EditMode.NONE;
-    public canMerge = false;
-    public canSplit = false;
+    public readonly mode = signal(EditMode.NONE);
+    public readonly canMerge = signal(false);
+    public readonly canSplit = signal(false);
 
     private widgetBound?: IBound;
     private widgetItems: Widget[] = [];
 
-    public get boxStyle() {
+    public readonly boxStyle = computed(() => {
         if (!this.widgetBound) {
             return {
                 display: 'none',
@@ -40,17 +40,17 @@ export class EditorReflectionComponent {
             width: this.widgetBound.width + 'px',
             height: this.widgetBound.height + 'px',
         };
-    }
+    });
 
-    public get boxCls() {
-        if (this.mode === EditMode.EDIT) {
+    public readonly boxCls = computed(() => {
+        if (this.mode() === EditMode.EDIT) {
             return 'edit-in';
         }
-        if (this.mode === EditMode.HOVER) {
+        if (this.mode() === EditMode.HOVER) {
             return 'edit-hover';
         }
         return 'edit-hide';
-    }
+    });
 
     public set bound(args: IBound) {
         this.widgetBound = args;
@@ -61,22 +61,22 @@ export class EditorReflectionComponent {
             this.widgetItems = res;
             if (res.length < 1) {
                 this.widgetBound = undefined;
-                this.mode = EditMode.NONE;
+                this.mode.set(EditMode.NONE);
                 return;
             }
             this.widgetBound = maxBound(res);
-            this.canMerge = isMergeable(res);
-            this.canSplit = isSplitable(res);
-            this.mode = EditMode.EDIT;
+            this.canMerge.set(isMergeable(res));
+            this.canSplit.set(isSplitable(res));
+            this.mode.set(EditMode.EDIT);
         });
     }
 
     public tapToggleGroup() {
-        if (this.canMerge) {
+        if (this.canMerge()) {
             this.service.workspace.execute(MENU_ACTION.MERGE);
             return;
         }
-        if (this.canSplit) {
+        if (this.canSplit()) {
             this.service.workspace.execute(MENU_ACTION.SPLIT);
             return;
         }
@@ -166,7 +166,7 @@ export class EditorReflectionComponent {
         this.service.mouseMove(p => {
             const offsetX = p.x - last.x;
             const offsetY = p.y - last.y;
-            this.widgetBound = move(this.widgetBound, offsetX, offsetY);
+            this.widgetBound = move(this.widgetBound!, offsetX, offsetY);
             for (const item of this.widgetItems) {
                 item.bound = move(item.bound, offsetX, offsetY);
             }
@@ -175,7 +175,7 @@ export class EditorReflectionComponent {
             this.service.workspace.executeCommand(
                 new BatchCommand(
                     ...this.widgetItems.map((i, j) => new ResizeWidgetCommand(i, oldItems[j], i.bound)),
-                    new ResizeWidgetCommand(this, oldBound, this.widgetBound)
+                    new ResizeWidgetCommand(this, oldBound, this.widgetBound!)
                 )
             );
         });

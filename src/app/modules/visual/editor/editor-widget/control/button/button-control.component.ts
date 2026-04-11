@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { Widget } from '../../../model';
 
 @Component({
@@ -9,26 +9,24 @@ import { Widget } from '../../../model';
 })
 export class ButtonControlComponent {
 
-    public readonly value = input<Widget>(undefined);
+    public readonly value = input<Widget>();
 
 
-    public get innerStyle() {
+    public readonly innerStyle = computed(() => {
         const value = this.value();
         if (!value) {
             return {};
         }
         return value.innerStyle;
-    }
+    });
 
-    public get innerCls() {
+    public readonly innerCls = computed(() => {
         const value = this.value();
         if (!value) {
             return {};
         }
         return value.classList.toString();
-    }
-
-    constructor() { }
+    });
 
 
 }

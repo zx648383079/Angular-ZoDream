@@ -28,7 +28,7 @@ export class ListComponent {
     private readonly themeService = inject(ThemeService);
 
 
-    public readonly forum = signal<IForum>(null);
+    public readonly forum = signal<IForum|null>(null);
     public readonly items = signal<IThread[]>([]);
     private hasMore = true;
     public readonly isLoading = signal(false);
@@ -49,7 +49,7 @@ export class ListComponent {
         required(schemaPath.title);
         required(schemaPath.content);
     });
-    public readonly user = signal<IUser>(null);
+    public readonly user = signal<IUser|null>(null);
     public readonly sortKey = signal('updated_at');
     public readonly orderAsc = signal(false);
 

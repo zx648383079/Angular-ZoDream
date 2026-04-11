@@ -17,7 +17,7 @@ export class VisualMarketComponent {
 
     constructor() {
         this.service.getNav().subscribe(res => {
-            this.navItems = res.data.map(i => {
+            this.navItems = res.data!.map(i => {
                 return {
                     name: i.name,
                     url: 'category/' + i.id

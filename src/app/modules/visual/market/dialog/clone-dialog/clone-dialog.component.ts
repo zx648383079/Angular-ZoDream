@@ -7,7 +7,6 @@ import { Store } from '@ngrx/store';
 import { selectAuthStatus } from '../../../../../theme/reducers/auth.selectors';
 import { ButtonEvent } from '../../../../../components/form';
 import { DialogService } from '../../../../../components/dialog';
-import { emptyValidate } from '../../../../../theme/validators';
 import { form, required } from '@angular/forms/signals';
 
 @Component({
@@ -24,7 +23,7 @@ export class CloneDialogComponent {
 
 
     public readonly visible = signal(false);
-    public sourceData: ISite;
+    public readonly sourceData = signal<ISite|null>(null);
     public readonly editForm = form(signal({
         name: '',
         logo: '',
@@ -58,7 +57,7 @@ export class CloneDialogComponent {
             title: '',
             description: ''
         });
-        this.sourceData = item;
+        this.sourceData.set(item);
         this.visible.set(true);
     }
 
@@ -70,7 +69,7 @@ export class CloneDialogComponent {
         }
         e?.enter();
         this.service.siteClone({
-            source: this.sourceData.id,
+            source: this.sourceData()!.id,
             ... this.editForm().value()
         }).subscribe({
             next: _ => {

@@ -48,7 +48,7 @@ export class NoteComponent {
     }), schemaPath => {
         required(schemaPath.content);
     });
-    public readonly authUser = signal<IUser>(null);
+    public readonly authUser = signal<IUser|null>(null);
 
     public readonly size = computed(() => wordLength(this.editForm.content().value()));
     constructor() {

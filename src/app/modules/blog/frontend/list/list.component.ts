@@ -51,7 +51,7 @@ export class ListComponent {
             value: 'best',
         }
     ];
-    public readonly category = signal<ICategory>(null);
+    public readonly category = signal<ICategory|null>(null);
     public readonly header = signal('');
     public readonly items = signal<IBlog[]>([]);
     private hasMore = true;

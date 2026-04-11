@@ -43,7 +43,7 @@ export class MicroComponent {
         topic: 0,
         sort: 'new',
     }));
-    public readonly forwardItem = signal<IMicro>(null);
+    public readonly forwardItem = signal<IMicro|null>(null);
     public readonly editForm = form(signal({
         content: '',
         is_comment: false,
@@ -52,9 +52,9 @@ export class MicroComponent {
         required(schemaPath.content);
     });
 
-    public readonly user = signal<any>(null);
-    public readonly topic = signal<ITopic>(null);
-    public readonly authUser = signal<IUser>(null);
+    public readonly user = signal<any|null>(null);
+    public readonly topic = signal<ITopic|null>(null);
+    public readonly authUser = signal<IUser|null>(null);
     public readonly tabItems: IItem[] = [
         {
             name: $localize `Recommend`,

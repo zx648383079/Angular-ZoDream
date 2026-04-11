@@ -20,7 +20,7 @@ export class AgreementComponent {
     private readonly themeService = inject(ThemeService);
 
 
-    public readonly data = signal<IAgreement>(null);
+    public readonly data = signal<IAgreement|null>(null);
     public readonly navVisible = signal(true);
 
     constructor() {

@@ -1,7 +1,6 @@
 import { form } from '@angular/forms/signals';
 import { Component, inject, input, signal } from '@angular/core';
 import { ISite, IThemeComponent } from '../../../model';
-import { IPageQueries } from '../../../../../theme/models/page';
 import { VisualService } from '../../visual.service';
 import { SearchService, ThemeService } from '../../../../../theme/services';
 import { AppState } from '../../../../../theme/interfaces';
@@ -25,7 +24,7 @@ export class AddDialogComponent {
 
     public readonly multiple = input(false);
     public readonly visible = signal(false);
-    public sourceData: IThemeComponent;
+    public readonly sourceData = signal<IThemeComponent|null>(null);
     public readonly items = signal<ISite[]>([]);
     private hasMore = true;
     public readonly isLoading = signal(false);
@@ -53,7 +52,7 @@ export class AddDialogComponent {
             this.themeService.emitLogin(true);
             return;
         }
-        this.sourceData = item;
+        this.sourceData.set(item);
         this.visible.set(true);
     }
 
@@ -91,7 +90,7 @@ export class AddDialogComponent {
         }
         e?.enter();
         this.service.siteAdd({
-            id: this.sourceData.id,
+            id: this.sourceData()!.id,
             site: this.selectedItems.map(i => i.id)
         }).subscribe({
             next: _ => {

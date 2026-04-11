@@ -2,9 +2,9 @@ import { IPoint, IBound, computedBound } from '../../../../theme/utils/canvas';
 
 export class SelectionBound {
 
-    private _start: IPoint;
+    private _start?: IPoint;
 
-    private _end: IPoint;
+    private _end?: IPoint;
 
     public box: IBound = {
         x: 0,

@@ -60,8 +60,8 @@ export class FrontendComponent {
     public readonly diplayMode = signal(NavigationDisplayMode.Inline);
     public readonly navStyle = signal(true);;
     public readonly activeUri = signal('');
-    public readonly site = signal<ISystemOption>(null);
-    public readonly user = signal<IUserStatus>(null);
+    public readonly site = signal<ISystemOption|null>(null);
+    public readonly user = signal<IUserStatus|null>(null);
     public readonly userLoading = signal(false);
     public readonly dropVisible = signal(false);
     public readonly bulletinCount = signal(0);

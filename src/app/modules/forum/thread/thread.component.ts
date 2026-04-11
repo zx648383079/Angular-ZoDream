@@ -49,7 +49,7 @@ export class ThreadComponent {
 
     public readonly editor = viewChild(ForumEditorComponent);
 
-    public readonly thread = signal<IThread>(null);
+    public readonly thread = signal<IThread|null>(null);
     public readonly items = signal<IThreadPost[]>([]);
     private hasMore = true;
     public readonly isLoading = signal(false);
@@ -62,7 +62,7 @@ export class ThreadComponent {
         status: '0',
     }));
 
-    public readonly user = signal<IUser>(null);
+    public readonly user = signal<IUser|null>(null);
     public readonly dataModel = signal({
         content: '',
     });

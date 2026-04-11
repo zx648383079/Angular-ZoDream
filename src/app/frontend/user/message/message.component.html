@@ -1,6 +1,6 @@
 
 
-<div class="message-box" [class]="{'--with-flip': navIndex >= 0}">
+<div class="message-box" [class]="{'--with-flip': navIndex() >= 0}">
     <div class="message-pane">
         <div class="tablet-large-header tablet-visible">
             <div class="route-bar">
@@ -11,8 +11,8 @@
             </div>
         </div>
         <div class="pane-body">
-            @for (item of navItems; track $index; let i = $index) {
-                <div class="menu-item" [class]="{active: i == navIndex}" (click)="tapNav(i)">
+            @for (item of navItems(); track $index; let i = $index) {
+                <div class="menu-item" [class]="{active: i == navIndex()}" (click)="tapNav(i)">
                     @if (!item.avatar) {
                         <div class="icon">
                             <i class="iconfont" [class]="item.icon"></i>
@@ -36,13 +36,13 @@
                 <i class="iconfont icon-chevron-left"></i>
             </a>
             <span class="control-body">
-                @if (!currentUser || currentUser.id <= 1) {
+                @if (!currentUser() || currentUser().id <= 1) {
                     System Messages
                 } @else {
-                     Chat with "{{ currentUser.name }}"
+                     Chat with "{{ currentUser().name }}"
                 }
             </span>
-            <div class="dropdown-box" [class]="{'--with-open': dropdownVisible}">
+            <div class="dropdown-box" [class]="{'--with-open': dropdownVisible()}">
                 <i class="iconfont icon-ellipsis-v" (click)="openDropdown()"></i>
                 <div class="dropdown-pane">
                     <ul>
@@ -55,12 +55,12 @@
                 </div>
             </div>
         </div>
-        <app-message-container [currentId]="authUser?.id" [items]="items()" [more]="hasMore()" (loadMore)="tapMore($event)" (tapped)="onMessageTap($event)" />
-        <div class="message-tools" [hidden]="!currentUser || currentUser.id <= 1">
+        <app-message-container [currentId]="authUser()?.id" [items]="items()" [more]="hasMore()" (loadMore)="tapMore($event)" (tapped)="onMessageTap($event)" />
+        <div class="message-tools" [hidden]="!currentUser() || currentUser().id <= 1">
             <i class="iconfont icon-smile-o"></i>
             <i class="iconfont icon-image"></i>
         </div>
-        <div class="message-editor" [hidden]="!currentUser || currentUser.id <= 1">
+        <div class="message-editor" [hidden]="!currentUser() || currentUser().id <= 1">
             <textarea i18n-placeholder placeholder="Reply to this." [formField]="dataForm.content"></textarea>
             <div class="message-action">
                 <div class="size-tip">{{ wordLength() }}/500</div>
@@ -69,6 +69,6 @@
         </div>
     </div>
 </div>
-@if (dropdownVisible) {
-    <div class="tablet-mask tablet-visible" (click)="dropdownVisible = false"></div>
+@if (dropdownVisible()) {
+    <div class="tablet-mask tablet-visible" (click)="dropdownVisible.set(false)"></div>
 }

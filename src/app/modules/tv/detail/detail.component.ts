@@ -17,7 +17,7 @@ export class DetailComponent {
     private readonly route = inject(ActivatedRoute);
     private readonly location = inject(Location);
 
-    public readonly data =signal<IMovie>(null);
+    public readonly data =signal<IMovie|null>(null);
     public readonly seriesItems = signal<IMovieSeries[]>([]);
     public readonly items = signal<IMovie[]>([]);
     public readonly isLoading = signal(false);

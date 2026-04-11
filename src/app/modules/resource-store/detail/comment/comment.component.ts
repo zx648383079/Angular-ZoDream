@@ -42,7 +42,7 @@ export class CommentComponent {
         required(schemaPath.content);
         disabled(schemaPath, () => !this.user);
     });
-    public readonly user = signal<IUser>(null);
+    public readonly user = signal<IUser|null>(null);
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {

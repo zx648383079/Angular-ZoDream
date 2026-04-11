@@ -75,7 +75,7 @@ export class EditIncomeComponent {
             return null;
         });
     });
-    public readonly parent = signal<ILog>(null);
+    public readonly parent = signal<ILog|null>(null);
     public readonly typeItems = ArraySource.fromOrder(...LogTypeItems);
     public readonly accountItems = signal<IAccount[]>([]);
     public readonly channelItems = signal<IConsumptionChannel[]>([]);

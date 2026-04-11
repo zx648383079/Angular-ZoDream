@@ -26,7 +26,7 @@ export class CartComponent {
 
 
     public readonly items = signal<ICartGroup[]>([]);
-    public readonly cart = signal<ICart>(null);
+    public readonly cart = signal<ICart|null>(null);
     public readonly isChecked = signal(false);
 
     public readonly likeItems = signal<IGoods[]>([]);

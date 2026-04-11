@@ -35,12 +35,12 @@ export class EditorRuleBarComponent {
             if (!res) {
                 return;
             }
-            const zoom = this.service.workspaceSize$.value;
+            const zoom = this.service.workspaceSize$.value!;
             this.baseWidth = (this.orientation() ? zoom.width :  zoom.height) - this.baseHeight;
             this.baseX = (this.orientation() ? zoom.x :  zoom.y) + this.baseHeight;
             this.offset.set(this.orientation() ? res.size.x : res.size.y);
             this.scale.set(res.scale / 100);
-            const canvas = this.drawer().nativeElement;
+            const canvas = this.drawer()!.nativeElement;
             if (this.orientation()) {
                 canvas.width = this.baseWidth;
                 canvas.height = this.baseHeight;
@@ -48,7 +48,7 @@ export class EditorRuleBarComponent {
                 canvas.width = this.baseHeight;
                 canvas.height = this.baseWidth;
             }
-            this.onRender(canvas.getContext('2d'));
+            this.onRender(canvas.getContext('2d')!);
         });
         effect(() => {
             const drawer = this.drawer();
@@ -56,7 +56,7 @@ export class EditorRuleBarComponent {
             this.gap();
             this.scale();
             if (drawer) {
-                this.onRender(drawer.nativeElement.getContext('2d'));
+                this.onRender(drawer.nativeElement.getContext('2d')!);
             }
         });
     }

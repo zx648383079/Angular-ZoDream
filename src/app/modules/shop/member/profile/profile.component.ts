@@ -23,7 +23,7 @@ export class ProfileComponent {
 
     public readonly sexItems = ArraySource.fromItems(SexItems);
 
-    public readonly user = signal<IUser>(null);
+    public readonly user = signal<IUser|null>(null);
     public readonly dataModel = signal({
         name: '',
         sex: 0,

@@ -30,7 +30,7 @@ export class ForumListComponent {
         keywords: '',
         parent: 0,
     }));
-    public readonly parent = signal<IForum>(null);
+    public readonly parent = signal<IForum|null>(null);
 
     constructor() {
         this.route.queryParams.subscribe(params => {

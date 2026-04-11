@@ -15,7 +15,7 @@ export class ProjectComponent {
     private readonly router = inject(Router);
 
 
-    public readonly data = signal<IProject>(null);
+    public readonly data = signal<IProject|null>(null);
     public readonly catalog = signal<IDocPage[]&IDocApi[]>([]);
     public readonly tabIndex = signal(0);
 

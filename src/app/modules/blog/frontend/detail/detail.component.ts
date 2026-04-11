@@ -34,7 +34,7 @@ export class DetailComponent {
 
 
     public readonly content = signal('');
-    public readonly data = signal<IBlog>(null);
+    public readonly data = signal<IBlog|null>(null);
     public readonly isLoading = signal(false);
     public readonly relationItems = signal<IBlog[]>([]);
     public readonly dataForm = form(signal({

@@ -22,8 +22,8 @@ export class MemberSpaceComponent {
     private readonly location = inject(Location);
 
     public readonly isLoading = signal(false);
-    public readonly data = signal<IUserStatus>(null);
-    public readonly authUser = signal<IUser>(null);
+    public readonly data = signal<IUserStatus|null>(null);
+    public readonly authUser = signal<IUser|null>(null);
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {

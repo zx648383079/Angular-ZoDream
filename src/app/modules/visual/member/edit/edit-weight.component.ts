@@ -37,14 +37,14 @@ export class EditWeightComponent {
     });
     public readonly filterCategories = computed(() => {
         const type = parseNumber(this.dataForm.type().value()) + 1;
-        return this.categories.filter(i => i.id === type || i.parent_id === type);
+        return this.categories().filter(i => i.id === type || i.parent_id === type);
     });
-    private categories: ICategory[] = [];
+    private readonly categories = signal<ICategory[]>([]);
     public typeItems = ComponentTypeItems;
 
     constructor() {
         this.service.categoryTree().subscribe(res => {
-            this.categories = res.data;
+            this.categories.set(res.data!);
         });
         this.route.params.subscribe(params => {
             if (!params.id) {
@@ -104,7 +104,7 @@ export class EditWeightComponent {
         e?.enter();
         this.service.componentSave(data).subscribe({
             next: _ => {
-                e.reset();
+                e?.reset();
                 this.toastrService.success($localize `Save Successfully`);
                 this.location.back();
             },

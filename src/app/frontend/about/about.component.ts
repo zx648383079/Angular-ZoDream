@@ -47,17 +47,17 @@ export class AboutComponent {
         required(schemaPath.name, {message: $localize `Nickname is required`});
         required(schemaPath.content, {message: $localize `Content is required`});
     });
-    public readonly developer = signal<IDeveloperProfile>(null);
+    public readonly developer = signal<IDeveloperProfile|null>(null);
 
     constructor() {
         this.themeService.titleChanged.next($localize `Abount`);
         this.service.developer().subscribe(res => {
-            this.developer.set({...res, skills: res.skills.map(i => {
+            this.developer.set({...res, skills: (res as IDeveloperProfile).skills.map(i => {
                 return {...i, proficiency: 0}
             })});
             setTimeout(() => {
                 this.developer.update(v => {
-                    return {...v, skills: v.skills.map((item, i) => {
+                    return {...v!, skills: v!.skills.map((item, i) => {
                         item.proficiency = res.skills[i].proficiency;
                         return item;
                     })};

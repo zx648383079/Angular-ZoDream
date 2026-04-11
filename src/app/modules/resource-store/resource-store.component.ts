@@ -33,7 +33,7 @@ export class ResourceStoreComponent {
         {name: '推荐'} as any,
     ]);
     public readonly navIndex = signal(0);
-    public readonly user = signal<IUser>(null);
+    public readonly user = signal<IUser|null>(null);
     public readonly searchVisible = signal(false);
     public readonly navOpen = signal(false);
 

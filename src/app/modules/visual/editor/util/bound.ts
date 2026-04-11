@@ -117,7 +117,7 @@ export function visibleRect(base: IRect|IBound, search: IRect|IBound): IRect {
  * @returns 
  */
 export function isIntersect(a: IRect|IBound, b: IRect|IBound|IPoint): boolean {
-    const rect1 = boundToRect(a instanceof Widget ? a.actualBound : a);
+    const rect1 = boundToRect(a instanceof Widget ? a.actualBound! : a);
     if (!isBound(b) && !isRect(b)) {
         return rect1.x <= b.x && rect1.y <= b.y && rect1.bottom >= b.y && rect1.right >= b.x;
     }
@@ -205,7 +205,7 @@ export function maxBound(items: IBound[]): IBound {
     let bottom = 0;
     let init = false;
     for (const item of items) {
-        const bound = item instanceof Widget ? item.actualBound : item;
+        const bound = item instanceof Widget ? item.actualBound! : item;
         const r = bound.x + bound.width;
         const b = bound.y + bound.height;
         if (!init) {

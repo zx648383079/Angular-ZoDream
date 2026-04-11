@@ -20,7 +20,7 @@ export class DetailComponent {
     private readonly themeService = inject(ThemeService);
     private readonly location = inject(Location);
 
-    public readonly data = signal<IResource>(null);
+    public readonly data = signal<IResource|null>(null);
     public readonly isLoading = signal(false);
     public readonly tabIndex = signal(0);
     public readonly catalogItems = signal<IResourceCatalog[]>([]);

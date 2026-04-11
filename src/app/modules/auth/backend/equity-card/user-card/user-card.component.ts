@@ -29,7 +29,7 @@ export class UserCardComponent {
         page: 1,
         per_page: 20,
     }));
-    public readonly user = signal<IUser>(null);
+    public readonly user = signal<IUser|null>(null);
     public readonly editForm = form(signal({
         card_id: 0,
         expired_at: '',

@@ -27,8 +27,8 @@ export class BudgetContainerComponent {
         start_at: '',
         end_at: '',
     }));
-    public readonly data = signal<IBudget>(null);
-    public readonly options = signal<EChartsCoreOption>(null);
+    public readonly data = signal<IBudget|null>(null);
+    public readonly options = signal<EChartsCoreOption|null>(null);
     
     public readonly total = signal(0);
     public readonly budgetTotal = signal(0);

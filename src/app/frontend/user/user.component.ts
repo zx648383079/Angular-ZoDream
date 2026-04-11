@@ -25,7 +25,7 @@ export class UserComponent {
     private readonly destroyRef = inject(DestroyRef);
 
 
-    public readonly user = signal<IUserStatus>(null);
+    public readonly user = signal<IUserStatus|null>(null);
     public readonly tabItems = signal<INavLink[]>([]);
     public readonly moreItems = signal<INavLink[]>([]);
     public readonly moreVisible = signal(false);

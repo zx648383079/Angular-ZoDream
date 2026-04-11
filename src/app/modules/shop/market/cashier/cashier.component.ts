@@ -39,21 +39,21 @@ export class CashierComponent {
 
     private readonly invoiceModal = viewChild(InvoiceDialogComponent);
 
-    public readonly user = signal<IUser>(null);
-    public readonly address = signal<IAddress>(null);
+    public readonly user = signal<IUser|null>(null);
+    public readonly address = signal<IAddress|null>(null);
     public readonly addressItems = signal<IAddress[]>([]);
     public readonly items = signal<ICartGroup[]>([]);
-    public readonly order = signal<IOrder>(null);
+    public readonly order = signal<IOrder|null>(null);
     public readonly paymentItems = signal<IPayment[]>([]);
-    public readonly payment = signal<IPayment>(null);
+    public readonly payment = signal<IPayment|null>(null);
     public readonly shippingItems = signal<IShipping[]>([]);
-    public readonly shipping = signal<IShipping>(null);
+    public readonly shipping = signal<IShipping|null>(null);
     public readonly couponItems = signal<ICoupon[]>([]);
     private couponLoaded = false;
     public readonly couponIndex = signal(0);
-    public readonly invoice = signal<IInvoiceTitle>(null);
+    public readonly invoice = signal<IInvoiceTitle|null>(null);
     public readonly invoiceItems = signal<IInvoiceTitle[]>([]);
-    public readonly coupon = signal<ICoupon>(null);
+    public readonly coupon = signal<ICoupon|null>(null);
     public readonly couponForm = form(signal({
         code: ''
     }), schemaPath => {
@@ -70,7 +70,7 @@ export class CashierComponent {
     }));
     private cartData: ICartData;
     public readonly dialogOpen = signal(0);
-    public readonly dialogSelected = signal<any>(null);
+    public readonly dialogSelected = signal<any|null>(null);
 
     constructor() {
         this.themeService.titleChanged.next('结算');

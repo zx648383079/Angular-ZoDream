@@ -31,8 +31,8 @@ export class EditThreadComponent {
         required(schemaPath.title);
         required(schemaPath.content);
     });
-    public readonly data = signal<IThread>(null);
-    public readonly forum = signal<IForum>(null);
+    public readonly data = signal<IThread|null>(null);
+    public readonly forum = signal<IForum|null>(null);
 
     constructor() {
         this.route.params.subscribe(params => {

@@ -2,7 +2,6 @@ import { form } from '@angular/forms/signals';
 import { Component, HostListener, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../components/dialog';
-import { IPageQueries } from '../../theme/models/page';
 import { SearchService } from '../../theme/services';
 import { ThemeService } from '../../theme/services';
 import { IVideo } from './model';

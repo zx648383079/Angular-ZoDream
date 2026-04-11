@@ -105,7 +105,7 @@ export class EditWeightComponent {
         e?.enter();
         this.service.componentSave(data).subscribe({
             next: _ => {
-                e.reset();
+                e?.reset();
                 this.toastrService.success($localize `Save Successfully`);
                 this.location.back();
             },

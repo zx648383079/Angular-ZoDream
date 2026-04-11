@@ -46,7 +46,7 @@ export class CommentComponent {
         order: 'desc',
     }));
     private booted = 0;
-    public readonly user = signal<IUser>(null);
+    public readonly user = signal<IUser|null>(null);
 
     public readonly commentForm = form(signal({
         content: '',

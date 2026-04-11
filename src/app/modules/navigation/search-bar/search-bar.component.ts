@@ -24,7 +24,7 @@ export class SearchBarComponent implements SuggestEvent, ISearchBar {
     public readonly dropIndex = signal(-1);
     public readonly histories = signal<string[]>([]);
     public readonly openType = signal(0);
-    public readonly currentEngine = signal<ISearchEngine>(null);
+    public readonly currentEngine = signal<ISearchEngine|null>(null);
     public engineItems: ISearchEngine[] = [
         {
             name: $localize `Default`,

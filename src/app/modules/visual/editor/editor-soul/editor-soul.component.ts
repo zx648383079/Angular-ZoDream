@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { EditorService } from '../editor.service';
-import { WidgetPreview, WidgetSource, WidgetType } from '../model';
+import { WidgetPreview, WidgetType } from '../model';
 
 @Component({
     standalone: false,

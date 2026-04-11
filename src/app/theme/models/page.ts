@@ -38,11 +38,11 @@ export interface IBaseResponse {
 }
 
 export interface IData<T> extends IBaseResponse {
-    data?: T[];
+    data: T[];
 }
 
 export interface IDataOne<T> extends IBaseResponse {
-    data?: T;
+    data: T;
 }
 
 export interface IErrorResponse {

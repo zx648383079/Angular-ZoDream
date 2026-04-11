@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IThemeComponent } from '../../model';
 import { VisualService } from '../visual.service';
 
@@ -12,18 +12,15 @@ export class HomeComponent {
     private readonly service = inject(VisualService);
 
 
-    public pageItems: IThemeComponent[] = [];
-    public weightItems: IThemeComponent[] = [];
+    public readonly pageItems = signal<IThemeComponent[]>([]);
+    public readonly weightItems = signal<IThemeComponent[]>([]);
 
-    constructor() {
-
-    }
 
     public loadPage() {
         this.service.recommend({
             type: 0
         }).subscribe(res => {
-            this.pageItems = res.data;
+            this.pageItems.set(res.data!);
         });
     }
 
@@ -31,7 +28,7 @@ export class HomeComponent {
         this.service.recommend({
             type: 1
         }).subscribe(res => {
-            this.weightItems = res.data;
+            this.weightItems.set(res.data!);
         });
     }
 

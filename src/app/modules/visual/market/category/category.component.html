@@ -5,16 +5,16 @@
                 <app-auto-suggest-box />
             </div>
         </div>
-        @if (data) {
+        @if (data()) {
         <div class="align-center" >
-            <a routerLink="../../search" [queryParams]="{category: data.id}" class="btn btn-primary" i18n>Browser all</a>
+            <a routerLink="../../search" [queryParams]="{category: data()!.id}" class="btn btn-primary" i18n>Browser all</a>
         </div>
         }
     </div>
 </div>
 
 <div class="container-fluid floor-panel">
-    @for (group of categories; track $index) {
+    @for (group of categories(); track $index) {
     <div class="row group-row">
         <div class="col-md-3">
             <div class="group-header">

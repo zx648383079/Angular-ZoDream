@@ -56,7 +56,7 @@ export class BlogComponent {
         keywords: ''
     }));
 
-    public readonly data = signal<IBlog>(null);
+    public readonly data = signal<IBlog|null>(null);
     public readonly content = signal('');
 
     constructor() {

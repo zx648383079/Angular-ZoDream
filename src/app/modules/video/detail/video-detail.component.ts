@@ -17,19 +17,20 @@ export class VideoDetailComponent {
     private readonly destroyRef = inject(DestroyRef);
 
     private readonly videoPlayer = viewChild(MoviePlayerComponent);
-    private audioElement: HTMLAudioElement;
+    private audioElement?: HTMLAudioElement;
 
-    public isPlaying = false;
-    public data: IVideo;
+    public readonly isPlaying = signal(false);
+    public readonly data = signal<IVideo|null>(null);
     public readonly items = signal<IVideo[]>([]);
     public readonly isLoading = signal(false);
     public page = 1;
     private index = -1;
     private queries: any = {};
 
+
+    public readonly commentItems = signal<IComment[]>([]);
     public commentData = {
         video_id: 0,
-        items: [],
         page: 1,
         hasMore: true,
     };
@@ -46,7 +47,7 @@ export class VideoDetailComponent {
                 return;
             }
             this.index = 0;
-            this.data = this.items[0];
+            this.data.set(this.items()[0]);
             setTimeout(() => {
                 this.tapPlay();
             }, 1000);
@@ -70,24 +71,24 @@ export class VideoDetailComponent {
     }
 
     public tapToggleLike() {
-        if (!this.data) {
+        if (!this.data()) {
             return;
         }
-        this.service.videoLike(this.data.id).subscribe(res => {
-            if (this.data.id !== res.id) {
+        this.service.videoLike(this.data()!.id).subscribe(res => {
+            if (this.data()!.id !== res.id) {
                 return;
             }
-            this.data.is_liked = res.is_liked;
-            this.data.like_count = res.like_count;
+            this.data()!.is_liked = res.is_liked;
+            this.data()!.like_count = res.like_count;
         });
     }
 
     public tapShowComment() {
-        this.commentData.video_id = this.data.id;
+        this.commentData.video_id = this.data()!.id;
     }
 
     public tapPlay() {
-        if (this.isPlaying) {
+        if (this.isPlaying()) {
             this.pause();
         } else {
             this.play();
@@ -100,28 +101,28 @@ export class VideoDetailComponent {
 
 
     public play() {
-        this.isPlaying = true;
-        this.videoPlayer().play({
-            source: this.data.video_path,
-            name: this.data.content,
-            cover: this.data.cover,
-            duration: this.data.video_duration
+        this.isPlaying.set(true);
+        this.videoPlayer()!.play({
+            source: this.data()!.video_path,
+            name: this.data()!.content,
+            cover: this.data()!.cover,
+            duration: this.data()!.video_duration
         });
-        if (this.data.music && this.data.music.path) {
-            this.audio.src = this.data.music.path;
+        if (this.data()!.music && this.data()!.music?.path) {
+            this.audio.src = this.data()!.music!.path;
             this.audio.play();
         }
     }
 
     public pause() {
-        this.isPlaying = false;
-        this.videoPlayer().pause();
+        this.isPlaying.set(false);
+        this.videoPlayer()!.pause();
         this.audio.pause();
     }
 
     public stop() {
-        this.isPlaying = false;
-        this.videoPlayer().stop();
+        this.isPlaying.set(false);
+        this.videoPlayer()!.stop();
         this.audio.src = '';
     }
 
@@ -149,38 +150,39 @@ export class VideoDetailComponent {
     }
 
     private flipAnimation(from: number, to: number) {
-        this.data = this.items[to];
+        this.data.set(this.items()[to]);
         setTimeout(() => {
             this.tapPlay();
         }, 500);
     }
 
     private bindVideoEvent() {
-        const video = this.videoPlayer();
+        const video = this.videoPlayer()!;
         video.on(PlayerEvents.TIME_UPDATE, () => {
         });
         video.on(PlayerEvents.ENDED, () => {
-            this.isPlaying = false;
+            this.isPlaying.set(false);
             this.tapNext();
         });
         video.on(PlayerEvents.PAUSE, () => {
-            this.isPlaying = false;
+            this.isPlaying.set(false);
         });
         video.on(PlayerEvents.PLAY, () => {
-            this.isPlaying = true;
+            this.isPlaying.set(true);
         });
     }
 
     private bindAudioEvent() {
-        this.audioElement.addEventListener('timeupdate', () => {
+        const audio = this.audioElement!;
+        audio.addEventListener('timeupdate', () => {
         });
-        this.audioElement.addEventListener('ended', () => {
+        audio.addEventListener('ended', () => {
             // this.isPlaying = false;
         });
-        this.audioElement.addEventListener('pause', () => {
+        audio.addEventListener('pause', () => {
             // this.isPlaying = false;
         });
-        this.audioElement.addEventListener('play', () => {
+        audio.addEventListener('play', () => {
             // this.isPlaying = true;
         });
     }
@@ -201,15 +203,18 @@ export class VideoDetailComponent {
             return;
         }
         this.isLoading.set(true);
-        this.service.videoList(Object.assign({page}, this.queries().value())).subscribe(res => {
-            this.page = res.paging.offset;
-            this.isLoading.set(false);
-            this.items.update(v => {
-                return res.paging.offset < 2 ? res.data :  [].concat(v, res.data);
-            });
-            success && success();
-        }, _ => {
-            this.isLoading.set(false);
+        this.service.videoList(Object.assign({page}, this.queries().value())).subscribe({
+            next: res => {
+                this.page = res.paging.offset;
+                this.isLoading.set(false);
+                this.items.update(v => {
+                    return res.paging.offset < 2 ? res.data :  [...v, ...res.data];
+                });
+                success && success();
+            }, 
+            error: _ => {
+                this.isLoading.set(false);
+            }
         });
     }
 
@@ -264,7 +269,7 @@ export class VideoDetailComponent {
                 return;
             }
             this.commentData.page = res.paging.offset;
-            this.commentData.items = res.paging.offset < 2 ? res.data :  [].concat(this.commentData.items as never[], res.data as never[]);
+            this.commentItems.update(v => res.paging.offset < 2 ? res.data : [...v, ...res.data]);
         });
     }
 

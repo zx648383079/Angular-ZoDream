@@ -87,9 +87,9 @@ export class ChatComponent {
 
     public readonly friends = signal<IFriendGroup[]>([]);
 
-    public readonly user = signal<IFriend>(null);
+    public readonly user = signal<IFriend|null>(null);
 
-    public readonly chatUser = signal<IChatUser>(null);
+    public readonly chatUser = signal<IChatUser|null>(null);
 
     public readonly page = signal(1);
     private hasMore = true;

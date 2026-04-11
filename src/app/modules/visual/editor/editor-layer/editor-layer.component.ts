@@ -55,7 +55,7 @@ export class EditorLayerComponent {
             name: '',
             isGroup: group,
         });
-        this.catalogModal().open(() => {
+        this.catalogModal()!.open(() => {
             const data = this.editForm().value();
             this.service.pushCatalog({
                 name: data.name,
@@ -89,7 +89,7 @@ export class EditorLayerComponent {
             return;
         }
         if (e.action === TREE_ACTION.CONTEXT) {
-            this.contextMenu().open(e.event, EditorLayer)
+            this.contextMenu()!.open(e.event!, EditorLayer)
             return;
         }
     }

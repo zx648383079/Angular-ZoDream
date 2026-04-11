@@ -21,7 +21,7 @@
             </div>
             @if (pageItems.length > 0) {
             <div class="row">
-                @for (item of pageItems; track $index) {
+                @for (item of pageItems(); track $index) {
                 <div class="col-md-3">
                     <div class="large-item">
                         <div class="item-cover">
@@ -57,7 +57,7 @@
             </div>
             @if (weightItems.length > 0) {
             <div class="row">
-                @for (item of weightItems; track $index) {
+                @for (item of weightItems(); track $index) {
                 <div class="col-md-3">
                     <div class="large-item">
                         <div class="item-cover">

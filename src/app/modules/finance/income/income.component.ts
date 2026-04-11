@@ -60,7 +60,7 @@ export class IncomeComponent {
     public readonly panelVisible = signal(false);
     public readonly menuVisible = signal(false);
 
-    public readonly previewModel = signal<ILog>(null);
+    public readonly previewModel = signal<ILog|null>(null);
     public readonly editForm = form(signal({
         keywords: '',
         operator: 0,

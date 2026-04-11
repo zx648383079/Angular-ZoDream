@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, inject, viewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, signal, viewChild } from '@angular/core';
 import { EditorWorkBodyComponent } from '../editor-work-body/editor-work-body.component';
 import { AddWeightCommand, MENU_ACTION, Widget } from '../model';
 import { EditorService } from '../editor.service';
@@ -15,23 +15,23 @@ export class EditorWindowComponent {
 
     public readonly mainRef = viewChild<ElementRef<HTMLDivElement>>('mainBox');
     private readonly workBody = viewChild(EditorWorkBodyComponent);
-    public tempWidget: Widget;
-    public editorStyle: any = {};
-    public workStyle: any = {};
+    public readonly tempWidget = signal<Widget|null>(null);
+    public readonly editorStyle = signal<any>({});
+    public readonly workStyle = signal<any>({});
 
     constructor() {
         this.service.editorSize$.subscribe(res => {
             if (!res) {
                 return;
             }
-            this.editorStyle = {
+            this.editorStyle.set({
                 width: res.width + 'px',
                 height: res.height + 'px'
-            };
-            this.workStyle = {
+            });
+            this.workStyle.set({
                 width: res.width - 460 + 'px',
                 height: res.height + 'px'
-            };
+            });
             this.service.workspaceSize$.next({
                 x: res.x + 200,
                 y: res.y,
@@ -42,7 +42,7 @@ export class EditorWindowComponent {
         this.service.moveWidget$.subscribe(res => {
             if (!res.start) {
                 this.service.mouseMove();
-                this.workBody().executeCommand(new AddWeightCommand(this.workBody(), this.service.newWidget(res.data)));
+                this.workBody()!.executeCommand(new AddWeightCommand(this.workBody(), this.service.newWidget(res.data)));
                 return;
             }
             this.service.mouseMove(event => {
@@ -50,20 +50,20 @@ export class EditorWindowComponent {
                     x: event.x,
                     y: event.y,
                 };
-                if (!this.tempWidget) {
+                if (!this.tempWidget()) {
                     const item = this.service.newWidget(res.data);
                     item.location = point;
-                    this.tempWidget = item;
-                } else if (this.tempWidget) {
-                    this.tempWidget.location = point;
+                    this.tempWidget.set(item);
+                } else if (this.tempWidget()) {
+                    this.tempWidget()!.location = point;
                 }
             }, () => {
-                const item = this.tempWidget;
+                const item = this.tempWidget();
                 if (!item) {
                     return;
                 }
-                this.tempWidget = undefined;
-                this.workBody().executeCommand(new AddWeightCommand(this.workBody(), this.service.newWidget(res.data), item.location));
+                this.tempWidget.set(null);
+                this.workBody()!.executeCommand(new AddWeightCommand(this.workBody(), this.service.newWidget(res.data), item.location));
             });
 
         });
@@ -71,7 +71,7 @@ export class EditorWindowComponent {
     @HostListener('document:keydown', ['$event'])
     public onKeyDown(event: KeyboardEvent) {
         if (event.code === 'Delete' || event.code === 'Backspace') {
-            this.workBody().execute(MENU_ACTION.DELETE);
+            this.workBody()!.execute(MENU_ACTION.DELETE);
             return;
         }
         if (event.ctrlKey) {
@@ -82,34 +82,34 @@ export class EditorWindowComponent {
             // }
             if (event.code === 'KeyA') {
                 event.preventDefault();
-                this.workBody().execute(MENU_ACTION.SELECT_ALL);
+                this.workBody()!.execute(MENU_ACTION.SELECT_ALL);
                 return;
             }
             if (event.code === 'KeyZ') {
                 event.stopPropagation();
-                this.workBody().execute(event.shiftKey ? MENU_ACTION.FORWARD : MENU_ACTION.BACK);
+                this.workBody()!.execute(event.shiftKey ? MENU_ACTION.FORWARD : MENU_ACTION.BACK);
                 return;
             }
             if (event.code === 'KeyG') {
                 event.preventDefault();
-                this.workBody().execute(event.shiftKey ? MENU_ACTION.SPLIT : MENU_ACTION.MERGE);
+                this.workBody()!.execute(event.shiftKey ? MENU_ACTION.SPLIT : MENU_ACTION.MERGE);
                 return;
             }
             if (event.code === 'KeyH') {
                 event.preventDefault();
-                this.workBody().execute(event.shiftKey ? MENU_ACTION.HIDE_RULE : MENU_ACTION.VISIBLE_RULE);
+                this.workBody()!.execute(event.shiftKey ? MENU_ACTION.HIDE_RULE : MENU_ACTION.VISIBLE_RULE);
                 return;
             }
             if (event.code === 'Equal') {
                 event.preventDefault();
                 // 放大
-                this.workBody().execute(MENU_ACTION.SCALE_UP);
+                this.workBody()!.execute(MENU_ACTION.SCALE_UP);
                 return;
             }
             if (event.code === 'Minus') {
                 event.preventDefault();
                 // 缩小
-                this.workBody().execute(MENU_ACTION.SCALE_DOWN);
+                this.workBody()!.execute(MENU_ACTION.SCALE_DOWN);
                 return;
             }
         }

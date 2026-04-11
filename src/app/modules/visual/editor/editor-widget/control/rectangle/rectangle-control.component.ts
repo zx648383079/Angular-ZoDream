@@ -9,6 +9,6 @@ import { Widget } from '../../../model';
 })
 export class RectangleControlComponent  {
 
-    public readonly value = input<Widget>(undefined);
+    public readonly value = input<Widget>();
 
 }

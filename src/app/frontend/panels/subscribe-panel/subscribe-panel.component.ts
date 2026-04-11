@@ -2,7 +2,6 @@ import { Component, inject, signal } from '@angular/core';
 import { ButtonEvent } from '../../../components/form';
 import { HttpClient } from '@angular/common/http';
 import { IDataOne } from '../../../theme/models/page';
-import { emailValidate } from '../../../theme/validators';
 import { DialogService } from '../../../components/dialog';
 import { email, form, required } from '@angular/forms/signals';
 

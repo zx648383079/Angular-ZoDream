@@ -27,7 +27,7 @@ export class ProductComponent {
     public readonly children = signal<IProduct[]>([]);;
     public readonly channelItems = signal<IChannel[]>([]);;
     public readonly isLoading = signal(false);
-    public readonly options = signal<EChartsCoreOption>(null);
+    public readonly options = signal<EChartsCoreOption|null>(null);
     public readonly channelSelected = signal(0);
     public readonly productSelected = signal(0);
     public typeItems: IItem[] = [

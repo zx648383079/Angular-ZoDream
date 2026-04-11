@@ -21,7 +21,7 @@ export class ReportDialogComponent {
      * 是否显示
      */
     public readonly visible = signal(false);
-    public readonly data = signal<IWebPage>(null);
+    public readonly data = signal<IWebPage|null>(null);
     private confirmFn: DialogConfirmFn;
 
 

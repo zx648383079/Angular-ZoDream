@@ -35,7 +35,7 @@ export class HomeComponent {
         this.isLoading.set(true);
         this.service.statistics().subscribe({
             next: res => {
-                this.items.set(res.data);
+                this.items.set(res.data!);
                 this.isLoading.set(false);
             },
             error: () => {

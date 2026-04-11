@@ -18,7 +18,7 @@ export class ShareDetailComponent {
     private readonly route = inject(ActivatedRoute);
 
 
-    public readonly data = signal<ITask>(null);
+    public readonly data = signal<ITask|null>(null);
     public share: IShare;
     public readonly items = signal<ITask[]>([]);
 

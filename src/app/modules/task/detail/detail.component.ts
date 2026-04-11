@@ -29,8 +29,8 @@ export class DetailComponent {
     private maxProgress = 0;
     private progress = 0;
 
-    public readonly data = signal<ITaskDay>(null);
-    public readonly current = signal<ITask>(null);
+    public readonly data = signal<ITaskDay|null>(null);
+    public readonly current = signal<ITask|null>(null);
     public readonly items = signal<ITask[]>([]);
     public readonly expanded = signal(false);
 

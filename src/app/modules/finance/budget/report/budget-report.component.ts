@@ -26,8 +26,8 @@ export class BudgetReportComponent {
         end_at: '',
     }));
 
-    public readonly options = signal<EChartsCoreOption>(null);
-    public readonly monthOptions = signal<EChartsCoreOption>(null);
+    public readonly options = signal<EChartsCoreOption|null>(null);
+    public readonly monthOptions = signal<EChartsCoreOption|null>(null);
 
     constructor() {
         this.themeService.tabletIf(this.destroyRef);

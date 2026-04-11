@@ -49,7 +49,7 @@ export class CopyTableComponent {
 
 
     public readonly previewModal = viewChild<DialogEvent>('previewModal');
-    public readonly distTable = signal<ITableItem>(null);
+    public readonly distTable = signal<ITableItem|null>(null);
     public readonly srcTable = signal<ITableItem[]>([]);
     public readonly linkItems = signal<ILinkItem[]>([]);
 

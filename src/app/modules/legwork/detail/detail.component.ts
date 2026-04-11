@@ -18,7 +18,7 @@ export class DetailComponent {
     private readonly toastrService = inject(DialogService);
 
 
-    public readonly data = signal<IService>(null);
+    public readonly data = signal<IService|null>(null);
     public readonly dataForm = form(signal<{
         amount: number;
         items: IServiceForm[]

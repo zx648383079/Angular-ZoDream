@@ -1,4 +1,4 @@
-<div class="panel-shell" [class]="{'shell-full': tabVisible}">
+<div class="panel-shell" [class]="{'shell-full': tabVisible()}">
     <div class="shell-bar">
         <app-mobile-bar />
     </div>
@@ -13,11 +13,11 @@
             <i class="iconfont icon-arrow-up"></i>
         </div>
     </div>
-    <div class="tab-bar-toggle" (click)="tabVisible = !tabVisible">
-        <i class="iconfont" [class]="{'icon-plus': !tabVisible, 'icon-minus': tabVisible}"></i>
-        {{ tabVisible ? '隐藏' : '显示' }}底部导航
+    <div class="tab-bar-toggle" (click)="toggle()">
+        <i class="iconfont" [class]="{'icon-plus': !tabVisible(), 'icon-minus': tabVisible()}"></i>
+        {{ tabVisible() ? '隐藏' : '显示' }}底部导航
     </div>
-    @if (tabVisible) {
+    @if (tabVisible()) {
     <div class="tab-bar-box">
         <app-tab-bar />
     </div>

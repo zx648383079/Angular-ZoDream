@@ -16,7 +16,7 @@ export class ArticleDetailComponent {
     private readonly sanitizer = inject(DomSanitizer);
 
 
-    public readonly data = signal<IArticle>(null);
+    public readonly data = signal<IArticle|null>(null);
     public readonly content = signal<SafeHtml>(null);
 
     constructor() {

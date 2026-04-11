@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, output, signal } from '@angular/core';
 import { IPoint } from '../../../../theme/utils/canvas';
 
 @Component({
@@ -9,12 +9,16 @@ import { IPoint } from '../../../../theme/utils/canvas';
 })
 export class EditorShellComponent {
 
-    public tabVisible = false;
+    public readonly tabVisible = signal(false);
 
     public readonly resizing = output<IPoint>();
 
     public onMoveStart(event: MouseEvent) {
         event.stopPropagation();
         this.resizing.emit({x: event.clientX, y: event.clientY});
+    }
+
+    public toggle() {
+        this.tabVisible.update(v => !v);
     }
 }

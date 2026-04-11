@@ -240,11 +240,11 @@ export class Widget implements WidgetBound {
     public width: number = 0;
     public height: number = 0;
     public parent?: Widget;
-    public name: string;
+    public name = '';
     public icon?: string;
-    public tag: string;
+    public tag = '';
     public preview?: string;
-    public id: string|number;
+    public id: string|number = '';
     /**
      * 真实尺寸
      */

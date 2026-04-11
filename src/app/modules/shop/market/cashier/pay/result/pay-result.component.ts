@@ -8,5 +8,5 @@ import { Component, signal } from '@angular/core';
 })
 export class PayResultComponent {
 
-    public readonly log = signal<any>(null);
+    public readonly log = signal<any|null>(null);
 }

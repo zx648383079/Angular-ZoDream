@@ -30,7 +30,7 @@ export class CategoryComponent {
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public readonly data = signal<ICategory>(null);
+    public readonly data = signal<ICategory|null>(null);
     public readonly categories = signal<ICategory[]>([]);
 
     constructor() {

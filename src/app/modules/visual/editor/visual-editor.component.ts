@@ -1,4 +1,4 @@
-import { Component, HostListener, afterNextRender, inject } from '@angular/core';
+import { Component, HostListener, afterNextRender, inject, signal } from '@angular/core';
 import { EditorService } from './editor.service';
 
 @Component({
@@ -11,7 +11,7 @@ export class VisualEditorComponent {
     private readonly service = inject(EditorService);
 
 
-    public editable = true;
+    public readonly disabled = signal(false);
 
     constructor() {
         afterNextRender({
@@ -33,14 +33,14 @@ export class VisualEditorComponent {
         this.service.editorSize$.next({
             x: 0,
             y: top,
-            width: this.service.windowSize$.value.width - 2,
-            height: this.service.windowSize$.value.height - top - 2
+            width: this.service.windowSize$.value!.width - 2,
+            height: this.service.windowSize$.value!.height - top - 2
         });
     }
 
 
     public toggleEdit() {
-        this.editable = !this.editable;
+        this.disabled.update(v => !v);
     }
 
 }

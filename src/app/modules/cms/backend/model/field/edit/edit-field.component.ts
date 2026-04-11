@@ -42,7 +42,7 @@ export class EditFieldComponent {
         required(schemaPath.field);
     });
 
-    public readonly data = signal<ICmsModelField>(null);
+    public readonly data = signal<ICmsModelField|null>(null);
     public typeItems: IItem[] = [];
     public readonly tabItems = signal(ArraySource.empty);
 

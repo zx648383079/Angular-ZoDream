@@ -8,9 +8,5 @@ import { Component } from '@angular/core';
 })
 export class ShortcutInfoComponent {
 
-    public isMac = false;
-
-    constructor() {
-        this.isMac = navigator.userAgent.indexOf('Mac') >= 0;
-    }
+    public readonly isMac = navigator.userAgent.indexOf('Mac') >= 0;
 }

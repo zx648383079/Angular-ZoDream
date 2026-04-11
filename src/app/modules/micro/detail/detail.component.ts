@@ -26,8 +26,8 @@ export class DetailComponent {
     private readonly store = inject<Store<AppState>>(Store);
 
 
-    public readonly data = signal<IMicro>(null);
-    public readonly authUser = signal<IUser>(null);
+    public readonly data = signal<IMicro|null>(null);
+    public readonly authUser = signal<IUser|null>(null);
     public readonly editForm = form(signal({
         content: '',
         is_comment: false,

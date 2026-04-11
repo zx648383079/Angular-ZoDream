@@ -20,7 +20,7 @@ export class TopBarComponent {
 
 
     public readonly noticeItems = signal<IArticle[]>([]);
-    public readonly user = signal<IUser>(null);
+    public readonly user = signal<IUser|null>(null);
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {

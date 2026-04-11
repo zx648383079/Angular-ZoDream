@@ -16,23 +16,23 @@ export class EditorService {
     /**
      * 主窗口变化事件
      */
-    public readonly windowSize$ = new BehaviorSubject<ISize>(null);
+    public readonly windowSize$ = new BehaviorSubject<ISize|null>(null);
     /**
      * 整个编辑器的区域，绝对坐标
      */
-    public readonly editorSize$ = new BehaviorSubject<IBound>(null);
+    public readonly editorSize$ = new BehaviorSubject<IBound|null>(null);
     /**
      * 编辑区域，绝对坐标
      */
-    public readonly workspaceSize$ = new BehaviorSubject<IBound>(null);
+    public readonly workspaceSize$ = new BehaviorSubject<IBound|null>(null);
     /**
      * 编辑区域，相对 workspaceSize，不包括标尺的尺寸
     */
-    public readonly workspaceInnerSize$ = new BehaviorSubject<IBound>(null);
+    public readonly workspaceInnerSize$ = new BehaviorSubject<IBound|null>(null);
     /**
      * 相对坐标，相对 workspaceSize
      */
-    public readonly shellSize$ = new BehaviorSubject<IShellBound>(null);
+    public readonly shellSize$ = new BehaviorSubject<IShellBound|null>(null);
 
     public readonly mouseMove$ = new Subject<IPoint>();
     public readonly mouseUp$ = new Subject<IPoint>();
@@ -60,7 +60,7 @@ export class EditorService {
 
     public readonly widgetItems = [...controlSource, ...inputSource, ...panelSource];
 
-    public workspace: IWorkEditor;
+    public workspace: IWorkEditor = {} as any;
 
     constructor() {
         this.mouseMove$.subscribe(res => {
@@ -219,7 +219,7 @@ export class EditorService {
         for (const item of this.widgetItems) {
             let success = true;
             for (const key of keys) {
-                if (item[key] !== source[key]) {
+                if ((item as any)[key] !== (source as any)[key]) {
                     success = false;
                     break;
                 }

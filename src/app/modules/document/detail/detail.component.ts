@@ -21,12 +21,12 @@ export class DetailComponent {
 
 
     public readonly navToggle = signal(false);
-    public readonly project = signal<IProject>(null);
-    public readonly data = signal<IDocApi&IDocPage>(null);
+    public readonly project = signal<IProject|null>(null);
+    public readonly data = signal<IDocApi&IDocPage|null>(null);
     public readonly catalog = signal<IDocPage[]&IDocApi[]>([]);
     public readonly versionItems = signal<IProjectVersion[]>([]);
-    public readonly previous = signal<IDocApi&IDocPage>(null);
-    public readonly next = signal<IDocApi&IDocPage>(null);
+    public readonly previous = signal<IDocApi&IDocPage|null>(null);
+    public readonly next = signal<IDocApi&IDocPage|null>(null);
     public readonly queries = form(signal({
         version: '0',
         keywords: ''

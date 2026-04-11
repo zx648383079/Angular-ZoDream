@@ -40,8 +40,8 @@ export class MessageComponent {
     private readonly location = inject(Location);
     private readonly destroyRef = inject(DestroyRef);
 
-    public navItems: IMessageGroup[] = [];
-    public navIndex = -1;
+    public readonly navItems = signal<IMessageGroup[]>([]);
+    public readonly navIndex = signal(-1);
     public readonly items = signal<IMessageBase[]>([]);
     public readonly hasMore = signal(false);
     public readonly queries = signal({
@@ -55,19 +55,19 @@ export class MessageComponent {
     }), schemaPath => {
         required(schemaPath.content);
     });
-    public authUser: IUser;
-    public dropdownVisible = false;
+    public readonly authUser = signal<IUser|null>(null);
+    public readonly dropdownVisible = signal(false);
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
-            this.authUser = user as any;
+            this.authUser.set(user as any);
         });
         this.themeService.titleChanged.next($localize `My Messages`);
         this.themeService.screenSwitch(this.destroyRef, NavigationDisplayMode.Compact);
         this.route.queryParams.subscribe(params => {
             const extra = parseNumber(params.user);
             this.service.bulletinUser(extra).subscribe(res => {
-                this.navItems = res.data as any[];
+                this.navItems.set(res.data as any[]);
                 this.tapUser(extra);
             });
         });
@@ -77,26 +77,26 @@ export class MessageComponent {
         return this.dataForm.content().value().length;
     })
 
-    public get currentUser(): any {
-        return this.navIndex >= 0 && this.navIndex < this.navItems.length ? this.navItems[this.navIndex] : {};
-    }
+    public readonly currentUser = computed<IUser>(() => {
+        return this.navIndex() >= 0 && this.navIndex() < this.navItems().length ? this.navItems()[this.navIndex()] : {} as any;
+    });
 
 
     public openDropdown() {
-        this.dropdownVisible = !this.dropdownVisible;
+        this.dropdownVisible.update(v => !v);
     }
 
     public tapBack() {
-        if (this.navIndex >= 0) {
-            this.navIndex = -1;
+        if (this.navIndex() >= 0) {
+            this.navIndex.set(-1);
             return;
         }
         this.location.back();
     }
 
     public tapUser(user: number) {
-        for (let i = 0; i < this.navItems.length; i++) {
-            if (this.navItems[i].id === user) {
+        for (let i = 0; i < this.navItems().length; i++) {
+            if (this.navItems()[i].id === user) {
                 this.tapNav(i);
                 return;
             }
@@ -108,14 +108,14 @@ export class MessageComponent {
     }
 
     public tapNav(i: number) {
-        this.navIndex = i;
+        this.navIndex.set(i);
         this.dataForm.content().value.set('');
         this.tapRefresh();
     }
 
     public onMessageTap(item: IBlockItem) {
         if (item.type == 4) {
-            openLink(this.router, item.link);
+            openLink(this.router, item.link!);
         }
     }
 
@@ -124,13 +124,13 @@ export class MessageComponent {
             this.toastrService.warning($localize `Please input the content`);
             return;
         }
-        if (!this.currentUser || this.currentUser.id <= 0) {
+        if (!this.currentUser() || this.currentUser().id <= 0) {
             return;
         }
         e?.enter();
         const data = this.dataForm().value();
         this.service.bulletinSend({
-            user: this.currentUser.id,
+            user: this.currentUser().id,
             ...data
         }).subscribe({
             next: _ => {
@@ -138,7 +138,7 @@ export class MessageComponent {
                 this.items.update(v => {
                     v.push({
                         content: data.content,
-                        user: this.authUser,
+                        user: this.authUser()!,
                         type: 0,
                         created_at: new Date()
                     });
@@ -165,15 +165,15 @@ export class MessageComponent {
         if (lastId < 1) {
             return;
         }
-        const item = this.navIndex >= 0 ? this.navItems[this.navIndex] : null;
+        const item = this.navIndex() >= 0 ? this.navItems()[this.navIndex()] : null;
         this.service.bulletinList({
             ...this.queries(),
-            user: item && item.id > 0 ? item.id : -1,
+            user: item && item.id! > 0 ? item.id : -1,
             last_id: lastId,
             page: 1,
         }).subscribe(res => {
             const items = res.data.map(i => {
-                return {
+                return <IMessageBase>{
                     id: i.id,
                     user: i.bulletin.user,
                     content: i.bulletin.title + '\n' + i.bulletin.content,
@@ -182,7 +182,7 @@ export class MessageComponent {
                     created_at: i.created_at,
                 };
             });
-            this.items.set([].concat(items, this.items));
+            this.items.update(v => [...items, ...v]);
             this.hasMore.set(res.paging.more);
         });
     }
@@ -195,16 +195,16 @@ export class MessageComponent {
             return;
         }
         this.isLoading.set(true);
-        const item = this.navIndex >= 0 ? this.navItems[this.navIndex] : null;
+        const item = this.navIndex() >= 0 ? this.navItems()[this.navIndex()] : null;
         this.service.bulletinList({
             ...this.queries(),
-            user: item && item.id > 0 ? item.id : -1,
+            user: item && item.id! > 0 ? item.id : -1,
             page,
         }).subscribe({
             next: res => {
                 this.isLoading.set(false);
                 const items = res.data.map(i => {
-                    return {
+                    return <IMessageBase>{
                         id: i.id,
                         user: i.bulletin.user,
                         content: i.bulletin.title + '\n' + i.bulletin.content,

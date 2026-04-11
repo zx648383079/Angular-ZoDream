@@ -27,7 +27,7 @@ export class PreviewComponent {
     private readonly sanitizer = inject(DomSanitizer);
     private readonly location = inject(Location);
 
-    public readonly data = signal<IResource>(null);
+    public readonly data = signal<IResource|null>(null);
     public readonly isLoading = signal(false);
     public previewSrc: SafeResourceUrl;
     public resizeItems: ISizeItem[] = [

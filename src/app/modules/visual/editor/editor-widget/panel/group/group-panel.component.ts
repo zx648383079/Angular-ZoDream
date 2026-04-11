@@ -9,7 +9,7 @@ import { PanelWidget } from '../../../model';
 })
 export class GroupPanelComponent  {
 
-    public readonly value = input<PanelWidget>(undefined);
+    public readonly value = input<PanelWidget>();
 
 
 }

@@ -20,7 +20,7 @@ export class CartDialogComponent {
     private readonly router = inject(Router);
 
 
-    public readonly cart = signal<ICart>(null);
+    public readonly cart = signal<ICart|null>(null);
     public readonly cartOpen = signal(false);
 
     constructor() {

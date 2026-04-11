@@ -1,4 +1,4 @@
-import { Component, NgZone, inject, input, viewChild } from '@angular/core';
+import { Component, NgZone, inject, input, signal, viewChild } from '@angular/core';
 import { ContextMenuComponent } from '../../../../components/context-menu';
 import { EditorService } from '../editor.service';
 import { IRuleLine } from '../model';
@@ -10,33 +10,32 @@ import { IRuleLine } from '../model';
     styleUrls: ['./editor-rule-panel.component.scss']
 })
 export class EditorRulePanelComponent {
-    private readonly zone = inject(NgZone);
     private readonly service = inject(EditorService);
 
     public readonly contextMenu = viewChild(ContextMenuComponent);
     public readonly offsetX = input(0);
     public readonly offsetY = input(0);
     public readonly scale = input(1);
-    public tempLine: IRuleLine;
-    public hLines: IRuleLine[] = [];
-    public vLines: IRuleLine[] = [];
-    public lineVisible = true;
+    public readonly tempLine = signal<IRuleLine|null>(null);
+    public readonly hLines = signal<IRuleLine[]>([]);
+    public readonly vLines = signal<IRuleLine[]>([]);
+    public readonly lineVisible = signal(true);
 
     public tapIcon(event: MouseEvent) {
-        this.contextMenu().open(event, [
+        this.contextMenu()!.open(event, [
             {
-                name: this.lineVisible ? '隐藏辅助线' : '显示辅助线',
-                icon: this.lineVisible ? 'icon-eye-slash' : 'icon-eye',
+                name: this.lineVisible() ? '隐藏辅助线' : '显示辅助线',
+                icon: this.lineVisible() ? 'icon-eye-slash' : 'icon-eye',
                 onTapped: () => {
-                    this.lineVisible = !this.lineVisible;
+                    this.lineVisible.update(v => !v);
                 }
             },
             {
                 name: '清空辅助线',
                 icon: 'icon-trash',
                 onTapped: () => {
-                    this.vLines = [];
-                    this.hLines = [];
+                    this.vLines.set([]);
+                    this.hLines.set([]);
                 }
             }
         ]);
@@ -48,25 +47,25 @@ export class EditorRulePanelComponent {
         if (!res) {
             return;
         }
-        this.lineVisible = true;
+        this.lineVisible.set(true);
         if (event.horizontal) {
-            this.hLines.push(event);
+            this.hLines.update(v => [...v, event]);
             return;
         }
-        this.vLines.push(event);
+        this.vLines.update(v => [...v, event]);
     }
 
     public tapRemoveLine(i: number, horizontal: boolean, event: MouseEvent) {
         event.stopPropagation();
         if (horizontal) {
-            this.hLines.splice(i, 1);
+            this.hLines.update(v => v.filter((_, j) => j !== i));
         } else {
-            this.vLines.splice(i, 1);
+            this.vLines.update(v => v.filter((_, j) => j !== i));
         }
     }
 
     public onLineEnd() {
-        this.tempLine = undefined;
+        this.tempLine.set(null);
     }
 
     public onLineMove(event: IRuleLine) {
@@ -75,10 +74,10 @@ export class EditorRulePanelComponent {
             return;
         }
         if (event.horizontal) {
-            this.tempLine = event;
+            this.tempLine.set(event);
             return;
         }
-        this.tempLine = event;
+        this.tempLine.set(event);
     }
 
 }

@@ -9,6 +9,6 @@ import { Widget } from '../../../model';
 })
 export class CarouselControlComponent {
 
-    public readonly value = input<Widget>(undefined);
+    public readonly value = input<Widget>();
 
 }

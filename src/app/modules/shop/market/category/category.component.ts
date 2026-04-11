@@ -19,7 +19,7 @@ export class CategoryComponent {
     private readonly searchService = inject(SearchService);
 
 
-    public readonly category = signal<ICategory>(null);
+    public readonly category = signal<ICategory|null>(null);
     public readonly items = signal<IGoods[]>([]);
     private hasMore = true;
     public readonly isLoading = signal(false);

@@ -15,7 +15,7 @@ export class HomeComponent {
 
     public trendToggle = false;
     public todayData: any = {};
-    public readonly options = signal<EChartsCoreOption>(null);
+    public readonly options = signal<EChartsCoreOption|null>(null);
     public wordItems: any[] = [];
     public sourceItems: any[] = [];
     public enterItems: any[] = [];

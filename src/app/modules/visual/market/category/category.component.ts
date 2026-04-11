@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { VisualService } from '../visual.service';
 import { ActivatedRoute } from '@angular/router';
 import { ICategory } from '../../model';
@@ -15,16 +15,16 @@ export class CategoryComponent {
 
 
     
-    public data: ICategory;
-    public categories: ICategory[] = [];
+    public readonly data = signal<ICategory|null>(null);
+    public readonly categories = signal<ICategory[]>([]);
 
     constructor() {
         this.route.params.subscribe(params => {
             this.service.category({
                 id: params.id
             }).subscribe(res => {
-                this.data = res;
-                this.categories = res.children;
+                this.data.set(res);
+                this.categories.set(res.children!);
             });
         });
     }

@@ -29,7 +29,7 @@ export class EditorScrollBarComponent {
             if (!res) {
                 return;
             }
-            const zoom = this.service.workspaceInnerSize$.value;
+            const zoom = this.service.workspaceInnerSize$.value!;
             if (this.orientation()) {
                 this.onRender(res.size.x, zoom.width, res.size.width, zoom.width);
             } else {

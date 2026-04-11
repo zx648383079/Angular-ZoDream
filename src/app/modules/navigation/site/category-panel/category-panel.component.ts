@@ -12,7 +12,7 @@ export class CategoryPanelComponent {
     public readonly items = input<ISiteCategory[]>([]);
     public readonly changed = output<ISiteCategory>();
 
-    // public readonly current = signal<ISiteCategory>(null);
+    // public readonly current = signal<ISiteCategory|null>(null);
     // public readonly kidItems = signal<ISiteCategory[]>([]);
     public readonly crumbs = signal<number[]>([]);
 

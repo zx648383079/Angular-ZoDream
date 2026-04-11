@@ -3,7 +3,7 @@ import { IStyle, WidgetProperty } from '../model';
 
 export class PropertyUtil {
 
-    public static animation(value: any): IStyle {
+    public static animation(value: any): IStyle|undefined {
         if (!value) {
             return undefined;
         }
@@ -12,7 +12,7 @@ export class PropertyUtil {
                 animation: value
             };
         }
-        const items = [];
+        const items: string[] = [];
         let i = -1;
         eachObject(value, v => {
             ++ i;
@@ -47,7 +47,7 @@ export class PropertyUtil {
         if (value instanceof WidgetProperty) {
             value = value.getMany(['matrix', 'matrix3d', 'translate', 'translate3d', 'translateX', 'translateY', 'translateZ', 'scale', 'scale3d', 'scaleX', 'scaleY', 'scaleZ', 'rotate', 'rotate3d', 'rotateX', 'rotateY', 'rotateZ', 'skew', 'skewX', 'skewY', 'perspective', 'transform']);
         }
-        let items = [];
+        let items: string[] = [];
         const each = (data: any) => {
             eachObject(data, (v, k) => {
                 if (!v) {

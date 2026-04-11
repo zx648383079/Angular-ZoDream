@@ -17,7 +17,7 @@ export class HelpComponent {
 
 
     public readonly items = signal<any[]>([]);
-    public readonly data = signal<IArticle>(null);
+    public readonly data = signal<IArticle|null>(null);
     public readonly content = signal<SafeHtml>(null);
 
     constructor() {

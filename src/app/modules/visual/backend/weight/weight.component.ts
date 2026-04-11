@@ -1,7 +1,6 @@
 import { form } from '@angular/forms/signals';
 import { Component, computed, inject, signal } from '@angular/core';
 import { ICategory, IThemeComponent } from '../../model';
-import { IPageQueries } from '../../../../theme/models/page';
 import { VisualService } from '../visual.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
@@ -38,7 +37,7 @@ export class WeightComponent {
 
     constructor() {
         this.service.categoryTree().subscribe(res => {
-            this.categories = res.data;
+            this.categories = res.data!;
         });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
