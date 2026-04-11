@@ -36,7 +36,10 @@ export class EditorService {
 
     public readonly mouseMove$ = new Subject<IPoint>();
     public readonly mouseUp$ = new Subject<IPoint>();
-    private mouseMoveListeners = {
+    private mouseMoveListeners: {
+        move?: (p: IPoint) => void,
+        finish?: (p: IPoint) => void,
+    } = {
         move: undefined,
         finish: undefined,
     };

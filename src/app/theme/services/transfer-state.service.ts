@@ -1,11 +1,7 @@
 import { Injectable, PLATFORM_ID, TransferState, makeStateKey, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
-/**
- * Keep caches (makeStateKey) into it in each `setCache` function call
- * type any[]
- */
-const transferStateCache: String[] = [];
+const transferStateCache = {} as any;
 
 @Injectable()
 export class TransferStateService {
@@ -13,32 +9,18 @@ export class TransferStateService {
     private platformId = inject<Object>(PLATFORM_ID);
 
 
-    /**
-    * Set cache only when it's running on server
-    * @param string key
-    * @param data Data to store to cache
-    */
-    setCache(key: string, data: any) {
+    public setCache(key: string, data: any) {
         if (!isPlatformBrowser(this.platformId)) {
             transferStateCache[key] = makeStateKey<any>(key);
             this.transferState.set(transferStateCache[key], data);
         }
     }
 
-
-    /**
-    * Returns stored cache only when it's running on browser
-    * @param string key
-    * @returns any cachedData
-    */
-    getCache(key: string): any {
+    public getCache(key: string): any {
         if (isPlatformBrowser(this.platformId)) {
-            const cachedData: any = this.transferState['store'][key];
-            /**
-            * Delete the cache to request the data from network next time which is the
-            * user's expected behavior
-            */
-            delete this.transferState['store'][key];
+            transferStateCache[key] = makeStateKey<any>(key);
+            const cachedData: any = this.transferState.get(transferStateCache[key], null);
+            this.transferState.remove(transferStateCache[key]);
             return cachedData;
         }
     }

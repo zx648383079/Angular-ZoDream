@@ -90,7 +90,7 @@ export class PasswordStrongComponent {
                 continue;
             }
             if (item.check.test(value)) {
-                score += item.score;
+                score += item.score!;
             }
         }
         this.score.set(score);

@@ -1,6 +1,6 @@
-import { Component, DestroyRef, ElementRef,  HostListener, afterNextRender, effect, inject, input, signal, viewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef,  HostListener, afterNextRender, computed, effect, inject, input, signal, viewChild } from '@angular/core';
 import { IMediaFile, PlayerEvent, PlayerEvents, PlayerListeners, PlayerLoopMode } from '../model';
-import { assetUri, findIndex, randomInt } from '../../../../theme/utils';
+import { assetUri, findIndex, randomInt, rangeStep } from '../../../../theme/utils';
 
 @Component({
     standalone: false,
@@ -14,39 +14,39 @@ export class MusicPlayerComponent implements PlayerEvent {
     private readonly boxBody = viewChild<ElementRef<HTMLDivElement>>('playerBar');
     public readonly isFixed = input(true);
     public readonly hidden = input(false);
-    public lyricsWidth = 0;
-    public lyricsHeight = 200;
-    public catalogVisible = false;
-    public lyricsVisible = false;
-    public spectrumVisible = false;
-    public moreVisible = false;
-    public morePanelVisible = false;
-    public loop: number = PlayerLoopMode.LIST;
-    public paused = true;
-    public booted = false;
+    public readonly lyricsWidth = signal(0);
+    public readonly lyricsHeight = signal(200);
+    public readonly catalogVisible = signal(false);
+    public readonly lyricsVisible = signal(false);
+    public readonly spectrumVisible = signal(false);
+    public readonly moreVisible = signal(false);
+    public readonly morePanelVisible = signal(false);
+    public readonly loop = signal<number>(PlayerLoopMode.LIST);
+    public readonly paused = signal(true);
+    public readonly booted = signal(false);
     public readonly items = signal<IMediaFile[]>([]);
     public index = -1;
-    public data: IMediaFile;
-    public progress = 0;
-    public duration = 0;
-    public loaded = 0;
-    public volume = 100;
-    public channelData: number[] = [];
-    public lyricsSrc = '';
-    private audioElement: HTMLAudioElement;
-    private spectrumFunc: () => void;
+    public readonly data = signal<IMediaFile|null>(null);
+    public readonly progress = signal(0);
+    public readonly duration = signal(0);
+    public readonly loaded = signal(0);
+    public readonly volume = signal(100);
+    public readonly channelData = signal<number[]>([]);
+    public readonly lyricsSrc = signal('');
+    private audioElement?: HTMLAudioElement;
+    private spectrumFunc?: () => void;
     private volumeLast = 100;
     private listeners: {
         [key: string]: Function[];
     } = {};
 
-    public get canPrevious() {
+    public readonly canPrevious = computed(() => {
         return this.items().length > 1 && this.index > 0;
-    }
+    });
 
-    public get canNext() {
+    public readonly canNext = computed(() => {
         return this.items().length > 1 && this.index < this.items().length - 1;
-    }
+    });
 
     private get audio(): HTMLAudioElement {
         if (!this.audioElement) {
@@ -58,8 +58,8 @@ export class MusicPlayerComponent implements PlayerEvent {
         return this.audioElement;
     }
 
-    public get loopTip() {
-        switch (this.loop) {
+    public readonly loopTip = computed(() => {
+        switch (this.loop()) {
             case PlayerLoopMode.LOOP:
                 return '循环播放';
             case PlayerLoopMode.RANDOM:
@@ -71,17 +71,17 @@ export class MusicPlayerComponent implements PlayerEvent {
             default:
                 return '顺序播放';
         }
-    }
+    });
 
     constructor() {
         effect(() => {
-            this.hidden()
-            if (this.booted) {
+            this.hidden();
+            if (this.booted()) {
                 this.resize();
             }
         });
         this.destroyRef.onDestroy(() => {
-            if (this.paused) {
+            if (this.paused()) {
                 return;
             }
             this.audio.pause();
@@ -91,7 +91,7 @@ export class MusicPlayerComponent implements PlayerEvent {
                 setTimeout(() => {
                     this.resize();
                 }, 100);
-                this.booted = true;
+                this.booted.set(true);
             }
         });
     }
@@ -102,8 +102,16 @@ export class MusicPlayerComponent implements PlayerEvent {
         if (!width || width <= 0) {
             return;
         }
-        this.lyricsWidth = width;
-        this.moreVisible = width < 769;
+        this.lyricsWidth.set(width);
+        this.moreVisible.set(width < 769);
+    }
+
+    public toggleCatalog() {
+        this.catalogVisible.update(v => !v);
+    }
+
+    public toggleMore() {
+        this.morePanelVisible.update(v => !v);
     }
 
     public formatAsset(val?: string) {
@@ -125,19 +133,19 @@ export class MusicPlayerComponent implements PlayerEvent {
     }
 
     public toggleLoop() {
-        let i = this.loop + 1;
+        let i = this.loop() + 1;
         if (i > 4) {
             i = 0;
         }
-        this.loop = i;
+        this.loop.set(i);
     }
 
     public togglePlay() {
-        if (!this.paused) {
+        if (!this.paused()) {
             this.pause();
             return;
         }
-        if (this.data) {
+        if (this.data()) {
             this.audio.play();
             return;
         }
@@ -145,22 +153,22 @@ export class MusicPlayerComponent implements PlayerEvent {
     }
 
     private nextIndex(): number {
-        if (this.loop === PlayerLoopMode.ONCE) {
+        if (this.loop() === PlayerLoopMode.ONCE) {
             return -1;
         }
-        if (this.loop === PlayerLoopMode.ONLY_LOOP) {
+        if (this.loop() === PlayerLoopMode.ONLY_LOOP) {
             return this.index;
         }
         if (this.items().length <= 1) {
-            return this.loop === PlayerLoopMode.LOOP ? this.index : -1;
+            return this.loop() === PlayerLoopMode.LOOP ? this.index : -1;
         }
         const max = this.items().length - 1;
-        if (this.loop === PlayerLoopMode.RANDOM) {
+        if (this.loop() === PlayerLoopMode.RANDOM) {
             const i = randomInt(0, max);
             return i === this.index ? this.checkIndex(i + 1) : i;
         }
         const i = this.index ++;
-        if (this.loop === PlayerLoopMode.LOOP) {
+        if (this.loop() === PlayerLoopMode.LOOP) {
             return this.checkIndex(i);
         }
         if (i >= this.items().length) {
@@ -188,15 +196,15 @@ export class MusicPlayerComponent implements PlayerEvent {
             return;
         }
         if (this.index === i) {
-            if (this.paused) {
+            if (this.paused()) {
                 this.audio.play();
             }
             return;
         }
         this.index = i;
-        this.data = this.items[i];
-        this.audio.src = this.data.source;
-        this.paused = false;
+        this.data.set(this.items()[i]);
+        this.audio.src = this.data()!.source;
+        this.paused.set(false);
         this.audio.play();
         this.items.update(v => {
             return v.map((item, j) => {
@@ -220,51 +228,51 @@ export class MusicPlayerComponent implements PlayerEvent {
         this.playTo(i);
     }
     public pause(): void {
-        if (this.paused) {
+        if (this.paused()) {
             return;
         }
         this.audio.pause();
     }
     public stop(): void {
-        if (!this.paused) {
+        if (!this.paused()) {
             this.audio.pause();
         }
         this.audio.src = '';
         this.items.set([]);
         this.index = -1;
-        this.data = undefined;
+        this.data.set(null);
     }
 
     public tapVolume() {
-        if (this.volume <= 0) {
+        if (this.volume() <= 0) {
             this.onVolumeChange(this.volumeLast);
             return;
         }
-        this.volumeLast = this.volume;
+        this.volumeLast = this.volume();
         this.onVolumeChange(0);
     }
 
     public onVolumeChange(v: number) {
-        this.volume = v;
+        this.volume.set(v);
         if (this.audioElement) {
-            this.audioElement.volume = this.volume / 100;
+            this.audioElement.volume = this.volume() / 100;
         }
     }
 
     
     public onProgressChange(i: number) {
         this.audio.currentTime = i;
-        if (this.paused) {
+        if (this.paused()) {
             this.audio.play();
         }
     }
 
     public toggleSpectrum() {
-        if (!this.data) {
+        if (!this.data()) {
             return;
         }
-        this.spectrumVisible = !this.spectrumVisible;
-        if (this.spectrumVisible) {
+        this.spectrumVisible.update(v => !v);
+        if (this.spectrumVisible()) {
             this.bootSpectrum();
         }
     }
@@ -279,19 +287,16 @@ export class MusicPlayerComponent implements PlayerEvent {
         src.connect(fen);
         fen.connect(context.destination);
         this.spectrumFunc = () => {
-            if (!this.spectrumVisible) {
+            if (!this.spectrumVisible()) {
                 return;
             }
-            if (this.paused) {
-                this.channelData = [];
+            if (this.paused()) {
+                this.channelData.set([]);
                 return;
             }
             const items = new Uint8Array(fen.frequencyBinCount);
             fen.getByteFrequencyData(items);
-            this.channelData = [];
-            for (let index = 0; index < 200; index++) {
-                this.channelData.push(items[index]);
-            }
+            this.channelData.set(rangeStep(0, 199, 1, i => items[i]));
         };
         const cb = () => {
             const handle = window.requestAnimationFrame(() => {
@@ -308,12 +313,12 @@ export class MusicPlayerComponent implements PlayerEvent {
     }
 
     public toggleLyrics() {
-        if (!this.data) {
+        if (!this.data()) {
             return;
         }
-        this.lyricsVisible = !this.lyricsVisible;
-        if (this.lyricsVisible) {
-            this.lyricsSrc = this.data.lyrics;
+        this.lyricsVisible.update(v => !v);
+        if (this.lyricsVisible()) {
+            this.lyricsSrc.set(this.data()?.lyrics!);
         }
     }
 
@@ -382,17 +387,17 @@ export class MusicPlayerComponent implements PlayerEvent {
     }
 
     private bindAudioEvent() {
-        const audio = this.audioElement;
+        const audio = this.audioElement!;
         audio.addEventListener('timeupdate', () => {
             this.emit(PlayerEvents.TIME_UPDATE);
             if (isNaN(audio.duration) || !isFinite(audio.duration) || audio.duration <= 0) {
-                this.progress = 0;
-                this.duration = 0;
-                this.loaded = 0;
+                this.progress.set(0);
+                this.duration.set(0);
+                this.loaded.set(0);
                 return;
             }
-            this.progress = audio.currentTime;
-            this.duration = audio.duration;
+            this.progress.set(audio.currentTime);
+            this.duration.set(audio.duration);
         });
         audio.addEventListener('loadedmetadata', () => {
             audio.currentTime = 0;
@@ -401,31 +406,31 @@ export class MusicPlayerComponent implements PlayerEvent {
             }
         })
         audio.addEventListener('canplay', () => {
-            this.loaded = audio.buffered.length ? audio.buffered.end(audio.buffered.length - 1) : 0;
+            this.loaded.set(audio.buffered.length ? audio.buffered.end(audio.buffered.length - 1) : 0);
         });
         audio.addEventListener('progress', () => {
-            this.loaded = audio.buffered.length ? audio.buffered.end(audio.buffered.length - 1) : 0;
+            this.loaded.set(audio.buffered.length ? audio.buffered.end(audio.buffered.length - 1) : 0);
         });
         audio.addEventListener('ended', () => {
-            this.paused = true;
+            this.paused.set(true);
             this.emit(PlayerEvents.ENDED);
-            this.data.active = false;
+            this.data.update(v => (<IMediaFile>{...v, active: false}));
             this.playNext();
         });
         audio.addEventListener('error', e => {
-            this.paused = true;
+            this.paused.set(true);
         });
         audio.addEventListener('pause', () => {
-            this.paused = true;
+            this.paused.set(true);
             this.emit(PlayerEvents.PAUSE);
         });
         audio.addEventListener('play', () => {
-            this.paused = false;
-            this.data.active = true;
+            this.paused.set(false);
+            this.data.update(v => (<IMediaFile>{...v, active: true}));
             this.emit(PlayerEvents.PLAY);
         });
-        if (this.volume > 0) {
-            this.volume = this.audioElement.volume * 100;
+        if (this.volume() > 0) {
+            this.volume.set(this.audioElement!.volume * 100);
         }
     }
 }

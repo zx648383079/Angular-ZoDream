@@ -38,13 +38,11 @@ export class CookieService {
         if (this.documentIsAccessible && this.check(name)) {
             name = encodeURIComponent(name);
 
-            const regExp: RegExp = this.getCookieRegExp(name);
-            const result: RegExpExecArray = regExp.exec(this.document.cookie);
-
-            return this.safeDecodeURIComponent(result[1]);
-        } else {
-            return '';
+            const regExp = this.getCookieRegExp(name);
+            const result = regExp.exec(this.document.cookie);
+            return !result ? '' : this.safeDecodeURIComponent(result[1]);
         }
+        return '';
     }
 
     /**
@@ -59,7 +57,7 @@ export class CookieService {
         const document: any = this.document;
 
         if (document.cookie && document.cookie !== '') {
-            document.cookie.split(';').forEach((currentCookie) => {
+            document.cookie.split(';').forEach((currentCookie: string) => {
                 const [cookieName, cookieValue] = currentCookie.split('=');
                 cookies[this.safeDecodeURIComponent(cookieName.replace(/^ /, ''))] = this.safeDecodeURIComponent(cookieValue);
             });

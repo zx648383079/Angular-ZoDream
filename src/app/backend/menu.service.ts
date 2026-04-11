@@ -136,10 +136,10 @@ export class MenuService {
             items: [],
             bottom: [],
         };
-        const roles = this.get<string[]>(ROLE_OPTION_KEY, []);
+        const roles = this.get<string[]>(ROLE_OPTION_KEY, [])!;
         const path = window.location.pathname.substring(9);
         eachObject(this.readyMap, (items, k) => {
-            let formatItems = [];
+            const formatItems: INavLink[] = [];
             eachObject(items, (source: MenuReadyFn|INavLink[], key: string) => {
                 this.currentBasePath = this.formatRoutePath(key);
                 const formatSource = this.filterNavByRole(typeof source === 'function' ? (source as MenuReadyFn).call(this, this.currentBasePath, this.get(this.currentBasePath), this.option) : this.filterNav(source, this.currentBasePath), roles);
@@ -152,7 +152,7 @@ export class MenuService {
                 }
                 formatItems.push(...formatSource);
             });
-            data[k] = formatItems;
+            (data as any)[k] = formatItems;
         });
         const user = this.get<IUser>(USER_OPTION_KEY);
         if (user && data.bottom.length > 0) {
@@ -227,7 +227,7 @@ export class MenuService {
         items.forEach(item => {
             const children = !item.children ? undefined : this.filterNav(item.children, base);
             const dist = {...item, children};
-            dist.url = this.formatUrl(dist.url, base);
+            dist.url = this.formatUrl(dist.url!, base);
             data.push(dist);
         });
         return data;

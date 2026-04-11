@@ -12,12 +12,12 @@ import {
 import {
     BackendService
 } from './backend.service';
-import { AuthActions } from '../theme/actions';
 import { DialogService } from '../components/dialog';
 import { MenuService } from './menu.service';
 import { ThemeService } from '../theme/services';
 import { INavLink } from '../theme/models/seo';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { setRoleUser } from '../theme/actions';
 
 @Component({
     standalone: false,
@@ -27,7 +27,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class BackendComponent {
     private readonly store = inject<Store<AppState>>(Store);
-    private readonly actions = inject(AuthActions);
     private readonly destroyRef = inject(DestroyRef);
     private readonly service = inject(BackendService);
     private readonly toastrService = inject(DialogService);
@@ -53,7 +52,7 @@ export class BackendComponent {
         });
         this.service.roles().subscribe(res => {
             // 设置 roles
-            this.store.dispatch(this.actions.setRole(res.permissions));
+            this.store.dispatch(setRoleUser({roles: res.permissions}));
             if (res.role) {
                 this.toastrService.success('欢迎您！' + res.role.display_name);
             }

@@ -12,9 +12,6 @@ import {
     isPlatformBrowser
 } from '@angular/common';
 import {
-    AuthActions
-} from '../actions';
-import {
     Store
 } from '@ngrx/store';
 import {
@@ -38,6 +35,7 @@ import { DialogService } from '../../components/dialog';
 import { setSystemConfig } from '../actions/system.actions';
 import { selectAuth } from '../reducers/auth.selectors';
 import { Router } from '@angular/router';
+import { checkingUser, loginUser, logoutUser, updateUser } from '../actions';
 
 const USER_KEY = 'user';
 
@@ -45,7 +43,6 @@ const USER_KEY = 'user';
 export class AuthService {
 
     private readonly http = inject(HttpClient);
-    private readonly actions = inject(AuthActions);
     private readonly store = inject(Store<AppState>);
     private readonly router = inject(Router);
     private readonly toastrService = inject(DialogService);
@@ -81,14 +78,14 @@ export class AuthService {
     }
 
     public login(data: any): Observable<IUser> {
-        this.store.dispatch(this.actions.checking());
+        this.store.dispatch(checkingUser({loading: true}));
         return this.http.post<IUser>('auth/login', data).pipe(
             map(user => {
                 this.setUser(user);
                 return user;
             }), 
             catchError(err => {
-                this.store.dispatch(this.actions.checking(false));
+                this.store.dispatch(checkingUser({loading: false}));
                 throw err;
             }),
         );
@@ -102,7 +99,7 @@ export class AuthService {
      *
      */
     public register(data: any): Observable<IUser> {
-        this.store.dispatch(this.actions.checking());
+        this.store.dispatch(checkingUser({loading: true}));
         return this.http.post<IUser>('auth/register', data).pipe(
             map(user => {
                 this.setUser(user);
@@ -113,7 +110,7 @@ export class AuthService {
 
     public logout() {
         return this.http.post('auth/logout', {}).pipe(
-            map((res: Response) => {
+            map(res => {
                 this.logoutUser();
                 return res;
             })
@@ -152,7 +149,7 @@ export class AuthService {
         if (isPlatformBrowser(this.platformId)) {
             localStorage.clear();
         }
-        this.store.dispatch(this.actions.logout());
+        this.store.dispatch(logoutUser());
     }
 
     public loadProfile(extra: string) {
@@ -161,7 +158,7 @@ export class AuthService {
         }).pipe(
             map(res => {
                 if (res) {
-                    this.store.dispatch(this.actions.update(res));
+                    this.store.dispatch(updateUser({user:res}));
                 }
                 return res;
             })
@@ -195,7 +192,7 @@ export class AuthService {
 
     public getUserToken() {
         if (isPlatformBrowser(this.platformId)) {
-            const user: IUser = JSON.parse(localStorage.getItem(USER_KEY));
+            const user: IUser = JSON.parse(localStorage.getItem(USER_KEY) ?? '');
             return user ? user.token : null;
         } else {
             return null;
@@ -215,7 +212,7 @@ export class AuthService {
         if (!token) {
             return;
         }
-        this.store.dispatch(this.actions.checking());
+        this.store.dispatch(checkingUser({loading: true}));
         this.http.get<IUser>('auth/user', {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -226,7 +223,7 @@ export class AuthService {
                 this.setUser(user);
             },
             error: _ => {
-                this.store.dispatch(this.actions.checking(false));
+                this.store.dispatch(checkingUser({loading: false}));
             }
         });
     }
@@ -238,7 +235,7 @@ export class AuthService {
         let token = '';
         const user = this.loadFromStorage();
         if (user) {
-            token = user.token;
+            token = user.token!;
         }
         const key = this.loadFromCookie();
         if (key) {
@@ -250,7 +247,7 @@ export class AuthService {
             }
         } : {};
         if (token) {
-            this.store.dispatch(this.actions.checking());
+            this.store.dispatch(checkingUser({loading: true}));
         }
         this.http.post<{
             seo_configs: any,
@@ -268,11 +265,11 @@ export class AuthService {
                     user.token = token;
                     this.setUser(user, false);
                 } else {
-                    this.store.dispatch(this.actions.checking(false));
+                    this.store.dispatch(checkingUser({loading: false}));
                 }
             },
             error: _ => {
-                this.store.dispatch(this.actions.checking(false));
+                this.store.dispatch(checkingUser({loading: false}));
             }
         });
     }
@@ -286,7 +283,7 @@ export class AuthService {
         if (withToken) {
             this.setTokenInLocalStorage(user);
         }
-        this.store.dispatch(this.actions.login(user));
+        this.store.dispatch(loginUser({user}));
     }
 
     private loadFromStorage(): IUser|undefined {

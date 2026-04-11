@@ -34,7 +34,7 @@ export class SearchControlComponent implements SuggestChangeEvent, DialogBaseEve
     constructor() {
         this.router.events.pipe(
             filter(
-                (event: NavigationStart) => this.visible() && event.navigationTrigger === 'popstate'
+                event => this.visible() && (event as NavigationStart).navigationTrigger === 'popstate'
             )
         )
         .subscribe(() => {

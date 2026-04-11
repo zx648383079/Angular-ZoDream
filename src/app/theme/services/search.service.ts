@@ -24,7 +24,7 @@ export class SearchService {
     */
     public getQueries<T>(routeQueries: any, def: T): T {
         const queries: any = {};
-        eachObject(def, (val, key) => {
+        eachObject<string, any>(def, (val, key) => {
             if (!routeQueries || !Object.prototype.hasOwnProperty.call(routeQueries, key)) {
                 queries[key] = val;
                 return;
@@ -34,7 +34,7 @@ export class SearchService {
                 return;
             }
             if (typeof val === 'boolean') {
-                queries[key] = routeQueries[key] === true || routeQueries[key] === '1' || routeQueries[key] === 'true';
+                queries[key] = routeQueries[key] === true || routeQueries[key] === '1' || routeQueries[key!] === 'true';
                 return;
             }
             queries[key] = typeof routeQueries[key] === 'undefined' || routeQueries[key] === null ? '' : routeQueries[key];
@@ -88,7 +88,7 @@ export class SearchService {
             [exclude, title] = [title, HistoryTitle]
         }
         let params: any = {};
-        eachObject(queries, (val, key) => {
+        eachObject<string, any>(queries, (val, key) => {
             if (exclude && exclude.indexOf(key as string) >= 0) {
                 return;
             }

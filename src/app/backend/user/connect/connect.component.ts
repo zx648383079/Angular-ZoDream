@@ -20,7 +20,7 @@ export class ConnectComponent {
 
     public tapRefresh() {
         this.service.connect().subscribe(res => {
-            this.items.set(res);
+            this.items.set(res!);
         });
     }
 }

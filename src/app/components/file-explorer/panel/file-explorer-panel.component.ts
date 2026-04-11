@@ -89,11 +89,11 @@ export class FileExplorerPanelComponent implements IFileDataSource {
         if (i < 0 || i >= this.count()) {
             return;
         }
-        return this.items[i];
+        return this.items()[i];
     }
 
     private formatValue(item: IFileItem, k: string) {
-        return item[k];
+        return (item as any)[k];
     }
 
     public search(path: string, keywords?: string) {
@@ -147,7 +147,7 @@ export class FileExplorerPanelComponent implements IFileDataSource {
     }
 
     public tapFile(item: IFileItem) {
-        if (this.listEditable) {
+        if (this.listEditable()) {
             if (item.checkable) {
                 item.checked = !item.checked;
                 this.items.update(v => [...v]);
@@ -183,11 +183,11 @@ export class FileExplorerPanelComponent implements IFileDataSource {
             ...this.queries().value(),
             page,
         }).subscribe({
-            next: (res: IPage<IFileItem>) => {
+            next: res => {
                 this.isLoading.set(false);
                 this.page = page;
-                this.hasMore.set(res.paging ? res.paging.more : false);
-                const data = res.data.map(i => {
+                this.hasMore.set((res as any).paging ? (res as any).more : false);
+                const data = res.data!.map(i => {
                     if (!i.icon) {
                         i.icon = i.isFolder ? 'icon-folder-o' : 'icon-file-o';
                     }

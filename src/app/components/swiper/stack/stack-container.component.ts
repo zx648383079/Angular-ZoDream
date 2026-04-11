@@ -83,7 +83,7 @@ export class StackContainerComponent implements SwiperEvent {
         //     return;
         // }
         for (let i = 0; i < this.items().length; i++) {
-            this.items().at(i).index = i - to;
+            this.items().at(i)!.index = i - to;
         }
     }
 }

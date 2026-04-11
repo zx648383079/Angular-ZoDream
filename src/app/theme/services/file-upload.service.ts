@@ -228,10 +228,10 @@ export class FileUploadService {
             console.log('fileName error');
             return;
         }
-        const data = result.body;
+        const data = result.body!;
         const blob = new Blob([data], {
-                type: fileType || data.type,
-            });
+            type: fileType || data.type,
+        });
         const objectUrl = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.setAttribute('style', 'display:none');
@@ -269,7 +269,7 @@ export class FileUploadService {
         );
     }
 
-    private parseFileName(header: string, def?: string): string {
+    private parseFileName(header?: string|null, def?: string): string|undefined {
         if (!header) {
             return def;
         }

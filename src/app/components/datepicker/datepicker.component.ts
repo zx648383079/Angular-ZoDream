@@ -65,9 +65,9 @@ export class DatepickerComponent {
             })
         });
         effect(() => {
-            if (this.minimum() >= this.currentDate) {
+            if (this.minimum()! >= this.currentDate) {
                 // 加一天
-                this.currentDate = new Date(this.minimum().getTime() + 86400000);
+                this.currentDate = new Date(this.minimum()!.getTime() + 86400000);
             }
         });
         this.refresh();

@@ -13,11 +13,11 @@ export class EditorImageComponent implements IEditorModal {
 
 
     public readonly visible = signal(false);
-    public fileName = this.uploadService.uniqueGuid();
+    public readonly fileName = this.uploadService.uniqueGuid();
     public readonly tabIndex = signal(0);
     public readonly url = signal('');
     public readonly isLoading = signal(false);
-    private confirmFn: EditorModalCallback;
+    private confirmFn?: EditorModalCallback;
 
     public open(data: any, cb: EditorModalCallback) {
         this.visible.set(true);

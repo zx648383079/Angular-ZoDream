@@ -52,7 +52,7 @@ export class ProgressBarComponent {
         if (!this.isMouseMove) {
             return;
         }
-        const div = this.box().nativeElement as HTMLDivElement;
+        const div = this.box()!.nativeElement as HTMLDivElement;
         const bound = div.getBoundingClientRect();
         const offset = event.clientX - bound.left;
         this.tapProgress(offset * 100 / bound.width);
@@ -66,7 +66,7 @@ export class ProgressBarComponent {
     constructor() {
         afterNextRender({
             write: () => {
-                const div = this.box().nativeElement as HTMLDivElement;
+                const div = this.box()!.nativeElement as HTMLDivElement;
                 div.addEventListener('click', (event) => {
                     const bound = div.getBoundingClientRect();
                     this.tapProgress((event.clientX - bound.left) * 100 / bound.width);
@@ -74,7 +74,7 @@ export class ProgressBarComponent {
                 div.addEventListener('mousedown', (event) => {
                     const bound = div.getBoundingClientRect();
                     const offset = event.clientX - bound.left;
-                    const innerWidth = div.querySelector('.inner-bar').getBoundingClientRect().width;
+                    const innerWidth = div.querySelector('.inner-bar')!.getBoundingClientRect().width;
                     if (Math.abs(offset - innerWidth) < 3) {
                         this.isMouseMove = true;
                     }

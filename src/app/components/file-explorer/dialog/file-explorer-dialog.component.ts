@@ -28,7 +28,7 @@ export class FileExplorerDialogComponent {
     public pathIsInputing = false;
     private historyItems: string[] = [];
     private historyIndex = -1;
-    private modalRef: ComponentRef<IFileExplorerTool>;
+    private modalRef?: ComponentRef<IFileExplorerTool>;
 
     public get canBack() {
         if (this.historyIndex < 0) {
@@ -76,7 +76,7 @@ export class FileExplorerDialogComponent {
 
     public tapRefresh() {
         this.pathIsInputing = false;
-        this.panel().tapRefresh();
+        this.panel()!.tapRefresh();
     }
 
     public tapBreadcrumb(item: IBreadcrumbItem, e?: MouseEvent) {
@@ -94,7 +94,7 @@ export class FileExplorerDialogComponent {
     public tapConfirmSearch(e?: SubmitEvent) {
         e?.preventDefault();
         this.pathIsInputing = false;
-        this.panel().search(this.queries.path().value(), this.queries.keywords().value());
+        this.panel()!.search(this.queries.path().value(), this.queries.keywords().value());
     }
 
     public onCatalogTap(path: string) {
@@ -119,7 +119,7 @@ export class FileExplorerDialogComponent {
     private enterPath(path: string, useHistory = false) {
         this.applyPath(path, useHistory);
         this.queries.keywords().value.set('');
-        this.panel().search(path);
+        this.panel()!.search(path);
     }
 
     private addHistory(path: string) {
@@ -196,9 +196,9 @@ export class FileExplorerDialogComponent {
             return;
         }
         let tool = FileExplorerImageEditorComponent;
-        this.modalRef = this.modalViewContainer().createComponent<IFileExplorerTool>(tool, {
+        this.modalRef = this.modalViewContainer()!.createComponent<IFileExplorerTool>(tool, {
             injector: this.injector
         });
-        this.modalRef.instance.open(file, this.panel());
+        this.modalRef.instance.open(file, this.panel()!);
     }
 }

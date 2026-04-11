@@ -42,7 +42,7 @@ export class DialogMessageComponent {
         const option = data.data;
         this.title = option.title || '';
         this.content = option.content || '';
-        this.applyTheme(option.type);
+        this.applyTheme(option.type!);
         const timeHandle = setTimeout(() => {
             this.visible.set(false);
         }, option.time || 2000);

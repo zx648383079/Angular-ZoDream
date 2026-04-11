@@ -113,7 +113,7 @@ export class FlipContainerComponent implements SwiperEvent {
         if (!this.backable) {
             return;
         }
-        const last = this.historyItems.pop();
+        const last = this.historyItems.pop()!;
         this.animateFlip(last, this.lastIndex, true);
     }
 

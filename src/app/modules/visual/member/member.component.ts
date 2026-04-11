@@ -37,7 +37,7 @@ export class MemberComponent {
 
     constructor() {
         this.service.categoryTree().subscribe(res => {
-            this.categories = res.data;
+            this.categories = res.data!;
         });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));

@@ -59,7 +59,7 @@ export class MarkdownEditorComponent implements FormValueControl<string>, IEdito
         });
         effect(() => this.container.value = this.value());
         afterNextRender({
-            write: () => this.container.ready(this.areaElement().nativeElement, this.modalViewContainer())
+            write: () => this.container.ready(this.areaElement()!.nativeElement, this.modalViewContainer())
         });
         this.destroyRef.onDestroy(() => this.container.destroy());
     }

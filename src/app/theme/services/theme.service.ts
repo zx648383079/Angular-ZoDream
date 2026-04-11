@@ -126,13 +126,13 @@ export class ThemeService {
     /**
      * 清除背景图片
      */
-    public setBackground();
+    public setBackground(): void;
     /**
      * 设置背景图片
      * @param url 
      */
-    public setBackground(url: string);
-    public setBackground(url?: string) {
+    public setBackground(url: string): void;
+    public setBackground(url?: string): void {
         css(this.body, 'background-image', url ? `url(${url})` : '');
     }
 
@@ -182,4 +182,22 @@ export class ThemeService {
     // public unbind(target: HTMLDivElement) {
 
     // }
+
+    public get isFullScreen() {
+        return !!this.document.fullscreenElement;
+    }
+
+    public requestFullScreen(element?: any) {
+        if (!element) {
+            element = this.document.documentElement;
+        }
+        element.requestFullscreen();
+    }
+
+    public exitFullScreen(element?: any) {
+        if (!element) {
+            element = this.document.documentElement;
+        }
+        element.exitFullscreen();
+    }
 }

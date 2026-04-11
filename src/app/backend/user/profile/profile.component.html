@@ -7,9 +7,9 @@
                     <div class="input-group-control avatar-input">
                         <label for="avatar">头像</label>
                         <div>
-                            @if (data) {
+                            @if (data()) {
                             <div class="avatar">
-                                <img [src]="data.avatar">
+                                <img [src]="data().avatar">
                             </div>
                             }
                             <label for="fileUpload" class="btn btn-light">更改头像</label>
@@ -57,8 +57,8 @@
 <app-dialog-box #modal title="确认注销此账户" confirmText="确定注销" cancelText="暂不注销">
     <p class="tip">账户注销后，您所有的记录将永远消失。 <br />请选择注销原因：</p>
     @for (item of reasonItems; track $index;let i = $index) {
-        <div class="item" (click)="reasonSelected = i">
-            <i class="checkbox" [class]="{checked: reasonSelected == i}"></i>
+        <div class="item" (click)="reasonSelected.set(i)">
+            <i class="checkbox" [class]="{checked: reasonSelected() == i}"></i>
             {{ item }}
         </div>
     }

@@ -43,11 +43,11 @@ export function css(el: HTMLElement, key: any): void;
 export function css(el: HTMLElement, style: string, value: any): void;
 export function css(el: HTMLElement, style: string|any, value?: any) {
     if (typeof style === 'string') {
-        el.style[camelCase(style)] = value;
+        el.style[camelCase(style) as any] = value;
         return;
     }
-    eachObject(style, (v, k: string) => {
-        el.style[camelCase(k)] = v;
+    eachObject<string, any>(style, (v, k) => {
+        el.style[camelCase(k) as any] = v;
     });
 }
 
@@ -55,7 +55,7 @@ export function scrollTop(doc: Document): number;
 export function scrollTop(target: HTMLElement): number;
 export function scrollTop(target: HTMLElement, value: number): void;
 export function scrollTop(value: number): void;
-export function scrollTop(target?: HTMLElement|number|Document, value?: number): number|void {
+export function scrollTop(target: HTMLElement|number|Document, value?: number): number|void {
     if (typeof target === 'number') {
         window.scrollTo({top: target});
         return;

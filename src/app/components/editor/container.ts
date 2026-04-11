@@ -7,16 +7,16 @@ import { IPoint } from '../../theme/utils/canvas';
 export class EditorService implements IEditorContainer {
     private injector = inject(Injector);
 
-    private selection: IEditorRange;
-    private element: IEditorElement;
+    private selection?: IEditorRange;
+    private element?: IEditorElement;
     private undoStack: string[] = [];
-    private undoIndex: number;
+    private undoIndex = 0;
     private asyncTimer = 0;
     private listeners: {
         [key: string]: Function[];
     } = {};
-    private modalRef: ComponentRef<IEditorModal>;
-    private modalContainerRef: ViewContainerRef;
+    private modalRef?: ComponentRef<IEditorModal>;
+    private modalContainerRef?: ViewContainerRef;
     private used = false;
     public option: EditorOptionManager = new EditorOptionManager();
 
@@ -142,7 +142,7 @@ export class EditorService implements IEditorContainer {
     public set value(content: string) {
         if (!this.element) {
             this.once(EDITOR_EVENT_EDITOR_READY, () => {
-                this.element.value = content;
+                this.element!.value = content;
             });
             return;
         }
@@ -159,16 +159,16 @@ export class EditorService implements IEditorContainer {
 
     private checkSelection() {
         if (!this.selection) {
-            this.selection = this.element.selection;
+            this.selection = this.element!.selection;
         }
     }
 
     public selectAll(): void {
-        this.element.selectAll();
+        this.element!.selectAll();
     }
 
     public saveSelection() {
-        this.selection = this.element.selection;
+        this.selection = this.element!.selection;
     }
 
     public insert(block: IEditorBlock|string, range?: IEditorRange): void {
@@ -178,7 +178,7 @@ export class EditorService implements IEditorContainer {
                 value: block,
             }
         }
-        this.element.insert(block, range ?? this.selection);
+        this.element!.insert(block, range ?? this.selection);
     }
     
     public execute(module: string|IEditorTool, range?: IEditorRange, data?: any): void {
@@ -190,11 +190,11 @@ export class EditorService implements IEditorContainer {
     }
 
     public paste(data: DataTransfer) {
-        this.element.paste(data);
+        this.element!.paste(data);
     }
 
     public clear(focus: boolean = true) {
-        this.element.value = '';
+        this.element!.value = '';
         if (!focus) {
             return;
         }
@@ -206,8 +206,8 @@ export class EditorService implements IEditorContainer {
      */
     public focus() {
         this.checkSelection();
-        this.element.selection = this.selection;
-        this.element.focus();
+        this.element!.selection = this.selection!;
+        this.element!.focus();
     }
 
     public asynSave() {
@@ -221,7 +221,7 @@ export class EditorService implements IEditorContainer {
     }
 
     public blur() {
-        this.element.blur();
+        this.element!.blur();
     }
 
     public destroy(): void {
@@ -281,7 +281,7 @@ export class EditorService implements IEditorContainer {
 
     public emitTool(item: IEditorTool|string, event?: MouseEvent) {
         if (typeof item === 'string') {
-            item = this.option.toModule(item);
+            item = this.option.toModule(item)!;
         }
         this.focus();
         if (!item) {
@@ -301,7 +301,7 @@ export class EditorService implements IEditorContainer {
         if (!event) {
             return {x: 0, y: 0};
         }
-        const ele = this.element.element;
+        const ele = this.element!.element;
         const rect = ele.getBoundingClientRect();
         return {
             x: event.clientX - rect.left,
@@ -323,14 +323,14 @@ export class EditorService implements IEditorContainer {
             this.execute(module);
             return;
         }
-        this.modalRef = this.modalContainerRef.createComponent<IEditorModal>(module.modal, {
+        this.modalRef = this.modalContainerRef!.createComponent<IEditorModal>(module.modal, {
             injector: this.injector
         });
         if (typeof (this.modalRef.instance as IEditorSharedModal).modalReady === 'function') {
             (this.modalRef.instance as IEditorSharedModal).modalReady(module);
         }
         this.modalRef.instance.open({}, res => {
-            this.modalRef.destroy();
+            this.modalRef!.destroy();
             this.modalRef = undefined;
             this.execute(module, undefined, res);
         }, position);

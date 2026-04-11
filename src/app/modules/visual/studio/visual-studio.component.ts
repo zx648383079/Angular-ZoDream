@@ -21,7 +21,7 @@ export class VisualStudioComponent {
 
     public readonly isLoading = signal(true);
     private isReady = false;
-    private readyFn: (frame: HTMLIFrameElement) => void;
+    private readyFn?: (frame: HTMLIFrameElement) => void;
     private data = {
         site: 0,
         id: 0
@@ -38,7 +38,7 @@ export class VisualStudioComponent {
             next: res => {
                 const url = assetUri(uriEncode('auth', {ticket: res.data,  redirect_uri: uriEncode('tpl/admin/visual', this.data)}));
                 this.onReady(frame => {
-                    frame.src = url;
+                    frame.src = url!;
                 });
             },
             error: err => {
@@ -47,7 +47,7 @@ export class VisualStudioComponent {
         });
         afterNextRender({
             write: () => {
-                const frame = this.frame().nativeElement;
+                const frame = this.frame()!.nativeElement;
                 if (!frame) {
                     return;
                 }
@@ -65,7 +65,7 @@ export class VisualStudioComponent {
         if (!this.isReady) {
             return;
         }
-        this.readyFn && this.readyFn(this.frame().nativeElement);
+        this.readyFn && this.readyFn(this.frame()!.nativeElement);
     }
 
 }

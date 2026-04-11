@@ -4,7 +4,6 @@ import { DialogService } from '../../../components/dialog';
 import { IBlockItem } from '../../../components/link-rule';
 import { openLink } from '../../../theme/utils/deeplink';
 import { IBulletinUser } from '../../../theme/models/auth';
-import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
 import { UserService } from '../user.service';
 import { form } from '@angular/forms/signals';

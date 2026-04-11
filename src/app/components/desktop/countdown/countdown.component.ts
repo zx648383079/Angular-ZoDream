@@ -20,7 +20,7 @@ export class CountdownComponent {
     public readonly minute = signal(0);
     public readonly second = signal(0);
     private formatEnd = 0;
-    private $timer: Subscription;
+    private $timer?: Subscription;
 
     constructor() {
         effect(() => {
@@ -65,7 +65,7 @@ export class CountdownComponent {
     private stopTimer() {
         if (this.$timer) {
             this.$timer.unsubscribe();
-            this.$timer = null;
+            this.$timer = undefined;
         }
     }
 

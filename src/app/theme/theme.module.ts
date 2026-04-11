@@ -18,9 +18,6 @@ import {
     SearchService,
     WebAuthn
 } from './services';
-import {
-    AuthActions
-} from './actions';
 
 import { EncryptorService } from './services/encryptor.service';
 import { KeepAliveService } from './services/keep-alive.service';
@@ -35,10 +32,6 @@ const SERVICES = [
     CookieService,
 ];
 
-const ACTIONS = [
-    AuthActions,
-];
-
 
 
 @NgModule({
@@ -46,7 +39,6 @@ const ACTIONS = [
     exports: [...BASE_MODULES ],
     providers: [
         ...SERVICES,
-        ...ACTIONS,
     ]
 })
 export class ThemeModule {

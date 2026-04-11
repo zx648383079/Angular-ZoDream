@@ -171,9 +171,9 @@ export class SwiperComponent implements SwiperEvent {
         if (this.index === lastIndex) {
             return;
         }
-        this.items().at(this.index).active.set(true);
+        this.items().at(this.index)!.active.set(true);
         if (lastIndex >= 0 && lastIndex < this.items().length) {
-            this.items().at(lastIndex).active.set(false);
+            this.items().at(lastIndex)!.active.set(false);
         }
         if (this.autoplay()) {
             this.tween.next();

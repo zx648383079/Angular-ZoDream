@@ -39,29 +39,29 @@ export class ProfileComponent {
         required(schemaPath.email);
     });
 
-    public data: IUser;
+    public readonly data = signal<IUser|null>(null);
     public readonly sexItems = ArraySource.fromItems(SexItems);
-    public reasonItems = [
+    public readonly reasonItems = [
         '需要解绑手机',
         '需要解绑邮箱',
         '安全/隐私顾虑',
         '这是多余的账户',
     ];
-    public reasonSelected = 0;
-    public minDate: Date;
-    public maxDate: Date;
+    public readonly reasonSelected = signal(0);
+    public readonly minDate: Date;
+    public readonly maxDate: Date;
 
     constructor() {
         this.maxDate = new Date();
         this.minDate = new Date(this.maxDate.getFullYear() - 130, this.maxDate.getMonth(), this.maxDate.getDate());
         this.store.select(selectAuthUser).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(user => {
-            this.data = user;
+            this.data.set(user);
             this.dataModel.set({
                 name: user.name,
-                email: user.email,
-                sex: user.sex,
+                email: user.email!,
+                sex: user.sex!,
                 avatar: user.avatar,
-                birthday: user.birthday,
+                birthday: user.birthday!,
             });
         });
     }
@@ -102,7 +102,7 @@ export class ProfileComponent {
     public uploadFile(event: any) {
         const files = event.target.files as FileList;
         this.service.uploadAvatar(files[0]).subscribe(res => {
-            this.data = res;
+            this.data.set(res);
             this.dataForm.avatar().value.set(res.avatar);
             this.toastrService.success('头像已更换');
         });

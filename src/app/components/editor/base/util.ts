@@ -16,8 +16,8 @@ export class EditorHelper {
     }
 
     public static css(node: HTMLElement, style: any) {
-        eachObject(style, (val, key) => {
-            node.style[key] = val;
+        eachObject<string, any>(style, (val, key) => {
+            (node.style as any)[key] = val;
         });
     }
 
@@ -51,7 +51,7 @@ export class EditorHelper {
     * @param items 
     */
     public static insertBefore(current: Node, ...items: Node[]) {
-        const parent = current.parentNode;
+        const parent = current.parentNode!;
         for (const item of items) {
             parent.insertBefore(item, current);
         }
@@ -68,7 +68,7 @@ export class EditorHelper {
             this.insertBefore(current.nextSibling, ...items);
             return;
         }
-        this.insertLast(current.parentNode, ...items);
+        this.insertLast(current.parentNode!, ...items);
     }
 
     /**
@@ -101,7 +101,7 @@ export class EditorHelper {
             this.insertBefore(borther, ...target);
             return;
         }
-        const parent = node.parentNode;
+        const parent = node.parentNode!;
         fn();
         this.insertLast(parent, ...target);
         return;

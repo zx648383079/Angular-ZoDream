@@ -73,11 +73,11 @@ export class EditorOptionManager {
     }
 
     public get leftToolbar(): IEditorTool[] {
-        return this.filterTool(this.option.toolbar.left as any);
+        return this.filterTool(this.option.toolbar!.left as any);
     }
 
     public get rightToolbar(): IEditorTool[] {
-        return this.filterTool(this.option.toolbar.right as any);
+        return this.filterTool(this.option.toolbar!.right as any);
     }
 
     public get closeTool(): IEditorTool {
@@ -101,26 +101,27 @@ export class EditorOptionManager {
     }
 
     public set(key: string, value: any) {
-        this.option[key] = value;
+        (this.option as any)[key] = value;
     }
 
     public merge(option: IEditorOption) {
+        const res = (this.option as any);
         for (const key in option) {
             if (Object.prototype.hasOwnProperty.call(option, key)) {
-                if (typeof this.option[key] !== 'object') {
-                    this.option[key] = option[key];
+                if (typeof res[key] !== 'object') {
+                    res[key] = (option as any)[key];
                 }
             }
         }
         ['icons', 'uploader'].forEach(k => {
-            if (Object.prototype.hasOwnProperty.call(option, k) && typeof option[k] === 'object') {
-                this.option[k] = this.mergeObject(this.option[k], option[k]);
+            if (Object.prototype.hasOwnProperty.call(option, k) && typeof (option as any)[k] === 'object') {
+                res[k] = this.mergeObject(res[k], (option as any)[k]);
             }
         });
-        this.option.hiddenModules = this.strToArr(option.hiddenModules);
-        this.option.visibleModules = this.strToArr(option.visibleModules);
+        res.hiddenModules = this.strToArr(option.hiddenModules);
+        res.visibleModules = this.strToArr(option.visibleModules);
         if (option.toolbar) {
-            this.option.toolbar = {
+            res.toolbar = {
                 left: this.strToArr(option.toolbar.left),
                 right: this.strToArr(option.toolbar.right)
             };
@@ -128,7 +129,7 @@ export class EditorOptionManager {
     }
 
     public get(optionKey: string): any {
-        return this.option[optionKey];
+        return (this.option as any)[optionKey];
     }
 
     public toolOnly(name: string): IEditorTool {
@@ -227,7 +228,7 @@ export class EditorOptionManager {
     public upload(files: File, type: 'image'|'video'|'file'): Observable<IUploadResult>;
     public upload(files: any, type: 'image'|'video'|'file'): Observable<IUploadResult[]|IUploadResult> {
         const uploader = this.option.uploader;
-        let func: UploadFileCallback = typeof uploader === 'function' ? uploader : undefined;
+        let func: UploadFileCallback|undefined = typeof uploader === 'function' ? uploader : undefined;
         if (typeof uploader === 'object') {
             func = uploader[type] ? uploader[type] : uploader.file;
         }

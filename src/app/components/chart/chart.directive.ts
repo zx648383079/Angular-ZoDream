@@ -20,7 +20,7 @@ export class ChartDirective {
     public readonly initOpts = input<EChartsInitOpts>();
 
     private booted = false;
-    private instance: ECharts;
+    private instance?: ECharts;
 
     constructor() {
         const element = this.elementRef.nativeElement;
@@ -109,7 +109,7 @@ export class ChartDirective {
             if (!this.instance.isDisposed()) {
                 this.instance.dispose();
             }
-            this.instance = null;
+            this.instance = undefined;
         }
     }
 }

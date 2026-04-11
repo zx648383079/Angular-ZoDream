@@ -19,7 +19,7 @@ export class ExampleFormControlComponent {
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        e.enter();
+        e?.enter();
         console.log([this.value, this.inputValue()]);
         setTimeout(() => {
             e?.reset();

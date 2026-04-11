@@ -75,7 +75,7 @@ export class TextareaElement implements IEditorElement {
             return;
         }
         const type = block.type === EditorBlockType.AddRaw ? EditorBlockType.AddText : block.type;
-        const func = this[type + 'Execute'];
+        const func = (this as any)[type + 'Execute'];
         if (typeof func === 'function') {
             func.call(this, range, block);
             return;

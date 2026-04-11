@@ -8,14 +8,14 @@ export class Canvas {
         private element: HTMLCanvasElement
     ) {
         const rect = element.getBoundingClientRect();
-        this._ctx = this.element.getContext('2d');
+        this._ctx = this.element.getContext('2d')!;
         this.resize(rect.width, rect.height);
     }
 
     private _items: CanvasLayer[] = [];
     private _ctx: CanvasRenderingContext2D;
-    private _width: number;
-    private _height: number;
+    private _width = 0;
+    private _height = 0;
     private _disabled = false;
     public selectedIndex = 0;
     public scale = 1;
@@ -97,7 +97,7 @@ export class Canvas {
      */
     public dataURItoFile(dataURI: string, fileName: string): File {
         const [dataDescription, base64Data] = dataURI.split(',');
-        const mimetype = dataDescription.match(/:(.*?);/)[1];
+        const mimetype = dataDescription.match(/:(.*?);/)![1];
         const decodedData = atob(base64Data);
         let n = decodedData.length;
         const u8arr = new Uint8Array(n);

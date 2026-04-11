@@ -79,7 +79,7 @@ export class FileExplorerCatalogComponent {
         }).subscribe({
             next: res => {
                 item.loading = 0;
-                item.children = res.data.map(i => this.formatFile(i, (item.level ? item.level : 0) + 1));
+                item.children = res.data!.map(i => this.formatFile(i, (item.level ? item.level : 0) + 1));
                 this.items.update(v => [...v]);
             },
             error: _ => {

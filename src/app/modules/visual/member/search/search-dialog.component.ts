@@ -1,10 +1,8 @@
 import { form } from '@angular/forms/signals';
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { SearchDialogEvent } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import { ComponentTypeItems, ICategory, IThemeComponent } from '../../model';
 import { VisualService } from '../visual.service';
-import { SearchService } from '../../../../theme/services';
 
 @Component({
     standalone: false,
@@ -14,7 +12,6 @@ import { SearchService } from '../../../../theme/services';
 })
 export class SearchDialogComponent implements SearchDialogEvent {
     private readonly service = inject(VisualService);
-    private readonly searchService = inject(SearchService);
 
 
     public readonly multiple = input(false);
@@ -34,13 +31,13 @@ export class SearchDialogComponent implements SearchDialogEvent {
     public typeItems = ComponentTypeItems;
     public selectedItems: IThemeComponent[] = [];
     public onlySelected = false;
-    private confirmFn: (items: IThemeComponent|IThemeComponent[]) => void;
-    private checkFn: (items: IThemeComponent[]) => boolean;
+    private confirmFn?: (items: IThemeComponent|IThemeComponent[]) => void;
+    private checkFn?: (items: IThemeComponent[]) => boolean;
 
 
     constructor() {
         this.service.categoryTree().subscribe(res => {
-            this.categories = res.data;
+            this.categories = res.data!;
         });
     }
 

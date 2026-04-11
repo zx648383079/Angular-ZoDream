@@ -10,16 +10,16 @@ export class AudioPlayerComponent {
     
     private readonly destroyRef = inject(DestroyRef);
     
-    public readonly src = input<string>(undefined);
+    public readonly src = input<string>();
     public readonly mini = input(false);
-    public readonly cover = input<string>(undefined);
+    public readonly cover = input<string>();
     public readonly ended = output<void>();
     public readonly progress = signal(0);
     public readonly duration = signal(0);
     public readonly loaded = signal(0);
     public readonly paused = signal(true);
     public readonly volume = signal(100);
-    private audioElement: HTMLAudioElement;
+    private audioElement?: HTMLAudioElement;
     private booted = false;
     private volumeLast = 100;
 
@@ -69,7 +69,7 @@ export class AudioPlayerComponent {
             return;
         }
         if (!this.booted) {
-            this.audio.src = this.src();
+            this.audio.src = this.src()!;
             this.booted = true;
         }
         if (!this.src()) {
@@ -85,7 +85,7 @@ export class AudioPlayerComponent {
 
 
     private bindAudioEvent() {
-        const audio = this.audioElement;
+        const audio = this.audioElement!;
         audio.addEventListener('timeupdate', () => {
             if (isNaN(audio.duration) || !isFinite(audio.duration) || audio.duration <= 0) {
                 this.progress.set(0);

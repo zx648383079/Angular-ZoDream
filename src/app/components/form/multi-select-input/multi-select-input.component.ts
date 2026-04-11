@@ -21,7 +21,7 @@ interface ISelectColumn {
     templateUrl: './multi-select-input.component.html',
     styleUrls: ['./multi-select-input.component.scss'],
 })
-export class MultiSelectInputComponent<T = any> implements FormValueControl<T> {
+export class MultiSelectInputComponent implements FormValueControl<any> {
 
     public readonly placeholder = input($localize `Please select...`);
     public readonly source = input.required<IDataSource>();
@@ -30,7 +30,7 @@ export class MultiSelectInputComponent<T = any> implements FormValueControl<T> {
     ]);
 
     public readonly disabled = input<boolean>(false);
-    public readonly value = model<T>();
+    public readonly value = model<any>();
 
     constructor() {
         effect(() => {

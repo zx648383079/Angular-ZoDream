@@ -9,8 +9,8 @@ import { FormValueControl } from '@angular/forms/signals';
 })
 export class NumberInputComponent implements FormValueControl<any> {
 
-    public readonly min = input(0);
-    public readonly max = input(0);
+    public readonly min = input<number|undefined>(0);
+    public readonly max = input<number|undefined>(0);
     public readonly step = input(1);
     /**
      * 是否仅允许数字
@@ -23,14 +23,14 @@ export class NumberInputComponent implements FormValueControl<any> {
         if (this.disabled()) {
             return true;
         }
-        return this.valueInt() <= this.min();
+        return this.valueInt() <= this.min()!;
     });
 
     public readonly maxDisabled = computed(() => {
         if (this.disabled()) {
             return true;
         }
-        return this.max() > 0 && this.valueInt() >= this.max();
+        return this.max()! > 0 && this.valueInt() >= this.max()!;
     });
 
     public readonly valueInt = computed(() => {
@@ -75,11 +75,11 @@ export class NumberInputComponent implements FormValueControl<any> {
         if (this.disabled()) {
             return;
         }
-        if (i < this.min()) {
-            const min = this.min();
+        if (i < this.min()!) {
+            const min = this.min()!;
             i = typeof min === 'string' ? parseFloat(min) : min;
-        } else if (this.max() > 0 && i > this.max()) {
-            const max = this.max();
+        } else if (this.max()! > 0 && i > this.max()!) {
+            const max = this.max()!;
             i = typeof max === 'string' ? parseFloat(max) : max;
         }
         this.value.set(this.renderInt(i, format));

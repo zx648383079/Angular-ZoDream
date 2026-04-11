@@ -16,7 +16,7 @@ export class MessageContainerComponent {
     public readonly items = model<IMessageBase[]>([]);
     public readonly more = input(false);
     public readonly maxTime = input(600000);
-    public readonly currentId = input<string | number>(undefined);
+    public readonly currentId = input<string | number>();
     public readonly loadMore = output<number>();
     public readonly tapped = output<IBlockItem>();
 
@@ -38,9 +38,9 @@ export class MessageContainerComponent {
             }
             return 0;
         });
-        this.minId = this.items()[0].id;
+        this.minId = this.items()[0].id!;
         const items = [];
-        let lastTime: Date;
+        let lastTime: Date|undefined;
         const now = new Date();
         const exist = [];
         for (const item of sortItems) {
@@ -140,7 +140,7 @@ export class MessageContainerComponent {
     public prepend(items: IMessageBase[]) {
         if (items && items.length > 0) {
             this.items.update(v => {
-                return [].concat(items, v);
+                return [...items, ...v];
             });
         }
     }
@@ -151,7 +151,7 @@ export class MessageContainerComponent {
      */
     public append(items: IMessageBase[]) {
         if (items && items.length > 0) {
-            this.items.update(v => [].concat(v, items));
+            this.items.update(v => [...v, ...items]);
         }
     }
 

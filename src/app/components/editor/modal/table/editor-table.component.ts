@@ -14,7 +14,7 @@ export class EditorTableComponent implements IEditorModal {
     public rowItems: number[] = [];
     public readonly column = signal(1);
     public readonly row = signal(1);
-    private confirmFn: EditorModalCallback;
+    private confirmFn?: EditorModalCallback;
 
     constructor() {
         this.columnItems = this.generateRange(10);

@@ -22,7 +22,7 @@ export class PreviewComponent {
     public readonly isLoading = signal(true);
     public navToggle = 1;
     private isReady = false;
-    private readyFn: (frame: HTMLIFrameElement) => void;
+    private readyFn?: (frame: HTMLIFrameElement) => void;
     private data = {
         site: 0,
         id: 0
@@ -39,7 +39,7 @@ export class PreviewComponent {
             next: res => {
                 const url = assetUri(uriEncode('auth', {ticket: res.data,  redirect_uri: uriEncode('tpl/admin/visual/preview', this.data)}));
                 this.onReady(frame => {
-                    frame.src = url;
+                    frame.src = url!;
                 });
             },
             error: err => {
@@ -48,7 +48,7 @@ export class PreviewComponent {
         });
         afterNextRender({
             write: () => {
-                const frame = this.frame().nativeElement;
+                const frame = this.frame()!.nativeElement;
                 if (!frame) {
                     return;
                 }
@@ -70,7 +70,7 @@ export class PreviewComponent {
         if (!this.isReady) {
             return;
         }
-        this.readyFn && this.readyFn(this.frame().nativeElement);
+        this.readyFn && this.readyFn(this.frame()!.nativeElement);
     }
 
 }

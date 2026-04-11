@@ -12,7 +12,7 @@ export class EditorSizeComponent implements IEditorModal {
     public readonly visible = signal(false);
     public readonly width = signal('');
     public readonly height = signal('');
-    private confirmFn: EditorModalCallback;
+    private confirmFn?: EditorModalCallback;
 
     public tapBack() {
         

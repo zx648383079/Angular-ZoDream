@@ -12,7 +12,7 @@ export class EditorCodeComponent implements IEditorModal {
     public readonly visible = signal(false);
     public readonly language = signal('');
     public readonly code = signal('');
-    private confirmFn: EditorModalCallback;
+    private confirmFn?: EditorModalCallback;
 
     public open(data: any, cb: EditorModalCallback) {
         this.visible.set(true);

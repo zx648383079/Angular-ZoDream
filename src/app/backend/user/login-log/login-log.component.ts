@@ -1,7 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ILoginLog } from '../../../theme/models/auth';
-import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
 import { UserService } from '../user.service';
 import { form } from '@angular/forms/signals';

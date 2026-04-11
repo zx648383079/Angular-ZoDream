@@ -13,7 +13,7 @@ export class EditorLinkComponent implements IEditorModal {
     public readonly url = signal('');
     public readonly title = signal('');
     public readonly isBlank = signal(false);
-    private confirmFn: EditorModalCallback;
+    private confirmFn?: EditorModalCallback;
 
     public open(data: any, cb: EditorModalCallback) {
         this.visible.set(true);

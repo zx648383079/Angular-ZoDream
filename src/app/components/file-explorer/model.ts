@@ -58,7 +58,7 @@ export interface IFileDataSource {
 }
 
 export interface IFileExplorerTool {
-    open(file: IFileItem, source: IFileDataSource);
+    open(file: IFileItem, source: IFileDataSource): void;
 }
 
 export enum FileExplorerAction {

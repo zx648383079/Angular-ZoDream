@@ -11,7 +11,7 @@ export class EditorColorComponent implements IEditorModal {
 
     public readonly visible = signal(false);
     public readonly color = signal('');
-    private confirmFn: EditorModalCallback;
+    private confirmFn?: EditorModalCallback;
 
     public open(data: any, cb: EditorModalCallback) {
         this.visible.set(true);

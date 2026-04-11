@@ -1,4 +1,4 @@
-import { Component, DestroyRef, effect, inject, input } from '@angular/core';
+import { Component, computed, DestroyRef, effect, inject, input, signal } from '@angular/core';
 import { twoPad } from '../../../theme/utils';
 
 @Component({
@@ -12,10 +12,10 @@ export class VoicePlayerComponent {
     private readonly destroyRef = inject(DestroyRef);
 
     public readonly src = input<string>();
-    public progress = 0;
-    public duration = 0;
-    public paused = true;
-    private audioElement: HTMLAudioElement;
+    public readonly progress = signal(0);
+    public readonly duration = signal(0);
+    public readonly paused = signal(true);
+    private audioElement?: HTMLAudioElement;
     private booted = false;
 
     constructor() {
@@ -25,7 +25,7 @@ export class VoicePlayerComponent {
         });
 
         this.destroyRef.onDestroy(() => {
-            if (this.paused) {
+            if (this.paused()) {
                 return;
             }
             this.audio.pause();
@@ -41,13 +41,13 @@ export class VoicePlayerComponent {
         return this.audioElement;
     }
 
-    public get formatProgress() {
-        return this.formatMinute(this.progress);
-    }
+    public readonly formatProgress = computed(() => {
+        return this.formatMinute(this.progress());
+    });
 
-    public get formatDuration() {
-        return this.formatMinute(this.duration);
-    }
+    public readonly formatDuration = computed(() => {
+        return this.formatMinute(this.duration());
+    });
 
     public tapPlay() {
         if (!this.paused) {
@@ -55,7 +55,7 @@ export class VoicePlayerComponent {
             return;
         }
         if (!this.booted) {
-            this.audio.src = this.src();
+            this.audio.src = this.src()!;
             this.booted = true;
         }
         if (!this.src()) {
@@ -71,23 +71,24 @@ export class VoicePlayerComponent {
 
 
     private bindAudioEvent() {
-        this.audioElement.addEventListener('timeupdate', () => {
-            if (isNaN(this.audioElement.duration) || !isFinite(this.audioElement.duration) || this.audioElement.duration <= 0) {
-                this.progress = 0;
-                this.duration = 0;
+        const audio = this.audioElement!;
+        audio.addEventListener('timeupdate', () => {
+            if (isNaN(audio.duration) || !isFinite(audio.duration) || audio.duration <= 0) {
+                this.progress.set(0);
+                this.duration.set(0);
                 return;
             }
-            this.progress = this.audioElement.currentTime;
-            this.duration = this.audioElement.duration;
+            this.progress.set(audio.currentTime);
+            this.duration.set(audio.duration);
         });
-        this.audioElement.addEventListener('ended', () => {
-            this.paused = true;
+        audio.addEventListener('ended', () => {
+            this.paused.set(true);
         });
-        this.audioElement.addEventListener('pause', () => {
-            this.paused = true;
+        audio.addEventListener('pause', () => {
+            this.paused.set(true);
         });
-        this.audioElement.addEventListener('play', () => {
-            this.paused = false;
+        audio.addEventListener('play', () => {
+            this.paused.set(false);
         });
     }
 

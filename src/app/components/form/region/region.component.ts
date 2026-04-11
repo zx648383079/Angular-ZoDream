@@ -11,7 +11,7 @@ import { findIndex } from '../../../theme/utils';
     styleUrls: ['./region.component.scss'],
     templateUrl: 'region.component.html',
 })
-export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
+export class RegionComponent implements FormValueControl<any> {
 
     private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
     
@@ -19,7 +19,7 @@ export class RegionComponent<T = any> implements FormValueControl<T[]|T> {
     public readonly placeholder = input($localize `Please select...`);
     public readonly source = input.required<IDataSource>();
     public readonly disabled = input(false);
-    public readonly value = model<T[] | T>();
+    public readonly value = model<any>();
 
     public readonly routeItems = signal<IControlOption[]>([]);
     public readonly items = signal<IControlOption[]>([]);

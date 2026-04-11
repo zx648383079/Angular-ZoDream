@@ -43,12 +43,12 @@ export class DialogBoxComponent implements DialogEvent {
     /**
      * 验证方法
      */
-    private checkFn: DialogCheckFn;
+    private checkFn?: DialogCheckFn;
     /**
      * 确认事件
      */
-    private confirmFn: DialogConfirmFn;
-    private actionFn: DialogActionFn;
+    private confirmFn?: DialogConfirmFn;
+    private actionFn?: DialogActionFn;
     public readonly invalidTip = signal('');
     public readonly confirm = output();
     private asyncHandler = 0;

@@ -12,7 +12,7 @@ export class ImagePlayerComponent implements PlayerEvent {
 
     public readonly items = signal<IMediaFile[]>([]);
     public index = -1;
-    public data: IMediaFile;
+    public readonly data = signal<IMediaFile|null>(null);
     public readonly visible = model(false);
     public readonly isFixed = input(false);
     private listeners: {
@@ -36,7 +36,7 @@ export class ImagePlayerComponent implements PlayerEvent {
             return;
         }
         this.index --;
-        this.data = this.items[this.index];
+        this.data.set(this.items()[this.index]);
     }
 
     public tapNext() {
@@ -44,7 +44,7 @@ export class ImagePlayerComponent implements PlayerEvent {
             return;
         }
         this.index ++;
-        this.data = this.items[this.index];
+        this.data.set(this.items()[this.index]);
     }
 
     public play(): void;
@@ -59,7 +59,7 @@ export class ImagePlayerComponent implements PlayerEvent {
             return;
         }
         this.index = i;
-        this.data = this.items[i];
+        this.data.set(this.items()[i]);
         this.visible.set(true);
     }
     public pause(): void {
@@ -68,7 +68,7 @@ export class ImagePlayerComponent implements PlayerEvent {
     public stop(): void {
         this.items.set([]);
         this.index = -1;
-        this.data = undefined;
+        this.data.set(null);
     }
     public push(...items: IMediaFile[]): void {
         this.items.update(v => {

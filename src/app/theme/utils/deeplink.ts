@@ -25,12 +25,12 @@ export const openLink = (router: Router, link: string): boolean|void => {
     }
     items = items[1].split('?', 2);
     const params = items[0].split('/');
-    const host = params.shift();
+    const host = params.shift()!;
     if (host === 'chat') {
         router.navigate(['/chat']);
         return;
     }
-    const path = params.shift();
+    const path = params.shift()!;
     if (host === 'micro' && intValidate(path)) {
         router.navigate(['/micro', path]);
         return;

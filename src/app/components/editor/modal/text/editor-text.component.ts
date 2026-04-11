@@ -12,7 +12,7 @@ export class EditorTextComponent implements IEditorModal {
     public readonly visible = signal(false);
     public readonly value = signal('');
     public readonly label = signal('文字');
-    private confirmFn: EditorModalCallback;
+    private confirmFn?: EditorModalCallback;
 
     public tapBack() {
         

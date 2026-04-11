@@ -28,7 +28,7 @@ export class SpectrumPanelComponent {
     public readonly width = input(0);
     public fill = 'red';
     private kind = SpectrumType.Columnar;
-    private ctx: CanvasRenderingContext2D;
+    private ctx?: CanvasRenderingContext2D;
     private hatItems: IHatItem[] = [];
 
     private space = 2;
@@ -50,7 +50,7 @@ export class SpectrumPanelComponent {
             write: () => {
                 this.drawer.width = this.width();
                 this.drawer.height = this.height();
-                this.ctx = this.drawer.getContext('2d');
+                this.ctx = this.drawer.getContext('2d')!;
             }
         });
     }
@@ -67,7 +67,7 @@ export class SpectrumPanelComponent {
     }
 
     get drawer(): HTMLCanvasElement {
-        return this.drawerElement().nativeElement as HTMLCanvasElement;
+        return this.drawerElement()!.nativeElement as HTMLCanvasElement;
     }
 
     private drawColumns(items: number[]) {
@@ -242,7 +242,7 @@ export class SpectrumPanelComponent {
     private renderColumnar3(drawingContext: CanvasRenderingContext2D, pen: string, index: number,
         x: number, y: number, height: number, hasHat: boolean)
     {
-        this.renderColumnar4(drawingContext, pen, x, y, height, hasHat ? this.getHat(index, height) : null);
+        this.renderColumnar4(drawingContext, pen, x, y, height, hasHat ? this.getHat(index, height) : undefined);
     }
 
     private renderColumnarHat(drawingContext: CanvasRenderingContext2D, pen: string,
@@ -280,7 +280,7 @@ export class SpectrumPanelComponent {
     }
 
     private renderColumnar4(drawingContext: CanvasRenderingContext2D, pen: string,
-        x: number, y: number, height: number, hat: IHatItem)
+        x: number, y: number, height: number, hat?: IHatItem)
     {
         this.renderColumnarHat(drawingContext, pen, x, y, this.columnWidth, height, hat);
     }

@@ -15,7 +15,7 @@ export class EditorSearchComponent implements IEditorModal {
     public readonly items = signal<IEditorOptionItem[]>([]);
     public selectedItems: IEditorOptionItem[] = [];
     private multiple = true;
-    private confirmFn: EditorModalCallback;
+    private confirmFn?: EditorModalCallback;
 
     public isSelected(item: IEditorOptionItem) {
         for (const it of this.selectedItems) {

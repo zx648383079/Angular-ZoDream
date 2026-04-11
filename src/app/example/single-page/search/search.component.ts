@@ -1,7 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService, DialogEvent } from '../../../components/dialog';
-import { IPageQueries } from '../../../theme/models/page';
 import { IFeedback } from '../../../theme/models/seo';
 import { SearchService } from '../../../theme/services';
 import { mapFormat } from '../../../theme/utils';

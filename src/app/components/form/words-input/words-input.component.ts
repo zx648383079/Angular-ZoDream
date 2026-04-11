@@ -46,7 +46,7 @@ export class WordsInputComponent implements FormValueControl<string[] | number |
         this.selectedItems.update(v => {
             return v.filter(i => i !== item);
         });
-        this.inputBoxRef().nativeElement?.focus();
+        this.inputBoxRef()!.nativeElement?.focus();
     }
 
     public onKeydown(e: KeyboardEvent) {

@@ -14,14 +14,14 @@ export class ScannerComponent {
 
     private readonly drawPanel = viewChild<ElementRef<HTMLVideoElement>>('drawer');
     public readonly completed = output<string>();
-    private reader: BrowserQRCodeReader;
-    private controlItems: IScannerControls;
+    private reader?: BrowserQRCodeReader;
+    private controlItems?: IScannerControls;
 
     constructor() {
         afterNextRender({
             write: () => {
                 const bound = this.elementRef.nativeElement.getBoundingClientRect();
-                const mediaBox = this.drawPanel().nativeElement;
+                const mediaBox = this.drawPanel()!.nativeElement;
                 mediaBox.width = bound.width <= 0 ? window.innerWidth : bound.width;
                 mediaBox.height = bound.height <= 0 ? window.innerHeight : bound.height;
                 this.start();
@@ -40,7 +40,7 @@ export class ScannerComponent {
         }
         const videoInputDevices = await BrowserCodeReader.listVideoInputDevices();
         const selectedDeviceId = videoInputDevices[0].deviceId;
-        this.controlItems = await this.reader.decodeFromVideoDevice(selectedDeviceId, this.drawPanel().nativeElement, res => {
+        this.controlItems = await this.reader.decodeFromVideoDevice(selectedDeviceId, this.drawPanel()!.nativeElement, res => {
             if (res) {
                 this.stop();
                 this.completed.emit(res.getText());

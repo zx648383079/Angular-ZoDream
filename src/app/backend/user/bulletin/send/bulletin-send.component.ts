@@ -45,7 +45,7 @@ export class BulletinSendComponent {
     }
 
     public scroll(y: number = -1) {
-        const box = this.box();
+        const box = this.box()!;
         if (!box.nativeElement) {
             return;
         }

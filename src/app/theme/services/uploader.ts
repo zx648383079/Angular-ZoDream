@@ -50,16 +50,16 @@ export class UploadFile<T = IUploadResult> {
 
     private readonly http = inject(HttpClient);
 
-    public $status: BehaviorSubject<UploadStatus> = new BehaviorSubject(UploadStatus.Queue);
-    public $progress: BehaviorSubject<number> = new BehaviorSubject(0);
-    public $finish: BehaviorSubject<T> = new BehaviorSubject(null);
+    public $status = new BehaviorSubject<UploadStatus>(UploadStatus.Queue);
+    public $progress = new BehaviorSubject<number>(0);
+    public $finish = new BehaviorSubject<T|null>(null);
 
     private server: IUploadServer;
     private chunkSize = 1024 * 1024;
     private partName = 'file';
     private lastStatus = UploadStatus.Queue;
     private uploaded = 0;
-    private uploadQueue: Subscription;
+    private uploadQueue: Subscription|undefined;
     private waitQueue: number[] = [];
     private chunkItems: IUploadChunk[] = [];
 
@@ -144,14 +144,14 @@ export class UploadFile<T = IUploadResult> {
 
     public pause() {
         if (this.$status.value === UploadStatus.Uploading) {
-            this.uploadQueue.unsubscribe();
+            this.uploadQueue?.unsubscribe();
         }
         this.status = UploadStatus.Paused;
     }
 
     public stop() {
         if (this.$status.value === UploadStatus.Uploading) {
-            this.uploadQueue.unsubscribe();
+            this.uploadQueue?.unsubscribe();
         }
         this.status = UploadStatus.Cancelled;
     }
@@ -163,8 +163,8 @@ export class UploadFile<T = IUploadResult> {
             return;
         }
         const hasher = new ParallelHasher('/md5/md5_worker.js');
-        hasher.hash(this.file).then((md5: string) => {
-            this.md5 = md5;
+        hasher.hash(this.file).then(res => {
+            this.md5 = res as string;
             this.checkQuickly();
         }).catch(_ => {
             this.status = UploadStatus.Failure;
@@ -216,7 +216,7 @@ export class UploadFile<T = IUploadResult> {
             this.uploadChunkMerge();
             return;
         }
-        const i = this.waitQueue.shift();
+        const i = this.waitQueue.shift()!;
         const chunk = this.chunkItems[i];
         this.uploadBlob(this.server.chunk, this.file.slice(chunk.start, chunk.end), _ => {
             this.uploaded = this.loadSize;

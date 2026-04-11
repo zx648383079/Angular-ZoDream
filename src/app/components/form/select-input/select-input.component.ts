@@ -21,7 +21,7 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
         multi: true
     }]
 })
-export class SelectInputComponent<T = any> implements FormValueControl< T | T[] | number | string> {
+export class SelectInputComponent implements FormValueControl<any> {
 
     private readonly elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
     public readonly placeholder = input($localize `Please select...`);
@@ -34,7 +34,7 @@ export class SelectInputComponent<T = any> implements FormValueControl< T | T[] 
     public readonly creatable = input(false);
 
     public readonly disabled = input<boolean>(false);
-    public readonly value = model<T | T[] | number | string>();
+    public readonly value = model<any>();
     public readonly selectedItems = signal<IControlOption[]>([]);
     public readonly keywords = signal('');
     public readonly panelVisible = signal(false);

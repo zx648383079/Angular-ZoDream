@@ -100,7 +100,7 @@ export class FocusNextDirective {
      */
     private static FocusNext(source: FocusNextDirective) {
         let found = false;
-        let next: FocusNextDirective = undefined;
+        let next: FocusNextDirective|undefined = undefined;
         for (const item of this.InputItems) {
             if (item.appFocusNext() !== source.appFocusNext()) {
                 continue;

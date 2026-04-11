@@ -1,6 +1,6 @@
 import { INavLink } from '../theme/models/seo';
 
-export const backendMenuItems = [
+export const backendMenuItems: INavLink[] = [
     {
         name: $localize `Home`,
         icon: 'icon-home',
@@ -37,7 +37,6 @@ export const backendMenuItems = [
             }
         ]
     },
-    ,
 ];
 
 

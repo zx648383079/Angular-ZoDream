@@ -26,7 +26,7 @@ export class FlipItemComponent {
     public readonly header = input('');
     public readonly backable = signal(false);
     public readonly boxStyle = signal<any>({});
-    public parent: FlipContainerComponent;
+    public parent?: FlipContainerComponent;
     
     public tapBack() {
         this.parent?.back();

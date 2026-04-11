@@ -64,7 +64,7 @@ export class DateSource implements IDataSource {
         if (!keywords) {
             return res;
         }
-        return res.pipe(map(res => res.filter(i => i.name.indexOf(keywords) >= 0)));
+        return res.pipe(map(res => res.filter(i => i.name!.indexOf(keywords) >= 0)));
     }
 
     public influence(column: number): number {

@@ -26,7 +26,6 @@ interface IPointLink {
     styleUrls: ['./mind.component.scss']
 })
 export class MindComponent {
-    private readonly renderer = inject(Renderer2);
     private elementRef = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
 
@@ -40,15 +39,18 @@ export class MindComponent {
     /**
      * 转化函数，必须的
      */
-    public readonly format = input<(data: any) => MindPointSource | MindLinkSource>(undefined);
+    public readonly format = input<(data: any) => MindPointSource | MindLinkSource>();
     public readonly confirm = output<MindConfirmEvent>();
     public readonly update = output<MindUpdateEvent>();
 
     public pointItems: IPointItem[] = [];
     public pointLink: IPointLink[] = [];
 
-    private ctx: CanvasRenderingContext2D;
-    private moveListeners = {
+    private ctx?: CanvasRenderingContext2D;
+    private mouseMoveListeners: {
+        move?: (p: MouseEvent) => void,
+        finish?: (p: MouseEvent, i?: number) => void,
+    } = {
         move: undefined,
         finish: undefined,
     };
@@ -57,7 +59,7 @@ export class MindComponent {
     private centerY = 18;
 
     get lineBox(): HTMLCanvasElement {
-        return this.lineBoxRef().nativeElement as HTMLCanvasElement;
+        return this.lineBoxRef()!.nativeElement as HTMLCanvasElement;
     }
 
     constructor() {
@@ -72,7 +74,7 @@ export class MindComponent {
                 const bound = this.elementRef.nativeElement.getBoundingClientRect();
                 this.lineBox.width = bound.width <= 0 ? window.innerWidth : bound.width;
                 this.lineBox.height = bound.height <= 0 ? window.innerHeight : bound.height;
-                this.ctx = this.lineBox.getContext('2d');
+                this.ctx = this.lineBox.getContext('2d')!;
                 this.refresh();
             }
         });
@@ -80,15 +82,15 @@ export class MindComponent {
 
     @HostListener('document:mousemove', ['$event'])
     public onMouseMove(e: MouseEvent) {
-        if (this.moveListeners.move) {
-            this.moveListeners.move(e);
+        if (this.mouseMoveListeners.move) {
+            this.mouseMoveListeners.move(e);
         }
     }
 
     @HostListener('document:mouseup', ['$event'])
     public onMouseUp(event: MouseEvent) {
-        if (this.moveListeners.finish) {
-            this.moveListeners.finish(event);
+        if (this.mouseMoveListeners.finish) {
+            this.mouseMoveListeners.finish(event);
         }
     }
 
@@ -118,7 +120,7 @@ export class MindComponent {
         start.stopPropagation();
         this.move(event => {
             this.refresh();
-            this.drawLine(this.ctx, start.clientX, start.clientY, event.clientX, event.clientY);
+            this.drawLine(this.ctx!, start.clientX, start.clientY, event.clientX, event.clientY);
         }, (event, to) => {
             if (typeof to !== 'undefined') {
                 this.linkPoint(i, to);
@@ -135,8 +137,8 @@ export class MindComponent {
                 },
                 from: this.pointItems[from].source,
                 next: (data, link) => {
-                    const formatData = this.format()(data) as MindPointSource;
-                    const formatLink = link ? this.format()(link) as MindLinkSource : undefined;
+                    const formatData = this.format()!(data) as MindPointSource;
+                    const formatLink = link ? this.format()!(link) as MindLinkSource : undefined;
                     this.pointItems.push(this.newPoint(formatData.text, x, y, data, formatData.id));
                     const to = this.pointItems.length - 1;
                     this.pointLink.push({
@@ -154,8 +156,8 @@ export class MindComponent {
 
     public onLinkFinish(event: MouseEvent, i: number) {
         event.stopPropagation();
-        if (this.moveListeners.finish) {
-            this.moveListeners.finish(event, i);
+        if (this.mouseMoveListeners.finish) {
+            this.mouseMoveListeners.finish(event, i);
         }
     }
 
@@ -169,14 +171,14 @@ export class MindComponent {
                 y,
             },
             next: data => {
-                const formatData = this.format()(data) as MindPointSource;
+                const formatData = this.format()!(data) as MindPointSource;
                 this.pointItems.push(this.newPoint(formatData.text, x, y, data, formatData.id));
             }
         });
     }
 
     public onContext(event: MouseEvent, i: number) {
-        return this.contextMenu().open(event, [
+        return this.contextMenu()!.open(event, [
             {
                 name: $localize `Delete`,
                 icon: 'icon-trash',
@@ -222,7 +224,7 @@ export class MindComponent {
             from: this.pointItems[from].source,
             to: this.pointItems[to].source,
             next: link => {
-                const formatLink = this.format()(link) as MindLinkSource;
+                const formatLink = this.format()!(link) as MindLinkSource;
                 this.pointLink.push({
                     from,
                     to,
@@ -332,10 +334,10 @@ export class MindComponent {
     }
 
     public move(move: (event: MouseEvent) => void, finish?: (event: MouseEvent, i?: number) => void) {
-        this.moveListeners = {
+        this.mouseMoveListeners = {
             move,
             finish: (event, i) => {
-                this.moveListeners = {move: undefined, finish: undefined};
+                this.mouseMoveListeners = {move: undefined, finish: undefined};
                 finish && finish(event, i);
             },
         };

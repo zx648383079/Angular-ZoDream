@@ -29,7 +29,7 @@ export class CountdownButtonComponent implements CountdownEvent {
     public readonly text = signal('');
 
     public readonly disabled = signal(false);
-    private $timer: Subscription;
+    private $timer?: Subscription;
 
     constructor() {
         effect(() => {
@@ -59,13 +59,13 @@ export class CountdownButtonComponent implements CountdownEvent {
         this.text.set(twoPad(time));
         if (this.$timer) {
             this.$timer.unsubscribe();
-            this.$timer = null;
+            this.$timer = undefined;
         }
         this.$timer = interval(1000).subscribe(() => {
             time--;
             if (time <= 0) {
-                this.$timer.unsubscribe();
-                this.$timer = null;
+                this.$timer?.unsubscribe();
+                this.$timer = undefined;
                 this.disabled.set(false);
                 this.text.set(this.againLabel());
                 return;
@@ -78,7 +78,7 @@ export class CountdownButtonComponent implements CountdownEvent {
         this.disabled.set(false);
         if (this.$timer) {
             this.$timer.unsubscribe();
-            this.$timer = null;
+            this.$timer = undefined;
         }
         this.text.set(this.label());
     }

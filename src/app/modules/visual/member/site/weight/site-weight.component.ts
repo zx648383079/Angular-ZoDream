@@ -73,7 +73,8 @@ export class SiteWeightComponent {
     }
 
     public open(modal: SearchDialogEvent) {
-        modal.open<IThemeComponent>((data: IThemeComponent[]) => {
+        modal.open<IThemeComponent>(res => {
+            const data = res as IThemeComponent[];
             if (data.length < 1) {
                 return;
             }

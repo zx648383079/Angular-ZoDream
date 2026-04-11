@@ -49,7 +49,7 @@ export class CommandBarComponent {
 
 
     public toggle(e?: MouseEvent) {
-        e.stopPropagation();
+        e?.stopPropagation();
         this.dropVisible.update(v => !v);
     }
 

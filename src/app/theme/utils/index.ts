@@ -42,10 +42,10 @@ export function toggleTreeItem<T extends IPageTreeItem>(items: T[], search: numb
     item.toggled = !item.toggled;
     for (let j = begin + 1; j < items.length; j++) {
         const target = items[j];
-        if (target.level <= item.level) {
+        if (target.level! <= item.level!) {
             break;
         }
-        target.visibled = item.toggled && target.level === item.level + 1;
+        target.visibled = item.toggled && target.level === item.level! + 1;
     }
     return items;
 }
@@ -133,7 +133,7 @@ export function formatDate(date: Date|number|string, fmt: string = 'yyyy-mm-dd h
         's+': date.getSeconds(), // 秒
         'q+': Math.floor((date.getMonth() + 3) / 3), // 季度
         'S': date.getMilliseconds() // 毫秒
-    };
+    } as any;
     for (const k in o) {
         const match = fmt.match(new RegExp('(' + k + ')'));
         if (match) {
@@ -205,9 +205,9 @@ export function formatShort(value: any, now: Date = new Date()): string {
     return twoPad(timeDate.getHours()) + ':' + twoPad(timeDate.getMinutes());
 }
 
-export function assetUri(value: string) {
+export function assetUri(value?: string) {
     if (!value) {
-        return null;
+        return '';
     }
     if (value.indexOf('//') >= 0 || value.startsWith('data:')) {
         return value;
@@ -268,7 +268,7 @@ export function randomInt(min: number = 0, max: number = 1): number {
  */
 export function filterTree(items: any[], id: number) {
     const data = [];
-    let level: number;
+    let level = 0;
     for (const item of items) {
         if (item.id === id) {
             level = item.level;
@@ -281,7 +281,7 @@ export function filterTree(items: any[], id: number) {
         if (item.level > level) {
             continue;
         }
-        level = undefined;
+        level = 0;
         data.push(item);
     }
     return data;
@@ -293,7 +293,7 @@ export function filterTree(items: any[], id: number) {
  * @param unEncodeURI 不要编码
  * @returns 
  */
-export function uriEncode(path: string, obj: Object = {}, unEncodeURI?: boolean): string {
+export function uriEncode(path: string, obj: any = {}, unEncodeURI?: boolean): string {
     const result: string[] = [];
     const pushQuery = (key: string, value: any) => {
         if (typeof value !== 'object') {
@@ -380,6 +380,8 @@ export function cloneObject<T>(val: T): T {
 /**
  * 遍历对象属性或数组
  */
+
+export function eachObject<K = string, V = any>(obj: any, cb: (val: V, key: K) => any): any;
 export function eachObject<K = string|number, V = any>(obj: any, cb: (val: V, key?: K) => any): any {
     if (typeof obj !== 'object') {
         return cb(obj, undefined);

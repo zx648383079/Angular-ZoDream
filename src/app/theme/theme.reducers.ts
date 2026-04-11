@@ -1,7 +1,6 @@
 import { environment } from '../../environments/environment';
 import * as fromAuth from './reducers/auth.reducer';
 import * as fromSys from './reducers/system.reducer';
-import { Action } from '@ngrx/store';
 
 /**
  * combineReducers is another useful metareducer that takes a map of reducer
@@ -37,13 +36,12 @@ export const reducers: ActionReducerMap<State> = {
     [fromSys.SystemFeatureKey]: fromSys.reducer,
 };
 
-// console.log all actions
-export function logger(
-    reducer: ActionReducer<State>
-): ActionReducer<State, Action> {
-    return (state: State, action: Action): State => {
-        // console.log('state', state);
-        // console.log('action', action);
+export function debug(
+    reducer: ActionReducer<any>
+): ActionReducer<any> {
+    return function (state, action) {
+        console.log('state', state);
+        console.log('action', action);
 
         return reducer(state, action);
     };
@@ -55,5 +53,5 @@ export function logger(
  * that will be composed to form the root meta-reducer.
  */
 export const metaReducers: MetaReducer<State>[] = !environment.production
-    ? [logger, storeFreeze]
+    ? [debug, storeFreeze]
     : [];

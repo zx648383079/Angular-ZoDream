@@ -33,7 +33,7 @@ export class EditorComponent implements FormValueControl<string>, IEditor {
     public isCodeMode = false;
     public isFullScreen = false;
     private flowOldItems :IEditorTool[] = [];
-    private modalRef: ComponentRef<IEditorModal>;
+    private modalRef?: ComponentRef<IEditorModal>;
     private container: EditorService;
 
 
@@ -89,10 +89,10 @@ export class EditorComponent implements FormValueControl<string>, IEditor {
                 top: p.y + p.height + 20 + 'px',
                 left: p.x + 'px',
             };
-            this.resizer().openResize(p, cb);
+            this.resizer()!.openResize(p, cb);
         });
         this.container.on(EDITOR_EVENT_SHOW_COLUMN_TOOL, (p, cb) => {
-            this.resizer().openHorizontalResize(p, cb);
+            this.resizer()!.openHorizontalResize(p, cb);
         });
         let lastSync: OutputRefSubscription;
         this.container.on(EDITOR_EVENT_CLOSE_TOOL, () => {
@@ -101,14 +101,14 @@ export class EditorComponent implements FormValueControl<string>, IEditor {
                 this.modalRef.destroy();
                 this.modalRef = undefined;
             }
-            this.resizer().close();
+            this.resizer()!.close();
         }).on(EDITOR_EVENT_CUSTOM, e => {
             if (e.name === EDITOR_CODE_TOOL) {
                 this.isCodeMode = !this.isCodeMode;
                 lastSync.unsubscribe();
                 if (this.isCodeMode) {
-                    this.codeEditor().value.set(this.container.value);
-                    lastSync = this.codeEditor().value.subscribe(res => {
+                    this.codeEditor()!.value.set(this.container.value);
+                    lastSync = this.codeEditor()!.value.subscribe(res => {
                         this.value.set(res);
                     });
                 }
@@ -119,7 +119,7 @@ export class EditorComponent implements FormValueControl<string>, IEditor {
             }
         });
         afterNextRender({
-            write: () => this.container.ready(this.editorViewRef().nativeElement, this.modalViewContainer())
+            write: () => this.container.ready(this.editorViewRef()!.nativeElement, this.modalViewContainer())
         });
         this.destroyRef.onDestroy(() => this.container.destroy());
     }

@@ -22,7 +22,7 @@ import { mobileValidate, passwordValidate } from '../../../theme/validators';
 })
 export class PasswordValidatorDirective implements Validator {
 
-    validate(control: AbstractControl): ValidationErrors {
+    validate(control: AbstractControl) {
         return passwordValidator(control);
     }
 
@@ -40,9 +40,9 @@ export const mobileValidator: ValidatorFn = (control: AbstractControl): Validati
     } : null;
 };
 
-export const confirmValidator = (key: string = 'password', confirmKey: string = 'confirm_password'): ValidatorFn => {
+export const confirmValidator = (key: string = 'password', confirmKey: string = 'confirm_password'): ValidationErrors | null => {
     return (control: FormGroup): ValidationErrors | null => {
-        return control.get(key).value !== control.get(confirmKey).value ? {
+        return control.get(key)!.value !== control.get(confirmKey)!.value ? {
             confirm: true
         } : null;
     };

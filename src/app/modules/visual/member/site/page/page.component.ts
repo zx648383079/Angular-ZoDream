@@ -2,7 +2,6 @@ import { form, required } from '@angular/forms/signals';
 import { Location } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { ISitePage } from '../../../model';
-import { IPageQueries } from '../../../../../theme/models/page';
 import { VisualService } from '../../visual.service';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ActivatedRoute } from '@angular/router';

@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, DestroyRef, ElementRef, OnDestroy, Renderer2, afterNextRender, effect, inject, input, model, output, signal, untracked, viewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef, HostListener, Renderer2, afterNextRender, effect, inject, input, model, output, signal, untracked, viewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ScreenFull, mediaIsFrame } from '../util';
+import { mediaIsFrame } from '../util';
+import { ThemeService } from '../../../theme/services';
 
 @Component({
     standalone: false,
@@ -10,8 +11,8 @@ import { ScreenFull, mediaIsFrame } from '../util';
 })
 export class VideoPlayerComponent {
     private readonly sanitizer = inject(DomSanitizer);
-    private readonly render = inject(Renderer2);
     private readonly destroyRef = inject(DestroyRef);
+    private readonly themeService = inject(ThemeService);
 
 
     private readonly videoElement = viewChild<ElementRef<HTMLVideoElement>>('playerVideo');
@@ -21,7 +22,7 @@ export class VideoPlayerComponent {
     public readonly paused = signal(true);
     public readonly booted = signal(false);
     public readonly isFrame = signal(false);
-    public readonly formatSrc = signal<SafeResourceUrl>(null);
+    public readonly formatSrc = signal<SafeResourceUrl|null>(null);
     public readonly progress = signal(0);
     public readonly duration = signal(0);
     public readonly loaded = signal(0);
@@ -46,9 +47,6 @@ export class VideoPlayerComponent {
                 }
             });
         });
-        this.render.listen(document, ScreenFull.changeEvent, () => {
-            this.isFull.set(ScreenFull.isFullScreen);
-        });
         afterNextRender({
             write: () => {
                 this.bindVideoEvent();
@@ -60,6 +58,11 @@ export class VideoPlayerComponent {
             }
             this.videoPlayer.pause();
         });
+    }
+
+    @HostListener('document:fullscreenchange')
+    public onFullScreenChange() {
+        this.isFull.set(this.themeService.isFullScreen);
     }
 
     public tapPlay() {
@@ -142,11 +145,11 @@ export class VideoPlayerComponent {
     }
 
     private fullScreen() {
-        ScreenFull.request();
+        this.themeService.requestFullScreen();
     }
     
     private exitFullscreen() {
-        ScreenFull.exit();
+        this.themeService.exitFullScreen();
     }
 
     private bindVideoEvent() {

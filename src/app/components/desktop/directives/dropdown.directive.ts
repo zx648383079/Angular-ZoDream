@@ -11,10 +11,10 @@ export class DropdownDirective {
 
     @HostListener('click', [])
     public onClick() {
-        const element = this.elementRef.nativeElement;
+        const element = this.elementRef!.nativeElement;
         if (!element) {
             return;
         }
-        toggleClass(element.parentElement, '--with-open');
+        toggleClass(element.parentElement!, '--with-open');
     }
 }

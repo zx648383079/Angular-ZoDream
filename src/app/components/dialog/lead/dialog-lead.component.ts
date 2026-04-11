@@ -137,42 +137,34 @@ export class DialogLeadComponent {
         const modalWidth = 320;
         this.dialogStyle.set(this.computeModalStyle(offset, modalWidth, modalHeight));
         this.content.set(data.content);
-        this.primaryText.set(this.backable ? this.option.backText : this.option.cancelText);
-        this.secondaryText.set(this.nextable ? this.option.nextText : this.option.confirmText);
+        this.primaryText.set(this.backable ? this.option.backText! : this.option.cancelText!);
+        this.secondaryText.set(this.nextable ? this.option.nextText! : this.option.confirmText!);
     }
 
     private computeModalStyle(offset: DOMRect, width: number, height: number): any {
         const bottom = offset.bottom + height + 10;
-        if (bottom <= window.innerHeight) {
-            return {
-                left: offset.left + 'px',
-                top: offset.bottom + 10 + 'px'
-            };
-        }
-        const top = offset.top - height - 10;
-        if (top >= 0) {
-            return {
-                left: offset.left + 'px',
-                top: top + 'px'
-            };
-        }
-        const right = offset.right + width + 10;
-        if (right <= window.innerWidth) {
-            return {
-                left: offset.right + 10 + 'px',
-                top: offset.top + 'px'
-            };
-        }
-        const left = offset.left - width - 10;
-        if (left >= 0) {
-            return {
-                left: left + 'px',
-                top: offset.top + 'px'
-            };
-        }
-        return {
+        const res = {
             left: (window.innerWidth - width) / 2 + 'px',
             top: (window.innerHeight - height) / 2 + 'px',
+        };
+        if (bottom <= window.innerHeight) {
+            res.top = offset.bottom + 10 + 'px';
+        } else {
+            const top = offset.top - height - 10;
+            if (top >= 0) {
+                res.top = top + 'px';
+            }
         }
+        
+        const right = offset.right + width + 10;
+        if (right <= window.innerWidth) {
+            res.left = offset.right + 10 + 'px';
+        } else {
+            const left = offset.left - width - 10;
+            if (left >= 0) {
+                res.left = left + 'px';
+            }
+        }
+        return res;
     }
 }

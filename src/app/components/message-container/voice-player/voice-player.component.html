@@ -1,17 +1,17 @@
-@if (paused) {
+@if (paused()) {
     <div class="voice-block" (click)="tapPlay()">
         <i class="iconfont icon-voice"></i>
     </div>
 } @else {
     <div class="player-bar">
         <div class="icon" (click)="tapPlay()">
-            <i class="iconfont" [class]="{'icon-play': paused, 'icon-stop': !paused}"></i>
+            <i class="iconfont" [class]="{'icon-play': paused(), 'icon-stop': !paused()}"></i>
         </div>
         <div class="slider">
-            <app-progress-bar [value]="progress" [max]="duration" [label]="false" (valueChange)="onProgressChange($event)" />
+            <app-progress-bar [value]="progress()" [max]="duration()" [label]="false" (valueChange)="onProgressChange($event)" />
         </div>
         <div class="time">
-            {{ formatProgress }}/{{ formatDuration }}
+            {{ formatProgress() }}/{{ formatDuration() }}
         </div>
     </div>
 }

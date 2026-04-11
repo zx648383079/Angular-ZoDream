@@ -13,11 +13,14 @@ export class EditorResizerComponent {
 
     public readonly toolType = signal(0);
     private rectBound?: IBound;
-    private mouseMoveListeners = {
+    private mouseMoveListeners: {
+        move?: (p: IPoint) => void,
+        finish?: (p: IPoint) => void,
+    } = {
         move: undefined,
         finish: undefined,
     };
-    private updatedHandler: EditorUpdatedCallback;
+    private updatedHandler?: EditorUpdatedCallback;
 
     public readonly boxStyle = computed(() => {
         if (this.toolType() !== 1) {
@@ -27,10 +30,10 @@ export class EditorResizerComponent {
         }
         return {
             display: 'block',
-            left: this.rectBound.x + 'px',
-            top: this.rectBound.y + 'px',
-            width: this.rectBound.width + 'px',
-            height: this.rectBound.height + 'px',
+            left: this.rectBound!.x + 'px',
+            top: this.rectBound!.y + 'px',
+            width: this.rectBound!.width + 'px',
+            height: this.rectBound!.height + 'px',
         };
     });
 
@@ -42,9 +45,9 @@ export class EditorResizerComponent {
         }
         return {
             display: 'block',
-            left: this.rectBound.x + 'px',
-            top: this.rectBound.y + 'px',
-            height: this.rectBound.height + 'px',
+            left: this.rectBound!.x + 'px',
+            top: this.rectBound!.y + 'px',
+            height: this.rectBound!.height + 'px',
         };
     });
 
@@ -56,9 +59,9 @@ export class EditorResizerComponent {
         }
         return {
             display: 'block',
-            left: this.rectBound.x + 'px',
-            top: this.rectBound.y + 'px',
-            width: this.rectBound.width + 'px',
+            left: this.rectBound!.x + 'px',
+            top: this.rectBound!.y + 'px',
+            width: this.rectBound!.width + 'px',
         };
     });
 
@@ -202,7 +205,7 @@ export class EditorResizerComponent {
             }
             const offsetX = p.x - last.x;
             const offsetY = p.y - last.y;
-            this.rectBound = move(this.rectBound, offsetX, offsetY);
+            this.rectBound = move(this.rectBound!, offsetX, offsetY);
             last = p;
         }, _ => {
             const toolType = this.toolType();

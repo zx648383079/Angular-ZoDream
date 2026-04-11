@@ -1,4 +1,4 @@
-import { afterNextRender, Component, ElementRef, HostListener, signal, viewChild } from '@angular/core';
+import { afterNextRender, Component, ElementRef, HostListener, input, signal, viewChild } from '@angular/core';
 import { IFileDataSource, IFileExplorerTool, IFileItem } from '../../model';
 import { assetUri } from '../../../../theme/utils';
 import { Canvas } from './Canvas';
@@ -16,11 +16,11 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool {
 
     private readonly imageBox = viewChild<ElementRef<HTMLDivElement>>('imageBox');
     public readonly visible = signal(false);
-    public data: IFileItem;
+    public readonly data = signal<IFileItem|null>(null);
     public readonly isLoading = signal(false);
     public readonly isEditting = signal(false);
     public toolItems = ImageActionItems;
-    private resizeFn: Function;
+    private resizeFn?: Function;
     private canvas: Canvas|undefined;
     private imageData: HTMLImageElement|undefined;
     private imageWidth = 0;
@@ -55,7 +55,7 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool {
     }
 
     public get formatIndex() {
-        return `${this.dataIndex + 1}/${this.dataSource.count}`;
+        return `${this.dataIndex + 1}/${this.dataSource!.count}`;
     }
 
     public open(file: IFileItem, source: IFileDataSource) {
@@ -72,17 +72,17 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool {
     public tapPrevious() {
         this.dataIndex --;
         if (this.dataIndex < 0) {
-            this.dataIndex += this.dataSource.count();
+            this.dataIndex += this.dataSource!.count();
         }
-        this.changeFile(this.dataSource.getAt(this.dataIndex));
+        this.changeFile(this.dataSource!.getAt(this.dataIndex)!);
     }
 
     public tapNext() {
         this.dataIndex ++;
-        if (this.dataIndex >= this.dataSource.count()) {
+        if (this.dataIndex >= this.dataSource!.count()) {
             this.dataIndex = 0;
         }
-        this.changeFile(this.dataSource.getAt(this.dataIndex));
+        this.changeFile(this.dataSource!.getAt(this.dataIndex)!);
     }
 
     public tapEnterEdit() {
@@ -96,12 +96,12 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool {
     }
 
     public tapTool(action: IImageAction) {
-        this.canvas.batch(() => action.action(this.canvas.layer));
+        this.canvas!.batch(() => action.action(this.canvas!.layer));
     }
 
     private changeFile(file: IFileItem) {
-        this.data = {...file};
-        this.loadImage(file.thumb).subscribe(res => {
+        this.data.set({...file});
+        this.loadImage(file.thumb!).subscribe(res => {
             this.imageData = res;
             this.imageWidth = res.width;
             this.imageHeight = res.height;
@@ -111,18 +111,18 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool {
     }
 
     private applyEditting() {
-        if (this.isEditting) {
+        if (this.isEditting()) {
             const ele = document.createElement('canvas');
             this.resetCanvas(ele);
             this.reset(ele);
             this.canvas = new Canvas(ele);
-            this.imageData.width = this.imageWidth;
-            this.imageData.height = this.imageHeight;
-            this.canvas.drawImage(this.imageData);
+            this.imageData!.width = this.imageWidth;
+            this.imageData!.height = this.imageHeight;
+            this.canvas.drawImage(this.imageData!);
         } else {
             this.canvas = undefined;
-            this.resetImage(this.imageData, this.imageWidth, this.imageHeight);
-            this.reset(this.imageData);
+            this.resetImage(this.imageData!, this.imageWidth, this.imageHeight);
+            this.reset(this.imageData!);
         }
     }
 
@@ -163,7 +163,7 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool {
         if (!this.visible || !target) {
             return;
         }
-        const box = target.parentElement;
+        const box = target.parentElement!;
         img.width = box.clientWidth;
         img.height = box.clientHeight;
         target.removeAttribute('style');
@@ -185,7 +185,7 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool {
         if (!this.visible || !target) {
             return {width: 0, height: 0};
         }
-        const box = target.parentElement;
+        const box = target.parentElement!;
         return {width: box.clientWidth, height: box.clientHeight};
     } 
 }

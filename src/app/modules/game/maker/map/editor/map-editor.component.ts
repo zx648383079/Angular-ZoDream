@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, afterNextRender, inject, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, afterNextRender, computed, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IBound, IPoint, computedBound, isIntersect, drawLineTo } from '../../../../../theme/utils/canvas';
@@ -46,9 +46,12 @@ export class MapEditorComponent {
         width: 0,
         height: 0
     };
-    private ctx: CanvasRenderingContext2D;
+    private ctx?: CanvasRenderingContext2D;
 
-    private moveListeners = {
+    private mouseMoveListeners: {
+        move?: (p: MouseEvent) => void,
+        finish?: (p: MouseEvent) => void,
+    } = {
         move: undefined,
         finish: undefined,
     };
@@ -71,20 +74,20 @@ export class MapEditorComponent {
     }
     @HostListener('document:mousemove', ['$event'])
     public onMouseMove(e: MouseEvent) {
-        if (this.moveListeners.move) {
-            this.moveListeners.move(e);
+        if (this.mouseMoveListeners.move) {
+            this.mouseMoveListeners.move(e);
         }
     }
 
     @HostListener('document:mouseup', ['$event'])
     public onMouseUp(e: MouseEvent) {
-        if (this.moveListeners.finish) {
-            this.moveListeners.finish(e);
+        if (this.mouseMoveListeners.finish) {
+            this.mouseMoveListeners.finish(e);
         }
     }
 
     constructor() {
-        this.route.parent.params.subscribe(params => {
+        this.route.parent!.params.subscribe(params => {
             this.queries.project().value.set(parseNumber(params.game));
         });
         this.service.mapAll(this.queries().value()).subscribe(res => {
@@ -99,12 +102,12 @@ export class MapEditorComponent {
                     return;
                 }
                 this.onResize();
-                this.ctx = canvas.getContext('2d');
+                this.ctx = canvas.getContext('2d')!;
             }
         });
     }
     
-    public get selectionStyle() {
+    public readonly selectionStyle = computed(() => {
         if (!this.selectionRect.width || !this.selectionRect.height) {
             return {
                 display: 'none'
@@ -116,7 +119,7 @@ export class MapEditorComponent {
             width: this.selectionRect.width + 'px',
             height: this.selectionRect.height + 'px',
         };
-    }
+    });
 
     public tapAddIndigenous(item: IGameMap) {
         this.panelOpen.set(true);
@@ -154,7 +157,7 @@ export class MapEditorComponent {
             });
             return;
         }
-        this.mapModal().open(() => {
+        this.mapModal()!.open(() => {
             this.service.mapSave({...this.editForm().value(), project_id: this.queries.project, ...this.formatPoint(e)}).subscribe(res => {
                 this.items.update(v => {
                     v.push(res);
@@ -193,23 +196,23 @@ export class MapEditorComponent {
     public onLinkStart(item: IGameMap, e: MouseEvent, pos = 0) {
         e.stopPropagation();
         const from = this.formatPoint(e);
-        const img = this.ctx.getImageData(0, 0, this.width, this.height);
+        const img = this.ctx!.getImageData(0, 0, this.width, this.height);
         this.withMove(p => {
-            this.ctx.putImageData(img, 0, 0);
+            this.ctx!.putImageData(img, 0, 0);
             this.lineTo(from, this.formatPoint(p));
         }, p => {
-            const target = this.getLineTo(this.formatPoint(p));
+            const target = this.getLineTo(this.formatPoint(p)) as any;
             if (target === item) {
                 return;
             }
             const toKey = this.posLineToKey(pos);
             if (target) {
-                target[toKey] = item.id
+                target[toKey] = item.id;
                 this.service.mapSave({...target, project_id: this.queries.project}).subscribe(res => {
                     const fromKey = this.posToKey(pos);
-                    item[fromKey] = res.id;
+                    (item as any)[fromKey] = res.id;
                     this.items.update(v => {
-                        return v.map(i => {
+                        return v.map((i: any) => {
                             if (i !== target && i[toKey] == item.id) {
                                 i[toKey] = 0;
                             } else if (i !== item && i[fromKey] == target.id) {
@@ -224,14 +227,14 @@ export class MapEditorComponent {
             }
             
             this.editForm.name().value.set('');
-            this.mapModal().open(() => {
+            this.mapModal()!.open(() => {
                 this.service.mapSave({...this.editForm().value(), 
                     [toKey]: item.id,
                     project_id: this.queries.project, 
                     ...this.formatPoint(p)}).subscribe(res => {
-                    item[this.posToKey(pos)] = res.id;
+                    (item as any)[this.posToKey(pos)] = res.id;
                     this.items.update(v => {
-                        return [...v.map(i => {
+                        return [...v.map((i: any) => {
                             if (i[toKey] == item.id) {
                                 i[toKey] = 0;
                             }
@@ -253,14 +256,14 @@ export class MapEditorComponent {
     }
 
     private lineTo(from: IPoint, to: IPoint) {
-        drawLineTo(this.ctx, from, to, 2, this.lineColor);
+        drawLineTo(this.ctx!, from, to, 2, this.lineColor);
     }
 
     private withMove(move?: (p: MouseEvent) => void, finish?: (p: MouseEvent) => void) {
-        this.moveListeners = {
+        this.mouseMoveListeners = {
             move,
             finish: !move && !finish ? undefined : (p: MouseEvent) => {
-                this.moveListeners = {move: undefined, finish: undefined};
+                this.mouseMoveListeners = {move: undefined, finish: undefined};
                 finish && finish(p);
             },
         };
@@ -276,20 +279,20 @@ export class MapEditorComponent {
     }
 
     private refreshLine() {
-        this.ctx.clearRect(0, 0, this.width, this.height);
+        this.ctx!.clearRect(0, 0, this.width, this.height);
         const boundItems: any = {};
         for (const item of this.items()) {
             boundItems[item.id] = this.formatMapBound(item);
         }
-        const exist = [];
+        const exist: number[] = [];
         
         for (const item of this.items()) {
             exist.push(item.id);
             posMap.forEach((key, i) => {
-                if (!item[key] || exist.indexOf(item[key]) >= 0) {
+                if (!(item as any)[key] || exist.indexOf((item as any)[key]) >= 0) {
                     return;
                 }
-                this.lineTo(this.getPointFromKey(boundItems[item.id], key), this.getPointFromKey(boundItems[item[key]], this.posLineToKey(i)));
+                this.lineTo(this.getPointFromKey(boundItems[item.id], key), this.getPointFromKey(boundItems[(item as any)[key]], this.posLineToKey(i)));
             });
         }
     }

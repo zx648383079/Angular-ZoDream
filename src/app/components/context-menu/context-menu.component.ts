@@ -17,9 +17,9 @@ export class ContextMenuComponent {
     public readonly flowLeft = signal(false);
     public readonly visible = signal(false);
 
-    private x: number;
-    private y: number;
-    private finished: MenuEvent;
+    private x = 0;
+    private y = 0;
+    private finished?: MenuEvent;
 
     @HostListener('document:click', ['$event']) 
     public hideCalendar(event: MouseEvent) {

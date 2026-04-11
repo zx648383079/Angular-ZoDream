@@ -44,10 +44,8 @@ export class EditorDropdownComponent implements IEditorSharedModal {
     public readonly items = signal<IEditorOptionItem[]>([]);
     public readonly selected = signal('');
     public readonly modalStyle = signal<any>({});
-    private confirmFn: EditorModalCallback;
+    private confirmFn?: EditorModalCallback;
 
-    constructor() {
-    }
 
     public modalReady(module: IEditorModule) {
         if (module.name === 'font') {

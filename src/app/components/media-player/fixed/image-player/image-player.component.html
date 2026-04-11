@@ -1,7 +1,7 @@
-@if (data && visible()) {
+@if (data() && visible()) {
 <div class="image-player" [class]="{'fixed-player': isFixed()}">
     <div class="player-body">
-        <img [src]="formatAsset(data.source)" [alt]="data.name">
+        <img [src]="formatAsset(data().source)" [alt]="data().name">
     </div>
     <div class="player-action">
         <i class="iconfont icon-close" (click)="stop()"></i>

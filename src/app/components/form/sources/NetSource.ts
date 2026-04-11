@@ -43,7 +43,7 @@ export class NetSource implements IDataSource {
     }
 
     private readonly rangeKey: string = 'value';
-    private readonly formatFn: FormatFn;
+    private readonly formatFn?: FormatFn;
 
     private convertSource?: IDataSource;
 
@@ -70,7 +70,7 @@ export class NetSource implements IDataSource {
             if (!keywords) {
                 return res;
             }
-            return res.pipe(map(res => res.filter(i => i.name.indexOf(keywords) >= 0)));
+            return res.pipe(map(res => res.filter(i => i.name!.indexOf(keywords) >= 0)));
         }
         return this.getOrSet({
             [this.searchKey]: keywords
@@ -158,7 +158,7 @@ export class NetSource implements IDataSource {
             if (this.formatFn) {
                 items = [];
                 eachObject(res.data, v => {
-                    items.push(this.formatFn(v));
+                    items.push(this.formatFn!(v));
                 });
             }
             return NetSource.cacheMaps[key] = items;

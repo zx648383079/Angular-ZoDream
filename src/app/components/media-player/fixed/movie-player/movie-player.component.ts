@@ -1,8 +1,8 @@
-import { Component, DestroyRef, ElementRef, Renderer2, afterNextRender, inject, input, signal, viewChild } from '@angular/core';
-import { ScreenFull } from '../../util';
+import { Component, DestroyRef, ElementRef, HostListener, Renderer2, afterNextRender, inject, input, signal, viewChild } from '@angular/core';
 import { IMediaFile, PlayerEvent, PlayerEvents, PlayerListeners } from '../model';
 import Hls from 'hls.js';
 import { findIndex } from '../../../../theme/utils';
+import { ThemeService } from '../../../../theme/services';
 
 @Component({
     standalone: false,
@@ -11,27 +11,28 @@ import { findIndex } from '../../../../theme/utils';
     styleUrls: ['./movie-player.component.scss']
 })
 export class MoviePlayerComponent implements PlayerEvent {
-    private render = inject(Renderer2);
+    private readonly render = inject(Renderer2);
     private readonly destroyRef = inject(DestroyRef);
+    private readonly themeService = inject(ThemeService);
 
     private readonly videoElement = viewChild<ElementRef<HTMLVideoElement>>('playerVideo');
     private readonly barElement = viewChild<ElementRef<HTMLDivElement>>('playerBar');
     public readonly isFixed = input(true);
     public readonly speedable = input(true);
-    public paused = true;
+    public readonly paused = signal(true);
     public booted = false;
-    public isFull = false;
-    public openCatalog = false;
-    public moreVisible = false;
-    public morePanelVisible = false;
+    public readonly isFull = signal(false);
+    public readonly openCatalog = signal(false);
+    public readonly moreVisible = signal(false);
+    public readonly morePanelVisible = signal(false);
     public readonly items = signal<IMediaFile[]>([]);
-    public data: IMediaFile;
+    public readonly data = signal<IMediaFile|null>(null);
     public index = -1;
-    public progress = 0;
-    public duration = 0;
-    public loaded = 0;
-    public volume = 100;
-    public bodyHeight = 100;
+    public readonly progress = signal(0);
+    public readonly duration = signal(0);
+    public readonly loaded = signal(0);
+    public readonly volume = signal(100);
+    public readonly bodyHeight = signal(100);
     private volumeLast = 100;
     private listeners: {
         [key: string]: Function[];
@@ -46,9 +47,6 @@ export class MoviePlayerComponent implements PlayerEvent {
         afterNextRender({
             write: () => {
                 this.bindVideoEvent();
-                this.render.listen(document, ScreenFull.changeEvent, () => {
-                    this.isFull = ScreenFull.isFullScreen;
-                });
                 this.render.listen(window, 'resize', () => {
                     this.resize();
                 });
@@ -56,11 +54,24 @@ export class MoviePlayerComponent implements PlayerEvent {
             }
         });
         this.destroyRef.onDestroy(() => {
-            if (this.paused || !this.videoPlayer) {
+            if (this.paused() || !this.videoPlayer) {
                 return;
             }
             this.videoPlayer.pause();
         });
+    }
+
+    @HostListener('document:fullscreenchange')
+    public onFullScreenChange() {
+        this.isFull.set(this.themeService.isFullScreen);
+    }
+
+    public toggleCatalog() {
+        this.openCatalog.update(v => !v);
+    }
+
+    public toggleMore() {
+        this.morePanelVisible.update(v => !v);
     }
 
     private resize() {
@@ -68,10 +79,10 @@ export class MoviePlayerComponent implements PlayerEvent {
         if (!video) {
             return;
         }
-        const bar = this.barElement().nativeElement;
+        const bar = this.barElement()!.nativeElement;
         const barHeight = bar ? bar.clientHeight : 0;
         setTimeout(() => {
-            this.bodyHeight = video.height = window.innerHeight - (this.isFull ? 0 : barHeight);
+            this.bodyHeight.set(video.height = window.innerHeight - (this.isFull() ? 0 : barHeight));
         }, 1);
     }
 
@@ -90,8 +101,8 @@ export class MoviePlayerComponent implements PlayerEvent {
             return;
         }
         this.index = i;
-        this.data = this.items[i];
-        this.loadSource(this.items[i].source);
+        this.data.set(this.items()[i]);
+        this.loadSource(this.items()[i].source);
         this.videoPlayer.play();
     }
     public pause(): void {
@@ -125,18 +136,18 @@ export class MoviePlayerComponent implements PlayerEvent {
     }
 
     public tapVolume() {
-        if (this.volume <= 0) {
+        if (this.volume() <= 0) {
             this.onVolumeChange(this.volumeLast);
             return;
         }
-        this.volumeLast = this.volume;
+        this.volumeLast = this.volume();
         this.onVolumeChange(0);
     }
 
     public onVolumeChange(v: number) {
-        this.volume = v;
+        this.volume.set(v);
         if (this.videoPlayer) {
-            this.videoPlayer.volume = this.volume / 100;
+            this.videoPlayer.volume = this.volume() / 100;
         }
     }
 
@@ -149,26 +160,26 @@ export class MoviePlayerComponent implements PlayerEvent {
     }
 
     public tapFullScreen() {
-        if (this.isFull) {
+        if (this.isFull()) {
             this.exitFullscreen();
-            this.isFull = false;
+            this.isFull.set(false);
             return;
         }
         this.fullScreen();
-        this.isFull = true;
-        this.openCatalog = false;
+        this.isFull.set(true);
+        this.openCatalog.set(false);
     }
 
     private fullScreen() {
-        ScreenFull.request();
+        this.themeService.requestFullScreen();
     }
     
     private exitFullscreen() {
-        ScreenFull.exit();
+        this.themeService.exitFullScreen();
     }
 
     private loadSource(src: string) {
-        const video = this.videoPlayer;
+        const video = this.videoPlayer!;
         if (src.indexOf('.m3u8') < 0 || video.canPlayType('application/vnd.apple.mpegurl')) {
             video.src = src;
             //
@@ -193,39 +204,39 @@ export class MoviePlayerComponent implements PlayerEvent {
         video.addEventListener('timeupdate', () => {
             this.emit(PlayerEvents.TIME_UPDATE);
             if (isNaN(video.duration) || !isFinite(video.duration) || video.duration <= 0) {
-                this.progress = 0;
-                this.duration = 0;
-                this.loaded = 0;
+                this.progress.set(0);
+                this.duration.set(0);
+                this.loaded.set(0);
                 return;
             }
-            this.progress = video.currentTime;
-            this.duration = video.duration;
+            this.progress.set(video.currentTime);
+            this.duration.set(video.duration);
         });
         video.addEventListener('canplay', () => {
-            this.loaded = video.buffered.length ? video.buffered.end(video.buffered.length - 1) : 0;
+            this.loaded.set(video.buffered.length ? video.buffered.end(video.buffered.length - 1) : 0);
         });
         video.addEventListener('progress', () => {
-            this.loaded = video.buffered.length ? video.buffered.end(video.buffered.length - 1) : 0;
+            this.loaded.set(video.buffered.length ? video.buffered.end(video.buffered.length - 1) : 0);
         });
         video.addEventListener('error', () => {
-            this.paused = true;
+            this.paused.set(true);
         });
         video.addEventListener('ended', () => {
-            this.paused = true;
+            this.paused.set(true);
             this.emit(PlayerEvents.ENDED);
-            this.data.active = false;
+            this.data.update(v => (<IMediaFile>{...v, active: false}));
         });
         video.addEventListener('pause', () => {
-            this.paused = true;
+            this.paused.set(true);
             this.emit(PlayerEvents.PAUSE);
         });
         video.addEventListener('play', () => {
-            this.paused = false;
-            this.data.active = true;
+            this.paused.set(false);
+            this.data.update(v => (<IMediaFile>{...v, active: true}));
             this.emit(PlayerEvents.PLAY);
         });
-        if (this.volume > 0) {
-            this.volume = video.volume * 100;
+        if (this.volume() > 0) {
+            this.volume.set(video.volume * 100);
         }
     }
 

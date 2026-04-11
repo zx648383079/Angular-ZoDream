@@ -23,7 +23,7 @@ export class SwipeControlComponent {
     public readonly syncRefresh = signal(false);
     public readonly tapped = output();
 
-    public parent: SwipeListControlComponent;
+    public parent?: SwipeListControlComponent;
     private oldLeft = 0;
 
 

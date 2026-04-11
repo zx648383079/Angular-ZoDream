@@ -1,12 +1,12 @@
 <div class="music-player" #playerBar [class]="{'fixed-player': isFixed(), hidden: hidden()}">
     <div class="player-body">
-        <app-spectrum-panel [width]="lyricsWidth" [height]="lyricsHeight" [hidden]="!spectrumVisible" [value]="channelData" />
-        <app-lyrics-viewer [width]="lyricsWidth" [height]="lyricsHeight" [src]="lyricsSrc" [hidden]="!lyricsVisible" [duration]="duration" [currentTime]="progress" />
+        <app-spectrum-panel [width]="lyricsWidth()" [height]="lyricsHeight()" [hidden]="!spectrumVisible()" [value]="channelData()" />
+        <app-lyrics-viewer [width]="lyricsWidth()" [height]="lyricsHeight()" [src]="lyricsSrc()" [hidden]="!lyricsVisible()" [duration]="duration()" [currentTime]="progress()" />
     </div>
-    <div class="player-catalog" [hidden]="!catalogVisible">
+    <div class="player-catalog" [hidden]="!catalogVisible()">
         <app-play-list [min]="true" [items]="items()" (playing)="play($event)" />
     </div>
-    @if (morePanelVisible) {
+    @if (morePanelVisible()) {
     <div class="more-dialog">
         <div class="group-item" title="频谱显示">
             <span class="item-label">
@@ -34,10 +34,10 @@
         </div>
         <div class="group-item" title="音量调节">
             <span class="item-label">
-                <i class="iconfont" [class]="{'icon-volume-off': volume <= 0, 'icon-volume-down': volume > 0 && volume <= 60, 'icon-volume-up': volume > 60}" (click)="tapVolume()"></i>
+                <i class="iconfont" [class]="{'icon-volume-off': volume() <= 0, 'icon-volume-down': volume() > 0 && volume() <= 60, 'icon-volume-up': volume() > 60}" (click)="tapVolume()"></i>
             </span>
             <div class="item-body">
-                <app-player-progress-bar [formatValue]="false" [value]="volume" (valueChange)="onVolumeChange($event)" />
+                <app-player-progress-bar [formatValue]="false" [value]="volume()" (valueChange)="onVolumeChange($event)" />
             </div>
         </div>
     </div>
@@ -45,40 +45,40 @@
     
     <div class="player-bar">
         <div class="bar-action">
-            <i class="iconfont icon-step-backward" [class]="{disabled: canPrevious}" (click)="tapPrevious()"></i>
-            <i class="iconfont play-btn" [class]="{'icon-play': paused, 'icon-pause': !paused}" (click)="togglePlay()"></i>
-            <i class="iconfont icon-stop" [class]="{disabled: !data}" (click)="stop()"></i>
-            <i class="iconfont icon-step-forward" [class]="{disabled: canNext}" (click)="tapNext()"></i>
+            <i class="iconfont icon-step-backward" [class]="{disabled: canPrevious()}" (click)="tapPrevious()"></i>
+            <i class="iconfont play-btn" [class]="{'icon-play': paused(), 'icon-pause': !paused()}" (click)="togglePlay()"></i>
+            <i class="iconfont icon-stop" [class]="{disabled: !data()}" (click)="stop()"></i>
+            <i class="iconfont icon-step-forward" [class]="{disabled: canNext()}" (click)="tapNext()"></i>
         </div>
         <div class="bar-body">
-            @if (data?.cover) {
+            @if (data()?.cover) {
             <div class="bar-cover">
-                <img [src]="formatAsset(data?.cover)" alt="">
+                <img [src]="formatAsset(data()?.cover)" alt="">
             </div>
             }
             
             <div class="bar-flex-body">
                 <div class="bar-header">
                     <div class="bar-title">
-                        <span>{{ data?.name || 'unknown' }}</span>
-                        <span class="name-meta">{{ data?.artist }}</span>
+                        <span>{{ data()?.name || 'unknown' }}</span>
+                        <span class="name-meta">{{ data()?.artist }}</span>
                     </div>
                     <div class="bar-time">
-                        {{ progress | duration }}/{{ duration | duration }}
+                        {{ progress() | duration }}/{{ duration() | duration }}
                     </div>
                 </div>
                 <div class="bar-progress">
-                    <app-player-progress-bar [value]="progress" [loaded]="loaded" [max]="duration" (valueChange)="onProgressChange($event)" />
+                    <app-player-progress-bar [value]="progress()" [loaded]="loaded()" [max]="duration()" (valueChange)="onProgressChange($event)" />
                 </div>
             </div>
         </div>
         <div class="bar-footer">
-            <i class="iconfont" [hidden]="moreVisible" [class]="{'icon-volume-off': volume <= 0, 'icon-volume-down': volume > 0 && volume <= 60, 'icon-volume-up': volume > 60}" (click)="tapVolume()"></i>
-            <i class="iconfont" [class]="{'icon-random': loop == 2, 'icon-refresh': loop == 1, 'icon-sort-alpha-asc': loop < 1, 'icon-circle': loop == 3, 'icon-check-circle': loop == 4}" [title]="loopTip" (click)="toggleLoop()"></i>
-            <i class="iconfont icon-th-list" (click)="catalogVisible = !catalogVisible" title="查看播放列表"></i>
-            <i class="iconfont icon-bar-chart" [hidden]="moreVisible" title="频谱显示" (click)="toggleSpectrum()"></i>
-            <i class="iconfont icon-file-text-o" [hidden]="moreVisible" title="歌词显示" (click)="toggleLyrics()"></i>
-            <i class="iconfont icon-ellipsis-v" [hidden]="!moreVisible" title="更多操作" (click)="morePanelVisible = !morePanelVisible"></i>
+            <i class="iconfont" [hidden]="moreVisible()" [class]="{'icon-volume-off': volume() <= 0, 'icon-volume-down': volume() > 0 && volume() <= 60, 'icon-volume-up': volume() > 60}" (click)="tapVolume()"></i>
+            <i class="iconfont" [class]="{'icon-random': loop() == 2, 'icon-refresh': loop() == 1, 'icon-sort-alpha-asc': loop() < 1, 'icon-circle': loop() == 3, 'icon-check-circle': loop() == 4}" [title]="loopTip()" (click)="toggleLoop()"></i>
+            <i class="iconfont icon-th-list" (click)="toggleCatalog()" title="查看播放列表"></i>
+            <i class="iconfont icon-bar-chart" [hidden]="moreVisible()" title="频谱显示" (click)="toggleSpectrum()"></i>
+            <i class="iconfont icon-file-text-o" [hidden]="moreVisible()" title="歌词显示" (click)="toggleLyrics()"></i>
+            <i class="iconfont icon-ellipsis-v" [hidden]="!moreVisible()" title="更多操作" (click)="toggleMore()"></i>
         </div>
     </div>
 </div>

@@ -33,8 +33,8 @@ export class DragDropDirective {
             return false;
         }
         event.stopPropagation();
-        event.dataTransfer.setData(MimeType, JSON.stringify(this.appDragDrop()));
-        event.dataTransfer.effectAllowed = this.effectAllowed();
+        event.dataTransfer!.setData(MimeType, JSON.stringify(this.appDragDrop()));
+        event.dataTransfer!.effectAllowed = this.effectAllowed();
         this.tryGetPlaceholder();
         return true;
     }
@@ -53,7 +53,7 @@ export class DragDropDirective {
     @HostListener('drop', ['$event']) 
     public onDrop(event: DragEvent): boolean {
         event.stopPropagation();
-        const target = JSON.parse(event.dataTransfer.getData(MimeType));
+        const target = JSON.parse(event.dataTransfer!.getData(MimeType));
         const before = this.getDirectFromEvent(event);
         this.removePlaceholder();
         this.appDrog.emit({
@@ -79,14 +79,14 @@ export class DragDropDirective {
 
     private checkAndUpdatePlaceholderPosition(event: DragEvent) {
         if (this.getDirectFromEvent(event)) {
-            EditorHelper.insertBefore(event.target as any, DragDropDirective.placeholder);
+            EditorHelper.insertBefore(event.target as any, DragDropDirective.placeholder!);
         } else {
-            EditorHelper.insertAfter(event.target as any, DragDropDirective.placeholder);
+            EditorHelper.insertAfter(event.target as any, DragDropDirective.placeholder!);
         }
     }
 
     private removePlaceholder() {
-        EditorHelper.removeNode(DragDropDirective.placeholder);
+        EditorHelper.removeNode(DragDropDirective.placeholder!);
         DragDropDirective.placeholder = null;
     }
     

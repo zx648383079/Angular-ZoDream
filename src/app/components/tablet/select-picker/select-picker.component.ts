@@ -22,9 +22,9 @@ export class SelectPickerComponent {
     public readonly source = input.required<IDataSource>();
     public readonly items = signal<ISelectColumn[]>([]);
     public readonly value = model<any>();
-    private startPoint: IPoint;
+    private startPoint?: IPoint;
     private isTouchMoved = false;
-    private lastPoint: IPoint;
+    private lastPoint?: IPoint;
 
     private get isTouched() {
         return !!this.startPoint;
@@ -149,18 +149,18 @@ export class SelectPickerComponent {
     private touchMove(point: IPoint) {
         this.isTouchMoved = true;
         this.lastPoint = point;
-        const y = point.y - this.startPoint.y;
+        const y = point.y - this.startPoint!.y;
         const diff = Math.abs(y);
         if (diff >= this.lineHeight()) {
             // 滑动了一个单位就更新起始y 坐标
-            this.startPoint.y = point.y;
-            this.doMove(diff, y < 0, this.startPoint.x);
+            this.startPoint!.y = point.y;
+            this.doMove(diff, y < 0, this.startPoint!.x);
         }
     }
 
     private touchEnd() {
         if (this.isJustTouched) {
-            this.touched(this.startPoint);
+            this.touched(this.startPoint!);
         }
         this.startPoint = undefined;
         this.isTouchMoved = false;

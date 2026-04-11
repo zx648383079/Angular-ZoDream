@@ -26,10 +26,10 @@ export class SwipeListControlComponent {
     private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
     public readonly items = contentChildren(SwipeControlComponent);
 
-    private startChild: SwipeControlComponent;
+    private startChild?: SwipeControlComponent;
     private state = TouchState.None;
-    private startPoint: IPoint;
-    private lastPoint: IPoint;
+    private startPoint?: IPoint;
+    private lastPoint?: IPoint;
     private startTime = 0;
     private isTouchMoved = false;
 
@@ -82,7 +82,7 @@ export class SwipeListControlComponent {
 
     private get isScroll(): boolean {
         if (!this.lastPoint || !this.startPoint) {
-            return;
+            return false;
         }
         return Math.abs(this.startPoint.x - this.lastPoint.x) < Math.abs(this.startPoint.y - this.lastPoint.y);
     }
@@ -121,7 +121,7 @@ export class SwipeListControlComponent {
     public touchStart(target: SwipeControlComponent, point: IPoint, isTouched = false) {
         if (this.startChild) {
             this.startChild.touchEnd();
-            this.startChild = null;
+            this.startChild = undefined;
         }
         this.startChild = target;
         this.state = isTouched ? TouchState.Touch : TouchState.Mouse;
@@ -151,13 +151,13 @@ export class SwipeListControlComponent {
             return;
         }
         e.preventDefault();
-        target.touchMove(this.lastPoint.x - this.startPoint.x);
+        target.touchMove(this.lastPoint.x - this.startPoint!.x);
     }
 
     public touchEnd() {
         const target = this.startChild;
         const isJustTouched = this.isJustTouched;
-        this.startChild = null;
+        this.startChild = undefined;
         this.state = TouchState.None;
         if (!target) {
             return;
@@ -170,9 +170,9 @@ export class SwipeListControlComponent {
     }
 
     public siblings(exclude: SwipeControlComponent): SwipeControlComponent[] {
-        const items = [];
+        const items: SwipeControlComponent[] = [];
         for (let i = 0; i < this.items().length; i++) {
-            const item = this.items().at(i);
+            const item = this.items().at(i)!;
             if (item === exclude) {
                 continue;
             }

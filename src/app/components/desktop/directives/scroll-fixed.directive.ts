@@ -39,13 +39,13 @@ export class ScrollFixedDirective {
         const oldTop = this.lastScrollTop;
         const sT = this.lastScrollTop = scrollTop(this.document);
         if (sT <= this.lastOffset) {
-            toggleClass(target, this.appScrollFixed(), false);
+            toggleClass(target, this.appScrollFixed()!, false);
             return;
         }
         if (this.whenScrollTop()) {
-            toggleClass(target, this.appScrollFixed(), oldTop > sT);
+            toggleClass(target, this.appScrollFixed()!, oldTop > sT);
             return;
         }
-        toggleClass(target, this.appScrollFixed(), true);
+        toggleClass(target, this.appScrollFixed()!, true);
     }
 }

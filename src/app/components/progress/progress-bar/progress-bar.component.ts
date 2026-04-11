@@ -71,7 +71,7 @@ export class ProgressBarComponent {
         const div = this.elementRef.nativeElement as HTMLDivElement;
         const bound = div.getBoundingClientRect();
         const offset = event.clientX - bound.left;
-        const innerWidth = div.querySelector('.progress-bar').getBoundingClientRect().width;
+        const innerWidth = div.querySelector('.progress-bar')!.getBoundingClientRect().width;
         if (Math.abs(offset - innerWidth) < 3) {
             this.isMouseMove = true;
         }
