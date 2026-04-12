@@ -19,10 +19,10 @@ export class SearchDialogComponent {
 
     private readonly modal = viewChild(ProductDialogComponent);
     public readonly multiple = input(false);
-    public readonly value = model<IGoodsResult | IGoodsResult[]>(undefined);
+    public readonly value = model<IGoodsResult | IGoodsResult[]>();
     public readonly visible = signal(false);
     public readonly propertyVisible = input(false);
-    private confirmFn: (items: IGoodsResult|IGoodsResult[]) => void;
+    private confirmFn?: (items: IGoodsResult|IGoodsResult[]) => void;
     public readonly items = signal<IGoods[]>([]);
     private hasMore = true;
     public readonly isLoading = signal(false);
@@ -41,8 +41,8 @@ export class SearchDialogComponent {
 
     constructor() {
         this.http.post<{
-            category?: ICategory[];
-            brand?: IBrand[];
+            category: ICategory[];
+            brand: IBrand[];
         }>('shop/admin/batch', {
             category: {},
             brand: {}
@@ -60,8 +60,8 @@ export class SearchDialogComponent {
      * 显示
      * @param confirm
      */
-    public open();
-    public open(confirm: (items: IGoodsResult|IGoodsResult[]) => void);
+    public open(): void;
+    public open(confirm: (items: IGoodsResult|IGoodsResult[]) => void): void;
     public open(confirm?: (items: IGoodsResult|IGoodsResult[], next?: (close: boolean) => void) => void) {
         this.visible.set(true);
         this.confirmFn = confirm;
@@ -108,7 +108,7 @@ export class SearchDialogComponent {
             cb(item);
             return;
         }
-        this.modal().open(item, data => {
+        this.modal()!.open(item, data => {
             if (data) {
                 cb(data);
             }

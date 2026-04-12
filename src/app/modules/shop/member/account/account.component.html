@@ -3,7 +3,7 @@
         <div>
             <app-user-menu currentUrl="member/account" />
         </div>
-        @if (user) {
+        @if (user()) {
         <div class="account-box">
             <div class="account-tip">
                 <a href="">安全中心</a>
@@ -12,13 +12,13 @@
             <div class="account-header">
                 <div>
                     <p>我的可用余额</p>
-                    <div class="money">￥{{ user.money | numberFormat }}</div>
+                    <div class="money">￥{{ user()!.money | numberFormat }}</div>
                 </div>
                 <div>
                     <p>
                         <i class="iconfont icon-mobile"></i>
                         全部余额：
-                        <em>￥{{ user.money | numberFormat }}</em>
+                        <em>￥{{ user()!.money | numberFormat }}</em>
                     </p>
                     <p>
                         <i class="iconfont icon-mobile"></i>
@@ -28,7 +28,7 @@
                     <p>
                         <i class="iconfont icon-mobile"></i>
                         账户状态：
-                        <em>{{ user.status >= 10 ? '有效' : '冻结' }}</em>
+                        <em>{{ user()!.status! >= 10 ? '有效' : '冻结' }}</em>
                     </p>
                 </div>
                 <div>
@@ -63,7 +63,7 @@
                 @for (item of items(); track $index) {
                     <tr>
                     <td>{{ item.created_at }}</td>
-                    <td>{{ item.money > 0 ? '+' : '' }}{{ item.money }}</td>
+                    <td>{{ item.money! > 0 ? '+' : '' }}{{ item.money }}</td>
                     <td>{{ item.type_label }}</td>
                     <td>{{ item.remark }}</td>
                 </tr>

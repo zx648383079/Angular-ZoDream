@@ -69,8 +69,8 @@ export class AppStoreService {
         };
     }) {
         return this.http.post<{
-            categories?: ICategory[];
-            recommend?: ICategory[];
+            categories: ICategory[];
+            recommend: ICategory[];
         }>('app/batch', data);
     }
 }

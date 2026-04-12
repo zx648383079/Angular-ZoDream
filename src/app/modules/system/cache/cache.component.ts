@@ -37,11 +37,11 @@ export class CacheComponent {
         e?.enter();
         this.service.cacheClear({store}).subscribe({
             next: _ => {
-                e.reset();
+                e?.reset();
                 this.toastrService.success('成功清除缓存');
             },
             error: err => {
-                e.reset();
+                e?.reset();
                 this.toastrService.error(err);
             }
         });
@@ -53,11 +53,11 @@ export class CacheComponent {
             e?.enter();
             this.service.cacheClear({}).subscribe({
                 next: _ => {
-                    e.reset();
+                    e?.reset();
                     this.toastrService.success('成功清除全部缓存');
                 },
                 error: err => {
-                    e.reset();
+                    e?.reset();
                     this.toastrService.error(err);
                 }
             });

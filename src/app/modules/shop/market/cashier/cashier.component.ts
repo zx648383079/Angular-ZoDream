@@ -15,7 +15,6 @@ import { selectShopCheckout } from '../../shop.selectors';
 import { ShopService } from '../../shop.service';
 import { InvoiceDialogComponent } from './invoice/invoice-dialog.component';
 import { form, required } from '@angular/forms/signals';
-import { HttpClient } from '@angular/common/http';
 
 interface ICartData {
     type: number;
@@ -61,14 +60,15 @@ export class CashierComponent {
     });
     public readonly regionSource = this.service.regionSource();
     public readonly addressIsEdit = signal(true);
-    public readonly editForm = form(signal<IAddress>({
+    public readonly editForm = form(signal({
         id: 0,
         name: '',
         tel: '',
         region_id: 0,
-        address: ''
+        address: '',
+        is_default: false,
     }));
-    private cartData: ICartData;
+    private cartData?: ICartData;
     public readonly dialogOpen = signal(0);
     public readonly dialogSelected = signal<any|null>(null);
 
@@ -112,7 +112,7 @@ export class CashierComponent {
         if (!this.address || !this.cartData) {
             return;
         }
-        this.service.shippingList(this.cartData.goods, this.address().id, this.cartData.type).subscribe({
+        this.service.shippingList(this.cartData.goods, this.address()!.id, this.cartData.type).subscribe({
             next: res => {
                 if (res.data && res.data.length > 0) {
                     this.shippingItems.set(res.data);
@@ -128,7 +128,7 @@ export class CashierComponent {
 
     public tapEditInvoice() {
         this.dialogOpen.set(0);
-        this.invoiceModal().open(this.invoice(), data => {
+        this.invoiceModal()!.open(this.invoice()!, data => {
             this.invoice.set(data);
         });
     }
@@ -146,7 +146,7 @@ export class CashierComponent {
     public shippingChanged(item: IShipping) {
         this.shipping.set(item);
         this.refreshPrice();
-        this.service.paymentList(this.cartData.goods, item.code, this.cartData.type).subscribe(res => {
+        this.service.paymentList(this.cartData!.goods, item.code, this.cartData!.type).subscribe(res => {
             this.paymentItems.set(res.data);
         });
         if (this.couponLoaded) {
@@ -157,7 +157,7 @@ export class CashierComponent {
 
     private loadCoupon() {
         this.couponLoaded = true;
-        this.service.orderCouponList(this.cartData.goods, this.cartData.type).subscribe(res => {
+        this.service.orderCouponList(this.cartData!.goods, this.cartData!.type).subscribe(res => {
             this.couponItems.set(res.data);
         });
     }
@@ -186,7 +186,7 @@ export class CashierComponent {
         }
         this.service.previewOrder({
             goods: this.cartData.goods,
-            address: this.address().id,
+            address: this.address()!.id,
             shipping: this.shipping()?.code ?? '',
             payment: this.payment()?.code ?? '',
             type: this.cartData.type,
@@ -222,9 +222,9 @@ export class CashierComponent {
         e?.enter();
         this.service.checkoutOrder({
             goods: this.cartData.goods,
-            address: this.address().id,
-            shipping: this.shipping().code,
-            payment: this.payment().code,
+            address: this.address()!.id,
+            shipping: this.shipping()!.code,
+            payment: this.payment()!.code,
             type: this.cartData.type,
             coupon: this.coupon()?.id ?? 0,
             invoice: this.invoice() || 0
@@ -325,7 +325,7 @@ export class CashierComponent {
         const cartItems = [];
         for (const group of this.items()) {
             for (const item of group.goods_list) {
-                if (item.id > 0) {
+                if (item.id! > 0) {
                     cartItems.push(item.id);
                 }
             }

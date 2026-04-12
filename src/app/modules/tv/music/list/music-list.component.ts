@@ -54,7 +54,7 @@ export class MusicListComponent {
 
     public tapFilter(key: string, val: string) {
         this.queries().value.update(v => {
-            v[key] = val;
+            (v as any)[key] = val;
             return v;
         })
         for (const item of this.filterItems()) {

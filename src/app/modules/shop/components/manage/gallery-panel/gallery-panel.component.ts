@@ -14,7 +14,7 @@ export class GalleryPanelComponent implements FormValueControl<any> {
 
 
     private readonly imageElement = viewChild<ElementRef<HTMLDivElement>>('imageBox');
-    public readonly max = input(0);
+    public readonly max = input<number|undefined>(0);
     public readonly items = signal<IGoodsGallery[]>([]);
     public readonly disabled = input<boolean>(false);
     public readonly value = model<any>();
@@ -33,7 +33,7 @@ export class GalleryPanelComponent implements FormValueControl<any> {
         afterNextRender({
             write: () => {
                 this.imageBox.ondrop = (ev) => {
-                    this.fileDrog(ev.dataTransfer.files);
+                    this.fileDrog(ev.dataTransfer!.files);
                     return false;
                 };
                 this.imageBox.ondragover = () => false;
@@ -45,11 +45,11 @@ export class GalleryPanelComponent implements FormValueControl<any> {
         if (this.disabled()) {
             return false;
         }
-        return this.max() <= 0 || this.max() > this.items().length;
+        return this.max()! <= 0 || this.max()! > this.items().length;
     });
 
     private get imageBox() {
-        return this.imageElement().nativeElement as HTMLDivElement;
+        return this.imageElement()!.nativeElement as HTMLDivElement;
     }
 
     public tapRemoveGallary(i: number) {
@@ -87,7 +87,7 @@ export class GalleryPanelComponent implements FormValueControl<any> {
             maps[file.name] = file.type.indexOf('image/') < 0 ? 1 : 0;
             form.append('file[]', file, file.name);
             j ++;
-            if (this.max() > 0 && j >= this.max()) {
+            if (this.max()! > 0 && j >= this.max()!) {
                 return;
             }
         }

@@ -43,7 +43,7 @@
         <button class="btn btn-primary" [disabled]="invalid()" (click)="tapNext()">下一步</button>
     </div>
     <div class="step-body" [hidden]="stepIndex() != 1">
-        <app-address-picker [formField]="dataForm.address" [user]="dataForm.user().value()?.id" />
+        <app-address-picker [formField]="dataForm.address" [user]="dataForm.user().value()?.id ?? 0" />
 
         <div class="btn-group">
             <div class="btn btn-info" (click)="tapPrevious()">上一步</div>
@@ -65,14 +65,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (item of goodsItems; track $index; let i = $index) {
+                    @for (item of goodsItems(); track $index; let i = $index) {
                     <tr>
                         <td>
-                            <img [src]="item.goods.thumb" width="50" height="50" align="left">
-                            <a href="">{{ item.goods.name }}</a> <br>
+                            <img [src]="item.goods?.thumb" width="50" height="50" align="left">
+                            <a href="">{{ item.goods?.name }}</a> <br>
                             <small>{{ item.attribute_value }}</small>
                         </td>
-                        <td>{{ item.goods.series_number }}</td>
+                        <td>{{ item.goods?.series_number }}</td>
                         <td>
                             <span class="text-red">{{ item.price }}</span>
                         </td>
@@ -80,7 +80,7 @@
                             <app-number-input [(value)]="item.amount" (valueChange)="onAmountChange()" />
                         </td>
                         <td>
-                            <span class="text-red">{{ item.price * item.amount }}</span>
+                            <span class="text-red">{{ item.price! * item.amount }}</span>
                         </td>
                         <td>
                             <i class="iconfont icon-close" (click)="tapRemoveGoods(i)"></i>
@@ -97,7 +97,7 @@
         </div>
     </div>
     <div class="step-body" [hidden]="stepIndex() != 3">
-        <app-coupon-picker [(value)]="coupon" [user]="dataForm.user().value()?.id" />
+        <app-coupon-picker [(value)]="coupon" [user]="dataForm.user().value()?.id ?? 0" />
 
         <div class="btn-group">
             <div class="btn btn-info" (click)="tapPrevious()">上一步</div>
@@ -107,18 +107,18 @@
     <div class="step-body" [hidden]="stepIndex() != 4">
         <div class="shipping-box">
             <h4>配送方式：</h4>
-            @for (item of shippingItems; track $index) {
-                <span class="radio-label" [class]="{checked: shipping && item.id == shipping.id}" (click)="shippingChanged(item)">
-                    <i class="iconfont" [class]="{'icon-check': shipping && item.id == shipping.id, 'icon-circle': !shipping || item.id != shipping.id}"></i>
+            @for (item of shippingItems(); track $index) {
+                <span class="radio-label" [class]="{checked: item.id == shipping()?.id}" (click)="shippingChanged(item)">
+                    <i class="iconfont" [class]="{'icon-check': item.id == shipping()?.id, 'icon-circle': item.id != shipping()?.id}"></i>
                     {{ item.name }}
                 </span>
             }
         </div>
         <div class="payment-box">
             <h4>支付方式：</h4>
-            @for (item of paymentItems; track $index) {
-                <span class="radio-label" [class]="{checked: payment && item.id == payment.id}" (click)="paymentChanged(item)">
-                    <i class="iconfont" [class]="{'icon-check': payment && item.id == payment.id, 'icon-circle': !payment || item.id != payment.id}"></i>
+            @for (item of paymentItems(); track $index) {
+                <span class="radio-label" [class]="{checked: item.id == payment()?.id}" (click)="paymentChanged(item)">
+                    <i class="iconfont" [class]="{'icon-check': item.id == payment()?.id, 'icon-circle': item.id != payment()?.id}"></i>
                     {{ item.name }}
                 </span>
             }
@@ -137,16 +137,16 @@
         </div>
     </div>
     }
-    @if (order) {
+    @if (order()) {
     <div class="amount-box">
         <div>商品合计:
-            <span class="price">￥{{ order.goods_amount || 0 }}</span>
+            <span class="price">￥{{ order()!.goods_amount || 0 }}</span>
         </div>
         <div>运费:
-            <span class="price">￥{{ order.shipping_fee || 0 }}</span>
+            <span class="price">￥{{ order()!.shipping_fee || 0 }}</span>
         </div>
         <div>应付总额:
-            <span class="price">￥{{ order.order_amount || 0 }}</span>
+            <span class="price">￥{{ order()!.order_amount || 0 }}</span>
         </div>
     </div>
     }

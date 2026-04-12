@@ -21,7 +21,7 @@
             <div class="top-right">
                 <div class="top-item">
                     @if (user()) {
-                        <a routerLink="/shop/member">{{ user().name }}</a>
+                        <a routerLink="/shop/member">{{ user()!.name }}</a>
                         <a (click)="tapLogout()" i18n>Sign out</a>
                     } @else {
                         <a routerLink="/shop/market/auth" i18n>Sign in</a>

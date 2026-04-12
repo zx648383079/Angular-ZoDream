@@ -15,7 +15,7 @@ export class GuaComponent {
     public readonly background = input('white');
     public readonly loading = output();
 
-    private ctx: CanvasRenderingContext2D;
+    private ctx?: CanvasRenderingContext2D;
     private disabled = true;
     private isLoaded = false;
 
@@ -24,14 +24,14 @@ export class GuaComponent {
             write: () => {
                 this.drawer.width = 300;
                 this.drawer.height = 180;
-                this.ctx = this.drawer.getContext('2d');
+                this.ctx = this.drawer.getContext('2d')!;
                 this.reset();
             }
         });
     }
 
     get drawer(): HTMLCanvasElement {
-        return this.drawerElement().nativeElement as HTMLCanvasElement;
+        return this.drawerElement()!.nativeElement as HTMLCanvasElement;
     }
 
     public tapStart() {
@@ -53,20 +53,22 @@ export class GuaComponent {
         const bound = this.drawer.getBoundingClientRect();
         const x = event.clientX;
         const y = event.clientY;
-        this.ctx.globalCompositeOperation = 'destination-out';
-        this.ctx.beginPath();
-        this.ctx.arc(x - bound.left, y - bound.top, 30, 0, Math.PI * 2);
-        this.ctx.fill();
+        const ctx = this.ctx!;
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.beginPath();
+        ctx.arc(x - bound.left, y - bound.top, 30, 0, Math.PI * 2);
+        ctx.fill();
     }
 
     public reset() {
         this.isLoaded = false;
         this.disabled = true;
-        this.ctx.beginPath();
-        this.ctx.fillStyle = this.foreground();
-        this.ctx.fillRect(0, 0, 300, 180);
-        this.ctx.fillStyle = this.background();
-        this.ctx.font = '30px Microsoft YaHei';
-        this.ctx.fillText('刮开有奖', 90, 100);
+        const ctx = this.ctx!;
+        ctx.beginPath();
+        ctx.fillStyle = this.foreground();
+        ctx.fillRect(0, 0, 300, 180);
+        ctx.fillStyle = this.background();
+        ctx.font = '30px Microsoft YaHei';
+        ctx.fillText('刮开有奖', 90, 100);
     }
 }

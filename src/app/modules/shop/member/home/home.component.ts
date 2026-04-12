@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { IErrorResponse } from '../../../../theme/models/page';
@@ -18,7 +18,7 @@ export class HomeComponent {
     private readonly route = inject(ActivatedRoute);
 
 
-    public user: IUser;
+    public readonly user = signal<IUser|null>(null);
     public orderItems: IOrder[] = [];
     public orderSutotal: IOrderCount = {};
     public accountSubtotal: IAccountSubtotal = {} as any;
@@ -26,7 +26,7 @@ export class HomeComponent {
     constructor() {
         this.service.profile().subscribe({
             next: res => {
-                this.user = res;
+                this.user.set(res);
             }, error: err => {
                 const res = err.error as IErrorResponse;
                 this.toastrService.warning(res.message || '登录令牌失效，请重新登录');

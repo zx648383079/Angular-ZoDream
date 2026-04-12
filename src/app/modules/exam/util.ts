@@ -79,7 +79,7 @@ export function formatPager(items: IQuestionFormat[], maxLength = 10): any[] {
         pageItems.push(currentPage);
     }
     const pushByParent = (item: IQuestionFormat) => {
-        if (Object.prototype.hasOwnProperty.call(parentMap, item.parent.id)) {
+        if (Object.hasOwn(parentMap, item.parent.id)) {
             pageItems[parentMap[item.parent.id]].items.push(item);
             return;
         }
@@ -88,7 +88,7 @@ export function formatPager(items: IQuestionFormat[], maxLength = 10): any[] {
         parentMap[item.parent.id] = currentPage.page;
     };
     const pushByMaterial = (item: IQuestionFormat) => {
-        if (Object.prototype.hasOwnProperty.call(materialMap, item.material.id)) {
+        if (Object.hasOwn(materialMap, item.material.id)) {
             pageItems[materialMap[item.material.id]].items.push(item);
             return;
         }

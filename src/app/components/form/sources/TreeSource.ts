@@ -122,7 +122,7 @@ export class TreeSource implements IDataSource {
                     return false;
                 }
                 const rangeChildren = this.rangeChildren;
-                if (!Object.prototype.hasOwnProperty.call(item, rangeChildren)) {
+                if (!Object.hasOwn(item, rangeChildren)) {
                     return;
                 }
                 const args = findPath(item[rangeChildren]);

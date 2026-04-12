@@ -57,7 +57,7 @@ export class SystemComponent {
         const items = this.groups();
         const groups: any = {};
         for (const group of items) {
-            for (const item of group.children) {
+            for (const item of group.children!) {
                 groups[item.code] = new FormControl(typeof item.value === 'undefined' ? '' : item.value);
             }
         }
@@ -205,8 +205,8 @@ export class SystemComponent {
         if (item.type !== 'group') {
             item = this.formatOptionItem(item);
         }
-        for (let i = 0; i < this.groups.length; i++) {
-            const group = this.groups[i];
+        for (let i = 0; i < this.groups().length; i++) {
+            const group = this.groups()[i];
             if (item.id === group.id) {
                 group.name = item.name;
                 return;
@@ -214,22 +214,22 @@ export class SystemComponent {
             if (item.type === 'group') {
                 continue;
             }
-            for (let j = group.children.length - 1; j >= 0; j--) {
-                const child = group.children[j];
+            for (let j = group.children!.length - 1; j >= 0; j--) {
+                const child = group.children![j];
                 if (child.id !== item.id) {
                     continue;
                 }
                 if (child.parent_id !== item.parent_id) {
-                    group.children.splice(j, 1);
+                    group.children!.splice(j, 1);
                     break;
                 }
-                group.children[j] = item;
+                group.children![j] = item;
                 return;
             }
             if (item.parent_id !== group.id) {
                 continue;
             }
-            group.children.push(item);
+            group.children!.push(item);
         }
         if (item.type !== 'group') {
             return;
@@ -250,9 +250,9 @@ export class SystemComponent {
                     groups.splice(i, 1);
                     break;
                 }
-                for (let j = 0; j < group.children.length; j++) {
-                    if (group.children[j].id === item.id) {
-                        group.children.splice(j, 1);
+                for (let j = 0; j < group.children!.length; j++) {
+                    if (group.children![j].id === item.id) {
+                        group.children!.splice(j, 1);
                         break all;
                     }
                 }

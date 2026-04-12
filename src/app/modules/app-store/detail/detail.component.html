@@ -1,11 +1,11 @@
-@if (data) {
+@if (data()) {
 <div class="container-fluid header-bg">
     <div class="row">
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#" i18n>Home</a></li>
-                    <li class="breadcrumb-item"><a routerLink="../">{{ data.category?.name }}</a></li>
+                    <li class="breadcrumb-item"><a routerLink="../">{{ data()!.category?.name }}</a></li>
                     <li class="breadcrumb-item active" aria-current="page" i18n>Details</li>
                 </ol>
             </nav>
@@ -13,20 +13,20 @@
         <div class="col-md-12">
             <div class="flex-line">
                 <div class="line-icon">
-                    <img [src]="data.icon|asset" alt="">
+                    <img [src]="data()!.icon|asset" alt="">
                     <div class="box-hat"></div>
                 </div>
                 <div class="line-body">
                     <div class="title-bar">
-                        {{ data.name }}
+                        {{ data()!.name }}
                     </div>
         
                     <div class="tag-bar">
-                        <a><i class="iconfont icon-user"></i> {{ data.user?.name }}
+                        <a><i class="iconfont icon-user"></i> {{ data()!.user?.name }}
                         </a>
                         <a >
                             <i class="iconfont icon-download"></i>
-                            {{ data.download_count | numberFormat }}
+                            {{ data()!.download_count | numberFormat }}
                         </a>
                     </div>
                 </div>
@@ -37,12 +37,12 @@
                 <a [class]="{active: tabIndex() == 1}" (click)="tabIndex.set(1)" i18n>Version</a>
                 <a [class]="{active: tabIndex() == 2}" (click)="tabIndex.set(2)">
                     <ng-container i18n>Reviews</ng-container>
-                    <app-star [value]="data.score" />
-                    <div class="count-label">{{ data.download_count | numberFormat }}</div>
+                    <app-star [value]="data()!.score" />
+                    <div class="count-label">{{ data()!.download_count | numberFormat }}</div>
                 </a>
                 <a [class]="{active: tabIndex() == 3}" (click)="tabIndex.set(3)">
                     <ng-container i18n>Comments</ng-container>
-                    <div class="count-label">{{ data.comment_count | numberFormat }}</div>
+                    <div class="count-label">{{ data()!.comment_count | numberFormat }}</div>
                 </a>
             </div>
         </div>
@@ -52,13 +52,13 @@
 
 <div class="container-fluid detail-body">
     <app-loading-tip [loading]="isLoading()" [visible]="!data || isLoading()" />
-    @if (data) {
+    @if (data()) {
     <div class="row">
         <div class="col-md-8">
             <div class="tab-target-body">
                 <div class="tab-item" [class]="{active: tabIndex() < 1}">
                     <div class="content-body">
-                        <app-markdown-block [value]="data.content" />
+                        <app-markdown-block [value]="data()!.content" />
                         <div class="body-memu-bar">
                             <a href="">
                                 <i class="iconfont icon-heart"></i>
@@ -73,26 +73,26 @@
                     </div>
                 </div>
                 <div class="tab-item" [class]="{active: tabIndex() == 1}">
-                    <app-version [itemId]="data.id" [init]="tabIndex() == 1" />
+                    <app-version [itemId]="data()!.id" [init]="tabIndex() == 1" />
                 </div>
                 <div class="tab-item" [class]="{active: tabIndex() == 2}">
-                    <app-score [itemId]="data.id" [init]="tabIndex() == 2" />
+                    <app-score [itemId]="data()!.id" [init]="tabIndex() == 2" />
                 </div>
                 <div class="tab-item" [class]="{active: tabIndex() == 3}">
                     <div class="group-box">
-                        <app-comment [itemId]="data.id" [init]="tabIndex() == 3" />
+                        <app-comment [itemId]="data()!.id" [init]="tabIndex() == 3" />
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            @if (currentPackage) {
+            @if (currentPackage()) {
             <div class="group-box">
                 <div class="price" i18n>
-                    {data.is_free, plural, =true {Free} =false {Buy}}
+                    {data()!.is_free, plural, =true {Free} =false {Buy}}
                 </div>
                 <div class="btn btn-success">
-                    {{ !data.is_free ? 'Buy' : 'Download' }}
+                    {{ !data()!.is_free ? 'Buy' : 'Download' }}
                 </div>
             </div>
             }
@@ -101,36 +101,36 @@
                 <table class="table">
                     <tr>
                         <td class="line-label" i18n>Latest version</td>
-                        <td class="line-body">{{ data.version.name }}</td>
+                        <td class="line-body">{{ data()!.version.name }}</td>
                     </tr>
-                    @if (currentPackage) {
+                    @if (currentPackage()) {
                     <tr>
                         <td class="line-label" i18n>Size</td>
-                        <td class="line-body">{{ currentPackage.size |size }}</td>
+                        <td class="line-body">{{ currentPackage()!.size |size }}</td>
                     </tr>
                     }
                     
                     <tr>
                         <td class="line-label" i18n>Last Update</td>
-                        <td class="line-body">{{ data.version.created_at|ago }}</td>
+                        <td class="line-body">{{ data()!.version?.created_at|ago }}</td>
                     </tr>
-                    @if (data.official_website) {
+                    @if (data()!.official_website) {
                     <tr>
                         <td class="line-label" i18n>Official website</td>
-                        <td class="line-body">{{ data.official_website }}</td>
+                        <td class="line-body">{{ data()!.official_website }}</td>
                     </tr>
                     }
-                    @if (data.is_open_source) {
+                    @if (data()!.is_open_source) {
                     <tr>
                         <td class="line-label" i18n>Open source</td>
-                        <td class="line-body">{{ data.git_url }}</td>
+                        <td class="line-body">{{ data()!.git_url }}</td>
                     </tr>
                     }
-                    @if (data.tags && data.tags.length > 0) {
+                    @if (data()!.tags && data()!.tags!.length > 0) {
                     <tr>
                         <td class="line-label" i18n>Tags</td>
                         <td class="line-body">
-                            @for (item of data.tags; track $index) {
+                            @for (item of data()!.tags!; track $index) {
                                 <a routerLink="../../../search" [queryParams]="{tag: item.name}">{{ item.name }}</a>
                             }
                         </td>

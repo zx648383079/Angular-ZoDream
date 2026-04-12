@@ -32,7 +32,7 @@ export class PlayerService implements PlayerEvent {
 
     public on<E extends keyof PlayerListeners>(event: E, listener: PlayerListeners[E]): void;
     public on(event: string, cb: any) {
-        if (!Object.prototype.hasOwnProperty.call(this.listeners, event)) {
+        if (!Object.hasOwn(this.listeners, event)) {
             this.listeners[event] = [];
         }
         this.listeners[event].push(cb);
@@ -41,7 +41,7 @@ export class PlayerService implements PlayerEvent {
 
     public emit<E extends keyof PlayerListeners>(event: E, ...eventObject: Parameters<PlayerListeners[E]>): void;
     public emit(event: string, ...items: any[]) {
-        if (!Object.prototype.hasOwnProperty.call(this.listeners, event)) {
+        if (!Object.hasOwn(this.listeners, event)) {
             return;
         }
         const listeners = this.listeners[event];
@@ -66,7 +66,7 @@ export class PlayerService implements PlayerEvent {
     }
 
     private offListener(event: string, cb: Function) {
-        if (!Object.prototype.hasOwnProperty.call(this.listeners, event)) {
+        if (!Object.hasOwn(this.listeners, event)) {
             return;
         }
         const items = this.listeners[event];

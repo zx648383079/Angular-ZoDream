@@ -141,7 +141,7 @@ export class AgreementEditorComponent implements FormValueControl<IAgreementGrou
         if (!value) {
             return;
         }
-        const items = [];
+        const items: IAgreementGroup[] = [];
         eachObject(value, item => {
             if (typeof item !== 'object') {
                 return;

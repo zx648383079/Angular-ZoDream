@@ -50,7 +50,7 @@
    </div>
 </div>
 
-<app-dialog-box #modal [title]="editForm.id ? '编辑分组' : '新建分组'">
+<app-dialog-box #modal [title]="editForm.id().value() ? '编辑分组' : '新建分组'">
     <div class="form-group">
         <label for="name">名称</label>
         <div  class="input-group-control">

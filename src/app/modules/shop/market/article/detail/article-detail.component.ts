@@ -17,7 +17,7 @@ export class ArticleDetailComponent {
 
 
     public readonly data = signal<IArticle|null>(null);
-    public readonly content = signal<SafeHtml>(null);
+    public readonly content = signal<SafeHtml|null>(null);
 
     constructor() {
         this.route.params.subscribe(params => {

@@ -28,10 +28,10 @@
     </div>
 
     @for (item of items(); track $index) {
-        <div class="task-item" [class]="{finished: item.task.status < 5}">
+        <div class="task-item" [class]="{finished: item.task!.status! < 5}">
         <div class="name" (click)="tapView(item)">{{ item.task.name }}</div>
-        <div class="desc">{{ item.task.description }}</div>
-        <div class="time">{{ item.task.time_length | hour }}</div>
+        <div class="desc">{{ item.task?.description }}</div>
+        <div class="time">{{ item.task?.time_length | hour }}</div>
         <div class="action">
             <i class="iconfont icon-trash" (click)="tapRemove(item)" title="删除分享"></i>
         </div>

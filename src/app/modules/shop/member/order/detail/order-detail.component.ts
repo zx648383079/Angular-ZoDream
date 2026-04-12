@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IOrder } from '../../../model';
@@ -17,7 +17,7 @@ export class OrderDetailComponent {
     private readonly toastrService = inject(DialogService);
 
 
-    public data: IOrder;
+    public readonly data = signal<IOrder|null>(null);
 
     constructor() {
         this.route.params.subscribe(params => {
@@ -27,7 +27,7 @@ export class OrderDetailComponent {
 
     public loadOrder(id: any) {
         this.service.order(id).subscribe(res => {
-            this.data = res;
+            this.data.set(res);
         });
     }
 

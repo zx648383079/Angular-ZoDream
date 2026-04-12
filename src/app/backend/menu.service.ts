@@ -118,7 +118,7 @@ export class MenuService {
     }
 
     public get<T extends any>(key: string, def?: T): T|undefined {
-        return Object.prototype.hasOwnProperty.call(this.option, key) ? this.option[key] : def;
+        return Object.hasOwn(this.option, key) ? this.option[key] : def;
     }
 
     public asyncRefresh(time = 200) {

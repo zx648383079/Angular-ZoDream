@@ -1,11 +1,11 @@
 <div class="address-picker">
-    @if (!editable) {
+    @if (!editable()) {
     <div class="picker-body">
         @for (item of items(); track $index) {
-            <div class="address-item" [class]="{active: value && item.id == value().id}" (click)="tapItem(item)">
+            <div class="address-item" [class]="{active: item.id == value()?.id}" (click)="tapItem(item)">
                 <div>收货人: {{ item.name }}</div>
                 <div>联系方式：{{ item.tel }}</div>
-                <div>收货地址：{{ item.region.full_name }} {{ item.address }}</div>
+                <div>收货地址：{{ item.region?.full_name }} {{ item.address }}</div>
                 @if (item.is_default) {
                     <span class="default">默认地址</span>
                 }
@@ -15,23 +15,23 @@
     </div>
     }
     
-    @if (editable && value) {
+    @if (editable() && value()) {
     <div class="picker-form">
         <div>*所在地区:</div>
         <div class="region-input">
-            <app-region [source]="regionSource" [value]="value().region_id"  (valueChange)="onValueChange($event, 'region_id')"/>
+            <app-region [source]="regionSource" [value]="value()!.region_id"  (valueChange)="onValueChange($event, 'region_id')"/>
         </div>
         <div>*详细地址:</div>
         <div>
-            <textarea [value]="value().address" cols="30" rows="10" (valueChange)="onValueChange($event, 'address')"></textarea>
+            <textarea [value]="value()!.address" cols="30" rows="10" (valueChange)="onValueChange($event, 'address')"></textarea>
         </div>
         <div>*收货人:</div>
         <div>
-            <input type="text" [value]="value().name" (input)="onValueChange($event.target.value, 'name')">
+            <input type="text" [value]="value()!.name" (input)="onValueChange($event.target.value, 'name')">
         </div>
         <div>*手机号码:</div>
         <div>
-            <input type="text" [value]="value().tel" (input)="onValueChange($event.target.value, 'tel')">
+            <input type="text" [value]="value()!.tel" (input)="onValueChange($event.target.value, 'tel')">
         </div>
     </div>
     }

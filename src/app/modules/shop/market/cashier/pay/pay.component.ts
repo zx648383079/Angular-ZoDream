@@ -59,7 +59,7 @@ export class PayComponent {
 
     public onExpired() {
         this.toastrService.warning('您的订单已失效！');
-        this.goToOrder(this.data());
+        this.goToOrder(this.data()!);
     }
 
     private goToOrder(res: IOrder) {

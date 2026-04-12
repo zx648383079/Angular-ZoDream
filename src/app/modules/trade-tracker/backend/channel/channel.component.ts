@@ -2,7 +2,6 @@ import { form, required } from '@angular/forms/signals';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { TrackerBackendService } from '../tracker.service';
 import { IChannel } from '../../model';
@@ -29,7 +28,7 @@ export class ChannelComponent {
         page: 1,
         per_page: 20,
     }));
-    public readonly editForm = form(signal<IChannel>({
+    public readonly editForm = form(signal({
         id: 0,
         name: '',
         short_name: '',

@@ -2,7 +2,6 @@ import { form, required } from '@angular/forms/signals';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
-import { IPageQueries } from '../../../theme/models/page';
 import { IBlackWord } from '../../../theme/models/seo';
 import { SearchService } from '../../../theme/services';
 import { SystemService } from '../system.service';

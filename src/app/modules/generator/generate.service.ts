@@ -107,11 +107,11 @@ export class GenerateService {
         }
     }) {
         return this.http.post<{
-            modules?: IData<IItem>;
-            routes?: IData<IItem>;
-            schemas?: IData<any>;
-            tables?: IData<any>;
-            columns?: IData<any>;
+            modules: IData<IItem>;
+            routes: IData<IItem>;
+            schemas: IData<any>;
+            tables: IData<any>;
+            columns: IData<any>;
         }>('gzo/batch', data);
     }
 }

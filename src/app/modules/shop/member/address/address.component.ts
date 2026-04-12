@@ -26,7 +26,7 @@ export class AddressComponent {
     public readonly total = signal(0);
     public readonly regionSource = this.service.regionSource();
     public readonly dialogOpen = signal(false);
-    public readonly editForm = form(signal<IAddress>({
+    public readonly editForm = form(signal({
         id: 0,
         name: '',
         tel: '',

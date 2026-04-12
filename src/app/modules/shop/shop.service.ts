@@ -26,7 +26,7 @@ export class ShopService {
     private _regionId = 0;
 
     constructor() {
-        this._regionId = parseInt(window.localStorage.getItem(REGION_KEY), 10) || 0;
+        this._regionId = parseInt(window.localStorage.getItem(REGION_KEY) ?? '', 10) ?? 0;
     }
 
     public get regionId() {
@@ -119,7 +119,7 @@ export class ShopService {
         return this.http.get<ICart>('shop/cart', {params});
     }
 
-    public cartAddGoods(goods: number, amount: number = 1, properties = []) {
+    public cartAddGoods(goods: number, amount: number = 1, properties: number[] = []) {
         return this.http.post<ICart|ICartDialog>('shop/cart/add', {
             goods,
             amount,
@@ -127,7 +127,7 @@ export class ShopService {
         });
     }
 
-    public cartUpdateGoods(goods: number, amount: number = 1, properties = []) {
+    public cartUpdateGoods(goods: number, amount: number = 1, properties: number[] = []) {
         return this.http.post<ICart|ICartDialog>('shop/cart/update_goods', {
             goods,
             amount,
@@ -378,14 +378,14 @@ export class ShopService {
         account_subtotal?: any;
     }) {
         return this.http.post<{
-            category?: ICategory[];
-            brand?: IBrand[];
-            cart?: ICart;
-            hot_keywords?: string[];
-            notice?: IArticle[];
-            help?: IArticleCategory[]|IArticle[];
-            order_subtotal?: IOrderCount;
-            account_subtotal?: IAccountSubtotal
+            category: ICategory[];
+            brand: IBrand[];
+            cart: ICart;
+            hot_keywords: string[];
+            notice: IArticle[];
+            help: IArticleCategory[]|IArticle[];
+            order_subtotal: IOrderCount;
+            account_subtotal: IAccountSubtotal
         }>('shop/batch', data);
     }
 }

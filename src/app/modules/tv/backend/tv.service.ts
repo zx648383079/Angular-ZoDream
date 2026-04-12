@@ -166,8 +166,8 @@ export class TVService {
         areas?: any;
     }) {
         return this.http.post<{
-            categories?: ICategory[];
-            areas?: IMovieArea[];
+            categories: ICategory[];
+            areas: IMovieArea[];
         }>('tv/batch', data);
     }
 }

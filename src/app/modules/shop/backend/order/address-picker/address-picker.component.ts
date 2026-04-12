@@ -1,6 +1,5 @@
 import { form } from '@angular/forms/signals';
 import { Component, effect, inject, input, model, signal } from '@angular/core';
-import { IPageQueries } from '../../../../../theme/models/page';
 import { IAddress } from '../../../model';
 import { OrderService } from '../order.service';
 import { FormValueControl } from '@angular/forms/signals';
@@ -11,15 +10,15 @@ import { FormValueControl } from '@angular/forms/signals';
     templateUrl: './address-picker.component.html',
     styleUrls: ['./address-picker.component.scss'],
 })
-export class AddressPickerComponent implements FormValueControl<IAddress> {
+export class AddressPickerComponent implements FormValueControl<IAddress|null|undefined> {
     private readonly service = inject(OrderService);
 
 
     public readonly user = input(0);
     public readonly disabled = input<boolean>(false);
-    public readonly value = model<IAddress>();
-    public isFocus = false;
-    public editable = false;
+    public readonly value = model<IAddress|null>();
+    public readonly isFocus = signal(false);
+    public readonly editable = signal(false);
 
     public readonly queries = form(signal({
         keywords: '',
@@ -41,12 +40,12 @@ export class AddressPickerComponent implements FormValueControl<IAddress> {
     }
 
     public toggleEdit() {
-        this.editable = !this.editable;
-        if (!this.editable) {
+        this.editable.update(v => !v);
+        if (!this.editable()) {
             return;
         }
         if (this.value()) {
-            this.output({...this.value(), id: 0});
+            this.output({...this.value()!, id: 0});
             return;
         }
         this.output({
@@ -59,7 +58,7 @@ export class AddressPickerComponent implements FormValueControl<IAddress> {
 
     public onValueChange(val: any, key: string) {
         this.value.update(v => {
-            v[key] = val;
+            (v as any)[key] = val;
             return v;
         });
     }

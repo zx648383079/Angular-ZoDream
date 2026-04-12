@@ -17,7 +17,7 @@ export class AccountCenterComponent {
     constructor() {
         this.service.connect().subscribe(res => {
             this.items.set(res.data.map(i => {
-                i.icon = this.converterIcon(i.icon);
+                i.icon = this.converterIcon(i.icon!);
                 return i;
             }));
         });
@@ -28,8 +28,8 @@ export class AccountCenterComponent {
         if (!icon) {
             return '';
         }
-        const map = {
+        const map: any = {
         };
-        return Object.prototype.hasOwnProperty.call(map, icon) ? map[icon] : icon.replace('fa-', 'icon-');
+        return Object.hasOwn(map, icon) ? map[icon] : icon.replace('fa-', 'icon-');
     }
 }

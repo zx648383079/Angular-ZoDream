@@ -19,7 +19,7 @@ export class EditPaymentComponent {
     private readonly toastrService = inject(DialogService);
     private readonly location = inject(Location);
 
-    public data: IPayment;
+    private data?: IPayment;
     public readonly items = signal(ArraySource.empty);
     public readonly shippingItems = signal(ArraySource.empty);
     public readonly dataModel = signal({

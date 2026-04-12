@@ -119,7 +119,7 @@ export class MathMarkParser {
 
     private renderNext(reader: CharIterator): IMarkItem[]|IMarkItem|undefined {
         for (const key in MarkRangeMap) {
-            if (Object.prototype.hasOwnProperty.call(MarkRangeMap, key)) {
+            if (Object.hasOwn(MarkRangeMap, key)) {
                 const element = MarkRangeMap[key];
                 if (!this.isRange(reader, element)) {
                     continue;

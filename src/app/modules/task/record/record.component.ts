@@ -4,6 +4,14 @@ import { parseNumber, twoPad } from '../../../theme/utils';
 import { TaskService } from '../task.service';
 import { form } from '@angular/forms/signals';
 
+interface IRecordFormatted {
+    label: string;
+    items: {
+        [key: string]: any;
+        style: any;
+    }[];
+}
+
 @Component({
     standalone: false,
     selector: 'app-task-record',
@@ -36,7 +44,7 @@ export class RecordComponent {
     }
 
     public readonly dayItems = computed(() => {
-        const items = [];
+        const items: IRecordFormatted[] = [];
         for (let index = 0; index < 24; index++) {
             items.push({
                 label: twoPad(index) + ':00',
@@ -46,20 +54,21 @@ export class RecordComponent {
         let i = 0;
         for (const item of this.items()) {
             const date = new Date(item.created_at);
-            items[0].items.push(Object.assign({
+            items[0].items.push({
+                ...item,
                 style: {
                     left: (date.getHours() * 50 + date.getMinutes() * 5 / 6) + 'px',
                     top: i * 40 + 'px',
                     width: item.time / 60 * 5 / 6 + 'px',
                 }
-            }, item));
+            });
             i ++;
         }
         return items;
     });
 
     public readonly weekItems = computed(() => {
-        const items = [];
+        const items: IRecordFormatted[] = [];
         ['一', '二', '三', '四', '五', '六', '日'].forEach(i => {
             items.push({
                 label: '周' + i,
@@ -85,7 +94,7 @@ export class RecordComponent {
         const count = date.getDate();
         date.setDate(1);
         const start = date.getDay() - 1;
-        const items = [];
+        const items: IRecordFormatted[] = [];
         for (let i = 0; i < start; i++) {
             items.push({
                 label: '',
@@ -101,7 +110,7 @@ export class RecordComponent {
         for (const item of this.items()) {
             const d = new Date(item.created_at);
             const i = d.getDate() + start - 1;
-            items[i].items.push(Object.assign({}, item));
+            items[i].items.push({...item});
         }
         return items;
     })

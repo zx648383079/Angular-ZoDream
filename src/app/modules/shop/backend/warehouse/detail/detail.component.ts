@@ -36,7 +36,7 @@ export class DetailComponent {
     });
     
     public readonly regionSource = this.service.regionSource();
-    public data: IWarehouse;
+    private data?: IWarehouse;
 
     constructor() {
         this.route.params.subscribe(params => {

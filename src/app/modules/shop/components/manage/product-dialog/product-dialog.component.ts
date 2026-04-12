@@ -14,13 +14,13 @@ export class ProductDialogComponent {
 
     public readonly value = model<IGoods>();
     public readonly visible = signal(false);
-    public amount = 1;
-    public stock = 0;
-    public amountVisible = false;
-    private confirmFn: (data: IGoodsResult) => void;
+    public readonly amount = signal(1);
+    public readonly stock = signal(0);
+    public readonly amountVisible = signal(false);
+    private confirmFn?: (data: IGoodsResult) => void;
 
-    public open(data: IGoodsResult);
-    public open(data: IGoodsResult, confirm: (data: IGoodsResult) => void);
+    public open(data: IGoodsResult): void;
+    public open(data: IGoodsResult, confirm: (data: IGoodsResult) => void): void;
     public open(data: IGoodsResult, confirm?: (data: IGoodsResult) => void) {
         this.value.set(data as IGoods);
         this.visible.set(true);
@@ -43,7 +43,7 @@ export class ProductDialogComponent {
         const data: IGoodsResult = {...this.value(),
             product_id: product?.id, attribute_id: this.selectedProperties.join(','),
             attribute_value: this.selectedPropertiesLabel
-        };
+        } as any;
         if (this.confirmFn) {
             this.confirmFn(data);
         }
@@ -51,7 +51,7 @@ export class ProductDialogComponent {
     }
 
     public toggleSelected(i: number, j: number) {
-        const group = this.value().properties[i];
+        const group = this.value()!.properties![i];
         if (group.type == 2) {
             group.attr_items[j].checked = !group.attr_items[j].checked;
             return;
@@ -60,11 +60,11 @@ export class ProductDialogComponent {
             item.checked = index === j;
         });
         const product = this.selectedProduct;
-        this.stock = product?.stock || 0;
+        this.stock.set(product?.stock ?? 0);
     }
 
     private eachSelectedProperty(cb: (item: IGoodsAttr, type: number) => void) {
-        for (const item of this.value().properties) {
+        for (const item of this.value()!.properties!) {
             for (const attr of item.attr_items) {
                 if (attr.checked) {
                     cb(attr, item.type);
@@ -75,7 +75,7 @@ export class ProductDialogComponent {
 
     private get selectedPropertiesLabel(): string {
         const items = [];
-        for (const item of this.value().properties) {
+        for (const item of this.value()!.properties!) {
             const labels = [];
             for (const attr of item.attr_items) {
                 if (attr.checked) {
@@ -90,16 +90,16 @@ export class ProductDialogComponent {
     }
 
     private get selectedProperties(): number[] {
-        const items = [];
+        const items: number[] = [];
         this.eachSelectedProperty(item => {
-            items.push(item.id);
+            items.push(item.id!);
         });
         return items;
     }
 
     private get selectedProduct(): IProduct|undefined {
         const items = [];
-        for (const item of this.value().properties) {
+        for (const item of this.value()!.properties!) {
             if (item.type === 2) {
                 continue;
             }
@@ -117,7 +117,7 @@ export class ProductDialogComponent {
             return;
         }
         const label = attrs.sort().join(',');
-        for (const item of this.value().products) {
+        for (const item of this.value()!.products!) {
             if (item.attributes === label) {
                 return item;
             }

@@ -18,7 +18,7 @@ export class HelpComponent {
 
     public readonly items = signal<any[]>([]);
     public readonly data = signal<IArticle|null>(null);
-    public readonly content = signal<SafeHtml>(null);
+    public readonly content = signal<SafeHtml|null>(null);
 
     constructor() {
         this.service.help().subscribe(res => {
@@ -42,7 +42,7 @@ export class HelpComponent {
         this.items.update(v => {
             return v.map(i => {
                 if (i.children) {
-                    i.children = i.children.map(it => {
+                    i.children = i.children.map((it: any) => {
                         it.active = it === item;
                         return it;
                     });

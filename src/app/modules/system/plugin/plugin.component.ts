@@ -134,10 +134,10 @@ export class PluginComponent {
     }
 
     private renderForm(item: IPluginItem, items: IFormInput[]) {
-        this.form().items.set(items);
-        this.modal().open(() => {
-            this.tapInstall(item, this.form().value);
-        }, () => this.form().valid(), '快速配置');
+        this.form()!.items.set(items);
+        this.modal()!.open(() => {
+            this.tapInstall(item, this.form()!.value);
+        }, () => this.form()!.valid(), '快速配置');
     }
 
     public tapRefresh() {

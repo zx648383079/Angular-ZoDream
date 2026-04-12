@@ -155,7 +155,7 @@ export class CartComponent {
     }
 
     public onAmountChange(item: ICartItem) {
-        this.service.cartUpdateItem(item.id, item.amount).subscribe({
+        this.service.cartUpdateItem(item.id!, item.amount).subscribe({
             next: cart => {
                 this.store.dispatch(setCart({cart}));
             },

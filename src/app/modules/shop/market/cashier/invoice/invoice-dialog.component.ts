@@ -23,7 +23,7 @@ export class InvoiceDialogComponent {
         tax_no: '',
         content: '',
     }));
-    private confirmFn: (data: IInvoiceTitle) => void;
+    private confirmFn?: (data: IInvoiceTitle) => void;
 
     public open(invoice: IInvoiceTitle, cb: (data: IInvoiceTitle) => void) {
         this.confirmFn = cb;

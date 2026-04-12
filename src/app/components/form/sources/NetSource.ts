@@ -148,7 +148,7 @@ export class NetSource implements IDataSource {
     
     private getOrSet(queries?: any): Observable<any> {
         const key = `${this.url}?${JSON.stringify(queries)}`;
-        if (Object.prototype.hasOwnProperty.call(NetSource.cacheMaps, key)) {
+        if (Object.hasOwn(NetSource.cacheMaps, key)) {
             return of(NetSource.cacheMaps[key]);
         }
         return this.http.get<IDataOne<any>>(this.url, {

@@ -23,12 +23,12 @@ export class CircleProgressComponent {
     private value = 0;
     private max = 0;
 
-    private ctx: CanvasRenderingContext2D;
-    private $timer: Subscription;
+    private ctx?: CanvasRenderingContext2D;
+    private $timer?: Subscription;
     private startTime = 0;
 
     get drawer(): HTMLCanvasElement {
-        return this.drawerElement().nativeElement as HTMLCanvasElement;
+        return this.drawerElement()!.nativeElement as HTMLCanvasElement;
     }
 
     constructor() {
@@ -36,7 +36,7 @@ export class CircleProgressComponent {
             write: () => {
                 this.drawer.width = 200;
                 this.drawer.height = 200;
-                this.ctx = this.drawer.getContext('2d');
+                this.ctx = this.drawer.getContext('2d')!;
                 this.drawProgress(this.ctx, 0);
             }
         });
@@ -66,19 +66,19 @@ export class CircleProgressComponent {
             return;
         }
         this.$timer.unsubscribe();
-        this.$timer = null;
+        this.$timer = undefined;
         this.finished.emit(this);
     }
 
     private computed(value = this.value, max = this.max) {
         if (max > 0) {
             this.label.set(formatHour(Math.max(max - value, 0), undefined, true));
-            this.drawProgress(this.ctx, 100 - value * 100 / max);
+            this.drawProgress(this.ctx!, 100 - value * 100 / max);
             return;
         }
         max = Math.ceil(Math.max(value, 1) / 3600) * 3600;
         this.label.set(formatHour(value, undefined, true));
-        this.drawProgress(this.ctx, value * 100 / max);
+        this.drawProgress(this.ctx!, value * 100 / max);
     }
 
     private drawProgress(ctx: CanvasRenderingContext2D, progress: number, centerX = 100, centerY = 100, radius = 100) {

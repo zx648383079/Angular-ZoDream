@@ -1,7 +1,6 @@
 import { disabled, form, required } from '@angular/forms/signals';
 import { Component, computed, inject, signal } from '@angular/core';
 import { IIssue } from '../../../model';
-import { IPageQueries } from '../../../../../theme/models/page';
 import { GoodsService } from '../goods.service';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';

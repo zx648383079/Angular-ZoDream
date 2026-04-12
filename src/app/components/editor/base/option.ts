@@ -107,14 +107,14 @@ export class EditorOptionManager {
     public merge(option: IEditorOption) {
         const res = (this.option as any);
         for (const key in option) {
-            if (Object.prototype.hasOwnProperty.call(option, key)) {
+            if (Object.hasOwn(option, key)) {
                 if (typeof res[key] !== 'object') {
                     res[key] = (option as any)[key];
                 }
             }
         }
         ['icons', 'uploader'].forEach(k => {
-            if (Object.prototype.hasOwnProperty.call(option, k) && typeof (option as any)[k] === 'object') {
+            if (Object.hasOwn(option, k) && typeof (option as any)[k] === 'object') {
                 res[k] = this.mergeObject(res[k], (option as any)[k]);
             }
         });
@@ -139,7 +139,7 @@ export class EditorOptionManager {
     public tool(...names: string[]): IEditorTool[] {
         const items = [];
         for (const name of names) {
-            if (Object.prototype.hasOwnProperty.call(this.moduleItems, name) && this.isVisible(name)) {
+            if (Object.hasOwn(this.moduleItems, name) && this.isVisible(name)) {
                 items.push(this.moduleItems[name]);
             }
         }
@@ -149,7 +149,7 @@ export class EditorOptionManager {
     public toolChildren(name: string): IEditorTool[] {
         const items = [];
         for (const key in this.moduleItems) {
-            if (Object.prototype.hasOwnProperty.call(this.moduleItems, key) && this.moduleItems[key].parent == name && this.isVisible(key)) {
+            if (Object.hasOwn(this.moduleItems, key) && this.moduleItems[key].parent == name && this.isVisible(key)) {
                 items.push(this.moduleItems[key]);
             }
         }
@@ -206,7 +206,7 @@ export class EditorOptionManager {
 
     public hotKeyModule(hotKey: string): IEditorTool|undefined {
         for (const key in this.moduleItems) {
-            if (Object.prototype.hasOwnProperty.call(this.moduleItems, key) && this.moduleItems[key].hotKey == hotKey && this.isVisible(key)) {
+            if (Object.hasOwn(this.moduleItems, key) && this.moduleItems[key].hotKey == hotKey && this.isVisible(key)) {
                 return this.moduleItems[key];
             }
         }
@@ -215,7 +215,7 @@ export class EditorOptionManager {
 
     public moduleMap(cb: (item: IEditorModule) => void|false) {
         for (const key in this.moduleItems) {
-            if (!Object.prototype.hasOwnProperty.call(this.moduleItems, key)) {
+            if (!Object.hasOwn(this.moduleItems, key)) {
                 continue;
             }
             if (cb(this.moduleItems[key]) === false) {
@@ -257,7 +257,7 @@ export class EditorOptionManager {
         }
         const data = [];
         for (const item of items) {
-            if (this.isVisible(item) && Object.prototype.hasOwnProperty.call(this.moduleItems, item)) {
+            if (this.isVisible(item) && Object.hasOwn(this.moduleItems, item)) {
                 data.push(this.toTool(this.moduleItems[item]));
             }
         }
@@ -268,7 +268,7 @@ export class EditorOptionManager {
         return {
             name: item.name,
             label: item.label,
-            icon: this.option.icons && Object.prototype.hasOwnProperty.call(this.option.icons, item.name) ? this.option.icons[item.name] : item.icon,
+            icon: this.option.icons && Object.hasOwn(this.option.icons, item.name) ? this.option.icons[item.name] : item.icon,
         };
     }
 

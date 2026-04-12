@@ -110,12 +110,12 @@ export class BlogService {
         };
     }) {
         return this.http.post<{
-            categories?: ICategory[];
-            tags?: ITag[];
-            detail?: IBlog;
-            relation?: IBlog[];
-            new_comment?: IComment[];
-            new_blog?: IBlog[];
+            categories: ICategory[];
+            tags: ITag[];
+            detail: IBlog;
+            relation: IBlog[];
+            new_comment: IComment[];
+            new_blog: IBlog[];
         }>('blog/batch', data);
     }
 

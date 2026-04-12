@@ -27,14 +27,14 @@ export class MessageComponent {
 
     public title = '消息中心';
 
-    public navItems: IMessageGroup[] = [
+    public readonly navItems = signal<IMessageGroup[]>([
         {
             icon: 'icon-mobile',
             name: '系统通知',
             remark: '无未读消息',
         }
-    ];
-    public navIndex = -1;
+    ]);
+    public readonly navIndex = signal(-1);
 
     public readonly items = signal<IMessageBase[]>([]);
     public readonly hasMore = signal(false);
@@ -47,19 +47,19 @@ export class MessageComponent {
 
     constructor() {
         this.service.bulletinUser().subscribe(res => {
-            this.navItems = res.data as any[];
+            this.navItems.set(res.data as any[]);
         });
     }
 
 
     public tapNav(i: number) {
-        this.navIndex = i;
+        this.navIndex.set(i);
         this.tapRefresh();
     }
 
     public onMessageTap(item: IBlockItem) {
         if (item.type == 4) {
-            openLink(this.router, item.link);
+            openLink(this.router, item.link!);
         }
     }
 
@@ -78,15 +78,15 @@ export class MessageComponent {
         if (lastId < 1) {
             return;
         }
-        const item = this.navIndex >= 0 ? this.navItems[this.navIndex] : null;
+        const item = this.navIndex() >= 0 ? this.navItems()[this.navIndex()] : null;
         this.service.bulletinList({
-            user: item && item.id > 0 ? item.id : -1,
+            user: item && item.id! > 0 ? item.id : -1,
             last_id: lastId,
             ...this.queries(),
             page: 1,
         }).subscribe(res => {
             const items = res.data.map(i => {
-                return {
+                return <IMessageBase>{
                     id: i.id,
                     user: i.bulletin.user,
                     content: i.bulletin.title + '\n' + i.bulletin.content,
@@ -95,7 +95,7 @@ export class MessageComponent {
                     created_at: i.created_at,
                 };
             });
-            this.items.set([].concat(items, this.items));
+            this.items.update(v => [...items, ...v]);
             this.hasMore.set(res.paging.more);
         });
     }
@@ -108,16 +108,16 @@ export class MessageComponent {
             return;
         }
         this.isLoading.set(true);
-        const item = this.navIndex >= 0 ? this.navItems[this.navIndex] : null;
+        const item = this.navIndex() >= 0 ? this.navItems()[this.navIndex()] : null;
         this.service.bulletinList({
             ...this.queries(),
-            user: item && item.id > 0 ? item.id : -1,
+            user: item && item.id! > 0 ? item.id : -1,
             page,
         }).subscribe({
             next: res => {
                 this.isLoading.set(false);
                 const items = res.data.map(i => {
-                    return {
+                    return <IMessageBase>{
                         id: i.id,
                         user: i.bulletin.user,
                         content: i.bulletin.title + '\n' + i.bulletin.content,

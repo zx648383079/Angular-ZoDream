@@ -1,6 +1,5 @@
 import { Component, inject, viewChild } from '@angular/core';
 import { MoviePlayerComponent } from '../../../components/media-player';
-import { PlayerEvent } from '../../../components/media-player/fixed/model';
 import { TvService } from '../tv.service';
 
 @Component({
@@ -17,7 +16,7 @@ export class LiveComponent {
 
     constructor() {
         this.service.liveList().subscribe(res => {
-            this.player().push(...res.data.map(i => {
+            this.player()!.push(...res.data.map(i => {
                 return {
                     name: i.title,
                     source: i.source,

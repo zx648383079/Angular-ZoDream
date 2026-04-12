@@ -65,7 +65,7 @@ export class BindStepComponent {
             email: $localize `Email`,
             mobile: $localize `Phone`
         };
-        return Object.prototype.hasOwnProperty.call(maps, name) ? maps[name] : '--';
+        return Object.hasOwn(maps, name) ? maps[name] : '--';
     }
 
     public tapToggleVerify() {

@@ -48,7 +48,7 @@ export class SitemapComponent {
                     return [...v];
                 });
             }
-            this.box().nativeElement.scrollTop = this.box().nativeElement.scrollHeight;
+            this.box()!.nativeElement.scrollTop = this.box()!.nativeElement.scrollHeight;
         });
     }
 

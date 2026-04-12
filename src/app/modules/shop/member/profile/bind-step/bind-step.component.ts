@@ -39,7 +39,7 @@ export class BindStepComponent {
                     v.verify_type = v.name = name;
                     return {...v};
                 });
-                this.verify_value.set(user[name]);
+                this.verify_value.set((user as any)[name]);
                 if (!this.verify_value()) {
                     this.tapToggleVerify();
                     this.stepIndex.set(1);
@@ -59,17 +59,17 @@ export class BindStepComponent {
     })
 
     private formatLabel(name: string) {
-        const maps = {
+        const maps: any = {
             email: $localize `Email`,
             mobile: $localize `Phone`
         };
-        return Object.prototype.hasOwnProperty.call(maps, name) ? maps[name] : '--';
+        return Object.hasOwn(maps, name) ? maps[name] : '--';
     }
 
     public tapToggleVerify() {
         this.dataForm().value.update(v => {
             const type = v.verify_type == 'email' ? 'mobile' : 'email';
-            const user = this.user();
+            const user = this.user() as any;
             if (user[type]) {
                 v.verify_type = type;
                 v.verify = '';

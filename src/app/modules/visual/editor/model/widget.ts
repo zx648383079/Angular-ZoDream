@@ -136,7 +136,7 @@ export class WidgetProperty {
     }
 
     public has(key: string|number) {
-        return Object.prototype.hasOwnProperty.call(this.data, key);
+        return Object.hasOwn(this.data, key);
     }
 
     public getMany(maps: string[]) {

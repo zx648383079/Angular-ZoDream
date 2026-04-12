@@ -2,8 +2,8 @@
   <app-page-tip>
       <ul>
           <li>管理地区列表</li>
-          @if (parent) {
-          <li>当前地区：{{ parent.full_name }}</li>
+          @if (parent()) {
+          <li>当前地区：{{ parent()!.full_name }}</li>
           }
       </ul>
   </app-page-tip>
@@ -16,10 +16,10 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
-                    @if (parent) {
+                    @if (parent()) {
                     <a class="btn btn-light" (click)="tapViewRegion()">返回顶级</a>
                     }
-                    @if (parent && parent.parent_id > 0) {
+                    @if (parent() && parent()!.parent_id! > 0) {
                     <a class="btn btn-info"  (click)="tapParentRegion()">返回上一级</a>
                     }
                     <a (click)="open(modal)" class="btn btn-primary">新增地区</a>
@@ -41,7 +41,7 @@
                 <tr>
                   <td>{{ item.id }}</td>
                   <td>{{ item.name }}</td>
-                  <td>{{ parent ? parent.name  : '[-]' }}</td>
+                  <td>{{ parent() ? parent()!.name  : '[-]' }}</td>
                   <td>
                       <div class="btn-group  btn-group-xs">
                           <a class="btn btn-info btn-xs" (click)="tapViewRegion(item)">子地区</a>
@@ -70,7 +70,7 @@
       <div class="form-group">
           <label for="region-input">完整地区</label>
           <div class="input-group-control">
-              {{ parent?.full_name }} {{ editForm.name().value() }}
+              {{ parent()?.full_name }} {{ editForm.name().value() }}
           </div>
         </div>
 </app-dialog-box>

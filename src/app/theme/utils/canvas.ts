@@ -95,7 +95,7 @@ export function drawLineTo(ctx: CanvasRenderingContext2D, from: IPoint, to: IPoi
 export function isIntersect(a: IBound, b: IBound|IPoint): boolean {
     const aR = a.x + a.width;
     const aB = a.y + a.height;
-    if (!Object.prototype.hasOwnProperty.call(b, 'width')) {
+    if (!Object.hasOwn(b, 'width')) {
         return a.x <= b.x && a.y <= b.y && aB >= b.y && aR >= b.x;
     }
     const bR = b.x + (b as IBound).width;

@@ -40,7 +40,7 @@ export class PlanComponent {
     public weekNameItems: IItem[] = [];
     public monthNameItems: IItem[] = [];
     public readonly editForm = form(signal({
-        task: <ITask>null,
+        task: <ITask|null>null,
         task_id: 0,
         amount: 0,
         plan_type: 0,
@@ -77,7 +77,7 @@ export class PlanComponent {
             return {
                 label: i.name,
                 value: i.value,
-                items: []
+                items: <any[]>[]
             }
         });
         for (const item of this.items()) {
@@ -97,7 +97,7 @@ export class PlanComponent {
             return {
                 label: i.name,
                 value: i.value,
-                items: []
+                items: <any[]>[]
             }
         })
         for (const item of this.items()) {
@@ -108,15 +108,15 @@ export class PlanComponent {
     });
 
     public tapAdd() {
-        this.taskModal().open(item => {
+        this.taskModal()!.open(item => {
             this.editForm().value.set({
                 task: item, 
-                task_id: item.id, 
+                task_id: item.id!, 
                 amount: 1, 
                 priority: 8, 
                 plan_type: this.queries.type().value() as any, 
                 plan_time: ''});
-            this.addModal().open(() => {
+            this.addModal()!.open(() => {
                 this.service.planSave({...this.editForm().value(), task: undefined}).subscribe({
                     next: res => {
                         this.pushPlan(res);
@@ -132,8 +132,8 @@ export class PlanComponent {
 
     private pushPlan(item: ITaskPlan) {
         for (let i = 0; i < this.items().length; i++) {
-            if (this.items[i].id == item.id) {
-                this.items[i] = item;
+            if (this.items()[i].id == item.id) {
+                this.items()[i] = item;
                 return;
             }
         }

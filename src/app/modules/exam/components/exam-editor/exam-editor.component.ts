@@ -82,7 +82,7 @@ export class ExamEditorComponent implements FormValueControl<string>, IEditor {
             });
             return;
         }
-        if (Object.prototype.hasOwnProperty.call(MarkRangeMap, name)) {
+        if (Object.hasOwn(MarkRangeMap, name)) {
             const item = MarkRangeMap[name];
             this.container.insert(<IEditorInclueBlock>{
                 type: EditorBlockType.AddText,

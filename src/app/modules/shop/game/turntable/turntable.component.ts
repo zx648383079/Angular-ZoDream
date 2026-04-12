@@ -28,7 +28,7 @@ export class TurntableComponent {
     public canvasStyle = {};
     public pointerStyle: any = {};
     private formatItems: ITurnItem[] = [];
-    private ctx: CanvasRenderingContext2D;
+    private ctx?: CanvasRenderingContext2D;
     private booted = false;
 
     public isRunning = false;
@@ -49,7 +49,7 @@ export class TurntableComponent {
             write: () => {
                 this.drawer.width = this.size();
                 this.drawer.height = this.size();
-                this.ctx = this.drawer.getContext('2d');
+                this.ctx = this.drawer.getContext('2d')!;
                 this.ctx.translate(this.size() / 2, this.size() / 2);
                 if (this.formatItems.length > 0) {
                     this.refreshGift();
@@ -59,7 +59,7 @@ export class TurntableComponent {
     }
 
     get drawer(): HTMLCanvasElement {
-        return this.drawerElement().nativeElement as HTMLCanvasElement;
+        return this.drawerElement()!.nativeElement as HTMLCanvasElement;
     }
 
     public tapStart() {
@@ -213,7 +213,7 @@ export class TurntableComponent {
         return i * Math.PI / 180 ;
     }
 
-    private drawItem(item: ITurnItem, ctx: CanvasRenderingContext2D = this.ctx) {
+    private drawItem(item: ITurnItem, ctx: CanvasRenderingContext2D = this.ctx!) {
         const [img, angle] = this.createArc(item);
         ctx.rotate(angle);
         ctx.drawImage(img, - this.size() / 2, - this.size() / 2, this.size(), this.size());
@@ -224,7 +224,7 @@ export class TurntableComponent {
         const canvas = document.createElement('canvas');
         canvas.width = this.size();
         canvas.height = this.size();
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d')!;
         const centerAngle = (item.deg[0] + item.deg[1]) / 2;
         ctx.beginPath();
         const size = this.size();

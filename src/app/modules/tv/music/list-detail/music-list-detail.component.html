@@ -9,14 +9,14 @@
 
     
 
-    @if (data) {
+    @if (data()) {
         <div class="media-row">
         <div class="item-cover">
-            <img [src]="data.cover" [alt]="data.title">
+            <img [src]="data()!.cover" [alt]="data()!.title">
         </div>
         <div class="item-body">
-            <div class="item-name">{{ data.title }}</div>
-            <div class="item-meta">{{ data.description }}</div>
+            <div class="item-name">{{ data()!.title }}</div>
+            <div class="item-meta">{{ data()!.description }}</div>
             <div class="item-action">
                 <div class="btn-group">
                     <a class="btn btn-primary">播放全部</a>

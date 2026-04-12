@@ -23,7 +23,7 @@ export class ProductComponent {
     private readonly toastrService = inject(DialogService);
     private readonly location = inject(Location);
 
-    public readonly data = signal<IProduct>(null);;
+    public readonly data = signal<IProduct|null>(null);;
     public readonly children = signal<IProduct[]>([]);;
     public readonly channelItems = signal<IChannel[]>([]);;
     public readonly isLoading = signal(false);
@@ -61,7 +61,7 @@ export class ProductComponent {
                 this.data.set(res);
                 this.children.set(res.items ?? []);
                 this.channelItems.set(res.channel_items ?? []);
-                this.tapChannel(this.isChannelId(this.channelSelected()) ? this.channelSelected() : this.channelItems()[0].id);
+                this.tapChannel(this.isChannelId(this.channelSelected()) ? this.channelSelected() : this.channelItems()[0].id!);
             },
             error: err => {
                 this.toastrService.error(err);
@@ -94,7 +94,7 @@ export class ProductComponent {
     }
 
     private isProductId(id: number): boolean {
-        if (id === this.data().id) {
+        if (id === this.data()?.id) {
             return true;
         }
         for (const item of this.children()) {

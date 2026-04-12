@@ -21,7 +21,7 @@
                 <div class="order-item">
                 <div class="item-header">
                     <span>{{ item.created_at }}</span>
-                    <span>订单号：{{ item.order.series_number }}</span>
+                    <span>订单号：{{ item.order!.series_number }}</span>
                     <span>物流方式：{{ item.shipping_name }}</span>
                     <span>物流单号：{{ item.logistics_number }}</span>
                     <span>状态：{{ formatStatus(item.status) }}</span>
@@ -43,7 +43,7 @@
                         }
                     </div>
                     <div class="item-user">
-                        <p>用户名：{{ item.user.name }}</p>
+                        <p>用户名：{{ item.user?.name }}</p>
                         <p>收货人：{{ item.name }}</p>
                         <p>{{ item.tel }}</p>
                     </div>
@@ -65,7 +65,7 @@
         <div class="item-icon">收</div>
         @if (logisticsData().data) {
         <div class="item-body">
-            收货地址：{{ logisticsData().data.region_name }} {{logisticsData().data.address }}
+            收货地址：{{ logisticsData().data!.region_name }} {{logisticsData().data!.address }}
         </div>
         }
     </div>

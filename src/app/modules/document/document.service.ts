@@ -71,11 +71,11 @@ export class DocumentService {
         language?: any;
     }) {
         return this.http.post<{
-            project?: IProject;
-            version?: IProjectVersion[];
-            catalog?: IData<IDocPage&IDocApi>;
-            page?: IDocPage&IDocApi,
-            language?: IData<string>;
+            project: IProject;
+            version: IProjectVersion[];
+            catalog: IData<IDocPage&IDocApi>;
+            page: IDocPage&IDocApi,
+            language: IData<string>;
         }>('doc/batch', data);
     }
 }

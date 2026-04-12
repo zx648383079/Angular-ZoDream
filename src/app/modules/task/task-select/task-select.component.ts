@@ -1,6 +1,5 @@
 import { form } from '@angular/forms/signals';
 import { Component, inject, signal } from '@angular/core';
-import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
 import { ITask } from '../model';
 import { TaskService } from '../task.service';
@@ -29,7 +28,7 @@ export class TaskSelectComponent {
         status: 1,
     }));
 
-    private confirmFn: (data: ITask) => void;
+    private confirmFn?: (data: ITask) => void;
 
 
     public open(cb: (data: ITask) => void) {

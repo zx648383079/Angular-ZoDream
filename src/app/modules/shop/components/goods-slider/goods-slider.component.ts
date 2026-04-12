@@ -27,8 +27,8 @@ export class GoodsSliderComponent {
         const route = inject(ActivatedRoute);
 
         let next = route;
-        while (next.routeConfig.path !== 'market') {
-            next = next.parent;
+        while (next.routeConfig!.path !== 'market') {
+            next = next.parent!;
         }
         this.baseRoute = next;
         effect(() => {
@@ -101,11 +101,11 @@ export class GoodsSliderComponent {
     }
 
     private getStyleValue(data: CSSStyleDeclaration, key: string): number {
-        const val = data[key];
+        const val = (data as any)[key];
         if (!val) {
             return 0;
         }
-        return parseFloat(/[\d\.]+/.exec(val)[0]);
+        return parseFloat(/[\d\.]+/.exec(val)![0]);
     }
 
     private formatType() {

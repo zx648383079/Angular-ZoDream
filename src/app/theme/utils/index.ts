@@ -143,8 +143,8 @@ export function formatDate(date: Date|number|string, fmt: string = 'yyyy-mm-dd h
     return fmt;
 }
 
-export function formatHour(time: number, format?: string, isSecond = false): string {
-    if (isNaN(time)) {
+export function formatHour(time?: number, format?: string, isSecond = false): string {
+    if (!time || isNaN(time)) {
         time = 0;
     }
     if (!isSecond) {
@@ -311,7 +311,7 @@ export function uriEncode(path: string, obj: any = {}, unEncodeURI?: boolean): s
         });
     }
     for (const name in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, name)) {
+        if (Object.hasOwn(obj, name)) {
             pushQuery(name, obj[name]);
         }
     }

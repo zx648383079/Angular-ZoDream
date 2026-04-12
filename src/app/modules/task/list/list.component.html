@@ -28,13 +28,13 @@
     </div>
 
     @for (item of items(); track $index) {
-    <div class="task-item" [class]="{finished: item.status < 5}" [title]="item.tooltip">
+    <div class="task-item" [class]="{finished: item.status! < 5}" [title]="item.tooltip">
         <i class="checkbox" [class]="{checked: item.checked}"></i>
         <div class="name">{{ item.name }}</div>
         <div class="desc">{{ item.description }}</div>
         <div class="time">{{ item.formated_time }}</div>
         <div class="action">
-            @if (item.status >= 5) {
+            @if (item.status! >= 5) {
                 <i class="iconfont icon-plus" title="添加到今日任务" (click)="addToday(item)"></i>
             }
             <a [routerLink]="'../edit/' + item.id" title="编辑"><i class="iconfont icon-edit"></i></a>

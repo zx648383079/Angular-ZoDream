@@ -203,7 +203,7 @@ export class WsRequest implements IRequest {
             if (!event) {
                 return;
             }
-            if (!Object.prototype.hasOwnProperty.call(this.messageListeners, item)) {
+            if (!Object.hasOwn(this.messageListeners, item)) {
                 return;
             }
             this.messageListeners[item] = [];

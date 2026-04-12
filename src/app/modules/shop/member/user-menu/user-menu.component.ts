@@ -91,17 +91,17 @@ export class UserMenuComponent {
 
     constructor() {
         effect(() => {
-            this.checkRoute(this.current());
+            this.checkRoute(this.current()!);
         });
         effect(() => {
-            this.checkUrl(this.currentUrl());
+            this.checkUrl(this.currentUrl()!);
         });
     }
 
     public tapNav(item: INavLink) {
         this.items.update(v => {
             return v.map(group => {
-                group.children = group.children.map(i => {
+                group.children = group.children!.map(i => {
                     i.active = i === item;
                     return i;
                 });
@@ -128,8 +128,8 @@ export class UserMenuComponent {
         }
         this.items.update(v => {
             return v.map(group => {
-                group.children = group.children.map(i => {
-                    i.active = secret ? url === i.url : url.startsWith(i.url);
+                group.children = group.children!.map(i => {
+                    i.active = secret ? url === i.url : url.startsWith(i.url!);
                     return i;
                 });
                 return group;

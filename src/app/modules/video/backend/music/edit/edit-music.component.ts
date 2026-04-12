@@ -33,7 +33,7 @@ export class EditMusicComponent {
         required(schemaPath.path);
     });
 
-    private audioElement: HTMLAudioElement;
+    private audioElement?: HTMLAudioElement;
 
     constructor() {
         this.route.params.subscribe(params => {
@@ -89,7 +89,7 @@ export class EditMusicComponent {
         const files = event.target.files as FileList;
         this.uploadService.uploadAudio(files[0]).subscribe({
             next: res => {
-                this.dataForm[name]().value.set(res.url);
+                (this.dataForm as any)[name]().value.set(res.url);
                 this.loadDuration(res);
                 this.loadName(res);
             }, error: err => {

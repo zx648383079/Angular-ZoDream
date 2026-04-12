@@ -7,7 +7,7 @@ import { formatHour } from '../../theme/utils';
 })
 export class HourPipe implements PipeTransform {
 
-    transform(value: number, args?: any): string {
+    transform(value?: number, args?: any): string {
         if (!value) {
             return '00:00';
         }

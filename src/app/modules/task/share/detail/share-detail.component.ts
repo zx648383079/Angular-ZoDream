@@ -19,7 +19,7 @@ export class ShareDetailComponent {
 
 
     public readonly data = signal<ITask|null>(null);
-    public share: IShare;
+    public readonly share = signal<IShare|null>(null);
     public readonly items = signal<ITask[]>([]);
 
     public readonly panelOpen = signal(false);
@@ -48,7 +48,7 @@ export class ShareDetailComponent {
             }
             this.service.share(params.id).subscribe(res => {
                 this.data.set(res.task);
-                this.share = res;
+                this.share.set(res);
                 if (res.task && res.task.children) {
                     this.items.set(res.task.children);
                 }
@@ -59,7 +59,7 @@ export class ShareDetailComponent {
     }
 
     public readonly timeLength = computed(() => {
-        return formatHour(this.data()?.time_length);
+        return formatHour(this.data()?.time_length ?? 0);
     })
 
     public readonly userFilterItems = computed(() => {
@@ -93,7 +93,7 @@ export class ShareDetailComponent {
         this.service.commentList({
             ...this.queries(),
             page,
-            task_id: this.data().id
+            task_id: this.data()!.id
         }).subscribe({
             next: res => {
                 this.commentItems.set(res.data);
@@ -125,7 +125,7 @@ export class ShareDetailComponent {
             return;
         }
         this.service.commenSave({
-            task_id: this.data().id,
+            task_id: this.data()!.id,
             content: comment
         }).subscribe(_ => {
             this.commentForm.content().value.set('');
@@ -137,7 +137,7 @@ export class ShareDetailComponent {
     public uploadFile(event: any) {
         const files = event.target.files as FileList;
         const form = new FormData();
-        form.append('task_id', this.data().id.toString());
+        form.append('task_id', this.data()!.id!.toString());
         form.append('file', files[0], files[0].name);
         this.service.commenSave(form).subscribe(_ => {
             this.toastrService.success('评论成功');
@@ -147,7 +147,7 @@ export class ShareDetailComponent {
 
     public tapRefreshUser() {
         this.service.shareUsers({
-            id: this.share.id
+            id: this.share()!.id
         }).subscribe(res => {
             this.userItems = res.data;
         });
@@ -155,7 +155,7 @@ export class ShareDetailComponent {
 
     public tapRemoveUser(item: any) {
         this.toastrService.confirm('确定要删除用户《' + item.name + '》?', () => {
-            this.service.shareRemoveUser(this.share.id, item.id).subscribe(res => {
+            this.service.shareRemoveUser(this.share()!.id, item.id).subscribe(res => {
                 if (!res.data) {
                     return;
                 }

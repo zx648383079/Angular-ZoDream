@@ -55,7 +55,7 @@ export class SkuFormComponent {
     public attrFormData(): IGoodsAttr[] {
         const items = [];
         for (const item of this.formattedAttrItems) {
-            for (const attr of item.attr_items) {
+            for (const attr of item.attr_items!) {
                 items.push({
                     id: attr.id || 0,
                     value: attr.value,
@@ -92,13 +92,13 @@ export class SkuFormComponent {
             this.toastrService.warning('请输入属性内容');
             return;
         }
-        if (this.inArr(item.new_value, item.attr_items)) {
+        if (this.inArr(item.new_value, item.attr_items!)) {
             this.toastrService.warning('属性已存在');
             return;
         }
-        item.attr_items.push(item.type > 1 ? {
+        item.attr_items!.push(item.type > 1 ? {
             value: item.new_value,
-            price: parseFloat(item.new_price.toString()) || 0,
+            price: parseFloat(item.new_price!.toString()) || 0,
         } : {
             value: item.new_value
         });
@@ -112,9 +112,9 @@ export class SkuFormComponent {
         if (item.type < 1 || item.input_type > 0) {
             return;
         }
-        for (let i = item.attr_items.length - 1; i >= 0; i--) {
-            if (item.attr_items[i].value === attr.value) {
-                item.attr_items.splice(i, 1);
+        for (let i = item.attr_items!.length - 1; i >= 0; i--) {
+            if (item.attr_items![i].value === attr.value) {
+                item.attr_items!.splice(i, 1);
             }
         }
     }
@@ -130,8 +130,8 @@ export class SkuFormComponent {
     public tapBatch() {
         for (const item of this.specItems) {
             for (const key in this.batchData) {
-                if (Object.prototype.hasOwnProperty.call(this.batchData, key) && this.batchData[key]) {
-                    item.form[key] = this.batchData[key];
+                if (Object.hasOwn(this.batchData, key) && (this.batchData as any)[key]) {
+                    (item.form as any)[key] = (this.batchData as any)[key];
                 }
             }
         }
@@ -171,7 +171,7 @@ export class SkuFormComponent {
             if (item.type !== 1) {
                 continue;
             }
-            const newItem = {name: item.name, attr_items: item.attr_items.filter(attr => attr.checked)};
+            const newItem = {name: item.name, attr_items: item.attr_items!.filter(attr => attr.checked)};
             items.push(newItem as any);
         }
         return items;
@@ -182,7 +182,7 @@ export class SkuFormComponent {
         let totalRow = 1;
         const attrList = this.getRadioAttr();
         for (const item of attrList) {
-            totalRow *= item.attr_items.length;
+            totalRow *= item.attr_items!.length;
         }
         // 遍历tr 行
         const specList: ISkuSpec[] = [];
@@ -192,14 +192,14 @@ export class SkuFormComponent {
             const specSkuIdAttr = [];
             // 遍历td 列
             for (const item of attrList) {
-                const skuValues = item.attr_items;
+                const skuValues = item.attr_items!;
                 rowCount *= skuValues.length;
                 const anInterBankNum = (totalRow / rowCount);
                 const point = ((i / anInterBankNum) % skuValues.length);
                 if (0 === (i % anInterBankNum)) {
                     rowData.push({
                         rowspan: anInterBankNum,
-                        id: skuValues[point].id,
+                        id: skuValues[point].id!,
                         value: skuValues[point].value
                     });
                 }
@@ -240,10 +240,10 @@ export class SkuFormComponent {
             if ((!item.attr_items || item.attr_items.length < 1) && item.type < 1) {
                 item.attr_items = [{value: item.input_type === 1 ? item.default_value[0] : ''}];
             }
-            if (item.type > 0 && item.input_type === 1 && item.attr_items.length < item.default_value.length){
+            if (item.type > 0 && item.input_type === 1 && item.attr_items!.length < item.default_value.length){
                 for (const val of item.default_value) {
-                    if (!this.inArr(val, item.attr_items)) {
-                        item.attr_items.push({value: val});
+                    if (!this.inArr(val, item.attr_items!)) {
+                        item.attr_items!.push({value: val});
                     }
                 }
             }
@@ -273,7 +273,7 @@ export class SkuFormComponent {
             return;
         }
         for (const item of this.specItems) {
-            if (Object.prototype.hasOwnProperty.call(data, item.sku)) {
+            if (Object.hasOwn(data, item.sku)) {
                 item.form = data[item.sku];
             }
         }
@@ -285,7 +285,7 @@ export class SkuFormComponent {
             if (item.type !== 1) {
                 continue;
             }
-            for (const attr of item.attr_items) {
+            for (const attr of item.attr_items!) {
                 if (attr.id && attrs.indexOf(attr.id.toString()) >= 0) {
                     attr.checked = true;
                     args.push(attr.value);

@@ -74,7 +74,7 @@ export class ReviewComponent {
 
     private refreshChart(items: ITaskReview[]) {
         const option: any = Object.assign({}, this.chartOption);
-        const maps = {
+        const maps: any = {
             amount: '估计番茄钟总数',
             success_amount: '实际完成番茄钟总数',
             complete_amount: '任务完成数',
@@ -95,7 +95,7 @@ export class ReviewComponent {
                         data: [],
                     });
                 }
-                option.series[i].data.push(item[key]);
+                option.series[i].data.push((item as any)[key]);
                 i ++;
             }
         }

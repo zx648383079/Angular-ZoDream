@@ -3,13 +3,13 @@
         <app-movie-player />
         @if (data()) {
         <div class="info-box">
-            <div class="title">&#64;{{ data().user!.name }}</div>
-            <div class="content">{{ data().content }}</div>
-            @if (data().music) {
+            <div class="title">&#64;{{ data()!.user!.name }}</div>
+            <div class="content">{{ data()!.content }}</div>
+            @if (data()!.music) {
             <div class="music">
                 <i class="iconfont icon-music"></i>
                 <div class="loop-box">
-                    {{ data().music!.name }}
+                    {{ data()!.music!.name }}
                 </div>
             </div>
             }
@@ -18,18 +18,18 @@
         @if (data()) {
         <div class="action-bar">
             <div class="avatar" (click)="tapUser()">
-                <img [src]="data().user!.avatar" alt="">
+                <img [src]="data()!.user!.avatar" alt="">
                 <div class="follow-icon">
                     <i class="iconfont icon-plus"></i>
                 </div>
             </div>
-            <div class="btn-item" [class]="{active: data().is_liked}" (click)="tapToggleLike()">
+            <div class="btn-item" [class]="{active: data()!.is_liked}" (click)="tapToggleLike()">
                 <i class="iconfont icon-heart"></i>
-                <span class="label">{{ data().like_count }}</span>
+                <span class="label">{{ data()!.like_count }}</span>
             </div>
             <div class="btn-item" (click)="tapShowComment()">
                 <i class="iconfont icon-commenting"></i>
-                <span class="label">{{ data().comment_count }}</span>
+                <span class="label">{{ data()!.comment_count }}</span>
             </div>
             <div class="btn-item">
                 <i class="iconfont icon-share-alt"></i>

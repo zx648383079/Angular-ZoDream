@@ -2,8 +2,8 @@
     <app-page-tip>
         <ul>
             <li>库存列表</li>
-            @if (data && data.name) {
-            <li>仓库：{{ data.name }}({{ data.address }})</li>
+            @if (data()?.name) {
+            <li>仓库：{{ data()!.name }}({{ data()!.address }})</li>
             }
         </ul>
     </app-page-tip>
@@ -15,7 +15,7 @@
                     <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" placeholder="标题">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                @if (data) {
+                @if (data()) {
                 <a class="pull-right btn btn-primary" (click)="open(modal)">新增库存</a>
                 }
             </form>
@@ -25,7 +25,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    @if (!data) {
+                    @if (!data()) {
                     <th>仓库名</th>
                     }
                     <th>商品</th>
@@ -38,13 +38,13 @@
                 @for (item of items(); track $index) {
                     <tr>
                     <td>{{ item.id }}</td>
-                    @if (!data) {
-                    <td>{{ item.warehouse.name }}</td>
+                    @if (!data()) {
+                    <td>{{ item.warehouse?.name }}</td>
                     }
-                    <td>{{ item.goods.name }}</td>
+                    <td>{{ item.goods?.name }}</td>
                     <td>
                         @if (item.product) {
-                            {{ item.product.series_number }}
+                            {{ item.product!.series_number }}
                         } @else {
                             -
                         }

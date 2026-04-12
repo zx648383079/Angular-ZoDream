@@ -35,11 +35,11 @@ export class AccountComponent {
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public user: IUser;
+    public readonly user = signal<IUser|null>(null);
 
     constructor() {
         this.store.select(selectAuthUser).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
-            this.user = res;
+            this.user.set(res);
         });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));

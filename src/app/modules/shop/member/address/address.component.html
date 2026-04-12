@@ -21,7 +21,7 @@
                 @for (item of items(); track $index) {
                     <div class="address-row">
                     <div class="name">{{ item.name }}</div>
-                    <div class="address">{{ item.region.full_name }} {{ item.address }}</div>
+                    <div class="address">{{ item.region?.full_name }} {{ item.address }}</div>
                     <div class="tel">{{ item.tel }}</div>
                     <div class="action">
                         <a  (click)="tapEdit(item)">编辑</a>

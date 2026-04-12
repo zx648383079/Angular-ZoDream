@@ -2,7 +2,6 @@ import { form } from '@angular/forms/signals';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
-import { IPageQueries } from '../../../../../theme/models/page';
 import { IWarehouse, IWarehouseGoods, IWarehouseLog } from '../../../model';
 import { SearchService } from '../../../../../theme/services';
 import { WarehouseService } from '../warehouse.service';
@@ -24,7 +23,7 @@ export class ProductComponent {
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public data: IWarehouse;
+    public readonly data = signal<IWarehouse|null>(null);
     public readonly editForm = form(signal({
         id: 0,
         goods_id: 0,
@@ -50,7 +49,7 @@ export class ProductComponent {
                 return;
             }
             this.service.warehouse(this.queries.warehouse).subscribe(res => {
-                this.data = res;
+                this.data.set(res);
             });
         });
     }
@@ -74,7 +73,7 @@ export class ProductComponent {
         modal.open(() => {
             const data = this.editForm().value();
             this.service.goodsChange({
-                warehouse_id: this.data.id,
+                warehouse_id: this.data()!.id,
                 goods_id: data.goods_id,
                 product_id: data.product_id,
                 amount: data.amount,

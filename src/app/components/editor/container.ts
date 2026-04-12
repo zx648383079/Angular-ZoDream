@@ -338,7 +338,7 @@ export class EditorService implements IEditorContainer {
 
     public on<E extends keyof IEditorListeners>(event: E, listener: IEditorListeners[E]): IEditorContainer;
     public on(event: string, cb: any) {
-        if (!Object.prototype.hasOwnProperty.call(this.listeners, event)) {
+        if (!Object.hasOwn(this.listeners, event)) {
             this.listeners[event] = [];
         }
         this.listeners[event].push(cb);
@@ -346,7 +346,7 @@ export class EditorService implements IEditorContainer {
     }
 
     public emit(event: string, ...items: any[]) {
-        if (!Object.prototype.hasOwnProperty.call(this.listeners, event)) {
+        if (!Object.hasOwn(this.listeners, event)) {
             return this;
         }
         const listeners = this.listeners[event];
@@ -385,7 +385,7 @@ export class EditorService implements IEditorContainer {
     }
 
     private offListener(event: string, cb: Function): this {
-        if (!Object.prototype.hasOwnProperty.call(this.listeners, event)) {
+        if (!Object.hasOwn(this.listeners, event)) {
             return this;
         }
         const items = this.listeners[event];

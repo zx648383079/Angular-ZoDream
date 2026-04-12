@@ -79,7 +79,7 @@ export class EmojiPickerComponent {
     }
 
     private getOrSet(url: string): Observable<IEmojiCategory[]> {
-        if (Object.prototype.hasOwnProperty.call(EmojiPickerComponent.cacheMaps, url)) {
+        if (Object.hasOwn(EmojiPickerComponent.cacheMaps, url)) {
             return of(EmojiPickerComponent.cacheMaps[url]);
         }
         return this.http.get<IData<IEmojiCategory>>(url).pipe(map(res => {

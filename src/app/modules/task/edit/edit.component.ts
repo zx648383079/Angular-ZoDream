@@ -40,9 +40,9 @@ export class EditComponent {
         required(schemaPath.name);
     });
 
-    public data: ITask;
+    public readonly data = signal<ITask|null>(null);
     public readonly items = signal<ITask[]>([]);
-    public readonly editForm = form(signal<ITask>({
+    public readonly editForm = form(signal({
         id: 0,
         name: '',
         description: '',
@@ -53,7 +53,7 @@ export class EditComponent {
     public readonly shareForm = form(signal({
         id: 0,
         task_id: 0,
-        task: null,
+        task: <ITask|null>null,
         share_type: '0',
         share_rule: ''
     }));
@@ -64,15 +64,15 @@ export class EditComponent {
                 return;
             }
             this.service.task(params.id).subscribe(res => {
-                this.data = res;
+                this.data.set(res);
                 this.dataModel.set({
-                        id: res.id,
+                    id: res.id!,
                     name: res.name,
                     description: res.description,
-                    every_time: res.every_time,
-                    space_time: res.space_time,
-                    duration: res.duration,
-                    start_at: res.start_at,
+                    every_time: res.every_time!,
+                    space_time: res.space_time!,
+                    duration: res.duration!,
+                    start_at: res.start_at!,
                 });
                 if (res.children) {
                     this.items.set(res.children);
@@ -115,7 +115,8 @@ export class EditComponent {
     }
 
     openDialog(modal: DialogEvent, item ?: ITask) {
-        if (!this.data || this.data.id < 1) {
+        const data = this.data();
+        if (!data || data.id! < 1) {
             this.toastrService.warning('请先保存主任务');
             return;
         }
@@ -127,12 +128,13 @@ export class EditComponent {
             return {...v};
         });
         modal.open(() => {
+            const form = this.editForm().value();
             this.service.taskSave({
-                name: this.editForm.name,
-                parent_id: this.data?.id,
-                id: this.editForm?.id,
-                description: this.editForm.description,
-                every_time: this.data?.every_time,
+                name: form.name,
+                parent_id: data.id,
+                id: form.id,
+                description: form.description,
+                every_time: data.every_time,
             }).subscribe({
                 next: res => {
                     this.toastrService.success($localize `Save Successfully`);
@@ -165,11 +167,12 @@ export class EditComponent {
     }
 
     public tapShare(modal: DialogEvent) {
-        if (!this.data || this.data.id < 1) {
+        const source = this.data();
+        if (!source || source.id! < 1) {
             return;
         }
-        if (this.shareForm.task_id().value() !== this.data.id) {
-            this.shareForm().value.set({id: 0, task: this.data, task_id: this.data.id, share_type: '0', share_rule: ''});
+        if (this.shareForm.task_id().value() !== source.id) {
+            this.shareForm().value.set({id: 0, task: source, task_id: source.id!, share_type: '0', share_rule: ''});
         }
         modal.open(() => {
             const data = this.shareForm().value();

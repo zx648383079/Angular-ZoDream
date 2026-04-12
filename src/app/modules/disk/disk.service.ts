@@ -66,7 +66,7 @@ export class DiskService {
             return 'icon-folder-o';
         }
         for (const key in FileTypeMap) {
-            if (Object.prototype.hasOwnProperty.call(FileTypeMap, key) && FileTypeMap[key].extension.indexOf(ext) >= 0) {
+            if (Object.hasOwn(FileTypeMap, key) && FileTypeMap[key].extension.indexOf(ext) >= 0) {
                 return FileTypeMap[key].icon;
             }
         }
@@ -78,7 +78,7 @@ export class DiskService {
             return '';
         }
         for (const key in FileTypeMap) {
-            if (Object.prototype.hasOwnProperty.call(FileTypeMap, key) && FileTypeMap[key].extension.indexOf(ext) >= 0) {
+            if (Object.hasOwn(FileTypeMap, key) && FileTypeMap[key].extension.indexOf(ext) >= 0) {
                 return key;
             }
         }

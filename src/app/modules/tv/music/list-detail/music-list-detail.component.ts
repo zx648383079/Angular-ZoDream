@@ -12,7 +12,7 @@ export class MusicListDetailComponent {
 
     private readonly location = inject(Location);
     
-    public data: IMusicList;
+    public readonly data = signal<IMusicList|null>(null);
     public readonly isLoading = signal(false);
     public readonly items = signal<IMusic[]>([]);
 

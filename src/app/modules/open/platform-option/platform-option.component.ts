@@ -73,8 +73,8 @@ export class PlatformOptionComponent {
                     }
                     group.children.push({
                         name: i,
-                        label: Object.prototype.hasOwnProperty.call(item, i + '_label') ? item[i + '_label'] : camelCase(i),
-                        tip: Object.prototype.hasOwnProperty.call(item, i + '_tip') ? item[i + '_tip'] : undefined,
+                        label: Object.hasOwn(item, i + '_label') ? item[i + '_label'] : camelCase(i),
+                        tip: Object.hasOwn(item, i + '_tip') ? item[i + '_tip'] : undefined,
                         value: val
                     });
                 });

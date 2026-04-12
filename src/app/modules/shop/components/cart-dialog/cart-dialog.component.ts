@@ -37,7 +37,7 @@ export class CartDialogComponent {
     }
 
     public tapCart() {
-        if (this.cart() && this.cart().data.length > 0) {
+        if (this.cart() && this.cart()!.data.length > 0) {
             this.cartOpen.update(v => !v);
             return;
         }

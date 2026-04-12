@@ -2,7 +2,6 @@ import { form, required } from '@angular/forms/signals';
 import { Component, inject, viewChild, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
-import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
 import { ITask, ITaskDay } from '../model';
 import { TaskSelectComponent } from '../task-select/task-select.component';
@@ -87,7 +86,7 @@ export class HomeComponent {
     }
 
     public tapAdd() {
-        this.taskModal().open(item => {
+        this.taskModal()!.open(item => {
             this.tapAddTo(item);
         });
     }

@@ -46,9 +46,9 @@ export interface IGoodsAttribute {
 }
 
 export interface IHomeProduct {
-    hot_products?: IGoods[];
-    new_products?: IGoods[];
-    best_products?: IGoods[];
+    hot_products: IGoods[];
+    new_products: IGoods[];
+    best_products: IGoods[];
 }
 
 export interface IGoods {

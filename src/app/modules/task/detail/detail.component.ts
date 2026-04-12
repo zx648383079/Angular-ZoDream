@@ -47,10 +47,10 @@ export class DetailComponent {
                 }
                 if (res.log && res.status === 9) {
                     this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Collapse);
-                    this.maxProgress = res.task.every_time * 60;
+                    this.maxProgress = res.task!.every_time! * 60;
                     this.progress = res.log?.time;
                     setTimeout(() => {
-                        this.progressor().start(this.progress, this.maxProgress);
+                        this.progressor()!.start(this.progress, this.maxProgress);
                     }, 100);
                 }
             });
@@ -64,18 +64,19 @@ export class DetailComponent {
 
 
     public tapPlay(task?: ITask) {
-        this.current.set(task || this.data().task);
+        const data = this.data()!;
+        this.current.set(task || data.task);
         this.service.taskPlay({
-            id: this.data().id,
-            task_id: this.data().task_id,
-            child_id: this.current().id !== this.data().task_id ? this.current().id : 0,
+            id: data.id,
+            task_id: data.task_id,
+            child_id: data.id !== data.task_id ? this.current()!.id : 0,
         }).subscribe({
             next: res => {
                 this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Collapse);
                 this.data.set(res);
-                this.maxProgress = res.task.every_time * 60;
-                this.progress = res.log?.time;
-                this.progressor().start(this.progress, this.maxProgress);
+                this.maxProgress = res.task!.every_time! * 60;
+                this.progress = res.log?.time!;
+                this.progressor()!.start(this.progress, this.maxProgress);
             },
             error: err => {
                 this.toastrService.error(err);
@@ -85,10 +86,10 @@ export class DetailComponent {
 
     public tapPause() {
         this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
-        this.service.taskPause(this.data().id).subscribe({
+        this.service.taskPause(this.data()!.id).subscribe({
             next: res => {
                 this.data.set(res);
-                this.progressor().stop();
+                this.progressor()!.stop();
             },
             error: err => {
                 this.toastrService.error(err);
@@ -98,10 +99,10 @@ export class DetailComponent {
 
     public tapStop() {
         this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
-        this.service.taskStop(this.data().id).subscribe({
+        this.service.taskStop(this.data()!.id).subscribe({
             next: res => {
                 this.data.set(res);
-                this.progressor().stop();
+                this.progressor()!.stop();
                 if (res.amount < 1) {
                     this.location.back();
                 }
@@ -113,20 +114,20 @@ export class DetailComponent {
     }
 
     public tapCheck() {
-        this.service.taskCheck(this.data().id).subscribe({
+        this.service.taskCheck(this.data()!.id).subscribe({
             next: res => {
                 if (!res.data) {
                     return;
                 }
                 this.themeService.navigationDisplayRequest.next(NavigationDisplayMode.Inline);
                 this.data.set(res.data);
-                this.toastrService.success(res.message);
+                this.toastrService.success(res.message!);
                 this.toastrService.notify({
                     title: '提示',
                     content: res.message
                 });
-                this.progressor().stop();
-                if (this.data().amount < 1) {
+                this.progressor()!.stop();
+                if (this.data()!.amount < 1) {
                     this.location.back();
                 }
             },

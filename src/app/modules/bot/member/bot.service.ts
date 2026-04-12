@@ -252,9 +252,9 @@ export class BotService {
         scenes?: any;
     }) {
         return this.http.post<{
-            template_type?: IItem[];
-            template_category?: IBotTemplateCategory[];
-            scenes?: IItem[];
+            template_type: IItem[];
+            template_category: IBotTemplateCategory[];
+            scenes: IItem[];
         }>('bot/member/batch', data);
     }
 }

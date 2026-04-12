@@ -1,6 +1,5 @@
 import { form } from '@angular/forms/signals';
 import { Component, effect, inject, input, signal } from '@angular/core';
-import { IPageQueries } from '../../../../theme/models/page';
 import { IScoreSubtotal } from '../../../../theme/models/seo';
 import { IComment } from '../../model';
 import { ShopService } from '../../shop.service';
@@ -18,7 +17,7 @@ export class CommentPageComponent {
     public readonly itemId = input(0);
     public readonly init = input(false);
     public readonly items = signal<IComment[]>([]);
-    public subtotal: IScoreSubtotal;
+    public readonly subtotal = signal<IScoreSubtotal|null>(null);
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
@@ -43,7 +42,7 @@ export class CommentPageComponent {
             return;
         }
         this.service.commentSubtotal(this.itemId()).subscribe(res => {
-            this.subtotal = res;
+            this.subtotal.set(res);
         });
         this.tapRefresh();
     }

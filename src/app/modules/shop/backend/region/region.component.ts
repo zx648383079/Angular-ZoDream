@@ -4,12 +4,10 @@ import {
     ActivatedRoute
 } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import {
     IRegion
 } from '../../model';
 import { SearchService } from '../../../../theme/services';
-import { emptyValidate } from '../../../../theme/validators';
 import {
     RegionService
 } from '../region.service';
@@ -31,7 +29,7 @@ export class RegionComponent {
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public parent: IRegion;
+    public readonly parent = signal<IRegion|null>(null);
     public readonly editForm = form(signal<IRegion>({
         id: 0,
         name: ''
@@ -53,7 +51,7 @@ export class RegionComponent {
                 return;
             }
             this.service.region(this.queries.parent).subscribe(data => {
-                this.parent = data;
+                this.parent.set(data);
             });
         });
     }
@@ -114,7 +112,7 @@ export class RegionComponent {
     }
 
     public tapViewRegion(item?: IRegion) {
-        this.parent = item;
+        this.parent.set(item ?? null);
         this.queries().value.update(v => {
             v.parent = item?.id || 0;
             v.keywords = '';
@@ -124,7 +122,7 @@ export class RegionComponent {
     }
 
     public tapParentRegion() {
-        const parentId = this.parent ? this.parent.parent_id : 0;
+        const parentId = this.parent()?.parent_id ?? 0;
         if (parentId < 1) {
             this.tapViewRegion();
             return;
@@ -142,10 +140,10 @@ export class RegionComponent {
         });
         modal.open(() => {
             this.service.regionSave({
-                name: this.editForm.name,
-                parent_id: this.parent?.id,
-                full_name: (this.parent ? this.parent.full_name + ' ' : '') + this.editForm.name,
-                id: this.editForm?.id
+                name: this.editForm.name().value(),
+                parent_id: this.parent()?.id,
+                full_name: (this.parent() ? this.parent()!.full_name + ' ' : '') + this.editForm.name().value(),
+                id: this.editForm?.id().value()
             }).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapPage();

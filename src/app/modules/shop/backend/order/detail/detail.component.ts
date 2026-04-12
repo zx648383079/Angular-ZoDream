@@ -1,8 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
-import { IOrder, IOrderGoods } from '../../../model';
+import { IOrder, IOrderGoods, IShipping } from '../../../model';
 import { OrderService } from '../order.service';
 import { form, required } from '@angular/forms/signals';
 
@@ -29,7 +29,7 @@ export class DetailComponent {
     private readonly toastrService = inject(DialogService);
 
 
-    public data: IOrder;
+    public readonly data = signal<IOrder|null>(null);
     public readonly items = signal<IOrderGoods[]>([]);
     public readonly refundForm = form(signal({
         refund_type: '0',
@@ -41,7 +41,7 @@ export class DetailComponent {
         logistics_number: '',
         goods: <IShipGoods[]>[],
     }));
-    public shippingItems = [];
+    public readonly shippingItems = signal<IShipping[]>([]);
     public readonly remarkForm = form(signal({
         remark: '',
     }), schemaPath => {
@@ -54,39 +54,40 @@ export class DetailComponent {
                 return;
             }
             this.service.order(params.id).subscribe((res: any) => {
-                this.data = res;
+                this.data.set(res);
                 this.items.set(res.goods || res.goods_list);
             });
         });
     }
 
-    public get timeIndex() {
-        if (!this.data || this.data.status < 10 || this.data.status > 80) {
+    public readonly timeIndex = computed(() => {
+        const status = this.data()?.status ?? 0;
+        if (status < 10 || status > 80) {
             return 0;
         }
-        if (this.data.status === 80) {
+        if (status === 80) {
             return 5;
         }
-        if (this.data.status >= 60) {
+        if (status >= 60) {
             return 4;
         }
-        if (this.data.status >= 40) {
+        if (status >= 40) {
             return 3;
         }
-        if (this.data.status >= 20) {
+        if (status >= 20) {
             return 2;
         }
-        if (this.data.status >= 10) {
+        if (status >= 10) {
             return 1;
         }
         return 0;
-    }
+    });
 
-    public get timeBarStyle() {
+    public readonly timeBarStyle = computed(() => {
         return {
-            width: Math.min(100, this.timeIndex * 25) + '%'
+            width: Math.min(100, this.timeIndex() * 25) + '%'
         };
-    }
+    });
 
     public tapOperate(e: ButtonEvent, operate: string) {
         if (this.remarkForm().invalid()) {
@@ -95,14 +96,14 @@ export class DetailComponent {
         }
         e?.enter();
         this.service.orderSave({
-            id: this.data.id,
+            id: this.data()!.id,
             operate,
             ...this.remarkForm().value()
         }).subscribe({
             next: res => {
                 e.reset();
                 this.toastrService.success('操作成功');
-                this.data = Object.assign({}, this.data, res);
+                this.data.update(v => ({...v, ...res}));
             },
             error: err => {
                 e?.reset();
@@ -114,13 +115,13 @@ export class DetailComponent {
     public tapRefund(modal: DialogEvent) {
         modal.open(() => {
             this.service.orderSave({
-                id: this.data.id,
+                id: this.data()!.id,
                 operate: 'refund',
                 ...this.refundForm().value()
             }).subscribe({
                 next: res => {
                     this.toastrService.success('退款成功');
-                    this.data = Object.assign({}, this.data, res);
+                    this.data.update(v => ({...v, ...res}));
                 },
                 error: err => {
                     this.toastrService.error(err);
@@ -135,15 +136,15 @@ export class DetailComponent {
                 return <IShipGoods>{...i, ship_amount: 0};
             });
         });
-        if (this.shippingItems.length < 1) {
+        if (this.shippingItems().length < 1) {
             this.service.shippingAll().subscribe(res => {
-                this.shippingItems = res;
+                this.shippingItems.set(res);
             });
         }
         modal.open(() => {
             const data = this.shipForm().value();
             this.service.orderSave({
-                id: this.data.id,
+                id: this.data()!.id,
                 operate: 'shipping',
                 shipping_id: data.shipping_id,
                 logistics_number: data.logistics_number,
@@ -156,7 +157,7 @@ export class DetailComponent {
             }).subscribe({
                 next: res => {
                     this.toastrService.success('已确认发货');
-                    this.data = Object.assign({}, this.data, res);
+                    this.data.update(v => ({...v, ...res}));
                 },
                 error: err => {
                     this.toastrService.error(err);

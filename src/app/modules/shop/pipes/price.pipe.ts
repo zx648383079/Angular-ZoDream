@@ -22,12 +22,12 @@ export class PricePipe implements PipeTransform {
         });
     }
 
-    transform(value: number, args?: any): any {
+    transform(value?: number, args?: any): any {
+        if (!value || isNaN(value)) {
+            value = 0;
+        }
         if (typeof value !== 'number') {
             value = parseFloat(value);
-        }
-        if (isNaN(value)) {
-            value = 0;
         }
         return this.currency + value.toLocaleString();
     }

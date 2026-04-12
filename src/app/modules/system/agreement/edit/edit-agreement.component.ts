@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ButtonEvent } from '../../../../components/form';
-import { IItem } from '../../../../theme/models/seo';
+import { IAgreementGroup, IItem } from '../../../../theme/models/seo';
 import { SystemService } from '../../system.service';
 import { form, required } from '@angular/forms/signals';
 
@@ -25,7 +25,7 @@ export class EditAgreementComponent {
         title: '',
         language: '',
         description: '',
-        content: [],
+        content: <IAgreementGroup[]>[],
         status: 0,
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
@@ -48,7 +48,7 @@ export class EditAgreementComponent {
     public loadDetail(id: any, lang?: string) {
         if (id && id  > 0) {
             this.service.agreement(id).subscribe(res => {
-                this.languageItems = res.languages;
+                this.languageItems = res.languages!;
                 this.dataModel.set({
                     id: res.id,
                     name: res.name,
@@ -66,14 +66,14 @@ export class EditAgreementComponent {
             onConfirm: () => {
                 this.dataModel.update(v => {
                     v.id = 0;
-                    v.language = lang;
+                    v.language = lang!;
                     return {...v};
                 })
             },
             onCancel: () => {
                 this.dataModel.update(v => {
                     v.id = 0;
-                    v.language = lang;
+                    v.language = lang!;
                     v.title = '';
                     v.description = '';
                     v.content = [];

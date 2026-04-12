@@ -35,7 +35,7 @@ export class EditCategoryComponent {
         required(schemaPath.name);
     });
 
-    public data: ICategory;
+    private data?: ICategory;
     public categories: ICategory[] = [];
 
     constructor() {
@@ -53,12 +53,12 @@ export class EditCategoryComponent {
                     id: res.id,
                     name: res.name,
                     parent_id: res.parent_id as any,
-                    keywords: res.keywords,
-                    description: res.description,
+                    keywords: res.keywords ?? '',
+                    description: res.description ?? '',
                     icon: res.icon,
                     banner: res.banner,
                     app_banner: res.app_banner,
-                    position: res.position,
+                    position: res.position ?? 0,
                 });
             });
         });
@@ -79,7 +79,7 @@ export class EditCategoryComponent {
             return;
         }
         const data: ICategory = this.dataForm().value() as any;
-        e.enter();
+        e?.enter();
         this.service.categorySave(data).subscribe({
             next: _ => {
                 e?.reset();

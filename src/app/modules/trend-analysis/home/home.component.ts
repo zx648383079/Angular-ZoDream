@@ -22,7 +22,7 @@ export class HomeComponent {
     public pageItems: any[] = [];
     public tabItems = TimeTabItems;
     public tabIndex = 'today';
-    public trendData: {
+    public trendData?: {
         items: ITrendStatistics[];
         compare_items: ITrendStatistics[];
     };

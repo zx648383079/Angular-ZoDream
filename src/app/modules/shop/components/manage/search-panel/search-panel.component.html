@@ -1,12 +1,12 @@
 <div class="search-panel">
     <div class="search-input">
-        <input type="text" [(value)]="keywords" (keypress)="onKeyDown($event)" placeholder="请输入关键词或货号">
+        <input type="text" [value]="keywords()" (input)="keywords.set($event.target.value)" (keypress)="onKeyDown($event)" placeholder="请输入关键词或货号">
         <i class="iconfont icon-search" (click)="tapSearch()"></i>
     </div>
     <div class="search-body">
         <div class="panel-body">
             @for (item of items(); track $index) {
-                <div class="item-option" [class]="{selected: selected && selected.id === item.id}" (click)="tapSelected(item)">
+                <div class="item-option" [class]="{selected: selected()?.id === item.id}" (click)="tapSelected(item)">
                     <div class="thumb">
                         <img [src]="item.thumb">
                     </div>
@@ -15,10 +15,10 @@
                 </div>
             }
         </div>
-        @if (childVisible) {
+        @if (childVisible()) {
             <div class="child-body">
-            @for (item of children; track $index) {
-                <div class="item-option" [class]="{selected: selectedChild && selectedChild.id === item.id}" (click)="tapSelectedChild(item)">
+            @for (item of children(); track $index) {
+                <div class="item-option" [class]="{selected: selectedChild()?.id === item.id}" (click)="tapSelectedChild(item)">
                     <div class="name">{{ item.series_number }}</div>
                     <div class="price">￥{{ item.price }}</div>
                 </div>

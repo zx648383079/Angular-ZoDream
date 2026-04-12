@@ -197,7 +197,7 @@ export interface IAgreementGroup {
     title: string;
     children: {
         content: string;
-        b?: boolean;
+        b: boolean;
     }[];
 }
 

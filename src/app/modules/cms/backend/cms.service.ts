@@ -229,12 +229,12 @@ export class CmsService {
         theme?: any;
     }) {
         return this.http.post<{
-            category?: ICmsCategory[],
-            group?: ICmsGroup[];
-            model?: ICmsModel[],
-            field_type?: IItem[];
-            model_tab?: string[];
-            theme?: ICMSTheme[]
+            category: ICmsCategory[],
+            group: ICmsGroup[];
+            model: ICmsModel[],
+            field_type: IItem[];
+            model_tab: string[];
+            theme: ICMSTheme[]
         }>('cms/admin/batch', data);
     }
 

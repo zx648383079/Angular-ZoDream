@@ -36,7 +36,7 @@
                         {{ item.card_no }}
                     </td>
                     <td>
-                        @if (item.order_id > 0) {
+                        @if (item.order_id! > 0) {
                             已使用
                             [<a [routerLink]="['../../../order', item.order_id]">查看</a>]
                         }

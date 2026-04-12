@@ -26,7 +26,7 @@ export class ProductEditComponent {
 
     public readonly skuForm = viewChild(SkuFormComponent);
 
-    public data: IGoods;
+    private data?: IGoods;
 
     public readonly dataModel = signal({
         id: 0,
@@ -56,7 +56,7 @@ export class ProductEditComponent {
         seo_title: '',
         seo_description: '',
         seo_link: '',
-        gallery: [],
+        gallery: <IGoodsGallery[]>[],
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name);
@@ -74,9 +74,9 @@ export class ProductEditComponent {
             group: {},
             brand: {}
         }).subscribe(res => {
-            this.categories = res.category;
-            this.typeItems = res.group;
-            this.brandItems = res.brand;
+            this.categories = res.category!;
+            this.typeItems = res.group!;
+            this.brandItems = res.brand!;
         });
         this.route.params.subscribe(params => {
             if (!params.id) {
@@ -109,9 +109,9 @@ export class ProductEditComponent {
                     admin_note: res.admin_note,
                     type: res.type,
                     position: res.position,
-                    seo_title: res.seo_title,
-                    seo_description: res.seo_description,
-                    seo_link: res.seo_link,
+                    seo_title: res.seo_title!,
+                    seo_description: res.seo_description!,
+                    seo_link: res.seo_link!,
                     gallery: res.gallery || []
                 });
                 this.productItems = res.products || [];
@@ -141,8 +141,8 @@ export class ProductEditComponent {
         }
         const data: any = this.dataForm().value();
 
-        data.attr = this.skuForm().attrFormData();
-        data.products = this.skuForm().productFormData();
+        data.attr = this.skuForm()!.attrFormData();
+        data.products = this.skuForm()!.productFormData();
         e?.enter();
         this.service.goodsSave(data).subscribe({
             next: _ => {
@@ -173,12 +173,12 @@ export class ProductEditComponent {
     public uploadFile(event: any, name: string = 'thumb') {
         const files = event.target.files as FileList;
         this.uploadService.uploadImage(files[0]).subscribe(res => {
-            this.dataForm[name]().value.set(res.url);
+            (this.dataForm as any)[name]().value.set(res.url);
         });
     }
 
     public tapPreview(name: string) {
-        window.open(this.dataForm[name]().value(), '_blank');
+        window.open((this.dataForm as any)[name]().value(), '_blank');
     }
 
 }

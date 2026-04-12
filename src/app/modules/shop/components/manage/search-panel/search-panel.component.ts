@@ -13,12 +13,12 @@ export class SearchPanelComponent {
     private readonly http = inject(HttpClient);
 
 
-    public keywords = '';
+    public readonly keywords = signal('');
     public readonly items = signal<IGoods[]>([]);
-    public children: IProduct[] = [];
-    public selected: IGoods;
-    public selectedChild: IProduct;
-    public childVisible = false;
+    public readonly children = signal<IProduct[]>([]);
+    public readonly selected = signal<IGoods|null>(null);
+    public readonly selectedChild = signal<IProduct|null>(null);
+    public readonly childVisible = signal(false);
     public readonly valueChange = output<{
         item: IGoods;
         child: IProduct;
@@ -43,25 +43,25 @@ export class SearchPanelComponent {
     }
 
     public tapSelected(item: IGoods) {
-        this.selected = item;
-        this.selectedChild = undefined;
-        this.children = item.products ? item.products : [];
-        if (this.children.length < 1) {
+        this.selected.set(item);
+        this.selectedChild.set(null);
+        this.children.set(item.products ? item.products : []);
+        if (this.children().length < 1) {
             this.output();
             return;
         }
-        this.childVisible = true;
+        this.childVisible.set(true);
     }
 
     public tapSelectedChild(item: IProduct) {
-        this.selectedChild = item;
+        this.selectedChild.set(item);
         this.output();
     }
 
     private output() {
         this.valueChange.emit({
-            item: this.selected,
-            child: this.selectedChild
+            item: this.selected()!,
+            child: this.selectedChild()!
         });
     }
 

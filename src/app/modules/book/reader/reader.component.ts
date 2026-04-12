@@ -111,7 +111,7 @@ export class ReaderComponent {
             return;
         }
         this.isLoading.set(true);
-        if (Object.prototype.hasOwnProperty.call(this.cacheChapters, event.id)) {
+        if (Object.hasOwn(this.cacheChapters, event.id)) {
             event.callback(this.cacheChapters[event.id]);
             this.isLoading.set(false);
             this.booted = true;

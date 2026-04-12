@@ -138,9 +138,9 @@ export class ShopService {
         group?: any;
     }) {
         return this.http.post<{
-            category?: ICategory[];
-            brand?: IBrand[];
-            group?: IAttributeGroup[];
+            category: ICategory[];
+            brand: IBrand[];
+            group: IAttributeGroup[];
         }>('shop/merchant/batch', data);
     }
 }

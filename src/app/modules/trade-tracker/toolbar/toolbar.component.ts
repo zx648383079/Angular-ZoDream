@@ -35,7 +35,7 @@ export class ToolbarComponent {
 
     public open(item: ITradeLog) {
         this.visible.set(true);
-        this.changePrice(item.channel.short_name, item.price);
+        this.changePrice(item.channel!.short_name, item.price);
     }
 
     public close() {
@@ -45,8 +45,8 @@ export class ToolbarComponent {
     public tapReset() {
         this.dataForm().value.update(v => {
             for (const key in v) {
-                if (Object.prototype.hasOwnProperty.call(v, key) && key.indexOf('Rate') < 0) {
-                    v[key] = 0;
+                if (Object.hasOwn(v, key) && key.indexOf('Rate') < 0) {
+                    (v as any)[key] = 0;
                 }
             }
             return v;
@@ -67,7 +67,7 @@ export class ToolbarComponent {
         if (key === target) {
             return;
         }
-        this.dataForm().value.update(v => {
+        this.dataForm().value.update((v: any) => {
             if (!v[key] || !v[target]) {
                 return;
             }
@@ -88,7 +88,7 @@ export class ToolbarComponent {
     private changePrice(name: string, price: number) {
         this.changeRate(name);
         this.matchKey = this.lastKey = name === 'steam' ? 'sellPrice' : 'buyPrice';
-        this.dataForm().value.update(v => {
+        this.dataForm().value.update((v: any) => {
             v[this.lastKey] = price;
             v[this.lastKey !== 'sellPrice' ? 'sellPrice' : 'buyPrice'] = 0;
             return {...v};

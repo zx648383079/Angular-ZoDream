@@ -31,9 +31,9 @@
                 @for (item of items(); track $index) {
                     <tr>
                     <td>{{ item.id }}</td>
-                    <td>{{ item.warehouse.name }}</td>
+                    <td>{{ item.warehouse?.name }}</td>
                     <td>
-                        {{ item.goods.name }}
+                        {{ item.goods?.name }}
                     </td>
                     <td>
                         {{ item.amount }}
@@ -42,7 +42,7 @@
                         {{ item.remark }}
                     </td>
                     <td>
-                        {{ item.user.name }}
+                        {{ item.user?.name }}
                     </td>
                     <td>
                         {{ item.created_at }}

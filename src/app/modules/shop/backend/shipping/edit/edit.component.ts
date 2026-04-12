@@ -22,13 +22,13 @@ export class EditShippingComponent {
     private readonly regionService = inject(RegionService);
     private readonly location = inject(Location);
 
-    public data: IShipping;
+    private data?: IShipping;
 
     public readonly items = signal(ArraySource.empty);
 
-    public regionItems: IRegion[] = [];
-    public selectedItems: IRegion[] = [];
-    public selectedAll = false;
+    public readonly regionItems = signal<IRegion[]>([]);
+    public readonly selectedItems = signal<IRegion[]>([]);
+    public readonly selectedAll = signal(false);
     public readonly regionQueries = form(signal({
         keywords: '',
     }));
@@ -69,7 +69,7 @@ export class EditShippingComponent {
                     description: res.description,
                     position: res.position,
                     cod_enabled: res.cod_enabled,
-                    groups: res.groups.map(item => {
+                    groups: res.groups!.map(item => {
                         if (!item.region_label) {
                             item.region_label = this.formatRegion(item);
                         }
@@ -130,11 +130,11 @@ export class EditShippingComponent {
                 free_step: 0,
             };
         }
-        this.selectedItems = item.regions;
-        this.selectedAll = item.is_all;
+        this.selectedItems.set(item.regions);
+        this.selectedAll.set(item.is_all);
         modal.open(() => {
-            item.regions = this.selectedAll ? [] : this.selectedItems;
-            item.is_all = this.selectedAll;
+            item.regions = this.selectedAll() ? [] : this.selectedItems();
+            item.is_all = this.selectedAll();
             item.region_label = this.formatRegion(item);
             if (isNew) {
                 this.dataForm.groups().value.update(v => {
@@ -150,28 +150,28 @@ export class EditShippingComponent {
     }
 
     public tapSelectAll() {
-        this.selectedAll = !this.selectedAll;
+        this.selectedAll.update(v => !v);
     }
 
     public tapRegionSearch() {
         this.regionService.regionSearch(this.regionQueries().value()).subscribe(res => {
-            this.regionItems = res.data;
+            this.regionItems.set(res.data);
         });
     }
 
     public tapAddRegion(item: IRegion) {
-        if (this.selectedAll) {
+        if (this.selectedAll()) {
             return;
         }
-        for (const region of this.selectedItems) {
-            if (region.id === item.id || item.full_name.indexOf(region.full_name) === 0) {
+        for (const region of this.selectedItems()) {
+            if (region.id === item.id || item.full_name!.indexOf(region.full_name!) === 0) {
                 return;
             }
         }
-        this.selectedItems.push(item);
+        this.selectedItems.update(v => [...v, item]);
     }
 
     public removeRegion(item: IRegion) {
-        this.selectedItems = this.selectedItems.filter(i => i.id !== item.id);
+        this.selectedItems.update(v => v.filter(i => i.id !== item.id));
     }
 }

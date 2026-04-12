@@ -3,11 +3,11 @@ import { IRect, PanelWidget, Widget } from '../model';
 import { IBound, IPoint } from '../../../../theme/utils/canvas';
 
 export function isRect(val: IBound|IRect|IPoint): boolean {
-    return Object.prototype.hasOwnProperty.call(val, 'right') && Object.prototype.hasOwnProperty.call(val, 'bottom');
+    return Object.hasOwn(val, 'right') && Object.hasOwn(val, 'bottom');
 }
 
 export function isBound(val: IBound|IRect|IPoint): boolean {
-    return Object.prototype.hasOwnProperty.call(val, 'width') && Object.prototype.hasOwnProperty.call(val, 'height');
+    return Object.hasOwn(val, 'width') && Object.hasOwn(val, 'height');
 }
 
 export function boundToRect(val: IBound|IRect): IRect {

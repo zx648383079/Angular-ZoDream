@@ -8,7 +8,6 @@ import { FileUploadService } from '../../../../../theme/services';
 import { ButtonEvent, NetSource } from '../../../../../components/form';
 import { EditorBlockType, IEditorFileBlock, IImageUploadEvent } from '../../../../../components/editor';
 import { form, required } from '@angular/forms/signals';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -41,7 +40,7 @@ export class EditMovieComponent {
         duration: '',
         series_count: 0,
         status: 0,
-        tags: []
+        tags: <ITag[]>[]
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.title);
@@ -58,8 +57,8 @@ export class EditMovieComponent {
             categories: {},
             areas: {}
         }).subscribe(res => {
-            this.categories = res.categories;
-            this.areaItems = res.areas;
+            this.categories = res.categories!;
+            this.areaItems = res.areas!;
         });
         this.route.params.subscribe(params => {
             if (!params.id) {
@@ -118,7 +117,7 @@ export class EditMovieComponent {
         e?.enter();
         this.service.movieSave(data).subscribe({
             next: _ => {
-                e.reset();
+                e?.reset();
                 this.toastrService.success($localize `Save Successfully`);
                 this.location.back();
             },

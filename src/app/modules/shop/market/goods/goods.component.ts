@@ -34,7 +34,7 @@ export class GoodsComponent {
     public readonly regionSource = this.service.regionSource();
     public readonly data = signal<IGoods|null>(null);
     public readonly galleryItems = signal<IGoodsGallery[]>([]);
-    public readonly content = signal<SafeHtml>(null);
+    public readonly content = signal<SafeHtml|null>(null);
     public readonly tabIndex = signal(0);
     public readonly recommendItems = signal<IGoods[]>([]);
     public readonly hotItems = signal<IGoods[]>([]);
@@ -68,12 +68,12 @@ export class GoodsComponent {
                 this.data.set(res);
                 this.dataForm.stock().value.set(res.stock);
                 this.content.set(this.sanitizer.bypassSecurityTrustHtml(res.content));
-                this.galleryItems.set([].concat([{thumb: res.thumb, type: 0, file: res.picture}], res.gallery ? res.gallery.map(i => {
+                this.galleryItems.set([{thumb: res.thumb, type: 0, file: res.picture}, ...(res.gallery ? res.gallery.map(i => {
                     if (!i.thumb) {
                         i.thumb = i.file;
                     }
                     return i;
-                }) : []));
+                }) : [])]);
                 this.properties.set(res.properties || []);
                 this.couponItems.set(res.coupons || []);
                 this.promoteItems.set(res.promotes || []);
@@ -95,7 +95,7 @@ export class GoodsComponent {
 
     public onRegionChange() {
         this.service.regionId = this.dataForm.region().value();
-        this.service.goodsStock(this.data().id).subscribe({
+        this.service.goodsStock(this.data()!.id).subscribe({
             next: res => {
                 this.dataForm.stock().value.set(res.stock);
             },
@@ -106,19 +106,19 @@ export class GoodsComponent {
     }
 
     public loadRecommend() {
-        this.service.recommendList(this.data().id).subscribe(res => {
+        this.service.recommendList(this.data()!.id).subscribe(res => {
             this.recommendItems.set(res.data);
         });
     }
 
     public loadHot() {
-        this.service.hotList(this.data().id).subscribe(res => {
+        this.service.hotList(this.data()!.id).subscribe(res => {
             this.hotItems.set(res.data);
         });
     }
 
     public toggleSelected(i: number, j: number) {
-        const group = this.properties[i];
+        const group = this.properties()[i];
         if (group.type == 2) {
             group.attr_items[j].checked = !group.attr_items[j].checked;
             return;
@@ -131,17 +131,18 @@ export class GoodsComponent {
     }
 
     public tapBuy() {
+        const source = this.data()!;
         const product = this.selectedProduct;
         const amount = this.dataForm.amount().value();
         const data: ICartGroup[] = [
             {
-                name: this.data().shop as any,
+                name: source.shop as any,
                 goods_list: [
                     {
-                        goods_id: this.data().id,
+                        goods_id: source.id,
                         amount,
-                        goods: this.data(),
-                        price: this.data().price,
+                        goods: source,
+                        price: source.price,
                         product_id: product?.id,
                         attribute_id: this.selectedProperties.join(','),
                         attribute_value: this.selectedPropertiesLabel
@@ -157,7 +158,7 @@ export class GoodsComponent {
 
     public tapAddToCart() {
         const amount = this.dataForm.amount().value();
-        this.service.cartAddGoods(this.data().id, amount, this.selectedProperties).subscribe(cart => {
+        this.service.cartAddGoods(this.data()!.id, amount, this.selectedProperties).subscribe(cart => {
             if (cart.dialog) {
                 return;
             }
@@ -170,8 +171,8 @@ export class GoodsComponent {
      * tapCollect
      */
     public tapCollect() {
-        this.service.toggleCollect(this.data().id).subscribe(res => {
-            this.data.update(v => {
+        this.service.toggleCollect(this.data()!.id).subscribe(res => {
+            this.data.update((v: any) => {
                 return {...v, is_collect: res.data};
             });
         });
@@ -188,7 +189,7 @@ export class GoodsComponent {
     }
 
     private get selectedPropertiesLabel(): string {
-        const items = [];
+        const items: string[] = [];
         for (const item of this.properties()) {
             const labels = [];
             for (const attr of item.attr_items) {
@@ -204,22 +205,22 @@ export class GoodsComponent {
     }
 
     private get selectedProperties(): number[] {
-        const items = [];
+        const items: number[] = [];
         this.eachSelectedProperty(item => {
-            items.push(item.id);
+            items.push(item.id!);
         });
         return items;
     }
 
     private get selectedProduct(): IProduct|undefined {
-        const items = [];
+        const items: number[] = [];
         for (const item of this.properties()) {
             if (item.type === 2) {
                 continue;
             }
             for (const attr of item.attr_items) {
                 if (attr.checked) {
-                    items.push(attr.id);
+                    items.push(attr.id!);
                 }
             }
         }
@@ -229,7 +230,7 @@ export class GoodsComponent {
     private selectProduct(product: number) {
         for (const item of this.productItems()) {
             if (item.id === product) {
-                this.selectAttribute(item.attributes.split(','));
+                this.selectAttribute(item.attributes!.split(','));
                 return;
             }
         }

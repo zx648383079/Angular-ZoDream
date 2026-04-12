@@ -17,7 +17,7 @@ export class IconfontPipe implements PipeTransform {
             'fa-mail-bulk': 'icon-mail',
             'fa-rss': 'icon-share-alt',
         };
-        return Object.prototype.hasOwnProperty.call(map, value) ? map[value] : value.replace('fa-', 'icon-');
+        return Object.hasOwn(map, value) ? map[value] : value.replace('fa-', 'icon-');
     }
 
 }

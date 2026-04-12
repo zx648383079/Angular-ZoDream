@@ -27,28 +27,28 @@ export class AuthComponent {
 
 
     public readonly tabIndex = signal(0);
-    private redirectUri: string;
+    private redirectUri = '';
     public isObserve = false;
 
-    public emailModel = signal({
+    public readonly emailModel = signal({
         email: '',
         password: '',
         remember: false,
         captcha: '',
     });
-    public emailForm = form(this.emailModel, schemaPath => {
+    public readonly emailForm = form(this.emailModel, schemaPath => {
         email(schemaPath.email);
         required(schemaPath.email);
         required(schemaPath.password);
     });
 
-    public mobileModel = signal({
+    public readonly mobileModel = signal({
         mobile: '',
         code: '',
         remember: false,
         captcha: '',
     });
-    public mobileForm = form(this.mobileModel, schemaPath => {
+    public readonly mobileForm = form(this.mobileModel, schemaPath => {
         email(schemaPath.mobile);
         required(schemaPath.code);
     });

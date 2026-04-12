@@ -16,7 +16,7 @@ export class ChartDirective {
 
 
 
-    public readonly options = input<EChartsCoreOption>();
+    public readonly options = input<EChartsCoreOption|null>();
     public readonly initOpts = input<EChartsInitOpts>();
 
     private booted = false;

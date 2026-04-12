@@ -3,12 +3,12 @@
   <div class="container">
         <nav class="breadcrumb">
             <a class="breadcrumb-item" routerLink="../">Home</a>
-            <span class="breadcrumb-item active">{{ category().name }}</span>
+            <span class="breadcrumb-item active">{{ category()!.name }}</span>
         </nav>
 
-      @if (category().banner) {
+      @if (category()!.banner) {
       <div class="banner">
-          <img [src]="category().banner" alt="">
+          <img [src]="category()!.banner" alt="">
       </div>
       }
 
@@ -50,9 +50,9 @@
           </div>
           <div class="category-header">
               <div class="title">
-                {{ category().name }}
+                {{ category()!.name }}
               </div>
-              <p class="desc">{{ category().description }}</p>
+              <p class="desc">{{ category()!.description }}</p>
           </div>
           <div class="row">
                 @for (item of items(); track $index) {

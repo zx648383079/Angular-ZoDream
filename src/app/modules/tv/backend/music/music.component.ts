@@ -3,11 +3,9 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { UploadCustomEvent } from '../../../../components/form';
-import { IPageQueries } from '../../../../theme/models/page';
 import { IItem } from '../../../../theme/models/seo';
 import { SearchService } from '../../../../theme/services';
-import { emptyValidate } from '../../../../theme/validators';
-import { IMusic } from '../../model';
+import { IMusic, IMusicFile } from '../../model';
 import { TVService } from '../tv.service';
 
 @Component({
@@ -32,14 +30,14 @@ export class MusicComponent {
         page: 1,
         per_page: 20
     }));
-    public readonly editForm = form(signal<IMusic>({
+    public readonly editForm = form(signal({
         id: 0,
         name: '',
         cover: '',
         album: '',
         artist: '',
         duration: 0,
-        files: [],
+        files: <IMusicFile[]>[],
     }), schemaPath => {
         required(schemaPath.name);
     });
@@ -153,7 +151,7 @@ export class MusicComponent {
     }
 
     private editMusic(modal: DialogEvent, item: IMusic) {
-        this.editForm().value.set(item);
+        this.editForm().value.set(item as any);
         modal.open(() => {
             this.service.musicSave(this.editForm().value()).subscribe({
                 next: () => {

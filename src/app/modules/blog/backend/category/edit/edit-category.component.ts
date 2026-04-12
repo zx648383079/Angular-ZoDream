@@ -32,7 +32,7 @@ export class EditCategoryComponent {
         required(schemaPath.name);
     });
 
-    public data: ICategory;
+    private data?: ICategory;
 
     constructor() {
         this.route.params.subscribe(params => {
@@ -42,13 +42,13 @@ export class EditCategoryComponent {
             this.service.category(params.id).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
-                        id: res.id,
+                    id: res.id,
                     name: res.name,
                     thumb: res.thumb,
-                    keywords: res.keywords,
-                    description: res.description,
-                    styles: res.styles,
-                    en_name: res.en_name
+                    keywords: res.keywords ?? '',
+                    description: res.description ?? '',
+                    styles: res.styles ?? '',
+                    en_name: res.en_name ?? ''
                 });
             });
         });

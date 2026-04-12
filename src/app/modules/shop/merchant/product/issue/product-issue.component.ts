@@ -4,11 +4,8 @@ import { Component } from '@angular/core';
     standalone: false,
     selector: 'app-product-issue',
     templateUrl: './product-issue.component.html',
-    styleUrls: ['./product-issue.component.css']
+    styleUrls: ['./product-issue.component.scss']
 })
 export class ProductIssueComponent {
-
-    constructor() {
-    }
 
 }

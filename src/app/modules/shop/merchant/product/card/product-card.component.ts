@@ -3,7 +3,6 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService, DialogEvent } from '../../../../../components/dialog';
 import { ButtonEvent, UploadButtonEvent } from '../../../../../components/form';
-import { IPageQueries } from '../../../../../theme/models/page';
 import { FileUploadService, SearchService } from '../../../../../theme/services';
 import { IGoodsCard } from '../../../model';
 import { ShopService } from '../../shop.service';

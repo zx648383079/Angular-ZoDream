@@ -19,8 +19,8 @@ export class DetailComponent {
     private readonly themeSerive = inject(ThemeService);
     private readonly location = inject(Location);
 
-    public data: ISoftware;
-    public currentPackage: ISoftwarePackage;
+    public readonly data = signal<ISoftware|null>(null);
+    public readonly currentPackage = signal<ISoftwarePackage|null>(null);
     public readonly isLoading = signal(false);
     public readonly tabIndex = signal(0);
 
@@ -40,12 +40,12 @@ export class DetailComponent {
             next: res => {
                 this.isLoading.set(false);
                 this.themeSerive.titleChanged.next(res.name);
-                this.data = res;
-                this.currentPackage = this.findPackage(res.packages);
+                this.data.set(res);
+                this.currentPackage.set(this.findPackage(res.packages!)!);
             },
             error: err => {
                 this.isLoading.set(false);
-                this.data = undefined;
+                this.data.set(null);
                 this.toastrService.error(err)
                 this.location.back();
             }

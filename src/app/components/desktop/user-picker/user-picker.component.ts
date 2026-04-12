@@ -11,7 +11,7 @@ import { form, FormValueControl } from '@angular/forms/signals';
     templateUrl: './user-picker.component.html',
     styleUrls: ['./user-picker.component.scss'],
 })
-export class UserPickerComponent implements FormValueControl<IUser> {
+export class UserPickerComponent implements FormValueControl<IUser|null|undefined> {
     private readonly http = inject(HttpClient);
     private readonly elementRef = inject(ElementRef);
 
@@ -20,7 +20,7 @@ export class UserPickerComponent implements FormValueControl<IUser> {
     public readonly placeholder = input($localize `Please input...`);
 
     public readonly disabled = input<boolean>(false);
-    public readonly value = model<IUser>();
+    public readonly value = model<IUser|null>();
     public readonly isFocus = signal(false);
 
     public readonly queries = signal<IPageQueries>({
@@ -46,7 +46,7 @@ export class UserPickerComponent implements FormValueControl<IUser> {
             return;
         }
         this.isFocus.set(true);
-        this.inputor().nativeElement.focus();
+        this.inputor()!.nativeElement.focus();
     }
 
     public tapItem(item: IUser) {

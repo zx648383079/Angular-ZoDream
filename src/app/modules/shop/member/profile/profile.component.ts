@@ -43,8 +43,8 @@ export class ProfileComponent {
                 this.user.set(user);
                 this.dataModel.set({
                     name: user.name,
-                    sex: user.sex,
-                    birthday: user.birthday,
+                    sex: user.sex!,
+                    birthday: user.birthday!,
                 });
             }, error: err => {
                 const res = err.error as IErrorResponse;
@@ -60,7 +60,7 @@ export class ProfileComponent {
 
 
     public tapSex(item: IItem) {
-        this.user.update(v => {
+        this.user.update((v: any) => {
             return {...v, sex: item.value as number, sex_label: item.name};
         });
         this.dataForm.sex().value.set(parseNumber(item.value));

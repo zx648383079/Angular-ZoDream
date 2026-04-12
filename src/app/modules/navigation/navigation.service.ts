@@ -68,8 +68,8 @@ export class NavigationService {
         };
     }) {
         return this.http.post<{
-            site_category?: ISiteCategory[];
-            site_recommend?: ISiteCategory[];
+            site_category: ISiteCategory[];
+            site_recommend: ISiteCategory[];
         }>('navigation/batch', data);
     }
 }

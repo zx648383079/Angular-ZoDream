@@ -1,4 +1,4 @@
-import { Component, input, model } from '@angular/core';
+import { Component, input, model, signal } from '@angular/core';
 import { emptyValidate } from '../../../../../theme/validators';
 import { ICoupon } from '../../../model';
 import { FormValueControl } from '@angular/forms/signals';
@@ -9,22 +9,22 @@ import { FormValueControl } from '@angular/forms/signals';
     templateUrl: './coupon-picker.component.html',
     styleUrls: ['./coupon-picker.component.scss'],
 })
-export class CouponPickerComponent implements FormValueControl<ICoupon> {
+export class CouponPickerComponent implements FormValueControl<ICoupon|null|undefined> {
 
     public readonly user = input(0);
     public readonly disabled = input(false);
     public couponItems: ICoupon[] = [];
     private couponLoaded = false;
-    public couponIndex = 0;
-    public readonly value = model<ICoupon>();
-    public couponCode = '';
+    public readonly couponIndex = signal(0);
+    public readonly value = model<ICoupon|null>();
+    public readonly couponCode = signal('');
 
     public couponChanged(item: ICoupon) {
         this.value.set({...item});
     }
 
     public tapExchange() {
-        if (emptyValidate(this.couponCode)) {
+        if (emptyValidate(this.couponCode())) {
             // this.toastrService.warning('请输入优惠码');
             return;
         }

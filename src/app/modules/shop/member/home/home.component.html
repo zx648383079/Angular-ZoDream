@@ -5,13 +5,13 @@
             <app-user-menu currentUrl="member" />
         </div>
         <div>
-            @if (user) {
+            @if (user()) {
             <div class="user-box">
                 <div class="user-info">
                     <div class="avatar">
-                        <img [src]="user.avatar" alt="">
+                        <img [src]="user()!.avatar" alt="">
                     </div>
-                    <div>{{ user.name }}</div>
+                    <div>{{ user()!.name }}</div>
                     <div class="grade-box">
                         <a href="">成长值 >></a>
                         <div class="progress">

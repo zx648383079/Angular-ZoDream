@@ -13,7 +13,7 @@ export class ShareDialogComponent implements DialogEvent {
     private readonly imageBox = viewChild<ElementRef<HTMLDivElement>>('imageBox');
     public readonly visible = signal(false);
     public readonly isLoading = signal(true);
-    private resizeFn: Function;
+    private resizeFn?: Function;
 
     @HostListener('window:resize', [])
     public onResize() {
@@ -56,7 +56,7 @@ export class ShareDialogComponent implements DialogEvent {
     }
 
     private displayImage(img: HTMLImageElement, width: number, height: number) {
-        const target = this.imageBox().nativeElement;
+        const target = this.imageBox()!.nativeElement;
         if (!this.visible || !target) {
             return;
         }

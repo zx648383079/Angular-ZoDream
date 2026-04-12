@@ -80,7 +80,7 @@ export class HttpRequest implements IRequest {
     }
 
     public trigger(event: string, data?: any): void {
-        if (!Object.prototype.hasOwnProperty.call(this.listeners, event)) {
+        if (!Object.hasOwn(this.listeners, event)) {
             return;
         }
         this.listeners[event].map(cb => {
@@ -93,7 +93,7 @@ export class HttpRequest implements IRequest {
             if (!event) {
                 return;
             }
-            if (!Object.prototype.hasOwnProperty.call(this.listeners, item)) {
+            if (!Object.hasOwn(this.listeners, item)) {
                 this.listeners[item] = [];
             }
             this.listeners[item].push(cb);
@@ -106,7 +106,7 @@ export class HttpRequest implements IRequest {
             if (!event) {
                 return;
             }
-            if (!Object.prototype.hasOwnProperty.call(this.listeners, item)) {
+            if (!Object.hasOwn(this.listeners, item)) {
                 return;
             }
             this.listeners[item] = [];

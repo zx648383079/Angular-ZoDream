@@ -14,7 +14,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
-                    @if (queries.goods) {
+                    @if (queries.goods().value()) {
                     <a class="btn btn-success" (click)="open(modal)">新增问答</a>
                     }
                     <a class="btn" [class]="{'btn-danger': isMultiple(), 'btn-outline-info': !isMultiple()}" (click)="toggleMultiple()">批量操作</a>

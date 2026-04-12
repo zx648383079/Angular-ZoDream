@@ -1,6 +1,5 @@
 import { form } from '@angular/forms/signals';
 import { Component, inject, signal } from '@angular/core';
-import { IPageQueries } from '../../../theme/models/page';
 import { TrendService } from '../trend.service';
 import { DialogService } from '../../../components/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -127,7 +126,7 @@ export class TrendComponent {
     }
 
     public tapFilter(key: string, value: string) {
-        this.queries[key] = value;
+        (this.queries as any)[key] = value;
         this.tapRefresh();
     }
 
@@ -182,7 +181,7 @@ export class TrendComponent {
 
     private formatGroup(items: IPageAccessLog[]): ILogGroup[] {
         const res: ILogGroup[] = [];
-        let last: ILogGroup = null;
+        let last: ILogGroup|undefined;
         for (const item of items) {
             const current = formatDate(item.created_at, 'yyyy-mm-dd');
             if (current !== last?.name)

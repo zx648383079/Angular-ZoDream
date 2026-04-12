@@ -198,9 +198,9 @@ export class GoodsService {
         group?: any;
     }) {
         return this.http.post<{
-            category?: ICategory[];
-            brand?: IBrand[];
-            group?: IAttributeGroup[];
+            category: ICategory[];
+            brand: IBrand[];
+            group: IAttributeGroup[];
         }>('shop/admin/batch', data);
     }
 }

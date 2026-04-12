@@ -1,45 +1,45 @@
-@if (data) {
+@if (data()) {
 <div class="container-fluid">
     <div class="progress-time-bar">
         <div>
-            <span [style]="timeBarStyle"></span>
+            <span [style]="timeBarStyle()"></span>
         </div>
-        @if (data.created_at) {
-        <span [class]="{active: timeIndex > 0}">待付款 <i>{{ data.created_at }}</i>
+        @if (data()!.created_at) {
+        <span [class]="{active: timeIndex() > 0}">待付款 <i>{{ data()!.created_at }}</i>
         </span>
         }
-        @if (data.pay_at) {
-        <span [class]="{active: timeIndex > 1}">待发货<i>{{ data.pay_at }}</i></span>
+        @if (data()!.pay_at) {
+        <span [class]="{active: timeIndex() > 1}">待发货<i>{{ data()!.pay_at }}</i></span>
         }
-        @if (data.shipping_at) {
-        <span [class]="{active: timeIndex > 2}">待收货<i>{{ data.shipping_at }}</i></span>
+        @if (data()!.shipping_at) {
+        <span [class]="{active: timeIndex() > 2}">待收货<i>{{ data()!.shipping_at }}</i></span>
         }
-        @if (data.receive_at) {
-        <span [class]="{active: timeIndex > 3}">待评价<i>{{ data.receive_at }}</i></span>
+        @if (data()!.receive_at) {
+        <span [class]="{active: timeIndex() > 3}">待评价<i>{{ data()!.receive_at }}</i></span>
         }
-        @if (data.finish_at) {
-        <span [class]="{active: timeIndex > 4}">已完成<i>{{ data.finish_at }}</i></span>
+        @if (data()!.finish_at) {
+        <span [class]="{active: timeIndex() > 4}">已完成<i>{{ data()!.finish_at }}</i></span>
         }
     </div>
 
     <app-panel title="订单信息">
         <div class="row">
             <div class="col-md-3">
-                <p>订单号：{{ data.series_number }}</p>
-                <p>订单状态：{{ data.status_label }}</p>
-                @if (data.pay_at) {
-                <p>付款时间：{{ data.pay_at }}</p>
+                <p>订单号：{{ data()!.series_number }}</p>
+                <p>订单状态：{{ data()!.status_label }}</p>
+                @if (data()!.pay_at) {
+                <p>付款时间：{{ data()!.pay_at }}</p>
                 }
-                <p>下单时间：{{ data.created_at }}</p>
+                <p>下单时间：{{ data()!.created_at }}</p>
             </div>
             <div class="col-md-3">
-                <p>商品总额：{{ data.goods_amount }}</p>
-                <p>运费金额：{{ data.shipping_fee }}</p>
-                <p>应付金额：{{ data.order_amount }}</p>
+                <p>商品总额：{{ data()!.goods_amount }}</p>
+                <p>运费金额：{{ data()!.shipping_fee }}</p>
+                <p>应付金额：{{ data()!.order_amount }}</p>
             </div>
             <div class="col-md-3">
                 <p>是否需要发票：否</p>
-                <p>联系方式：{{ data.address.tel }}</p>
+                <p>联系方式：{{ data()!.address?.tel }}</p>
             </div>
             <div class="col-md-3">
                 <p>优惠信息</p>
@@ -47,7 +47,7 @@
                 <p>积分抵扣： 0</p>
             </div>
         </div>
-        @if (timeIndex == 2) {
+        @if (timeIndex() == 2) {
         <div class="align-center">
             <div class="btn-group">
                 <a class="btn btn-info" (click)="tapShip(shippingModal)">我要发货</a>
@@ -98,8 +98,8 @@
         </table>
         <div class="text-right">
             <small>
-                配送费用：<span class="text-red">{{ data.shipping_fee }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                商品总额：<span class="text-red">{{ data.goods_amount }}</span>
+                配送费用：<span class="text-red">{{ data()!.shipping_fee }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                商品总额：<span class="text-red">{{ data()!.goods_amount }}</span>
             </small>
         </div>
     </div>
@@ -113,7 +113,7 @@
                     </div>
                     <div class="btn-group">
                         <app-action-button class="btn btn-primary" (tapped)="tapOperate($event, 'remark')">保存</app-action-button>
-                        @if (data.status == 10) {
+                        @if (data()!.status == 10) {
                         <app-action-button class="btn btn-danger" (tapped)="tapOperate($event, 'pay')">支付</app-action-button>
                         }
                         <app-action-button class="btn btn-info"  (tapped)="tapOperate($event, 'cancel')">取消订单</app-action-button>
@@ -128,23 +128,23 @@
                     <tbody>
                         <tr>
                             <th style="width:30%">会员用户名:</th>
-                            <td>{{ data.user.name }}</td>
+                            <td>{{ data()!.user?.name }}</td>
                         </tr>
                         <tr>
                             <th>收货人:</th>
-                            <td>{{ data.address.name }}</td>
+                            <td>{{ data()!.address?.name }}</td>
                         </tr>
                         <tr>
                             <th>收货人手机:</th>
-                            <td>{{ data.address.tel }}</td>
+                            <td>{{ data()!.address?.tel }}</td>
                         </tr>
                         <tr>
                             <th>所在地:</th>
-                            <td>{{ data.address.region_name }}</td>
+                            <td>{{ data()!.address?.region_name }}</td>
                         </tr>
                         <tr>
                             <th>收货地址:</th>
-                            <td>{{ data.address.address }}</td>
+                            <td>{{ data()!.address?.address }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -255,7 +255,7 @@
             <label for="">物流方式</label>
             <div>
                 <select class="form-control" [formField]="shipForm.shipping_id">
-                    @for (item of shippingItems; track $index) {
+                    @for (item of shippingItems(); track $index) {
                         <option [value]="item.id">{{ item.name }}</option>
                     }
                 </select>

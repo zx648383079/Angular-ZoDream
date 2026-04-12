@@ -3,28 +3,28 @@
         <div>
             <app-user-menu currentUrl="member/order" />
         </div>
-        @if (data) {
+        @if (data()) {
         <div>
             <div class="panel">
                <div class="panel-header order-item-header">
-                    <span class="time">下单时间：{{ data.created_at }}</span>
-                    <span class="number">订单号：{{ data.series_number }}</span>
+                    <span class="time">下单时间：{{ data()!.created_at }}</span>
+                    <span class="number">订单号：{{ data()!.series_number }}</span>
                </div>
                 <div class="panel-body">
                     <div class="order-address">
-                        @if (data.address) {
+                        @if (data()!.address) {
                         <div class="address-box">
                             <div>
                                 <span>收 件 人</span>
-                                <span>{{ data.address.name }}</span>
+                                <span>{{ data()!.address?.name }}</span>
                             </div>
                             <div>
                                 <span>联系方式</span>
-                                <span>{{ data.address.tel }}</span>
+                                <span>{{ data()!.address?.tel }}</span>
                             </div>
                             <div>
                                 <span>收货地址</span>
-                                <span>{{ data.address.region_name }} {{ data.address.address }}</span>
+                                <span>{{ data()!.address?.region_name }} {{ data()!.address?.address }}</span>
                             </div>
                             <div class="tip">* 确认收货得0积分</div>
                         </div>
@@ -33,25 +33,25 @@
                             <div>
                             商品合计：
                             </div>
-                            <div>{{ data.goods_amount | price }}</div>
+                            <div>{{ data()!.goods_amount | price }}</div>
                             <div>
                             运费：
                             </div>
-                            <div>{{ data.shipping_fee | price }}</div>
+                            <div>{{ data()!.shipping_fee | price }}</div>
                             <div class="hr"></div>
                             <div>
                             应付：
                             </div>
-                            <div>{{ data.order_amount | price }}</div>
+                            <div>{{ data()!.order_amount | price }}</div>
                         </div>
                     </div>
                 </div>
            </div>
            <div class="panel un-order-box">
                <div class="panel-header">
-                    <span class="time">包裹 1{{ data.status_label }}</span>
+                    <span class="time">包裹 1{{ data()!.status_label }}</span>
                     
-                    <a (click)="tapRepurchase(data)" class="btn">再次购买</a>
+                    <a (click)="tapRepurchase(data()!)" class="btn">再次购买</a>
                </div>
                 <div class="panel-body">
                     <div class="order-goods-header has-bottom-border">
@@ -71,7 +71,7 @@
                         实付
                         </div>
                     </div>
-                    @for (item of data.goods; track $index) {
+                    @for (item of data()!.goods; track $index) {
                     <div class="order-goods-item">
                         <div class="goods-info">
                             <div class="thumb">
@@ -85,7 +85,7 @@
                         <div>{{ item.price | price }}</div>
                         <div>{{ item.amount }}</div>
                         <div>{{ item.price * item.amount | price }}</div>
-                        <div>{{ data.status > 10 ? item.price * item.amount : 0  | price}}</div>
+                        <div>{{ data()!.status! > 10 ? item.price * item.amount : 0  | price}}</div>
                     </div>
                     }
                 </div>

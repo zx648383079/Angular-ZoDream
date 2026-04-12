@@ -68,8 +68,8 @@ export class ResourceService {
         };
     }) {
         return this.http.post<{
-            categories?: ICategory[];
-            recommend?: ICategory[];
+            categories: ICategory[];
+            recommend: ICategory[];
         }>('res/batch', data);
     }
 }

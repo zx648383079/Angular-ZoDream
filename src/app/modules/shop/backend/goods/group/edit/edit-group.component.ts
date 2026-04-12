@@ -28,7 +28,7 @@ export class EditGroupComponent {
         required(schemaPath.name);
     });
 
-    public data: IAttributeGroup;
+    private data?: IAttributeGroup;
 
     constructor() {
         this.route.params.subscribe(params => {

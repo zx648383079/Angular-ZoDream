@@ -41,7 +41,7 @@
                     <td>{{ item.source_url }}</td>
                     <td>{{ item.short_url }}</td>
                     <td>{{ item.click_count | numberFormat }}</td>
-                    <td>{{ formatStatus(item.status) }}</td>
+                    <td>{{ formatStatus(item.status!) }}</td>
                     <td>{{ item.expired_at | timestamp }}</td>
                     <td>{{ item.created_at }}</td>
                     <td>
@@ -83,7 +83,7 @@
             </select>
         </div>
     </div>
-    @if (editForm.complete_short_url) {
+    @if (editForm.complete_short_url().value()) {
     <div class="form-group">
         <label>完整短链接</label>
         <div class="flat-input">

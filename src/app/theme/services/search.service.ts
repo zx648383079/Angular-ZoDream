@@ -25,7 +25,7 @@ export class SearchService {
     public getQueries<T>(routeQueries: any, def: T): T {
         const queries: any = {};
         eachObject<string, any>(def, (val, key) => {
-            if (!routeQueries || !Object.prototype.hasOwnProperty.call(routeQueries, key)) {
+            if (!routeQueries || !Object.hasOwn(routeQueries, key)) {
                 queries[key] = val;
                 return;
             }
@@ -124,7 +124,7 @@ export class SearchService {
             if (val === 0 || val === '' || val === '0' || val === null || val === false) {
                 return false;
             }
-            return !params || !Object.prototype.hasOwnProperty.call(params, name) || params[name] !== val;
+            return !params || !Object.hasOwn(params, name) || params[name] !== val;
         };
     }
 }

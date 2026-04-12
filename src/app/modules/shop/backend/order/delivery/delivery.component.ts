@@ -2,12 +2,16 @@ import { form } from '@angular/forms/signals';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
-import { IPageQueries } from '../../../../../theme/models/page';
 import { IDelivery, IDeliveryLogistics } from '../../../model';
 import { SearchService } from '../../../../../theme/services';
 import { formatTime, mapFormat } from '../../../../../theme/utils';
 import { OrderService } from '../order.service';
 import { emptyValidate } from '../../../../../theme/validators';
+
+interface ILogisticsGroup {
+    status: number;
+    items: IDeliveryLogistics[];
+}
 
 @Component({
     standalone: false,
@@ -36,8 +40,8 @@ export class DeliveryComponent {
     ];
     public readonly logisticsOpen = signal(false);
     public readonly logisticsData = signal({
-        items: [],
-        data: null,
+        items: <ILogisticsGroup[]>[],
+        data: <IDelivery|null>null,
     });
     public readonly logisticsForm = form(signal({
         status: '0',
@@ -63,7 +67,7 @@ export class DeliveryComponent {
     public tapOpenAdd() {
         this.logisticsForm().value.update(v => {
             if (this.logisticsData().items.length > 0) {
-                v.status = this.logisticsData().items[0].status;
+                v.status = this.logisticsData().items[0].status.toString();
             }
             if (emptyValidate(v.time)) {
                 v.time = formatTime(new Date());
@@ -74,10 +78,10 @@ export class DeliveryComponent {
     }
 
     public tapAddLogistics() {
-        const item = this.logisticsData().data;
+        const item = this.logisticsData().data!;
         const data = this.formatJson<IDeliveryLogistics>(item.logistics_content);
         data.push(this.logisticsForm().value() as any);
-        this.logisticsData.update(v => {
+        this.logisticsData.update((v: any) => {
             return {...v, items: this.formatLogistics(data)}
         });
         this.logisticsOpen.set(false);
@@ -171,16 +175,16 @@ export class DeliveryComponent {
         return JSON.parse(items);
     }
 
-    private formatLogistics(items: IDeliveryLogistics[]) {
+    private formatLogistics(items: IDeliveryLogistics[]): ILogisticsGroup[] {
         if (!items || items.length < 1) {
             return [];
         }
         items = items.reverse();
-        let group = {
+        let group: ILogisticsGroup = {
             status: items[0].status,
             items: []
         };
-        const groups = [group];
+        const groups: ILogisticsGroup[] = [group];
         for (const item of items) {
             if (item.status == group.status) {
                 group.items.push(item);

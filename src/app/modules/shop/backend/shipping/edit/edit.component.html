@@ -111,10 +111,10 @@
 
 
 <app-dialog-box #modal title="选择可配送区域">
-    @if (!selectedAll) {
+    @if (!selectedAll()) {
     <div class="selected-box">
         <div class="title">已选择地区</div>
-        @for (item of selectedItems; track $index) {
+        @for (item of selectedItems(); track $index) {
         <div class="item" [title]="item.full_name">
             {{ item.name }}
             <i class="iconfont icon-close" (click)="removeRegion(item)"></i>
@@ -127,15 +127,15 @@
     </div>
     }
     <div class="search-box">
-        @if (!selectedAll) {
+        @if (!selectedAll()) {
         <input type="text" class="form-control" [formField]="regionQueries.keywords">
         <button class="btn btn-primary" (click)="tapRegionSearch()">搜索</button>
         }
-        <button class="btn btn-info" [class]="{active: selectedAll}" (click)="tapSelectAll()">{{ selectedAll ? '取消' : '' }}全地区</button>
+        <button class="btn btn-info" [class]="{active: selectedAll()}" (click)="tapSelectAll()">{{ selectedAll() ? '取消' : '' }}全地区</button>
     </div>
-    @if (!selectedAll) {
+    @if (!selectedAll()) {
     <div class="search-result">
-        @for (item of regionItems; track $index) {
+        @for (item of regionItems(); track $index) {
         <div class="item" [title]="item.full_name">
             {{ item.name }}
             <i class="iconfont icon-plus" (click)="tapAddRegion(item)"></i>

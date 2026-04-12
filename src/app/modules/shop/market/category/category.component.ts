@@ -47,7 +47,7 @@ export class CategoryComponent {
         this.route.params.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             const category = this.queries.category().value();
-            if (!this.category() || category == this.category().id) {
+            if (!this.category() || category == this.category()!.id) {
                 return;
             }
             this.tapRefresh();
@@ -77,7 +77,7 @@ export class CategoryComponent {
     }
 
     public tapFilter(key: string, val: string) {
-        this.queries[key] = val;
+        (this.queries as any)[key]().value.set(val);
         for (const item of this.filterItems()) {
             if (item.name !== key) {
                 continue;

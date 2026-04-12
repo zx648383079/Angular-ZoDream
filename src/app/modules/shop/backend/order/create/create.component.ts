@@ -21,20 +21,20 @@ export class CreateComponent {
 
     private readonly modal = viewChild(SearchDialogComponent);
     public readonly dataForm = form(signal<{
-        user: IUser,
-        address: IAddress
+        user: IUser|null,
+        address: IAddress|null
     }>({
         user: null,
         address: null
     }));
     public readonly stepIndex = signal(0);
-    public goodsItems: ICartItem[] = [];
-    public coupon?: ICoupon;
-    public paymentItems: IPayment[] = [];
-    public payment: IPayment;
-    public shippingItems: IShipping[] = [];
-    public shipping: IShipping;
-    public order: IOrder;
+    public readonly goodsItems = signal<ICartItem[]>([]);
+    public readonly coupon = signal<ICoupon|null>(null);
+    public readonly paymentItems = signal<IPayment[]>([]);
+    public readonly payment = signal<IPayment|null>(null);
+    public readonly shippingItems = signal<IShipping[]>([]);
+    public readonly shipping = signal<IShipping|null>(null);
+    public readonly order = signal<IOrder|null>(null);
 
     public readonly invalid = computed(() => {
         if (this.stepIndex() < 1) {
@@ -62,7 +62,7 @@ export class CreateComponent {
     public readonly userId = computed(() => this.dataForm.user().value()?.id);
 
     public tapNext() {
-        if (this.invalid) {
+        if (this.invalid()) {
             return;
         }
         this.stepIndex.update(v => v + 1);
@@ -78,12 +78,12 @@ export class CreateComponent {
     }
 
     public tapAddGoods() {
-        this.modal().open(items => {
+        this.modal()!.open(items => {
             for (const item of items as IGoodsResult[]) {
-                if (this.indexOfGoods(item.id, item.product_id) >= 0) {
+                if (this.indexOfGoods(item.id, item.product_id!) >= 0) {
                     continue;
                 }
-                this.goodsItems.push({
+                this.goodsItems.update(v => [...v, {
                     amount: 1,
                     price: item.price,
                     goods_id: item.id,
@@ -91,14 +91,14 @@ export class CreateComponent {
                     attribute_id: item.attribute_id,
                     attribute_value: item.attribute_value,
                     goods: item as IGoods,
-                });
+                }]);
             }
             this.refreshPrice();
         });
     }
 
     public tapRemoveGoods(i: number) {
-        this.goodsItems.splice(i, 1);
+        this.goodsItems.update(v => v.filter((_, j) => i !== j));
         this.refreshPrice();
     }
 
@@ -111,10 +111,10 @@ export class CreateComponent {
         if (!data.address || this.goodsItems.length < 1) {
             return;
         }
-        this.service.shippingList(data.user.id, this.goodsItems, data.address.id > 0 ? data.address.id : data.address).subscribe({
+        this.service.shippingList(data.user!.id, this.goodsItems(), data.address.id > 0 ? data.address.id : data.address).subscribe({
             next: res => {
                 if (res.data && res.data.length > 0) {
-                    this.shippingItems = res.data;
+                    this.shippingItems.set(res.data);
                     return;
                 }
                 this.toastrService.warning('当前地址不支持配送');
@@ -125,15 +125,15 @@ export class CreateComponent {
     }
 
     public paymentChanged(item: IPayment) {
-        this.payment = item;
+        this.payment.set(item);
         this.refreshPrice();
     }
 
     public shippingChanged(item: IShipping) {
-        this.shipping = item;
+        this.shipping.set(item);
         this.refreshPrice();
-        this.service.paymentList(this.userId(), this.goodsItems, item.code).subscribe(res => {
-            this.paymentItems = res.data;
+        this.service.paymentList(this.userId()!, this.goodsItems(), item.code).subscribe(res => {
+            this.paymentItems.set(res.data);
         });
     }
 
@@ -143,32 +143,32 @@ export class CreateComponent {
             this.toastrService.warning('请选择收货地址');
             return;
         }
-        if (this.goodsItems.length < 1) {
+        if (this.goodsItems().length < 1) {
             this.toastrService.warning('请选择结算商品');
             return;
         }
-        if (!this.shipping) {
+        if (!this.shipping()) {
             this.toastrService.warning('请选择配送方式');
             return;
         }
-        if (!this.payment) {
+        if (!this.payment()) {
             this.toastrService.warning('请选择支付方式');
             return;
         }
         e?.enter();
         this.service.checkoutOrder({
-            goods: this.goodsItems,
+            goods: this.goodsItems(),
             address: data.address.id > 0 ? data.address.id : data.address,
-            shipping: this.shipping.code,
-            payment: this.payment.code,
-            coupon: this.coupon ? this.coupon.id : 0,
-            user: data.user.id,
+            shipping: this.shipping()!.code,
+            payment: this.payment()!.code,
+            coupon: this.coupon()?.id ?? 0,
+            user: data.user!.id,
         }).subscribe({
             next: res => {
                 e?.reset();
                 // 清空结算，同时需要修改购物车的商品
                 this.stepIndex.update(v => v + 1);
-                this.order = undefined;
+                this.order.set(null);
             },
             error: err => {
                 e?.reset();
@@ -179,19 +179,19 @@ export class CreateComponent {
 
     private refreshPrice() {
         const data = this.dataForm().value();
-        if (!data.address || this.goodsItems.length < 1) {
+        if (!data.address || this.goodsItems().length < 1) {
             return;
         }
         this.service.previewOrder({
-            goods: this.goodsItems,
+            goods: this.goodsItems(),
             address: data.address.id > 0 ? data.address.id : data.address,
-            shipping: this.shipping?.code,
-            payment: this.payment?.code,
-            coupon: this.coupon ? this.coupon.id : 0,
-            user: data.user.id,
+            shipping: this.shipping()?.code,
+            payment: this.payment()?.code,
+            coupon: this.coupon()?.id ?? 0,
+            user: data.user?.id,
         }).subscribe({
             next: res => {
-                this.order = res;
+                this.order.set(res);
             },
             error: err => {
                 this.toastrService.error(err);
@@ -200,8 +200,8 @@ export class CreateComponent {
     }
 
     private indexOfGoods(goods: number, product: number): number {
-        for (let i = 0; i < this.goodsItems.length; i++) {
-            const element = this.goodsItems[i];
+        for (let i = 0; i < this.goodsItems().length; i++) {
+            const element = this.goodsItems()[i];
             if (element.goods_id === goods && element.product_id === product) {
                 return i;
             }
