@@ -1,18 +1,18 @@
 <div class="container-fluid">
     <div class="user-container">
         <div class="avatar">
-            <img [src]="user.avatar" [alt]="user.name">
+            <img [src]="user()?.avatar" [alt]="user()?.name">
         </div>
         <div class="extra-body">
-            <div class="name">{{ user.name }}</div>
-            <div class="extra">{{ data?.description }}</div>
+            <div class="name">{{ user()?.name }}</div>
+            <div class="extra">{{ data()?.description }}</div>
             <div class="count-bar">
                 <div class="item">
-                    {{ data?.word_count | numberFormat }}
+                    {{ data()?.word_count | numberFormat }}
                     <strong i18n>Words</strong>
                 </div>
-                <div class="item">{{ data?.book_count | numberFormat }}<strong i18n>Books</strong></div>
-                <div class="item">{{ data?.collect_count | numberFormat }}<strong i18n>Followers</strong></div>
+                <div class="item">{{ data()?.book_count | numberFormat }}<strong i18n>Books</strong></div>
+                <div class="item">{{ data()?.collect_count | numberFormat }}<strong i18n>Followers</strong></div>
             </div>
         </div>
     </div>
@@ -27,7 +27,7 @@
                 New
             </div>
         </div>
-        @for (item of bookItems; track $index) {
+        @for (item of bookItems(); track $index) {
             <div class="col-md-3 col-6">
                 <a class="book-item" [routerLink]="['book', item.id]">
                     <div class="cover">

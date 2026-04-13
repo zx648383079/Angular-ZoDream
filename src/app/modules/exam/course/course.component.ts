@@ -18,12 +18,12 @@ export class CourseComponent {
     private readonly router = inject(Router);
     private readonly destroyRef = inject(DestroyRef);
 
-    public data: ICourse;
+    public readonly data = signal<ICourse|null>(null);
     public readonly items = signal<ICourse[]>([]);
 
     constructor() {
         this.themeService.suggestTextChanged.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(req => {
-            this.service.suggestion({keywords: req.text, course: this.data.id}).subscribe(res => {
+            this.service.suggestion({keywords: req.text, course: this.data()!.id}).subscribe(res => {
                 req.suggest(res);
             });
         });
@@ -32,14 +32,14 @@ export class CourseComponent {
                 this.router.navigate(['../pager', res.id], {relativeTo: this.route});
                 return;
             }
-            this.router.navigate(['../search'], {relativeTo: this.route, queryParams: {keywords: res, course: this.data.id}});
+            this.router.navigate(['../search'], {relativeTo: this.route, queryParams: {keywords: res, course: this.data()!.id}});
         });
         this.route.params.subscribe(params => {
             if (!params.id) {
                 return;
             }
             this.service.course(params.id).subscribe(res => {
-                this.data = res;
+                this.data.set(res);
             });
         });
     }

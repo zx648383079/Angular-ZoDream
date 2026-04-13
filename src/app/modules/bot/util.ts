@@ -7,7 +7,7 @@ export function formatTemplateField(content: string): IBotReplyTemplateField[] {
     while (res = reg.exec(content)) {
         items.push({
             name: res[1]
-        });
+        } as any);
     }
     return items;
 }

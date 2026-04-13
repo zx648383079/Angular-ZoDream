@@ -27,9 +27,9 @@ export class QuestionFinderComponent implements SearchDialogEvent {
     public readonly courseItems = input<ICourse[]>([]);
     public readonly selectedItems = signal<IQuestion[]>([]);
 
-    private confirmFn: (items: IQuestion[]) => void;
-    private checkFn: (items: IQuestion[]) => boolean;
-    private queryFn: (params: any) => Observable<IPage<IQuestion | IExamPage>>;
+    private confirmFn?: (items: IQuestion[]) => void;
+    private checkFn?: (items: IQuestion[]) => boolean;
+    private queryFn?: (params: any) => Observable<IPage<IQuestion | IExamPage>>;
 
     public formatQuestionType(value: number) {
         return mapFormat(value, QuestionTypeItems);
@@ -79,7 +79,7 @@ export class QuestionFinderComponent implements SearchDialogEvent {
         }
         this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
-        this.queryFn(queries).subscribe({
+        this.queryFn!(queries).subscribe({
             next: res => {
                 this.isLoading.set(false);
                 this.items.set(res.data as any);

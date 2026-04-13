@@ -99,7 +99,7 @@
                     <td>{{ formatStatus(item.status) }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">
-                            @if (selected != item.id) {
+                            @if (selected() != item.id) {
                             <a class="btn btn-info" (click)="tapChange(item)">管理</a>
                             } @else {
                             <a class="btn btn-success">管理中</a>

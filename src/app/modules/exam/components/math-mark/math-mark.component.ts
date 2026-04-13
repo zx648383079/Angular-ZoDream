@@ -82,12 +82,12 @@ export class MathMarkComponent implements FormValueControl<string[]>  {
     }
 
     private outputValue() {
-        const items = [];
+        const items: string[] = [];
         for (const item of this.items()) {
             if (item.type !== 'input') {
                 continue;
             }
-            items.push(item.value);
+            items.push(item.value as any);
         }
         this.value.set(items);
     }

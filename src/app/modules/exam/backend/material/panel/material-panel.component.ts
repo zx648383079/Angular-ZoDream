@@ -28,7 +28,7 @@ export class MaterialPanelComponent implements SearchDialogEvent {
     public readonly courseItems = input<ICourse[]>([]);
     public typeItems = ['文本', '音频', '视频'];
     public readonly tabIndex = signal(false);
-    public readonly selectedItem = signal<IQuestionMaterial>(null);
+    public readonly selectedItem = signal<IQuestionMaterial|null>(null);
     public readonly editForm = form(signal({
         title: '',
         course_id: 0,
@@ -39,8 +39,8 @@ export class MaterialPanelComponent implements SearchDialogEvent {
         required(schemaPath.title);
     });
 
-    private confirmFn: (items: IQuestionMaterial|IQuestionMaterial[]) => void;
-    private checkFn: (items: IQuestionMaterial[]) => boolean;
+    private confirmFn?: (items: IQuestionMaterial|IQuestionMaterial[]) => void;
+    private checkFn?: (items: IQuestionMaterial[]) => boolean;
 
 
     public tapSelected(item: IQuestionMaterial) {
@@ -105,13 +105,13 @@ export class MaterialPanelComponent implements SearchDialogEvent {
             this.visible.set(false);
             return;
         }
-        if (this.checkFn && this.checkFn([this.selectedItem()]) === false) {
+        if (this.checkFn && this.checkFn([this.selectedItem()!]) === false) {
             return;
         }
         this.visible.set(false);
         const confirmFn = this.confirmFn;
         if (confirmFn) {
-            confirmFn(this.selectedItem());
+            confirmFn(this.selectedItem()!);
         }
     }
 
@@ -124,7 +124,7 @@ export class MaterialPanelComponent implements SearchDialogEvent {
      * @param check 判断是否允许关闭
      */
     public open<T>(data: IQuestionMaterial| any, confirm?: (data: IQuestionMaterial) => void, check?: (data: IQuestionMaterial[]) => boolean): void {
-        this.confirmFn = confirm;
+        this.confirmFn = confirm as any;
         this.checkFn = check;
         this.selectedItem.set(data ?? null);
         this.visible.set(true);

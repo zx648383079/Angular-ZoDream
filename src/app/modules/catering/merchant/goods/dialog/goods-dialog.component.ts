@@ -33,11 +33,11 @@ export class GoodsDialogComponent {
     }
 
     public close(yes = false) {
-        if (this.flipModal().index() > 1 && yes && !this.addLine()) {
+        if (this.flipModal()!.index() > 1 && yes && !this.addLine()) {
             return;
         }
-        if (this.flipModal().index() > 0) {
-            this.flipModal().back();
+        if (this.flipModal()!.index() > 0) {
+            this.flipModal()!.back();
             return;
         }
         this.visible.set(false);
@@ -46,7 +46,7 @@ export class GoodsDialogComponent {
     public tapEditLine(item?: ICateringRecipeMaterial) {
         this.nextData = item ? item : {name: '', unit: this.nextData.unit};
         this.multipleEditable = false;
-        this.flipModal().navigate(2);
+        this.flipModal()!.navigate(2);
     }
 
     public tapRemoveLine(item: ICateringRecipeMaterial) {

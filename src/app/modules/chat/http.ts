@@ -52,7 +52,7 @@ export class HttpRequest implements IRequest {
            request = this.http.get(event, {
                params: data
            });
-        } else if ([].indexOf(event) >= 0) {
+        } else if ([''].indexOf(event) >= 0) {
             request = this.http.delete(event, {
                 params: data
             });

@@ -40,7 +40,7 @@ export class MessageEditorComponent implements FormValueControl<IEditorData> {
 
     public typeItems: IItem[] = [...EditorTypeItems];
     public sceneItems: IItem[] = [];
-    private template: IBotReplyTemplate;
+    private template?: IBotReplyTemplate;
 
     public readonly mediaSource = this.service.mediaSource();
 
@@ -74,7 +74,7 @@ export class MessageEditorComponent implements FormValueControl<IEditorData> {
             this.onContentChange();
             return;
         }
-        this.service.wxTemplate(this.data.template_id).subscribe({
+        this.service.wxTemplate(this.data.template_id!).subscribe({
             next: res => {
                 this.template = res;
                 this.data.parameters = formatTemplateField(res.content);

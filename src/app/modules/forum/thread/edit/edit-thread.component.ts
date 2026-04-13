@@ -49,8 +49,8 @@ export class EditThreadComponent {
                     id: res.id,
                     title: res.title,
                     classify_id: res.classify_id as any,
-                    content: res.content,
-                    is_private_post: res.is_private_post,
+                    content: res.content ?? '',
+                    is_private_post: res.is_private_post ?? 0,
                 });
             });
         });
@@ -70,9 +70,9 @@ export class EditThreadComponent {
             this.toastrService.warning($localize `The content is not filled out completely`);
             return;
         }
-        const data: any = {...this.dataForm().value(), forum: this.data().forum_id};
-        if (this.data().id) {
-            data.id = this.data().id;
+        const data: any = {...this.dataForm().value(), forum: this.data()!.forum_id};
+        if (this.data()!.id) {
+            data.id = this.data()!.id;
         }
         e?.enter();
         this.service.threadSave(data).subscribe({

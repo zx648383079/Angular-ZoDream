@@ -35,8 +35,8 @@ export class SearchDialogComponent implements SearchDialogEvent {
     public readonly typeItems = ['全部', ...LogTypeItems];
     public readonly selectedItems = signal<ILog[]>([]);
     public readonly onlySelected = signal(false);
-    private confirmFn: (items: ILog|ILog[]) => void;
-    private checkFn: (items: ILog[]) => boolean;
+    private confirmFn?: (items: ILog|ILog[]) => void;
+    private checkFn?: (items: ILog[]) => boolean;
 
 
     public open(confirm: (data: ILog|ILog[]) => void): void;

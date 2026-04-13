@@ -1,4 +1,4 @@
-import { Component, model, signal } from '@angular/core';
+import { Component, computed, model, signal } from '@angular/core';
 import { DialogEvent } from '../../../../components/dialog';
 import { IQuestionFormat, IQuestionOption } from '../../model';
 import { form } from '@angular/forms/signals';
@@ -21,8 +21,11 @@ export class QuestionScoringComponent {
         remark: '',
     }));
 
-    public get yourAnswer() {
+    public readonly yourAnswer = computed(() => {
         const value = this.value();
+        if (!value) {
+            return '';
+        }
         if (value.your_answer) {
             return value.your_answer;
         }
@@ -30,7 +33,7 @@ export class QuestionScoringComponent {
             return value.log.answer;
         }
         return '';
-    }
+    });
 
     public optionChecked(option: IQuestionOption) {
         const value = this.value();
@@ -38,22 +41,22 @@ export class QuestionScoringComponent {
             return false;
         }
         if (value.type < 1) {
-            return this.yourAnswer == option.id;
+            return this.yourAnswer() == option.id;
         }
-        return typeof this.yourAnswer === 'object' && this.yourAnswer.indeOf(option.id) >= 0;
+        return typeof this.yourAnswer() === 'object' && this.yourAnswer().indeOf(option.id) >= 0;
     }
 
     public tapEdit(modal: DialogEvent) {
-        const value = this.value();
+        const value = this.value()!;
         if (!value.log) {
             value.log = {} as any;
         }
         this.editForm().value.set({
-            score: value.log.score || 0,
-            remark: value.log.remark || '',
+            score: value.log?.score ?? 0,
+            remark: value.log?.remark ?? '',
         })
         modal.open(() => {
-            this.value.update(v => {
+            this.value.update((v: any) => {
                 v.log.score = this.editForm.score().value();
                 v.log.remark = this.editForm.remark().value();
                 return {...v};

@@ -74,7 +74,7 @@ export class FlipPagerComponent {
         return style;
     }
 
-    get current(): IBlockItem {
+    get current(): IBlockItem|undefined {
         return this.currentIndex >= 0 && this.currentIndex < this.blockItems.length ? this.blockItems[this.currentIndex] : undefined;
     }
 
@@ -120,7 +120,7 @@ export class FlipPagerComponent {
         const [i, progress] = this.getScrollCurrent(top, bottom, isUp);
         this.currentIndex = i;
         this.progressChanged.emit({
-            item: this.current,
+            item: this.current!,
             progress,
         });
     }
@@ -131,7 +131,7 @@ export class FlipPagerComponent {
         }
         this.currentIndex = index;
         this.progressChanged.emit({
-            item: this.current,
+            item: this.current!,
             progress,
         });
         const element = this.pageItems().at(index);
@@ -176,18 +176,18 @@ export class FlipPagerComponent {
             previous: item.previous?.id,
             next: item.next?.id,
             book: item.book_id,
-            title: item.title,
+            title: item.title!,
             tags: [
                 $localize `Words:` + item.size,
                 $localize `Published:` + item.created_at,
             ],
-            lines: item.content.split('\n')
+            lines: item.content!.split('\n')
         };
     }
 
     private getScrollCurrent(top: number, bottom: number, isUp: boolean): number[] {
         for (let i = 0; i < this.pageItems().length; i++) {
-            const element = this.pageItems().at(i);
+            const element = this.pageItems().at(i)!;
             const bound = element.nativeElement.getBoundingClientRect();
             if (bound.top <= 0 && bound.top + bound.height > 0) {
                 return [i, (- bound.top) * 100 / bound.height];

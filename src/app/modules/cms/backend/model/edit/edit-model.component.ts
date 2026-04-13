@@ -44,7 +44,7 @@ export class EditModelComponent {
         required(schemaPath.table);
     });
 
-    public data: ICmsModel;
+    private data?: ICmsModel;
     public modelItems: ICmsModel[] = [];
     public readonly typeItems = ArraySource.fromOrder('实体', '表单');
 

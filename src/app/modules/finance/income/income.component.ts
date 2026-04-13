@@ -108,7 +108,7 @@ export class IncomeComponent {
 
     public formatGroup(): ILogGroup[] {
         const items: ILogGroup[] = [];
-        let last: ILogGroup = null;
+        let last: ILogGroup|undefined;
         for (const item of this.items()) {
             const current = formatDate(item.happened_at, 'yyyy-mm-dd');
             if (current !== last?.name)
@@ -303,7 +303,7 @@ export class IncomeComponent {
 
     public tapExport() {
         this.menuVisible.set(false);
-        const modal = this.downloadModal();
+        const modal = this.downloadModal()!;
         this.uploadService.export('finance/log/export', {}, 
             '流水记录.xlsx', undefined, modal.open()).subscribe({
             next: _ => {
@@ -318,8 +318,8 @@ export class IncomeComponent {
 
     public tapImport() {
         this.menuVisible.set(false);
-        const modal = this.uploadModal();
-        const ln$ = this.uploadModal().open(form => {
+        const modal = this.uploadModal()!;
+        const ln$ = modal.open(form => {
             this.uploadService.upload<IDataOne<boolean>>('finance/log/import', form, ln$).subscribe({
                 next: res => {
                     modal.close();
@@ -410,7 +410,7 @@ export class IncomeComponent {
 
 
     private linkItems(items: ILog[]): ILog[] {
-        const maps = {};
+        const maps: any = {};
         for (const item of this.budgetItems()) {
             maps[item.id] = item;
         }

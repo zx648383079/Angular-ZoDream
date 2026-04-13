@@ -110,7 +110,7 @@ export class ListComponent {
             this.toastrService.warning($localize `The content is not filled in completely`);
             return;
         }
-        const data = {...this.dataForm().value(), forum: this.forum().id};
+        const data = {...this.dataForm().value(), forum: this.forum()!.id};
         e?.enter();
         this.service.threadSave(data).subscribe({
             next: res => {
@@ -158,7 +158,7 @@ export class ListComponent {
         this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.getThreadList({...queries, 
-            forum: this.forum().id, 
+            forum: this.forum()!.id, 
             sort: this.sortKey(), order: this.orderAsc() ? 'asc' : 'desc'}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;

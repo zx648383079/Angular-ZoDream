@@ -16,81 +16,86 @@
     </div>
 </div>
 <div class="option-box">
-    @if (value().type < 2) {
-    <div class="input-group-control">
-        <label for="">选项</label>
-        <div>
-            @for (item of value().option_items; track $index; let i = $index) {
-                <div class="option-item">
-                    <div class="option-value">
-                        @if (item.type < 1) {
-                            <input type="text" class="form-control" [(value)]="item.content">
-                        } @else {
-                            <app-file-input [(value)]="item.content"/>
-                        }
-                    </div>
-                    <select class="form-control" [(value)]="item.type">
-                        @for (item of optionTypeItems; track $index; let j = $index) {
-                        <option [value]="j">{{ item }}</option>
-                        }
-                    </select>
-                    <select class="form-control" [(value)]="item.is_right">
+    @switch (value().type) {
+        @case (2) {
+            <div class="input-group-control">
+                <label for="answer9">答案</label>
+                <div>
+                    <select id="answer9" class="form-control" [(value)]="value().answer">
                         <option value="0">错</option>
-                        <option [value]="1">对</option>
+                        <option value="1">对</option>
                     </select>
-                    <a (click)="tapRemoveItem(i)" class="remove-btn">
-                        <i class="iconfont icon-close"></i>
-                    </a>
                 </div>
-            }
-            <a (click)="tapAddItem()" class="add-btn">
-                <i class="iconfont icon-plus"></i>
-            </a>
-        </div>
-    </div>
-    } @else if (value().type == 2) {
-    <div class="input-group-control">
-        <label for="answer9">答案</label>
-        <div>
-            <select id="answer9" class="form-control" [(value)]="value().answer">
-                <option value="0">错</option>
-                <option value="1">对</option>
-            </select>
-        </div>
-    </div>
-    } @else if (value().type == 3) {
-    <div class="input-group-control">
-        <label for="answer0">答案</label>
-        <div>
-            <textarea id="answer0" class="form-control"  [(value)]="value().answer"></textarea>
-        </div>
-    </div>
-    } @else if (value().type == 4) {
-    <div class="input-group-control">
-        <label for="answer">答案</label>
-        <div>
-            <div>
-                @for (item of value().option_items; track $index; let i = $index) {
-                    <div class="option-item">
-                        <div class="option-value">
-                            <input type="text" class="form-control" [(value)]="item.content" placeholder="请输入正确的答案">
-                        </div>
-                        <a (click)="tapRemoveItem(i)" class="remove-btn">
-                            <i class="iconfont icon-close"></i>
+            </div>
+        }
+        @case (3) {
+            <div class="input-group-control">
+                <label for="answer0">答案</label>
+                <div>
+                    <textarea id="answer0" class="form-control"  [(value)]="value().answer"></textarea>
+                </div>
+            </div>
+        }
+        @case (4) {
+            <div class="input-group-control">
+                <label for="answer">答案</label>
+                <div>
+                    <div>
+                        @for (item of value().option_items; track $index; let i = $index) {
+                            <div class="option-item">
+                                <div class="option-value">
+                                    <input type="text" class="form-control" [(value)]="item.content" placeholder="请输入正确的答案">
+                                </div>
+                                <a (click)="tapRemoveItem(i)" class="remove-btn">
+                                    <i class="iconfont icon-close"></i>
+                                </a>
+                            </div>
+                        }
+                        <a (click)="tapAddItem()" class="add-btn">
+                            <i class="iconfont icon-plus"></i>
                         </a>
                     </div>
-                }
-                <a (click)="tapAddItem()" class="add-btn">
-                    <i class="iconfont icon-plus"></i>
-                </a>
+                </div>
             </div>
-        </div>
-    </div>
+        }
+        @default {
+            <div class="input-group-control">
+                <label for="">选项</label>
+                <div>
+                    @for (item of value().option_items; track $index; let i = $index) {
+                        <div class="option-item">
+                            <div class="option-value">
+                                @if (item.type! < 1) {
+                                    <input type="text" class="form-control" [(value)]="item.content">
+                                } @else {
+                                    <app-file-input [(value)]="item.content"/>
+                                }
+                            </div>
+                            <select class="form-control" [(value)]="item.type">
+                                @for (item of optionTypeItems; track $index; let j = $index) {
+                                <option [value]="j">{{ item }}</option>
+                                }
+                            </select>
+                            <select class="form-control" [(value)]="item.is_right">
+                                <option value="0">错</option>
+                                <option [value]="1">对</option>
+                            </select>
+                            <a (click)="tapRemoveItem(i)" class="remove-btn">
+                                <i class="iconfont icon-close"></i>
+                            </a>
+                        </div>
+                    }
+                    <a (click)="tapAddItem()" class="add-btn">
+                        <i class="iconfont icon-plus"></i>
+                    </a>
+                </div>
+            </div>
+        }
     }
     <div class="input-group-control">
         <label for="analysis">解析</label>
         <div>
-            <app-question-analysis [value]="value().analysis_items" (valueChange)="onAnalysisChange($event)" />
+            <app-question-analysis [value]="value().analysis_items!" (valueChange)="onAnalysisChange($event)" />
         </div>
     </div>
 </div>

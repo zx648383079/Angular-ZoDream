@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-12">
             <h2 class="title-bar"> 
-                <strong>{{ data().name }}</strong>    
+                <strong>{{ data()!.name }}</strong>    
                 预算支出曲线图&nbsp;<small>按 
                 <strong>{{ cycleFormat() }}</strong>    
                 周期统计</small></h2>
@@ -23,7 +23,7 @@
         <div class="col-xl-5 text-right">
             总支出：{{ total() | numberFormat }}，总预算：{{ budgetTotal() | numberFormat }}，超出：{{ overTotal() | numberFormat }}
     
-            <a routerLink="../../income" [queryParams]="{type: 1, budget: data().id}">查看消费记录</a>
+            <a routerLink="../../income" [queryParams]="{type: 1, budget: data()!.id}">查看消费记录</a>
         </div>
     </div>
     }
@@ -41,12 +41,12 @@
         <div class="route-title">
             <app-date-range-picker [(begin)]="queries.start_at().value" [(end)]="queries.end_at().value" (valueChange)="onQueriesChange()"/>
         </div>
-        <a class="route-icon" routerLink="../../income" [queryParams]="{type: 1, budget: data().id}">
+        <a class="route-icon" routerLink="../../income" [queryParams]="{type: 1, budget: data()!.id}">
             消费记录
         </a>
     </div>
     <h2 class="title-bar"> 
-            <strong>{{ data().name }}</strong>    
+            <strong>{{ data()!.name }}</strong>    
             预算支出曲线图
     </h2>
     <div class="meta-bar">

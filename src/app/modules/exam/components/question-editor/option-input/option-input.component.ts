@@ -1,4 +1,4 @@
-import { Component, input, model } from '@angular/core';
+import { Component, input, model, signal } from '@angular/core';
 import { DialogEvent } from '../../../../../components/dialog';
 import { IQuestionOption } from '../../../model';
 import { intToABC } from '../../../util';
@@ -15,11 +15,11 @@ export class OptionInputComponent implements FormValueControl<IQuestionOption[]>
     public readonly value = model<IQuestionOption[]>([]);
     public readonly disabled = input(false);
     public readonly multiple = input(false);
-    public optionData: IQuestionOption = {
+    public readonly optionData = signal<IQuestionOption>({
         type: 0,
         content: '',
         is_right: false,
-    } as any;
+    } as any);
     public readonly optionTypeItems = ArraySource.fromOrder('文字', '图片');
 
     public tapSelected(event: MouseEvent, i: number) {
@@ -47,11 +47,11 @@ export class OptionInputComponent implements FormValueControl<IQuestionOption[]>
         if (this.disabled()) {
             return;
         }
-        this.optionData = i >= 0 ? {...this.value()[i], type: this.value()[i].type || 0} : {
+        this.optionData.set(i >= 0 ? {...this.value()[i], type: this.value()[i].type || 0} : {
             type: 0,
             content: '',
             is_right: false,
-        } as any;
+        } as any);
         modal.openCustom(action => {
             if (typeof action === 'undefined') {
                 return false;
@@ -61,11 +61,11 @@ export class OptionInputComponent implements FormValueControl<IQuestionOption[]>
             }
             const value = this.value();
             if (i >= 0) {
-                value[i] = {...this.optionData};
+                value[i] = {...this.optionData()};
             } else {
-                value.push({...this.optionData});
+                value.push({...this.optionData()});
             }
-            if (this.optionData.is_right && !this.multiple()) {
+            if (this.optionData().is_right && !this.multiple()) {
                 value.forEach((v, j) => {
                     if (i < 0 && j === this.value().length - 1) {
                         return;

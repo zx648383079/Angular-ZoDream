@@ -33,9 +33,9 @@ export class OptionComponent {
     constructor() {
         this.service.option().subscribe(res => {
             const items = [];
-            eachObject(res.plus, (v, k) => {
+            eachObject<number, any>(res.plus, (v, k) => {
                 items.push({
-                    day: k as number,
+                    day: k,
                     plus: v
                 });
             });

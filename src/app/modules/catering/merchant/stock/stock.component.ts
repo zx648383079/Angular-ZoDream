@@ -2,7 +2,6 @@ import { form } from '@angular/forms/signals';
 import { Component, inject, viewChild, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { CateringService } from '../../catering.service';
 import { ICateringCategory, ICateringStock } from '../../model';
@@ -46,7 +45,7 @@ export class StockComponent {
     }
 
     public tapEditCategory(item?: ICateringCategory) {
-        const modal = this.customModal();
+        const modal = this.customModal()!;
         modal.value.set(item ? item.name : '');
         modal.open(value => {
             this.service.merchantStockCategorySave({id: item?.id, name: value}).subscribe(res => {

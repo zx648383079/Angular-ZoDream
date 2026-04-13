@@ -83,7 +83,7 @@
     </div>
 </app-dialog-box>
 <app-dialog-box #modal [title]="'发送模板消息'">
-    @if (sendForm.template) {
+    @if (sendForm.template().value()) {
         <div class="form-table-control">
             <div class="input-group-control">
                 <label for="">模板名称</label>

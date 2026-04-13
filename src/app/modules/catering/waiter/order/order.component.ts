@@ -2,7 +2,6 @@ import { form } from '@angular/forms/signals';
 import { Component, inject, viewChild, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { CateringService } from '../../catering.service';
 import { ICateringOrder } from '../../model';
@@ -44,11 +43,11 @@ export class OrderComponent {
     }
 
     public tapCreate() {
-        this.createModal().open();
+        this.createModal()?.open();
     }
 
     public tapOpen() {
-        this.editModal().open();
+        this.editModal()?.open();
     }
 
     public tapRefresh() {

@@ -335,43 +335,43 @@
     @if (previewModel()) {
     <div class="line-row-item">
         <span class="item-label">类型：</span>
-        <span class="item-body">{{ previewModel().type | logType }}</span>
+        <span class="item-body">{{ previewModel()!.type | logType }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">金额：</span>
-        <span class="item-body">{{ previewModel().money }}</span>
+        <span class="item-body">{{ previewModel()!.money }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">冻结金额：</span>
-        <span class="item-body">{{ previewModel().frozen_money }}</span>
+        <span class="item-body">{{ previewModel()!.frozen_money }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">账户：</span>
-        <span class="item-body">{{ previewModel().account?.name || '--' }}</span>
+        <span class="item-body">{{ previewModel()!.account?.name || '--' }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">项目：</span>
-        <span class="item-body">{{ previewModel().project?.name || '--' }}</span>
+        <span class="item-body">{{ previewModel()!.project?.name || '--' }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">渠道：</span>
-        <span class="item-body">{{ previewModel().channel?.name || '--' }}</span>
+        <span class="item-body">{{ previewModel()!.channel?.name || '--' }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">预算：</span>
-        <span class="item-body">{{ previewModel().budget?.name || '--' }}</span>
+        <span class="item-body">{{ previewModel()!.budget?.name || '--' }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">交易对象：</span>
-        <span class="item-body">{{ previewModel().trading_object }}</span>
+        <span class="item-body">{{ previewModel()!.trading_object }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">发生时间：</span>
-        <span class="item-body">{{ previewModel().happened_at }}</span>
+        <span class="item-body">{{ previewModel()!.happened_at }}</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">备注：</span>
-        <span class="item-body">{{ previewModel().remark }}</span>
+        <span class="item-body">{{ previewModel()!.remark }}</span>
     </div>
     }
 </app-dialog-box>

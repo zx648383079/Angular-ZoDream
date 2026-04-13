@@ -14,7 +14,7 @@
         <div class="panel-header">
             <a [routerLink]="[group.id]">{{ group.name }}</a>
             <div class="pull-right">
-                <app-switch [(value)]="group.min" />
+                <app-switch [(value)]="group.min!" />
             </div>
         </div>
         <div class="panel-body">
@@ -28,7 +28,7 @@
                             <div class="item-body">
                                 <div class="name">
                                     <a routerLink="{{ item.id }}">{{ item.name }}</a>
-                                    @if (item.today_count > 0) {
+                                    @if (item.today_count! > 0) {
                                         ({{ item.today_count | numberFormat }})
                                     }
                                 </div>

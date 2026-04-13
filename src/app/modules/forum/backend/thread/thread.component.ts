@@ -30,7 +30,7 @@ export class ThreadComponent {
         keywords: '',
         forum: 0
     }));
-    public forum: IForum;
+    public readonly forum = signal<IForum|null>(null);
     public readonly isMultiple = signal(false);
     public readonly isChecked = signal(false);
     public readonly isReview = signal(false);
@@ -39,12 +39,12 @@ export class ThreadComponent {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             const forum = this.queries.forum().value();
-            if (forum < 1 || this.forum?.id === forum) {
+            if (forum < 1 || this.forum()?.id === forum) {
                 this.tapPage();
                 return;
             }
             this.service.forum(this.queries.forum).subscribe(res => {
-                this.forum = res;
+                this.forum.set(res);
                 this.tapPage();
             });
         });

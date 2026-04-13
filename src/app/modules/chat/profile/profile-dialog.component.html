@@ -1,12 +1,12 @@
 @if (visible()) {
 <div class="dialog-mask" (click)="close()"></div>
 <div class="dialog-box">
-    @if (data) {
+    @if (data()) {
     <div class="user-box">
         <div class="avatar">
-            <img [src]="data.avatar" alt="">
+            <img [src]="data()!.avatar" alt="">
         </div>
-        <div class="name">{{ data.name }}</div>
+        <div class="name">{{ data()!.name }}</div>
         <div class="brief">
             <p>.....</p>
         </div>

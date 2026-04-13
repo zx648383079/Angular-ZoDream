@@ -22,7 +22,7 @@ export class QuestionMinComponent {
         if (!matches || matches.length < 1) {
             return;
         }
-        let diff = matches.length - value.option_items.length;
+        let diff = matches.length - value.option_items!.length;
         if (diff < 1) {
             return;
         }
@@ -33,7 +33,7 @@ export class QuestionMinComponent {
 
     public tapAddItem() {
         this.value.update(v => {
-            v.option_items.push({
+            v.option_items!.push({
                 content: '',
                 type: 0,
                 is_right: 0,
@@ -44,7 +44,7 @@ export class QuestionMinComponent {
 
     public tapRemoveItem(i: number) {
         this.value.update(v => {
-            v.option_items.splice(i, 1);
+            v.option_items!.splice(i, 1);
             return v;
         });
     }

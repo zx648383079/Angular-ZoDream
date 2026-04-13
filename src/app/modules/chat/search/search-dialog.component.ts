@@ -27,7 +27,7 @@ export class SearchDialogComponent {
     public readonly tabIndex = signal(0);
     public readonly visible = signal(false);
 
-    private confirmFn: Function;
+    private confirmFn?: Function;
 
 
     public open(cb: () => void) {
@@ -37,12 +37,12 @@ export class SearchDialogComponent {
 
     public close() {
         this.visible.set(false);
-        this.confirmFn();
+        this.confirmFn!();
     }
 
     public tapItem(item: IUser) {
         this.visible.set(false);
-        const modal = this.profileModal();
+        const modal = this.profileModal()!;
         modal.mode = item.checked ? 0 : 1;
         modal.open(item, res => {
             this.visible.set(true);
@@ -54,7 +54,7 @@ export class SearchDialogComponent {
             }
             this.service.apply({
                 [this.tabIndex() > 0 ? 'group' : 'user']: item.id,
-                remark: this.profileModal().remark
+                remark: modal.remark
             }).subscribe(_ => item.checked = true)
         });
     }

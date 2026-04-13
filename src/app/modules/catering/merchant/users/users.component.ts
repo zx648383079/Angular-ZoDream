@@ -2,7 +2,6 @@ import { form } from '@angular/forms/signals';
 import { Component, inject, viewChild, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { CateringService } from '../../catering.service';
 import { ICateringCategory, ICateringPatron, ICateringPatronGroup } from '../../model';
@@ -53,7 +52,7 @@ export class UsersComponent {
             name: '',
             discount: 100,
         };
-        this.customModal().open(value => {
+        this.customModal()?.open(value => {
             this.service.merchantPatronGroupSave({...this.editGroupData, name: value}).subscribe(res => {
                 if (item) {
                     this.categoryItems = this.categoryItems.map(i => {

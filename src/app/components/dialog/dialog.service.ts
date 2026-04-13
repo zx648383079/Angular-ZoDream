@@ -26,7 +26,7 @@ export class DialogService {
     private messageCount = 0;
     
     private dialogItems: IDialogRef[] = [];
-    public containerRef: ViewContainerRef;
+    public containerRef: ViewContainerRef = {} as any;
     private injector = inject(Injector);
 
     private formatError(error: string|IErrorResult|IErrorResponse): string {
@@ -53,7 +53,10 @@ export class DialogService {
         });
     }
 
-    public success(message: string) {
+    public success(message?: string) {
+        if (!message) {
+            return;
+        }
         this.createMessage({
             content: this.formatError(message),
             type: 'success'
@@ -127,7 +130,7 @@ export class DialogService {
             if (permission !== 'granted') {
                 return;
             }
-            new Notification(option.title, {
+            new Notification(option.title!, {
                 body: option.content,
                 icon: option.icon,
             })

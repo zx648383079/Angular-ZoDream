@@ -52,7 +52,7 @@ export class RoleDialogComponent {
             ]
         },
     ]);
-    private confirmFn: DialogConfirmFn;
+    private confirmFn?: DialogConfirmFn;
 
     public open(confirm: DialogConfirmFn): void;
     public open(data: ICateringStaffRole, confirm: DialogConfirmFn): void;

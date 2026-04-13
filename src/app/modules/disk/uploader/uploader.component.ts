@@ -96,8 +96,8 @@ export class UploaderComponent {
             return 0;
         });
         const res: IUploadGroup[] = [];
-        let lastTime: Date;
-        let lastGroup: IUploadGroup;
+        let lastTime: Date|undefined;
+        let lastGroup: IUploadGroup|undefined;
         for (const item of items) {
             const time = this.formatTime(item.created_at);
             if (!lastTime || this.diffTime(time, lastTime) > this.maxTime()) {
@@ -109,7 +109,7 @@ export class UploaderComponent {
                 res.push(lastGroup);
             }
             this.formatProgress(item);
-            lastGroup.items.push(item);
+            lastGroup!.items.push(item);
         }
         return res;
     }

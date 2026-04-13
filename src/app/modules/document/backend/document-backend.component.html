@@ -14,7 +14,6 @@
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
                     <a class="btn btn-info" routerLink="category">分类管理</a>
-                    <a class="btn btn-success" routerLink="create">新增文档</a>
                 </div>
                 
             </form>
@@ -29,7 +28,6 @@
             <div class="desc">{{ item.description }}</div>
             <div class="action">
                 <div class="btn-group mr-3">
-                    <a class="btn btn-primary" [routerLink]="[item.type > 0 ? 'api' : 'page', item.id]">编辑</a>
                     <div class="dropdown-bar">
                         <button class="btn btn-primary dropdown-toggle-arrow" appDropdown></button>
                         <div class="dropdown-pane">

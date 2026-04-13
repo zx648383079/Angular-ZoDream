@@ -56,7 +56,7 @@
         <span class="item-label">发送者：</span>
         <span class="item-body">{{ dataModel().from }}
             @if (dataModel().from_user) {
-                ({{ dataModel().from_user.note_name || dataModel().from_user.nickname }})
+                ({{ dataModel().from_user!.note_name || dataModel().from_user!.nickname }})
             }
         </span>
     </div>
@@ -64,7 +64,7 @@
         <span class="item-label">接收者：</span>
         <span class="item-body">{{ dataModel().to }}
             @if (dataModel().to_user) {
-                ({{ dataModel().to_user.note_name || dataModel().to_user.nickname }})
+                ({{ dataModel().to_user!.note_name || dataModel().to_user!.nickname }})
             }
         </span>
     </div>

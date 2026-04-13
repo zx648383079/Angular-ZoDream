@@ -1,25 +1,25 @@
 <div class="emulate-box">
     <div class="box-header">
         <i class="iconfont icon-arrow-left" (click)="tapBack()"></i>
-        {{ account?.name }}
-        @if (account) {
+        {{ account()?.name }}
+        @if (account()) {
         <div class="header-right">
             <i class="iconfont icon-ellipsis-v"></i>
             <div class="sub-box">
                 <div class="qr">
-                    <img [src]="account.avatar" [alt]="account.name">
+                    <img [src]="account()!.avatar" [alt]="account()!.name">
                 </div>
-                <div class="name">{{ account.name }}</div>
-                <div class="desc">{{ account.description }}</div>
+                <div class="name">{{ account()!.name }}</div>
+                <div class="desc">{{ account()!.description }}</div>
             </div>
         </div>
         }
     </div>
-    <app-message-container class="scroll-body" [items]="messageItems" [more]="false" [currentId]="user.id" (tapped)="onBlockTap($event)" />
-    <div class="box-footer toggle-input" [class]="{'toggle-input': footerIndex > 0, 'toggle-more': footerIndex == 2}">
+    <app-message-container class="scroll-body" [items]="messageItems()" [more]="false" [currentId]="user().id" (tapped)="onBlockTap($event)" />
+    <div class="box-footer toggle-input" [class]="{'toggle-input': footerIndex() > 0, 'toggle-more': footerIndex() == 2}">
         <div class="input-box">
             @if (menuItems.length > 0) {
-            <div (click)="footerIndex = 0">
+            <div (click)="footerIndex.set(0)">
                 <i class="iconfont icon-th-list"></i>
             </div>
             }
@@ -43,11 +43,11 @@
             </div>
         </div>
         <div class="menu-box">
-            <div (click)="footerIndex = 1">
+            <div (click)="footerIndex.set(1)">
                 <i class="iconfont icon-keyboard"></i>
             </div>
             <ul class="menu-body">
-                @for (item of menuItems; track $index) {
+                @for (item of menuItems(); track $index) {
                     <li class="menu-item" [class]="{active: item.open}">
                         <span (click)="tapMenu(item)">{{ item.name }}</span>
                         @if (item.children && item.children.length > 0) {

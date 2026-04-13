@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, effect, inject, input } from '@angular/core';
+import { Component, ViewEncapsulation, effect, inject, input, signal, untracked } from '@angular/core';
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -6,7 +6,7 @@ import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
     encapsulation: ViewEncapsulation.None,
     selector: 'app-bot-rich-block',
     template: `
-    <div [innerHTML]="formated"></div>
+    <div [innerHTML]="formated()"></div>
     `,
     styleUrls: ['./bot-rich-block.component.scss'],
     host: {
@@ -18,13 +18,17 @@ export class BotRichBlockComponent {
 
 
     public readonly value = input('');
-    public formated: SafeHtml;
+    public readonly formated = signal<SafeHtml|null>(null);
 
     constructor() {
         effect(() => {
-            this.formated = this.sanitizer.bypassSecurityTrustHtml(
-                this.value()
-            );
+            const val = this.value();
+            untracked(() => {
+                this.formated.set(this.sanitizer.bypassSecurityTrustHtml(
+                    val  
+                ));
+            });
+            
         });
     }
 }

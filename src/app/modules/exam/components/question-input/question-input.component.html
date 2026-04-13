@@ -1,91 +1,99 @@
-<div class="question-box" [class]="{'item-right': disabled() && value().right > 0, 'item-wrong': disabled() && value().right < 0}">
+<div class="question-box" [class]="{'item-right': disabled() && value()!.right > 0, 'item-wrong': disabled() && value()!.right < 0}">
     <div class="title">
-        <span class="order">{{ value().order }}.</span>
-        <app-math-mark [content]="value().title" />
-        @if (value().score) {
-            ({{ value().score }}分)
+        <span class="order">{{ value()!.order }}.</span>
+        <app-math-mark [content]="value()!.title" />
+        @if (value()!.score) {
+            ({{ value()!.score }}分)
         }
     </div>
-    @if (value().content) {
+    @if (value()!.content) {
     <div class="content">
-        <app-math-mark [content]="value().content" [allowInput]="value().type == 4" [value]="!disabled() ? value().answer : value().your_answer" (valueChange)="onAnswerChange($event)" [disabled]="disabled()" [rightValue]="disabled() ? value().answer : []" />
+        <app-math-mark [content]="value()!.content" [allowInput]="value()!.type == 4" [value]="!disabled() ? value()!.answer : value()!.your_answer" (valueChange)="onAnswerChange($event)" [disabled]="disabled()" [rightValue]="disabled() ? value()!.answer : []" />
     </div>
     }
-    @if (value().image) {
+    @if (value()!.image) {
     <div class="image">
-        <img [src]="value().image | asset">
+        <img [src]="value()!.image | asset">
     </div>
     }
     @if (!disabled()) {
-        @if (value().type < 2) {
-        <div class="option-list">
-            @for (item of value().option; track $index) {
-                <div class="option-item" (click)="tapCheckItem(item)">
-                    <i class="iconfont" [class]="{'icon-check-square-o': item.checked}"></i>
-                    <span class="order">{{ item.order }}.</span>
-                    <span class="option-label">
-                        <app-math-mark [content]="item.content" />
-                    </span>
+        @switch (value()!.type) {
+            @case (2) {
+                <div class="option-list">
+                    <app-check-input [source]="choiceItems" [value]="value()!.answer" (valueChange)="onAnswerChange($event)" />
                 </div>
             }
-        </div>
-        } @else if (value().type == 2) {
-        <div class="option-list">
-            <app-check-input [source]="choiceItems" [value]="value().answer" (valueChange)="onAnswerChange($event)" />
-        </div>
-        } @else if (value().type == 3) {
-        <div>
-            <textarea rows="4" class="form-control" [value]="value().answer"  (valueChange)="onAnswerChange($event)"></textarea>
-        </div>
+            @case (3) {
+                <div>
+                    <textarea rows="4" class="form-control" [value]="value()!.answer"  (valueChange)="onAnswerChange($event)"></textarea>
+                </div>
+            }
+            @default {
+                <div class="option-list">
+                    @for (item of value()!.option; track $index) {
+                        <div class="option-item" (click)="tapCheckItem(item)">
+                            <i class="iconfont" [class]="{'icon-check-square-o': item.checked}"></i>
+                            <span class="order">{{ item.order }}.</span>
+                            <span class="option-label">
+                                <app-math-mark [content]="item.content" />
+                            </span>
+                        </div>
+                    }
+                </div>
+            }
         }
     } @else {
-        @if (value().type < 2) {
-        <div class="option-list">
-            @for (item of value().option; track $index) {
-                @if (optionChecked(item) || item.is_right) {
-                    <div class="option-item" [class]="{'right': item.is_right, 'wrong': !item.is_right}">
-                        <i class="iconfont" [class]="{'icon-check': item.is_right, 'icon-close': !item.is_right}"></i>
-                        <span class="order">{{ item.order }}.</span>
-                        <span class="option-label">
-                            <app-math-mark [content]="item.content" />
-                        </span>
+        @switch (value()!.type) {
+            @case (2) {
+                <div class="option-list">
+                    @if (value()!.right > 0) {
+                    <div class="option-item right">
+                        <i class="iconfont icon-check"></i>
+                        {{ value()!.answer > 0 ? '对' : '错' }}
                     </div>
-                } @else {
-                    <div class="option-item">
-                        <i class="iconfont"></i>
-                        <span class="order">{{ item.order }}.</span>
-                        <span class="option-label">
-                            <app-math-mark [content]="item.content" />
-                        </span>
+                    } @else {
+                    <div class="option-item wrong">
+                        <i class="iconfont icon-close"></i>
+                        正确答案：{{ value()!.answer > 0 ? '对' : '错' }}
                     </div>
-                }
+                    }
+                </div>
             }
-        </div>
-        } @else if (value().type == 2) {
-        <div class="option-list">
-            @if (value().right > 0) {
-            <div class="option-item right">
-                <i class="iconfont icon-check"></i>
-                {{ value().answer > 0 ? '对' : '错' }}
-            </div>
-            } @else {
-            <div class="option-item wrong">
-                <i class="iconfont icon-close"></i>
-                正确答案：{{ value().answer > 0 ? '对' : '错' }}
-            </div>
+            @case (3) {
+                <div>
+                    <div class="answer-text" [class]="{'right': value()!.right > 0, 'wrong': value()!.right < 0}">
+                        <label>你的答案:</label>
+                        <textarea rows="4" class="form-control" readonly>{{ value()!.your_answer }}</textarea>
+                    </div>
+                    <div class="answer-text right">
+                        <label>参考答案:</label>
+                        <textarea rows="4" class="form-control" readonly>{{ value()!.answer }}</textarea>
+                    </div>
+                </div>
             }
-        </div>
-        } @else if (value().type == 3) {
-        <div>
-            <div class="answer-text" [class]="{'right': value().right > 0, 'wrong': value().right < 0}">
-                <label>你的答案:</label>
-                <textarea rows="4" class="form-control" readonly>{{ value().your_answer }}</textarea>
-            </div>
-            <div class="answer-text right">
-                <label>参考答案:</label>
-                <textarea rows="4" class="form-control" readonly>{{ value().answer }}</textarea>
-            </div>
-        </div>
+            @default {
+                <div class="option-list">
+                    @for (item of value()!.option; track $index) {
+                        @if (optionChecked(item) || item.is_right) {
+                            <div class="option-item" [class]="{'right': item.is_right, 'wrong': !item.is_right}">
+                                <i class="iconfont" [class]="{'icon-check': item.is_right, 'icon-close': !item.is_right}"></i>
+                                <span class="order">{{ item.order }}.</span>
+                                <span class="option-label">
+                                    <app-math-mark [content]="item.content" />
+                                </span>
+                            </div>
+                        } @else {
+                            <div class="option-item">
+                                <i class="iconfont"></i>
+                                <span class="order">{{ item.order }}.</span>
+                                <span class="option-label">
+                                    <app-math-mark [content]="item.content" />
+                                </span>
+                            </div>
+                        }
+                    }
+                </div>
+            }
         }
     }
 </div>

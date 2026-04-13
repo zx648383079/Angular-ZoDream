@@ -1,8 +1,8 @@
 <div class="thread-item" [class]="{'thread-highlight': value().is_highlight}">
     <div class="item-tool-bar">
         <div class="item-circle-profile">
-            <img [appLazyLoad]="value().user.avatar">
-            <span>{{ value().user.name }}</span>
+            <img [appLazyLoad]="value().user?.avatar">
+            <span>{{ value().user?.name }}</span>
         </div>
         <div class="item-dropdown-bar" [class]="{'--with-open': dropdownVisible()}">
             <div class="dropdown-toggle-arrow" (click)="toggleDrop()">
@@ -31,7 +31,7 @@
     </div>
     <div class="item-body">
         <div class="item-title">
-            @if (value().top_type > 0) {
+            @if (value().top_type! > 0) {
                 <i class="iconfont icon-arrow-up" i18n-title title="Top"></i>
             } @else if (value().is_closed) {
                 <i class="iconfont icon-lock" i18n-title title="Thread is closed"></i>
@@ -40,7 +40,7 @@
             }
             @if (value().classify) {
             <em class="tag-item">
-                [<a (click)="classifyChanged.emit(value().classify)">{{ value().classify.name }}</a>]
+                [<a (click)="classifyChanged.emit(value().classify!)">{{ value().classify!.name }}</a>]
             </em>
             }
             
@@ -56,9 +56,9 @@
         @if (value().brief) {
             <div class="item-brief">{{ value().brief }}…</div>
         }
-        @if (value().image_items?.length > 0) {
+        @if (value().image_items!.length > 0) {
         <div class="item-image-bar">
-            @for (item of value().image_items; track $index) {
+            @for (item of value().image_items!; track $index) {
             <div class="image-preview-control">
                 <img [appLazyLoad]="item.url" [title]="item.title">
             </div>
@@ -70,9 +70,9 @@
     </div>
     <div class="item-participant-bar">
         <div class="item-cute-profile">
-            <img [appLazyLoad]="value().user.avatar">
+            <img [appLazyLoad]="value().user?.avatar">
         </div>
-        @for (item of value().user_items; track $index) {
+        @for (item of value().user_items!; track $index) {
         <div class="item-cute-profile">
             <img [appLazyLoad]="item.avatar">
         </div>
@@ -82,7 +82,7 @@
     <div class="item-footer">
         <div class="item-time-bar">
             @if (value().forum) {
-            <em class="tag-item tablet-visible">{{ value().forum.name }}</em>
+            <em class="tag-item tablet-visible">{{ value().forum?.name }}</em>
             }
             <em>{{ value().updated_at | ago }}</em>
         </div>

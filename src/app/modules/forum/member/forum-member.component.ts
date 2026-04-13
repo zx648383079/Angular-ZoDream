@@ -1,7 +1,6 @@
 import { form } from '@angular/forms/signals';
 import { Component, inject, signal } from '@angular/core';
 import { IThread } from '../model';
-import { IPageQueries } from '../../../theme/models/page';
 import { ForumService } from './forum.service';
 import { DialogService } from '../../../components/dialog';
 import { ActivatedRoute } from '@angular/router';

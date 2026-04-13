@@ -40,7 +40,7 @@ export class DateRangePickerComponent {
 
     public open() {
         this.beginValue.set(this.begin());
-        this.endValue.set(this.end());
+        this.endValue.set(this.end()!);
         this.tapTab(0);
         this.visible.set(true);
     }

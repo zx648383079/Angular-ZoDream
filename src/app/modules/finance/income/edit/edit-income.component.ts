@@ -222,7 +222,7 @@ export class EditIncomeComponent {
     }
 
     public tapParent(model: SearchDialogEvent) {
-        model.open(this.parent(), (data: ILog) => {
+        model.open(this.parent(), (data: any) => {
             this.parent.set(data);
             this.dataForm.parent_id().value.set(data.id);
         }, items => {

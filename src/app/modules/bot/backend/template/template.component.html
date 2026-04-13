@@ -99,13 +99,13 @@
         </div>
         <div class="input-group-control">
             <label for="content">内容
-                <i class="iconfont" [class]="{'icon-eye-slash': previewData.toggle, 'icon-eye': !previewData.toggle}" (click)="tapPreview()"></i>
+                <i class="iconfont" [class]="{'icon-eye-slash': previewVisible(), 'icon-eye': !previewVisible()}" (click)="tapPreview()"></i>
             </label>
             <div>
-                @if (!previewData.toggle) {
+                @if (!previewVisible()) {
                     <textarea id="content" class="form-control" [formField]="editForm.content"></textarea>
                 } @else {
-                    <div class="rich_media_content" [innerHTML]="previewData.content">
+                    <div class="rich_media_content" [innerHTML]="previewText()">
                     </div>
                 }
             </div>

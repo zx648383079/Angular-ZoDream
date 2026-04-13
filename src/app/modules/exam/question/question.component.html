@@ -8,57 +8,57 @@
                 Home
             </a>
         </li>
-        @if (course) {
+        @if (course()) {
         <li class="breadcrumb-item active">
-            {{ course.name }}
+            {{ course()!.name }}
         </li>
         }
     </ul>
 </div>
 
-@if (data) {
+@if (data()) {
 <div class="container">
     <div class="panel-container">
         <div class="question-item-box">
-            <app-question-input [(value)]="data" [disabled]="!editable" />
+            <app-question-input [(value)]="data" [disabled]="!editable()" />
         </div>
         <div class="tool-bar">
             <div class="btn-bar">
                 <div class="btn-group">
-                    @if (cardIndex > 0) {
+                    @if (cardIndex() > 0) {
                     <a class="btn btn-primary" (click)="tapPrevious()">上一题</a>
                     }
                     <a class="btn btn-danger" (click)="tapCheck()">验证</a>
-                    @if (cardIndex < cardItems.length - 1) {
+                    @if (cardIndex() < cardItems().length - 1) {
                     <a class="btn btn-primary" (click)="tapNext()">下一题</a>
                     }
                 </div>
                 <div class="btn-group pull-right">
-                    <button class="btn btn-info" (click)="cardVisiable = !cardVisiable">{{ cardVisiable ? '隐藏' : '显示' }}答题卡</button>
-                    <button class="btn btn-success" (click)="analysisVisiable = !analysisVisiable">{{ analysisVisiable ? '隐藏' : '显示' }}详解</button>
+                    <button class="btn btn-info" (click)="toggleCard()">{{ cardVisiable() ? '隐藏' : '显示' }}答题卡</button>
+                    <button class="btn btn-success" (click)="toggleAnalysis()">{{ analysisVisiable() ? '隐藏' : '显示' }}详解</button>
                 </div>
             </div>
         </div>
     </div>
     
-    @if (analysisVisiable) {
+    @if (analysisVisiable()) {
     <div class="panel analysis-panel">
         <div class="panel-header">
             题目解析
         </div>
         <div class="panel-body">
-            <app-math-mark [content]="data.analysis || '暂无解析'" />
+            <app-math-mark [content]="data()!.analysis || '暂无解析'" />
         </div>
     </div>
     }
-    @if (cardVisiable) {
+    @if (cardVisiable()) {
     <div class="panel sheet-panel">
         <div class="panel-header">
             答题卡
         </div>
         <div class="panel-body">
             <ul>
-                @for (item of cardItems; track $index; let i = $index) {
+                @for (item of cardItems(); track $index; let i = $index) {
                     <li [class]="{right: item.right > 0, wrong: item.right < 0, active: item.active}">
                         <a (click)="tapCard(i)">{{ item.order }}</a>
                     </li>

@@ -1,7 +1,6 @@
 import { form } from '@angular/forms/signals';
 import { Component, inject, input, model, viewChild, signal } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { IPageQueries } from '../../../../../theme/models/page';
 import { IItem } from '../../../../../theme/models/seo';
 import { IBotTemplate } from '../../../model';
 import { BotService } from '../../bot.service';
@@ -23,7 +22,7 @@ export class TemplateEditorComponent implements FormValueControl<string> {
     public readonly disabled = input<boolean>(false);
     public readonly value = model<string>('');
     public typeItems: IItem[] = [];
-    public templateItems: IBotTemplate[] = [];
+    public readonly templateItems = signal<IBotTemplate[]>([]);
     public readonly hasMore = signal(true);
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
@@ -49,7 +48,7 @@ export class TemplateEditorComponent implements FormValueControl<string> {
     }
 
     public tapInsert(item: IBotTemplate) {
-        this.editor().insert({
+        this.editor()!.insert({
             type: EditorBlockType.AddRaw,
             value: item.content + '<p></p>'
         });
@@ -80,7 +79,7 @@ export class TemplateEditorComponent implements FormValueControl<string> {
                     return i;
                 });
                 this.isLoading.set(false);
-                this.templateItems = page < 2 ? items : [].concat(this.templateItems, items);
+                this.templateItems.update(v => page < 2 ? items : [...v, ...items]);
                 this.hasMore.set(res.paging.more);
                 this.total.set(res.paging.total);
             },

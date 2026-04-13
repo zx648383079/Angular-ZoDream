@@ -122,9 +122,9 @@ export interface IBotReplyTemplate {
 }
 
 export interface IBotReplyTemplateField {
-    name?: string;
-    value?: string;
-    color?: string;
+    name: string;
+    value: string;
+    color: string;
 }
 
 

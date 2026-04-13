@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { FinanceService } from '../../finance.service';
 import { ThemeService } from '../../../../theme/services';
 import { EChartsCoreOption } from 'echarts/core';
-import { formatDate } from '../../../../theme/utils';
+import { formatDate, parseNumber } from '../../../../theme/utils';
 
 @Component({
     standalone: false,
@@ -78,7 +78,7 @@ export class BudgetReportComponent {
 
             
 
-            const dateItems = Array.from(new Set([].concat(...res.data.map(i => i.items.map(i => i.date))))).sort((a, b) => a - b);
+            const dateItems = Array.from(new Set((<number[]>[]).concat(...res.data.map(i => i.items.map(i => parseNumber(i.date)))))).sort((a, b) => a - b);
 
 
             this.monthOptions.set({
@@ -101,7 +101,7 @@ export class BudgetReportComponent {
                     type: 'value'
                 },
                 series: res.data.map(i => {
-                    const maps = {};
+                    const maps: any = {};
                     for (const item of i.items) {
                         maps[item.date] = item.money;
                     }

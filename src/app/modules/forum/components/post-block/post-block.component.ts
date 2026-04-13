@@ -26,7 +26,7 @@ export class PostBlockComponent {
 
     public tapVoteItem(block: any, item: any) {
         let count = 0;
-        let items: any[] = block.items.map(i => {
+        let items: any[] = block.items.map((i: any) => {
             if (block.max > 1) {
                 if (i === item) {
                     i.checked = !i.checked;

@@ -155,25 +155,33 @@ export class ThreadComponent {
     }
 
     public open(modal: DialogEvent) {
-        if (!this.thread || !this.user || !modal) {
+        if (!this.thread() || !this.user() || !modal) {
             return;
         }
-        this.editForm.remark().value.set('');
         const maps = {
             highlightable: 'is_highlight',
             digestable: 'is_digest',
             closeable: 'is_closed',
             topable: 'top_type',
         };
-        eachObject(maps, (k, i) => {
-            if (this.thread[i]) {
-                this.editForm[k] = this.thread[k];
-            }
+        this.editForm().value.update(v => {
+            v.remark = '';
+            const source = this.thread() as any;
+            eachObject(maps, (k, i) => {
+                if (source[i]) {
+                    (v as any)[k] = source[k];
+                }
+            });
+            return v;
         });
+        
         modal.open(() => {
-            this.service.threadAction(this.thread().id, this.editForm()).subscribe(res => {
-                eachObject(maps, i => {
-                    this.thread[i] = res[i];
+            this.service.threadAction(this.thread()!.id, this.editForm()).subscribe(res => {
+                this.thread.update(v => {
+                    eachObject(maps, i => {
+                        (v as any)[i] = (res as any)[i];
+                    });
+                    return v;
                 });
             });
         }, () => !emailValidate(this.editForm.remark().value()));
@@ -188,7 +196,7 @@ export class ThreadComponent {
             return;
         }
         if (block.tag === 'vote') {
-            const items: number[] = block.items.filter(i => i.checked).map(i => {
+            const items: number[] = block.items.filter((i: any) => i.checked).map((i: any) => {
                 return i.i;
             });
             if (items.length < 1) {
@@ -256,7 +264,7 @@ export class ThreadComponent {
     }
 
     public tapChange(modal: DialogEvent, item: IThreadPost) {
-        if (!this.thread().editable) {
+        if (!this.thread()?.editable) {
             return;
         }
         this.statusForm.selected().value.set(item.status || 0);
@@ -283,11 +291,11 @@ export class ThreadComponent {
     }
 
     public toggleLike() {
-        this.service.threadAction(this.thread().id, [
+        this.service.threadAction(this.thread()!.id, [
             'like'
         ]).subscribe({
             next: res => {
-                this.thread.update(v => {
+                this.thread.update((v: any) => {
                     return {...v, like_type: res.like_type};
                 });
             },
@@ -298,11 +306,11 @@ export class ThreadComponent {
     }
 
     public toggleCollect() {
-        this.service.threadAction(this.thread().id, [
+        this.service.threadAction(this.thread()!.id, [
             'collect'
         ]).subscribe({
             next: res => {
-                this.thread.update(v => {
+                this.thread.update((v: any) => {
                     return {...v, is_collected: res.is_collected};
                 });
             },
@@ -314,11 +322,11 @@ export class ThreadComponent {
 
     public tapReward(modal: DialogEvent) {
         modal.open(() => {
-            this.service.threadAction(this.thread().id, {
+            this.service.threadAction(this.thread()!.id, {
                 reward: this.rewardForm.amount().value()
             }).subscribe({
                 next: res => {
-                    this.thread.update(v => {
+                    this.thread.update((v: any) => {
                         return {...v, is_reward: res.is_reward};
                     });
                 },
@@ -332,9 +340,9 @@ export class ThreadComponent {
 
 
     public toggeTop() {
-        this.service.threadAction(this.thread().id, ['top_type']).subscribe({
+        this.service.threadAction(this.thread()!.id, ['top_type']).subscribe({
             next: res => {
-                this.thread.update(v => {
+                this.thread.update((v: any) => {
                     return {...v, top_type: res.top_type};
                 });
             },
@@ -370,7 +378,7 @@ export class ThreadComponent {
             this.toastrService.warning($localize `The content is not filled out completely`);
             return;
         }
-        const data = {...this.dataForm().value(), thread: this.thread().id};
+        const data = {...this.dataForm().value(), thread: this.thread()!.id};
         e?.enter();
         this.service.postCreate(data).subscribe({
             next: res => {
@@ -415,7 +423,7 @@ export class ThreadComponent {
         }
         this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
-        this.service.getPostList({...queries, thread: this.thread().id}).subscribe({
+        this.service.getPostList({...queries, thread: this.thread()!.id}).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;
                 this.isLoading.set(false);

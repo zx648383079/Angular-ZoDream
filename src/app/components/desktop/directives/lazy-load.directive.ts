@@ -26,7 +26,7 @@ export class LazyLoadDirective {
     public loadTime = 1;
     public readonly scrollTarget = input<any>();
     public readonly offset = input(0);
-    public readonly appLazyLoad = input('');
+    public readonly appLazyLoad = input<string|null|undefined>('');
     public readonly lazyLoading = output<void>();
 
     private lastIsVisible = false;

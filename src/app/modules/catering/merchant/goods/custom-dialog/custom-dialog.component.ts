@@ -17,9 +17,8 @@ export class CustomDialogComponent {
     public readonly visible = signal(false);
     public title = '名称';
     public readonly value = model('');
-    private confirmFn: DialogConfirmFn;
+    private confirmFn?: DialogConfirmFn;
 
-    constructor() { }
 
     public open(confirm: DialogConfirmFn): void;
     public open(title: string, confirm: DialogConfirmFn): void;

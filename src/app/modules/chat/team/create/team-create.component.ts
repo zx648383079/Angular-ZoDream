@@ -39,7 +39,7 @@ export class TeamCreateComponent {
         required(schemePath.name, {message: $localize `Name is required`});
     });
 
-    private confirmFn: Function;
+    private confirmFn?: Function;
     private asyncHandler = 0;
 
 
@@ -50,7 +50,7 @@ export class TeamCreateComponent {
 
     public close() {
         this.visible.set(false);
-        this.confirmFn();
+        this.confirmFn!();
         
     }
 

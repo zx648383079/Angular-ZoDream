@@ -11,7 +11,7 @@ import { EditorTypeItems, EventItems, IBotReply } from '../../../model';
 })
 export class EditReplyComponent {
 
-    public readonly value = model<IBotReply>();
+    public readonly value = model<any>();
     public editorData: any;
     public eventItems: IItem[] = EventItems;
     public typeItems: IItem[] = EditorTypeItems;

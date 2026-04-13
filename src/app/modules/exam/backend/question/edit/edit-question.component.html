@@ -38,8 +38,8 @@
             <div>
                 @if (material()) {
                     <div class="media-item" (click)="tapMaterial(materialModal)">
-                        <div class="title">【{{material().type|materialType}}】{{ material().title }}</div>
-                        <div class="desc">{{ material().description }}</div>
+                        <div class="title">【{{material()!.type|materialType}}】{{ material()!.title }}</div>
+                        <div class="desc">{{ material()!.description }}</div>
                         <i class="iconfont icon-close" (click)="tapRemoveMaterial($event)"></i>
                     </div>
                 } @else {

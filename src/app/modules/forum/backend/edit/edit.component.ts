@@ -8,7 +8,6 @@ import { ForumService } from '../forum.service';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { ArraySource, ButtonEvent, NetSource } from '../../../../components/form';
 import { form, required } from '@angular/forms/signals';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -36,7 +35,7 @@ export class EditComponent {
         required(schemaPath.name);
     });
 
-    public data: IForum;
+    private data?: IForum;
     public readonly categories = signal<IForum[]>([]);
     public readonly zoneItems = signal(ArraySource.empty);
     public readonly classifyItems = signal<IForumClassify[]>([]);
@@ -83,12 +82,12 @@ export class EditComponent {
                 this.dataModel.set({
                     id: res.id,
                     name: res.name,
-                    zone_id: res.zone_id,
+                    zone_id: res.zone_id ?? 0,
                     parent_id: res.parent_id as any,
                     thumb: res.thumb,
                     description: res.description,
-                    type: res.type,
-                    position: res.position,
+                    type: res.type ?? 0,
+                    position: res.position ?? 0,
                 });
             });
         });

@@ -29,11 +29,11 @@ export class RecipeDialogComponent {
     }
 
     public close(yes = false) {
-        if (this.flipModal().index() > 0) {
+        if (this.flipModal()!.index() > 0) {
             if (yes && !this.addLine()) {
                 return;
             }
-            this.flipModal().back();
+            this.flipModal()!.back();
             return;
         }
         this.visible.set(false);
@@ -42,7 +42,7 @@ export class RecipeDialogComponent {
     public tapEditLine(item?: ICateringRecipeMaterial) {
         this.nextData = item ? item : {name: '', unit: this.nextData.unit};
         this.multipleEditable = false;
-        this.flipModal().navigate(1);
+        this.flipModal()!.navigate(1);
     }
 
     public tapRemoveLine(item: ICateringRecipeMaterial) {

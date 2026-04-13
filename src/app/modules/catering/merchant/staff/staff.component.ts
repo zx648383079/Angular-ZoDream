@@ -2,7 +2,6 @@ import { form } from '@angular/forms/signals';
 import { Component, inject, viewChild, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { CateringService } from '../../catering.service';
 import { ICateringStaff, ICateringStaffRole } from '../../model';
@@ -53,7 +52,7 @@ export class StaffComponent {
             description: '',
             action: '',
         };
-        this.roleModal().open(data as any, value => {
+        this.roleModal()?.open(data as any, value => {
             this.service.merchantStaffRoleSave(value).subscribe(res => {
                 if (item) {
                     this.categoryItems = this.categoryItems.map(i => {
@@ -73,7 +72,7 @@ export class StaffComponent {
     }
 
     public tapAdd() {
-        this.inviteModal().open();
+        this.inviteModal()?.open();
     }
 
     public tapSearch(e: Event) {

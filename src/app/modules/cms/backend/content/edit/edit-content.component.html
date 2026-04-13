@@ -1,4 +1,4 @@
-<app-edit-header [title]="data()?.id > 0 ? '编辑文章' : '新增文章'" (submited)="tapSubmit($event)" [disabled]="!form().valid" />
+<app-edit-header [title]="data()!.id > 0 ? '编辑文章' : '新增文章'" (submited)="tapSubmit($event)" [disabled]="!form().valid" />
 
 <div class="container-fluid">
     <div class="panel-container form-table-control">
@@ -31,7 +31,7 @@
                                     @case ('select') {
                                         <div>
                                             <select class="form-control" [formControlName]="item.name" [id]="item.name">
-                                                @for (val of item.items; track $index) {
+                                                @for (val of item.items!; track $index) {
                                                     <option [value]="val">{{ val }}</option>
                                                 }
                                             </select>
@@ -39,12 +39,12 @@
                                     }
                                     @case ('radio') {
                                         <div>
-                                            <app-check-input [source]="item.optionSource" [formControlName]="item.name" [id]="item.name"/>
+                                            <app-check-input [source]="item.optionSource!" [formControlName]="item.name" [id]="item.name"/>
                                         </div>
                                     }
                                     @case ('checkbox') {
                                         <div>
-                                            <app-check-input [source]="item.optionSource" [formControlName]="item.name" [id]="item.name" [multiple]="true" />
+                                            <app-check-input [source]="item.optionSource!" [formControlName]="item.name" [id]="item.name" [multiple]="true" />
                                         </div>
                                     }
                                     @case ('switch') {

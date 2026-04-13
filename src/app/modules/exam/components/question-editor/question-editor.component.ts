@@ -19,7 +19,7 @@ export class QuestionEditorComponent {
 
 
     public readonly disabled = input(false);
-    public readonly value = model<IQuestion>();
+    public readonly value = model<IQuestion|null|undefined>();
 
     public optionItems: any[] = cloneObject(QuestionDefaultOption);
     public materialType = 0;
@@ -45,12 +45,12 @@ export class QuestionEditorComponent {
 
     constructor() {
         effect(() => {
-            this.formatValue(this.value());
+            this.formatValue(this.value()!);
         });
     }
 
     public readonly canEdit = computed(() => {
-        const value = this.value();
+        const value = this.value()!;
         return !value.id || value.id < 1 || value.editable;
     });
 
@@ -67,7 +67,7 @@ export class QuestionEditorComponent {
         if (!this.canEdit()) {
             return;
         }
-        this.value().type = i;
+        this.value()!.type = i;
         if (i === 2 && questionOptionIsEmpty(this.optionItems)) {
             this.optionItems = cloneObject(QuestionCheckOption);
         }
@@ -79,7 +79,7 @@ export class QuestionEditorComponent {
     }
 
     public onExtendChange(val: any) {
-        this.value.update(v => {
+        this.value.update((v: any) => {
             v.content = val;
             return v;
         });
@@ -88,7 +88,7 @@ export class QuestionEditorComponent {
     }
 
     private onTypeChange() {
-        const value = this.value();
+        const value = this.value()!;
         if (value.type != 4) {
             return;
         }
@@ -96,14 +96,14 @@ export class QuestionEditorComponent {
     }
     
     public onAnswerChange(val: any) {
-        this.value.update(v => {
+        this.value.update((v: any) => {
             v.answer = val;
             return v;
         });
     }
 
     public onScoreChange(val: any) {
-        this.value.update(v => {
+        this.value.update((v: any) => {
             v.score = val;
             return v;
         });
@@ -114,7 +114,7 @@ export class QuestionEditorComponent {
     }
 
     public onTitleChange(val: any) {
-        this.value.update(v => {
+        this.value.update((v: any) => {
             v.title = val;
             return v;
         });
@@ -140,11 +140,11 @@ export class QuestionEditorComponent {
         if (!this.canEdit()) {
             return;
         }
-        const file = (event.target as HTMLInputElement).files[0] as File;
+        const file = (event.target as HTMLInputElement).files![0] as File;
         const applyMaterial = (type: number, url: string) => {
             this.materialType = type;
             this.materialFile = url;
-            this.value().material_id = 0;
+            this.value()!.material_id = 0;
             this.onValueChange();
         };
         if (file.type.charAt(0) === 'i') {
@@ -169,7 +169,7 @@ export class QuestionEditorComponent {
 
     public tapRemoveMaterial() {
         this.materialFile = '';
-        this.value.update(v => {
+        this.value.update((v: any) => {
             v.material_id = 0;
             v.image = '';
             return {...v};
@@ -195,12 +195,12 @@ export class QuestionEditorComponent {
         const value: IQuestion = {
             ...this.value(),
             material: undefined,
-            type: this.value().type || 0,
+            type: this.value()!.type || 0,
         } as any;
         if (this.materialFile) {
             if (this.materialType > 0) {
                 value.material = {
-                    id: this.value().material_id,
+                    id: this.value()!.material_id,
                     type: this.materialType,
                     content: this.materialFile
                 } as any;

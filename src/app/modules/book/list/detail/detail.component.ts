@@ -17,7 +17,7 @@ export class DetailComponent {
     private readonly toastrService = inject(DialogService);
 
 
-    public data: IBookList;
+    public readonly data = signal<IBookList|null>(null);
 
     public readonly items = signal<IBookListItem[]>([]);
 
@@ -27,17 +27,16 @@ export class DetailComponent {
                 return;
             }
             this.service.listDetail(params.id).subscribe(res => {
-                this.data = res;
+                this.data.set(res);
                 this.items.set(res.items);
             });
         });
     }
 
     public tapCollect() {
-        this.service.listCollect(this.data.id).subscribe({
+        this.service.listCollect(this.data()!.id).subscribe({
             next: res => {
-                this.data.is_collected = res.is_collected;
-                this.data.collect_count = res.collect_count;
+                this.data.update((v: any) => ({...v, is_collected: res.is_collected, collect_count: res.collect_count}));
             }, error: err => {
                 this.toastrService.warning(err.error.message);
             }

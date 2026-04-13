@@ -17,7 +17,7 @@ export class SettingComponent {
     private readonly destroyRef = inject(DestroyRef);
 
 
-    public readonly dataForm = form(signal<ICateringStore>({
+    public readonly dataForm = form(signal({
         name: '',
         logo: '',
         keywords: '',

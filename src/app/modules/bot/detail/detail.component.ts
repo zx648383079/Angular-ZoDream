@@ -18,7 +18,7 @@ export class DetailComponent {
     private readonly toastrService = inject(DialogService);
     private readonly location = inject(Location);
 
-    public data: IBotMedia;
+    public readonly data = signal<IBotMedia|null>(null);
     public readonly dropToggle = signal(false);
 
     @HostListener('document:click', ['$event']) 
@@ -35,7 +35,7 @@ export class DetailComponent {
                 id: params.id
             }).subscribe({
                 next: res => {
-                    this.data = res;
+                    this.data.set(res);
                 },
                 error: err => {
                     this.toastrService.error(err);

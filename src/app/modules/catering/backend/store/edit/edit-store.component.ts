@@ -29,12 +29,12 @@ export class EditStoreComponent {
         description: '',
         logo: '',
         status: '',
-        user: <IUser>null,
+        user: <IUser|null>null,
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name);
     });
-    public data: ICateringStore;
+    private data?: ICateringStore;
 
     constructor() {
         this.route.params.subscribe(params => {
@@ -45,7 +45,7 @@ export class EditStoreComponent {
                 next: res => {
                     this.data = res;
                     this.dataModel.set({
-                        id: res.id,
+                        id: res.id!,
                         name: res.name,
                         keywords: res.keywords,
                         description: res.description,
@@ -83,7 +83,7 @@ export class EditStoreComponent {
         e?.enter();
         this.service.storeSave({...data, user: undefined}).subscribe({
             next: _ => {
-                e.reset();
+                e?.reset();
                 this.toastrService.success($localize `Save Successfully`);
                 this.location.back();
             },

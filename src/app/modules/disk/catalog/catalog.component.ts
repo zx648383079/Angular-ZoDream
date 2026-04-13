@@ -10,7 +10,7 @@ import { emptyValidate } from '../../../theme/validators';
 import { DialogEvent, DialogService } from '../../../components/dialog';
 import { IUploadItem, UploaderComponent } from '../uploader/uploader.component';
 import { FileUploadService, SearchService, ThemeService } from '../../../theme/services';
-import { ImagePlayerComponent, MoviePlayerComponent, MusicPlayerComponent, PlayerEvent } from '../../../components/media-player';
+import { ImagePlayerComponent, IMediaFile, MoviePlayerComponent, MusicPlayerComponent, PlayerEvent } from '../../../components/media-player';
 import { ParallelHasher } from 'ts-md5';
 import { ActivatedRoute } from '@angular/router';
 import { UploadStatus } from '../../../theme/services/uploader';
@@ -143,7 +143,7 @@ export class CatalogComponent {
         if (k === 'size') {
             return item.file ? item.file[k] : '';
         }
-        return item[k];
+        return (item as any)[k];
     }
 
     public toggleEditable() {
@@ -194,7 +194,7 @@ export class CatalogComponent {
             }
             return;
         }
-        if (item.file_id < 1 || !item.file) {
+        if (item.file_id! < 1 || !item.file) {
             this.tapFolder(item);
             return;
         }
@@ -213,13 +213,13 @@ export class CatalogComponent {
             let player: PlayerEvent;
             if (item.type === 'image') {
                 this.playerMode.set(3);
-                player = this.imagePlayer();
+                player = this.imagePlayer()!;
             } else if (item.type === 'music') {
                 this.playerMode.set(2);
-                player = this.musicPlayer();
+                player = this.musicPlayer()!;
             } else if (item.type === 'movie') {
                 this.playerMode.set(1);
-                player = this.moviePlayer();
+                player = this.moviePlayer()!;
             } else {
                 return;
             }
@@ -229,13 +229,13 @@ export class CatalogComponent {
                 if (i.id === item.id) {
                     j = k;
                 }
-                let lyrics: string;
+                let lyrics: string = '';
                 if (i.subtitles && i.subtitles.length > 0) {
                     lyrics = i.subtitles[0].url;
                 } else if (i.lyrics && i.lyrics.length > 0) {
                     lyrics = i.lyrics[0].url;
                 }
-                return {
+                return <IMediaFile>{
                     name: i.name,
                     source: i.url,
                     cover: i.thumb,
@@ -248,7 +248,7 @@ export class CatalogComponent {
     }
 
     public tapFolder(item: IDisk) {
-        if (item.file_id > 0 && item.file) {
+        if (item.file_id! > 0 && item.file) {
             return;
         }
         this.crumbs.update(v => {
@@ -305,7 +305,7 @@ export class CatalogComponent {
     }
 
     public tapUpload(e: any) {
-        this.uploader().visible.set(true);
+        this.uploader()!.visible.set(true);
         this.onUploading(e.target.files as FileList);
     }
 
@@ -323,10 +323,10 @@ export class CatalogComponent {
             total: file.size,
             status: 3,
             created_at: new Date(),
-            file: undefined,
+            file: undefined as any,
         };
-        this.uploader().append(item);
-        hasher.hash(file).then((md5: string) => {
+        this.uploader()!.append(item);
+        hasher.hash(file).then((md5: any) => {
             item.md5 = md5;
             item.status = 4;
             item.file = this.uploadService.uploadChunk<IDisk>({
@@ -338,11 +338,11 @@ export class CatalogComponent {
                 parent_id: this.lastFolder,
             }, md5);
             item.file.$progress.subscribe(p => {
-                this.uploader().formatProgress(item, p);
+                this.uploader()!.formatProgress(item, p);
             })
             item.file.$finish.subscribe(res => {
                 this.items.update(v => {
-                    v.push(this.formatItem(res));
+                    v.push(this.formatItem(res!));
                     return [...v];
                 });
             });
@@ -478,8 +478,8 @@ export class CatalogComponent {
     }
 
     private formatItem(item: IDisk): IDisk {
-        item.type = this.service.getTypeByExt(item.file_id < 1 ? undefined : item.file?.extension);
-        item.icon = this.service.getIconByExt(item.file_id < 1 ? undefined : item.file?.extension);
+        item.type = this.service.getTypeByExt(item.file_id! < 1 ? undefined : item.file?.extension);
+        item.icon = this.service.getIconByExt(item.file_id! < 1 ? undefined : item.file?.extension);
         return item;
     }
 }

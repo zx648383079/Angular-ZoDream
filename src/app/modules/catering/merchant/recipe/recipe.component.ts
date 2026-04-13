@@ -3,7 +3,6 @@ import { Component, inject, viewChild, signal } from '@angular/core';
 import { RecipeDialogComponent } from './dialog/recipe-dialog.component';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { CateringService } from '../../catering.service';
 import { ICateringProduct, ICateringCategory, ICateringRecipe } from '../../model';
@@ -48,12 +47,12 @@ export class RecipeComponent {
     }
 
     public tapEdit() {
-        this.modal().open();
+        this.modal()!.open();
     }
 
 
     public tapEditCategory(item?: ICateringCategory) {
-        const modal = this.customModal();
+        const modal = this.customModal()!;
         modal.value.set(item ? item.name : '');
         modal.open(value => {
             this.service.merchantRecipeCategorySave({id: item?.id, name: value}).subscribe(res => {

@@ -11,15 +11,15 @@
             <a (click)="tapScan()">
                 <i class="iconfont icon-scan"></i>
             </a>
-            <a (click)="cartModal().open()">
+            <a (click)="cartModal()!.open()">
                 <i class="iconfont icon-shopping-cart"></i>
             </a>
             <div class="user-icon">
                 <div class="avatar" (click)="tapAvatar()">
-                    <img [src]="user.avatar | asset">
+                    <img [src]="user()?.avatar | asset">
                 </div>
-                <div class="menu-flyout" [hidden]="!authOpen">
-                    <app-menu-body [items]="menuItems" [flowLeft]="true" (tapped)="onMenuTap($event)" />
+                <div class="menu-flyout" [hidden]="!authOpen()">
+                    <app-menu-body [items]="menuItems()" [flowLeft]="true" (tapped)="onMenuTap($event)" />
                 </div>
             </div>
         </div>
@@ -35,8 +35,8 @@
 <app-login-dialog />
 <app-catering-cart-dialog />
 <app-authorize-dialog />
-@if (scanOpen) {
-<div class="dialog-mask" (click)="scanOpen = false"></div>
+@if (scanOpen()) {
+<div class="dialog-mask" (click)="scanOpen.set(false)"></div>
 <div class="scanner-dialog">
     <app-scanner (completed)="onScanCompleted($event)" />
 </div>

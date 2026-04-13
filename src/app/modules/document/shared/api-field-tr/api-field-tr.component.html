@@ -39,7 +39,7 @@
         </div>
     </div>
     @if (item.type == 'object' || item.type == 'array') {
-        <app-doc-api-field-tr [(items)]="item.children" [kind]="kind()"/>
+        <app-doc-api-field-tr [(items)]="item.children!" [kind]="kind()"/>
     }
 }
 

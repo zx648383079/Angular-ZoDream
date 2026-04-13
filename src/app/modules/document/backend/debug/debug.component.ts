@@ -3,17 +3,17 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ArraySource, ButtonEvent } from '../../../../components/form';
 import { IErrorResult } from '../../../../theme/models/page';
-import { eachObject } from '../../../../theme/utils';
+import { eachObject, parseNumber } from '../../../../theme/utils';
 import { IDocApi } from '../../model';
 import { DocumentService } from '../document.service';
 import { FieldTree, form } from '@angular/forms/signals';
 
 interface IListOptionItem {
-    checked?: boolean;
+    checked: boolean;
     key: string;
-    value?: string;
-    valueFile?: File;
-    type?: string;
+    value: string;
+    valueFile: File;
+    type: string;
 }
 
 const CACHE_KEY = 'doc_aapi_debug';
@@ -43,15 +43,15 @@ export class DebugComponent {
     public readonly methodItems = ArraySource.fromValue('GET', 'POST', 'PUT', 'DELETE', 'OPTION');
     public readonly dataForm = form(signal({
         url: '',
-        method: this.methodItems[0],
+        method: this.methodItems.items[0].value as string,
         headers: <IListOptionItem[]>[],
         bodyType: 0,
         rawType: '0',
         body: '',
-        bodyFile: <File>null,
+        bodyFile: <File|null>null,
         bodies: <IListOptionItem[]>[]
     }));
-    public headerName = [
+    public readonly headerName = [
         'Host',
         'User-Agent',
         'Accept',
@@ -62,17 +62,17 @@ export class DebugComponent {
         'Referer',
         'Authorization',
     ];
-    public requestIndex = 0;
+    public readonly requestIndex = signal(0);
     public readonly typeItems = ArraySource.fromOrder('none', 'form-data', 'x-www-form-urlencoded', 'raw', 'binary');
     public readonly rawItems = ArraySource.fromOrder('Text', 'JavaScript', 'JSON', 'HTML', 'XML');
     public readonly optionItems = ArraySource.fromOrder('Text', 'File');
-    public responseStatus = '';
-    public responseTime = 0;
-    public responseSize = 0;
-    public responseIndex = 0;
-    public responseBody = '';
-    public responseHeader: IListOptionItem[] = [];
-    public responseInfo: IListOptionItem[] = [];
+    public readonly responseStatus = signal('');
+    public readonly responseTime = signal(0);
+    public readonly responseSize = signal(0);
+    public readonly responseIndex = signal(0);
+    public readonly responseBody = signal('');
+    public readonly responseHeader = signal<IListOptionItem[]>([]);
+    public readonly responseInfo = signal<IListOptionItem[]>([]);
 
     constructor() {
         this.route.params.subscribe(params => {
@@ -80,10 +80,13 @@ export class DebugComponent {
                 this.resetCache();
                 return;
             }
-            this.service.api(params.id).subscribe(res => {
-                this.applyApiData(res);
-            }, (err: IErrorResult) => {
-                this.toastrService.warning(err.error.message);
+            this.service.api(params.id).subscribe({
+                next: res => {
+                    this.applyApiData(res);
+                }, 
+                error: (err: IErrorResult) => {
+                    this.toastrService.warning(err.error.message);
+                }
             });
         });
     }
@@ -116,7 +119,7 @@ export class DebugComponent {
             }
             return {...v};
         });
-        this.requestIndex = 1;
+        this.requestIndex.set(1);
         
     }
 
@@ -130,8 +133,8 @@ export class DebugComponent {
         this.service.apiDebug({
             url: data.url,
             method: data.method,
-            type: this.typeItems[data.bodyType],
-            raw_type: this.rawItems[data.rawType],
+            type: this.typeItems.items[data.bodyType],
+            raw_type: this.rawItems.items[parseNumber(data.rawType)],
             header: data.headers.filter(i => i.checked),
             body: data.bodyType == 3 ? data.body : data.bodyType == 4 ? data.bodyFile 
             : data.bodies.filter(i => i.checked).map(i => {
@@ -144,28 +147,30 @@ export class DebugComponent {
             next: res => {
                 e?.reset();
                 const data = res.data;
-                this.responseStatus = data.headers.response[0];
-                this.responseTime = data.info.total_time;
-                this.responseSize = data.info.download_content_length;
-                this.responseBody = data.body;
-                this.responseHeader = [];
+                this.responseStatus.set(data.headers.response[0]);
+                this.responseTime.set(data.info.total_time);
+                this.responseSize.set(data.info.download_content_length);
+                this.responseBody.set(data.body);
+                const rItems: IListOptionItem[] = [];
                 for (const item of data.headers.response) {
                     if (item.indexOf(':') < 0) {
                         continue
                     }
                     const [key, value] = item.split(':');
-                    this.responseHeader.push({
+                    rItems.push({
                         key: key.trim(),
                         value: value.trim()
-                    });
+                    } as any);
                 }
-                this.responseInfo = [];
+                this.responseHeader.set(rItems);
+                const iItems: IListOptionItem[] = [];
                 eachObject(data.info, (v, k: string) => {
-                    this.responseInfo.push({
+                    iItems.push({
                         key: k,
                         value: typeof v === 'object' ? JSON.stringify(v) : v, 
-                    });
+                    } as any);
                 });
+                this.responseInfo.set(iItems);
             },
             error: (err: IErrorResult) => {
                 e?.reset();
@@ -181,7 +186,7 @@ export class DebugComponent {
                 checked: false,
                 key: '',
                 value: ''
-            });
+            } as any);
             return [...v];
         });
     }
@@ -203,7 +208,7 @@ export class DebugComponent {
                 key: '',
                 value: '',
                 type: '0',
-            });
+            } as any);
             return [...v];
         });
     }
@@ -231,22 +236,22 @@ export class DebugComponent {
     public tapReset() {
         this.dataForm().value.set({
             url: '',
-            method: this.methodItems[0],
+            method: this.methodItems.items[0].value,
             headers: <IListOptionItem[]>[],
             bodyType: 0,
             rawType: '0',
             body: '',
-            bodyFile: <File>null,
+            bodyFile: <File|null>null,
             bodies: <IListOptionItem[]>[]
         });
-        this.requestIndex = 0;
-        this.responseStatus = '';
-        this.responseTime = 0;
-        this.responseSize = 0;
-        this.responseIndex = 0;
-        this.responseInfo = [];
-        this.responseHeader = [];
-        this.responseBody = '';
+        this.requestIndex.set(0);
+        this.responseStatus.set('');
+        this.responseTime.set(0);
+        this.responseSize.set(0);
+        this.responseIndex.set(0);
+        this.responseInfo.set([]);
+        this.responseHeader.set([]);
+        this.responseBody.set('');
         localStorage.removeItem(CACHE_KEY);
     }
 

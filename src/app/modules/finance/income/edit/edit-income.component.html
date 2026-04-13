@@ -16,11 +16,11 @@
                     @if (parent()) {
                         <div class="line-row-item --with-icon --with-control" (click)="tapParent(modal)">
                             <div class="item-icon">
-                                {{ parent().type | logType:'short' }}
+                                {{ parent()!.type | logType:'short' }}
                             </div>
                             <div class="item-body">
-                                <div class="item-title">{{ parent().remark || parent().account?.name || '-' }}</div>
-                                <div class="item-meta">{{ parent().money | numberFormat }}</div>
+                                <div class="item-title">{{ parent()!.remark || parent()!.account?.name || '-' }}</div>
+                                <div class="item-meta">{{ parent()!.money | numberFormat }}</div>
                             </div>
                         </div>
                     } @else {

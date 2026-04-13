@@ -3,7 +3,6 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ArraySource, ButtonEvent } from '../../../../../components/form';
-import { IPage, IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
 import { IBotReplyTemplate, IBotReplyTemplateField, IBotUser } from '../../../model';
 import { formatTemplateField, renderTemplateField } from '../../../util';
@@ -125,7 +124,7 @@ export class ReplyTemplateComponent {
         this.sendForm().value.update(v => {
             v.template = {
                 title: item.title,
-                status: item.status > 0,
+                status: item.status! > 0,
                 content: item.content,
             };
             v.items = formatTemplateField(item.content);

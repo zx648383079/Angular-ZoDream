@@ -1,8 +1,0 @@
-@use '../../../../theme/theme';
-.panel-container {
-    margin-top: 0;
-}
-.tab-bar {
-    --#{theme.$prefix}tab: var(--#{theme.$prefix}panel);
-    margin-top: .5em;
-}

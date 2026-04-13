@@ -40,7 +40,7 @@ export class MemberMenuComponent {
         }
         this.items.update(v => {
             return v.map(i => {
-                i.active = secret ? url === i.url : url.startsWith(i.url);
+                i.active = secret ? url === i.url : url.startsWith(i.url!);
                 return i;
             });
         });

@@ -34,8 +34,8 @@ export class FormComponent {
         site: 0,
         category: 0
     }));
-    public columnItems: ICmsColumn[] = [];
-    public model: ICmsModel;
+    public readonly columnItems = signal<ICmsColumn[]>([]);
+    private model?: ICmsModel;
 
     constructor() {
         this.route.params.subscribe(params => {
@@ -55,9 +55,9 @@ export class FormComponent {
             return item.user?.name;
         }
         if (['created_at', 'updated_at'].indexOf(field.name) >= 0) {
-            return formatAgo(item[field.name]);
+            return formatAgo((item as any)[field.name]);
         }
-        return item[field.name];
+        return (item as any)[field.name];
     }
 
 
@@ -89,7 +89,7 @@ export class FormComponent {
             this.total.set(res.paging.total);
             this.searchService.applyHistory(queries);
                 this.queries().value.set(queries);
-            this.columnItems = (res as any).column;
+            this.columnItems.set((res as any).column);
             this.model = (res as any).model;
         });
     }

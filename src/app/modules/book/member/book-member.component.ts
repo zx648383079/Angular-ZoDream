@@ -24,9 +24,9 @@ export class BookMemberComponent {
     private readonly toastrService = inject(DialogService);
 
 
-    public user: IUser;
-    public data: IAuthorProfile;
-    public bookItems: IBook[] = [];
+    public readonly user = signal<IUser|null>(null);
+    public readonly data = signal<IAuthorProfile|null>(null);
+    public readonly bookItems = signal<IBook[]>([]);
     public readonly bookForm = form(signal({
         name: '',
         cover: '',
@@ -37,13 +37,13 @@ export class BookMemberComponent {
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
-            this.user = user;
+            this.user.set(user);
         });
         this.service.profile().subscribe(res => {
-            this.data = res;
+            this.data.set(res);
         });
         this.service.selfBookList({}).subscribe(res => {
-            this.bookItems = res.data;
+            this.bookItems.set(res.data);
         });
     }
 

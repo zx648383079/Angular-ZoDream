@@ -9,7 +9,7 @@
         </ul>
         <app-pull-to-refresh class="template-box" [loading]="isLoading()" [downDisabled]="!hasMore()" (pullup)="tapRefresh()" (pulldown)="tapMore()">
             <ul class="templdate-list">
-                @for (item of templateItems; track $index) {
+                @for (item of templateItems(); track $index) {
                     <li [title]="item.name" class="rich_media_content" (click)="tapInsert(item)">
                         <div [innerHTML]="item.html">
 

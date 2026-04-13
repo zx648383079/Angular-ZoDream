@@ -23,7 +23,7 @@
                 <app-switch id="is_main" [formField]="dataForm.is_main" />
             </div>
         </div>
-        @if (!data || data().is_system < 1) {
+        @if (!data() || data()!.is_system < 1) {
         <div>
             <div class="input-group-control">
                 <label for="type">类型</label>
@@ -53,7 +53,7 @@
                             @case ('select') {
                                 <div>
                                     <select class="form-control" [formControlName]="item.name">
-                                        @for (val of item.items; track $index) {
+                                        @for (val of item.items!; track $index) {
                                         <option [value]="val">{{ val }}</option>
                                         }
                                     </select>
@@ -61,12 +61,12 @@
                             }
                             @case ('radio') {
                                 <div>
-                                    <app-check-input [source]="item.optionSource" [formControlName]="item.name"/>
+                                    <app-check-input [source]="item.optionSource!" [formControlName]="item.name"/>
                                 </div>
                             }
                             @case ('checkbox') {
                                 <div>
-                                    <app-check-input [source]="item.optionSource" [formControlName]="item.name" [multiple]="true"/>
+                                    <app-check-input [source]="item.optionSource!" [formControlName]="item.name" [multiple]="true"/>
                                 </div>
                             }
                             @case ('switch') {

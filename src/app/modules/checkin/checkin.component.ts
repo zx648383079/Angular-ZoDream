@@ -34,11 +34,11 @@ export class CheckinComponent {
 
     public readonly panelVisible = signal(false);
     public readonly dayItems = signal<IDay[]>([]);
-    public data: ICheckIn;
+    public readonly data = signal<ICheckIn|null>(null);
     public readonly month = signal('');
     public readonly nextable = signal(false);
     private booted = false;
-    private monthDate: Date;
+    private monthDate?: Date;
     public readonly checkedChange = output<boolean>();
 
     @HostListener('document:click', ['$event']) 
@@ -85,7 +85,7 @@ export class CheckinComponent {
             }
         }).subscribe({
             next: res => {
-                this.data = res.today;
+                this.data.set(res.today as any);
                 this.checkedChange.emit(!!this.data);
                 this.checkDay(...res.month);
             },
@@ -194,7 +194,7 @@ export class CheckinComponent {
             next: res => {
                 e?.reset();
                 if (res.data) {
-                    this.data = res.data;
+                    this.data.set(res.data);
                     this.checkDay(new Date(res.data.created_at).getDate());
                     this.toastrService.success($localize `Check in successfully `);
                     this.checkedChange.emit(!!this.data);
@@ -211,13 +211,13 @@ export class CheckinComponent {
     }
 
     public tapPrevious() {
-        const date = this.monthDate;
+        const date = this.monthDate!;
         date.setMonth(date.getMonth() - 1)
         this.setMonth(date);
     }
 
     public tapNext() {
-        const date = this.monthDate;
+        const date = this.monthDate!;
         date.setMonth(date.getMonth() + 1)
         this.setMonth(date);
     }

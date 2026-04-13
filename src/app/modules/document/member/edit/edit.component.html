@@ -8,12 +8,12 @@
     <div class="panel-container">
         <div class="row">
             <div class="col-md-4">
-                @if (data) {
+                @if (data()) {
                 <div class="project-line">
                     <div class="cover">
-                        <img [src]="data.cover">
+                        <img [src]="data()!.cover">
                     </div>
-                    <div class="name">{{ data.name }}</div>
+                    <div class="name">{{ data()!.name }}</div>
                 </div>
                 }
 
@@ -50,7 +50,7 @@
                         </label>
                         </div>
                     </div>
-                    @if (data && data.type > 0) {
+                    @if (data() && data()!.type > 0) {
                     <div class="form-group">
                         <label>环境域名</label>
                         <table class="table table-hover">

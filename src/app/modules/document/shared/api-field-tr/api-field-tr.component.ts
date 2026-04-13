@@ -68,7 +68,7 @@ export class ApiFieldTrComponent {
                 is_required: 0,
                 default_value: '',
                 remark: '',
-                level: parent ? parent.level + 1 : 0
+                level: parent ? parent.level! + 1 : 0
             };
         } else {
             item = {
@@ -77,7 +77,7 @@ export class ApiFieldTrComponent {
                 type: 'string',
                 mock: '',
                 remark: '',
-                level: parent ? parent.level + 1 : 0
+                level: parent ? parent.level! + 1 : 0
             };
         }
         

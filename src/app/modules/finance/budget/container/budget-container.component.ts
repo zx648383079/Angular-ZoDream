@@ -36,7 +36,7 @@ export class BudgetContainerComponent {
         return Math.max(this.total() - this.budgetTotal(), 0);
     });
     public readonly cycleFormat = computed(() => {
-        return mapFormat(this.data().cycle, ['次', '天', '周', '月', '年']);
+        return mapFormat(this.data()?.cycle ?? 0, ['次', '天', '周', '月', '年']);
     });
 
     constructor() {
@@ -52,7 +52,7 @@ export class BudgetContainerComponent {
 
     public onQueriesChange(id?: number) {
         if (!id) {
-            id = this.data().id;
+            id = this.data()!.id;
         }
         this.isLoading.set(true);
         this.service.budgetStatistics({

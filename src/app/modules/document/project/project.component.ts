@@ -39,7 +39,7 @@ export class ProjectComponent {
     }
 
     public tapRead(item?: IDocApi|IDocPage) {
-        const route = [this.data().type > 0 ? '../../api' : '../../page', this.data().id];
+        const route = [this.data()!.type > 0 ? '../../api' : '../../page', this.data()!.id];
         if (item) {
             route.push(0, item.id);
         }
@@ -47,7 +47,7 @@ export class ProjectComponent {
     }
 
     private loadCatalog() {
-        this.service.catalogAll(this.data().id, 0).subscribe(res => {
+        this.service.catalogAll(this.data()!.id, 0).subscribe(res => {
             this.catalog.set(res.data);
         });
     }

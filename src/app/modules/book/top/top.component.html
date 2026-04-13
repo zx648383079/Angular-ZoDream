@@ -22,13 +22,13 @@
                 <div class="book-item book-thumb" (click)="tapBook(item)">
                   <div class="cover">
                       <img [src]="item.cover">
-                      @if (item.click_count > 0) {
+                      @if (item.click_count! > 0) {
                         <div class="tip" i18n>{{ item.click_count | numberFormat }} readings</div>
                       }
                   </div>
                   <div class="info">
                       <div class="name">{{ item.name }}</div>
-                      <div class="tag">{{ item.author.name}}·{{ item.category.name }}·
+                      <div class="tag">{{ item.author?.name}}·{{ item.category?.name }}·
                         {{ item.status_label }}·
                           
                         <ng-container i18n>{{ item.size | numberFormat }} words</ng-container>

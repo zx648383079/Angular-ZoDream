@@ -1,4 +1,4 @@
-import { Component, inject, signal, viewChild } from '@angular/core';
+import { Component, computed, inject, signal, viewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
@@ -23,12 +23,12 @@ export class PageScoringComponent {
 
     public readonly modal = viewChild<DialogEvent>('modal');
 
-    public data: IPageEvaluate;
-    public cardItems: IQuestionCard[] = [];
-    public page = 1;
-    public endTime = 0;
-    public pageItems: IQuestionPageItem[] = [];
-    public current: IQuestionPageItem;
+    public readonly data = signal<IPageEvaluate|null>(null);
+    public readonly cardItems = signal<IQuestionCard[]>([]);
+    public readonly page = signal(1);
+    public readonly endTime = signal(0);
+    public readonly pageItems = signal<IQuestionPageItem[]>([]);
+    public readonly current = signal<IQuestionPageItem|null>(null);
     public readonly editForm = form(signal({
         remark: '',
     }));
@@ -41,37 +41,44 @@ export class PageScoringComponent {
         });
     }
 
-    public get formatScale() {
-        if (!this.data) {
+    public readonly formatScale = computed(() => {
+        const data = this.data();
+        if (!data) {
             return '--';
         }
-        return this.data.right * this.data.page.question_count;
-    }
+        return data.right * data.page!.question_count!;
+    });
 
     public formatHour(v: number) {
         return formatHour(v, undefined, true);
     }
 
-    public onScoring(i: number, e: IQuestionFormat) {
-        this.current.items[i].log = e.log;
+    public onScoring(i: number, e: IQuestionFormat|undefined) {
+        if (!e) {
+            return;
+        }
+        this.current.update((v: any) => {
+            v.items[i].log = e.log;
+            return v;
+        });
         this.service.pageQuestionScoring({
-            id: this.data.id,
+            id: this.data()!.id,
             question: [
                 {
                     id: e.id,
-                    score: e.log.score,
-                    remark: e.log.remark,
+                    score: e.log!.score,
+                    remark: e.log!.remark,
                 }
             ]
         }).subscribe(() => {});
     }
 
     public tapSubmit(e?: ButtonEvent) {
-        this.modal().open(() => {
+        this.modal()?.open(() => {
             e?.enter();
             this.service.pageScoring({
-                id: this.data.id,
-                remark: this.editForm.remark
+                id: this.data()!.id,
+                remark: this.editForm.remark().value()
             }).subscribe({
                 next: () => {
                     this.toastrService.success('阅卷完成');
@@ -89,8 +96,10 @@ export class PageScoringComponent {
     private loadData(id: any) {
         this.service.evaluate(id).subscribe({
             next: res => {
-                this.data = res;
-                [this.pageItems, this.cardItems] = formatPager(res.data);
+                this.data.set(res);
+                const args = formatPager(res.data!);
+                this.pageItems.set(args[0]);
+                this.cardItems.set(args[1]);
                 this.tapPage(1);
             },
             error: err => {
@@ -100,22 +109,22 @@ export class PageScoringComponent {
     }
 
     public tapPrevious() {
-        this.tapPage(this.page - 1);
+        this.tapPage(this.page() - 1);
     }
 
     public tapNext() {
-        this.tapPage(this.page + 1);
+        this.tapPage(this.page() + 1);
     }
 
     public tapPage(page: number) {
-        this.page = page;
-        this.current = this.pageItems.length >= page ? this.pageItems[page - 1] : {items: []} as any;
+        this.page.set(page);
+        this.current.set(this.pageItems().length >= page ? this.pageItems()[page - 1] : {items: []} as any);
         document.documentElement.scrollTop = 0;
     }
     
     public tapItem(i: number) {
-        const card = this.cardItems[i];
-        this.tapPage(card.page);
+        const card = this.cardItems()[i];
+        this.tapPage(card.page!);
     }
 
 }

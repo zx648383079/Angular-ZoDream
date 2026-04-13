@@ -28,26 +28,26 @@ export class EmulateComponent {
 
     public readonly messageBody = viewChild(MessageContainerComponent);
 
-    public account: IBotAccount;
-    public menuItems: IBotMenuItem[] = [];
-    public messageItems: IMessageBase[] = [];
-    public footerIndex = 1;
+    public readonly account = signal<IBotAccount|null>(null);
+    public readonly menuItems = signal<IBotMenuItem[]>([]);
+    public readonly messageItems = signal<IMessageBase[]>([]);
+    public readonly footerIndex = signal(1);
 
     public readonly dataForm = form(signal({
         content: ''
     }), schemaPath => {
         required(schemaPath.content);
     });
-    public user: IUser = {
+    public readonly user = signal<IUser>({
         id: -1,
         name: $localize `[Guest]`,
         avatar: '/assets/images/favicon.png',
-    };
+    });
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
             if (user) {
-                this.user = user;
+                this.user.set(user);
             }
         });
         this.route.params.subscribe(params => {
@@ -62,11 +62,11 @@ export class EmulateComponent {
     private load(id: any) {
         this.service.get(id).subscribe({
             next: (res: any) => {
-                this.account = res;
+                this.account.set(res);
                 this.themeService.titleChanged.next(res.name);
                 if (res.menu_list && res.menu_list.length > 0) {
-                    this.menuItems = res.menu_list;
-                    this.footerIndex = 0;
+                    this.menuItems.set(res.menu_list);
+                    this.footerIndex.set(0);
                 }
             },
             error: err => {
@@ -76,7 +76,7 @@ export class EmulateComponent {
     }
 
     public toggleMore() {
-        this.footerIndex = this.footerIndex == 2 ? 1 : 2;
+        this.footerIndex.update(v => v == 2 ? 1 : 2);
     }
 
     public onKeydown(event: KeyboardEvent) {
@@ -91,7 +91,7 @@ export class EmulateComponent {
             item.open = !item.open;
             return;
         }
-        this.messageBody().append([this.formatByUser({
+        this.messageBody()?.append([this.formatByUser({
             type: 99,
             content: $localize `You tap "${item.name}" menu`,
         })]);
@@ -104,7 +104,7 @@ export class EmulateComponent {
             return;
         }
         this.service.reply({
-            id: this.account.id,
+            id: this.account()!.id,
             content: item.id,
             type: 'menu',
         }).subscribe({
@@ -124,11 +124,11 @@ export class EmulateComponent {
         }
         const data = this.dataForm().value();
         this.service.reply({
-            id: this.account.id,
+            id: this.account()!.id,
             ...data
         }).subscribe({
             next: res => {
-                this.messageBody().append([this.formatByUser({type: 0, content: data.content})]);
+                this.messageBody()?.append([this.formatByUser({type: 0, content: data.content})]);
                 this.appendResp(res);
                 this.dataForm.content().value.set('');
             },
@@ -157,7 +157,7 @@ export class EmulateComponent {
 
     private appendResp(res: any) {
         const items = res.data instanceof Array ? res.data : [res.data];
-        this.messageBody().append(items.map(i => {
+        this.messageBody()?.append(items.map((i: any) => {
             if (i.type === 'text') {
                 return this.formatByAccount({
                     type: 0,
@@ -203,8 +203,8 @@ export class EmulateComponent {
             if (i.type === 'news') {
                 return this.formatByAccount({
                     type: 80,
-                    items: i.items.map(it => {
-                        it.url = `/wx/emulate/${this.account.id}/${it.id}`;
+                    items: i.items.map((it: any) => {
+                        it.url = `/wx/emulate/${this.account()!.id}/${it.id}`;
                         return it;
                     }),
                 });
@@ -220,8 +220,8 @@ export class EmulateComponent {
     private formatByAccount(data: any) {
         return {...data, created_at: new Date(), user: {
             id: '_bot',
-            name: this.account.name,
-            avatar: this.account.avatar
+            name: this.account()!.name,
+            avatar: this.account()!.avatar
         }};
     }
 }

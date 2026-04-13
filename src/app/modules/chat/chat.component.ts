@@ -104,7 +104,7 @@ export class ChatComponent {
     private nextTime = 0;
     private startTime = 0;
     private spaceTime = 0;
-    private $timer: Subscription;
+    private $timer?: Subscription;
     private recorder: Recorder;
 
 
@@ -129,7 +129,7 @@ export class ChatComponent {
             [COMMAND_PROFILE]: {},
             [COMMAND_FRIENDS]: {},
             [COMMAND_GROUPS]: {},
-        }).subscribe(res => {
+        }).subscribe((res: any) => {
             this.friends.set(res[COMMAND_FRIENDS].data);
             this.histories.set(res[COMMAND_HISTORY].data);
             this.user.set(res[COMMAND_PROFILE]);
@@ -138,7 +138,7 @@ export class ChatComponent {
     }
 
     private initRequest() {
-        this.request.auth(this.authService.getUserToken())
+        this.request.auth(this.authService.getUserToken()!)
         .on(COMMAND_ERROR, res => {
             this.toastrService.warning(typeof res === 'object' ? res.message : res);
         }).on(COMMAND_MESSAGE, res => {
@@ -166,7 +166,7 @@ export class ChatComponent {
             }
             if (res.data && res.data.length > 0 && this.chatUser()) {
                 for (const item of res.data) {
-                    if (item.type === this.chatUser().type && item.id === this.chatUser().id) {
+                    if (item.type === this.chatUser()!.type && item.id === this.chatUser()!.id) {
                         this.messageItems.update(v => [...v, ...item.items]);
                     }
                 }
@@ -190,7 +190,7 @@ export class ChatComponent {
         }
         const items = [];
         for (const group of this.friends()) {
-            for (const item of group.users) {
+            for (const item of group.users!) {
                 if (item.name.indexOf(keywords) >= 0) {
                     items.push(item);
                 }
@@ -205,7 +205,7 @@ export class ChatComponent {
     }
 
     public tapContextMenu(e: MouseEvent, user?: IUser) {
-        this.contextMenu().open(e, !user ? [
+        this.contextMenu()!.open(e, !user ? [
             {
                 name: $localize `Add Group`,
                 icon: 'icon-plus',
@@ -243,14 +243,14 @@ export class ChatComponent {
         this.openChatRoom({
             id: item.item_id,
             type: item.item_type,
-            name: item.item_type > 0 ? item.group.name : (item.friend ? item.friend.name : item.user.name),
-            avatar: item.item_type > 0 ? item.group.logo : item.user.avatar,
+            name: item.item_type > 0 ? item.group!.name : (item.friend ? item.friend.name : item.user.name),
+            avatar: item.item_type > 0 ? item.group!.logo : item.user.avatar,
         });
     }
 
     private openChatRoom(item: IChatUser) {
         this.roomMode.set(true);
-        if (this.chatUser() && this.chatUser().id === item.id && this.chatUser().type === item.type) {
+        if (this.chatUser() && this.chatUser()!.id === item.id && this.chatUser()!.type === item.type) {
             return;
         }
         this.chatUser.set(item);
@@ -264,7 +264,7 @@ export class ChatComponent {
      * @returns 
      */
     public tapUser(item: IFriend) {
-        if (item.user.id === this.user().user.id) {
+        if (item.user.id === this.user()!.user.id) {
             return;
         }
         this.openChatRoom({
@@ -281,7 +281,7 @@ export class ChatComponent {
      */
     public tapGroup(item: IGroup) {
         this.openChatRoom({
-            id: item.id,
+            id: item.id!,
             type: 1,
             name: item.name,
             avatar: item.logo,
@@ -309,8 +309,8 @@ export class ChatComponent {
         }
         this.isLoading.set(true);
         this.request.emit(COMMAND_MESSAGE, {
-            type: this.chatUser().type,
-            id: this.chatUser().id
+            type: this.chatUser()!.type,
+            id: this.chatUser()!.id
         });
     }
 
@@ -330,7 +330,7 @@ export class ChatComponent {
             }
             const form = new FormData();
             form.append('file', blob, 'voice.mp3');
-            this.service.sendVoice(this.chatUser(), form).subscribe(res => this.addMessage(res.data));
+            this.service.sendVoice(this.chatUser()!, form).subscribe(res => this.addMessage(res.data));
         });
     }
 
@@ -340,24 +340,24 @@ export class ChatComponent {
 
     public uploadImage(event: any) {
         const files = event.target.files as FileList;
-        this.service.sendImage(this.chatUser(), files).subscribe(res => this.addMessage(res.data));
+        this.service.sendImage(this.chatUser()!, files).subscribe(res => this.addMessage(res.data));
     }
 
     public uploadVideo(event: any) {
         const files = event.target.files as FileList;
-        this.service.sendVideo(this.chatUser(), files).subscribe(res => this.addMessage(res.data));
+        this.service.sendVideo(this.chatUser()!, files).subscribe(res => this.addMessage(res.data));
     }
 
     public uploadFile(event: any) {
         const files = event.target.files as FileList;
-        this.service.sendFile(this.chatUser(), files).subscribe(res => this.addMessage(res.data));
+        this.service.sendFile(this.chatUser()!, files).subscribe(res => this.addMessage(res.data));
     }
 
     public tapSend() {
         if (this.messageForm().invalid()) {
             return;
         }
-        this.service.sendText(this.chatUser(), this.messageForm.content().value())
+        this.service.sendText(this.chatUser()!, this.messageForm.content().value())
             .subscribe(res => this.addMessage(res.data));
         this.messageForm.content().value.set('');
     }
@@ -394,8 +394,8 @@ export class ChatComponent {
     private tapNext() {
         this.isLoading.set(true);
         this.request.emit(COMMAND_MESSAGE_PING, {
-            type: this.chatUser().type,
-            id: this.chatUser().id,
+            type: this.chatUser()!.type,
+            id: this.chatUser()!.id,
             start_time: this.nextTime,
         });
     }
@@ -403,7 +403,7 @@ export class ChatComponent {
     private stopTimer() {
         if (this.$timer) {
             this.$timer.unsubscribe();
-            this.$timer = null;
+            this.$timer = undefined;
         }
     }
 
@@ -411,7 +411,7 @@ export class ChatComponent {
 
     public tapApplyLog() {
         this.navOpen.set(false);
-        const modalRef = this.modalViewContainer().createComponent(ApplyDialogComponent, {
+        const modalRef = this.modalViewContainer()!.createComponent(ApplyDialogComponent, {
             injector: this.injector
         });
         modalRef.instance.open(() => {
@@ -421,7 +421,7 @@ export class ChatComponent {
 
     public tapRename(user?: IUser) {
         this.navOpen.set(false);
-        const modalRef = this.modalViewContainer().createComponent(RenameDialogComponent, {
+        const modalRef = this.modalViewContainer()!.createComponent(RenameDialogComponent, {
             injector: this.injector
         });
         modalRef.instance.open(() => {
@@ -431,17 +431,17 @@ export class ChatComponent {
 
     public tapProfile(user?: IUser) {
         this.navOpen.set(false);
-        const modalRef = this.modalViewContainer().createComponent(ProfileDialogComponent, {
+        const modalRef = this.modalViewContainer()!.createComponent(ProfileDialogComponent, {
             injector: this.injector
         });
-        modalRef.instance.open(user ?? this.user().user, () => {
+        modalRef.instance.open(user ?? this.user()!.user, () => {
             modalRef.destroy();
         });
     }
 
     public tapTeamCreate() {
         this.navOpen.set(false);
-        const modalRef = this.modalViewContainer().createComponent(TeamCreateComponent, {
+        const modalRef = this.modalViewContainer()!.createComponent(TeamCreateComponent, {
             injector: this.injector
         });
         modalRef.instance.open(() => {
@@ -451,7 +451,7 @@ export class ChatComponent {
 
     public tapMoveGroup(item: IUser) {
         this.navOpen.set(false);
-        const modalRef = this.modalViewContainer().createComponent(SelectDialogComponent, {
+        const modalRef = this.modalViewContainer()!.createComponent(SelectDialogComponent, {
             injector: this.injector
         });
         modalRef.instance.open(this.friends(), 0, res => {
@@ -464,7 +464,7 @@ export class ChatComponent {
 
     public tapAdd(event: Event) {
         event.stopPropagation();
-        const modalRef = this.modalViewContainer().createComponent(SearchDialogComponent, {
+        const modalRef = this.modalViewContainer()!.createComponent(SearchDialogComponent, {
             injector: this.injector
         });
         modalRef.instance.open(() => {

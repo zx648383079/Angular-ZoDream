@@ -32,7 +32,7 @@ export class EditComponent {
         required(schemaPath.name);
     });
 
-    public data: IProject;
+    public readonly data = signal<IProject|null>(null);
 
     public readonly tabIndex = signal(0);
 
@@ -43,7 +43,7 @@ export class EditComponent {
                 return;
             }
             this.service.project(params.id).subscribe(res => {
-                this.data = res;
+                this.data.set(res);
                 this.dataModel.set({
                     id: res.id,
                     type: res.type,

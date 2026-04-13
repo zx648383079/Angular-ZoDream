@@ -53,7 +53,7 @@ export class EditQuestionComponent {
     public readonly courseItems = signal<ICourse[]>([]);
     public readonly gradeItems = signal<IItem[]>([]);
     public typeItems = QuestionTypeItems;
-    public readonly material = signal<IQuestionMaterial>(null);
+    public readonly material = signal<IQuestionMaterial|null>(null);
     public readonly analysisItems = signal<IQuestionAnalysis[]>([]);
     public optionTypeItems = ['文字', '图片'];
     public readonly childrenItems = signal<IQuestion[]>([]);
@@ -85,8 +85,8 @@ export class EditQuestionComponent {
                     content: res.content,
                     dynamic: res.dynamic,
                     answer: res.answer,
-                    analysis: res.analysis,
-                    option_items: res.option_items?.length > 0 ? res.option_items.map(i => {
+                    analysis: res.analysis ?? '',
+                    option_items: res.option_items && res.option_items.length > 0 ? res.option_items.map(i => {
                         return {
                             type: i.type,
                             content: i.content,
@@ -147,7 +147,7 @@ export class EditQuestionComponent {
     }
 
     public openPreview(modal: DialogEvent, name: string) {
-        this.previewForm.content().value.set(this.dataModel()[name]);
+        this.previewForm.content().value.set((this.dataModel() as any)[name]);
         modal.open();
     }
 
@@ -201,7 +201,7 @@ export class EditQuestionComponent {
 
         data.analysis_items = this.analysisItems();
         data.material_id = this.material()?.id ?? 0;
-        data.material = data.material_id > 0 ? undefined : this.material();
+        data.material = data.material_id > 0 ? undefined : this.material()!;
         if (data.type == 5) {
             data.children = this.childrenItems();
         }

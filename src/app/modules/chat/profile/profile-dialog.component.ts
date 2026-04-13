@@ -9,16 +9,16 @@ import { IUser } from '../../../theme/models/user';
 })
 export class ProfileDialogComponent {
 
-    public data: IUser = null;
+    public readonly data = signal<IUser|null>(null);
     public readonly remark = signal('');
     public mode = 0;
     public readonly visible = signal(false);
 
-    private confirmFn: Function;
+    private confirmFn?: Function;
 
 
     public open(user: IUser, cb: (res: boolean) => void) {
-        this.data = user;
+        this.data.set(user);
         this.visible.set(true);
         this.remark.set('');
         this.confirmFn = cb;
@@ -26,6 +26,6 @@ export class ProfileDialogComponent {
 
     public close(result = false) {
         this.visible.set(false);
-        this.confirmFn(result);
+        this.confirmFn!(result);
     }
 }

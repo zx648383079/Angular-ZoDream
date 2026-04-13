@@ -2,8 +2,8 @@
     <div class="route-back-icon" (click)="tapBack()">
         <i class="iconfont icon-chevron-left"></i>
     </div>
-    @if (project) {
-        <div class="route-title">{{ project.name }}</div>
+    @if (project()) {
+        <div class="route-title">{{ project()!.name }}</div>
     }
 
 </div>
@@ -12,22 +12,22 @@
         <div class="bar-version">
             <label for="version">版本</label>
             <select id="version" [(value)]="version" (change)="onVersionChange()">
-                @for (item of versionItems; track $index) {
+                @for (item of versionItems(); track $index) {
                     <option [value]="item.id">{{ item.name }}</option>
                 }
             </select>
             <a class="btn btn-primary" (click)="openVersion(versionModal)">创建新版本</a>
         </div>
-        <app-doc-tree-panel [items]="catalog" (valueChange)="tapEdit($event)" (deleted)="tapRemove($event)" (created)="onCreate($event)" />
+        <app-doc-tree-panel [items]="catalog()" (valueChange)="tapEdit($event)" (deleted)="tapRemove($event)" (created)="onCreate($event)" />
     </div>
     <div class="col-md-8">
-        @if (data) {
+        @if (data()) {
         <form class="form-table-control" (submit)="tapSubmit2($event)">
             <div class="title-input">
                 <label for="name">名称</label>
                 <input type="text" id="name" class="form-control" [formField]="dataForm.name">
             </div>
-            @if (data.type < 1) {
+            @if (data()!.type < 1) {
             <div>
                 <app-markdown-editor [formField]="dataForm.content" [height]="400" />
             </div>

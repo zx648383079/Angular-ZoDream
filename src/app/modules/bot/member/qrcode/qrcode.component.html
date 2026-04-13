@@ -99,7 +99,7 @@
             <label for="">场景值</label>
             <div>
                 <input type="number" class="form-control" [formField]="editForm.scene_id">
-                @if (editForm.type) {
+                @if (editForm.type().value()) {
                 <div class="control-tooltip">
                     区间为1~100000
                 </div>
@@ -107,7 +107,7 @@
             </div>
         </div>
         }
-        @if (!editForm.type) {
+        @if (!editForm.type().value()) {
         <div class="input-group-control">
             <label for="">有效期</label>
             <div>

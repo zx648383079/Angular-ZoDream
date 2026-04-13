@@ -160,9 +160,9 @@ export class EditPageComponent {
     }
 
     public tapOpen(modal: QuestionFinderComponent) {
-        modal.open([], (items: IQuestion[]) => {
+        modal.open([], (items: any) => {
             this.dataForm.question_items().value.update(v => {
-                return [...v, ...items.filter(i => findIndex(v, j => j.id === i.id) < 0).map(item => {
+                return [...v, ...items.filter((i: any) => findIndex(v, j => j.id === i.id) < 0).map((item: any) => {
                     return {
                         id: item.id,
                         type: item.type,
@@ -171,7 +171,7 @@ export class EditPageComponent {
                     }
                 })]
             });
-        }, items => items.length > 0, params => {
+        }, items => items.length > 0, (params: any) => {
             return this.service.questionList({
                 ...params,
                 filter: true,

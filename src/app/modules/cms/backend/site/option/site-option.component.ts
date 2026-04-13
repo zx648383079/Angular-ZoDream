@@ -147,7 +147,7 @@ export class SiteOptionComponent {
                 for (const item of v) {
                     if (item.code === data.code) {
                         eachObject(data, (vk, k) => {
-                            item[k] = vk;
+                            (item as any)[k] = vk;
                         });
                         return [...v];
                     }

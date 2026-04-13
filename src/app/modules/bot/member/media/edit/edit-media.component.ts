@@ -51,7 +51,7 @@ export class EditMediaComponent implements FormValueControl<any> {
 
     public onValueChange(e: Event, key: string) {
         this.value.update(v => {
-            v[key] = (e.target as HTMLSelectElement).value
+            (v as any)[key] = (e.target as HTMLSelectElement).value
             return v;
         });
     }

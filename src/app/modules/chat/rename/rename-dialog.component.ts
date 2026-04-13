@@ -12,7 +12,7 @@ export class RenameDialogComponent {
     public readonly value = signal('');
     public readonly visible = signal(false);
 
-    private confirmFn: Function;
+    private confirmFn?: Function;
 
 
     public open(cb: () => void) {

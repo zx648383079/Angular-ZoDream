@@ -2,7 +2,6 @@ import { form } from '@angular/forms/signals';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { IForum } from '../../model';
 import { ForumService } from '../forum.service';
@@ -109,7 +108,7 @@ export class ForumListComponent {
     }
 
     public tapViewChild(item?: IForum) {
-        this.parent.set(item);
+        this.parent.set(item ?? null);
         this.queries().value.update(v => {
             v.keywords = '';
             v.parent = item ? item.id : 0;

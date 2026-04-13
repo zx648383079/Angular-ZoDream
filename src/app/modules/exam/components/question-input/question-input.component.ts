@@ -1,4 +1,4 @@
-import { Component, effect, input, model } from '@angular/core';
+import { Component, computed, effect, input, model } from '@angular/core';
 import { IQuestionFormat, IQuestionOption } from '../../model';
 import { FormValueControl } from '@angular/forms/signals';
 import { ArraySource } from '../../../../components/form';
@@ -12,9 +12,9 @@ import { ArraySource } from '../../../../components/form';
     templateUrl: './question-input.component.html',
     styleUrls: ['./question-input.component.scss']
 })
-export class QuestionInputComponent implements FormValueControl<IQuestionFormat> {
+export class QuestionInputComponent implements FormValueControl<IQuestionFormat|null|undefined> {
 
-    public readonly value = model<IQuestionFormat>();
+    public readonly value = model<IQuestionFormat|null|undefined>();
     public readonly disabled = input(false);
     public readonly choiceItems = ArraySource.fromOrder('错', '对');
 
@@ -25,8 +25,11 @@ export class QuestionInputComponent implements FormValueControl<IQuestionFormat>
         });
     }
 
-    public get yourAnswer() {
+    public readonly yourAnswer = computed(() => {
         const value = this.value();
+        if (!value) {
+            return '';
+        }
         if (value.your_answer) {
             return value.your_answer;
         }
@@ -34,7 +37,7 @@ export class QuestionInputComponent implements FormValueControl<IQuestionFormat>
             return value.log.answer;
         }
         return '';
-    }
+    });
 
     public tapCheckItem(item: IQuestionOption) {
         const value = this.value();
@@ -42,7 +45,7 @@ export class QuestionInputComponent implements FormValueControl<IQuestionFormat>
             return;
         }
         const data = value;
-        for (const option of data.option) {
+        for (const option of data.option!) {
             if (option.id === item.id) {
                 option.checked = data.type === 1 ? !option.checked : true;
                 continue;
@@ -52,7 +55,7 @@ export class QuestionInputComponent implements FormValueControl<IQuestionFormat>
             }
             option.checked = false;
         }
-        data.answer = data.type < 1 ? item.id : data.option.map(i => i.id);
+        data.answer = data.type < 1 ? item.id : data.option!.map(i => i.id);
         this.value.set(data);
     }
 
@@ -62,14 +65,14 @@ export class QuestionInputComponent implements FormValueControl<IQuestionFormat>
             return false;
         }
         if (value.type < 1) {
-            return this.yourAnswer == option.id;
+            return this.yourAnswer() == option.id;
         }
-        return typeof this.yourAnswer === 'object' && this.yourAnswer.indeOf(option.id) >= 0;
+        return typeof this.yourAnswer() === 'object' && this.yourAnswer().indeOf(option.id) >= 0;
     }
 
     public onAnswerChange(value?: any) {
         if (!this.disabled()) {
-            this.value.update(v => {
+            this.value.update((v: any) => {
                 if (v) {
                     v.answer = value;
                 }
@@ -79,10 +82,10 @@ export class QuestionInputComponent implements FormValueControl<IQuestionFormat>
     }
 
     private formatOption() {
-        if (this.value().type > 1 || !this.yourAnswer) {
+        if (this.value()!.type > 1 || !this.yourAnswer()) {
             return;
         }
-        this.value().option.forEach(i => {
+        this.value()!.option!.forEach(i => {
             i.checked = this.optionChecked(i);
         });
     }

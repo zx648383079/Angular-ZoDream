@@ -148,7 +148,7 @@ export class MathMarkParser {
         if (i < 0) {
             return;
         }
-        const content = reader.read(i - reader.position - begin.length, begin.length);
+        const content = reader.read(i - reader.position - begin.length, begin.length)!;
         reader.position = i + end.length - 1;
         if (cb) {
             return {

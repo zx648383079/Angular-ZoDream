@@ -59,7 +59,7 @@ export class DetailComponent {
         if (emptyValidate(keywords)) {
             return this.catalog();
         }
-        const items = [];
+        const items: any[] = [];
         this.eachCatalog(this.catalog(), item => {
             if (item.type < 1 && item.name.indexOf(keywords) >= 0) {
                 items.push(item);
@@ -90,7 +90,7 @@ export class DetailComponent {
     }
 
     public onVersionChange() {
-        this.service.catalogAll(this.project().id, this.queries.version().value()).subscribe(res => {
+        this.service.catalogAll(this.project()!.id, this.queries.version().value()).subscribe(res => {
             this.catalog.set(res.data);
             this.loadData(0);
         });
@@ -131,7 +131,7 @@ export class DetailComponent {
                     return;
                 }
                 this.catalog()[0].expanded = true;
-                this.loadData(this.catalog()[0].children[0].id);
+                this.loadData(this.catalog()[0].children![0].id);
             }, 
             error: err => {
                 this.toastrService.warning(err);
@@ -143,29 +143,29 @@ export class DetailComponent {
         if (this.catalog().length < 1) {
             return;
         }
-        this.service.projectPage(this.project().id, id).subscribe(res => {
+        this.service.projectPage(this.project()!.id, id).subscribe(res => {
             this.setPageData(res);
         });
     }
 
     private setPageData(res: IDocApi&IDocPage) {
         this.data.set(res);
-        if (this.project().type < 1) {
+        if (this.project()!.type < 1) {
         } else {
-            this.data.update(v => {
+            this.data.update((v: any) => {
                 v.example = JSON.stringify(v.example, null, 4);
                 return {...v};
             });
         }
         this.findNavigation(res.id);
         this.searchService.pushHistoryState(res.name,
-            window.location.href.replace(/\/\d+.*/, ['', this.project().id, this.queries.version().value(), res.id].join('/')));
+            window.location.href.replace(/\/\d+.*/, ['', this.project()!.id, this.queries.version().value(), res.id].join('/')));
         document.documentElement.scrollTop = 0;
     }
 
     private findNavigation(id: number) {
-        let previous: IDocApi&IDocPage;
-        let next: IDocApi&IDocPage;
+        let previous: IDocApi&IDocPage|undefined;
+        let next: IDocApi&IDocPage|undefined;
         let found = false;
         this.eachCatalog(this.catalog(), item => {
             if (found && item.type < 1) {
@@ -180,8 +180,8 @@ export class DetailComponent {
                 previous = item;
             }
         });
-        this.previous.set(previous);
-        this.next.set(next);
+        this.previous.set(previous!);
+        this.next.set(next!);
     }
 
     private eachCatalog(items: IDocApi[]&IDocPage[], cb: (item: IDocApi&IDocPage) => any) {
@@ -199,7 +199,7 @@ export class DetailComponent {
         e.preventDefault();
         const data = this.codeForm().value();
         this.service.apiCode({
-            id: this.data().id,
+            id: this.data()!.id,
             lang: data.lang,
             kind: data.kind,
         }).subscribe({

@@ -34,11 +34,11 @@ export class PageEditComponent {
         required(schemaPath.name);
     });
 
-    public data: IDocPage;
-    public project: IProject;
+    public readonly data = signal<IDocPage|null>(null);
+    public readonly project = signal<IProject|null>(null);
     public readonly version = signal(0);
-    public catalog: IDocPage[] = [];
-    public versionItems: IProjectVersion[] = [];
+    public readonly catalog = signal<IDocPage[]>([]);
+    public readonly versionItems = signal<IProjectVersion[]>([]);
     public readonly editForm = form(signal({
         name: ''
     }));
@@ -51,7 +51,7 @@ export class PageEditComponent {
             }
             this.version.set(params.version ? parseInt(params.version, 10) : 0);
             this.service.project(params.project).subscribe(res => {
-                this.project = res;
+                this.project.set(res);
                 this.loadCatalog(res.id, params.id)
             });
 
@@ -64,7 +64,7 @@ export class PageEditComponent {
 
     private loadCatalog(project: any, id: any) {
         this.service.catalogAll(project, this.version).subscribe(res => {
-            this.catalog = res.data;
+            this.catalog.set(res.data);
             this.initData(id);
         });
     }
@@ -80,34 +80,34 @@ export class PageEditComponent {
     }
 
     private refreshVersion() {
-        this.service.versionAll(this.project.id).subscribe(res => {
-            this.versionItems = res.data;
+        this.service.versionAll(this.project()!.id).subscribe(res => {
+            this.versionItems.set(res.data);
         });
     }
 
     public onVersionChange() {
-        this.service.catalogAll(this.project.id, this.version).subscribe(res => {
-            this.catalog = res.data;
+        this.service.catalogAll(this.project()!.id, this.version).subscribe(res => {
+            this.catalog.set(res.data);
         });
     }
 
     public onCreate(data: IDocTreeItem) {
-        this.data = {
-            ...data,
-            project_id: this.project.id,
-            version_id: this.version,
+        this.data.update((v: any) => ({...v, project_id: this.project()!.id,
+            version_id: this.version(),
             name: '',
-            content: '',
-        } as any;
+            content: '',}));
         this.dataModel.set({
             name: '',
             content: '',
         });
     }
 
-    public tapEdit(item: IDocTreeItem) {
+    public tapEdit(item: IDocTreeItem|undefined) {
+        if (!item) {
+            return;
+        }
         this.service.page(item.id).subscribe(res => {
-            this.data = res;
+            this.data.set(res);
             this.dataModel.set({
                 name: res.name,
                 content: res.content
@@ -131,7 +131,7 @@ export class PageEditComponent {
             next: res => {
                 e?.reset();
                 this.toastrService.success($localize `Save Successfully`);
-                this.data = res;
+                this.data.set(res);
                 this.appendData(res);
             },
             error: (err: IErrorResult) => {
@@ -142,7 +142,7 @@ export class PageEditComponent {
     }
 
     private appendData(data: IDocPage) {
-        const findParent = (id: number, items: IDocPage[]) => {
+        const findParent = (id: number, items: IDocPage[]): IDocPage[]|undefined => {
             if (id < 1) {
                 return items;
             }
@@ -161,8 +161,9 @@ export class PageEditComponent {
                     return kids;
                 }
             }
+            return undefined;
         };
-        const children = findParent(data.parent_id, this.catalog);
+        const children = findParent(data.parent_id, this.catalog())!;
         for (const item of children) {
             if (item.id === data.id) {
                 item.name = data.name;
@@ -180,7 +181,7 @@ export class PageEditComponent {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.catalog = treeRemoveId(this.catalog, item.id);
+                this.catalog.update(v => treeRemoveId(v, item.id));
             });
         });
     }
@@ -188,7 +189,7 @@ export class PageEditComponent {
     public openVersion(modal: DialogEvent) {
         this.editForm.name().value.set('');
         modal.open(() => {
-            this.service.versionNew(this.project.id, this.version(), this.editForm.name().value()).subscribe(_ => {
+            this.service.versionNew(this.project()!.id, this.version(), this.editForm.name().value()).subscribe(_ => {
                 this.toastrService.success('创建版本成功');
                 this.refreshVersion();
             });

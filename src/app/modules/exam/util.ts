@@ -1,4 +1,3 @@
-import { is } from 'immutable';
 import { IQuestion, IQuestionCard, IQuestionFormat, IQuestionOption, IQuestionPageItem } from './model';
 
 export const questionNeedOption = (value: IQuestion) => {
@@ -79,22 +78,22 @@ export function formatPager(items: IQuestionFormat[], maxLength = 10): any[] {
         pageItems.push(currentPage);
     }
     const pushByParent = (item: IQuestionFormat) => {
-        if (Object.hasOwn(parentMap, item.parent.id)) {
-            pageItems[parentMap[item.parent.id]].items.push(item);
+        if (Object.hasOwn(parentMap, item.parent!.id)) {
+            pageItems[parentMap[item.parent!.id]].items.push(item);
             return;
         }
         newPage(item.parent);
         currentPage.items.push(item);
-        parentMap[item.parent.id] = currentPage.page;
+        parentMap[item.parent!.id] = currentPage.page;
     };
     const pushByMaterial = (item: IQuestionFormat) => {
-        if (Object.hasOwn(materialMap, item.material.id)) {
-            pageItems[materialMap[item.material.id]].items.push(item);
+        if (Object.hasOwn(materialMap, item.material!.id!)) {
+            pageItems[materialMap[item.material!.id!]].items.push(item);
             return;
         }
         newPage(item.material);
         currentPage.items.push(item);
-        materialMap[item.material.id] = currentPage.page;
+        materialMap[item.material!.id!] = currentPage.page;
     };
     const pushByEmpty = (item: IQuestionFormat) => {
         if (!currentPage || currentPage.material) {

@@ -31,17 +31,17 @@ export class CateringComponent {
     public readonly cartModal = viewChild(CartDialogComponent);
 
     public readonly tabIndex = signal(0);
-    public user: IUser;
-    public authOpen = false;
-    public searchOpen = false;
-    public scanOpen = false;
-    public menuItems: IMenuItem[] = [];
+    public readonly user = signal<IUser|null>(null);
+    public readonly authOpen = signal(false);
+    public readonly searchOpen = signal(false);
+    public readonly scanOpen = signal(false);
+    public readonly menuItems = signal<IMenuItem[]>([]);
 
     constructor() {
         this.themeService.titleChanged.next($localize `Catering`);
         this.store.select(selectAuthUser).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(user => {
-            const oldUser = this.user;
-            this.user = user ? user : {avatar: 'assets/images/avatar/0.png'} as any;
+            const oldUser = this.user();
+            this.user.set(user ? user : {avatar: 'assets/images/avatar/0.png'} as any);
             if (!user) {
 
                 return;
@@ -52,7 +52,7 @@ export class CateringComponent {
             this.service.batch({
                 profile: {}
             }).subscribe(res => {
-                this.menuItems = this.filterMenu(res.profile.is_waiter, res.profile.has_store);
+                this.menuItems.set(this.filterMenu(res.profile.is_waiter, res.profile.has_store));
             });
         });
     }
@@ -68,15 +68,15 @@ export class CateringComponent {
     }
 
     public tapScan() {
-        if (!this.user.id) {
-            this.loginModal().open();
+        if (!this.user()?.id) {
+            this.loginModal()!.open();
             return;
         }
-        this.scanOpen = true;
+        this.scanOpen.set(true);
     }
 
     public onScanCompleted(val: string) {
-        this.scanOpen = false;
+        this.scanOpen.set(false);
         console.log(val);
     }
 
@@ -86,19 +86,19 @@ export class CateringComponent {
 
     public tapSearch(e: Event) {
         e.preventDefault();
-        this.searchOpen = true;
+        this.searchOpen.set(true);
     }
 
     public tapAvatar() {
-        if (this.user.id) {
-            this.authOpen = !this.authOpen;
+        if (this.user()?.id) {
+            this.authOpen.update(v => !v);
             return;
         }
-        this.loginModal().open();
+        this.loginModal()?.open();
     }
 
     public onMenuTap(e: IMenuButton) {
-        this.authOpen = false;
+        this.authOpen.set(false);
         if (e.onTapped) {
             return;
         }

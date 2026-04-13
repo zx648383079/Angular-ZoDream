@@ -30,8 +30,8 @@ export class PageEditorComponent {
     public readonly contextMenu = viewChild(ContextMenuComponent);
     public readonly scrollBar = viewChild<ElementRef<HTMLDivElement>>('scrollBar');
     public readonly items = signal<IQuestion[]>([]);
-    public editItem: IQuestion;
-    public editIndex = -1;
+    public readonly editItem = signal<IQuestion|null>(null);
+    public readonly editIndex = signal(-1);
     public readonly dataForm = form(signal({
         name: '',
         limit_time: 120,
@@ -139,25 +139,24 @@ export class PageEditorComponent {
     }
 
     public tapAdd() {
-        this.editItem = {
+        this.editItem.set({
             title: '',
             content: '',
             score: '',
-        } as any;
+        } as any);
         this.items.update(v => {
-            v.push(this.editItem);
-            return [...v];
+            return [...v, this.editItem()!];
         });
-        this.editIndex = this.items().length - 1;
+        this.editIndex.set(this.items().length - 1);
         this.scrollBottom();
     }
 
     public tapFind(modal: QuestionFinderComponent) {
-        modal.open([], (items: IQuestion[]) => {
+        modal.open([], (items: any) => {
             this.items.update(v => {
-                return [...v, ...items.filter(i => findIndex(v, j => j.id === i.id) < 0)]
+                return [...v, ...items.filter((i: any) => findIndex(v, j => j.id === i.id) < 0)]
             });
-        }, items => items.length > 0, params => {
+        }, items => items.length > 0, (params: any) => {
             return this.service.search({
                 type: 1,
                 ...params,
@@ -171,13 +170,16 @@ export class PageEditorComponent {
     }
 
     public tapEdit(i: number) {
-        this.editItem = this.items[i];
-        this.editIndex = i;
+        this.editItem.set(this.items()[i]);
+        this.editIndex.set(i);
     }
 
-    public onValueChange(value: IQuestion) {
-        this.editItem = value;
-        this.items[this.editIndex] = value;
+    public onValueChange(value: IQuestion|null|undefined) {
+        if (!value) {
+            return;
+        }
+        this.editItem.set(value);
+        this.items()[this.editIndex()] = value;
     }
 
     public tapRemove(i: number) {
@@ -189,7 +191,7 @@ export class PageEditorComponent {
             this.tapAdd();
             return;
         }
-        if (i !== this.editIndex) {
+        if (i !== this.editIndex()) {
             return;
         }
         if (i < this.items().length) {
@@ -200,7 +202,7 @@ export class PageEditorComponent {
     }
 
     public tapContextMenu(event: MouseEvent, i: number) {
-        return this.contextMenu().open(event, [
+        return this.contextMenu()?.open(event, [
             {
                 name: '新增',
                 icon: 'icon-plus',
@@ -227,7 +229,7 @@ export class PageEditorComponent {
 
     private scrollBottom() {
         setTimeout(() => {
-            const ele = this.scrollBar().nativeElement;
+            const ele = this.scrollBar()!.nativeElement;
             ele.scrollTo({
                 top: ele.scrollHeight + 300
             });

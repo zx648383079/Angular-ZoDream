@@ -48,7 +48,7 @@ export class TrashComponent {
         }).subscribe({
             next: res => {
                 res.data = res.data.map(i => {
-                    i.icon = this.service.getIconByExt(i.file_id < 1 ? undefined : i.file?.extension);
+                    i.icon = this.service.getIconByExt(i.file_id! < 1 ? undefined : i.file?.extension);
                     return i;
                 });
                 this.page = page;

@@ -36,11 +36,11 @@
         </div>
         <div class="pane-header">
             <div class="avatar">
-                <img [src]="user().user.avatar | asset">
+                <img [src]="user()!.user?.avatar | asset">
                 <i class="badge-dot"></i>
             </div>
-            <div class="name">{{ user().name }}</div>
-            <div class="remark">{{ user().signature }}</div>
+            <div class="name">{{ user()!.name }}</div>
+            <div class="remark">{{ user()!.signature }}</div>
         </div>
         <div class="search-input" (click)="searchMode.set(true)">
             <i class="iconfont icon-search"></i>
@@ -67,7 +67,7 @@
                     @for (item of histories(); track $index) {
                         <div class="user-item" (click)="tapHistory(item)"  (contextmenu)="tapContextMenu($event, item.user)">
                             <div class="user-avatar">
-                                <img [src]="item.user.avatar | asset" alt="">
+                                <img [src]="item.user!.avatar | asset" alt="">
                             </div>
                             <div class="user-info">
                                 <p>
@@ -150,9 +150,9 @@
         @if (chatUser()) {
         <div class="title">
             <i class="iconfont icon-arrow-left" (click)="roomMode.set(false)"></i>
-            <span>与 {{ chatUser().name }} 聊天中</span>
+            <span>与 {{ chatUser()!.name }} 聊天中</span>
         </div>
-        <app-message-container class="message-box" [items]="messageItems()" [currentId]="user().user.id" />
+        <app-message-container class="message-box" [items]="messageItems()" [currentId]="user()!.user.id" />
         <div class="message-tools">
             <app-emoji-picker class="tool-item" (tapped)="tapEmoji($event)">
                 <i class="iconfont icon-smile-o"></i>

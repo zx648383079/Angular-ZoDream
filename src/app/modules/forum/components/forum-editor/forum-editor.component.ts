@@ -27,7 +27,7 @@ export class ForumEditorComponent implements FormValueControl<string> {
 
     public readonly disabled = input<boolean>(false);
     public readonly value = model<string>('');
-    private range: IRange;
+    private range?: IRange;
     public readonly dialogData = signal({
         mode: 0,
         price: '',
@@ -50,7 +50,7 @@ export class ForumEditorComponent implements FormValueControl<string> {
     });
 
     private get area(): HTMLTextAreaElement {
-        return this.areaElement().nativeElement as HTMLTextAreaElement;
+        return this.areaElement()!.nativeElement as HTMLTextAreaElement;
     }
 
     constructor() {
@@ -178,7 +178,7 @@ export class ForumEditorComponent implements FormValueControl<string> {
 
     public insert(val: string, move: number = 0, focus: boolean = true) {
         this.checkRange();
-        this.setContent(this.area.value.substring(0, this.range.start) + val + this.area.value.substring(this.range.start));
+        this.setContent(this.area.value.substring(0, this.range!.start) + val + this.area.value.substring(this.range!.start));
         this.move(move);
         if (!focus) {
             return;
@@ -191,11 +191,11 @@ export class ForumEditorComponent implements FormValueControl<string> {
      */
     public replace(val: (str: string) => string | string, move: number = 0, focus: boolean = true) {
         this.checkRange();
-        if (this.range.start === this.range.end) {
+        if (this.range!.start === this.range!.end) {
             return this.insert(typeof val === 'function' ? val('') : val, move, focus);
         }
-        const str = typeof val === 'function' ? val(this.area.value.substring(this.range.start, this.range.end)) : val;
-        this.setContent(this.area.value.substring(0, this.range.start) + str + this.area.value.substring(this.range.end));
+        const str = typeof val === 'function' ? val(this.area.value.substring(this.range!.start, this.range!.end)) : val;
+        this.setContent(this.area.value.substring(0, this.range!.start) + str + this.area.value.substring(this.range!.end));
         this.move(move);
         if (!focus) {
             return;
@@ -237,10 +237,10 @@ export class ForumEditorComponent implements FormValueControl<string> {
         if (x === 0) {
             return;
         }
-        x = this.range.start + x;
+        x = this.range!.start + x;
         this.range = {
             start: x,
-            end: Math.max(x, this.range.end)
+            end: Math.max(x, this.range!.end)
         };
     }
 
@@ -249,8 +249,8 @@ export class ForumEditorComponent implements FormValueControl<string> {
      */
     public focus() {
         this.checkRange();
-        this.area.selectionStart = this.range.start;
-        this.area.selectionEnd = this.range.end;
+        this.area.selectionStart = this.range!.start;
+        this.area.selectionEnd = this.range!.end;
         this.area.focus();
     }
 
@@ -258,10 +258,10 @@ export class ForumEditorComponent implements FormValueControl<string> {
         this.dialogData.update(v => {
             return {...v, ...data};
         });
-        this.modal().open(() => {
+        this.modal()?.open(() => {
             cb(this.dialogData() as any);
         }, () => {
-            return check(this.dialogData() as any);
+            return !check || check(this.dialogData() as any);
         }, (data as any).title);
     }
     
@@ -298,7 +298,7 @@ export class ForumEditorComponent implements FormValueControl<string> {
             if (typeof key === 'number') {
                 v.items[key].content = value as any;
             } else {
-                v[key] = value;
+                (v as any)[key] = value;
             }
             return {...v};
         });

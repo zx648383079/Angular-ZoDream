@@ -200,7 +200,7 @@ export class FinanceService {
             sum: number;
             budget_sum: number;
         }>('finance/budget/statistics', {params}).pipe(map(res => {
-            const items = [];
+            const items: any[] = [];
             eachObject(res.log_list, (v, k) => {
                 if (typeof v === 'object') {
                     items.push({date: k, budget: res.data.budget, ...v});

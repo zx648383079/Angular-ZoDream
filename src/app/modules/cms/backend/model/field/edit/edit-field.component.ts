@@ -67,7 +67,7 @@ export class EditFieldComponent {
                 this.tabItems.set(ArraySource.fromValue(...res.model_tab));
                 this.typeItems = res.field_type;
                 this.dataModel.update(v => {
-                    v.tab_name = this.tabItems[1];
+                    v.tab_name = res.model_tab[1];
                     v.model_id = model;
                     return {...v};
                 });
@@ -79,7 +79,7 @@ export class EditFieldComponent {
             this.service.field(params.id).subscribe(res => {
                 this.data.set(res);
                 if (!res.tab_name) {
-                    res.tab_name = this.tabItems[res.is_main > 0 ? 1 : 0];
+                    res.tab_name = this.tabItems().items[res.is_main > 0 ? 1 : 0].value;
                 }
                 this.dataModel.set({
                     id: res.id,
@@ -109,9 +109,9 @@ export class EditFieldComponent {
     }
 
     public onTypeChange() {
-        this.service.fieldOption(this.dataForm.type().value(), this.data() ? this.data().id : 0).subscribe(res => {
+        this.service.fieldOption(this.dataForm.type().value(), this.data() ? this.data()!.id : 0).subscribe(res => {
             this.optionItems.set(res.data ? res.data.map(i => {
-                i.optionSource = ArraySource.fromItems(i.items);
+                i.optionSource = ArraySource.fromItems(i.items!);
                 return i;
             }) : []);
         });

@@ -14,7 +14,7 @@ export class ApplyDialogComponent {
 
     public readonly items = signal<IApplyLog[]>([]);
     public readonly visible = signal(false);
-    private confirmFn: Function;
+    private confirmFn?: Function;
 
     public open(cb: () => void) {
         this.visible.set(true);
@@ -26,7 +26,7 @@ export class ApplyDialogComponent {
 
     public close() {
         this.visible.set(false);
-        this.confirmFn();
+        this.confirmFn!();
     }
 
     public tapReject(item: IApplyLog) {

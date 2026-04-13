@@ -47,7 +47,7 @@ export class Recorder {
 
     public toURL(): string {
         const blob = this.toBlob();
-        if (blob) {
+        if (!blob) {
             return '';
         }
         return URL.createObjectURL(blob);
@@ -95,7 +95,7 @@ export class Recorder {
                 mimeType: 'audio/webm',
                 // audioBitsPerSecond: this.option.sampleRate
             });
-            this.instance.ondataavailable = e => {
+            this.instance.ondataavailable = (e: any) => {
                 if (e.data.size > 0) {
                     this.chunks.push(e.data);
                 }

@@ -36,11 +36,11 @@ export class ApiEditComponent {
         required(schemaPath.name);
     });
 
-    public data: IDocApi;
-    public project: IProject;
+    public readonly data = signal<IDocApi|null>(null);
+    public readonly project = signal<IProject|null>(null);
     public readonly version = signal(0);
-    public catalog: IDocApi[] = [];
-    public versionItems: IProjectVersion[] = [];
+    public readonly catalog = signal<IDocApi[]>([]);
+    public readonly versionItems = signal<IProjectVersion[]>([]);
     public readonly editForm = form(signal({
         content: '',
         name: ''
@@ -55,7 +55,7 @@ export class ApiEditComponent {
             }
             this.version.set(params.version ? parseInt(params.version, 10) : 0);
             this.service.project(params.project).subscribe(res => {
-                this.project = res;
+                this.project.set(res);
                 this.loadCatalog(res.id, params.id)
             });
 
@@ -68,7 +68,7 @@ export class ApiEditComponent {
 
     private loadCatalog(project: any, id: any) {
         this.service.catalogAll(project, this.version).subscribe(res => {
-            this.catalog = res.data;
+            this.catalog.set(res.data);
             this.initData(id);
         });
     }
@@ -84,29 +84,28 @@ export class ApiEditComponent {
     }
 
     private refreshVersion() {
-        this.service.versionAll(this.project.id).subscribe(res => {
-            this.versionItems = res.data;
+        this.service.versionAll(this.project()!.id).subscribe(res => {
+            this.versionItems.set(res.data);
         });
     }
 
     public onVersionChange() {
-        this.service.catalogAll(this.project.id, this.version).subscribe(res => {
-            this.catalog = res.data;
+        this.service.catalogAll(this.project()!.id, this.version).subscribe(res => {
+            this.catalog.set(res.data);
         });
     }
 
     public onCreate(data: IDocTreeItem) {
-        this.data = {
-            ...data,
-            project_id: this.project.id,
-            version_id: this.version,
+        this.data.update((v: any) => ({...v, 
+            project_id: this.project()!.id,
+            version_id: this.version(),
             method: 'GET',
             description: '',
             uri: '',
             header: [],
             request: [],
             response: [],
-        } as any;
+        }));
         this.dataModel.set({
             name: '',
             method: 'GET',
@@ -115,9 +114,12 @@ export class ApiEditComponent {
         });
     }
 
-    public tapEdit(item: IDocTreeItem) {
+    public tapEdit(item: IDocTreeItem|undefined) {
+        if (!item) {
+            return;
+        }
         this.service.api(item.id).subscribe(res => {
-            this.data = res;
+            this.data.set(res);
             this.dataModel.set({
                 name: res.name,
                 method: res.method,
@@ -137,7 +139,7 @@ export class ApiEditComponent {
         if (!this.dataForm().valid()) {
             return;
         }
-        const data = Object.assign({}, this.data, this.dataForm().value());
+        const data: any = {...this.data(), ...this.dataForm().value()};
         if (data.type < 1 && emptyValidate(data.uri)) {
             this.toastrService.warning('请输入接口路径');
             return;
@@ -147,7 +149,7 @@ export class ApiEditComponent {
             next: res => {
                 e?.reset();
                 this.toastrService.success($localize `Save Successfully`);
-                this.data = res;
+                this.data.set(res);
                 this.appendData(res);
             },
             error: (err: IErrorResult) => {
@@ -158,7 +160,7 @@ export class ApiEditComponent {
     }
 
     private appendData(data: IDocApi) {
-        const findParent = (id: number, items: IDocApi[]) => {
+        const findParent = (id: number, items: IDocApi[]): IDocApi[]|undefined  => {
             if (id < 1) {
                 return items;
             }
@@ -178,7 +180,7 @@ export class ApiEditComponent {
                 }
             }
         };
-        const children = findParent(data.parent_id, this.catalog);
+        const children = findParent(data.parent_id, this.catalog())!;
         for (const item of children) {
             if (item.id === data.id) {
                 item.name = data.name;
@@ -196,7 +198,7 @@ export class ApiEditComponent {
                     return;
                 }
                 this.toastrService.success($localize `Delete Successfully`);
-                this.catalog = treeRemoveId(this.catalog, item.id);
+                this.catalog.update(v => treeRemoveId(v, item.id));
             });
         });
     }
@@ -204,7 +206,7 @@ export class ApiEditComponent {
     public openVersion(modal: DialogEvent) {
         this.editForm.name().value.set('');
         modal.open(() => {
-            this.service.versionNew(this.project.id, this.version(), this.editForm.name().value()).subscribe(_ => {
+            this.service.versionNew(this.project()!.id, this.version(), this.editForm.name().value()).subscribe(_ => {
                 this.toastrService.success('创建版本成功');
                 this.refreshVersion();
             });
@@ -218,14 +220,14 @@ export class ApiEditComponent {
         modal.open(() => {
             this.service.apiParse(this.editForm.content().value(), kind).subscribe(res => {
                 if (kind === 3) {
-                    this.data.header.push(...res.data);
+                    this.data()!.header!.push(...res.data);
                     return;
                 }
                 if (kind === 1) {
-                    this.data.request.push(...res.data);
+                    this.data()!.request!.push(...res.data);
                     return;
                 }
-                this.data.response.push(...res.data);
+                this.data()!.response!.push(...res.data);
             });
         }, () => {
             return !emptyValidate(this.editForm.content().value());
@@ -234,18 +236,18 @@ export class ApiEditComponent {
 
     public tapRemoveItem(i: number, kind: number, parent?: IApiField) {
         if (parent) {
-            parent.children.splice(i, 1);
+            parent.children!.splice(i, 1);
             return;
         }
         if (kind === 3) {
-            this.data.header.splice(i, 1);
+            this.data()!.header!.splice(i, 1);
             return;
         }
         if (kind === 1) {
-            this.data.request.splice(i, 1);
+            this.data()!.request!.splice(i, 1);
             return;
         }
-        this.data.response.splice(i, 1);
+        this.data()!.response!.splice(i, 1);
     }
 
     public tapAddItem(kind: number, parent?: IApiField) {
@@ -283,14 +285,14 @@ export class ApiEditComponent {
             return;
         }
         if (kind === 1) {
-            this.data.request.push(item);
+            this.data()!.request!.push(item);
             return;
         }
         if (kind === 2) {
-            this.data.response.push(item);
+            this.data()!.response!.push(item);
             return;
         }
-        this.data.header.push(item);
+        this.data()!.header!.push(item);
     }
 
 }

@@ -110,7 +110,7 @@ export class WsRequest implements IRequest {
     }
     public decodeMessage(event: string, websocketMessage: string): any {
         // websocket-message;user;4;themarshaledstringfromajsonstruct
-        const skipLen = this.option.prefix.length + this.option.separator.length + event.length + 2;
+        const skipLen = this.option.prefix!.length + this.option.separator!.length + event.length + 2;
         if (websocketMessage.length < skipLen + 1) {
             return null;
         }
@@ -131,20 +131,20 @@ export class WsRequest implements IRequest {
         return null;
     }
     public getWebsocketCustomEvent(websocketMessage: string) {
-        const websocketMessagePrefixAndSepIdx = this.option.prefix.length + this.option.separator.length - 1;
+        const websocketMessagePrefixAndSepIdx = this.option.prefix!.length + this.option.separator!.length - 1;
         if (websocketMessage.length < websocketMessagePrefixAndSepIdx) {
             return '';
         }
         const s = websocketMessage.substring(websocketMessagePrefixAndSepIdx, websocketMessage.length);
-        return s.substring(0, s.indexOf(this.option.separator));
+        return s.substring(0, s.indexOf(this.option.separator!));
     }
     public getCustomMessage(event: string, websocketMessage: any) {
         const eventIdx = websocketMessage.indexOf(event + this.option.separator);
-        return websocketMessage.substring(eventIdx + event.length + this.option.separator.length + 2, websocketMessage.length);
+        return websocketMessage.substring(eventIdx + event.length + this.option.separator!.length + 2, websocketMessage.length);
     }
     public messageReceivedFromConn(evt: MessageEvent<string>) {
         const message = evt.data;
-        if (message.indexOf(this.option.prefix) !== -1) {
+        if (message.indexOf(this.option.prefix!) !== -1) {
             const event1 = this.getWebsocketCustomEvent(message);
             if (event1 !== '') {
                 // it's a custom message

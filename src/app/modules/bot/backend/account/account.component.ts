@@ -30,7 +30,7 @@ export class AccountComponent {
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public selected = 0;
+    public readonly selected = signal(0);
     public readonly queries = form(signal({
         keywords: '',
         page: 1,
@@ -39,7 +39,7 @@ export class AccountComponent {
     public redirectUri = '';
 
     constructor() {
-        this.selected = this.menuService.get(BotInstanceKey, 0);
+        this.selected.set(this.menuService.get(BotInstanceKey, 0)!);
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
@@ -62,7 +62,7 @@ export class AccountComponent {
     }
 
     public tapChange(item: IBotAccount) {
-        this.selected = item.id;
+        this.selected.set(item.id);
         this.menuService.put(BotInstanceKey, item.id);
         this.service.baseId = item.id;
         if (this.redirectUri) {

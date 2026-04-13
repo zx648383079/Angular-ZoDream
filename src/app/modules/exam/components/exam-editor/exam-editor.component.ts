@@ -36,7 +36,7 @@ export class ExamEditorComponent implements FormValueControl<string>, IEditor {
         });
         afterNextRender({
             write: () => {
-                this.container.ready(this.areaElement().nativeElement);
+                this.container.ready(this.areaElement()!.nativeElement);
             }
         });
     }

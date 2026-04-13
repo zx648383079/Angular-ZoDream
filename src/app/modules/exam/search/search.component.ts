@@ -2,7 +2,6 @@ import { form } from '@angular/forms/signals';
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
-import { IPageQueries } from '../../../theme/models/page';
 import { SearchService } from '../../../theme/services';
 import { eachObject, mapFormat, parseNumber } from '../../../theme/utils';
 import { ExamService } from '../exam.service';
@@ -64,7 +63,7 @@ export class SearchComponent {
         }
         let count = 0;
         item.rule_value.forEach(i => {
-            eachObject(i.type, v => {
+            eachObject((i as any).type, v => {
                 count += v;
             });
         });

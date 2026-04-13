@@ -18,7 +18,7 @@ export class CheckinService {
 
     public monthLog(month?: string) {
         return this.http.get<IData<ICheckIn>>('checkin/home/month', {
-            params: {month}
+            params: {month: month ?? ''}
         });
     }
 

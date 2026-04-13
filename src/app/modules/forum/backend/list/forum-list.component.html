@@ -3,7 +3,7 @@
         <ul>
             <li>管理板块列表</li>
             @if (parent()) {
-                <li>当前父板块：{{ parent().name }}</li>
+                <li>当前父板块：{{ parent()!.name }}</li>
             }
         </ul>
     </app-page-tip>
@@ -19,7 +19,7 @@
                 <div class="btn-group pull-right">
                     <a routerLink="../create" [queryParams]="{parent: parent()?.id}"
                     class="btn btn-primary">新增板块</a>
-                    @if (parent()?.parent_id > 0) {
+                    @if (parent()!.parent_id! > 0) {
                         <a class="btn btn-info" (click)="tapParent()">返回上一级</a>
                     }
                     @if (parent()) {

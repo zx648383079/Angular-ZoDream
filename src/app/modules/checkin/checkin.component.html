@@ -20,7 +20,7 @@
             }
         </ul>
     </div>
-    @if (!data) {
+    @if (!data()) {
         <app-action-button class="picker-footer" (tapped)="tapCheck($event)" i18n>Check in</app-action-button>
     }
 </div>

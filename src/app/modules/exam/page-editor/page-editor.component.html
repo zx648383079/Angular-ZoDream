@@ -23,7 +23,7 @@
         <div class="col-sm-3">
             <div class="preview-bar" #scrollBar>
                 @for (item of items(); track $index; let i = $index) {
-                    <div class="preview-item" [class]="{'active': i === editIndex}" (contextmenu)="tapContextMenu($event, i)" (click)="tapEdit(i)">
+                    <div class="preview-item" [class]="{active: i === editIndex()}" (contextmenu)="tapContextMenu($event, i)" (click)="tapEdit(i)">
                         <div class="item-name">{{ item.title }}</div>
                         <div class="item-no">{{ i + 1 }}</div>
                     </div>
@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="col-sm-9">
-            <app-question-editor [value]="editItem" (valueChange)="onValueChange($event)" />
+            <app-question-editor [value]="editItem()" (valueChange)="onValueChange($event)" />
         </div>
     </div>
     

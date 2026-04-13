@@ -58,7 +58,7 @@ export class MenuComponent {
     public onEditorChange() {
         this.editForm().value.update(v => {
             eachObject(this.editorData, (val, k) => {
-                v[k] = val;
+                (v as any)[k] = val;
             });
             if (!v.children && v.type == 99) {
                 v.children = [];
@@ -69,11 +69,20 @@ export class MenuComponent {
 
     public tapClear() {
         this.menuItems = [];
-        this.editForm().value.set(null);
+        this.reset();
+    }
+
+    private reset() {
+        this.editForm().value.update(v => {
+            eachObject(v, (val, k) => {
+                (v as any)[k] = '';
+            });
+            return v;
+        });
     }
 
     public tapRemoveItem() {
-        const current = this.editForm().value();
+        const current = this.editForm().value() as any;
         if (!current) {
             return;
         }
@@ -82,7 +91,7 @@ export class MenuComponent {
                 const element = this.menuItems[i];
                 if (element === current) {
                     this.menuItems.splice(i, 1);
-                    this.editForm().value.set(null);
+                    this.reset();
                     return;
                 }
                 if (!element.children) {
@@ -92,7 +101,7 @@ export class MenuComponent {
                     const it = element.children[j];
                     if (it === current) {
                         element.children.splice(i, 1);
-                        this.editForm().value.set(null);
+                        this.reset();
                         return;
                     }
                 }

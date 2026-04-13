@@ -23,7 +23,7 @@ export class FormDetailComponent {
     private readonly searchService = inject(SearchService);
     private readonly location = inject(Location);
 
-    public data: ICmsContent;
+    public readonly data = signal<ICmsContent|null>(null);
     public readonly queries = form(signal({
         model: 0,
         parent: 0,
@@ -48,11 +48,11 @@ export class FormDetailComponent {
         this.route.params.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.service.content(this.queries().value()).subscribe(res => {
-                this.data = res;
-                this.formItems.set(res.form_data.map(g => {
+                this.data.set(res);
+                this.formItems.set(res.form_data!.map(g => {
                     for(const item of g.items) {
                         if (item.type === 'radio' || item.type === 'checkbox') {
-                            item.optionSource = ArraySource.fromItems(item.items);
+                            item.optionSource = ArraySource.fromItems(item.items!);
                         }
                     }
                     return g;
@@ -83,8 +83,8 @@ export class FormDetailComponent {
             }
             data[(k === 'category' ? 'cat' : k) + '_id'] = v;
         });
-        if (this.data && this.data.id > 0) {
-            data.id = this.data.id;
+        if (this.data() && this.data()!.id > 0) {
+            data.id = this.data()!.id;
         }
         e?.enter();
         this.service.contentSave(data).subscribe({

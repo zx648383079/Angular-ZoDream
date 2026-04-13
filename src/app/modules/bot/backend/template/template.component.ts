@@ -1,9 +1,8 @@
 import { form, required } from '@angular/forms/signals';
 import { Component, inject, signal } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import { IItem } from '../../../../theme/models/seo';
 import { SearchService } from '../../../../theme/services';
 import { mapFormat } from '../../../../theme/utils';
@@ -45,10 +44,9 @@ export class TemplateComponent {
     }), schemaPath => {
         required(schemaPath.content);
     });
-    public previewData = {
-        toggle: false,
-        content: null,
-    };
+
+    public readonly previewVisible = signal(false);
+    public readonly previewText = signal<SafeHtml|null>(null);
     public typeItems: IItem[] = [];
     public categoryItems: IBotTemplateCategory[] = [];
 
@@ -89,12 +87,12 @@ export class TemplateComponent {
     }
 
     public tapPreview() {
-        if (this.previewData.toggle) {
-            this.previewData.toggle = false;
+        if (this.previewVisible()) {
+            this.previewVisible.set(false);
             return;
         }
-        this.previewData.content = this.sanitizer.bypassSecurityTrustHtml(this.editForm.content().value() || '');
-        this.previewData.toggle = true;
+        this.previewText.set(this.sanitizer.bypassSecurityTrustHtml(this.editForm.content().value() || ''));
+        this.previewVisible.set(true);
     }
 
     public tapRefresh() {

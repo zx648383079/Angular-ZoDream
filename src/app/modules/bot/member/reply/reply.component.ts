@@ -2,7 +2,6 @@ import { form, required } from '@angular/forms/signals';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import { IItem } from '../../../../theme/models/seo';
 import { SearchService } from '../../../../theme/services';
 import { mapFormat } from '../../../../theme/utils';
@@ -38,11 +37,11 @@ export class ReplyComponent {
         page: 1,
         per_page: 20
     }));
-    public readonly editForm = form(signal<IBotReply>({
+    public readonly editForm = form(signal({
         id: 0,
         event: '', 
         type: 0
-    } as any), schemaPath => {
+    }), schemaPath => {
         required(schemaPath.event);
     });
 

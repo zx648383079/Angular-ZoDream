@@ -13,7 +13,7 @@ export class EditHeaderComponent implements ButtonEvent {
     private readonly themeService = inject(ThemeService);
     private readonly location = inject(Location);
 
-    public readonly title = input('');
+    public readonly title = input<string|undefined>('');
     public readonly min = input(false);
     public readonly disabled = input(false);
     public readonly loading = model(false);
@@ -21,7 +21,7 @@ export class EditHeaderComponent implements ButtonEvent {
     
     constructor() {
         effect(() => {
-            this.themeService.titleChanged.next(this.title());
+            this.themeService.titleChanged.next(this.title() ?? '');
         });
     }
 

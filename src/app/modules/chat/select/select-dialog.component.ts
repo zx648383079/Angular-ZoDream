@@ -13,7 +13,7 @@ export class SelectDialogComponent {
     public readonly selected = signal(0);
     public readonly visible = signal(false);
 
-    private confirmFn: Function;
+    private confirmFn?: Function;
 
 
     public open(items: IFriendGroup[], value: number, cb: (res: boolean) => void) {
@@ -25,7 +25,7 @@ export class SelectDialogComponent {
 
     public close(result = false) {
         this.visible.set(false);
-        this.confirmFn(result);
+        this.confirmFn!(result);
     }
 
 }

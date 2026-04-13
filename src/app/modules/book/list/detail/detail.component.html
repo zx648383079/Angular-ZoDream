@@ -1,22 +1,22 @@
 <div class="container-fluid">
-    @if (data) {
+    @if (data()) {
     <div class="panel-container book-list-info">
         <div class="info-main">
-            <div class="title">{{ data.title }}</div>
-            <p class="desc">{{ data.description }}</p>
+            <div class="title">{{ data()!.title }}</div>
+            <p class="desc">{{ data()!.description }}</p>
             <div class="info-footer">
-                <a href="">{{ data.user?.name }}</a>
-                <span class="time">{{ data.created_at }}</span>
+                <a href="">{{ data()!.user?.name }}</a>
+                <span class="time">{{ data()!.created_at }}</span>
             </div>
         </div>
         <div class="info-action">
             <div class="info-count">
-                <span>{{ data.book_count }}本书</span>
-                <span>{{ data.click_count }}浏览</span>
-                <span>{{ data.collect_count }}收藏</span>
+                <span>{{ data()!.book_count }}本书</span>
+                <span>{{ data()!.click_count }}浏览</span>
+                <span>{{ data()!.collect_count }}收藏</span>
             </div>
             <div class="collect-btn" (click)="tapCollect()">
-                <i class="iconfont icon-heart" [class]="{'icon-heart': data.is_collected, 'icon-heart-o': !data.is_collected}"></i>
+                <i class="iconfont icon-heart" [class]="{'icon-heart': data()!.is_collected, 'icon-heart-o': !data()!.is_collected}"></i>
                 收藏
             </div>
         </div>

@@ -72,7 +72,7 @@ export class ChatService {
         return this.http.post<IDataOne<boolean>>('team/home/create', data);
     }
 
-    public messages(user: IChatWith, start_time?: number) {
+    public messages(user: IChatWith, start_time: number = 0) {
         return this.http.get<{
             next_time: number;
             data: IMessage[];
