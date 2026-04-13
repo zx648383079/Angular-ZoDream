@@ -15,7 +15,7 @@ export class ProfileComponent {
     private readonly toastrService = inject(DialogService);
 
 
-    public data: IWaiter;
+    private data?: IWaiter;
     public readonly dataModel = signal({
         name: '',
         tel: '',
@@ -46,7 +46,7 @@ export class ProfileComponent {
         if (this.dataForm().invalid()) {
             return;
         }
-        if (this.data.status === 1 && !confirm($localize `Will continue to save will need to be reviewed again?`)) {
+        if (this.data!.status === 1 && !confirm($localize `Will continue to save will need to be reviewed again?`)) {
             return;
         }
         const data = this.dataForm().value();

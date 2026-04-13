@@ -27,12 +27,12 @@ export class GameComponent implements IGameRouter {
 
     private readonly modalViewContainer = viewChild('modalVC', { read: ViewContainerRef });
     private readonly dialogue = viewChild(DialogueComponent);
-    private modalRef: ComponentRef<IGameScene>;
-    public project: IGameProject;
-    public character: IGameCharacter;
+    private modalRef?: ComponentRef<IGameScene>;
+    public project: IGameProject = {} as any;
+    public character: IGameCharacter = {} as any;
     public params?: any;
     private injector: GameInjector;
-    private readyFn: Function;
+    private readyFn?: Function;
     private historyItems: string[] = [];
 
     constructor() {
@@ -47,7 +47,7 @@ export class GameComponent implements IGameRouter {
             write: () => {
                 if (this.readyFn) {
                     setTimeout(() => {
-                        this.readyFn();
+                        this.readyFn!();
                         this.readyFn = undefined;
                     }, 1);
                 } 
@@ -169,10 +169,10 @@ export class GameComponent implements IGameRouter {
     }
 
     public select(items: string[]): Observable<number> {
-        return this.dialogue().select(items);
+        return this.dialogue()!.select(items);
     }
     public say(content: string[]|string, user?: IGamePeople): Observable<void> {
-        return this.dialogue().say(content, user);
+        return this.dialogue()!.say(content, user);
     }
 
     public exit() {
@@ -185,7 +185,7 @@ export class GameComponent implements IGameRouter {
     public enter(character: number) {
         window.sessionStorage.setItem(this.characterToken, character.toString());
         this.character = {id: character} as any;
-        this.request(GameCommand.Query).subscribe(res => {
+        this.request(GameCommand.Query).subscribe((res: any) => {
             this.project = res.data.project;
             this.themeService.titleChanged.next(this.project.name);
             this.character = res.data.character;
@@ -205,7 +205,7 @@ export class GameComponent implements IGameRouter {
         this.project = {id: project} as any;
         const characterId = parseNumber(window.sessionStorage.getItem(this.characterToken));
         if (characterId < 1) {
-            this.request(GameCommand.Query).subscribe(res => {
+            this.request(GameCommand.Query).subscribe((res: any) => {
                 this.project = res.data.project;
                 this.themeService.titleChanged.next(this.project.name);
                 this.navigate(GameScenePath.Entry);

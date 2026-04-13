@@ -42,11 +42,11 @@
                     @for (item of dataForm.configure.goods; track $index; let i = $index) {
                         <tr>
                             <td>
-                                <span>{{ item.goods.name().value() }}</span>
+                                <span>{{ item.goods?.name()?.value() }}</span>
                             </td>
                             <td><input type="number" class="form-control" [formField]="item.amount"></td>
                             <td><input type="number" class="form-control" [formField]="item.price"></td>
-                            <td>{{ item.goods.price().value() }}</td>
+                            <td>{{ item.goods?.price()?.value() }}</td>
                             <td class="subtotal">{{ item.amount().value() * item.price().value() }}</td>
                             <td>
                                 <a (click)="tapRemoveItem(i)">删除</a>
@@ -84,9 +84,9 @@
         </div>
     </form>
 </div>
-@if (dialogOpen) {
+@if (dialogOpen()) {
 <div class="dialog-box goods-dialog"  animate.enter="dialog-opened" animate.leave="dialog-closed">
-    <i class="iconfont icon-close dialog-close" (click)="dialogOpen = false"></i>
-    <app-search-dialog (cancel)="dialogOpen = false" [multiple]="true" (valueChange)="onGoodsSelected($event)" />
+    <i class="iconfont icon-close dialog-close" (click)="dialogOpen.set(false)"></i>
+    <app-search-dialog (cancel)="dialogOpen.set(false)" [multiple]="true" (valueChange)="onGoodsSelected($event)" />
 </div>
 }

@@ -33,7 +33,7 @@
                     <tr>
                     <td>{{ item.id }}</td>
                     <td>
-                        {{ item.user.name }}
+                        {{ item.user?.name }}
                     </td>
                     <td>{{ item.content }}</td>
                     <td>{{ item.created_at }}</td>
@@ -53,9 +53,9 @@
                     <div class="review-body">
                         <app-rule-block [value]="item.content" [rules]="item.extra_rule" />
 
-                        @if (item.attachment?.length > 0) {
+                        @if (item.attachment!.length > 0) {
                             <div class="multi-image-box">
-                                @for (it of item.attachment; track $index) {
+                                @for (it of item.attachment!; track $index) {
                                     <div class="image-item">
                                         <img [src]="it.thumb">
                                         @if (it.type == 1) {
@@ -73,10 +73,10 @@
                     <div class="review-footer">
                         <div class="user-label-item">
                             <div class="item-avatar">
-                                <img [src]="item.user.avatar" [alt]="item.user.name">
+                                <img [src]="item.user?.avatar" [alt]="item.user?.name">
                             </div>
                             <div class="item-body">
-                                {{item.user.name}}
+                                {{item.user?.name}}
                             </div>
                         </div>
                         <div class="review-action">

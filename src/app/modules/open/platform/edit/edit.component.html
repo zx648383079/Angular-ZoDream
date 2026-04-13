@@ -38,14 +38,14 @@
             <div class="input-group-control">
                 <label for="appid">App Id</label>
                 <div>
-                    <input type="text" id="appid" class="form-control" name="appid" [value]="data.appid" readonly>
+                    <input type="text" id="appid" class="form-control" name="appid" [value]="data()!.appid" readonly>
 
                 </div>
             </div>
             <div class="input-group-control">
                 <label for="secret">Secret</label>
                 <div>
-                    <input type="text" id="secret" class="form-control" name="secret" [value]="data.secret" readonly
+                    <input type="text" id="secret" class="form-control" name="secret" [value]="data()!.secret" readonly
                         size="40">
 
                 </div>

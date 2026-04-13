@@ -48,7 +48,7 @@ export class EditDiscountComponent {
 
     public readonly goodsSource = this.service.goodsSource();
 
-    public data: IActivity<IDiscountConfigure>;
+    private data?: IActivity<IDiscountConfigure>;
     public ruleItems = ActivityRuleItems;
 
     public readonly scopeType = computed(() => {

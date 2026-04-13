@@ -2,7 +2,7 @@
     @if (current()) {
     <div class="panel-header">
         <i class="iconfont icon-chevron-left" (click)="tapBack()"></i>
-        {{ current().name }}
+        {{ current()!.name }}
     </div>
     }
     <div class="panel-body">

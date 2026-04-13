@@ -11,7 +11,7 @@ import { formatDomain } from '../util';
 })
 export class PageContainerComponent {
 
-    public readonly value = input<IWebPage>(undefined);
+    public readonly value = input<IWebPage>();
     public readonly rules = signal<IExtraRule[]>([]);
     public menuItems = [$localize `Collect`, $localize `Share`, $localize `Report`];
     public readonly menuOpen = signal(false);
@@ -25,7 +25,7 @@ export class PageContainerComponent {
         effect(() => {
             const value = this.value();
             untracked(() => {
-                this.rules.set(value.keywords ? value.keywords.map(i => {
+                this.rules.set(value?.keywords ? value.keywords.map(i => {
                     return {
                         s: i.word,
                         type: 9
@@ -36,18 +36,21 @@ export class PageContainerComponent {
         });
     }
 
-    public formatDomain(v: string) {
+    public formatDomain(v?: string) {
         return formatDomain(v);
     }
 
-    public formatLink(item: ISite): string {
+    public formatLink(item?: ISite): string {
+        if (!item) {
+            return '';
+        }
         return `${item.schema}://${item.domain}`;
     }
 
     public tapMenu(i: number) {
         this.onAction.emit({
             type: i,
-            data: this.value(),
+            data: this.value()!,
         });
     }
 

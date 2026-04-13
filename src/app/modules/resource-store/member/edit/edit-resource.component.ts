@@ -58,7 +58,7 @@ export class EditResourceComponent {
 
     public readonly previewType = computed(() => parseNumber(this.dataForm.preview_type().value()));
 
-    public data: IResource;
+    private data?: IResource;
     public categories: ICategory[] = [];
     public readonly tagSource = this.service.tagSource();
     public previewTypeItems = MediaTypeItems;
@@ -146,7 +146,7 @@ export class EditResourceComponent {
         e?.enter();
         this.service.resourceSave(data).subscribe({
             next: _ => {
-                e.reset();
+                e?.reset();
                 this.toastrService.success($localize `Save Successfully`);
                 this.location.back();
             },

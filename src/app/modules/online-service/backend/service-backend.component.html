@@ -10,8 +10,8 @@
                 <div class="search-bar">
                     <input type="text" class="form-control" placeholder="搜索" [formField]="dataForm.keywords">
                 </div>
-                <div class="expand-box open" [class]="{open: expandIndex < 1}">
-                    <div class="expand-header" (click)="expandIndex = 0">会话中（{{ sessionItems1().length }}）</div>
+                <div class="expand-box open" [class]="{open: expandIndex() < 1}">
+                    <div class="expand-header" (click)="expandIndex.set(0)">会话中（{{ sessionItems1().length }}）</div>
                     <div class="expand-body">
                         @for (item of sessionItems1(); track $index) {
                         <div class="user-item" (click)="tapSession(item)">
@@ -28,8 +28,8 @@
                         }
                     </div>
                 </div>
-                <div class="expand-box" [class]="{open: expandIndex == 1}">
-                    <div class="expand-header" (click)="expandIndex = 1">排队中（{{ sessionItems2().length }}）</div>
+                <div class="expand-box" [class]="{open: expandIndex() == 1}">
+                    <div class="expand-header" (click)="expandIndex.set(1)">排队中（{{ sessionItems2().length }}）</div>
                     <div class="expand-body">
                         @for (item of sessionItems2(); track $index) {
                         <div class="user-item" (click)="tapSession(item)">
@@ -46,8 +46,8 @@
                         }
                     </div>
                 </div>
-                <div class="expand-box" [class]="{open: expandIndex == 2}">
-                    <div class="expand-header" (click)="expandIndex = 2">会话结束（{{ sessionItems3().length }}）</div>
+                <div class="expand-box" [class]="{open: expandIndex() == 2}">
+                    <div class="expand-header" (click)="expandIndex.set(2)">会话结束（{{ sessionItems3().length }}）</div>
                     <div class="expand-body">
                         @for (item of sessionItems3(); track $index) {
                         <div class="user-item" (click)="tapSession(item)">
@@ -65,13 +65,13 @@
                     </div>
                 </div>
             </div>
-            @if (session) {
+            @if (session()) {
             <div class="col-md-6">
                 <div class="title-bar">
-                    <div class="title">{{ session.name }}</div>
+                    <div class="title">{{ session()!.name }}</div>
                     <select class="form-control" [formField]="dataForm.service_word" (change)="onReplyChange()">
                         <option value="0">无自动回复</option>
-                        @for (item of autoWords; track $index) {
+                        @for (item of autoWords(); track $index) {
                             <option [value]="item.id">{{ item.content }}</option>
                         }
                     </select>
@@ -79,7 +79,7 @@
                     <div class="btn btn-primary" (click)="openRemark(remarkModal)">备注</div>
                     <div class="btn btn-danger" (click)="tapClose()">关闭</div>
                 </div>
-                <app-message-container class="message-body" [items]="messageItems" [currentId]="currentUser" />
+                <app-message-container class="message-body" [items]="messageItems()" [currentId]="currentUser()" />
                 <div class="message-tools">
                     <app-emoji-picker class="tool-item" (tapped)="tapEmoji($event)">
                         <i class="iconfont icon-smile-o"></i>
@@ -122,28 +122,28 @@
                                 <tbody>
                                     <tr>
                                         <td>IP</td>
-                                        <td>{{ session.ip }}</td>
+                                        <td>{{ session()!.ip }}</td>
                                     </tr>
-                                    @if (session.user_id > 0) {
+                                    @if (session()!.user_id > 0) {
                                     <tr>
                                         <td>会员名</td>
-                                        <td>{{ session.user.name }}({{ session.user_id }})</td>
+                                        <td>{{ session()!.user?.name }}({{ session()!.user_id }})</td>
                                     </tr>
                                     }
                                     <tr>
                                         <td>备注</td>
-                                        <td>{{ session.remark }}</td>
+                                        <td>{{ session()!.remark }}</td>
                                     </tr>
                                     <tr>
                                         <td>User Agent</td>
-                                        <td>{{ session.user_agent }}</td>
+                                        <td>{{ session()!.user_agent }}</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="tab-item" [class]="{active: tabIndex() == 1}">
                             <ul class="tree-box">
-                                @for (item of categories; track $index) {
+                                @for (item of categories(); track $index) {
                                 <li class="tree-item">
                                     <div class="tree-name">{{ item.name }}</div>
                                     <ul class="tree-body">
@@ -176,8 +176,8 @@
 
 <app-dialog-box #transferModal title="转接其他客服">
     <input type="text" class="form-control" placeholder="请输入客服昵称" [formField]="dataForm.user_keywords" (input)="onSearchUser()">
-        @for (item of users; track $index) {
-            <div class="line-item" [class]="{active: userSelected == item.user_id}" (click)="userSelected = item.user_id">
+        @for (item of users(); track $index) {
+            <div class="line-item" [class]="{active: userSelected() == item.user_id}" (click)="userSelected.set(item.user_id)">
                 【{{ item.category.name }}】{{ item.user.name }}(ID: {{ item.user_id }})
             </div>
         }

@@ -16,13 +16,13 @@ export class ProfileComponent {
     private readonly toastrService = inject(DialogService);
 
 
-    public data: IProvider;
+    private data?: IProvider;
     public readonly dataModel = signal({
         name: '',
         logo: '',
         tel: '',
         address: '',
-        categories: [],
+        categories: <number[]>[],
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name);
@@ -43,7 +43,7 @@ export class ProfileComponent {
                 logo: res.logo,
                 tel: res.tel,
                 address: res.address,
-                categories: res.categories.map(i => i.id),
+                categories: res.categories!.map(i => i.id),
             });
         });
         this.service.categoryList().subscribe(res => {
@@ -56,18 +56,20 @@ export class ProfileComponent {
         if (this.dataForm().invalid()) {
             return;
         }
-        if (this.data.status === 1 && !confirm($localize `Will continue to save will need to be reviewed again?`)) {
+        if (this.data!.status === 1) {
             return;
         }
-        const data = this.dataForm().value();
-        this.service.providerSave(data).subscribe({
-            next: res => {
-                this.data = res;
-                this.toastrService.success($localize `Submitted successfully, waiting for review!`);
-            },
-            error: err => {
-                this.toastrService.error(err);
-            }
+        this.toastrService.confirm($localize `Will continue to save will need to be reviewed again?`, () => {
+            const data = this.dataForm().value();
+            this.service.providerSave(data).subscribe({
+                next: res => {
+                    this.data = res;
+                    this.toastrService.success($localize `Submitted successfully, waiting for review!`);
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            });
         });
     }
 }

@@ -79,7 +79,7 @@ export class ResourceStoreComponent {
         this.navIndex.set(index);
         const item = this.navItems()[index];
         this.subNavItems.set(item.children ?? []);
-        if (item.children?.length > 0) {
+        if (item.children!.length > 0) {
             return;
         }
         this.router.navigate(['category', item.id], {relativeTo: this.route});

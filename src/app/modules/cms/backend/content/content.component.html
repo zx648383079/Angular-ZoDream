@@ -35,8 +35,8 @@
                     }
                     <td>
                         <div class="btn-group  btn-group-xs">
-                            @if (model && model.child_model) {
-                            <a class="btn btn-info" [routerLink]="['../../', model.child_model, item.id]">分集</a>
+                            @if (model()?.child_model) {
+                            <a class="btn btn-info" [routerLink]="['../../', model()!.child_model, item.id]">分集</a>
                             }
                             @if (item.comment_count > 0) {
                             <a class="btn btn-success" [routerLink]="['comment', item.id]">评论</a>

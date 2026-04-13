@@ -22,7 +22,7 @@ export class ReportDialogComponent {
      */
     public readonly visible = signal(false);
     public readonly data = signal<IWebPage|null>(null);
-    private confirmFn: DialogConfirmFn;
+    private confirmFn?: DialogConfirmFn;
 
 
     public readonly typeItems: {
@@ -80,10 +80,10 @@ export class ReportDialogComponent {
         const val = this.dataForm().value();
         const data = {
             item_type: 31,
-            item_id: this.data().id,
+            item_id: this.data()!.id,
             type: 99,
             title: '',
-            content: `[${this.data().title}](${this.data().link}):${val.content}`,
+            content: `[${this.data()!.title}](${this.data()!.link}):${val.content}`,
             email: val.email
         };
         const option = [];

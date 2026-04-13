@@ -45,7 +45,7 @@ export class CharacterIdentityComponent {
     });
 
     constructor() {
-        this.route.parent.params.subscribe(params => {
+        this.route.parent!.params.subscribe(params => {
             this.queries.project().value.set(parseNumber(params.game));
         });
         this.route.queryParams.subscribe(params => {

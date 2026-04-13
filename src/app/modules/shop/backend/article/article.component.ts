@@ -4,7 +4,6 @@ import {
     ActivatedRoute
 } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import {
     IArticle,
     IArticleCategory

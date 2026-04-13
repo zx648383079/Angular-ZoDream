@@ -15,7 +15,7 @@ interface IOptionGroup {
     children: {
         name: string,
         label: string,
-        tip?: string,
+        tip: string,
         value: string
     }[]
 }
@@ -59,9 +59,9 @@ export class PlatformOptionComponent {
                 platform: this.dataForm.platform().value(),
             }
         }).subscribe(res => {
-            const items = [];
+            const items: IOptionGroup[] = [];
             eachObject(res.data, (item, key) => {
-                const group = {
+                const group: IOptionGroup = {
                     name: key,
                     label: item._label,
                     expanded: true,
@@ -88,9 +88,9 @@ export class PlatformOptionComponent {
     }
 
     public saveOption(e?: ButtonEvent) {
-        const option = {};
+        const option: any = {};
         for (const group of this.dataForm.items().value()) {
-            const data = {};
+            const data: any = {};
             for (const item of group.children) {
                 data[item.name] = item.value;
             }

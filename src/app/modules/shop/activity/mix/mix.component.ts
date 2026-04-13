@@ -40,7 +40,7 @@ export class MixComponent {
 
     public formatAmount(item: IActivity<IMixConfigure>) {
         let total = 0;
-        item.goods_items.forEach(i => {
+        item.goods_items!.forEach(i => {
             total += parseInt(i.amount as any);
         });
         return total;
@@ -48,7 +48,7 @@ export class MixComponent {
 
     public formatTotal(item: IActivity<IMixConfigure>) {
         let total = 0;
-        item.goods_items.forEach(i => {
+        item.goods_items!.forEach(i => {
             total += i.amount * i.goods.price;
         });
         return total;

@@ -2,7 +2,6 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../../components/dialog';
 import { IActivityTime } from '../../../../model';
-import { emptyValidate } from '../../../../../../theme/validators';
 import { ActivityService } from '../../activity.service';
 import { form, required } from '@angular/forms/signals';
 

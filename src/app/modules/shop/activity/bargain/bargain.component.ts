@@ -33,7 +33,7 @@ export class BargainComponent {
         per_page: 20,
         keywords: '',
     }));
-    private $timer: Subscription;
+    private $timer?: Subscription;
 
     constructor() {
         this.themeService.titleChanged.next('预售中心');
@@ -95,7 +95,7 @@ export class BargainComponent {
     private stopTimer() {
         if (this.$timer) {
             this.$timer.unsubscribe();
-            this.$timer = null;
+            this.$timer = undefined;
         }
     }
 

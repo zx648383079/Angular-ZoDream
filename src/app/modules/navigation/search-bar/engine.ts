@@ -15,7 +15,7 @@ export interface ISearchBar {
 }
 
 function pluck(data: any, key: string): string[] {
-    let args = [];
+    const args: string[] = [];
     if (!data) {
         return args;
     }
@@ -33,7 +33,7 @@ export const SearchEngineItems: ISearchEngine[] = [
         icon: 'icon-baidu',
         url: 'https://www.baidu.com/s?wd={word}',
         suggest: function(keywords, cb) {
-            this.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=' + keywords, res => {
+            this.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=' + keywords,(res: any) => {
                 cb(res ? res.s : []);
             })
         },
@@ -53,7 +53,7 @@ export const SearchEngineItems: ISearchEngine[] = [
         icon: 'icon-duckduckgo',
         url: 'https://duckduckgo.com/?q={word}',
         suggest: function(keywords, cb) {
-            this.jsonp('https://duckduckgo.com/ac/?q=' + keywords, res => {
+            this.jsonp('https://duckduckgo.com/ac/?q=' + keywords, (res: any) => {
                 cb(pluck(res, 'phrase'));
             }, 'callback');
         },

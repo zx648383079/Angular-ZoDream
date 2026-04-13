@@ -84,7 +84,7 @@ export class OnlineServiceComponent {
             last_id: lastId,
         }).subscribe((res: any) => {
             if (res.data.length > 0) {
-                this.items.set([].concat(res.data, this.items));
+                this.items.update(v => [...res.data, ...v]);
             }
         });
     }

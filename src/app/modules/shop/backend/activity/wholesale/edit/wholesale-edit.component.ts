@@ -38,7 +38,7 @@ export class WholesaleEditComponent {
 
     public readonly goodsSource = this.service.goodsSource();
 
-    public data: IActivity<IWholesaleConfigure>;
+    private data?: IActivity<IWholesaleConfigure>;
 
     constructor() {
         this.route.params.subscribe(params => {

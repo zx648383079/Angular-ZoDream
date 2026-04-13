@@ -4,11 +4,11 @@
             <img src="" alt="">
         </div>
         <div class="item-body">
-            <div class="item-name">{{ character.nickname }}</div>
+            <div class="item-name">{{ character()!.nickname }}</div>
             <div class="item-progress-bar">
                 <div class="progress-inner"></div>
-                <span class="progress-label">lv.{{ character.grade }}
-                ({{ character.exp | numberFormat }}/{{ character.next_grade?.exp | numberFormat }})</span>
+                <span class="progress-label">lv.{{ character()!.grade }}
+                ({{ character()!.exp | numberFormat }}/{{ character()!.next_grade?.exp | numberFormat }})</span>
             </div>
             <div class="item-progress-bar progress-danger">
                 <div class="progress-inner"></div>
@@ -23,7 +23,7 @@
             <img src="" alt="">
         </div>
         <div class="item-body">
-            <div class="item-name">{{ character.nickname }}(lv.{{ character.grade }})</div>
+            <div class="item-name">{{ character()!.nickname }}(lv.{{ character()!.grade }})</div>
             <div class="item-progress-bar progress-danger">
                 <div class="progress-inner"></div>
             </div>
@@ -34,7 +34,7 @@
 <div class="top-menu-bar">
     @for (item of topItems; track $index) {
         <a [class]="{disabled: item.disabled}" (click)="tapRoute(item)">{{ item.name }}
-            @if (item.count > 0) {
+            @if (item.count! > 0) {
                 ({{ item.count }})
             }
         </a>
@@ -48,9 +48,9 @@
         】
     </div>
     <div class="group-body">
-        <p>{{ character.nickname }}</p>
-        @if (character.can_upgrade) {
-        <p>等级: {{ character.grade }}级({{ character.exp | numberFormat }}/{{ character.next_grade?.exp | numberFormat }}) <a (click)="tapUpgrade()">升级</a></p>
+        <p>{{ character()!.nickname }}</p>
+        @if (character()!.can_upgrade) {
+        <p>等级: {{ character()!.grade }}级({{ character()!.exp | numberFormat }}/{{ character()!.next_grade?.exp | numberFormat }}) <a (click)="tapUpgrade()">升级</a></p>
         }
     </div>
 </div>
@@ -61,7 +61,7 @@
     </div>
     <div class="group-body">
         <ul class="mini-message">
-            @for (item of messsageItems; track $index) {
+            @for (item of messsageItems(); track $index) {
             <li>[{{ item.created_at | ago }}]{{ item.user?.name }}: {{ item.content }}</li>
             }
         </ul>
@@ -71,7 +71,7 @@
 <div class="menu-bar">
     @for (item of bottomItems; track $index) {
         <a [class]="{disabled: item.disabled}" (click)="tapRoute(item)">{{ item.name }}
-            @if (item.count > 0) {
+            @if (item.count! > 0) {
                 ({{ item.count }})
             }
         </a>

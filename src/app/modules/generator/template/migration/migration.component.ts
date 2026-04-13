@@ -37,7 +37,7 @@ export class MigrationComponent {
         }).subscribe({
             next: res => {
                 this.previewItems = res.data;
-                this.modal().open();
+                this.modal()?.open();
             },
             error: err => {
                 this.toastrService.error(err);

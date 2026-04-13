@@ -3,7 +3,6 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../components/dialog';
 import { IPlatform } from '../../../theme/models/open';
-import { IPageQueries } from '../../../theme/models/page';
 import { mapFormat } from '../../../theme/utils';
 import { OpenService } from '../open.service';
 import { SearchService } from '../../../theme/services';
@@ -72,7 +71,7 @@ export class PlatformComponent {
         }
         this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
-        const cb = this.reviewable ? this.service.reviewList : this.service.platformList;
+        const cb = this.reviewable() ? this.service.reviewList : this.service.platformList;
         cb.call(this.service, queries).subscribe(res => {
             this.isLoading.set(false);
             this.items.set(res.data);
@@ -90,7 +89,7 @@ export class PlatformComponent {
 
     public tapRemove(item: any) {
         this.toastrService.confirm('确定删除“' + item.name + '”应用？', () => {
-            const cb = this.reviewable ? this.service.reviewRemove : this.service.platformRemove;
+            const cb = this.reviewable() ? this.service.reviewRemove : this.service.platformRemove;
             cb.call(this.service, item.id).subscribe(res => {
                 if (!res.data) {
                     return;

@@ -6,6 +6,7 @@ import { ISignature, ITemplate } from '../../model';
 import { MessageServiceService } from '../../ms.service';
 import { ButtonEvent } from '../../../../components/form';
 import { form, required } from '@angular/forms/signals';
+import { IItem } from '../../../../theme/models/seo';
 
 @Component({
     standalone: false,
@@ -33,8 +34,8 @@ export class EditTemplateComponent {
         required(schemaPath.content);
     });
 
-    public data: ITemplate;
-    public readonly typeItems = signal([]);
+    private data?: ITemplate;
+    public readonly typeItems = signal<IItem[]>([]);
     public readonly keyItems = signal<string[]>([]);
 
     constructor() {
@@ -53,7 +54,7 @@ export class EditTemplateComponent {
                     this.keyItems.set(res.data);
                 }
                 this.dataModel.set({
-                    id: res.id,
+                    id: res.id!,
                     name: res.name,
                     title: res.title,
                     content: res.content,
@@ -70,12 +71,12 @@ export class EditTemplateComponent {
 
     public onContentChange() {
         const val = this.dataForm.content().value();
-        const items = [];
+        const items: string[] = [];
         if (!val) {
             this.keyItems.set(items);
             return;
         }
-        let match: RegExpMatchArray;
+        let match: RegExpMatchArray|null;
         const pattern = /\{(\w+)\}/g;
         while (null !== (match = pattern.exec(val))) {
             if (items.indexOf(match[1]) >= 0) {

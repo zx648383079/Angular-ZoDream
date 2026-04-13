@@ -6,8 +6,8 @@
                 <li class="breadcrumb-item">
                     <a routerLink="/res" i18n>Home</a>
                 </li>
-                @if (data().id > 0) {
-                    <li class="breadcrumb-item active" aria-current="page">{{ data().name }}</li>
+                @if (data()!.id > 0) {
+                    <li class="breadcrumb-item active" aria-current="page">{{ data()!.name }}</li>
                 } @else {
                     <li class="breadcrumb-item active" aria-current="page" i18n>All categories</li>
                 }
@@ -17,7 +17,7 @@
         </div>
         <div class="col-md-12">
             @if (data()) {
-                <div class="title-bar">{{ data().name }}</div>
+                <div class="title-bar">{{ data()!.name }}</div>
             } @else {
                 <div class="title-bar" i18n>All categories</div>
             }
@@ -71,7 +71,7 @@
                                 {{ item.title }}
                             </a>
                             <div class="item-meta">
-                                by <a href="">{{ item.user.name }}</a> in <a href="">{{ item.category.name }}</a>
+                                by <a href="">{{ item.user?.name }}</a> in <a href="">{{ item.category?.name }}</a>
                             </div>
                             <div class="item-action">
                                 <div class="item-price">

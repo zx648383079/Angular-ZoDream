@@ -43,13 +43,13 @@ export class SiteComponent {
         schema: 'https',
         domain: '',
         top_type: '0',
-        tags: [],
+        tags: <ISiteTag[]>[],
         also_page: 0,
         keywords: '',
     }), schemaPath => {
         required(schemaPath.name);
     });
-    public editExistData: ISite|undefined;
+    public readonly editExistData = signal<ISite|null>(null);
     public readonly scoringForm = form(signal({
         score: 60,
         change_reason: '',
@@ -105,12 +105,12 @@ export class SiteComponent {
             this.editForm.schema().value.set(link.substring(0, i - 1));
         }
         this.service.siteCheck(this.editForm().value()).subscribe(res => {
-            this.editExistData = res.data;
+            this.editExistData.set(res.data);
         });
     }
 
     public open(modal: DialogEvent, item?: ISite) {
-        this.editExistData = undefined;
+        this.editExistData.set(null);
         this.editForm().value.update(v => {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';

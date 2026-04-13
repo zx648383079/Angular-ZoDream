@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, IGameBagItem, IGameCharacter, IGameEquipItem, IGameRouter, IGameScene } from '../../model';
 
 @Component({
@@ -11,14 +11,14 @@ export class CharacterPanelComponent implements IGameScene {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
-    public data: IGameCharacter;
-    public equipItems: IGameEquipItem[] = [];
+    public readonly data = signal<IGameCharacter|null>(null);
+    public readonly equipItems = signal<IGameEquipItem[]>([]);
 
     constructor() {
-        this.data = this.router.character;
+        this.data.set(this.router.character);
         this.router.request(GameCommand.CharacterStatus).subscribe(res => {
-            this.data = res.data;
-            this.equipItems = res.data.equip_items || [];
+            this.data.set(res.data!);
+            this.equipItems.set(res.data!.equip_items || []);
         });
     }
 

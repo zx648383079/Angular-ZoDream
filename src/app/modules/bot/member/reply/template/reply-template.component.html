@@ -52,7 +52,7 @@
     </div>
 </div>
 
-<app-dialog-box #editModal [title]="editForm.id ? '编辑模板' : '新增模板'">
+<app-dialog-box #editModal [title]="editForm.id().value() ? '编辑模板' : '新增模板'">
     <div class="form-table-control">
         <div class="input-group-control">
             <label for="">模板名称</label>

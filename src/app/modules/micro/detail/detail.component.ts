@@ -74,12 +74,12 @@ export class DetailComponent {
         }
     }
     public tapCollect() {
-        if (!this.data) {
+        if (!this.data()) {
             return;
         }
-        this.service.collect(this.data().id).subscribe({
+        this.service.collect(this.data()!.id).subscribe({
             next: res => {
-                this.data.update(v => {
+                this.data.update((v: any) => {
                     return {...v, is_collected: res.is_collected, collect_count: res.collect_count};
                 });
             }, error: err => {
@@ -92,9 +92,9 @@ export class DetailComponent {
         if (!this.data) {
             return;
         }
-        this.service.recommend(this.data().id).subscribe({
+        this.service.recommend(this.data()!.id).subscribe({
             next: res => {
-                this.data.update(v => {
+                this.data.update((v: any) => {
                     return {...v, is_recommended: res.is_recommended, recommend_count: res.recommend_count};
                 });
             }, 
@@ -109,7 +109,7 @@ export class DetailComponent {
             return;
         }
         this.editForm().value.update(v => {
-            v.id = this.data().id;
+            v.id = this.data()!.id;
             v.content = '';
             v.is_comment = false;
             return {...v};

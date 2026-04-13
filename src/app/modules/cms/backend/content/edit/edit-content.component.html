@@ -1,4 +1,4 @@
-<app-edit-header [title]="data?.id > 0 ? '编辑文章' : '新增文章'" (submited)="tapSubmit($event)" [disabled]="!form().valid" />
+<app-edit-header [title]="data()?.id > 0 ? '编辑文章' : '新增文章'" (submited)="tapSubmit($event)" [disabled]="!form().valid" />
 
 <div class="container-fluid">
     <div class="panel-container form-table-control">

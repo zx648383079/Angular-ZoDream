@@ -29,7 +29,7 @@ export class PreviewComponent {
 
     public readonly data = signal<IResource|null>(null);
     public readonly isLoading = signal(false);
-    public previewSrc: SafeResourceUrl;
+    public readonly previewSrc = signal<SafeResourceUrl|null>(null);
     public resizeItems: ISizeItem[] = [
         {name: '全屏'},
         {name: '768x1024', width: 768, height: 1024},
@@ -67,7 +67,7 @@ export class PreviewComponent {
                 this.isLoading.set(false);
                 this.themeService.titleChanged.next(res.title);
                 this.data.set(res);
-                this.previewSrc = this.sanitizer.bypassSecurityTrustResourceUrl(res.preview_url);
+                this.previewSrc.set(this.sanitizer.bypassSecurityTrustResourceUrl(res.preview_url!));
             },
             error: err => {
                 this.isLoading.set(false);

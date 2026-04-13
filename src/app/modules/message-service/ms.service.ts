@@ -13,6 +13,7 @@ import {
     ISignature, ITemplate
 } from './model';
 import { IFormInput } from '../../components/form';
+import { IItem } from '../../theme/models/seo';
 
 @Injectable()
 export class MessageServiceService {
@@ -115,7 +116,7 @@ export class MessageServiceService {
     }
 
     public typeItems() {
-        return of([
+        return of<IItem[]>([
             {
                 name: 'TEXT',
                 value: 1,

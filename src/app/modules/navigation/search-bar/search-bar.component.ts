@@ -137,11 +137,11 @@ export class SearchBarComponent implements SuggestEvent, ISearchBar {
     }
 
     private gotoSearch(keywords: any) {
-        if (!keywords || !this.currentEngine().url) {
+        if (!keywords || !this.currentEngine()!.url) {
             this.confirm.emit(keywords);
             return;
         }
-        const url = this.currentEngine().url.replace('{word}', encodeURIComponent(this.formatTitle(keywords).trim()));
+        const url = this.currentEngine()!.url.replace('{word}', encodeURIComponent(this.formatTitle(keywords).trim()));
         window.open(url, '_blank');
     }
 
@@ -161,17 +161,17 @@ export class SearchBarComponent implements SuggestEvent, ISearchBar {
             this.dropIndex.set(-1);
             return;
         }
-        if (!this.currentEngine().suggest) {
+        if (!this.currentEngine()!.suggest) {
             this.textChange.emit({
                 text: this.value(),
                 suggest: this.suggest.bind(this)
             });
             return;
         }
-        const suggest = this.currentEngine().suggest;
+        const suggest = this.currentEngine()!.suggest!;
         const keywords = encodeURIComponent(this.value());
         if (typeof suggest == 'string') {
-            this.jsonp(suggest + keywords, res => {
+            this.jsonp(suggest + keywords, (res: any) => {
                 if (!res || !res.data || res.data.length < 1) {
                     this.suggest([]);
                     return;

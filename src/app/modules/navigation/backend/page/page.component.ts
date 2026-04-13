@@ -3,7 +3,7 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { SearchService } from '../../../../theme/services';
-import { IWebPage } from '../../model';
+import { IWebPage, IWebPageKeywords } from '../../model';
 import { formatDomain } from '../../util';
 import { NavigationService } from '../navigation.service';
 
@@ -39,12 +39,12 @@ export class PageComponent {
         thumb: '',
         site_id: 0,
         score: 60,
-        keywords: [],
+        keywords: <IWebPageKeywords[]>[],
     }), schemaPath => {
         required(schemaPath.title);
         required(schemaPath.link);
     });
-    public editExistData: IWebPage|undefined;
+    public readonly editExistData = signal<IWebPage|null>(null);
     public readonly wordSource = this.service.wordSource();
 
     constructor() {
@@ -67,12 +67,12 @@ export class PageComponent {
             return;
         }
         this.service.pageCheck(this.editForm().value()).subscribe(res => {
-            this.editExistData = res.data;
+            this.editExistData.set(res.data);
         });
     }
 
     public open(modal: DialogEvent, item?: IWebPage) {
-        this.editExistData = undefined;
+        this.editExistData.set(null);
         this.editForm().value.update(v => {
             v.id = item?.id ?? 0;
             v.title = item?.title ?? '';

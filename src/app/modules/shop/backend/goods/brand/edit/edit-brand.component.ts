@@ -35,7 +35,7 @@ export class EditBrandComponent {
         required(schemaPath.name);
     });
 
-    public data: IBrand;
+    private data?: IBrand;
 
     constructor() {
         this.route.params.subscribe(params => {
@@ -45,12 +45,12 @@ export class EditBrandComponent {
             this.service.brand(params.id).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
-                        id: res.id,
+                    id: res.id,
                     name: res.name,
-                    keywords: res.keywords,
-                    description: res.description,
-                    logo: res.logo,
-                    app_logo: res.app_logo,
+                    keywords: res.keywords ?? '',
+                    description: res.description ?? '',
+                    logo: res.logo ?? '',
+                    app_logo: res.app_logo ?? '',
                 });
             });
         });
@@ -88,12 +88,12 @@ export class EditBrandComponent {
     public uploadFile(event: any, name: string = 'logo') {
         const files = event.target.files as FileList;
         this.uploadService.uploadImage(files[0]).subscribe(res => {
-            this.dataForm[name]().value.set(res.url);
+            (this.dataForm as any)[name]().value.set(res.url);
         });
     }
 
     public tapPreview(name: string) {
-        window.open(this.dataForm[name]().value(), '_blank');
+        window.open((this.dataForm as any)[name]().value(), '_blank');
     }
 
 }

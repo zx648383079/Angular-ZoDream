@@ -46,7 +46,7 @@ export class DetailComponent {
         if (!this.data()) {
             return 0;
         }
-        return this.data().price * this.dataForm.amount().value();
+        return this.data()!.price * this.dataForm.amount().value();
     });
 
     public loadService(id: any) {
@@ -71,7 +71,7 @@ export class DetailComponent {
         }
         e?.enter();
         this.service.orderCreate({
-            service_id: this.data().id,
+            service_id: this.data()!.id,
             amount: this.dataForm.amount().value(),
             remark
         }).subscribe({

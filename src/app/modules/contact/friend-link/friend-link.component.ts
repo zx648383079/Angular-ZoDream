@@ -60,7 +60,7 @@ export class FriendLinkComponent {
         this.editForm().value.update(v => {
             for (const key in v) {
                 if (Object.hasOwn(v, key)) {
-                    v[key] = '';
+                    (v as any)[key] = '';
                 }
             }
             return {...v};

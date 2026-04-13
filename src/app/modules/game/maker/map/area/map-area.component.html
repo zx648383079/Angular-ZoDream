@@ -2,8 +2,8 @@
     <app-page-tip>
         <ul>
             <li>管理地区列表</li>
-            @if (parent) {
-            <li>当前地区：{{ parent.name }}</li>
+            @if (parent()) {
+            <li>当前地区：{{ parent()!.name }}</li>
             }
         </ul>
     </app-page-tip>
@@ -17,10 +17,10 @@
                 <button type="submit" class="btn btn-primary">搜索</button>
 
                 <div class="btn-group pull-right">
-                    @if (parent) {
+                    @if (parent()) {
                     <a class="btn btn-success" (click)="tapViewRegion()">返回顶级</a>
                     }
-                    @if (parent && parent.parent_id > 0) {
+                    @if (parent() && parent()!.parent_id > 0) {
                     <a class="btn btn-info"  (click)="tapParentRegion()">返回上一级</a>
                     }
                     <a routerLink="../" class="btn btn-danger">新手村</a>
@@ -44,7 +44,7 @@
                     <tr>
                     <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
-                    <td>{{ parent ? parent.name  : '[-]' }}</td>
+                    <td>{{ parent() ? parent()!.name  : '[-]' }}</td>
                     <td>
                         <div class="btn-group">
                             <a class="btn btn-primary" routerLink="../" [queryParams]="{area: item.id}">地图</a>

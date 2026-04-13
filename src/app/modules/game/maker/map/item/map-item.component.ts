@@ -42,7 +42,7 @@ export class MapItemComponent {
     }));
 
     constructor() {
-        this.route.parent.params.subscribe(params => {
+        this.route.parent!.params.subscribe(params => {
             this.queries.project().value.set(parseNumber(params.game));
         });
         this.route.params.subscribe(params => {
@@ -120,7 +120,7 @@ export class MapItemComponent {
     }
 
     public tapRemove(item: IGameMapItem) {
-        this.toastrService.confirm('确定删除“' + item.item.name + '”物品？', () => {
+        this.toastrService.confirm('确定删除“' + item.item?.name + '”物品？', () => {
             this.service.mapItemRemove(item.id, this.queries.project).subscribe(res => {
                 if (!res.data) {
                     return;

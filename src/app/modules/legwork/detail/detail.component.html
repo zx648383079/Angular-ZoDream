@@ -6,13 +6,13 @@
     <div class="line-item">
         <span i18n>Service</span>
         <span class="name">
-            @if (data().category) {
-            [{{ data().category.name }}]
+            @if (data()!.category) {
+            [{{ data()!.category?.name }}]
             }
-            {{ data().name }}</span>
+            {{ data()!.name }}</span>
     </div>
     <div class="line-tip">
-        {{ data().brief }}
+        {{ data()!.brief }}
     </div>
     @for (item of dataForm.items; track $index) {
     <div class="line-item">

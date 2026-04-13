@@ -42,7 +42,7 @@ export class EditAuctionComponent {
 
     public readonly goodsSource = this.service.goodsSource();
 
-    public data: IActivity<IAuctionConfigure>;
+    private data?: IActivity<IAuctionConfigure>;
 
     constructor() {
         this.route.params.subscribe(params => {

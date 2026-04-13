@@ -27,7 +27,7 @@ export class LegworkComponent {
     public tapNav(item: INavLink) {
         this.items.update(v => {
             return v.map(group => {
-                group.children = group.children.map(i => {
+                group.children = group.children!.map(i => {
                     i.active = i === item;
                     return i;
                 });

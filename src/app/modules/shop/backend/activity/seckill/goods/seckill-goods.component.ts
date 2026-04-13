@@ -2,7 +2,6 @@ import { form } from '@angular/forms/signals';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../../components/dialog';
-import { IPageQueries } from '../../../../../../theme/models/page';
 import { ISeckillGoods } from '../../../../model';
 import { SearchService } from '../../../../../../theme/services';
 import { ActivityService } from '../../activity.service';

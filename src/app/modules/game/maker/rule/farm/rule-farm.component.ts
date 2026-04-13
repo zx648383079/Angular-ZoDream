@@ -30,11 +30,11 @@ export class RuleFarmComponent {
         price: 0,
         time_scale: 0,
         yield_scale: 0,
-        upgrade_rules: [],
+        upgrade_rules: <IGameFarmPlot[]>[],
     }));
 
     constructor() {
-        this.route.parent.params.subscribe(params => {
+        this.route.parent!.params.subscribe(params => {
             this.queries.project().value.set(parseNumber(params.game));
         });
         this.tapRefresh();
@@ -53,9 +53,7 @@ export class RuleFarmComponent {
             return {...v};
         });
         modal.open(() => {
-            if (!this.editForm.upgrade_rules) {
-                this.editForm.upgrade_rules().value.set([]);
-            }
+            this.editForm.upgrade_rules().value.set([]);
             if (!item) {
                 this.items.update(v => {
                     v.push(this.editForm().value());

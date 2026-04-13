@@ -51,7 +51,7 @@ export class EditPresaleComponent {
     public readonly priceType = computed(() => parseNumber(this.dataForm.configure.price_type().value()));
     public readonly depositScale = computed(() => parseNumber(this.dataForm.configure.deposit_scale().value()));
 
-    public data: IActivity<IPreSaleConfigure>;
+    private data?: IActivity<IPreSaleConfigure>;
 
 
     constructor() {

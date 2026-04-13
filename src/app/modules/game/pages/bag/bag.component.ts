@@ -1,6 +1,5 @@
 import { form } from '@angular/forms/signals';
 import { Component, inject, signal } from '@angular/core';
-import { IPageQueries } from '../../../../theme/models/page';
 import { GameCommand, GameRouterInjectorToken, IGameBagItem, IGameRouter, IGameScene, ItemTypeItems } from '../../model';
 
 @Component({
@@ -54,7 +53,7 @@ export class BagComponent implements IGameScene {
         const queries = {...this.queries().value(), page};
         this.router.request(GameCommand.BagQuery, queries).subscribe({
             next: res => {
-                const data = res.data;
+                const data = res.data!;
                 this.queries().value.set(queries);
                 this.isLoading.set(false);
                 this.total.set(data.paging.total);

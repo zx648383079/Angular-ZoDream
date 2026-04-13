@@ -3,7 +3,7 @@
     @if (user()) {
     <div class="comment-publish">
         <div class="avatar">
-            <img [src]="user().avatar" alt="">
+            <img [src]="user()!.avatar" alt="">
         </div>
         <div class="reply-input">
             <div class="input">
@@ -27,11 +27,11 @@
    @for (item of items(); track $index) {
      <div class="comment-item">
         <div class="avatar">
-            <img [src]="item.user.avatar" alt="">
+            <img [src]="item.user?.avatar" alt="">
         </div>
         <div>
             <div class="text">
-                <a>{{ item.user.name }}</a>：
+                <a>{{ item.user?.name }}</a>：
                 <app-rule-block [value]="item.content" [rules]="item.extra_rule" />
             </div>
             <div class="actions">
@@ -39,7 +39,7 @@
                 <div class="tools">
                     <a (click)="tapCommenting(item)">
                         <ng-container i18n>Comment</ng-container>
-                        @if (item.reply_count > 0) {
+                        @if (item.reply_count! > 0) {
                             ({{ item.reply_count | numberFormat }})
                         }
                     </a>
@@ -64,7 +64,7 @@
                         <div class="tools">
                             <a (click)="tapCommenting(it)">
                                 <ng-container i18n>Comment</ng-container>
-                                @if (it.reply_count > 0) {
+                                @if (it.reply_count! > 0) {
                                     ({{ it.reply_count | numberFormat }})
                                 }
                             </a>

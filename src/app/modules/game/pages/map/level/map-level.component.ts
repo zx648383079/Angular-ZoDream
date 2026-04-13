@@ -15,7 +15,7 @@ export class MapLevelComponent implements IGameScene {
 
     constructor() {
         this.router.request(GameCommand.MapDungeonQuery).subscribe(res => {
-            this.items.set(res.data);
+            this.items.set(res.data!);
         });
     }
 

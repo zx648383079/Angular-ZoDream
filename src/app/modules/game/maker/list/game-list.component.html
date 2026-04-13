@@ -2,13 +2,13 @@
     <div class="row">
         @for (item of items(); track $index) {
             <div class="col-md-6 col-lg-4">
-            <div class="project-item" [class]="{inactive: item.status < 1}">
+            <div class="project-item" [class]="{inactive: item.status! < 1}">
                 <div class="item-logo">
                     <img [appLazyLoad]="item.logo" [alt]="item.name">
                 </div>
                 <div class="item-body">
                     <div class="item-action">
-                        <app-switch [(value)]="item.status" (valueChange)="onStatusChange(item)" />
+                        <app-switch [(value)]="item.status!" (valueChange)="onStatusChange(item)" />
                     </div>
                     <div class="item-name">{{ item.name }}</div>
                     <div class="item-meta">{{ item.description }}</div>
@@ -37,7 +37,7 @@
         </div>
     </div>
 </div>
-<app-dialog-box #modal [title]="editForm.id ? '编辑' : '新建'">
+<app-dialog-box #modal [title]="editForm.id().value() ? '编辑' : '新建'">
     <div class="form-group">
         <label for="name-input">游戏名</label>
         <div class="input-group-control">

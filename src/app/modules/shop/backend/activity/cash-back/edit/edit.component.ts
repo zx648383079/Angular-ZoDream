@@ -8,7 +8,6 @@ import { ActivityRuleItems } from '../../model';
 import { form, required } from '@angular/forms/signals';
 import { parseNumber } from '../../../../../../theme/utils';
 import { ArraySource, ButtonEvent } from '../../../../../../components/form';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
     standalone: false,
@@ -41,7 +40,7 @@ export class EditCashBackComponent {
         required(schemaPath.name);
     });
 
-    public data: IActivity<ICashBackConfigure>;
+    private data?: IActivity<ICashBackConfigure>;
     public ruleItems = ActivityRuleItems;
 
     public readonly scopeType = computed(() => {

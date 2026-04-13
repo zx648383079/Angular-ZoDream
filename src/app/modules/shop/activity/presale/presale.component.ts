@@ -2,7 +2,6 @@ import { form } from '@angular/forms/signals';
 import { Component, inject, viewChildren, signal, DestroyRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CountdownComponent } from '../../../../components/desktop';
-import { IPageQueries } from '../../../../theme/models/page';
 import { IActivity, IPreSaleConfigure } from '../../model';
 import { SearchService } from '../../../../theme/services';
 import { ThemeService } from '../../../../theme/services';
@@ -33,7 +32,7 @@ export class PresaleComponent {
         per_page: 20,
         keywords: '',
     }));
-    private $timer: Subscription;
+    private $timer?: Subscription;
 
     constructor() {
         this.themeService.titleChanged.next('预售中心');
@@ -95,7 +94,7 @@ export class PresaleComponent {
     private stopTimer() {
         if (this.$timer) {
             this.$timer.unsubscribe();
-            this.$timer = null;
+            this.$timer = undefined;
         }
     }
 }

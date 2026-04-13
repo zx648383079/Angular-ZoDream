@@ -18,7 +18,7 @@ export class EditServiceComponent {
     private readonly toastrService = inject(DialogService);
     private readonly location = inject(Location);
 
-    public data: IService;
+    private data?: IService;
     public readonly dataModel = signal({
         id: 0,
         name: '',
@@ -90,7 +90,7 @@ export class EditServiceComponent {
                 price: res.price,
                 brief: res.brief,
                 content: res.content,
-                form: res.form?.length > 0 ? res.form.map(v => {
+                form: res.form && res.form.length > 0 ? res.form.map(v => {
                     return {
                         name: v.name,
                         label: v.label,
@@ -116,7 +116,7 @@ export class EditServiceComponent {
         if (this.data) {
             data.id = this.data.id;
         }
-        data.form = data.form.filter(i => !!i.name).map(i => {
+        data.form = data.form!.filter(i => !!i.name).map(i => {
             if (!i.label) {
                 i.label = i.name;
             }

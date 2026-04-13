@@ -56,8 +56,8 @@ export class NavigationPanelComponent {
         return this.saveMode === 2;
     });
 
-    private loadAsync(mode: number);
-    private loadAsync(isGuest: boolean);
+    private loadAsync(mode: number): void;
+    private loadAsync(isGuest: boolean): void;
     private loadAsync(isGuest: boolean|number) {
         this.isUpdated = false;
         let mode = 0;
@@ -104,7 +104,7 @@ export class NavigationPanelComponent {
                 });
             } else {
                 const group = v[0];
-                group.items.push({
+                group.items!.push({
                     id: this.generateId(true),
                     name,
                     link,
@@ -130,10 +130,10 @@ export class NavigationPanelComponent {
     }
 
     public tapAdd() {
-        this.open(undefined, data => {
+        this.open<any>(undefined, data => {
             this.items.update(v => {
                 if (data.group_id) {
-                    v[this.groupIndex(data.group_id)].items.push(data);
+                    v[this.groupIndex(data.group_id)].items!.push(data);
                 } else {
                     v.push({...data, items: []});
                 }
@@ -144,12 +144,12 @@ export class NavigationPanelComponent {
 
     public tapEdit(i: number, j = -1) {
         const items = this.items();
-        const item = j < 0 ? items[i] : items[i].items[j];
+        const item = j < 0 ? items[i] : items[i].items![j];
         this.open(item, data => {
             if (j < 0) {
                 items[i].name = data.name;
             } else {
-                items[i].items[j] = data as any;
+                items[i].items![j] = data as any;
             }
             this.items.set(items);
         });
@@ -190,13 +190,13 @@ export class NavigationPanelComponent {
     }
 
     public tapRemove(i: number, j = -1) {
-        const item = j < 0 ? this.items()[i] : this.items()[i].items[j];
+        const item = j < 0 ? this.items()[i] : this.items()[i].items![j];
         this.toastrService.confirm($localize `Are you sure to delete"${item.name}"` + (j < 0 ? $localize `Group` : $localize `Link`), () => {
             this.items.update(v => {
                 if (j < 0) {
                     v.splice(i, 1);
                 } else {
-                    v[i].items.splice(j, 1)
+                    v[i].items!.splice(j, 1)
                 }
                 return [...v];
             });
@@ -232,7 +232,7 @@ export class NavigationPanelComponent {
             return {...v};
         });
         
-        this.modal().open(() => {
+        this.modal()!.open(() => {
             const data = this.editForm().value();
             if (data.group_id != '0') {
                 if (emptyValidate(data.link)) {
@@ -270,7 +270,7 @@ export class NavigationPanelComponent {
                 }
                 continue;
             }
-            for (const item of group.items) {
+            for (const item of group.items!) {
                 if (item.id < max) {
                     continue;
                 }
@@ -282,7 +282,7 @@ export class NavigationPanelComponent {
 
     private isExist(link: string, id: number) {
         for (const group of this.items()) {
-            for (const item of group.items) {
+            for (const item of group.items!) {
                 if (item.id !== id && link === item.link) {
                     return true;
                 }

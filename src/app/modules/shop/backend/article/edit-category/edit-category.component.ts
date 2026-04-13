@@ -44,7 +44,7 @@ export class EditCategoryComponent {
         required(schemaPath.name);
     });
 
-    public data: IArticleCategory;
+    private data?: IArticleCategory;
     public categories: IArticleCategory[] = [];
 
     constructor() {
@@ -107,7 +107,7 @@ export class EditCategoryComponent {
     }
 
     public tapPreview(name: string) {
-        window.open(this.dataForm[name]().value(), '_blank');
+        window.open((this.dataForm as any)[name]().value(), '_blank');
     }
 
 }

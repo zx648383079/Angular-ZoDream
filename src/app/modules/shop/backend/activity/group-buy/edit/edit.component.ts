@@ -42,7 +42,7 @@ export class EditGroupBuyComponent {
     });
     public readonly goodsSource = this.service.goodsSource();
 
-    public data: IActivity<IGroupBuyConfigure>;
+    private data?: IActivity<IGroupBuyConfigure>;
 
     constructor() {
         this.route.params.subscribe(params => {

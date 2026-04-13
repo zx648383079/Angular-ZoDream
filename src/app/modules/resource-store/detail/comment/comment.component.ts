@@ -23,7 +23,7 @@ export class CommentComponent {
 
     public readonly itemId = input(0);
     public readonly items = signal<IComment[]>([]);
-    public readonly subtotal = signal<ICommentSubtotal>(null);
+    public readonly subtotal = signal<ICommentSubtotal|null>(null);
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);

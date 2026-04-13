@@ -26,7 +26,7 @@ export class OptionComponent {
         this.route.params.subscribe(params => {
             this.isMail.set(params.type === 'mail');
             this.service.option(this.isMail()).subscribe(res => {
-                this.form().items.set(res.data);
+                this.form()!.items.set(res.data);
             });
         });
     }
@@ -37,8 +37,8 @@ export class OptionComponent {
 
 
     public tapSubmit(e?: ButtonEvent) {
-        const form = this.form();
-        if (form.invalid) {
+        const form = this.form()!;
+        if (form.invalid()) {
             this.toastrService.warning('请填写完整');
             return;
         }

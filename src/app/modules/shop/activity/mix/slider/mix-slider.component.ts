@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, afterNextRender, effect, inject, input, viewChildren } from '@angular/core';
+import { Component, ElementRef, HostListener, afterNextRender, computed, effect, inject, input, viewChildren } from '@angular/core';
 
 @Component({
     standalone: false,
@@ -19,16 +19,16 @@ export class MixSliderComponent {
     private itemHeight = 0;
     private boxWidth = 0;
 
-    public get boxStyle() {
+    public readonly boxStyle = computed(() => {
         if (this.itemHeight < 1) {
             return {};
         }
         return {
             height: this.itemHeight + 'px',
         };
-    }
+    });
 
-    public get scrollStyle() {
+    public readonly scrollStyle = computed(() => {
         if (this.itemHeight < 1) {
             return {};
         }
@@ -36,7 +36,7 @@ export class MixSliderComponent {
             width: (this.itemWidth * this.items().length) + 'px',
             left: (- this.index * this.itemWidth) + 'px',
         }
-    }
+    });
 
     constructor() {
         effect(() => {

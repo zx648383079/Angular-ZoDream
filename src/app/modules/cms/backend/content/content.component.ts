@@ -35,7 +35,7 @@ export class ContentComponent {
         category: 0
     }));
     public columnItems: ICmsColumn[] = [];
-    public model: ICmsModel;
+    public readonly model = signal<ICmsModel|null>(null);
 
     constructor() {
         this.route.params.subscribe(params => {
@@ -55,9 +55,9 @@ export class ContentComponent {
             return item.user?.name;
         }
         if (['created_at', 'updated_at'].indexOf(field.name) >= 0) {
-            return formatAgo(item[field.name]);
+            return formatAgo((item as any)[field.name]);
         }
-        return item[field.name];
+        return (item as any)[field.name];
     }
 
 
@@ -90,7 +90,7 @@ export class ContentComponent {
             this.queries().value.set(queries);
             this.searchService.applyHistory(queries, ['model', 'site', 'category', 'parent']);
             this.columnItems = (res as any).column;
-            this.model = (res as any).model;
+            this.model.set((res as any).model);
         });
     }
 

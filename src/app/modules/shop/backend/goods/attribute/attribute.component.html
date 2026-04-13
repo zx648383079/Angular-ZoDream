@@ -2,8 +2,8 @@
     <app-page-tip>
         <ul>
             <li>商品属性列表</li>
-            @if (group) {
-            <li>当前属性分组：{{ group.name }}</li>
+            @if (group()) {
+            <li>当前属性分组：{{ group()!.name }}</li>
             }
         </ul>
     </app-page-tip>
@@ -17,7 +17,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
                 <div class="btn-group pull-right">
-                    <a [routerLink]="['../create', group.id]" class="btn btn-primary">新增属性</a>
+                    <a [routerLink]="['../create', group()?.id]" class="btn btn-primary">新增属性</a>
                     <a routerLink="../../group" class="btn btn-info">返回分组</a>
                 </div>
                 

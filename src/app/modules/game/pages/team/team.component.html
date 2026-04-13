@@ -3,14 +3,14 @@
         <i class="iconfont icon-arrow-left"></i>
     </div>
     <div class="title-bar">
-        {{ data?.name || '队伍' }}
+        {{ data()?.name || '队伍' }}
     </div>
     <a class="right-item" (click)="tapExit()">
-        {{ data?.editable ? '解散' : '退队' }}
+        {{ data()?.editable ? '解散' : '退队' }}
     </a>
 </div>
 <div class="users-body">
-    @for (item of userItems; track $index) {
+    @for (item of userItems(); track $index) {
     <div class="user-item">
         <div class="item-avatar">
             <img [src]="item.avatar| asset" alt="">
@@ -21,7 +21,7 @@
         </div>
         <div class="item-action">
             <a>查看</a>
-            @if (data.editable) {
+            @if (data()!.editable) {
             <a (click)="tapExclude(item)">踢出</a>
             }
         </div>

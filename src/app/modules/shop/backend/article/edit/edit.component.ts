@@ -32,7 +32,7 @@ export class EditArticleComponent {
         required(schemaPath.title);
     });
 
-    public data: IArticle;
+    private data?: IArticle;
     public categories: IArticleCategory[] = [];
 
     constructor() {

@@ -11,11 +11,11 @@ import { IGamePeople } from '../../model';
 export class DialogueComponent {
 
     public mode = 0;
-    public user: IGamePeople;
+    public user?: IGamePeople;
     public readonly items = signal<string[]>([]);
     public message = '';
     private _index = -1;
-    private onFinish: Subject<any>;
+    private onFinish?: Subject<any>;
 
     constructor() { }
 
@@ -40,17 +40,17 @@ export class DialogueComponent {
 
     public tapSelected(i: number) {
         this.mode = 0;
-        return this.onFinish.next(i);
+        return this.onFinish?.next(i);
     }
 
     public tapNext() {
         this._index ++;
         if (this._index >= this.items().length) {
             this.mode = 0;
-            this.onFinish.next(0);
+            this.onFinish?.next(0);
             return;
         }
-        this.message = this.items[this._index];
+        this.message = this.items()[this._index];
     }
 
 }

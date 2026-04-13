@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, GameScenePath, IGameCharacter, IGameMessage, IGameRouter, IGameScene, IGmeRoute } from '../../model';
 
 @Component({
@@ -29,36 +29,36 @@ export class MainComponent implements IGameScene {
         {name: '充值', path: GameScenePath.Recharge},
         {name: '设置', path: GameScenePath.Setting},
     ];
-    public character: IGameCharacter;
-    public messsageItems: IGameMessage[];
+    public readonly character = signal<IGameCharacter|null>(null);
+    public readonly messsageItems = signal<IGameMessage[]>([]);
 
     constructor() {
-        this.character = this.router.character;
+        this.character.set(this.router.character);
         this.router.request({
             [GameCommand.CharacterNow]: {},
             [GameCommand.ChatPublic]: {}
         }).subscribe(res => {
             if (res[GameCommand.CharacterNow] && res[GameCommand.CharacterNow].data) {
-                this.character = res[GameCommand.CharacterNow].data;
+                this.character.set(res[GameCommand.CharacterNow].data);
                 this.updateCheckIn();
-                this.topItems[1].count = this.character.message_count;
-                this.bottomItems[1].path = this.character.team_id > 0 ? GameScenePath.Team : GameScenePath.TeamPiazza;
-                this.bottomItems[2].path = this.character.org_id > 0 ? GameScenePath.Organize : GameScenePath.OrganizePiazza;
+                this.topItems[1].count = this.character()!.message_count;
+                this.bottomItems[1].path = this.character()!.team_id! > 0 ? GameScenePath.Team : GameScenePath.TeamPiazza;
+                this.bottomItems[2].path = this.character()!.org_id! > 0 ? GameScenePath.Organize : GameScenePath.OrganizePiazza;
             }
             if (res[GameCommand.ChatPublic] && res[GameCommand.ChatPublic].data) {
-                this.messsageItems = res[GameCommand.ChatPublic].data;
+                this.messsageItems.set(res[GameCommand.ChatPublic].data);
             }
         });
     }
 
     public tapCheckin() {
-        if (this.character.is_checked) {
+        if (this.character()!.is_checked) {
             return;
         }
         this.router.request(GameCommand.CheckinOwn).subscribe(res => {
-            this.character.is_checked = true;
+            this.character()!.is_checked = true;
             this.updateCheckIn();
-            this.router.toast(res.data);
+            this.router.toast(res.data!);
         });
     }
 
@@ -82,7 +82,7 @@ export class MainComponent implements IGameScene {
 
     private updateCheckIn() {
         const item = this.topItems[0];
-        item.name = this.character.is_checked ? '已签到' : '签到';
-        item.disabled = this.character.is_checked;
+        item.name = this.character()!.is_checked ? '已签到' : '签到';
+        item.disabled = this.character()!.is_checked;
     }
 }

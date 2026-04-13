@@ -36,7 +36,7 @@ export class SeckillComponent {
         per_page: 20,
         keywords: '',
     }));
-    private $timer: Subscription;
+    private $timer?: Subscription;
 
     constructor() {
         this.themeService.titleChanged.next('秒杀');
@@ -54,7 +54,7 @@ export class SeckillComponent {
     }
 
     public onTimeEnd(item: IActivityTime) {
-        item.status --;
+        item.status! --;
     }
 
     public formatStatus(value: number) {
@@ -116,7 +116,7 @@ export class SeckillComponent {
     private stopTimer() {
         if (this.$timer) {
             this.$timer.unsubscribe();
-            this.$timer = null;
+            this.$timer = undefined;
         }
     }
 

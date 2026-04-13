@@ -2,7 +2,6 @@ import { Component, inject, signal } from '@angular/core';
 import { GameCommand, GameRouterInjectorToken, IGameCharacter, IGameCharacterIdentity, IGameDescent, IGameProject, IGameRouter, IGameScene } from '../../model';
 import { IItem } from '../../../../theme/models/seo';
 import { ButtonEvent } from '../../../../components/form';
-import { emailValidate } from '../../../../theme/validators';
 import { form, required } from '@angular/forms/signals';
 
 @Component({
@@ -40,10 +39,10 @@ export class EntryComponent implements IGameScene {
             [GameCommand.DescentQuery]: {},
         }).subscribe(res => {
             if (res[GameCommand.CharacterQuery]) {
-                this.characterItems = res[GameCommand.CharacterQuery].data;
+                this.characterItems = res[GameCommand.CharacterQuery].data!;
             }
             if (res[GameCommand.DescentQuery]) {
-                this.descentItems = res[GameCommand.DescentQuery].data;
+                this.descentItems = res[GameCommand.DescentQuery].data!;
             }
         });
     }
@@ -78,7 +77,7 @@ export class EntryComponent implements IGameScene {
         }).subscribe({
             next: res => {
                 e?.reset();
-                this.router.enter(res.data.id);
+                this.router.enter(res.data!.id);
             },
             error: err => {
                 e?.reset();

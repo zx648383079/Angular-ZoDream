@@ -11,7 +11,7 @@ import { IBlockItem, IExtraRule } from './model';
 export class RuleBlockComponent {
 
     public readonly value = input.required<string>();
-    public readonly rules = input<IExtraRule[]>([]);
+    public readonly rules = input<IExtraRule[]|undefined>([]);
     /**
      * 是否允许换行
      */
@@ -23,7 +23,7 @@ export class RuleBlockComponent {
     constructor() {
         effect(() => {
             const value = this.value();
-            const rules = this.rules()
+            const rules = this.rules();
             untracked(() => {
                 this.blcokItems.set(this.renderRule(value, rules));
             });
@@ -34,7 +34,7 @@ export class RuleBlockComponent {
         this.tapped.emit(item);
     }
 
-    public renderRule(content: string, rules: IExtraRule[]): IBlockItem[] {
+    public renderRule(content: string, rules?: IExtraRule[]): IBlockItem[] {
         return formatLinkRule((rule: IExtraRule): IBlockItem => {
             if (rule.i) {
                 return {

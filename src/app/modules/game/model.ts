@@ -318,7 +318,7 @@ export const InvestTabItems: IItem[] = [
 
 
 export interface GameCommandListeners {
-    [key: string]: (...args) => any;
+    [key: string]: (...args: any[]) => any;
     [GameCommand.Query]: (data: any) => string[];
     [GameCommand.DescentQuery]: () => IGameDescent[];
     [GameCommand.CharacterQuery]: () => IGameCharacter[];

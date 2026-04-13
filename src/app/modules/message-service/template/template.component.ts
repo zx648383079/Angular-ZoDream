@@ -6,6 +6,7 @@ import { ITemplate } from '../model';
 import { SearchService } from '../../../theme/services';
 import { MessageServiceService } from '../ms.service';
 import { mapFormat } from '../../../theme/utils';
+import { IItem } from '../../../theme/models/seo';
 
 @Component({
     standalone: false,
@@ -30,7 +31,7 @@ export class TemplateComponent {
         per_page: 20,
         keywords: ''
     }));
-    public readonly typeItems = signal([]);
+    public readonly typeItems = signal<IItem[]>([]);
 
     constructor() {
         this.service.typeItems().subscribe(res => {

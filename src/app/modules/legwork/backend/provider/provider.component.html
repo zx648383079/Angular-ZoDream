@@ -77,7 +77,7 @@
             <div class="line-item">
                 <span class="label">{{ item.name }}</span>
                 <span class="value">
-                    @if (item.status < 1) {
+                    @if (item.status! < 1) {
                     <button type="button" class="btn btn-primary" (click)="tapAllowCategory(item)">允许</button>
                     }
                 </span>

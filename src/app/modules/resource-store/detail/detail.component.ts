@@ -47,7 +47,7 @@ export class DetailComponent {
                 res.score = parseNumber(res.score);
                 this.themeService.titleChanged.next(res.title);
                 this.data.set(res);
-                this.catalogItems.set(res.file_catalog);
+                this.catalogItems.set(res.file_catalog!);
                 // this.loadCatalog();
             },
             error: err => {
@@ -63,9 +63,9 @@ export class DetailComponent {
         if (!this.data()) {
             return;
         }
-        this.service.collect(this.data().id).subscribe({
+        this.service.collect(this.data()!.id).subscribe({
             next: res => {
-                this.data.update(v => {
+                this.data.update((v: any) => {
                     return {...v, is_collected: res.is_collected, collect_count: res.collect_count};
                 });
             }, error: err => {
@@ -75,7 +75,7 @@ export class DetailComponent {
     }
 
     private loadCatalog() {
-        this.service.resourceCatalog(this.data().id).subscribe(res => {
+        this.service.resourceCatalog(this.data()!.id).subscribe(res => {
             this.catalogItems.set(res.data);
         });
     }

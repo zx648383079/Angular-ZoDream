@@ -35,7 +35,7 @@ export class EditAttributeComponent {
         required(schemaPath.name);
     });
 
-    public data: IAttribute;
+    private data?: IAttribute;
     public groupItems: IAttributeGroup[] = [];
     public propertyGroups: string[] = [];
 
@@ -54,7 +54,7 @@ export class EditAttributeComponent {
                 this.dataModel.set({
                     id: res.id,
                     name: res.name,
-                    property_group: res.property_group,
+                    property_group: res.property_group ?? '',
                     search_type: res.search_type.toString(),
                     group_id: res.group_id.toString(),
                     input_type: res.input_type.toString(),

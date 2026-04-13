@@ -3,7 +3,6 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../../components/dialog';
 import { ButtonEvent, UploadButtonEvent } from '../../../../../../components/form';
-import { IPageQueries } from '../../../../../../theme/models/page';
 import { ICouponLog } from '../../../../model';
 import { FileUploadService, SearchService } from '../../../../../../theme/services';
 import { ActivityService } from '../../activity.service';

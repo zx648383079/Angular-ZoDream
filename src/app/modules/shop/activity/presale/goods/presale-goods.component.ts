@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -21,10 +21,10 @@ export class PresaleGoodsComponent {
     private readonly themeService = inject(ThemeService);
 
 
-    public data: IGoods;
-    public activity: IActivity<IPreSaleConfigure>;
-    public galleryItems: IGoodsGallery[] = [];
-    public content: SafeHtml;
+    public readonly data =signal<IGoods|null>(null);
+    public readonly activity = signal<IActivity<IPreSaleConfigure>|null>(null);
+    public readonly galleryItems = signal<IGoodsGallery[]>([]);
+    public readonly content = signal<SafeHtml|null>(null);
     public readonly tabIndex = signal(0);
     public readonly regionSource = this.service.regionSource();
     public readonly dataForm = form(signal({
@@ -41,23 +41,24 @@ export class PresaleGoodsComponent {
                 id: params.id,
                 full: true,
             }).subscribe(res => {
-                this.dataForm.stock().value.set(res.goods.stock);
-                this.data = res.goods;
-                this.activity = res;
-                this.themeService.titleChanged.next(this.data.seo_title || this.data.name);
-                this.content = this.sanitizer.bypassSecurityTrustHtml(this.data.content);
-                this.galleryItems = [].concat([{thumb: this.data.thumb, type: 0, file: this.data.picture}], this.data.gallery ? this.data.gallery.map(i => {
+                const data = res.goods!;
+                this.dataForm.stock().value.set(data.stock);
+                this.data.set(data);
+                this.activity.set(res);
+                this.themeService.titleChanged.next(data.seo_title || data.name!);
+                this.content.set(this.sanitizer.bypassSecurityTrustHtml(data.content));
+                this.galleryItems.set([{thumb: data.thumb, type: 0, file: data.picture}, ...(data.gallery ? data.gallery!.map(i => {
                     if (!i.thumb) {
                         i.thumb = i.file;
                     }
                     return i;
-                }) : []);
+                }) : [])]);
             });
         });
     }
 
-    public get endPrice() {
-        return this.activity.price - this.activity.configure.deposit * this.activity.configure.deposit_scale;
-    }
+    public readonly endPrice = computed(() => {
+        return this.activity()!.price! - this.activity()!.configure.deposit * this.activity()!.configure.deposit_scale;
+    });
 
 }

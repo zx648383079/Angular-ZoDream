@@ -6,6 +6,7 @@ import { ILog } from '../model';
 import { MessageServiceService } from '../ms.service';
 import { SearchService } from '../../../theme/services';
 import { mapFormat } from '../../../theme/utils';
+import { IItem } from '../../../theme/models/seo';
 
 @Component({
     standalone: false,
@@ -30,7 +31,7 @@ export class LogComponent {
         per_page: 20,
         keywords: ''
     }));
-    public readonly typeItems = signal([]);
+    public readonly typeItems = signal<IItem[]>([]);
 
     constructor() {
         this.service.typeItems().subscribe(res => {
@@ -42,8 +43,8 @@ export class LogComponent {
         });
     }
 
-    public formatStatus(val: number) {
-        return mapFormat(val, [
+    public formatStatus(val?: number) {
+        return mapFormat(val ?? 0, [
             {name: '队列中', value: 0},
             {name: '发送中', value: 1},
             {name: '发生失败', value: 4},

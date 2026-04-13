@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
@@ -22,10 +22,10 @@ export class AuctionGoodsComponent {
     private readonly themeService = inject(ThemeService);
     private readonly destroyRef = inject(DestroyRef);
 
-    public data: IGoods;
-    public activity: IActivity<IAuctionConfigure>;
-    public galleryItems: IGoodsGallery[] = [];
-    public content: SafeHtml;
+    public readonly data =signal<IGoods|null>(null);
+    public readonly activity = signal<IActivity<IAuctionConfigure>|null>(null);
+    public readonly galleryItems = signal<IGoodsGallery[]>([]);
+    public readonly content = signal<SafeHtml|null>(null);
     public readonly regionSource = this.service.regionSource();
     public readonly tabIndex = signal(0);
     public readonly dataForm = form(signal({
@@ -38,7 +38,7 @@ export class AuctionGoodsComponent {
     });
     private spaceTime = 10;
     private isLoading = false;
-    private $timer: Subscription;
+    private $timer?: Subscription;
 
     constructor() {
         this.route.params.subscribe(params => {
@@ -46,21 +46,21 @@ export class AuctionGoodsComponent {
                 id: params.id,
                 full: true,
             }).subscribe(res => {
-                
-                this.data = res.goods;
-                this.activity = res;
-                this.refreshBid(res.price, res.log_count);
-                this.themeService.titleChanged.next(this.data.seo_title || this.data.name);
-                this.content = this.sanitizer.bypassSecurityTrustHtml(this.data.content);
-                this.galleryItems = [].concat([{thumb: this.data.thumb, type: 0, file: this.data.picture}], this.data.gallery ? this.data.gallery.map(i => {
+                this.refreshBid(res.price!, res.log_count);
+                const data = res.goods!;
+                this.data.set(data);
+                this.activity.set(res);
+                this.themeService.titleChanged.next(data.seo_title || data.name!);
+                this.content.set(this.sanitizer.bypassSecurityTrustHtml(data.content));
+                this.galleryItems.set([{thumb: data.thumb, type: 0, file: data.picture}, ...(data.gallery ? data.gallery!.map(i => {
                     if (!i.thumb) {
                         i.thumb = i.file;
                     }
                     return i;
-                }) : []);
+                }) : [])]);
                 this.dataForm().value.update(v => {
-                    v.min = this.minBid;
-                    v.max = this.activity.configure.fixed_price;
+                    v.min = this.minBid();
+                    v.max = res.configure.fixed_price;
                     return {...v};
                 });
                 this.startTimer();
@@ -69,20 +69,21 @@ export class AuctionGoodsComponent {
         this.destroyRef.onDestroy(() => this.stopTimer());
     }
     
-    public get minBid() {
-        if (!this.activity) {
+    public readonly minBid = computed(() => {
+        const data = this.activity();
+        if (!data) {
             return 0;
         }
-        if (this.activity.price) {
-            return parseFloat(this.activity.price as any) + parseFloat(this.activity.configure.step_price as any);
+        if (data.price) {
+            return parseFloat(data.price as any) + parseFloat(data.configure.step_price as any);
         }
-        return this.activity.configure.begin_price;
-    }
+        return data.configure.begin_price;
+    });
 
     public tapBid() {
         const bid = this.dataForm.bid().value();
         this.service.auctionBid({
-            activity: this.activity.id,
+            activity: this.activity()!.id,
             money: bid
         }).subscribe({
             next: _ => {
@@ -97,10 +98,10 @@ export class AuctionGoodsComponent {
 
     private refreshBid(bid: number, count?: number) {
         if (count) {
-            this.activity.log_count = count;
+            this.activity()!.log_count = count;
         }
-        this.activity.price = bid;
-        this.dataForm.bid().value.set(this.minBid);
+        this.activity()!.price = bid;
+        this.dataForm.bid().value.set(this.minBid());
     }
 
     private startTimer() {
@@ -122,7 +123,7 @@ export class AuctionGoodsComponent {
     private stopTimer() {
         if (this.$timer) {
             this.$timer.unsubscribe();
-            this.$timer = null;
+            this.$timer = undefined;
         }
     }
 
@@ -132,12 +133,12 @@ export class AuctionGoodsComponent {
         }
         this.isLoading = true;
         this.service.auction({
-            id: this.activity.id,
+            id: this.activity()!.id,
             full: false
         }).subscribe({
             next: res => {
-                this.activity = res;
-                this.refreshBid(res.price, res.log_count);
+                this.activity.set(res);
+                this.refreshBid(res.price!, res.log_count);
                 this.spaceTime = 10;
                 this.isLoading = false;
                 this.startTimer();

@@ -41,7 +41,7 @@ export class EditCouponComponent {
         required(schemaPath.name);
     });
 
-    public data: ICoupon;
+    private data?: ICoupon;
     public typeItems: IItem[] = [
         {name: '优惠', value: 0},
         {name: '折扣', value: 1},

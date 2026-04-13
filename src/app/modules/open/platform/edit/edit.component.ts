@@ -8,6 +8,7 @@ import { IItem } from '../../../../theme/models/seo';
 import { OpenService } from '../../open.service';
 import { form, required } from '@angular/forms/signals';
 import { parseNumber } from '../../../../theme/utils';
+import { Observable } from 'rxjs';
 
 @Component({
     standalone: false,
@@ -42,7 +43,7 @@ export class EditComponent {
     public readonly signType = computed(() => parseNumber(this.dataForm.sign_type().value()));
     public readonly encryptType = computed(() => parseNumber(this.dataForm.encrypt_type().value()));
 
-    public data: IPlatform;
+    public readonly data = signal<IPlatform|null>(null);
     public typeItems = [
         '网站',
         'APP',
@@ -85,22 +86,22 @@ export class EditComponent {
             if (!params.id) {
                 return;
             }
-            const cb = this.reviewable ? this.service.review : this.service.platform;
+            const cb = this.reviewable() ? this.service.review : this.service.platform;
             cb.call(this.service, params.id).subscribe(res => {
-                this.data = res;
+                this.data.set(res);
                 this.dataModel.set({
                     id: res.id,
                     name: res.name,
-                    type: res.type,
+                    type: res.type.toString(),
                     domain: res.domain,
                     description: res.description,
-                    sign_type: res.sign_type,
+                    sign_type: res.sign_type.toString(),
                     sign_key: res.sign_key,
-                    encrypt_type: res.encrypt_type,
+                    encrypt_type: res.encrypt_type.toString(),
                     public_key: res.public_key,
                     rules: res.rules,
-                    allow_self: res.allow_self.toString(),
-                    status: res.status,
+                    allow_self: res.allow_self > 0,
+                    status: res.status.toString(),
                 });
           });
         });
@@ -124,7 +125,7 @@ export class EditComponent {
         }
         const data: IPlatform = this.dataForm().value() as any;
         e?.enter();
-        const cb = this.reviewable ? this.service.reviewSave : this.service.platformSave;
+        const cb: (data: any) => Observable<any> = (this.reviewable() ? this.service.reviewSave : this.service.platformSave) as any;
         cb.call(this.service, data).subscribe({
             next: _ => {
                 e?.reset();

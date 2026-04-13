@@ -32,7 +32,7 @@ export class EditSeckillComponent {
         required(schemaPath.name);
     });
 
-    public data: IActivity<any>;
+    private data?: IActivity<any>;
 
     constructor() {
         this.route.params.subscribe(params => {

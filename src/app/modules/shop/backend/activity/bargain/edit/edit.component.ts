@@ -42,7 +42,7 @@ export class EditBargainComponent {
 
     public readonly goodsSource = this.service.goodsSource();
 
-    public data: IActivity<IBargainConfigure>;
+    private data?: IActivity<IBargainConfigure>;
 
     constructor() {
         this.route.params.subscribe(params => {

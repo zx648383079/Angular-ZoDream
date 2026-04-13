@@ -2,7 +2,6 @@ import { form, required } from '@angular/forms/signals';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../components/dialog';
-import { IPageQueries } from '../../../theme/models/page';
 import { ISignature } from '../model';
 import { SearchService } from '../../../theme/services';
 import { MessageServiceService } from '../ms.service';
@@ -29,7 +28,7 @@ export class SignatureComponent {
         per_page: 20,
         keywords: ''
     }));
-    public readonly editForm = form(signal<ISignature>({
+    public readonly editForm = form(signal({
         id: 0, 
         name: '', 
         sign_no: ''

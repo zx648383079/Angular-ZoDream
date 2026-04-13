@@ -2,7 +2,6 @@ import { form } from '@angular/forms/signals';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
 import { SearchService } from '../../../../theme/services';
 import { IMicro } from '../../model';
 import { MicroService } from '../micro.service';
@@ -42,8 +41,8 @@ export class PostComponent {
         });
     }
 
-    public formatStatus(val: number) {
-        return mapFormat(val, [
+    public formatStatus(val?: number) {
+        return mapFormat(val ?? 0, [
             {name: '待审核', value: 0},
             {name: '通过', value: 1},
             {name: '拒绝', value: 9}

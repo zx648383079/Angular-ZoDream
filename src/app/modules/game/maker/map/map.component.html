@@ -50,7 +50,7 @@
     </div>
 </div>
 
-<app-dialog-box #modal [title]="editForm.id ? '编辑' : '新建'">
+<app-dialog-box #modal [title]="editForm.id().value() ? '编辑' : '新建'">
     <div class="form-group">
         <label for="name-input">地图名</label>
         <div class="input-group-control">

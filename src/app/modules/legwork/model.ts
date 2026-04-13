@@ -82,7 +82,7 @@ export interface IServiceForm {
     label: string;
     required: boolean|number;
     only: boolean|number;
-    value?: string;
+    value: string;
 }
 
 export interface IUserRole {

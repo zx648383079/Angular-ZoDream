@@ -18,7 +18,7 @@
                     @if (!user()) {
                         <a (click)="loginModal.open()" i18n>Sign In</a>
                     } @else {
-                        <a routerLink="/frontend/user/res">{{ user().name }}</a>
+                        <a routerLink="/frontend/user/res">{{ user()!.name }}</a>
                     }
                     <div class="navbar-icon" (click)="toggleNav()">
                         <i class="iconfont icon-bars"></i>

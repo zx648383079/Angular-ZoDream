@@ -33,7 +33,7 @@ export class AuctionComponent {
         per_page: 20,
         keywords: '',
     }));
-    private $timer: Subscription;
+    private $timer?: Subscription;
 
     constructor() {
         this.themeService.titleChanged.next('拍卖中心');
@@ -95,7 +95,7 @@ export class AuctionComponent {
     private stopTimer() {
         if (this.$timer) {
             this.$timer.unsubscribe();
-            this.$timer = null;
+            this.$timer = undefined;
         }
     }
 

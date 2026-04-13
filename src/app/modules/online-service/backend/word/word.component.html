@@ -32,7 +32,7 @@
                 @for (item of items(); track $index) {
                     <tr>
                     <td>{{ item.id }}</td>
-                    <td>{{ item.category.name }}</td>
+                    <td>{{ item.category?.name }}</td>
                     <td style="width: 50%;">{{ item.content }}</td>
                     <td>
                         <div class="btn-group  btn-group-xs">

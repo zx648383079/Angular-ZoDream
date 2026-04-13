@@ -19,7 +19,7 @@ export class CommentViewerComponent {
 
 
     public readonly open = input(false);
-    public readonly user = input<IUser>(undefined);
+    public readonly user = input<IUser|null>();
     public readonly micro = input(0);
     public readonly auto = input(false);
     public readonly loadMore = output<void>();
@@ -51,7 +51,7 @@ export class CommentViewerComponent {
         const target = event.target as HTMLElement;
         const height = target.scrollHeight;
         const y = target.scrollTop + target.offsetHeight;
-        if (this.hasMore && y + 50 > height) {
+        if (this.hasMore() && y + 50 > height) {
             this.tapMore();
         }
     }
@@ -112,7 +112,7 @@ export class CommentViewerComponent {
     public tapCommenting(item?: IComment) {
         this.editForm().value.update(v => {
             v.parent_id = item?.id || 0;
-            v.content = '回复 @' + item.user.name;
+            v.content = '回复 @' + item?.user?.name;
             return {...v};
         });
     }

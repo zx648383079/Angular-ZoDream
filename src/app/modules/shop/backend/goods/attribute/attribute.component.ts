@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { IAttribute, IAttributeGroup } from '../../../model';
 import { AttributeService } from '../attribute.service';
-import { IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
 
 @Component({
@@ -29,16 +28,16 @@ export class AttributeComponent {
         page: 1,
         per_page: 20,
     }));
-    public group: IAttributeGroup;
+    public readonly group = signal<IAttributeGroup|null>(null);
 
     constructor() {
         this.route.params.subscribe(params => {
             if (!params.group) {
                 return;
             }
-            this.group = {id: params.group, name: '分组'} as any;
+            this.group.set({id: params.group, name: '分组'} as any);
             this.service.group(params.group).subscribe(res => {
-                this.group = res;
+                this.group.set(res);
             });
         });
         this.route.queryParams.subscribe(params => {
@@ -72,7 +71,7 @@ export class AttributeComponent {
         }
         this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
-        this.service.attrList({...queries, group_id: this.group.id}).subscribe({
+        this.service.attrList({...queries, group_id: this.group()!.id}).subscribe({
             next: res => {
                 this.isLoading.set(false);
                 this.items.set(res.data);

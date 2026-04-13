@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store';
 import { DialogService } from '../../components/dialog';
 import { SuggestChangeEvent } from '../../components/form';
 import { AppState } from '../../theme/interfaces';
-import { IPageQueries } from '../../theme/models/page';
 import { IUser } from '../../theme/models/user';
 import { SearchService } from '../../theme/services';
 import { selectAuthUser } from '../../theme/reducers/auth.selectors';
@@ -46,7 +45,7 @@ export class NavigationComponent {
         keywords: '',
         per_page: 20,
     }));
-    public user: IUser;
+    private user?: IUser;
 
     constructor() {
         this.store.select(selectAuthUser).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(user => {
@@ -78,11 +77,11 @@ export class NavigationComponent {
 
     public tapItem(e: {type: number, data: IWebPage}) {
         if (e.type == 2) {
-            this.reportModal().open(e.data);
+            this.reportModal()!.open(e.data);
             return;
         }
         if (e.type == 0) {
-            this.collectModal().collect(e.data.title, e.data.link);
+            this.collectModal()!.collect(e.data.title, e.data.link);
             return;
         }
     }

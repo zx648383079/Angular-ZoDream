@@ -31,8 +31,8 @@
                 @for (item of items(); track $index) {
                     <tr>
                     <td>{{ item.id }}</td>
-                    <td>{{ item.goods.name }}</td>
-                    <td class="auto-hide">{{ item.goods.price }}</td>
+                    <td>{{ item.goods?.name }}</td>
+                    <td class="auto-hide">{{ item.goods?.price }}</td>
                     <td>{{ item.price }}</td>
                     <td>{{ item.amount }}</td>
                     <td>{{ item.every_amount }}</td>

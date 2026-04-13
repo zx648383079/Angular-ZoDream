@@ -34,7 +34,7 @@ export class MapComponent implements IGameScene {
 
     public tapItem() {
         this.router.request(GameCommand.MapPick, {}).subscribe(res => {
-            this.router.toast(res.data);
+            this.router.toast(res.data!);
         });
     }
 

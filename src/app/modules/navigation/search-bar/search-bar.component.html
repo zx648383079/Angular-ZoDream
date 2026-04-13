@@ -1,7 +1,7 @@
 <div class="search-box has-search-icon">
     <form class="search-input" (submit)="tapConfirm($event)">
-        <div class="search-icon" [title]="currentEngine().name" (click)="toggleEngine()">
-            <i class="iconfont" [class]="currentEngine().icon"></i>
+        <div class="search-icon" [title]="currentEngine()!.name" (click)="toggleEngine()">
+            <i class="iconfont" [class]="currentEngine()!.icon"></i>
         </div>
         <input type="text" name="keywords" [value]="value()" (input)="onSuggestChange($event)" 
         [placeholder]="placeholder()"

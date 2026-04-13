@@ -49,7 +49,7 @@ export class EditLotteryComponent {
         required(schemaPath.name);
     });
 
-    public data: IActivity<ILotteryConfigure>;
+    private data?: IActivity<ILotteryConfigure>;
 
     public readonly scopeType = computed(() => {
         const val = this.dataForm.scope_type().value();
@@ -134,7 +134,7 @@ export class EditLotteryComponent {
     }
 
     public tapAddItem() {
-        this.modal().open((event: IGoods[]) => {
+        this.modal()!.open((event: any) => {
             if (event.length < 1) {
                 return;
             }

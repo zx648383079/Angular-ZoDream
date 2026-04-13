@@ -20,10 +20,10 @@ export class BargainGoodsComponent {
     private readonly themeService = inject(ThemeService);
 
 
-    public data: IGoods;
-    public activity: IActivity<IBargainConfigure>;
-    public galleryItems: IGoodsGallery[] = [];
-    public content: SafeHtml;
+    public readonly data =signal<IGoods|null>(null);
+    public readonly activity = signal<IActivity<IBargainConfigure>|null>(null);
+    public readonly galleryItems = signal<IGoodsGallery[]>([]);
+    public readonly content = signal<SafeHtml|null>(null);
     public readonly tabIndex = signal(0);
     public readonly regionSource = this.service.regionSource();
     public amount = 1;
@@ -36,8 +36,6 @@ export class BargainGoodsComponent {
                 id: params.id,
                 log: params.log,
             }).subscribe(res => {
-                this.data = res.goods;
-                this.activity = res;
                 if (res.log) {
                     this.log = res.log;
                     this.dataType = res.log?.id === res.join_log?.id ? 2 : 1;
@@ -45,21 +43,24 @@ export class BargainGoodsComponent {
                     this.log = res.join_log;
                     this.dataType = 2;
                 } 
-                this.themeService.titleChanged.next(this.data.seo_title || this.data.name);
-                this.content = this.sanitizer.bypassSecurityTrustHtml(this.data.content);
-                this.galleryItems = [].concat([{thumb: this.data.thumb, type: 0, file: this.data.picture}], this.data.gallery ? this.data.gallery.map(i => {
+                const data = res.goods!;
+                this.data.set(data);
+                this.activity.set(res);
+                this.themeService.titleChanged.next(data.seo_title || data.name!);
+                this.content.set(this.sanitizer.bypassSecurityTrustHtml(data.content));
+                this.galleryItems.set([{thumb: data.thumb, type: 0, file: data.picture}, ...(data.gallery ? data.gallery!.map(i => {
                     if (!i.thumb) {
                         i.thumb = i.file;
                     }
                     return i;
-                }) : []);
+                }) : [])]);
             });
         });
     }
 
     public tapCut() {
         this.service.bargainCut({
-            activity: this.activity.id,
+            activity: this.activity()!.id,
             log: this.log.id
         }).subscribe({
             next: res => {
@@ -73,13 +74,13 @@ export class BargainGoodsComponent {
     }
 
     public tapJoin() {
-        if (this.activity.join_log) {
+        if (this.activity()!.join_log) {
             this.dataType = 2;
-            this.log = this.activity.join_log;
+            this.log = this.activity()!.join_log;
             return;
         }
         this.service.bargainApply({
-            activity: this.activity.id,
+            activity: this.activity()!.id,
         }).subscribe({
             next: res => {
                 this.toastrService.success('开始砍价');

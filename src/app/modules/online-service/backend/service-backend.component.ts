@@ -9,6 +9,7 @@ import { ICategory, ICategoryUser, ISession, IWord } from '../model';
 import { OnlineBackendService } from './online.service';
 import { form } from '@angular/forms/signals';
 import { interval, Subscription } from 'rxjs';
+import { IMessageBase } from '../../../components/message-container';
 
 const LOOP_SPACE_TIME = 20;
 const LOOP_SESSION_TIME = 120;
@@ -34,31 +35,31 @@ export class ServiceBackendComponent {
     }));
 
     public readonly tabIndex = signal(0);
-    public expandIndex = 0;
-    public categories: ICategory[] = [];
-    public sessionItems: ISession[] = [];
-    public session: ISession;
-    public messageItems = [];
-    public users: ICategoryUser[] = [];
-    public userSelected = 0;
+    public readonly expandIndex = signal(0);
+    public readonly categories = signal<ICategory[]>([]);
+    public readonly sessionItems = signal<ISession[]>([]);
+    public readonly session = signal<ISession|null>(null);
+    public readonly messageItems = signal<IMessageBase[]>([]);
+    public readonly users = signal<ICategoryUser[]>([]);
+    public readonly userSelected = signal(0);
 
-    public currentUser = 0;
+    public readonly currentUser = signal(0);
     private nextTime = 0;
     private startTime = 0;
     private spaceTime = 0;
     private sessionTime = 0;
     private isLoading = false;
-    private $timer: Subscription;
+    private $timer?: Subscription;
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
             if (!user) {
                 return;
             }
-            this.currentUser = user.id;
+            this.currentUser.set(user.id);
         });
         this.service.wordAll().subscribe(res => {
-            this.categories = res.data;
+            this.categories.set(res.data);
         });
         this.refreshSession();
         this.startTimer();
@@ -66,18 +67,18 @@ export class ServiceBackendComponent {
     }
 
 
-    public get autoWords() {
-        for (const item of this.categories) {
+    public readonly autoWords = computed(() => {
+        for (const item of this.categories()) {
             if (item.name.indexOf('自动回复') >= 0) {
                 return item.words;
             }
         }
         return [];
-    }
+    });
 
     public readonly sessionItems1 = computed(() => {
         const keywords = this.dataForm.keywords().value();
-        return this.sessionItems.filter(i => {
+        return this.sessionItems().filter(i => {
             if (i.status !== 1) {
                 return false;
             }
@@ -87,7 +88,7 @@ export class ServiceBackendComponent {
 
     public readonly sessionItems2 = computed(() => {
         const keywords = this.dataForm.keywords().value();
-        return this.sessionItems.filter(i => {
+        return this.sessionItems().filter(i => {
             if (i.status > 0) {
                 return false;
             }
@@ -96,7 +97,7 @@ export class ServiceBackendComponent {
     });
     public readonly sessionItems3 = computed(() => {
         const keywords = this.dataForm.keywords().value();
-        return this.sessionItems.filter(i => {
+        return this.sessionItems().filter(i => {
             if (i.status < 2) {
                 return false;
             }
@@ -105,11 +106,11 @@ export class ServiceBackendComponent {
     });
 
     public tapSession(item: ISession) {
-        if (!this.session || this.session.id !== item.id) {
-            this.messageItems = [];
+        if (!this.session() || this.session()!.id !== item.id) {
+            this.messageItems.set([]);
             this.startTime = 0;
             this.nextTime = 0;
-            this.session = item;
+            this.session.set(item);
             this.dataForm.service_word().value.set(item.service_word as any);
             this.tapNext();
         }
@@ -131,10 +132,10 @@ export class ServiceBackendComponent {
 
     public onReplyChange() {
         this.service.sessionReply({
-            session_id: this.session.id,
+            session_id: this.session()!.id,
             word: this.dataForm.service_word().value(),
         }).subscribe(res => {
-            this.session = res;
+            this.session.set(res);
             this.dataForm.service_word().value.set(res.service_word as any);
         });
     }
@@ -144,42 +145,42 @@ export class ServiceBackendComponent {
             keywords: this.dataForm.user_keywords().value(),
             per_page: 10,
         }).subscribe(res => {
-            this.users = res.data.filter(i => {
-                return i.user_id !== this.currentUser;
-            });
+            this.users.set(res.data.filter(i => {
+                return i.user_id !== this.currentUser();
+            }));
         });
     }
 
     public openTransfer(modal: DialogEvent) {
-        this.userSelected = 0;
+        this.userSelected.set(0);
         modal.open(() => {
             this.service.sessionTransfer({
-                session_id: this.session.id,
-                user: this.userSelected,
+                session_id: this.session()!.id,
+                user: this.userSelected(),
             }).subscribe(res => {
                 this.toastrService.success('会话转交成功');
                 this.tapClose();
                 this.refreshSession();
             });
-        }, () => this.userSelected > 0);
+        }, () => this.userSelected() > 0);
     }
 
     public openRemark(modal: DialogEvent) {
         this.dataForm.remark().value.set('');
         modal.open(() => {
             this.service.sessionRemark({
-                session_id: this.session.id,
+                session_id: this.session()!.id,
                 remark: this.dataForm.remark().value(),
             }).subscribe(res => {
                 this.toastrService.success('备注成功成功');
-                this.session = res;
+                this.session.set(res);
             });
         }, () => !emptyValidate(this.dataForm.remark().value()));
     }
 
     public tapClose() {
-        this.session = undefined;
-        this.messageItems = [];
+        this.session.set(null);
+        this.messageItems.set([]);
         this.startTime = 0;
         this.nextTime = 0;
     }
@@ -226,16 +227,16 @@ export class ServiceBackendComponent {
             return;
         }
         if (data instanceof FormData) {
-            data.append('session_id', this.session.id.toString());
+            data.append('session_id', this.session()!.id.toString());
             data.append('start_time', this.nextTime as any);
         } else {
-            data.session_id = this.session.id;
+            data.session_id = this.session()!.id;
             data.start_time = this.nextTime;
         }
         this.isLoading = true;
         this.service.send(data).subscribe({
             next: (res: any) => {
-                this.messageItems = [].concat(this.messageItems, res.data);
+                this.messageItems.update(v => [...v, ...res.data]);
                 this.nextTime = res.next_time;
                 if (!this.startTime) {
                     this.startTime = this.nextTime;
@@ -275,12 +276,12 @@ export class ServiceBackendComponent {
     private tapNext() {
         this.isLoading = true;
         this.service.messageList({
-            session_id: this.session.id,
+            session_id: this.session()!.id,
             start_time: this.nextTime,
         }).subscribe({
             next: (res: any) => {
                 if (res.data.length > 0) {
-                    this.messageItems = [].concat(this.messageItems, res.data);
+                    this.messageItems.update(v => [...v, ...res.data]);
                 }
                 this.nextTime = res.next_time;
                 if (!this.startTime) {
@@ -299,7 +300,7 @@ export class ServiceBackendComponent {
     private refreshSession() {
         this.sessionTime = LOOP_SESSION_TIME;
         this.service.sessionMy().subscribe(res => {
-            this.sessionItems = res.data;
+            this.sessionItems.set(res.data);
             this.sessionTime = LOOP_SESSION_TIME;
         });
     }
@@ -307,7 +308,7 @@ export class ServiceBackendComponent {
     private stopTimer() {
         if (this.$timer) {
             this.$timer.unsubscribe();
-            this.$timer = null;
+            this.$timer = undefined;
         }
     }
 }

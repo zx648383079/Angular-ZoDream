@@ -36,8 +36,8 @@ export class EditMixComponent {
         required(schemaPath.name);
     });
 
-    public data: IActivity<IMixConfigure>;
-    public dialogOpen = false;
+    private data?: IActivity<IMixConfigure>;
+    public readonly dialogOpen = signal(false);
 
 
     public get configure() {
@@ -84,7 +84,7 @@ export class EditMixComponent {
         }
         const data: IActivity<any> = this.dataForm().value() as any;
         let total = 0;
-        data.configure.goods = data.configure.goods.map(i => {
+        data.configure.goods = data.configure.goods.map((i: any) => {
             total += i.amount * i.price;
             return {
                 goods_id: i.goods_id,
@@ -122,11 +122,14 @@ export class EditMixComponent {
     }
 
     public tapAddItem() {
-        this.dialogOpen = true;
+        this.dialogOpen.set(true);
     }
 
-    public onGoodsSelected(event: IGoodsResult|IGoodsResult[]) {
-        this.dialogOpen = false;
+    public onGoodsSelected(event?: IGoodsResult|IGoodsResult[]) {
+        this.dialogOpen.set(false);
+        if (!event) {
+            return;
+        }
         if (!(event instanceof Array)) {
             event = [event];
         }

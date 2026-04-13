@@ -29,7 +29,7 @@ export class WaiterComponent {
         page: 1,
         per_page: 20
     }));
-    public data: IService;
+    public readonly data = signal<IService|null>(null);
 
     constructor() {
         this.route.queryParams.subscribe(params => {
@@ -45,14 +45,14 @@ export class WaiterComponent {
 
     private loadService(id: any) {
         this.service.providerService(id).subscribe(res => {
-            this.data = res;
+            this.data.set(res);
             this.tapPage();
         });
     }
 
     public tapChange(item: IUser, status = 1) {
         this.service.providerWaiterChange({
-            id: this.data.id,
+            id: this.data()!.id,
             user_id: item.id,
             status
         }).subscribe({
@@ -90,7 +90,7 @@ export class WaiterComponent {
             return;
         }
         this.isLoading.set(true);
-        const queries = {...this.queries().value(), page, id: this.data.id};
+        const queries = {...this.queries().value(), page, id: this.data()!.id};
         this.service.providerWaiterList(queries).subscribe({
             next: res => {
                 this.hasMore = res.paging.more;

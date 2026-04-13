@@ -63,13 +63,13 @@ export class CopyTableComponent {
         schema: '',
         table: '',
         column: '',
-        foreign: null,
+        foreign: <IColumnItem|null>null,
     }));
     public readonly columnForm = form(signal({
         type: 0,
         value: '',
         valueType: 'string',
-        column: null,
+        column: <IColumnItem|null>null,
         append: '0',
         appendType: 'number',
     }));
@@ -126,7 +126,7 @@ export class CopyTableComponent {
                     this.toastrService.success('复制成功');
                     return;
                 }
-                this.previewModal().open();
+                this.previewModal()?.open();
             },
             error: err => {
                 e.reset();
@@ -148,7 +148,7 @@ export class CopyTableComponent {
                 schema: this.tableForm.schema().value(),
                 table: this.tableForm.table().value(),
             });
-            this.getColumn(this.distTable(), data => {
+            this.getColumn(this.distTable()!, data => {
                 this.linkItems.set(data.map(i => {
                     return {
                         dist: i
@@ -176,9 +176,9 @@ export class CopyTableComponent {
             };
             if (data.type > 1) {
                 table.column = data.column;
-                table.foreignColumn = data.foreign.column;
-                table.foreignTable = data.foreign.table;
-                table.foreignSchema = data.foreign.schema;
+                table.foreignColumn = data.foreign!.column;
+                table.foreignTable = data.foreign!.table;
+                table.foreignSchema = data.foreign!.schema;
             }
             this.srcTable.update(v => [...v, table]);
             this.refreshSrcColumn();
@@ -241,9 +241,9 @@ export class CopyTableComponent {
             return `'${item.value}'`;
         }
         if (!item.append) {
-            return `${item.column.label}`;
+            return `${item.column!.label}`;
         }
-        return `${item.column.label} + '${item.append}'`;
+        return `${item.column!.label} + '${item.append}'`;
     }
 
     private autoLinkColumn() {
@@ -298,7 +298,7 @@ export class CopyTableComponent {
             return cb(tables);
         }
         this.service.tableList(schame).subscribe(res => {
-            let obj = {};
+            let obj: any = {};
             for (const item of res.data) {
                 obj[item] = [];
             }

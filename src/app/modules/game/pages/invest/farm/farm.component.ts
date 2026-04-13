@@ -30,7 +30,7 @@ export class FarmComponent implements IGameScene {
 
     public tapRefresh() {
         this.router.request(GameCommand.FarmQuery).subscribe(res => {
-            this.items.set(res.data);
+            this.items.set(res.data!);
         });
     }
 }

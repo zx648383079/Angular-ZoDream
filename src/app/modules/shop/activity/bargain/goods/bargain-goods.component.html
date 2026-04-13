@@ -1,24 +1,24 @@
-@if (data) {
+@if (data()) {
 <div class="goods-page">
     <div class="container">
         <nav class="breadcrumb">
             <a class="breadcrumb-item" routerLink="../../" i18n>Home</a>
             <a class="breadcrumb-item" routerLink="../" i18n>Bargain</a>
-            <span class="breadcrumb-item active">{{ data.name }}</span>
+            <span class="breadcrumb-item active">{{ data()!.name }}</span>
         </nav>
 
         <div class="row info-box">
             <div class="col-md-6">
-                <app-gallery-slider [items]="galleryItems" />
+                <app-gallery-slider [items]="galleryItems()" />
             </div>
             <div class="col-md-6">
                 <div class="bg-white">
                     <div class="activity-intro">
                         <div class="name">
-                            {{ data.name }}
+                            {{ data()!.name }}
                         </div>
                         <div class="desc">
-                            {{ data.brief }}
+                            {{ data()!.brief }}
                         </div>
                     </div>
                     <div class="price-box">
@@ -28,11 +28,11 @@
                                 <div class="header-meta">
                                     <div class="label-item">
                                         <i class="iconfont icon-user"></i>
-                                        {{ activity.log_count | numberFormat }}人已砍
+                                        {{ activity()!.log_count | numberFormat }}人已砍
                                     </div>
                                     <div class="label-item">
                                         剩余时间
-                                        <app-countdown [auto]="true" [end]="activity.end_at" />
+                                        <app-countdown [auto]="true" [end]="activity()!.end_at" />
                                     </div>
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
                                         销售价
                                     </div>
                                     <div class="group-body">
-                                        {{ activity.goods.price | price }}
+                                        {{ activity()!.goods?.price | price }}
                                     </div>
                                 </div>
                                 @if (log) {
@@ -82,7 +82,7 @@
                             }
                             @if (dataType != 2) {
                             <a class="btn btn-success" (click)="tapJoin()">
-                                {{ activity.join_log ? '查看我的' : '我要参加' }}
+                                {{ activity()!.join_log ? '查看我的' : '我要参加' }}
                             </a>
                             }
                             @if (dataType == 2) {
@@ -117,11 +117,11 @@
                     </div>
                     <div class="tab-body bg-white">
                         <div class="tab-item" [class]="{active: tabIndex() < 1}">
-                            <div class="content-box" [innerHTML]="content">
+                            <div class="content-box" [innerHTML]="content()">
                             </div>
                         </div>
                         <div id="comment-tab" class="tab-item" [class]="{active: tabIndex() == 1}">
-                            <app-comment-page [itemId]="data.id" [init]="tabIndex() == 1" />
+                            <app-comment-page [itemId]="data()!.id" [init]="tabIndex() == 1" />
                         </div>
                         <div class="tab-item issue-box" [class]="{active: tabIndex() == 2}">
 
@@ -129,7 +129,7 @@
                         @if (dataType > 0) {
                         <div class="tab-item log-box" 
                             [class]="{active: tabIndex() == 3}">
-                            <app-bargain-log [activity]="activity.id" [log]="log.id" [init]="tabIndex() == 3" />
+                            <app-bargain-log [activity]="activity()!.id" [log]="log.id" [init]="tabIndex() == 3" />
                         </div>
                         }
                     </div>

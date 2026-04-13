@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { GameRouterInjectorToken, IGameRouter, GameScenePath, GameCommand, IGameTeam, IGamePeople } from '../../model';
 
 @Component({
@@ -11,13 +11,13 @@ export class TeamComponent {
     private readonly router = inject<IGameRouter>(GameRouterInjectorToken);
 
 
-    public data: IGameTeam;
-    public userItems: IGamePeople[] = [];
+    public readonly data = signal<IGameTeam|null>(null);
+    public readonly userItems = signal<IGamePeople[]>([]);
 
     constructor() {
         this.router.request(GameCommand.TeamOwn).subscribe(res => {
-            this.data = res.data;
-            this.userItems = res.data.user_items;
+            this.data.set(res.data!);
+            this.userItems.set(res.data!.user_items!);
         });
     }
 

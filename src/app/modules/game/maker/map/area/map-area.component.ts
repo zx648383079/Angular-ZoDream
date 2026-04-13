@@ -25,7 +25,7 @@ export class MapAreaComponent {
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public parent: IGameMapArea;
+    public readonly parent = signal<IGameMapArea|null>(null);
     public readonly editForm = form(signal({
         id: 0,
         name: '',
@@ -41,7 +41,7 @@ export class MapAreaComponent {
     }));
 
     constructor() {
-        this.route.parent.params.subscribe(params => {
+        this.route.parent!.params.subscribe(params => {
             this.queries.project().value.set(parseNumber(params.game));
         });
         this.route.queryParams.subscribe(params => {
@@ -52,7 +52,7 @@ export class MapAreaComponent {
                 return;
             }
             this.service.mapArea(parent, this.queries.project().value()).subscribe(data => {
-                this.parent = data;
+                this.parent.set(data);
             });
         });
     }
@@ -118,7 +118,7 @@ export class MapAreaComponent {
     }
 
     public tapViewRegion(item?: IGameMapArea) {
-        this.parent = item;
+        this.parent.set(item ?? null);
         this.queries().value.update(v => {
             v.parent = item?.id || 0;
             v.keywords = '';
@@ -128,7 +128,7 @@ export class MapAreaComponent {
     }
 
     public tapParentRegion() {
-        const parentId = this.parent ? this.parent.parent_id : 0;
+        const parentId = this.parent()?.parent_id ?? 0;
         if (parentId < 1) {
             this.tapViewRegion();
             return;
@@ -146,10 +146,10 @@ export class MapAreaComponent {
         });
         modal.open(() => {
             this.service.mapAreaSave({
-                name: this.editForm.name,
-                parent_id: this.parent?.id,
-                id: this.editForm?.id,
-                project_id: this.queries.project
+                name: this.editForm.name().value(),
+                parent_id: this.parent()?.id,
+                id: this.editForm.id().value(),
+                project_id: this.queries.project().value(),
             }).subscribe({
                 next: _ => {
                     this.toastrService.success($localize `Save Successfully`);

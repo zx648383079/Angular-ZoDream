@@ -20,7 +20,7 @@ export class CategoryPanelComponent {
         if (this.crumbs().length < 1 || this.items().length < 1) {
             return undefined;
         }
-        let item: ISiteCategory = undefined;
+        let item: ISiteCategory|undefined = undefined;
         for (const i of this.crumbs()) {
             if (!item) {
                 item = this.items()[i];

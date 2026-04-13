@@ -38,7 +38,7 @@ export class EditFreeTrialComponent {
 
     public readonly goodsSource = this.service.goodsSource();
 
-    public data: IActivity<IFreeTrialConfigure>;
+    private data?: IActivity<IFreeTrialConfigure>;
 
     constructor() {
         this.route.params.subscribe(params => {

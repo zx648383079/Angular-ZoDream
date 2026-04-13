@@ -92,7 +92,7 @@ export class ModuleComponent {
         }).subscribe({
             next: res => {
                 this.previewItems = res.data;
-                this.modal().open();
+                this.modal()?.open();
             },
             error: err => {
                 this.toastrService.error(err);
@@ -107,7 +107,7 @@ export class ModuleComponent {
         const module = this.installForm.module().value()
         for (const item of this.moduleItems().items) {
             if (item.value === module) {
-                this.installForm.name().value.set(item.name.toLowerCase());
+                this.installForm.name().value.set(item.name!.toLowerCase());
                 return;
             }
         }

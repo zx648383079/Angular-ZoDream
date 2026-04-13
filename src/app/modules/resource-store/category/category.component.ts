@@ -49,7 +49,7 @@ export class CategoryComponent {
     private load(id: number) {
         this.service.category(id).subscribe(res => {
             this.data.set(res);
-            this.categories.set(res.children);
+            this.categories.set(res.children!);
         });
     }
 
