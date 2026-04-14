@@ -18,8 +18,8 @@ export class MultiImageInputComponent implements FormValueControl<IMediaFileItem
         type: ''
     }]);
     public readonly disabled = input<boolean>(false);
-    public readonly minLength = input<number>(0);
-    public readonly maxLength = input<number>(0);
+    public readonly minLength = input<number|undefined>(0);
+    public readonly maxLength = input<number|undefined>(0);
     public readonly isLoading = signal(false);
     public readonly fileName = this.uploadService.uniqueGuid();
 
@@ -27,7 +27,7 @@ export class MultiImageInputComponent implements FormValueControl<IMediaFileItem
         if (this.disabled()) {
             return false;
         }
-        return this.maxLength() <= 0 || this.maxLength() > this.value().length;
+        return this.maxLength()! <= 0 || this.maxLength()! > this.value().length;
     });
 
     public tapRemoveItem(i: number) {
@@ -60,7 +60,7 @@ export class MultiImageInputComponent implements FormValueControl<IMediaFileItem
             maps[file.name] = file.type.indexOf('image/') < 0 ? 1 : 0;
             form.append('file[]', file, file.name);
             j ++;
-            if (this.maxLength() > 0 && j >= this.maxLength()) {
+            if (this.maxLength()! > 0 && j >= this.maxLength()!) {
                 return;
             }
         }

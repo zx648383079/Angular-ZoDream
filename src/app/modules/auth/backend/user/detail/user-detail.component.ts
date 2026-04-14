@@ -16,20 +16,20 @@ export class UserDetailComponent {
     private readonly service = inject(AuthService);
 
 
-    public user: IUserStatus;
+    public readonly user = signal<IUserStatus|null>(null);
     public readonly tabIndex = signal(0);
     public tabItems = ['账户信息', '账户变动记录', '账号操作记录', '账号登录记录', '数据中心'];
 
     constructor() {
         this.route.params.subscribe(params => {
             this.service.userAccount({id: params.id}).subscribe(user => {
-                this.user = user;
+                this.user.set(user);
             });
         });
     }
 
-    public formatStatus(v: number) {
-        return mapFormat(v, AccountStatusItems);
+    public formatStatus(v?: number) {
+        return mapFormat(v ?? 0, AccountStatusItems);
     }
 
     public tapTab(i: number) {

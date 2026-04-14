@@ -20,7 +20,7 @@
         @case ('select') {
             <div>
                 <select class="form-control" [formControlName]="item.name" [id]="item.name">
-                    @for (val of item.items; track val.value) {
+                    @for (val of item.items!; track val.value) {
                         <option [value]="val.value">{{ val.name }}</option>
                     }
                 </select>
@@ -28,12 +28,12 @@
         }
         @case ('radio') {
             <div>
-                <app-check-input [source]="item.optionSource" [formControlName]="item.name" [id]="item.name"/>
+                <app-check-input [source]="item.optionSource!" [formControlName]="item.name" [id]="item.name"/>
             </div>
         }
         @case ('checkbox') {
             <div>
-                <app-check-input rangeKey="value" [source]="item.optionSource" [formControlName]="item.name" [id]="item.name" [multiple]="true" />
+                <app-check-input rangeKey="value" [source]="item.optionSource!" [formControlName]="item.name" [id]="item.name" [multiple]="true" />
             </div>
         }
         @case ('switch') {

@@ -85,7 +85,7 @@
                             <i class="iconfont" [class]="{'icon-check-square-o': item.checked, 'icon-square-o': !item.checked}" ></i>
                         </div>
                         <div class="file-icon">
-                            @if (listViewMode && item.thumb) {
+                            @if (listViewMode() && item.thumb) {
                                 <img [src]="item.thumb|asset" [alt]="item.name">
                             } @else {
                                 <i class="iconfont" [class]="item.icon"></i>

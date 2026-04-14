@@ -86,8 +86,8 @@ export class UserComponent {
         });
     }
 
-    public formatStatus(val: number) {
-        return mapFormat(val, AccountStatusItems);
+    public formatStatus(val?: number) {
+        return mapFormat(val ?? 0, AccountStatusItems);
     }
 
     public formatButtons(item: IUser) {

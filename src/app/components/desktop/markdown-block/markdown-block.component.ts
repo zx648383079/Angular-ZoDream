@@ -1,6 +1,5 @@
-import { Component, HostListener, Renderer2, ViewEncapsulation, effect, inject, input, viewChild } from '@angular/core';
+import { Component, HostListener, Renderer2, ViewEncapsulation, effect, inject, input, signal, untracked, viewChild } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { marked } from 'marked';
 import { toggleClass } from '../../../theme/utils/doc';
 import { DialogService } from '../../dialog';
 import { ImagePlayerComponent } from '../../media-player';
@@ -10,7 +9,7 @@ import { ImagePlayerComponent } from '../../media-player';
     encapsulation: ViewEncapsulation.None,
     selector: 'app-markdown-block',
     template: `
-    <div [innerHTML]="formated"></div>
+    <div [innerHTML]="formated()"></div>
     <app-image-player [isFixed]="true" />
     `,
     styleUrls: ['./markdown-block.component.scss'],
@@ -25,15 +24,18 @@ export class MarkdownBlockComponent {
 
 
     private readonly player = viewChild(ImagePlayerComponent);
-    public readonly value = input('');
+    public readonly value = input<string|null|undefined>('');
     public readonly isFormated = input(true);
-    public formated: SafeHtml;
+    public readonly formated = signal<SafeHtml|null>(null);
 
     constructor() {
         effect(() => {
-            this.formated = this.sanitizer.bypassSecurityTrustHtml(
-                this.isFormated() ? this.value() : marked(this.value()).toString()
-            );
+            const val = this.value() ?? '';
+            untracked(() => {
+                this.formated.set(this.sanitizer.bypassSecurityTrustHtml(
+                    val  
+                ));
+            });
         });
     }
 
@@ -43,7 +45,7 @@ export class MarkdownBlockComponent {
             return;
         }
         if (e.target instanceof HTMLImageElement) {
-            const ctl = this.player();
+            const ctl = this.player()!;
             ctl.visible.set(true);
             ctl.play({
                 name: e.target.title,

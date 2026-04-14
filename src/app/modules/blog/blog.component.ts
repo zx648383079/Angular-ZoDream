@@ -148,9 +148,9 @@ export class BlogComponent {
     }
 
     public tapRecommend() {
-        this.service.blogRecommend(this.data().id).subscribe({
+        this.service.blogRecommend(this.data()!.id).subscribe({
             next: res => {
-                this.data.update(v => {
+                this.data.update((v: any) => {
                     return {...v, recommend_count: res.recommend_count}
                 });
             }, 
@@ -163,7 +163,7 @@ export class BlogComponent {
     loadBlog(id: number) {
         this.service.getDetail(id).subscribe(res => {
             this.data.set(res);
-            this.content.set(res.content);
+            this.content.set(res.content!);
             this.searchService.pushHistoryState(res.title,
                 window.location.href.replace(/blog.*$/, 'blog/' + res.id.toString()));
             document.documentElement.scrollTop = 0;

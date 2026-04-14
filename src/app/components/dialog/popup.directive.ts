@@ -17,9 +17,9 @@ export class PopupDirective {
 
 
     public readonly placement = input('left');
-    public readonly appPopup = input<TemplateRef<any> | string>(undefined);
+    public readonly appPopup = input<TemplateRef<any> | string>();
 
-    private popupRef: ComponentRef<DialogPopupComponent>;
+    private popupRef?: ComponentRef<DialogPopupComponent>;
 
     @HostListener('click')
     public toggle() {
@@ -41,7 +41,7 @@ export class PopupDirective {
         this.popupRef.setInput('placement', this.placement());
         this.popupRef.changeDetectorRef.detectChanges();
         this.zoon.runOutsideAngular(() => {
-            const ele = this.popupRef.location.nativeElement as HTMLDivElement;
+            const ele = this.popupRef!.location.nativeElement as HTMLDivElement;
             if (!ele) {
                 return;
             }

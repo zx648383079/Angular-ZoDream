@@ -27,17 +27,17 @@ export class ChapterComponent {
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public data: IBook;
+    public readonly data = signal<IBook|null>(null);
 
     constructor() {
         this.route.params.subscribe(params => {
             if (!params.book) {
                 return;
             }
-            this.data = {id: params.book} as any;
+            this.data.set({id: params.book} as any);
             this.tapRefresh();
             this.service.book(params.book).subscribe(res => {
-                this.data = res;
+                this.data.set(res);
             });
         });
     }

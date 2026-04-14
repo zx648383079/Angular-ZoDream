@@ -9,4 +9,7 @@ export interface IMessageBase {
     created_at: any;
     extra_rule?: IExtraRule[];
     user:       IUserItem;
+
+    is_expired?: boolean;
+    is_open?: boolean;
 }

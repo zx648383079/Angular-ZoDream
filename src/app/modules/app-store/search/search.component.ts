@@ -99,11 +99,11 @@ export class SearchComponent {
             for (const i of item.items) {
                 i.selected = it.value === i.value;
             }
-            this.queries[item.name] = it.value;
+            this.queries.update(v => ({...v, [item.name]: it.value}));
             this.tapRefresh();
             return;
         }
-        const value = [];
+        const value: string[] = [];
         for (const i of item.items) {
             if (i.value === it.value) {
                 i.selected = !i.selected;
@@ -112,7 +112,7 @@ export class SearchComponent {
                 value.push(i.value);
             }
         }
-        this.queries[item.name] = value.join(',');
+        this.queries.update(v => ({...v, [item.name]: value.join(',')}));
         this.tapRefresh();
     }
 
@@ -131,7 +131,7 @@ export class SearchComponent {
     }
 
     public tapRemoveFilter(name: string) {
-        this.queries[name] = name === 'category' || name === 'user' ? 0 : '';
+        this.queries.update(v => ({...v, [name]: name === 'category' || name === 'user' ? 0 : ''}));
         for (const item of this.filterItems()) {
             if (item.name !== name) {
                 continue;

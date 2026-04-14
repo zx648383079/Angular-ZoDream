@@ -1,32 +1,32 @@
-<div class="comment-item" [id]="'comment-' + value().id">
+<div class="comment-item" [id]="'comment-' + value()!.id">
     <div class="item-header">
-        <span class="user">{{ value().name }}</span>
-        <span class="time">{{ value().created_at | ago }}</span>
-        <span class="floor" i18n>{{ value().position }} floor</span>
+        <span class="user">{{ value()!.name }}</span>
+        <span class="time">{{ value()!.created_at | ago }}</span>
+        <span class="floor" i18n>{{ value()!.position }} floor</span>
     </div>
     <div class="item-body">
         <div class="content">
-            <app-rule-block [value]="value().content!" [rules]="value().extra_rule!" (tapped)="tapBlock($event)" />
+            <app-rule-block [value]="value()!.content!" [rules]="value()!.extra_rule!" (tapped)="tapBlock($event)" />
         </div>
-        @if (value().reply_count && value().reply_count! > 0) {
+        @if (value()!.reply_count && value()!.reply_count! > 0) {
             @if (expanded()) {
                 <span class="expand-icon" (click)="toggleExpand()" i18n>Fold</span>
             } @else {
-                <span class="expand-icon" (click)="toggleExpand()" i18n>Expand({{ value().reply_count }})</span>
+                <span class="expand-icon" (click)="toggleExpand()" i18n>Expand({{ value()!.reply_count }})</span>
             }
         }
         
         <span>&nbsp;</span>
-        <span class="comment-icon" (click)="tapCommenting(value())"><i class="iconfont icon-commenting"></i></span>
-        <span class="report-icon" (click)="tapReport(value())" i18n>Report</span>
+        <span class="comment-icon" (click)="tapCommenting(value()!)"><i class="iconfont icon-commenting"></i></span>
+        <span class="report-icon" (click)="tapReport(value()!)" i18n>Report</span>
         <div class="item-action-bar">
-            <span class="agree-icon" (click)="tapAgree(value())"><i class="iconfont icon-thumbs-up"></i><b>{{ value().agree_count }}</b></span>
-            <span class="disagree-icon" (click)="tapDisagree(value())"><i class="iconfont icon-thumbs-down"></i><b>{{ value().disagree_count }}</b></span>
+            <span class="agree-icon" (click)="tapAgree(value()!)"><i class="iconfont icon-thumbs-up"></i><b>{{ value()!.agree_count }}</b></span>
+            <span class="disagree-icon" (click)="tapDisagree(value()!)"><i class="iconfont icon-thumbs-down"></i><b>{{ value()!.disagree_count }}</b></span>
         </div>
     </div>
     @if (expanded() || editForm.parent_id().value() > 0) {
     <div class="item-children">
-        @for (it of value().replies; track $index) {
+        @for (it of value()!.replies!; track $index) {
         <div class="comment-item" [id]="'comment-' + it.id">
             <div class="item-header">
                 <span class="user">{{ it.name }}</span>
@@ -49,7 +49,7 @@
         }
         @if (hasMore()) {
         <div class="comment-more">
-            <ng-container i18n>There are {{ moreCount | numberFormat }} more replies,</ng-container>
+            <ng-container i18n>There are {{ moreCount() | numberFormat }} more replies,</ng-container>
             <a (click)="tapMore()" i18n>Click to view </a>
         </div>
         }

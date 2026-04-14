@@ -194,7 +194,7 @@ export class EditorRolePanelComponent {
                 return;
             }
             if (event.type === 'link') {
-                this.service.LinkAdd(event.from.id, event.to.id, this.roleForm.link().value()).subscribe(res => {
+                this.service.LinkAdd(event.from!.id, event.to!.id, this.roleForm.link().value()).subscribe(res => {
                     event.next(res);
                 });
                 return;
@@ -208,7 +208,7 @@ export class EditorRolePanelComponent {
                 link_title: this.roleForm.link().value()
             }).subscribe(res => {
                 this.roleItems.push(res);
-                event.next(res, {title: this.roleForm.link().value(), role_id: event.from?.id, role_link: res.id});
+                event.next(res, {title: this.roleForm.link().value(), role_id: event.from?.id ?? 0, role_link: res.id});
             });
         }, '添加角色与关系');
     }
@@ -221,8 +221,8 @@ export class EditorRolePanelComponent {
         if (event.type === 'move') {
             this.service.roleSave({
                 id: event.source.id,
-                x: event.point.x,
-                y: event.point.y
+                x: event.point!.x,
+                y: event.point!.y
             }).subscribe(_ => {});
         }
     }

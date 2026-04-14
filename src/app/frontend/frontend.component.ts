@@ -105,12 +105,12 @@ export class FrontendComponent {
         this.store.select(selectSystemConfig).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
             let site_pns_beian_no = '';
             if (res.site_pns_beian) {
-                site_pns_beian_no = res.site_pns_beian.match(/\d+/).toString();
+                site_pns_beian_no = res.site_pns_beian.match(/\d+/)!.toString();
             }
             this.site.set({...res, site_pns_beian_no});
         });
         this.themeService.loginRequest.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-            this.loginModal().open();
+            this.loginModal()?.open();
         });
         this.liveService.pulsed.pipe(
             takeUntilDestroyed(this.destroyRef),
@@ -145,7 +145,7 @@ export class FrontendComponent {
     });
 
     public onCheckedChange(checked: boolean) {
-        this.user.update(v => {
+        this.user.update((v: any) => {
             return {...v, today_checkin: checked};
         });
     }

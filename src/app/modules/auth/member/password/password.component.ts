@@ -23,7 +23,7 @@ export class PasswordComponent {
     private readonly location = inject(Location);
 
     public readonly tabIndex = signal(0);
-    public user: IUser;
+    public readonly user = signal<IUser|null>(null);
     public readonly stepIndex = signal(0);
     public readonly dataForm = form(signal({
         old_password: '',
@@ -35,7 +35,7 @@ export class PasswordComponent {
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
-            this.user = user;
+            this.user.set(user);
         });
     }
 

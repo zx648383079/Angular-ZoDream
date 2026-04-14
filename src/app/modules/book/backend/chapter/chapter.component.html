@@ -2,8 +2,8 @@
     <app-page-tip>
         <ul>
             <li>章节列表</li>
-            @if (data) {
-                <li>书名：{{ data.name }}</li>
+            @if (data()) {
+                <li>书名：{{ data()!.name }}</li>
             }
             
         </ul>
@@ -16,7 +16,7 @@
                     <input type="text" class="form-control" placeholder="标题" [formField]="queries.keywords">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                @if (data) {
+                @if (data()) {
                     <a class="btn btn-success pull-right" routerLink="0">新增章节</a>
                 }
                 

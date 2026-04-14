@@ -37,11 +37,11 @@ export interface IBlog {
     created_at: string;
     keywords?: string;
     term_id?: number;
-    open_type?: number;
-    publish_status?: number;
+    open_type: number;
+    publish_status: number;
     status?: number;
     open_rule?: string;
-    edit_type?: number;
+    edit_type: number;
     weather?: string;
     audio_url?: string;
     video_url?: string;

@@ -54,13 +54,13 @@ export class DetailComponent {
             this.service.book(params.id).subscribe(res => {
                 this.dataModel.set({
                     id: res.id,
-                    name: res.name,
+                    name: res.name!,
                     cat_id: res.cat_id as any,
-                    author_id: res.author_id,
+                    author_id: res.author_id!,
                     classify: res.classify as any,
-                    source: res.source,
-                    cover: res.cover,
-                    description: res.description,
+                    source: res.source ?? '',
+                    cover: res.cover ?? '',
+                    description: res.description ?? '',
                     status: res.status as any,
                 });
             });

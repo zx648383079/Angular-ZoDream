@@ -37,8 +37,8 @@ export class FileOnlineComponent implements SearchDialogEvent {
     public typeItems: IItem[] = [];
     public readonly selectedItems = signal<IUploadFile[]>([]);
     public readonly onlySelected = signal(false);
-    private confirmFn: (items: IUploadFile|IUploadFile[]) => void;
-    private checkFn: (items: IUploadFile[]) => boolean;
+    private confirmFn?: (items: IUploadFile|IUploadFile[]) => void;
+    private checkFn?: (items: IUploadFile[]) => boolean;
 
     constructor() {
         effect(() => {

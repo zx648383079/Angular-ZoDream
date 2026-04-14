@@ -32,7 +32,7 @@
                 <div class="info">
                     <a class="title">{{ item.book.name }}</a>
                     <p>
-                        <a>{{ item.book.author.name }}</a>|
+                        <a>{{ item.book.author?.name }}</a>|
                         <span>{{ item.book.size | numberFormat }}字</span>|
                         <span>{{ item.book.status_label }}</span>
                     </p>

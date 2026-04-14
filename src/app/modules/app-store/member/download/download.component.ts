@@ -72,7 +72,7 @@ export class DownloadComponent {
     }
 
     private formatStyle(item: ISoftwareDownload, progress = -1) {
-        if (item.status < 1) {
+        if (item.status! < 1) {
             item.style = {};
             return item;
         }
@@ -81,12 +81,12 @@ export class DownloadComponent {
             const now = Date.now();
             item.last_time = now;
             if (last) {
-                item.speed = Math.ceil(Math.max(0, progress - item.progress) * 1000 / (now - last));
+                item.speed = Math.ceil(Math.max(0, progress - item.progress!) * 1000 / (now - last));
             }
             item.progress = progress;
         }
         item.style = {
-            width: item.length > 0 ? (item.progress * 100 / item.length) + '%' : 0,
+            width: item.length! > 0 ? (item.progress! * 100 / item.length!) + '%' : 0,
         };
     }
 

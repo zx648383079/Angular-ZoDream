@@ -2,9 +2,9 @@
   <app-page-tip>
       <ul>
           <li>账户变动记录列表</li>
-          @if (user) {
-            <li>会员：{{ user.name }}</li>
-            <li>账户余额：{{ user.money }}</li>
+          @if (user()) {
+            <li>会员：{{ user()!.name }}</li>
+            <li>账户余额：{{ user()!.money }}</li>
           }
         
       </ul>
@@ -17,8 +17,8 @@
                   <input type="text" class="form-control" placeholder="搜索关键字" id="keywords" [formField]="queries.keywords">
               </div>
               <button type="submit" class="btn btn-primary">搜索</button>
-              @if (user) {
-                <a class="btn btn-info pull-right" [routerLink]="'../change/' + user.id">账户充值</a>
+              @if (user()) {
+                <a class="btn btn-info pull-right" [routerLink]="'../change/' + user()!.id">账户充值</a>
               }
               
           </form>

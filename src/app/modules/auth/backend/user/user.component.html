@@ -57,7 +57,7 @@
                   <td>{{ item.money }}</td>
                   @if (editable()) {
                   <td>
-                        <app-switch [value]="item.is_verified" (valueChange)="onVerify(item, modal)" />
+                        <app-switch [value]="item.is_verified!" (valueChange)="onVerify(item, modal)" />
                   </td>
                   <td>{{ formatStatus(item.status) }}</td>
                   }

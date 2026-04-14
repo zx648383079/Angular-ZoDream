@@ -15,7 +15,7 @@ export function passwordValidate(password: string): boolean {
  * @param value 
  * @returns 
  */
-export function emptyValidate(value: string): boolean {
+export function emptyValidate(value?: string): boolean {
     return !value || value.trim().length < 1;
 }
 

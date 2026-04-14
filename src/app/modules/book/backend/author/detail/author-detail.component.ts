@@ -40,8 +40,8 @@ export class AuthorDetailComponent {
                 this.dataModel.set({
                     id: res.id,
                     name: res.name,
-                    avatar: res.avatar,
-                    description: res.description,
+                    avatar: res.avatar ?? '',
+                    description: res.description ?? '',
                 });
             });
         });

@@ -35,10 +35,10 @@ export class BookEditorComponent {
     private readonly areaElement = viewChild<ElementRef<HTMLDivElement>>('editorArea');
     private readonly modalViewContainer = viewChild('modalVC', { read: ViewContainerRef });
 
-    public book: IBook;
-    public data: IChapter;
-    public catalog: IChapter[] = [];
-    public topVisible = false;
+    public readonly book = signal<IBook|null>(null);
+    public readonly data = signal<IChapter|null>(null);
+    public readonly catalog = signal<IChapter[]>([]);
+    public readonly topVisible = signal(false);
 
     public readonly typeItems: IItem[] = ChapterTypeItems.filter(i => i.value < 9);
     public readonly publishTypeItems = ArraySource.fromOrder('立即发布', '定时发布');
@@ -69,7 +69,7 @@ export class BookEditorComponent {
         });
         afterNextRender({
             write: () => {
-                this.editor.ready(new TextElement(this.areaElement().nativeElement, this.editor), this.modalViewContainer());
+                this.editor.ready(new TextElement(this.areaElement()!.nativeElement, this.editor), this.modalViewContainer());
                 this.editor.toggle(false);
             }
         });
@@ -81,26 +81,26 @@ export class BookEditorComponent {
     @HostListener('document:keydown', ['$event'])
     public onKeyDown(event: KeyboardEvent) {
         if (event.ctrlKey && event.code === 'KeyS') {
-            if (this.topVisible) {
+            if (this.topVisible()) {
                 this.tapSaveBook();
                 return;
             }
-            if (this.data) {
+            if (this.data()) {
                 this.tapSaveChapter();
             }
         }
     }
 
     private loadBook(id: any, only = false) {
-        const expanded = [];
-        for (const item of this.catalog) {
+        const expanded: number[] = [];
+        for (const item of this.catalog()) {
             if (item.type == 9 && item.expanded) {
                 expanded.push(item.id);
             }
         }
         this.service.selfBook(id).subscribe({
             next: res => {
-                this.catalog = res.chapters.map(i => {
+                this.catalog.set(res.chapters!.map(i => {
                     if (i.type == 9 && !i.children) {
                         i.children = [];
                     }
@@ -108,12 +108,12 @@ export class BookEditorComponent {
                         i.expanded = expanded.indexOf(i.id) >= 0;
                     }
                     return i;
-                });
-                this.book = {...res, chapters: undefined};
+                }));
+                this.book.set({...res, chapters: undefined});
                 this.bookForm().value.set({
-                    name: res.name,
-                    cover: res.cover,
-                    description: res.description
+                    name: res.name!,
+                    cover: res.cover!,
+                    description: res.description!
                 });
             },
             error: err => {
@@ -124,11 +124,15 @@ export class BookEditorComponent {
 
     public tapRefreshPosition() {
         this.toastrService.confirm('确定更新排序？', () => {
-            this.service.selfRefreshPosition(this.book.id).subscribe(() => {
+            this.service.selfRefreshPosition(this.book()!.id).subscribe(() => {
                 this.toastrService.success('更新成功！');
-                this.loadBook(this.book.id, true);
+                this.loadBook(this.book()!.id, true);
             });
         });
+    }
+
+    public toggleTop() {
+        this.topVisible.update(v => !v);
     }
 
     public tapExit() {
@@ -138,15 +142,15 @@ export class BookEditorComponent {
     public tapEdit(item: IChapter) {
         if (item.type == 9) {
             item.expanded = !item.expanded;
-            this.data = {...item};
+            this.data.set({...item});
             this.editor.toggle(false);
             return;
         }
         this.service.selfChapter(item.id).subscribe({
             next: res => {
-                this.data = res;
-                this.editor.toggle(res.type < 9);
-                this.editor.value = res.content;
+                this.data.set(res);
+                this.editor.toggle(res.type! < 9);
+                this.editor.value = res.content!;
             },
             error: err => {
                 this.toastrService.error(err);
@@ -155,7 +159,7 @@ export class BookEditorComponent {
     }
 
     public tapContextMenu(event: MouseEvent, parent?: IChapter) {
-        return this.contextMenu().open(event, <IMenuItem[]>[
+        return this.contextMenu()?.open(event, <IMenuItem[]>[
             {
                 name: '新建卷',
                 icon: 'icon-folder-o',
@@ -167,7 +171,7 @@ export class BookEditorComponent {
                 name: '新建章节',
                 icon: 'icon-file-text-o',
                 onTapped: () => {
-                    this.tapNewFile(parent ? (parent.type > 0 ? parent : {id: parent.parent_id} as any) : undefined);
+                    this.tapNewFile(parent ? (parent.type! > 0 ? parent : {id: parent.parent_id} as any) : undefined);
                 }
             },
             {
@@ -175,7 +179,7 @@ export class BookEditorComponent {
                 icon: 'icon-arrow-up',
                 disable: !parent,
                 onTapped: () => {
-                    this.tapMove(parent)
+                    this.tapMove(parent!)
                 }
             },
             {
@@ -183,36 +187,36 @@ export class BookEditorComponent {
                 icon: 'icon-trash',
                 disable: !parent,
                 onTapped: () => {
-                    this.tapRemove(parent);
+                    this.tapRemove(parent!);
                 }
             },
         ].filter(i => !i.disable));
     }
 
     public tapNewFolder() {
-        this.data = {
+        this.data.set({
             title: '',
             type: 9,
-        } as any;
+        } as any);
         this.editor.toggle(false);
     }
 
     public tapNewFile(parent?: IChapter) {
-        this.data = {
+        this.data.set({
             title: '',
             type: 0,
             content: '',
             price: 0,
             position: 0,
             parent_id: parent ? parent.id : 0,
-        } as any;
+        } as any);
         this.editor.value = '';
         this.editor.toggle(true);
     }
 
     public tapSaveBook() {
         this.service.selfSaveBook({
-            id: this.book.id,
+            id: this.book()!.id,
             ...this.bookForm().value()
         }).subscribe(_ => {
             this.toastrService.success('书籍信息保存成功');
@@ -221,7 +225,7 @@ export class BookEditorComponent {
 
     public tapMove(item: IChapter) {
         this.moveForm.source().value.set(item.id);
-        this.moveModal().open(() => {
+        this.moveModal()?.open(() => {
             const data: any = {id: this.moveForm.source().value()};
             if (this.moveForm.type().value() < 9) {
                 data.before = this.moveForm.target;
@@ -231,7 +235,7 @@ export class BookEditorComponent {
             this.service.selfMoveChapter(data).subscribe({
                 next: () => {
                     this.toastrService.success('移动成功');
-                    this.loadBook(this.book.id, true);
+                    this.loadBook(this.book()!.id, true);
                 },
                 error: err => {
                     this.toastrService.error(err);
@@ -244,17 +248,20 @@ export class BookEditorComponent {
     }
 
     public tapSaveChapter(e?: ButtonEvent) {
-        if (!this.data || emptyValidate(this.data.title)) {
+        const source = this.data();
+        if (!source || emptyValidate(source!.title)) {
             this.toastrService.warning('请输入章节名');
             return;
         }
-        const data = {...this.data} as any;
+        const data = {...source} as any;
         const submitFn = () => {
             e?.enter();
-            this.service.selfSaveChapter({...data, body: undefined, book_id: this.book.id}).subscribe({
+            this.service.selfSaveChapter({...data, body: undefined, book_id: this.book()!.id}).subscribe({
                 next: res => {
                     e?.reset();
-                    this.data.id = res.id;
+                    this.data.update((v: any) => {
+                        return {...v, id: res.id};
+                    });
                     this.toastrService.success('章节保存成功');
                     if (res.type == 9) {
                         res.children = [];
@@ -273,12 +280,15 @@ export class BookEditorComponent {
             return;
         }
         data.content = this.editor.value;
-        this.data.size = data.size = wordLength(data.content);
+        data.size = wordLength(data.content);
+        this.data.update((v: any) => {
+            return {...v, size: data.size};
+        });
         if (data.content.length < 1) {
             this.toastrService.warning('请输入内容');
             return;
         }
-        this.publishModal().open(() => {
+        this.publishModal()?.open(() => {
             const form = this.dataForm().value();
             data.publish_type = form.publish_type;
             if (data.publish_type > 0) {
@@ -295,8 +305,8 @@ export class BookEditorComponent {
     }
 
     public tapOver() {
-        this.toastrService.confirm('确定要完结本书“' + this.book.name + '”？', () => {
-            this.service.selfOverBook(this.book.id).subscribe(_ => {
+        this.toastrService.confirm('确定要完结本书“' + this.book()!.name + '”？', () => {
+            this.service.selfOverBook(this.book()!.id).subscribe(_ => {
                 this.toastrService.success('已成功完结');
             });
         });
@@ -325,11 +335,11 @@ export class BookEditorComponent {
             }
             return false;
         };
-        removeItem(item.id, this.catalog);
+        removeItem(item.id, this.catalog());
     }
 
     private appendItem(data: IChapter) {
-        const findParent = (id: number, items: IChapter[]) => {
+        const findParent = (id: number, items: IChapter[]): IChapter[]|undefined  => {
             if (id < 1 || !id) {
                 return items;
             }
@@ -349,7 +359,7 @@ export class BookEditorComponent {
                 }
             }
         };
-        const children = findParent(data.parent_id, this.catalog);
+        const children = findParent(data.parent_id!, this.catalog())!;
         for (const item of children) {
             if (item.id === data.id) {
                 item.title = data.title;
@@ -365,12 +375,12 @@ export class BookEditorComponent {
         before: boolean;
     }, item: IChapter) {
         this.service.selfMoveChapter({
-            id: source.data.type === 9 && source.data.parent_id > 0 ? source.data.parent_id : source.data.id,
+            id: source.data.type === 9 && source.data.parent_id! > 0 ? source.data.parent_id : source.data.id,
             [source.before ? 'before' : 'after']: item.id
         }).subscribe({
             next: () => {
                 this.toastrService.success('移动成功');
-                this.loadBook(this.book.id, true);
+                this.loadBook(this.book()!.id, true);
             },
             error: err => {
                 this.toastrService.error(err);

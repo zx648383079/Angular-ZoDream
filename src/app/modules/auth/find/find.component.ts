@@ -67,12 +67,12 @@ export class FindComponent {
     }
 
     public readonly btnLabel = computed(() => {
-        return this.sended ? $localize `Reset Password ` : $localize `Send verification email`;
+        return this.sended() ? $localize `Reset Password ` : $localize `Send verification email`;
     });
 
     public tapSubmit(e: Event) {
         e.preventDefault();
-        if (!this.sended) {
+        if (!this.sended()) {
             this.service.sendFindEmail(this.dataForm.email().value()).subscribe({
                 next: res => {
                     this.toastrService.success(res.message);

@@ -62,7 +62,7 @@ export class EditBlogComponent {
         seo_description: '',
         seo_link: '',
         created_at: '-',
-        tags: []
+        tags: <ITag[]>[]
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.title);
@@ -166,7 +166,7 @@ export class EditBlogComponent {
             this.loadDetail(params.id);
         });
         afterNextRender({
-            write: () => this.editor.ready(this.areaElement().nativeElement, this.modalViewContainer())
+            write: () => this.editor.ready(this.areaElement()!.nativeElement, this.modalViewContainer())
         });
         this.destroyRef.onDestroy(() => {
             this.editor.destroy();
@@ -184,7 +184,7 @@ export class EditBlogComponent {
         }
         for (const item of this.cacheItems) {
             if (item.value === current) {
-                this.loadDetail(item.id, item.value);
+                this.loadDetail(item.id!, item.value);
                 return;
             }
         }
@@ -202,7 +202,7 @@ export class EditBlogComponent {
                 v.id = 0;
                 v.title = '';
                 v.parent_id = v.parent_id > 0 ? v.parent_id : v.id;
-                v.language = language;
+                v.language = language ?? '';
                 v.created_at = '-'
                 return {...v};
             });
@@ -210,36 +210,36 @@ export class EditBlogComponent {
         }
         this.service.blog(id).subscribe(res => {
             this.cacheItems = res.languages ?? [];
-            this.openRule.set(res.open_rule);
-            this.setContent(res.content);
+            this.openRule.set(res.open_rule!);
+            this.setContent(res.content!);
             this.dataModel.set({
                 id: res.id,
                 title: res.title,
                 parent_id: res.id,
                 language: res.language,
-                keywords: res.keywords,
+                keywords: res.keywords ?? '',
                 description: res.description,
                 term_id: res.term_id as any,
                 programming_language: res.programming_language,
                 type: res.type as any,
                 thumb: res.thumb,
                 open_type: res.open_type as any,
-                open_rule: res.open_rule,
+                open_rule: res.open_rule ?? '',
                 edit_type: res.edit_type as any,
-                source_url: res.source_url,
-                source_author: res.source_author,
-                is_hide: res.is_hide,
-                weather: res.weather,
-                audio_url: res.audio_url,
-                video_url: res.video_url,
-                cc_license: res.cc_license,
-                publish_status: res.publish_status,
+                source_url: res.source_url ?? '',
+                source_author: res.source_author ?? '',
+                is_hide: res.is_hide ?? 0,
+                weather: res.weather ?? '',
+                audio_url: res.audio_url ?? '',
+                video_url: res.video_url ?? '',
+                cc_license: res.cc_license ?? '',
+                publish_status: res.publish_status ?? 0,
                 comment_status: res.comment_status as any,
-                seo_title: res.seo_title,
-                seo_description: res.seo_description,
-                seo_link: res.seo_link,
+                seo_title: res.seo_title ?? '',
+                seo_description: res.seo_description ?? '',
+                seo_link: res.seo_link ?? '',
                 created_at: res.created_at,
-                tags: res.tags || []
+                tags: res.tags ?? []
             });
         });
     }
@@ -316,11 +316,11 @@ export class EditBlogComponent {
             data.publish_status = status;
         }
         data.content = this.editor.value;
-        data.open_rule = data.open_type > 4 ? this.openRule() : '';
+        data.open_rule = data.open_type! > 4 ? this.openRule() : '';
         e?.enter();
         this.service.blogSave(data).subscribe({
             next: _ => {
-                e.reset();
+                e?.reset();
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapBack();
             },

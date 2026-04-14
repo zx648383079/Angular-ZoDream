@@ -56,11 +56,11 @@ export class ChapterDetailComponent {
                 this.dataModel.set({
                     id: res.id,
                     type: res.type as any,
-                    title: res.title,
-                    content: res.content,
-                    price: res.price,
-                    source: res.source,
-                    position: res.position,
+                    title: res.title ?? '',
+                    content: res.content ?? '',
+                    price: res.price ?? 0,
+                    source: res.source ?? '',
+                    position: res.position ?? 99,
                     book_id: params.book,
                     size: 0
                 });
@@ -83,7 +83,7 @@ export class ChapterDetailComponent {
             return;
         }
         const data: IChapter = this.dataForm().value() as any;
-        data.size = wordLength(data.content);
+        data.size = wordLength(data.content ?? '');
         e?.enter();
         this.service.chapterSave(data).subscribe({
             next: _ => {

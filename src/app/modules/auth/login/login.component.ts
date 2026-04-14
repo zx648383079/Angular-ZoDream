@@ -50,7 +50,7 @@ export class LoginComponent {
 
 
     public readonly mode = signal(0);
-    private redirectUri: string;
+    private redirectUri = '';
     public isObserve = false;
 
     public readonly dataModel = signal({

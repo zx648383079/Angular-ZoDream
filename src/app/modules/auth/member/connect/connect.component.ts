@@ -86,7 +86,7 @@ export class ConnectComponent {
                     return {...v};
                 });
                 
-                this.faModal().open(() => {
+                this.faModal()?.open(() => {
                     this.service.save2FA({
                         twofa_code: this.dataForm.twofa_code().value()
                     }).subscribe({

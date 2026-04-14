@@ -7,7 +7,7 @@ import { formatHour } from '../../theme/utils';
 })
 export class DurationPipe implements PipeTransform {
 
-    transform(value: number, args?: any): string {
+    transform(value?: number, args?: any): string {
         return formatHour(value, undefined, true);
     }
 

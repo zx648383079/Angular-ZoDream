@@ -31,8 +31,8 @@ export class VersionComponent {
         page: 1,
         per_page: 20
     }));
-    public software: ISoftware;
-    public readonly editForm = form(signal<ISoftwareVersion>({
+    public readonly software = signal<ISoftware|null>(null);
+    public readonly editForm = form(signal({
         id: 0,
         name: '',
         description: '',
@@ -48,9 +48,9 @@ export class VersionComponent {
                 this.location.back();
                 return;
             }
-            this.software = {id: softwareId} as any;
+            this.software.set({id: softwareId} as any);
             this.service.software(softwareId).subscribe(res => {
-                this.software = res;
+                this.software.set(res);
             });
         });
         this.route.queryParams.subscribe(params => {
@@ -64,7 +64,7 @@ export class VersionComponent {
             v.id = 0;
             v.name = '';
             v.description = '';
-            v.app_id = this.software.id;
+            v.app_id = this.software()!.id;
             return {...v};
         });
         modal.open(() => {
@@ -99,7 +99,7 @@ export class VersionComponent {
         }
         this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
-        this.service.versionList({...queries, software: this.software.id}).subscribe({
+        this.service.versionList({...queries, software: this.software()!.id}).subscribe({
             next: res => {
                 this.items.set(res.data);
                 this.hasMore = res.paging.more;

@@ -3,7 +3,6 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { IEquityCard, IUserCard } from '../../../../../theme/models/auth';
-import { IPageQueries } from '../../../../../theme/models/page';
 import { IUser } from '../../../../../theme/models/user';
 import { AuthService } from '../../auth.service';
 import { SearchService } from '../../../../../theme/services';
@@ -61,7 +60,7 @@ export class UserCardComponent {
             return {...v};
         });
         modal.open(() => {
-            this.service.userCardUpdate({...this.editForm().value(), user_id: this.user().id}).subscribe(_ => {
+            this.service.userCardUpdate({...this.editForm().value(), user_id: this.user()!.id}).subscribe(_ => {
                 this.toastrService.success($localize `Save Successfully`);
                 this.tapRefresh();
             });
@@ -90,7 +89,7 @@ export class UserCardComponent {
         }
         this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
-        this.service.userCardList({...queries, user: this.user().id}).subscribe({
+        this.service.userCardList({...queries, user: this.user()!.id}).subscribe({
             next: res => {
                 this.items.set(res.data);
                 this.hasMore = res.paging.more;

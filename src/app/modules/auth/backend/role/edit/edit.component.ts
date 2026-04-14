@@ -23,7 +23,7 @@ export class EditComponent {
         name: '',
         display_name: '',
         description: '',
-        permissions: [],
+        permissions: <number[]>[],
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
         required(schemaPath.name);
@@ -46,7 +46,7 @@ export class EditComponent {
                     name: res.name,
                     display_name: res.display_name,
                     description: res.description,
-                    permissions: res.permissions.map(i => {
+                    permissions: res.permissions!.map(i => {
                         return typeof i === 'string' ? parseInt(i, 10) : i;
                     }),
                 });

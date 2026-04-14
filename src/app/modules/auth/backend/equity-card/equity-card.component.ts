@@ -3,7 +3,6 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { IEquityCard } from '../../../../theme/models/auth';
-import { IPageQueries } from '../../../../theme/models/page';
 import { AuthService } from '../auth.service';
 import { SearchService } from '../../../../theme/services';
 
@@ -29,7 +28,7 @@ export class EquityCardComponent {
         per_page: 20,
         keywords: ''
     }));
-    public readonly editForm= form(signal<IEquityCard>({
+    public readonly editForm= form(signal({
         id: 0,
         name: '',
         icon: '',

@@ -56,8 +56,8 @@ export interface IChapter {
     id: number;
     title?: string;
     size?: number;
-    type?: number;
-    content?: string;
+    type: number;
+    content: string;
     price?: number;
     source?: string;
     position?: number;

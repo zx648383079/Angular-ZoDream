@@ -3,7 +3,6 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { UploadCustomEvent } from '../../../../../components/form';
-import { IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
 import { parseNumber } from '../../../../../theme/utils';
 import { Location } from '@angular/common';
@@ -32,7 +31,7 @@ export class PackageComponent {
         page: 1,
         per_page: 20
     }));
-    public software: ISoftware;
+    public readonly software = signal<ISoftware|null>(null);
     public readonly editForm = form(signal({
         id: 0,
         name: '',
@@ -59,9 +58,9 @@ export class PackageComponent {
                 this.location.back();
                 return;
             }
-            this.software = {id: softwareId, version: {id: params.version}} as any;
+            this.software.set({id: softwareId, version: {id: params.version}} as any);
             this.service.software(softwareId, params.version).subscribe(res => {
-                this.software = res;
+                this.software.set(res);
             });
         });
         this.route.queryParams.subscribe(params => {
@@ -74,8 +73,8 @@ export class PackageComponent {
         this.editForm().value.update(v => {
             v.id = item?.id ?? 0;
             v.name = item?.name ?? '';
-            v.app_id = this.software.id;
-            v.version_id = this.software.version.id;
+            v.app_id = this.software()!.id;
+            v.version_id = this.software()!.version!.id;
             v.os = item?.os ?? '';
             v.framework = item?.framework ?? '';
             v.url_type = item?.url_type as any ?? '0';
@@ -133,8 +132,8 @@ export class PackageComponent {
         this.isLoading.set(true);
         const queries = {...this.queries().value(), page};
         this.service.packageList({...queries,
-            software: this.software.id,
-            version: this.software.version.id
+            software: this.software()!.id,
+            version: this.software()!.version!.id
         }).subscribe({
             next: res => {
                 this.items.set(res.data);

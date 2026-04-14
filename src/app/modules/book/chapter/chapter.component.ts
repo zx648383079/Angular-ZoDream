@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
     IBook,
     IChapter
@@ -23,8 +23,8 @@ export class ChapterComponent {
     private readonly router = inject(Router);
 
 
-    public data: IBook;
-    public chapterItems: IChapter[] = [];
+    public readonly data = signal<IBook|null>(null);
+    public readonly chapterItems = signal<IChapter[]>([]);
 
     constructor() {
         this.route.params.subscribe(params => {
@@ -32,17 +32,17 @@ export class ChapterComponent {
                 return;
             }
             this.service.getBook(params.id).subscribe(res => {
-                this.data = res;
+                this.data.set(res);
             });
             this.service.getChapters(params.id, 1, 10000).subscribe(res => {
-                this.chapterItems = res.data;
+                this.chapterItems.set(res.data);
             });
         });
     }
 
 
     public tapChapter(item: IChapter) {
-        this.router.navigate(['/book/reader/' + this.data.id + '/' + item.id]);
+        this.router.navigate(['/book/reader', this.data()!.id, item.id]);
     }
 
 }

@@ -50,8 +50,8 @@ export class ListComponent {
         });
     }
 
-    public formatStatus(val: number) {
-        return mapFormat(val, ReviewStatusItems);
+    public formatStatus(val?: number) {
+        return mapFormat(val ?? 0, ReviewStatusItems);
     }
 
     public toggleReview() {

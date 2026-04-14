@@ -17,7 +17,7 @@ export class TextElement implements IEditorElement {
     private indent = '\u00A0\u00A0\u00A0\u00A0';
 
     public get selection(): IEditorRange {
-        const sel = window.getSelection();
+        const sel = window.getSelection()!;
         const range = sel.getRangeAt(0);
         return {
             start: range.startOffset,
@@ -26,7 +26,7 @@ export class TextElement implements IEditorElement {
         };
     }
     public set selection(v: IEditorRange) {
-        const sel = window.getSelection();
+        const sel = window.getSelection()!;
         let range: Range;
         if (v.range) {
             range = v.range;
@@ -44,11 +44,11 @@ export class TextElement implements IEditorElement {
         return '';
     }
     public set selectedValue(v: string) {
-        const range = this.selection.range;
+        const range = this.selection.range!;
         this.addTextExecute(range, {value: v} as any);
     }
     public get value(): string {
-        const items = [];
+        const items: string[] = [];
         this.eachLine(node => {
             items.push(this.lineText(node));
         });
@@ -71,7 +71,7 @@ export class TextElement implements IEditorElement {
         return wordLength(this.value);
     }
     public selectAll(): void {
-        const sel = window.getSelection();
+        const sel = window.getSelection()!;
         const range = document.createRange();
         range.selectNodeContents(this.element);
         sel.removeAllRanges();
@@ -83,7 +83,7 @@ export class TextElement implements IEditorElement {
             range = this.selection;
         }
         const type = block.type === EditorBlockType.AddRaw ? EditorBlockType.AddText : block.type;
-        const func = this[type + 'Execute'];
+        const func = (this as any)[type + 'Execute'];
         if (typeof func === 'function') {
             func.call(this, range.range, block);
             return;
@@ -164,7 +164,7 @@ export class TextElement implements IEditorElement {
         const end = range.endContainer === range.startContainer ? begin : this.topLineNode(range.endContainer);
         const i = begin ? EditorHelper.nodeIndex(begin) : this.element.children.length;
         this.insertLines(i, begin === end || !end ? i : EditorHelper.nodeIndex(end), this.getLinePrevious(range), this.getLineNext(range));
-        this.selectNode(this.element.children[i + 1].firstChild, this.indent.length);
+        this.selectNode(this.element.children[i + 1].firstChild!, this.indent.length);
     }
 
     private indentExecute(range: Range) {
@@ -188,13 +188,13 @@ export class TextElement implements IEditorElement {
             node.innerText =  node.innerText.replace(/^\s{1,4}/, '');
             return;
         }
-        EditorHelper.replaceNode(node, this.createLine(new Text(node.textContent.replace(/^\s{1,4}/, ''))));
+        EditorHelper.replaceNode(node, this.createLine(new Text(node.textContent!.replace(/^\s{1,4}/, ''))));
     }
 
 //#endregion
 
     private selectNode(node: Node, offset = 0) {
-        const sel = window.getSelection();
+        const sel = window.getSelection()!;
         const range = document.createRange();
         // range.deleteContents();
         // range = range.cloneRange();
@@ -205,14 +205,14 @@ export class TextElement implements IEditorElement {
     }
 
     private getLinePrevious(range: Range): string {
-        const items = [];
+        const items: string[] = [];
         this.eachLinePrevious(range, line => {
             items.push(line);
         });
         return items.reverse().join('').replaceAll('\n', '');
     }
     private getLineNext(range: Range): string {
-        const items = [];
+        const items: string[] = [];
         this.eachLineNext(range, line => {
             items.push(line);
         });
@@ -234,13 +234,13 @@ export class TextElement implements IEditorElement {
         while (true) {
             if (current.previousSibling) {
                 current = current.previousSibling;
-                cb(current.textContent);
+                cb(current.textContent!);
                 continue;
             }
-            if (current.parentNode.parentNode == this.element) {
+            if (current.parentNode!.parentNode == this.element) {
                 break;
             }
-            current = current.parentNode;
+            current = current.parentNode!;
         }
     }
 
@@ -260,13 +260,13 @@ export class TextElement implements IEditorElement {
                     break;
                 }
                 current = current.nextSibling;
-                cb(current.textContent);
+                cb(current.textContent!);
                 continue;
             }
-            if (current.parentNode.parentNode === this.element) {
+            if (current.parentNode!.parentNode === this.element) {
                 break;
             }
-            current = current.parentNode;
+            current = current.parentNode!;
         }
     }
 
@@ -287,7 +287,7 @@ export class TextElement implements IEditorElement {
             EditorHelper.insertAfter(this.element.children[lineNo - 1], this.createLine(new Text(text)));
         }
         for (let i = end; i > lineNo; i -- ) {
-            EditorHelper.removeNode(this.element[i]);
+            EditorHelper.removeNode(this.element.children[i]);
         }
     }
 
@@ -308,7 +308,7 @@ export class TextElement implements IEditorElement {
             if (node.parentNode == this.element) {
                 return node;
             }
-            node = node.parentNode;
+            node = node.parentNode!;
         }
         return;
     }
@@ -337,7 +337,7 @@ export class TextElement implements IEditorElement {
     }
 
     private lineText(node: Node) {
-        return (node instanceof HTMLElement ? node.innerText : node.textContent).replaceAll('\n', '');
+        return (node instanceof HTMLElement ? node.innerText : node.textContent!).replaceAll('\n', '');
     }
 
     private createLine(...items: Node[]) {

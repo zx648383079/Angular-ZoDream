@@ -49,7 +49,7 @@ export class HomeComponent {
     }
 
     public tapImport() {
-        this.modal().open();
+        this.modal()?.open();
     }
 
     public tapSortOut() {

@@ -1,7 +1,7 @@
 @for (block of blcokItems(); track $index) {
     @if (block.type == 1) {
         <img [src]="block.image" [alt]="block.content">
-    } @else if (block.type > 1 && block.type < 5) {
+    } @else if (block.type! > 1 && block.type! < 5) {
         <a (click)="tapBlock(block)" [title]="block.content">{{ block.content }}</a>
     } @else if (block.type == 9) {
         <em>{{ block.content }}</em>

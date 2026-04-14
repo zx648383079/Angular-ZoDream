@@ -44,11 +44,11 @@ export class CommentComponent {
         required(schemaPath.content);
         disabled(schemaPath, () => !this.user);
     });
-    public user: IUser;
+    public readonly user = signal<IUser|null>(null);
 
     constructor() {
         this.store.select(selectAuthUser).subscribe(user => {
-            this.user = user;
+            this.user.set(user);
         });
         effect(() => {
             if (this.init() && this.itemId() > 0 && this.booted !== this.itemId()) {

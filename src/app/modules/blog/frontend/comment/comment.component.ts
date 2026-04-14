@@ -118,7 +118,7 @@ export class CommentComponent {
         if (!this.user) {
             this.guestForm().value.update(v => {
                 eachObject(v, (_, k) => {
-                    v[k] = data[k];
+                    (v as any)[k] = data[k];
                 });
                 return v;
             });
@@ -147,7 +147,7 @@ export class CommentComponent {
             this.toastrService.warning($localize `Please input content`);
             return;
         }
-        const data = Object.assign({blog_id: this.itemId()}, this.commentForm().value());
+        const data: any = Object.assign({blog_id: this.itemId()}, this.commentForm().value());
         if (!this.user) {
             eachObject(this.guestForm().value(), (v, k) => {
                 data[k] = v;
@@ -220,7 +220,7 @@ export class CommentComponent {
         const data = JSON.parse(str);
         this.guestForm().value.update(v => {
             eachObject(v, (_, k) => {
-                v[k] = data[k];
+                (v as any)[k] = data[k];
             });
             return v;
         });

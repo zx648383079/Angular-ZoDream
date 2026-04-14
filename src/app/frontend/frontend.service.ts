@@ -12,7 +12,7 @@ export class FrontendService {
     private readonly http = inject(HttpClient);
 
 
-    private link$: Observable<ILink[]>;
+    private link$?: Observable<ILink[]>;
 
     /**
      * friendLinks

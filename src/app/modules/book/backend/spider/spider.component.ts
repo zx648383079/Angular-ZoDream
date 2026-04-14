@@ -31,18 +31,18 @@ export class SpiderComponent {
         per_page: 20,
     }));
 
-    public isAsync = false;
-    public loadProgress = 0;
-    public loadTip = '';
+    public readonly isAsync = signal(false);
+    public readonly loadProgress = signal(0);
+    public readonly loadTip = signal('');
     private loadStartAt = new Date();
-    private $timer: Subscription;
+    private $timer?: Subscription;
 
 
     constructor() {
         this.destroyRef.onDestroy(() => {
             if (this.$timer) {
                 this.$timer.unsubscribe();
-                this.$timer = null;
+                this.$timer = undefined;
             }
         });
     }
@@ -57,9 +57,9 @@ export class SpiderComponent {
 
     public tapAsync(item: IBookSpiderItem) {
         this.loadStartAt = new Date();
-        this.isAsync = true;
-        this.loadProgress = 0;
-        this.loadTip = '初始化。。。';
+        this.isAsync.set(true);
+        this.loadProgress.set(0);
+        this.loadTip.set('初始化。。。');
         this.service.spiderAsync(item).subscribe({
             next: res => {
                 this.loadLoop(res.data);
@@ -71,10 +71,10 @@ export class SpiderComponent {
     }
 
     private loadLoop(data: any) {
-        this.loadProgress = data.next * 100 / data.count;
+        this.loadProgress.set(data.next * 100 / data.count);
         if (this.$timer) {
             this.$timer.unsubscribe();
-            this.$timer = null;
+            this.$timer = undefined;
         }
         let text = data.next + '/' + data.count + '(预计需要';
         const now = new Date();
@@ -85,7 +85,7 @@ export class SpiderComponent {
             if (total > 60) {
                 tip = Math.floor(total / 60) + '分' + Math.ceil(total % 60) + '秒';
             }
-            this.loadTip = text + tip +')';
+            this.loadTip.set(text + tip +')');
             if (total < 1) {
                 return;
             }
@@ -97,10 +97,10 @@ export class SpiderComponent {
             },
             error: err => {
                 this.toastrService.error(err);
-                this.isAsync = false;
+                this.isAsync.set(false);
                 if (this.$timer) {
                     this.$timer.unsubscribe();
-                    this.$timer = null;
+                    this.$timer = undefined;
                 }
             }
         });

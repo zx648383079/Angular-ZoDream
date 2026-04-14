@@ -75,7 +75,7 @@ export class MenuService {
         };
         const path = window.location.pathname.substring(15);
         let formatItems: INavLink[] = [];
-        let activeItem: INavLink = undefined;
+        let activeItem: INavLink|undefined = undefined;
         eachObject(this.readyMap, (items, key: string) => {
             const currentBasePath = this.formatRoutePath(key);
             const formatSource = this.filterNav(items, currentBasePath);
@@ -84,7 +84,7 @@ export class MenuService {
             }
             for (const item of formatSource) {
                 if (item.url && item.url.length > 0 && path.indexOf(item.url) === 0) {
-                    if (!activeItem || item.url.length > activeItem.url.length) {
+                    if (!activeItem || item.url.length > activeItem.url!.length) {
                         activeItem = item;
                     }
                     item.active = true;
@@ -153,7 +153,7 @@ export class MenuService {
         items.forEach(item => {
             const children = !item.children ? undefined : this.filterNav(item.children, base);
             const dist = {...item, children};
-            dist.url = this.formatUrl(dist.url, base);
+            dist.url = this.formatUrl(dist.url!, base);
             data.push(dist);
         });
         return data;

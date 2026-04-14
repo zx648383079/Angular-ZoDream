@@ -32,7 +32,7 @@
         "animate.css": "^4.1.1",
         "asciimath2tex": "^1.5.0",
         "echarts": "^6.0.0",
-        "hls.js": "^1.6.15",
+        "hls.js": "^1.6.16",
         "immutable": "^5.1.5",
         "katex": "^0.16.45",
         "marked": "^18.0.0",

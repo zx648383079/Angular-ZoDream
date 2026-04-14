@@ -1,5 +1,5 @@
-<div class="editor-container" [class]="{'top-open': topVisible}">
-    @if (book) {
+<div class="editor-container" [class]="{'top-open': topVisible()}">
+    @if (book()) {
     <div class="top-container">
         <div class="form-table-control">
             <div class="input-group-control">
@@ -23,10 +23,10 @@
         </div>
         <div class="btn-group">
             <button class="btn btn-primary" (click)="tapSaveBook()" i18n>Save</button>
-            @if (book.over_at < 1) {
+            @if (book()!.over_at! < 1) {
             <a class="btn btn-danger" (click)="tapOver()" i18n>As over</a>
             }
-            <a class="btn btn-light" (click)="topVisible = false" i18n-title title="Pack up">
+            <a class="btn btn-light" (click)="topVisible.set(false)" i18n-title title="Pack up">
                 <i class="iconfont icon-chevron-up"></i>
             </a>
         </div>
@@ -41,7 +41,7 @@
                 <a class="tool-item" title="新增卷" (click)="tapNewFolder()">
                     <i class="iconfont icon-folder-o"></i>
                 </a>
-                <a class="tool-item" title="设置" (click)="topVisible = !topVisible">
+                <a class="tool-item" title="设置" (click)="toggleTop()">
                     <i class="iconfont icon-cog"></i>
                 </a>
                 <a class="tool-item" title="更多">
@@ -67,15 +67,15 @@
                 </a>
             </div>
             <ul class="tree-box" (contextmenu)="tapContextMenu($event)">
-                @for (item of catalog; track $index) {
-                <li class="tree-item" [class]="{open: item.expanded, active: data && item.id == data.id}" [appDragDrop]="item" draggable="true" (appDrog)="onDrog($event, item)">
+                @for (item of catalog(); track $index) {
+                <li class="tree-item" [class]="{open: item.expanded, active: item.id == data()?.id}" [appDragDrop]="item" draggable="true" (appDrog)="onDrog($event, item)">
                     <div class="tree-name" (click)="tapEdit(item)" (contextmenu)="tapContextMenu($event, item)">
                         <i class="iconfont" [class]="{'icon-file-text-o': item.type < 9, 'icon-chevron-right': item.type == 9 && item.children && !item.expanded, 'icon-chevron-down': item.type == 9 && item.children && item.expanded}"></i>
                         {{ item.title }}
                     </div>
                     <ul class="tree-body">
                         @for (it of item.children; track $index) {
-                        <li class="tree-item"  [class]="{active: data && it.id == data.id}" [appDragDrop]="it"  draggable="true" (appDrog)="onDrog($event, it)">
+                        <li class="tree-item"  [class]="{active: it.id == data()?.id}" [appDragDrop]="it"  draggable="true" (appDrog)="onDrog($event, it)">
                             <div class="tree-name" (click)="tapEdit(it)" (contextmenu)="tapContextMenu($event, it)">
                                 <i class="iconfont icon-file-text-o"></i>
                                 {{ it.title }}</div>
@@ -99,7 +99,7 @@
                         <i class="iconfont icon-home"></i>
                     </div>
                 </div>
-                @if (data) {
+                @if (data()) {
                 <div class="tool-right">
                     <app-action-button class="tool-item btn-primary" (tapped)="tapSaveChapter($event)" title="保存">
                         <i class="iconfont icon-floppy-o"></i>
@@ -108,8 +108,8 @@
                 }
             </div>
             <div class="editor-input-wrapper">
-                @if (data) {
-                    <input type="text" id="name"  class="title-input" [formField]="dataForm.title" [placeholder]="data.type > 0 ? '请输入卷名' : '请输入章节名'">
+                @if (data()) {
+                    <input type="text" id="name"  class="title-input" [formField]="dataForm.title" [placeholder]="data()!.type! > 0 ? '请输入卷名' : '请输入章节名'">
                 }
                 <div #editorArea class="editor-area" [contentEditable]="true" spellcheck="false"></div>
                 <ng-container #modalVC />
@@ -120,12 +120,12 @@
 
 <app-context-menu />
 
-<app-editor-role-panel #rolePanel [targetId]="book ? book.id : 0" />
-<app-editor-preferences-panel #preferencePanel [targetId]="book ? book.id : 0" />
-<app-editor-map-panel #mapPanel [targetId]="book ? book.id : 0" />
+<app-editor-role-panel #rolePanel [targetId]="book() ? book()!.id : 0" />
+<app-editor-preferences-panel #preferencePanel [targetId]="book() ? book()!.id : 0" />
+<app-editor-map-panel #mapPanel [targetId]="book() ? book()!.id : 0" />
 
 <app-dialog-box #publishModal title="发布章节">
-    @if (data) {
+    @if (data()) {
     <div class="form-table-control">
         <div class="input-group-control">
             <label for="">发布章节</label>
@@ -171,7 +171,7 @@
             <label for="">移动到章节</label>
             <div>
                 <select [formField]="moveForm.target" class="form-control">
-                    @for (item of catalog; track $index) {
+                    @for (item of catalog(); track $index) {
                         <option [value]="item.id">{{ item.title }}</option>
                         @for (it of item.children; track $index) {
                             <option [value]="it.id">{{ it.title }}</option>

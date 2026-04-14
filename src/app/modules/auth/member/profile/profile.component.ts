@@ -32,9 +32,7 @@ export class ProfileComponent {
         required(schemaPath.name);
     });
     public readonly tabIndex = signal(0);
-    public stepData = {
-        name: '',
-    };
+    public readonly stepKey = signal('');
 
     constructor() {
         this.service.profile().subscribe({
@@ -42,8 +40,8 @@ export class ProfileComponent {
                 this.user.set(user);
                 this.dataModel.set({
                     name: user.name,
-                    sex: user.sex,
-                    birthday: user.birthday,
+                    sex: user.sex!,
+                    birthday: user.birthday!,
                 });
             }, error: err => {
                 this.toastrService.warning(err);
@@ -57,12 +55,12 @@ export class ProfileComponent {
 
     public tapStepEdit(name = 'email') {
         this.tabIndex.set(2);
-        this.stepData.name = name;
+        this.stepKey.set(name);
     }
 
 
     public tapSex(item: IItem) {
-        this.user.update(v => {
+        this.user.update((v: any) => {
             return {...v, sex: item.value, sex_label: item.name};
         });
         this.dataForm.sex().value.set(parseNumber(item.value));
@@ -87,7 +85,7 @@ export class ProfileComponent {
     public uploadFile(event: any) {
         const files = event.target.files as FileList;
         this.service.uploadAvatar(files[0]).subscribe(res => {
-            this.user.update(v => {
+            this.user.update((v: any) => {
                 return {...v, avatar: res.avatar};
             });
             this.toastrService.success($localize `Avatar has been changed`);

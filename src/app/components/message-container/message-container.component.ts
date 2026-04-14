@@ -22,7 +22,7 @@ export class MessageContainerComponent {
 
     private minId = 0;
 
-    public readonly formatItems = computed(() => {
+    public readonly formatItems = computed<IMessageBase[]>(() => {
         if (this.items().length < 1) {
             return [];
         }
@@ -50,7 +50,7 @@ export class MessageContainerComponent {
             const time = this.formatTime(item.created_at);
             if (!lastTime || this.diffTime(time, lastTime) > this.maxTime()) {
                 lastTime = time;
-                items.push({
+                items.push(<IMessageBase>{
                     type: 99,
                     content: formatAgo(time, now)
                 });

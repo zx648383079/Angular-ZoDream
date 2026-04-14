@@ -2,14 +2,14 @@
     @for (item of items(); track $index) {
         <div class="history-item">
         <div class="item-logo">
-            <img [src]="item.software.icon|asset" alt="">
+            <img [src]="item.software?.icon|asset" alt="">
         </div>
         <div class="item-body">
-            <div class="item-name">{{ item.software.name }}</div>
-            <div class="item-meta">{{ item.user.name }}</div>
+            <div class="item-name">{{ item.software?.name }}</div>
+            <div class="item-meta">{{ item.user?.name }}</div>
         </div>
         <div class="item-type">
-            {{ item.category.name }}
+            {{ item.category?.name }}
         </div>
         <div class="item-time">
             {{ item.created_at | ago }}

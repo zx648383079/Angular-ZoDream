@@ -30,7 +30,7 @@ export class ChangeAccountComponent {
         required(schemaPath.money);
     });
 
-    public data: IUser;
+    public readonly data = signal<IUser|null>(null);
 
     constructor() {
         this.route.params.subscribe(params => {
@@ -39,7 +39,7 @@ export class ChangeAccountComponent {
                 return;
             }
             this.service.user(params.id).subscribe(res => {
-                this.data = res;
+                this.data.set(res);
             });
         });
     }

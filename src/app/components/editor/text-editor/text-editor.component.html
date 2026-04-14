@@ -4,7 +4,7 @@
         [disabled]="disabled()" [placeholder]="placeholder()"></textarea>
         <div class="editor-footer">
             <ng-container i18n>{{ size() }} words</ng-container>
-            @if (maxLength() > 0) {
+            @if (maxLength()! > 0) {
                 /{{ maxLength() }}
             }
         </div>

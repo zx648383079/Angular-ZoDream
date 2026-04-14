@@ -9,7 +9,7 @@
                         <div>
                             @if (data()) {
                             <div class="avatar">
-                                <img [src]="data().avatar">
+                                <img [src]="data()!.avatar">
                             </div>
                             }
                             <label for="fileUpload" class="btn btn-light">更改头像</label>

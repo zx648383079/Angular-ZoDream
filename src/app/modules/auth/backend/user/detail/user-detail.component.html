@@ -1,11 +1,11 @@
-@if (user) {
+@if (user()) {
 <div class="user-container">
     <div class="user-info">
         <div class="avatar">
-            <img [src]="user.avatar" alt="">
+            <img [src]="user()!.avatar" alt="">
         </div>
-        <div class="name">{{ user.name }}</div>
-        <div class="meta">UID: {{ user.id }}</div>
+        <div class="name">{{ user()!.name }}</div>
+        <div class="meta">UID: {{ user()!.id }}</div>
     </div>
     <div class="meta-bar">
         <div class="meta-item">
@@ -13,7 +13,7 @@
                 邮箱
             </div>
             <div class="item-body">
-                {{ user.email }}
+                {{ user()!.email }}
             </div>
         </div>
         <div class="meta-item">
@@ -21,7 +21,7 @@
                 手机号
             </div>
             <div class="item-body">
-                {{ user.mobile || '-' }}
+                {{ user()!.mobile || '-' }}
             </div>
         </div>
         <div class="meta-item">
@@ -29,7 +29,7 @@
                 性别
             </div>
             <div class="item-body">
-                {{ user.sex_label }}
+                {{ user()!.sex_label }}
             </div>
         </div>
         <div class="meta-item">
@@ -37,7 +37,7 @@
                 生日
             </div>
             <div class="item-body">
-                {{ user.birthday }}
+                {{ user()!.birthday }}
             </div>
         </div>
         <div class="meta-item">
@@ -45,15 +45,15 @@
                 账号状态
             </div>
             <div class="item-body">
-                {{ formatStatus(user.status) }}
+                {{ formatStatus(user()!.status) }}
             </div>
         </div>
-        <a class="meta-item" routerLink="../account/log" [queryParams]="{user: user.id}">
+        <a class="meta-item" routerLink="../account/log" [queryParams]="{user: user()!.id}">
             <div class="item-header">
                 账户余额
             </div>
             <div class="item-body">
-                {{ user.money }}
+                {{ user()!.money }}
             </div>
         </a>
         <div class="meta-item">
@@ -61,7 +61,7 @@
                 账户积分
             </div>
             <div class="item-body">
-                {{ user.credits }}
+                {{ user()!.credits }}
             </div>
         </div>
         <div class="meta-item">
@@ -69,16 +69,16 @@
                 第三方绑定数
             </div>
             <div class="item-body">
-                {{ user.oauth_count }}
+                {{ user()!.oauth_count }}
             </div>
         </div>
-        @if (user.parent_id > 0) {
-        <a class="meta-item" [routerLink]="['../', user.parent_id]">
+        @if (user()!.parent_id > 0) {
+        <a class="meta-item" [routerLink]="['../', user()!.parent_id]">
             <div class="item-header">
                 邀请人
             </div>
             <div class="item-body">
-                {{ user.parent?.name || '-' }}
+                {{ user()!.parent?.name || '-' }}
             </div>
         </a>
         }
@@ -87,16 +87,16 @@
             <div class="item-header">
                 注册时间
             </div>
-            <div class="item-body" [title]="user.created_at">
-                {{ user.created_at | ago }}
+            <div class="item-body" [title]="user()!.created_at">
+                {{ user()!.created_at | ago }}
             </div>
         </div>
         <div class="meta-item">
             <div class="item-header">
                 最后登录时间
             </div>
-            <div class="item-body" [title]="user.last_login.created_at">
-                {{ user.last_login.created_at | ago }}
+            <div class="item-body" [title]="user()!.last_login.created_at">
+                {{ user()!.last_login.created_at | ago }}
             </div>
         </div>
         <div class="meta-item">
@@ -104,15 +104,15 @@
                 最后登录IP
             </div>
             <div class="item-body">
-                {{ user.last_login.ip }}
+                {{ user()!.last_login.ip }}
             </div>
         </div>
         <div class="meta-item">
             <div class="item-header">
                 常用IP
             </div>
-            <div class="item-body" [title]="'登录次数:' + user.login_ip.count">
-                {{ user.login_ip.ip }}
+            <div class="item-body" [title]="'登录次数:' + user()!.login_ip.count">
+                {{ user()!.login_ip.ip }}
             </div>
         </div>
     </div>
@@ -124,13 +124,13 @@
             <a class="item" [class]="{active: tabIndex() == i}" (click)="tapTab(i)">{{ item }}</a>
         }
     </div>
-    @if (user) {
+    @if (user()) {
     <div class="panel-container">
         <div [hidden]="tabIndex() > 0">
             <div class="line-group-item">
                 <div class="item-header">角色组：</div>
                 <div class="item-body">
-                    @for (item of user.role_items; track $index;let f = $first) {
+                    @for (item of user()!.role_items; track $index;let f = $first) {
                         @if (!f) {
                              、
                         }
@@ -141,7 +141,7 @@
             <div class="line-group-item">
                 <div class="item-header">权限组：</div>
                 <div class="item-body">
-                    @for (item of user.permission_items; track $index;let f = $first) {
+                    @for (item of user()!.permission_items; track $index;let f = $first) {
                         @if (!f) {
                              、
                         }
@@ -152,7 +152,7 @@
             <div class="line-group-item">
                 <div class="item-header">权益卡：</div>
                 <div class="item-body">
-                    @for (item of user.card_items; track $index;let f = $first) {
+                    @for (item of user()!.card_items; track $index;let f = $first) {
                         @if (!f) {
                              、
                         }
@@ -162,16 +162,16 @@
             </div>
         </div>
         <div [hidden]="tabIndex() != 1">
-            <app-log-account-panel [itemId]="user.id" [init]="tabIndex() == 1" />
+            <app-log-account-panel [itemId]="user()!.id" [init]="tabIndex() == 1" />
         </div>
         <div [hidden]="tabIndex() != 2">
-            <app-log-action-panel [itemId]="user.id" [init]="tabIndex() == 2" />
+            <app-log-action-panel [itemId]="user()!.id" [init]="tabIndex() == 2" />
         </div>
         <div [hidden]="tabIndex() != 3">
-            <app-log-login-panel [itemId]="user.id" [init]="tabIndex() == 3" />
+            <app-log-login-panel [itemId]="user()!.id" [init]="tabIndex() == 3" />
         </div>
         <div [hidden]="tabIndex() != 4">
-            <app-log-statistics-panel [itemId]="user.id" [init]="tabIndex() == 4" />
+            <app-log-statistics-panel [itemId]="user()!.id" [init]="tabIndex() == 4" />
         </div>
     </div>
     }

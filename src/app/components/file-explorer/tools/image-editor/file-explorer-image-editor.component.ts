@@ -1,4 +1,4 @@
-import { afterNextRender, Component, ElementRef, HostListener, input, signal, viewChild } from '@angular/core';
+import { afterNextRender, Component, computed, ElementRef, HostListener, input, signal, viewChild } from '@angular/core';
 import { IFileDataSource, IFileExplorerTool, IFileItem } from '../../model';
 import { assetUri } from '../../../../theme/utils';
 import { Canvas } from './Canvas';
@@ -50,13 +50,13 @@ export class FileExplorerImageEditorComponent implements IFileExplorerTool {
         });
     }
 
-    public get formatSize() {
+    public readonly formatSize = computed(() => {
         return `${this.imageWidth} * ${this.imageHeight}`;
-    }
+    })
 
-    public get formatIndex() {
+    public readonly formatIndex = computed(() => {
         return `${this.dataIndex + 1}/${this.dataSource!.count}`;
-    }
+    });
 
     public open(file: IFileItem, source: IFileDataSource) {
         this.dataSource = source;

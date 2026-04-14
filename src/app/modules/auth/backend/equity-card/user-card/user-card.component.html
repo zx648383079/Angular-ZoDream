@@ -3,7 +3,7 @@
         <ul>
             <li>权益卡购买记录列表</li>
             @if (user()) {
-                <li>会员：{{ user().name }}</li>
+                <li>会员：{{ user()!.name }}</li>
             }
             
         </ul>

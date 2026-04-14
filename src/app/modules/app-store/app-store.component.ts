@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../theme/interfaces';
@@ -24,34 +24,36 @@ export class AppStoreComponent {
         keywords: '',
     }));
 
-    public navItems: ICategory[] = [
+    public readonly navItems = signal<ICategory[]>([
         {name: '推荐'} as any,
-    ];
-    public navIndex = 0;
-    public user: IUser;
-    public searchVisible = false;
-    public navOpen = false;
+    ]);
+    public readonly navIndex = signal(0);
+    public readonly user = signal<IUser|null>(null);
+    public readonly searchVisible = signal(false);
+    public readonly navOpen =  signal(false);
 
-    public get subNavItems(): ICategory[] {
-        return this.navItems[this.navIndex].children;
-    }
+    public readonly subNavItems = computed<ICategory[]>(() => {
+        return this.navItems()[this.navIndex()].children ?? [];
+    });
 
     constructor() {
-        this.searchVisible = window.location.pathname.indexOf('category') > 0;
+        this.searchVisible.set(window.location.pathname.indexOf('category') > 0);
         this.store.select(selectAuthUser).subscribe(user => {
-            this.user = user;
+            this.user.set(user);
         });
         this.router.events.subscribe(event => {
             if (event instanceof NavigationStart) {
-                this.searchVisible = event.url.indexOf('category') > 0;
+                this.searchVisible.set(event.url.indexOf('category') > 0);
             }
         }); 
         this.service.batch({
             categories: {},
             recommend: {}
         }).subscribe(res => {
-            this.navItems = [this.navItems[0]].concat(res.categories || []);
-            this.navItems[0].children = res.recommend || [];
+            this.navItems.update(v => {
+                v[0].children = res.recommend || [];
+                return [v[0], ...(res.categories ?? [])]
+            });
         });
     }
 
@@ -62,7 +64,7 @@ export class AppStoreComponent {
     }
 
     public toggleNav() {
-        this.navOpen = !this.navOpen;
+        this.navOpen.update(v => !v);
     }
 
 }

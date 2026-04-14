@@ -40,7 +40,7 @@
                         </li>
                         <li class="nav-item dropdown" [class.show]="dropVisible()">
                             <a class="nav-link dropdown-toggle" (click)="toggleDropDown()">
-                                {{ user().name }}
+                                {{ user()!.name }}
                                 @if (bulletinCount() > 0) {
                                     <em class="badge-dot" title="There are unread messages" i18n-title></em>
                                 }
@@ -97,13 +97,13 @@
         <div class="copyright">
             <p>Copyright ©zodream.cn, All Rights Reserved.</p>
             @if (site()?.site_icp_beian) {
-                <a href="https://beian.miit.gov.cn/" target="_blank">{{ site().site_icp_beian }}</a>
+                <a href="https://beian.miit.gov.cn/" target="_blank">{{ site()!.site_icp_beian }}</a>
             }
             @if (site()?.site_pns_beian) {
             <p>
-                <a target="_blank" [href]="'https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=' + site().site_pns_beian_no">
+                <a target="_blank" [href]="'https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=' + site()!.site_pns_beian_no">
                     <img [src]="'assets/images/beian.png' | asset" alt="备案图标">
-                    {{ site().site_pns_beian }}
+                    {{ site()!.site_pns_beian }}
                 </a>
             </p>
             }

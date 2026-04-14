@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, output, signal, untracked } from '@angular/core';
+import { Component, computed, effect, inject, input, output, signal, untracked } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { ButtonEvent } from '../../../../../components/form';
@@ -22,8 +22,8 @@ export class CommentItemComponent {
     private readonly route = inject(ActivatedRoute);
 
 
-    public readonly value = input<IComment>(undefined);
-    public readonly user = input<IUser>(undefined);
+    public readonly value = input<IComment>();
+    public readonly user = input<IUser|null|undefined>();
     public readonly status = input(0);
     public readonly guestUser = input<any>({});
     public readonly commenting = output<any>();
@@ -48,12 +48,12 @@ export class CommentItemComponent {
 
     constructor() {
         effect(() => {
-            const value = this.value();
+            const value = this.value()!;
             if (!value.replies) {
                 value.replies = [];
             }
             untracked(() => {
-                this.hasMore.set(value.reply_count > value.replies?.length);
+                this.hasMore.set(value.reply_count! > value.replies!.length);
                 this.queries().value.update(v => {
                     v.blog_id = value.blog_id;
                     v.parent_id = value.id;
@@ -64,12 +64,12 @@ export class CommentItemComponent {
         });
     }
 
-    public get moreCount() {
-        if (!this.hasMore) {
+    public readonly moreCount = computed(() => {
+        if (!this.hasMore()) {
             return 0;
         }
-        return this.value().reply_count - this.value().replies.length;
-    }
+        return this.value()!.reply_count! - this.value()!.replies!.length;
+    });
 
     public toggleExpand() {
         this.expanded.update(v => !v);
@@ -165,7 +165,7 @@ export class CommentItemComponent {
             next: res => {
                 this.hasMore.set(res.paging.more);
                 this.isLoading.set(false);
-                this.value().replies = [].concat(this.value().replies, res.data);
+                this.value()!.replies = [...this.value()!.replies!, ...res.data];
                 this.queries().value.set(queries);
             }, 
             error: () => {

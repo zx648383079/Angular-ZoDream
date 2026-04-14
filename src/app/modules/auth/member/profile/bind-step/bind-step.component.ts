@@ -20,7 +20,7 @@ export class BindStepComponent {
     public readonly name = input('email');
     public readonly user = input<IUser>();
 
-    public verify_value = '';
+    public readonly verify_value = signal('');
     public readonly stepIndex = signal(0);
     public readonly dataForm = form(signal({
         name: '',
@@ -39,7 +39,7 @@ export class BindStepComponent {
                     v.verify_type = v.name = name;
                     return {...v};
                 });
-                this.verify_value = user[name];
+                this.verify_value.set((user as any)[name]);
                 if (!this.verify_value) {
                     this.tapToggleVerify();
                 }
@@ -61,7 +61,7 @@ export class BindStepComponent {
     })
 
     private formatLabel(name: string) {
-        const maps = {
+        const maps: any = {
             email: $localize `Email`,
             mobile: $localize `Phone`
         };
@@ -71,11 +71,11 @@ export class BindStepComponent {
     public tapToggleVerify() {
         this.dataForm().value.update(v => {
             const type = v.verify_type == 'email' ? 'mobile' : 'email';
-            const user = this.user();
+            const user = this.user() as any;
             if (user[type]) {
                 v.verify_type = type;
                 v.verify = '';
-                this.verify_value = user[type];
+                this.verify_value.set(user[type]);
             }
             return v;
         });

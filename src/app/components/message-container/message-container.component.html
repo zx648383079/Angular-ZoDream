@@ -34,7 +34,7 @@
                         }
                         @case (80) {
                             <div class="news-block">
-                                @for (news of item.items; track $index;let j = $index) {
+                                @for (news of item.items!; track $index;let j = $index) {
                                     <div [class]="{'cover-news-item': j < 1, 'news-item': j > 0}" (click)="tapNewsItem(news)">
                                         <div class="news-title">{{ news.title }}</div>
                                         <div class="news-thumb">
@@ -45,7 +45,7 @@
                             </div>
                         }
                         @default {
-                            <app-rule-block [value]="item.content" [rules]="item.extra_rule" (tapped)="onRuleTap($event)" />
+                            <app-rule-block [value]="item.content" [rules]="item.extra_rule!" (tapped)="onRuleTap($event)" />
                         }
                     }
                 </div>

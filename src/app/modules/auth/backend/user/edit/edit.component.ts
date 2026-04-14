@@ -2,7 +2,6 @@ import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
-import { IRole } from '../../../../../theme/models/auth';
 import { IUserZone, SexItems } from '../../../../../theme/models/user';
 import { FileUploadService } from '../../../../../theme/services/file-upload.service';
 import { AuthService } from '../../auth.service';
@@ -30,7 +29,7 @@ export class EditUserComponent {
         sex: 0,
         birthday: '',
         zone_id: 0,
-        roles: [],
+        roles: <number[]>[],
         password: '',
         confirm_password: '',
     });
@@ -70,11 +69,11 @@ export class EditUserComponent {
                     id: res.id,
                     name: res.name,
                     avatar: res.avatar,
-                    sex: res.sex,
-                    email: res.email,
-                    birthday: res.birthday,
-                    zone_id: res.zone_id,
-                    roles: res.roles.map(i => {
+                    sex: res.sex!,
+                    email: res.email!,
+                    birthday: res.birthday!,
+                    zone_id: res.zone_id!,
+                    roles: res.roles!.map(i => {
                             return typeof i === 'string' ? parseInt(i, 10) : i;
                         }),
                     password: '',

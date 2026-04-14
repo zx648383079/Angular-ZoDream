@@ -35,7 +35,8 @@ export class AppComponent {
         this.store.select(selectSystemConfig).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
             this.themeService.toggleClass('theme-gray', res && res.site_gray == true);
         });
-        this.router.events.subscribe((event: NavigationEnd) => {
+        this.router.events.subscribe((event: any) => {
+            // event NavigationEnd
             if (event instanceof ActivationEnd) {// 当导航成功结束时执行
                 document.documentElement.scrollTop = 0;
             }

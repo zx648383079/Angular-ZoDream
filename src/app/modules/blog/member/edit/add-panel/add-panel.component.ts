@@ -1,7 +1,6 @@
 import { Component, inject, input, output, signal } from '@angular/core';
 import { IUploadFile } from '../../../../../theme/models/open';
 import { FileUploadService, SearchService } from '../../../../../theme/services';
-import { IPageQueries } from '../../../../../theme/models/page';
 import { EditorBlockType, IEditorBlock } from '../../../../../components/editor';
 import { form } from '@angular/forms/signals';
 
@@ -116,7 +115,7 @@ export class AddPanelComponent {
             next: res => {
                 this.isLoading.set(false);
                 this.mediaItems.update(v => {
-                    return page > 1 ? [].concat(v, res.data) : res.data
+                    return page > 1 ? [...v, ...res.data] : res.data
                 });
                 this.hasMore = res.paging.more;
                 this.mediaQueries().value.set(queries)

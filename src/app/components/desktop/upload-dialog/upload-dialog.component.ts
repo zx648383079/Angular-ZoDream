@@ -47,8 +47,8 @@ export class UploadDialogComponent implements ButtonEvent {
     /**
      * 确认事件
      */
-    private confirmFn: (data: FormData) => void;
-    private lastFile: FileList|File[];
+    private confirmFn?: (data: FormData) => void;
+    private lastFile?: FileList|File[];
 
     constructor() {
         this.progress$.pipe(
@@ -97,6 +97,7 @@ export class UploadDialogComponent implements ButtonEvent {
         this.close();
     }
 
+    public open(): Subject<HttpProgressEvent>;
     public open(confirm: (data: FormData) => boolean|void): Subject<HttpProgressEvent>;
     public open(confirm: (data: FormData) => boolean|void, title: string): Subject<HttpProgressEvent>;
     /**
@@ -104,7 +105,7 @@ export class UploadDialogComponent implements ButtonEvent {
      * @param cb 点击确认按钮事件
      * @param check 判断是否允许关闭
      */
-    public open(confirm: (data: FormData) => boolean|void, title?: string): Subject<HttpProgressEvent> {
+    public open(confirm?: (data: FormData) => boolean|void, title?: string): Subject<HttpProgressEvent> {
         this.selectedItem.set('');
         this.stepIndex.set(0);
         this.confirmFn = confirm;

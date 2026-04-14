@@ -14,8 +14,8 @@
                     <a routerLink="download">
                         <i class="iconfont icon-download"></i>
                     </a>
-                    @if (user) {
-                        <a routerLink="/backend">{{ user.name }}</a>
+                    @if (user()) {
+                        <a routerLink="/backend">{{ user()!.name }}</a>
                     } @else {
                         <a routerLink="/auth" i18n>Sign In</a>
                     }
@@ -29,8 +29,8 @@
     <div class="navbar" [class]="{open: navOpen}">
         <div class="container-fluid">
             <ul class="navbar-main">
-                @for (item of navItems; track $index;let i = $index) {
-                    <li [class]="{active: i == navIndex}" (click)="navIndex = i">
+                @for (item of navItems(); track $index;let i = $index) {
+                    <li [class]="{active: i == navIndex()}" (click)="navIndex.set(i)">
                         <a >{{ item.name }}</a>
                     </li>
                 }
@@ -38,7 +38,7 @@
         </div>
         <div class="container-fluid navbar-next-bar">
             <ul class="navbar-next">
-                @for (item of subNavItems; track item.id) {
+                @for (item of subNavItems(); track item.id) {
                     <li [class]="{active: item.active}">
                         <a [routerLink]="['category', item.id]">{{ item.name }}</a>
                         @if (item.children) {
@@ -59,7 +59,7 @@
                     </li>
                 }
             </ul>
-            @if (searchVisible) {
+            @if (searchVisible()) {
                 <form class="search-inline" (submit)="tapSearch($event)">
                     <i class="iconfont icon-search"></i>
                     <input type="text" class="form-control" placeholder="Search ..." [formField]="queries.keywords">

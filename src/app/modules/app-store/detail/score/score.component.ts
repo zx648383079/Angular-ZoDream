@@ -18,7 +18,7 @@ export class ScoreComponent {
 
     public readonly itemId = input(0);
     public readonly init = input(false);
-    public subtotal: IScoreSubtotal;
+    public readonly subtotal = signal<IScoreSubtotal|null>(null);
     public readonly isLoading = signal(false);
     private booted = 0;
     public readonly scoreForm = form(signal({
@@ -79,7 +79,7 @@ export class ScoreComponent {
         this.service.scoreSubtotal({
             id: this.itemId()
         }).subscribe(res => {
-            this.subtotal = res;
+            this.subtotal.set(res);
         });
     }
 

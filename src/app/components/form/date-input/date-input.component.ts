@@ -54,7 +54,10 @@ export class DateInputComponent implements FormValueControl<string> {
         
     }
 
-    public onValueChange(event: Event|string|Date) {
+    public onValueChange(event?: Event|string|Date) {
+        if (!event) {
+            return;
+        }
         if (typeof event === 'string') {
             this.value.set(event as string);
             return;

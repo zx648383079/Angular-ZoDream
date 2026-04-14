@@ -12,10 +12,10 @@
                 <div class="item-meta">{{ item.version.description }}</div>
             </div>
             <div class="item-type">
-                {{ item.package.category.name }}
+                {{ item.package.category?.name }}
             </div>
             <div class="item-time">
-                @if (item.status < 1) {
+                @if (item.status! < 1) {
                     {{ item.version.created_at | ago }}
                 } @else {
                     @if (item.status == 2) {

@@ -28,7 +28,7 @@ export class EditTagComponent {
         required(schemaPath.name);
     });
 
-    public data: ITag;
+    private data?: ITag;
 
     constructor() {
         this.route.params.subscribe(params => {
@@ -38,9 +38,9 @@ export class EditTagComponent {
         this.service.tag(params.id).subscribe(res => {
             this.data = res;
             this.dataModel.set({
-                        id: res.id,
+                id: res.id ?? 0,
                 name: res.name,
-                description: res.description
+                description: res.description ?? ''
             });
         });
         });

@@ -101,7 +101,7 @@ export class EditSoftwareComponent {
         e?.enter();
         this.service.softwareSave(data).subscribe({
             next: _ => {
-                e.reset();
+                e?.reset();
                 this.toastrService.success($localize `Save Successfully`);
                 this.location.back();
             },

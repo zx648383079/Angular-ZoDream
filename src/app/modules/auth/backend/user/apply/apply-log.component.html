@@ -60,7 +60,7 @@
     @if (dataModel().user) {
     <div class="line-row-item">
         <span class="item-label">账户余额：</span>
-        <span class="item-body">{{ dataModel().user.money }}</span>
+        <span class="item-body">{{ dataModel().user!.money }}</span>
     </div>
     }
     

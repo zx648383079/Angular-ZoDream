@@ -38,7 +38,7 @@ export class MemberSpaceComponent {
     public tapRefresh() {
         this.isLoading.set(true);
         this.service.user({
-            user: this.data().id
+            user: this.data()!.id
         }).subscribe({
             next: res => {
                 this.data.set(res);
@@ -53,9 +53,9 @@ export class MemberSpaceComponent {
     }
 
     public tapFollow() {
-        this.service.toggleFollow(this.data().id).subscribe({
+        this.service.toggleFollow(this.data()!.id).subscribe({
             next: res => {
-                this.data.update(v => {
+                this.data.update((v: any) => {
                     v.follow_status = res.data;
                     if (res.data > 0) {
                         v.mark_status = 0;
@@ -75,7 +75,7 @@ export class MemberSpaceComponent {
             placeholder: $localize `Please enter the reason`,
             onConfirm: reason => {
                 this.service.report({
-                    user: this.data().id,
+                    user: this.data()!.id,
                     reason
                 }).subscribe({
                     next: _ => {
@@ -90,9 +90,9 @@ export class MemberSpaceComponent {
     }
 
     public tapMark() {
-        this.service.toggleMark(this.data().id).subscribe({
+        this.service.toggleMark(this.data()!.id).subscribe({
             next: res => {
-                this.data.update(v => {
+                this.data.update((v: any) => {
                     v.mark_status = res.data;
                     if (res.data > 0) {
                         v.follow_status = 0;

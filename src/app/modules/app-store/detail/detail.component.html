@@ -51,7 +51,7 @@
 }
 
 <div class="container-fluid detail-body">
-    <app-loading-tip [loading]="isLoading()" [visible]="!data || isLoading()" />
+    <app-loading-tip [loading]="isLoading()" [visible]="!data() || isLoading()" />
     @if (data()) {
     <div class="row">
         <div class="col-md-8">
@@ -101,7 +101,7 @@
                 <table class="table">
                     <tr>
                         <td class="line-label" i18n>Latest version</td>
-                        <td class="line-body">{{ data()!.version.name }}</td>
+                        <td class="line-body">{{ data()!.version?.name }}</td>
                     </tr>
                     @if (currentPackage()) {
                     <tr>

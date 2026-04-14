@@ -19,7 +19,7 @@ export class EditableTableComponent {
     public readonly page = input(1);
     public readonly perPage = input(20);
     public readonly total = input(-1);
-    public readonly action = input<TemplateRef<any>>(undefined);
+    public readonly action = input<TemplateRef<any>>();
     public readonly pageChange = output<number>();
     public readonly remove = output<any[]>();
 

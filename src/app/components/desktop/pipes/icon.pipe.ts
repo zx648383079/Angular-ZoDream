@@ -13,7 +13,7 @@ export class IconfontPipe implements PipeTransform {
         if (value.indexOf(' ') >= 0) {
             value = value.split(' ')[1];
         }
-        const map = {
+        const map: any = {
             'fa-mail-bulk': 'icon-mail',
             'fa-rss': 'icon-share-alt',
         };

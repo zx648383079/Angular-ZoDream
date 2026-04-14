@@ -42,7 +42,7 @@ export class DetailComponent {
     }));
 
     constructor() {
-        (window as any).deeplinkOpen = path => {
+        (window as any).deeplinkOpen = (path: any) => {
             this.ngZoon.run(() => {
                 openLink(this.router, path);
             });
@@ -63,7 +63,7 @@ export class DetailComponent {
         this.isLoading.set(true);
         const openKey = localStorage.getItem(BLOG_OPEN_KEY);
         this.service.batch({
-            detail: {id, open_key: openKey},
+            detail: {id, open_key: openKey ?? ''},
             relation: {blog: id}
         }).subscribe({
             next: res => {
@@ -71,7 +71,7 @@ export class DetailComponent {
                 this.data.set(res.detail);
                 this.themeService.titleChanged.next(res.detail.seo_title || res.detail.title);
                 this.relationItems.set(res.relation);
-                this.renderContent(res.detail.content);
+                this.renderContent(res.detail.content!);
                 this.searchService.pushHistoryState(res.detail.title,
                     window.location.href.replace(/blog.*$/, 'blog/' + res.detail.id.toString()));
                 document.documentElement.scrollTop = 0;
@@ -84,30 +84,30 @@ export class DetailComponent {
     }
 
     public tapOpen() {
-        if (this.data().can_read) {
+        if (this.data()!.can_read) {
             return;
         }
-        if (this.data().open_type === 1) {
+        if (this.data()!.open_type === 1) {
             this.themeService.emitLogin(true);
             return;
         }
         const openKey = this.dataForm.open_key().value();
-        if (this.data().open_type === 5) {
+        if (this.data()!.open_type === 5) {
             if (emptyValidate(openKey)) {
                 this.toastrService.warning($localize `Please input password`);
                 return;
             }
         }
         this.service.openBody({
-            id: this.data().id,
+            id: this.data()!.id,
             open_key: openKey
         }).subscribe({
             next: res => {
-                this.data.update(v => {
+                this.data.update((v: any) => {
                     return {...v, can_read: res.can_read};
                 });
-                this.renderContent(res.content);
-                if (this.data().open_type === 5) {
+                this.renderContent(res.content!);
+                if (this.data()!.open_type === 5) {
                     localStorage.setItem(BLOG_OPEN_KEY, openKey);
                 }
             },
@@ -121,9 +121,9 @@ export class DetailComponent {
     }
 
     public tapRecommend() {
-        this.service.blogRecommend(this.data().id).subscribe({
+        this.service.blogRecommend(this.data()!.id).subscribe({
             next: res => {
-                this.data.update(v => {
+                this.data.update((v: any) => {
                     return {...v, recommend_count: res.recommend_count, is_recommended: res.is_recommended}
                 });
             }, 

@@ -30,7 +30,7 @@ export class AccountLogComponent {
         per_page: 20,
         user: 0,
     }));
-    public user: IUser;
+    public readonly user = signal<IUser|null>(null);
     public readonly dataModel = signal<IAccountLog>({} as any);
 
     constructor() {
@@ -41,7 +41,7 @@ export class AccountLogComponent {
                 return;
             }
             this.service.user(params.user).subscribe(user => {
-                this.user = user;
+                this.user.set(user);
             });
         });
     }

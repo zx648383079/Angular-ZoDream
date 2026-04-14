@@ -4,29 +4,29 @@
             @if (user()) {
             <div class="person-box" >
                 <div class="control-avatar">
-                    <img [ngSrc]="user().avatar" width="160" height="160" [alt]="user().name" priority>
+                    <img [ngSrc]="user()!.avatar" width="160" height="160" [alt]="user()!.name" priority>
                 </div>
                 <div class="control-name">
-                    {{ user().name }}
-                    @if (user().is_verified) {
+                    {{ user()!.name }}
+                    @if (user()!.is_verified) {
                         <i class="iconfont icon-shield" i18n-title title="This user is verified"></i>
                     }
                     
                 </div>
-                <div class="control-meta">uid: {{ user().id }}</div>
+                <div class="control-meta">uid: {{ user()!.id }}</div>
                 <div class="control-desc"></div>
                 <a routerLink="account/profile" class="btn btn-primary" i18n>Edit Profile</a>
                 <div class="count-bar">
                     <div class="count-item">
-                        <div class="count">{{ user().following_count| numberFormat }}</div>
+                        <div class="count">{{ user()!.following_count| numberFormat }}</div>
                         <span i18n>Following</span>
                     </div>
                     <div class="count-item">
-                        <div class="count">{{ user().follower_count| numberFormat }}</div>
+                        <div class="count">{{ user()!.follower_count| numberFormat }}</div>
                         <span i18n>Followers</span>
                     </div>
                     <div class="count-item">
-                        <div class="count">{{ user().post_count| numberFormat }}</div>
+                        <div class="count">{{ user()!.post_count| numberFormat }}</div>
                         <span i18n>Posts</span>
                     </div>
                 </div>
@@ -34,18 +34,18 @@
                 <div class="link-panel tablet-collapse">
                     <a>
                         <i class="iconfont icon-map-marker"></i>
-                        {{ user().country }}
+                        {{ user()!.country }}
                     </a>
-                    @if (user().mobile) {
+                    @if (user()!.mobile) {
                     <a>
                         <i class="iconfont icon-mobile"></i>
-                        {{ user().mobile }}
+                        {{ user()!.mobile }}
                     </a>
                     }
                     
                     <a>
                         <i class="iconfont icon-mail"></i>
-                        {{ user().email }}
+                        {{ user()!.email }}
                     </a>
                 </div>
             </div>  

@@ -13,7 +13,7 @@ export class LoginDialogComponent {
      * 是否显示
      */
     public readonly visible = signal(false);
-    private confirmFn: (user: IUser) => void;
+    private confirmFn?: (user: IUser) => void;
 
     public open(cb?: (user: IUser) => void) {
         this.visible.set(true);

@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <app-page-tip>
         <ul>
-            <li>管理 “{{ software?.name }}” 应用的版本</li>
+            <li>管理 “{{ software()?.name }}” 应用的版本</li>
         </ul>
     </app-page-tip>
     <div class="panel-container">
@@ -12,7 +12,7 @@
                     <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" placeholder="关键词">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
-                @if (software) {
+                @if (software()) {
                     <div class="btn-group pull-right">
                         <a class="btn btn-success" (click)="open(modal)">新增版本</a>
                     </div>

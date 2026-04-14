@@ -1,16 +1,16 @@
 <app-edit-header [title]="'账户充值'" (submited)="tapSubmit($event)" />
-@if (data) {
+@if (data()) {
 <div class="container-fluid">
     <form class="form-table-control panel-container" (submit)="tapSubmit2($event)" method="POST">
         <div class="input-group-control">
             <label>账号</label>
             <div class="label-input">
-                {{ data.name }}</div>
+                {{ data()!.name }}</div>
         </div>
         <div class="input-group-control">
             <label>账户余额</label>
             <div class="label-input">
-                {{ data.money }}
+                {{ data()!.money }}
             </div>
         </div>
         <div class="input-group-control">

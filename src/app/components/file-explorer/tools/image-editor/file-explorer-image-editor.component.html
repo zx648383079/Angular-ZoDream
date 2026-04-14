@@ -1,7 +1,7 @@
 @if (visible()) {
 <div class="dialog-box">
     <div class="dialog-header" [hidden]="isEditting()">
-        <span>查看图片[{{ formatIndex }}]</span>
+        <span>查看图片[{{ formatIndex() }}]</span>
         <div class="dialog-action-bar">
             <div class="action-item" title="查看上一张" (click)="tapPrevious()">
                 <i class="iconfont icon-chevron-left"></i>
@@ -50,11 +50,11 @@
                 <div class="image-container" #imageBox></div>
             </div>
         </div>
-        @if (data) {
+        @if (data()) {
         <div class="attachment-property-panel">
             <div class="line-row-item">
                 <label for="" class="item-label">上传日期：</label>
-                <span class="item-body">{{ data.created_at | timestamp }}</span>
+                <span class="item-body">{{ data()!.created_at | timestamp }}</span>
             </div>
             <div class="line-row-item">
                 <label for="" class="item-label">上传者：</label>
@@ -62,19 +62,19 @@
             </div>
             <div class="line-row-item">
                 <label for="" class="item-label">文件名：</label>
-                <span class="item-body">{{ data.name }}</span>
+                <span class="item-body">{{ data()!.name }}</span>
             </div>
             <div class="line-row-item">
                 <label for="" class="item-label">文件类型：</label>
-                <span class="item-body">image/{{ data.extension }}</span>
+                <span class="item-body">image/{{ data()!.extension }}</span>
             </div>
             <div class="line-row-item">
                 <label for="" class="item-label">文件大小：</label>
-                <span class="item-body">{{ data.size | size }}</span>
+                <span class="item-body">{{ data()!.size | size }}</span>
             </div>
             <div class="line-row-item">
                 <label for="" class="item-label">尺寸：</label>
-                <span class="item-body">{{ formatSize }}</span>
+                <span class="item-body">{{ formatSize() }}</span>
             </div>
 
             @if (!isEditting()) {

@@ -1,7 +1,9 @@
 import {
   Component,
+  computed,
   input,
-  output
+  output,
+  signal
 } from '@angular/core';
 import { IChapter } from '../../model';
 import { formatTime } from '../../../../theme/utils';
@@ -14,21 +16,19 @@ import { formatTime } from '../../../../theme/utils';
 })
 export class ChapterCatalogComponent {
 
-    public orderAsc = true;
+    public readonly orderAsc = signal(true);
 
     public readonly items = input<IChapter[]>([]);
-    public current: any;
+    public readonly current = signal<any>(null);
     public readonly selected = output<IChapter>();
 
-    constructor() {}
-
-    get filterItems() {
-        if (this.orderAsc) {
+    public readonly filterItems = computed(() => {
+        if (this.orderAsc()) {
             return this.items();
         }
         const items = [];
         for (const item of this.items()) {
-            if (item.type < 9) {
+            if (item.type! < 9) {
                 items.push(item);
                 continue;
             }
@@ -40,17 +40,17 @@ export class ChapterCatalogComponent {
             }
         }
         return items.reverse();
-    }
+    });
 
     public tapOrder() {
-        this.orderAsc = !this.orderAsc;
+        this.orderAsc.update(v => !v);
     }
 
     public tapChapter(item: IChapter) {
-        this.current = {
+        this.current.set({
             chapter_id: item.id,
             created_at: formatTime(new Date())
-        };
+        });
         this.selected.emit(item);
     }
 }

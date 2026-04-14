@@ -16,7 +16,7 @@ export class VideoPlayerComponent {
 
 
     private readonly videoElement = viewChild<ElementRef<HTMLVideoElement>>('playerVideo');
-    public readonly src = model<string>('');
+    public readonly src = model<string|undefined>('');
     public readonly cover = input<string>();
     public readonly ended = output<void>();
     public readonly paused = signal(true);
@@ -38,7 +38,7 @@ export class VideoPlayerComponent {
 
     constructor() {
         effect(() => {
-            const src = this.src();
+            const src = this.src() ?? '';
             untracked(() => {
                 this.booted.set(false);
                 this.isFrame.set(mediaIsFrame(src));

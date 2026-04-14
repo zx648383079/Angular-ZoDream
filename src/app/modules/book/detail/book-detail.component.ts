@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBook, IChapter } from '../model';
 import { BookService } from '../book.service';
@@ -20,8 +20,8 @@ export class BookDetailComponent {
     private readonly uploadService = inject(FileUploadService);
 
 
-    public data: IBook;
-    public chapterItems: IChapter[] = [];
+    public readonly data = signal<IBook|null>(null);
+    public readonly chapterItems = signal<IChapter[]>([]);
 
     constructor() {
         this.route.params.subscribe(params => {
@@ -29,36 +29,36 @@ export class BookDetailComponent {
                 return;
             }
             this.service.getBook(params.id).subscribe(res => {
-                this.data = res;
+                this.data.set(res);
             });
             this.service.getChapters(params.id, 1, 10000).subscribe(res => {
-                this.chapterItems = res.data;
+                this.chapterItems.set(res.data);
             });
         });
     }
 
     public tapRead() {
-        if (!this.data.first_chapter) {
+        if (!this.data()?.first_chapter) {
             return;
         }
-        this.tapChapter(this.data.first_chapter);
+        this.tapChapter(this.data()!.first_chapter!);
     }
 
     public tapChapter(item: IChapter) {
-        this.router.navigate(['../reader/' + this.data.id + '/' + item.id], {relativeTo: this.route});
+        this.router.navigate(['../reader/' + this.data()!.id + '/' + item.id], {relativeTo: this.route});
     }
 
     public tapAddBook() {
-        this.service.recordHistory(this.data.id, 0, 0).subscribe(_ => {
-            this.data.on_shelf = true;
+        this.service.recordHistory(this.data()!.id, 0, 0).subscribe(_ => {
+            this.data.update((v: any) => ({...v, on_shelf: true}));
         });
     }
 
     public tapDownload(event?: ButtonEvent, zip = false) {
         event?.enter();
         this.uploadService.export(zip ? 'book/download/zip' : 'book/download/txt', 
-            {id: this.data.id}, 
-            this.data.name + (zip ? '.zip' :'.txt')).subscribe({
+            {id: this.data()!.id}, 
+            this.data()!.name + (zip ? '.zip' :'.txt')).subscribe({
             next: _ => {
                 event?.reset();
             },

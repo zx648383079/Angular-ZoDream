@@ -15,7 +15,7 @@
             <label for="fileUpload" i18n>Avatar</label>
             <div>
                 <div class="avatar-input">
-                    <img [src]="user().avatar">
+                    <img [src]="user()!.avatar">
                     <label class="iconfont icon-camera" for="fileUpload"></label>
                     <input type="file" name="file" id="fileUpload" (change)="uploadFile($event)" accept="image/*"/>
                 </div>
@@ -57,7 +57,7 @@
     </form>
     @if (tabIndex() == 2) {
     <div class="inner-container">
-        <app-member-bind-step [name]="stepData.name" [user]="user()" />
+        <app-member-bind-step [name]="stepKey()" [user]="user()!" />
     </div>
     }
 </div>

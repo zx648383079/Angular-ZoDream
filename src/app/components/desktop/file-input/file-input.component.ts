@@ -50,7 +50,7 @@ export class FileInputComponent implements ControlValueAccessor, FormValueContro
         if (this.disabled() || !this.online()) {
             return;
         }
-        modal.open((item: IUploadFile) => {
+        modal.open((item: any) => {
             this.value.set(item.url);
             this.changeFn(this.value());
             this.fileUploaded.emit(item);

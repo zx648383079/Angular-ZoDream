@@ -1,7 +1,7 @@
 <div class="comment-container">
     <div class="title-bar">
         <h3 i18n>Leave a Comment</h3>
-        @if (!user) {
+        @if (!user()) {
             <p class="bar-text" i18n>Please login in first *</p>
         }
     </div>
@@ -9,7 +9,7 @@
     <div class="comment-form">
         <app-text-editor [formField]="commentForm.content" height="200" placeholder="Leave a Comment" />
         <div class="form-group">
-            <app-action-button class="btn btn-primary" [disabled]="!user" (tapped)="tapComment($event)" i18n>Post Comment</app-action-button>
+            <app-action-button class="btn btn-primary" [disabled]="!user()" (tapped)="tapComment($event)" i18n>Post Comment</app-action-button>
         </div>
     </div>
 

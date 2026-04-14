@@ -3,7 +3,6 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogEvent } from '../../../../../components/dialog';
 import { IApplyLog } from '../../../../../theme/models/auth';
-import { IPageQueries } from '../../../../../theme/models/page';
 import { AuthService } from '../../auth.service';
 import { SearchService } from '../../../../../theme/services';
 
