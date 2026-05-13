@@ -1,19 +1,13 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { Record } from 'immutable';
 import { setSystemConfig } from '../actions/system.actions';
 
-interface ISystemState {
+export interface SystemState {
     configs: any;
 }
 
-export interface SystemState extends Map<string, any>, ISystemState {
-}
-
-export const SystemStateRecord = Record({
+export const initialState: any = {
     configs: {},
-});
-
-export const initialState: any = new SystemStateRecord();
+};
 
 export const SystemFeatureKey = 'system';
 

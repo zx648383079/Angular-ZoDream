@@ -1,0 +1,10 @@
+@use '../../../theme/theme';
+:host {
+    background-color: transparent;
+    &.--with-open {
+        background-color: var(--#{theme.$prefix}input);
+    }
+    .control-body {
+        user-select: none;
+    }
+}

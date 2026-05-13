@@ -12,6 +12,37 @@
         <app-upload-button class="btn btn-primary">自定义上传按钮</app-upload-button>
 
         <a class="btn btn-info" (click)="modal.open()">资源管理器</a>
+
+
+        <div class="multiple-upload-panel">
+            <div class="panel-header">
+                <input type="text" class="form-control">
+                <button class="btn btn-primary">Upload</button>
+            </div>
+            <div class="panel-body">
+                <div class="large-upload-item">
+                    <img class="item-body" [src]="'/assets/images/debug.jpg' | asset">
+                    <i class="iconfont icon-play play-icon"></i>
+                    <i class="iconfont icon-close action-icon"></i>
+                </div>
+                <div class="large-upload-item --with-loading">
+                    <img class="item-body" [src]="'/assets/images/debug.jpg' | asset">
+                    <i class="iconfont icon-play play-icon"></i>
+                    <i class="iconfont icon-close action-icon"></i>
+                    <span class="upload-progress"></span>
+                </div>
+
+                <div class="upload-item">
+                    <span class="item-body">文件</span>
+                    <i class="iconfont icon-close action-icon"></i>
+                </div>
+                <div class="upload-item --with-loading">
+                    <span class="item-body">文件</span>
+                    <i class="iconfont icon-close action-icon"></i>
+                    <span class="upload-progress"></span>
+                </div>
+            </div>
+        </div>
     </div>
 
     <app-panel title="多文件上传">

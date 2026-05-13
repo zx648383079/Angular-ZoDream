@@ -1,5 +1,6 @@
 import { Component, effect, signal } from '@angular/core';
 import { ButtonEvent, DateSource } from '../../components/form';
+import { IItem } from '../../theme/models/seo';
 
 @Component({
     standalone: false,
@@ -11,6 +12,11 @@ export class ExampleFormControlComponent {
     public value = '';
     public readonly inputValue = signal('');
     public readonly source = new DateSource();
+
+    public readonly languageItems: IItem[] = [
+        {name: '中文', value: 'zh'},
+        {name: 'EN', value: 'en'},
+    ];
 
     constructor() {
         effect(() => {

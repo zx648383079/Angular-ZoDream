@@ -47,6 +47,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MultiImageInputComponent } from './multi-image-input/multi-image-input.component';
 import { UploadDialogComponent } from './upload-dialog/upload-dialog.component';
 import { ProgressDialogComponent } from './progress-dialog/progress-dialog.component';
+import { LanguageSelectorComponent } from './language-selector/language-selector.component';
 
 
 const COMPONENTS = [
@@ -71,6 +72,7 @@ const COMPONENTS = [
     MultiImageInputComponent,
     UploadDialogComponent,
     ProgressDialogComponent,
+    LanguageSelectorComponent,
 ];
 
 const PIPES = [

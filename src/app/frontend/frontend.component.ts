@@ -87,7 +87,7 @@ export class FrontendComponent {
             }
             this.userLoading.set(res.isLoading);
             this.user.set(res.guest ? null : {...res.user} as any);
-            if (!res.isLoading && !res.guest) {
+            if (!res.isLoading && res.guest === false) {
                 this.authService.loadProfile('bulletin_count,today_checkin,post_count,follower_count,following_count').subscribe(profile => {
                     this.user.set({...profile});
                     this.bulletinCount.set(profile.bulletin_count);

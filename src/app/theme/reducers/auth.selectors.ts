@@ -23,7 +23,7 @@ export const selectAuthStatus = createSelector<object, AuthState, IAuthStatus>(
 
 export const selectAuthUser = createSelector<object, AuthState, IUser>(
     selectAuth,
-    (state: AuthState) => state.user
+    (state: AuthState) => state.user!
 );
 
 export const selectAuthRole = createSelector<object, AuthState, string[]>(

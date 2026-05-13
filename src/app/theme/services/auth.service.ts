@@ -192,7 +192,11 @@ export class AuthService {
 
     public getUserToken() {
         if (isPlatformBrowser(this.platformId)) {
-            const user: IUser = JSON.parse(localStorage.getItem(USER_KEY) ?? '');
+            const str = localStorage.getItem(USER_KEY);
+            if (!str) {
+                return null;
+            }
+            const user: IUser = JSON.parse(str);
             return user ? user.token : null;
         } else {
             return null;
