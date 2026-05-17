@@ -1,13 +1,14 @@
+@use '../../theme/theme';
 .editor-box {
-    background-color: #fff;
-    color: #495057;
+    background-color: var(--#{theme.$prefix}panel);
+    color: var(--#{theme.$prefix}meta-text);
     background-clip: padding-box;
-    border: 1px solid #ced4da;
+    border: 1px solid var(--#{theme.$prefix}border);
     border-radius: 0.25rem;
     .editor-tool-bar,
     .flow-tool-bar {
         line-height: 2.5rem;
-        color: #7777;
+        color: var(--#{theme.$prefix}meta-text);
         .tool-item {
             display: inline-block;
             padding: 0 .5rem;
@@ -19,23 +20,23 @@
                 overflow: hidden;
             }
             &:hover {
-                color: #333;
+                color: var(--#{theme.$prefix}body-text);
             }
             &.active {
-                color: #000;
+                color: var(--#{theme.$prefix}body-text);
                 box-shadow: inset 1px -1px 2px #777;
             }
             &.disabled {
-                color: #7777;
+                color: var(--#{theme.$prefix}input-disabled);
                 cursor: not-allowed;
             }
         }
     }
     .editor-tool-bar {
-        border-bottom: 1px solid #ced4da;
+        border-bottom: 1px solid var(--#{theme.$prefix}border);
         padding: 0 .8rem;
         .editor-label {
-            color: #333;
+            color: var(--#{theme.$prefix}body-text);
             cursor: default;
             user-select: none;
             font-weight: 700;
@@ -50,9 +51,9 @@
             width: 100%;
             padding: 0.375rem 0.75rem;
             &:focus {
-                border-color: #80bdff;
+                border-color: var(--#{theme.$prefix}input-border);
                 outline: 0;
-                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+                box-shadow: 0 0 0 0.2rem rgba(var(--#{theme.$prefix}primary-rgb), .25);
             }
         }
     }
@@ -63,8 +64,26 @@
         top: 0;
         bottom: 0;
         overflow: auto;
-        background-color: white;
+        background-color: var(--#{theme.$prefix}panel);
         padding: .8em;
+    }
+    .--with-overlay {
+        position: relative;
+        >* {
+            width: 100%;
+        }
+        &::after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: .1;
+            background-color: var(--#{theme.$prefix}body-text);
+            z-index: 1;
+        }
     }
     .editor-footer {
         text-align: right;

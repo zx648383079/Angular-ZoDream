@@ -1,6 +1,7 @@
 import { EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_INPUT_BLUR, EDITOR_EVENT_INPUT_KEYDOWN, EDITOR_EVENT_SELECTION_CHANGE, IEditorElement } from '.';
 import { wordLength } from '../../../theme/utils';
-import { EditorBlockType, IEditorBlock, IEditorCodeBlock, IEditorFileBlock, IEditorLinkBlock, IEditorRange, IEditorTextBlock } from '../model';
+import { IPoint } from '../../../theme/utils/canvas';
+import { EditorCommandType, IEditorCommand, IEditorCodeCommand, IEditorFileCommand, IEditorLinkCommand, IEditorRange, IEditorTextCommand } from '../model';
 import { IEditorContainer } from './editor';
 import { EditorHelper } from './util';
 /**
@@ -59,14 +60,46 @@ export class TextareaElement implements IEditorElement {
         return wordLength(this.value);
     }
 
+    public get height(): number {
+        return this.element.clientHeight;
+    }
+    public set height(value: number) {
+        this.element.style.height = Math.max(200, value) + 'px';
+    }
+
+    /**
+     * 内容的实际高度
+     */
+    public get documentHeight(): number {
+        return this.element.scrollHeight;
+    }
+
     public selectAll(): void {
         this.selection = {
             start: 0,
             end: this.value.length
         };
     }
+    public toggle(force?: boolean): void {
+        if (!this.element) {
+            return;
+        }
+        const ele = this.element;
+        if (typeof force === 'undefined') {
+            force = ele.style.display === 'none';
+        }
+        ele.style.display = force ? 'block' : 'none';
+    }
 
-    public insert(block: IEditorBlock, range?: IEditorRange): void {
+    public relativeTo(point: IPoint): IPoint {
+        const rect = this.element.getBoundingClientRect();
+        return {
+            x: point.x - rect.left,
+            y: point.y - rect.top
+        };
+    }
+
+    public execute(block: IEditorCommand, range?: IEditorRange): void {
         if (!range) {
             range = this.selection;
         }
@@ -74,7 +107,7 @@ export class TextareaElement implements IEditorElement {
             this.includeBlock(block.begin, block.end, range);
             return;
         }
-        const type = block.type === EditorBlockType.AddRaw ? EditorBlockType.AddText : block.type;
+        const type = block.type === EditorCommandType.AddRaw ? EditorCommandType.AddText : block.type;
         const func = (this as any)[type + 'Execute'];
         if (typeof func === 'function') {
             func.call(this, range, block);
@@ -88,6 +121,10 @@ export class TextareaElement implements IEditorElement {
 
     public blur(): void {
         return this.element.blur();
+    }
+
+    public destroy(): void {
+
     }
 
 //#region 外部调用的方法
@@ -123,13 +160,13 @@ export class TextareaElement implements IEditorElement {
     }
 
 
-    private addTextExecute(range: IEditorRange, block: IEditorTextBlock) {
+    private addTextExecute(range: IEditorRange, block: IEditorTextCommand) {
         const v = this.value;
         this.value = v.substring(0, range.start) + block.value + v.substring(range.end);
         this.moveCursor(range.start + (!block.cursor ? block.value.length : block.cursor));
     }
 
-    private addCodeExecute(range: IEditorRange, block: IEditorCodeBlock) {
+    private addCodeExecute(range: IEditorRange, block: IEditorCodeCommand) {
         const v = this.value;
         const selected = v.substring(range.start, range.end);
         
@@ -145,7 +182,7 @@ export class TextareaElement implements IEditorElement {
         this.moveCursor(range.start + cursor);
     }
 
-    private addLinkExecute(range: IEditorRange, block: IEditorLinkBlock) {
+    private addLinkExecute(range: IEditorRange, block: IEditorLinkCommand) {
         if (!block.value) {
             block.value = '';
         } 
@@ -158,7 +195,7 @@ export class TextareaElement implements IEditorElement {
         }, range, block.value ? block.value.length + 4 : 3);
     }
 
-    private addImageExecute(range: IEditorRange, block: IEditorFileBlock) {
+    private addImageExecute(range: IEditorRange, block: IEditorFileCommand) {
         this.replaceSelect(s => {
             if (s.trim().length === 0 && block.title) {
                 s = block.title;
@@ -284,7 +321,7 @@ export class TextareaElement implements IEditorElement {
         if (!value) {
             return;
         }
-        this.insert({type: EditorBlockType.AddText, value});
+        this.execute({type: EditorCommandType.AddText, value});
     }
 
     private isPasteFile(data: DataTransfer): boolean {
@@ -296,7 +333,7 @@ export class TextareaElement implements IEditorElement {
             const item = data.files[i];
             const fileType = EditorHelper.fileType(item);
             this.container.option.upload(item, fileType).subscribe(res => {
-                this.insert({type: 'add' + fileType[0].toUpperCase() + fileType.substring(1), value: res.url,
+                this.execute({type: 'add' + fileType[0].toUpperCase() + fileType.substring(1), value: res.url,
                     title: res.title, size: res.size} as any);
             });
         }

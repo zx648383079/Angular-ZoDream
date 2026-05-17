@@ -1,5 +1,5 @@
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
-import { EditorBlockType, IEditorFileBlock, IImageUploadEvent } from '../../../../components/editor';
+import { EditorCommandType, IEditorFileCommand, IImageUploadEvent } from '../../../../components/editor';
 import { FileTypeItems, ICategory, IResource, IResourceFile, ITag, MediaTypeItems } from '../../model';
 import { ResourceService } from '../resource.service';
 import { ActivatedRoute } from '@angular/router';
@@ -160,8 +160,8 @@ export class EditResourceComponent {
     public editorImageUpload(event: IImageUploadEvent) {
         this.uploadService.uploadImages(event.files).subscribe(res => {
             for (const item of res) {
-                event.target.insert(<IEditorFileBlock>{
-                    type: EditorBlockType.AddImage,
+                event.target.execute(<IEditorFileCommand>{
+                    type: EditorCommandType.AddImage,
                     value: item.url,
                     title: item.original,
                     size: item.size

@@ -1,17 +1,18 @@
 import { IBound, IPoint } from '../../../theme/utils/canvas';
 import { wordLength } from '../../../theme/utils';
-import { EditorBlockType, IEditorBlock, IEditorFileBlock, IEditorLinkBlock, IEditorRange, IEditorResizeBlock, IEditorTableBlock, IEditorTextBlock, IEditorValueBlock, IEditorVideoBlock } from '../model';
+import { EditorCommandType, IEditorCommand, IEditorFileCommand, IEditorLinkCommand, IEditorRange, IEditorResizeCommand, IEditorTableCommand, IEditorTextCommand, IEditorValueCommand, IEditorVideoCommand } from '../model';
 import { IEditorContainer } from './editor';
 import { IEditorElement } from './element';
-import { EDITOR_EVENT_CLOSE_TOOL, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_INPUT_BLUR, EDITOR_EVENT_INPUT_CLICK, EDITOR_EVENT_INPUT_KEYDOWN, EDITOR_EVENT_SELECTION_CHANGE, EDITOR_EVENT_SHOW_ADD_TOOL, EDITOR_EVENT_SHOW_COLUMN_TOOL, EDITOR_EVENT_SHOW_IMAGE_TOOL, EDITOR_EVENT_SHOW_LINE_BREAK_TOOL, EDITOR_EVENT_SHOW_LINK_TOOL, EDITOR_EVENT_SHOW_TABLE_TOOL, IEditorListeners } from './event';
+import { EDITOR_EVENT_CLOSE_TOOL, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_INPUT_BLUR, EDITOR_EVENT_INPUT_CLICK, EDITOR_EVENT_INPUT_KEYDOWN, EDITOR_EVENT_SELECTION_CHANGE, EDITOR_EVENT_SHOW_ADD_TOOL, EDITOR_EVENT_SHOW_COLUMN_TOOL, EDITOR_EVENT_SHOW_IMAGE_TOOL, EDITOR_EVENT_SHOW_LINE_BREAK_TOOL, EDITOR_EVENT_SHOW_LINK_TOOL, EDITOR_EVENT_SHOW_OVERLAY_TOOL, EDITOR_EVENT_SHOW_TABLE_TOOL, IEditorListeners } from './event';
 import { EditorHelper } from './util';
+import { EditorHtmlCleaner } from './clean';
 
 /**
  * 富文本模式
  */
 export class DivElement implements IEditorElement {
     constructor(
-        public element: HTMLDivElement,
+        private element: HTMLDivElement,
         private container: IEditorContainer) {
         this.bindEvent();
     }
@@ -60,7 +61,7 @@ export class DivElement implements IEditorElement {
     public get selectedValue(): string {
         const items: string[] = [];
         const range = this.selection.range!;
-        let lastLine: Node|undefined;
+        let lastLine: Node| undefined| null;
         this.eachRange(range, node => {
             if (node === range.startContainer && range.startContainer === range.endContainer) {
                 items.push(node.textContent!.substring(range.startOffset, range.endOffset));
@@ -76,7 +77,7 @@ export class DivElement implements IEditorElement {
                 if (lastLine) {
                     items.push('\n');
                 }
-                lastLine = node.parentNode!;
+                lastLine = node.parentNode;
             }
             if (node === range.startContainer) {
                 items.push(node.textContent!.substring(range.startOffset));
@@ -88,14 +89,14 @@ export class DivElement implements IEditorElement {
     }
 
     public set selectedValue(val: string) {
-        this.insert({type: EditorBlockType.AddText, text: val});
+        this.execute({type: EditorCommandType.AddText, text: val});
     }
 
     public get value(): string {
-        return this.element.innerHTML;
+        return EditorHtmlCleaner.toRaw(this.element);
     }
     public set value(v: string) {
-        this.element.innerHTML = v;
+        EditorHtmlCleaner.toNode(this.element, v);
     }
 
     public get length(): number {
@@ -103,6 +104,20 @@ export class DivElement implements IEditorElement {
     }
     public get wordLength(): number {
         return wordLength(this.element.innerText);
+    }
+
+    public get height(): number {
+        return this.element.clientHeight;
+    }
+    public set height(value: number) {
+        this.element.style.height = Math.max(200, value) + 'px';
+    }
+
+    /**
+     * 内容的实际高度
+     */
+    public get documentHeight(): number {
+        return this.element.scrollHeight;
     }
 
     public selectAll(): void {
@@ -113,7 +128,26 @@ export class DivElement implements IEditorElement {
         sel.addRange(range);
     }
 
-    public insert(block: IEditorBlock, range?: IEditorRange): void {
+    public toggle(force?: boolean): void {
+        if (!this.element) {
+            return;
+        }
+        const ele = this.element;
+        if (typeof force === 'undefined') {
+            force = ele.style.display === 'none';
+        }
+        ele.style.display = force ? 'block' : 'none';
+    }
+
+    public relativeTo(point: IPoint): IPoint {
+        const rect = this.element.getBoundingClientRect();
+        return {
+            x: point.x - rect.left,
+            y: point.y - rect.top
+        };
+    }
+
+    public execute(block: IEditorCommand, range?: IEditorRange): void {
         if (!range) {
             range = this.selection;
         }
@@ -123,7 +157,7 @@ export class DivElement implements IEditorElement {
             this.container.emit(EDITOR_EVENT_EDITOR_CHANGE);
             return;
         }
-        throw new Error(`insert type error:[${block.type}]`);
+        throw new Error(`command type error:[${block.type}]`);
     }
     public focus(): void {
         this.element.focus({preventScroll: true});
@@ -131,6 +165,10 @@ export class DivElement implements IEditorElement {
 
     public blur(): void {
         return this.element.blur();
+    }
+
+    public destroy(): void {
+
     }
 
 //#region 外部调用的方法
@@ -186,7 +224,7 @@ export class DivElement implements IEditorElement {
         this.focusAfter(this.nodeParent(cell, 'table')!);
     }
 
-    private addTableExecute(range: Range, block: IEditorTableBlock) {
+    private addTableExecute(range: Range, block: IEditorTableCommand) {
         const table = document.createElement('table');
         table.style.width = '100%';
         const tbody = table.createTBody();
@@ -204,45 +242,45 @@ export class DivElement implements IEditorElement {
         this.replaceSelected(range, table);
     }
 
-    private addImageExecute(range: Range, block: IEditorFileBlock) {
+    private addImageExecute(range: Range, block: IEditorFileCommand) {
         const image = document.createElement('img');
         image.src = block.value;
         image.title = block.title || '';
         this.replaceSelected(range, image);
     }
 
-    private addTextExecute(range: Range, block: IEditorTextBlock) {
+    private addTextExecute(range: Range, block: IEditorTextCommand) {
         const span = document.createElement('span');
         span.innerText = block.value;
         this.replaceSelected(range, span);
     }
 
-    private addRawExecute(range: Range, block: IEditorTextBlock) {
-        const value = block.value.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');//.replace(/<([\/]?)(div)((:?\s*)(:?[^>]*)(:?\s*))>/g, '<$1p$3>');
+    private addRawExecute(range: Range, block: IEditorTextCommand) {
         const p = document.createElement('div');
-        p.innerHTML = value;
-        const items = [];
+        EditorHtmlCleaner.toNode(p, block.value, true);
+        const items: Node[] = [];
         for (let i = 0; i < p.childNodes.length; i++) {
             items.push(p.childNodes[i]);
         }
         this.replaceSelected(range, ...items);
     }
 
-    private addVideoExecute(range: Range, block: IEditorVideoBlock) {
+    private addVideoExecute(range: Range, block: IEditorVideoCommand) {
         const ele = document.createElement('video');
         ele.src = block.value;
         ele.title = block.title || '';
-        this.replaceSelected(range, ele);
+        const ndoe = EditorHtmlCleaner.createOverlay(ele);
+        this.replaceSelected(range, ndoe);
     }
 
-    private addFileExecute(range: Range, block: IEditorFileBlock) {
+    private addFileExecute(range: Range, block: IEditorFileCommand) {
         const ele = document.createElement('a');
         ele.href = block.value;
         ele.title = block.title || '';
         this.replaceSelected(range, ele);
     }
 
-    private addLinkExecute(range: Range, block: IEditorLinkBlock) {
+    private addLinkExecute(range: Range, block: IEditorLinkCommand) {
         const link = document.createElement('a');
         link.href = block.value;
         link.text = block.title;
@@ -253,6 +291,14 @@ export class DivElement implements IEditorElement {
         this.selectNode(link);
     }
 
+    private addFrameExecute(range: Range, block: IEditorValueCommand) {
+        const frame = document.createElement('iframe');
+        frame.src = block.value;
+        frame.setAttribute('frameborder', '0');
+        const ndoe = EditorHtmlCleaner.createOverlay(frame);
+        this.replaceSelected(range, ndoe);
+    }
+
 
     private addLineBreakExecute(range: Range) {
         let begin = range.startContainer;
@@ -261,7 +307,7 @@ export class DivElement implements IEditorElement {
         if (begin === this.element) {
             p.appendChild(document.createElement('br'));
             if (this.element.children.length === 0) {
-                EditorHelper.insertLast(this.element, p.cloneNode(true), p);
+                this.insertLast(this.element, p.cloneNode(true), p);
             } else {
                 this.insertToChildIndex(p, begin, range.startOffset);
             }
@@ -272,7 +318,7 @@ export class DivElement implements IEditorElement {
         if (li) {
             if (li.nodeName === 'LI') {
                 const next = document.createElement(li.nodeName);
-                EditorHelper.insertAfter(li, next);
+                this.insertAfter(li, next);
                 this.selectNode(next);
                 return;
             }
@@ -302,7 +348,7 @@ export class DivElement implements IEditorElement {
         let done = false;
         this.eachParentNode(begin, node => {
             if (this.isBlockNode(node) && node) {
-                EditorHelper.insertAfter(node, p);
+                this.insertAfter(node, p);
                 next = undefined;
                 done = true;
                 return false;
@@ -311,7 +357,7 @@ export class DivElement implements IEditorElement {
         });
         if (!done) {
             if (next) {
-                EditorHelper.insertAfter(next, p);
+                this.insertAfter(next, p);
             } else {
                 this.element.appendChild(p);
             }
@@ -319,12 +365,12 @@ export class DivElement implements IEditorElement {
         if (addBlock) {
             const ele = document.createElement(this.blockTagName);
             ele.appendChild(document.createElement('br'));
-            EditorHelper.insertBefore(p, ele);
+            this.insertBefore(p, ele);
         }
         this.selectNode(p);
     }
 
-    private headingExecute(range: Range, block: IEditorValueBlock) {
+    private hExecute(range: Range, block: IEditorValueCommand) {
         this.replaceNodeName(range.startContainer, block.value);
     }
     private blockquoteExecute(range: Range) {
@@ -346,17 +392,16 @@ export class DivElement implements IEditorElement {
                     items.push(v);
                 });
             }
-            EditorHelper.replaceNode(box, items);
+            this.replaceNode(box, items);
             return;
         }
         box = document.createElement('ul');
         const li = document.createElement('li');
         box.appendChild(li);
-        EditorHelper.replaceNode(node, box, () => {
+        this.replaceNode(node, box, () => {
             li.appendChild(node);
         });
     }
-
 
     private boldExecute(range: Range) {
         this.toggleRangeTag(range, 'b');
@@ -376,7 +421,7 @@ export class DivElement implements IEditorElement {
         });
     }
 
-    private italicExecute(range: Range, block: IEditorValueBlock) {
+    private italicExecute(range: Range, block: IEditorValueCommand) {
         this.toggleRangeTag(range, 'i');
     }
     private underlineExecute(range: Range) {
@@ -391,22 +436,22 @@ export class DivElement implements IEditorElement {
         });
     }
 
-    private fontSizeExecute(range: Range, block: IEditorValueBlock) {
+    private fontSizeExecute(range: Range, block: IEditorValueCommand) {
         this.toggleRangeStyle(range, {
             'font-size': block.value
         });
     }
-    private fontFamilyExecute(range: Range, block: IEditorValueBlock) {
+    private fontFamilyExecute(range: Range, block: IEditorValueCommand) {
         this.toggleRangeStyle(range, {
             'font-family': block.value
         });
     }
-    private backgroundExecute(range: Range, block: IEditorValueBlock) {
+    private backgroundExecute(range: Range, block: IEditorValueCommand) {
         this.toggleRangeStyle(range, {
             'background-color': block.value
         });
     }
-    private foregroundExecute(range: Range, block: IEditorValueBlock) {
+    private foregroundExecute(range: Range, block: IEditorValueCommand) {
         this.toggleRangeStyle(range, {
             color: block.value
         });
@@ -428,7 +473,7 @@ export class DivElement implements IEditorElement {
     }
 
 
-    private alignExecute(range: Range, block: IEditorValueBlock) {
+    private alignExecute(range: Range, block: IEditorValueCommand) {
         this.toggleRangeStyle(range, {
             'text-align': block.value
         });
@@ -488,7 +533,7 @@ export class DivElement implements IEditorElement {
                     const item = tr.cells[i];
                     span += item.colSpan;
                     if (span === startSpan) {
-                        EditorHelper.insertAfter(item, document.createElement(start.nodeName));
+                        this.insertAfter(item, document.createElement(start.nodeName));
                         break;
                     } else if (span > startSpan) {
                         item.colSpan ++;
@@ -550,7 +595,7 @@ export class DivElement implements IEditorElement {
             const count = start.colSpan - 1;
             start.colSpan = 1;
             for(let i = 0; i < count; i ++) {
-                EditorHelper.insertAfter(start, document.createElement(start.nodeName));
+                this.insertAfter(start, document.createElement(start.nodeName));
             }
             return;
         }
@@ -583,7 +628,7 @@ export class DivElement implements IEditorElement {
     private delTableExecute(range: Range) {
         const table = this.nodeParent(range.startContainer, 'table');
         if (table) {
-            EditorHelper.removeNode(table);
+            this.removeNode(table);
         }
     }
 
@@ -595,7 +640,7 @@ export class DivElement implements IEditorElement {
         window.open(link.getAttribute('href')!);
     }
 
-    //#endregion
+//#endregion
 
     public getModuleItems(range: IEditorRange): string[] {
         const node = range.range?.startContainer;
@@ -619,7 +664,7 @@ export class DivElement implements IEditorElement {
             } else if (item.nodeName === 'BLOCKQUOTE') {
                 data.push('blockquote');
             } else if (/^H[1-6]$/.test(item.nodeName)) {
-                data.push('heading');
+                data.push('head');
             }
             if (item.style.verticalAlign === 'text-top') {
                 data.push('sup');
@@ -669,10 +714,10 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-    * 移动光标到下一格
-    * @param node 
-    * @returns 
-    */
+     * 移动光标到下一格
+     * @param node 
+     * @returns 
+     */
     private moveTableFocus(node: HTMLTableCellElement): boolean {
         if (node.nextSibling) {
             this.selectNode(node.nextSibling);
@@ -702,8 +747,8 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-    * 删除选中并替换为新的
-    */
+     * 删除选中并替换为新的
+     */
     private replaceSelected(range: Range, ...items: Node[]) {
         if (this.isEmptyRange(range)) {
             this.insertToElement(range.startContainer, range.startOffset, ...items);
@@ -711,11 +756,11 @@ export class DivElement implements IEditorElement {
         }
         this.removeRange(range);
         // this.insertElement(p, range);
-        let next: Node|undefined;
+        let next: Node| undefined;
         let done = false;
         this.eachParentNode(range.startContainer, node => {
             if (this.isBlockNode(node) && node) {
-                EditorHelper.insertAfter(node, ...items);
+                this.insertAfter(node, ...items);
                 next = undefined;
                 done = true;
                 return false;
@@ -724,19 +769,19 @@ export class DivElement implements IEditorElement {
         });
         if (!done) {
             if (next) {
-                EditorHelper.insertAfter(next, ...items);
+                this.insertAfter(next, ...items);
             } else {
-                EditorHelper.insertLast(this.element, ...items);
+                this.insertLast(this.element, ...items);
             }
         }
         this.selectNode(items[items.length - 1]);
     }
 
     /**
-    * 把选中的作为子项包含进去
-    */
+     * 把选中的作为子项包含进去
+     */
     private includeSelected(range: Range, parent: Node) {
-        EditorHelper.insertLast(parent, ...this.copySelectedNode(range));
+        this.insertLast(parent, ...this.copySelectedNode(range));
         this.replaceSelected(range, parent);
     }
 
@@ -748,13 +793,13 @@ export class DivElement implements IEditorElement {
             return;
         }
         this.eachTopRange(range, node => {
-            const items = EditorHelper.splitNodeRange(node, range);
+            const items = this.splitNodeRange(node, range);
             if (items.length === 0) {
                 return;
             }
             if (!this.isBlockNode(items[0])) {
-                EditorHelper.replaceNode(items[0], document.createElement(tag), n => {
-                    EditorHelper.insertLast(n, ...items);
+                this.replaceNode(items[0], document.createElement(tag), n => {
+                    this.insertLast(n, ...items);
                 });
                 return;
             }
@@ -777,7 +822,7 @@ export class DivElement implements IEditorElement {
             return;
         }
         this.eachTopRange(range, node => {
-            const items = EditorHelper.splitNodeRange(node, range);
+            const items = this.splitNodeRange(node, range);
             if (items.length === 0) {
                 return;
             }
@@ -800,8 +845,8 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-    * 切换父级的标签，例如 b strong
-    */
+     * 切换父级的标签，例如 b strong
+     */
     private toggleParentNode(range: Range, tag: string) {
         const n = document.createElement(tag);
         const node = range.startContainer;
@@ -819,35 +864,35 @@ export class DivElement implements IEditorElement {
         if (node.parentNode && node.parentNode !== this.element && this.isOnlyNode(node)) {
             target = node.parentNode;
         }
-        EditorHelper.replaceNode(target, n, () => {
+        this.replaceNode(target, n, () => {
             n.appendChild(node);
             if (target !== node) {
-                EditorHelper.removeNode(target);
+                this.removeNode(target);
             }
         });
         this.selectNode(node);
     }
 
     /**
-    * 切换父级的样式 
-    */
+     * 切换父级的样式 
+     */
     private toggleParentStyle(range: Range, style: any) {
         const box = this.getBlockParent(range.startContainer);
         EditorHelper.css(box, style);
     }
 
     /**
-    * 获取节点的父级
-    * @param node 
-    * @returns 
-    */
+     * 获取节点的父级
+     * @param node 
+     * @returns 
+     */
     private getBlockParent(node: Node): HTMLElement {
         const box = node.parentNode as HTMLElement;
         if (box !== this.element) {
             return box;
         }
         const p = document.createElement(this.blockTagName);
-        EditorHelper.replaceNode(node, p, () => {
+        this.replaceNode(node, p, () => {
             p.appendChild(node);
         });
         return p;
@@ -869,10 +914,10 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-    * 判断节点是否处于范围内
-    * @param node 
-    * @returns 
-    */
+     * 判断节点是否处于范围内
+     * @param node 
+     * @returns 
+     */
     private hasNode(node: Node): boolean {
         if (node === this.element) {
             return false;
@@ -896,9 +941,9 @@ export class DivElement implements IEditorElement {
                 return node;
             }
             n.innerHTML = node.innerHTML;
-            EditorHelper.replaceNode(node, n);
+            this.replaceNode(node, n);
         } else {
-            EditorHelper.replaceNode(node, n, next => {
+            this.replaceNode(node, n, next => {
                 next.appendChild(node);
             });
         }
@@ -908,7 +953,41 @@ export class DivElement implements IEditorElement {
         return n;
     }
 
-    
+    /**
+     * 替换节点为
+     * @param node 
+     * @param newNode 
+     * @param removeFn 删除旧节点还是移动
+     * @returns 
+     */
+    private replaceNode<T extends Node>(node: Node, newNode: T, removeFn?: (node: T) => void): void;
+    private replaceNode(node: Node, newNode: Node[]): void;
+    private replaceNode(node: Node, newNode: Node[]|Node, removeFn?: Function) {
+        const target = newNode instanceof Array ? newNode : [newNode];
+        const fn = () => {
+            if (removeFn) {
+                removeFn(newNode);
+                return;
+            }
+            this.removeNode(node);
+        };
+        let borther = node.previousSibling;
+        if (borther) {
+            fn();
+            this.insertAfter(borther, ...target);
+            return;
+        }
+        borther = node.nextSibling;
+        if (borther) {
+            fn();
+            this.insertBefore(borther, ...target);
+            return;
+        }
+        const parent = node.parentNode!;
+        fn();
+        this.insertLast(parent, ...target);
+        return;
+    }
 
     private selectNode(node: Node, offset = 0) {
         const sel = window.getSelection()!;
@@ -1030,6 +1109,12 @@ export class DivElement implements IEditorElement {
                 this.container.emit(EDITOR_EVENT_SHOW_IMAGE_TOOL, this.getNodeBound(img), data => this.updateNode(img, data));
                 return;
             }
+            if (EditorHtmlCleaner.isOverlay(e.target as any)) {
+                const node = e.target as HTMLDivElement;
+                this.selectNode(node);
+                this.container.emit(EDITOR_EVENT_SHOW_OVERLAY_TOOL, this.getNodeBound(node), data => this.updateNode(node, data));
+                return;
+            }
             const range = this.selection.range!;
             if (this.isInBlock(range)) {
                 return;
@@ -1060,7 +1145,7 @@ export class DivElement implements IEditorElement {
         if (!value) {
             return;
         }
-        this.insert({type: EditorBlockType.AddText, value});
+        this.execute({type: EditorCommandType.AddText, value});
     }
 
     private isPasteFile(data: DataTransfer): boolean {
@@ -1076,8 +1161,8 @@ export class DivElement implements IEditorElement {
             const item = data.files[i];
             const fileType = EditorHelper.fileType(item);
             this.container.option.upload(item, fileType).subscribe(res => {
-                this.insert({type: 'add' + fileType[0].toUpperCase() + fileType.substring(1), value: res.url,
-                    title: res.title, size: res.size} as any);
+                this.execute({type: ('add' + fileType[0].toUpperCase() + fileType.substring(1)) as any, value: res.url,
+                    title: res.title, size: res.size});
             });
         }
     }
@@ -1087,11 +1172,11 @@ export class DivElement implements IEditorElement {
         if (!value) {
             return '';
         }
-        this.insert({type: EditorBlockType.AddRaw, value});
+        this.execute({type: EditorCommandType.AddRaw, value});
     }
 
     private moveTableCol(node: HTMLTableCellElement) {
-        const table: HTMLTableElement = node.closest('table')!;
+        const table: HTMLTableElement = node.closest('table') as any;
         if (!table) {
             return;
         }
@@ -1122,19 +1207,28 @@ export class DivElement implements IEditorElement {
         });
     }
 
-    private updateNode(node: HTMLElement, data: IEditorBlock) {
-        if (data.type === EditorBlockType.NodeResize) {
-            const bound = data as IEditorResizeBlock;
-            node.style.width = bound.width + 'px';
+    private updateNode(node: HTMLElement, data: IEditorCommand) {
+        if (data.type === EditorCommandType.NodeResize) {
+            const bound = data as IEditorResizeCommand;
+            if (bound.width) {
+                if (typeof bound.width === 'number' && bound.width > this.element.offsetWidth *.9) {
+                    node.style.width = '100%';
+                } else {
+                    node.style.width = bound.width + 'px';
+                }
+            }
             node.style.height = bound.height + 'px';
+        }
+        if (EditorHtmlCleaner.isOverlay(node) && node.firstElementChild) {
+            this.updateNode(node.firstElementChild as any, data);
         }
     }
 
     /**
-    * 遍历选中的所有元素，最末端的元素，无子元素
-    * @param range 
-    * @param cb 
-    */
+     * 遍历选中的所有元素，最末端的元素，无子元素
+     * @param range 
+     * @param cb 
+     */
     private eachRange(range: Range, cb: (node: Node) => void|false) {
         const begin = range.startContainer;
         const end = range.endContainer;
@@ -1143,7 +1237,7 @@ export class DivElement implements IEditorElement {
         }
         let current = begin;
         while (current !== end) {
-            let next = this.nextNode(current)!;
+            let next = this.nextNode(current);
             if (!next) {
                 break;
             }
@@ -1151,7 +1245,7 @@ export class DivElement implements IEditorElement {
                 cb(next);
                 break;
             }
-            while (next.hasChildNodes()) {
+            while (next && next.hasChildNodes()) {
                 next = next.firstChild!;
                 if (next === end) {
                     break;
@@ -1165,11 +1259,11 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-    * 遍历选中的所有元素，最顶端的元素，元素直接无交集
-    * @param range 
-    * @param cb 
-    * @returns 
-    */
+     * 遍历选中的所有元素，最顶端的元素，元素直接无交集
+     * @param range 
+     * @param cb 
+     * @returns 
+     */
     private eachTopRange(range: Range, cb: (node: Node) => void|false) {
         const begin = range.startContainer;
         const end = range.endContainer;
@@ -1233,29 +1327,77 @@ export class DivElement implements IEditorElement {
         const isText = current instanceof Text;
         if (offset < 1) {
             if (isText) {
-                EditorHelper.insertBefore(current, ...items);
+                this.insertBefore(current, ...items);
                 return;
             }
-            EditorHelper.insertFirst(current, ...items);
+            this.insertFirst(current, ...items);
             return;
         }
         const max = isText ? current.length : current.childNodes.length;
         if (offset >= max) {
             if (isText) {
-                EditorHelper.insertAfter(current, ...items);
+                this.insertAfter(current, ...items);
                 return;
             }
-            EditorHelper.insertLast(current, ...items);
+            this.insertLast(current, ...items);
             return;
         }
         if (isText) {
-            EditorHelper.insertBefore(current.splitText(offset), ...items);
+            this.insertBefore(current.splitText(offset), ...items);
             return;
         }
-        EditorHelper.insertBefore(current.childNodes[offset], ...items);
+        this.insertBefore(current.childNodes[offset], ...items);
     }
 
-    
+    /**
+     * 在内部前面添加子节点
+     * @param current 
+     * @param items 
+     */
+    private insertFirst(current: Node, ...items: Node[]) {
+        if (current.childNodes.length < 1) {
+            this.insertLast(current, ...items);
+            return;
+        }
+        this.insertBefore(current.childNodes[0], ...items);
+    }
+
+    /**
+     * 在子节点最后添加元素
+     * @param current 
+     * @param items 
+     */
+    private insertLast(current: Node, ...items: Node[]) {
+        for (const item of items) {
+            current.appendChild(item);
+        }
+    }
+
+    /**
+     * 在元素之前添加兄弟节点
+     * @param current 
+     * @param items 
+     */
+    private insertBefore(current: Node, ...items: Node[]) {
+        const parent = current.parentNode!;
+        for (const item of items) {
+            parent.insertBefore(item, current);
+        }
+    }
+
+    /**
+     * 在元素之后添加兄弟节点
+     * @param current 
+     * @param items 
+     * @returns 
+     */
+    private insertAfter(current: Node, ...items: Node[]) {
+        if (current.nextSibling) {
+            this.insertBefore(current.nextSibling, ...items);
+            return;
+        }
+        this.insertLast(current.parentNode!, ...items);
+    }
 
     private insertToChildIndex(newEle: HTMLElement, parent: Node, index: number) {
         if (parent.childNodes.length <= index) {
@@ -1305,7 +1447,7 @@ export class DivElement implements IEditorElement {
                     if (!n || n === beginNode || n === endNode) {
                         return;
                     }
-                    EditorHelper.removeNode(n);
+                    this.removeNode(n);
                 }, endNode);
             }
             if (endNode && (!beginNode || endNode.parentNode !== beginNode.parentNode)) {
@@ -1316,7 +1458,7 @@ export class DivElement implements IEditorElement {
                     if (n === beginNode) {
                         return;
                     }
-                    EditorHelper.removeNode(n);
+                    this.removeNode(n);
                 }, false);
             }
         }
@@ -1337,6 +1479,18 @@ export class DivElement implements IEditorElement {
             }
         }
         return;
+    }
+
+    /**
+     * 删除节点
+     * @param node 
+     * @returns 
+     */
+    private removeNode(node: Node) {
+        if (!node.parentNode) {
+            return;
+        }
+        node.parentNode.removeChild(node);
     }
 
     private copySelectedNode(range: Range): Node[] {
@@ -1404,12 +1558,12 @@ export class DivElement implements IEditorElement {
         if (!lastBegin) {
             items = [...this.copyRangeNode(range.startContainer, range.startOffset), ...items];
         } else {
-            EditorHelper.insertLast(lastBegin, ...this.copyRangeNode(range.startContainer, range.startOffset));
+            this.insertLast(lastBegin, ...this.copyRangeNode(range.startContainer, range.startOffset));
         }
         if (!lastEnd) {
             items.push(...this.copyRangeNode(range.endContainer, 0, range.endOffset));
         } else {
-            EditorHelper.insertLast(lastEnd, ...this.copyRangeNode(range.endContainer, 0, range.endOffset));
+            this.insertLast(lastEnd, ...this.copyRangeNode(range.endContainer, 0, range.endOffset));
         }
         return items;
     }
@@ -1438,12 +1592,12 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-    * 遍历兄弟节点，包含自身
-    * @param node 
-    * @param cb 
-    * @param isNext 
-    * @returns 
-    */
+     * 遍历兄弟节点，包含自身
+     * @param node 
+     * @param cb 
+     * @param isNext 
+     * @returns 
+     */
     private eachBrother(node: Node, cb: (node: Node) => false|void, isNext = true) {
         if (!node.parentNode) {
             return;
@@ -1517,10 +1671,10 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-    * 判断当前是否是在某一个特殊的范围内
-    * @param range 
-    * @returns 
-    */
+     * 判断当前是否是在某一个特殊的范围内
+     * @param range 
+     * @returns 
+     */
     private isInBlock(range: Range): boolean {
         const linkTag = ['A'];
         const tableTag = ['TABLE', 'TD', 'TR', 'TH'];
@@ -1542,10 +1696,10 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-    * 获取当前作用的样式
-    * @param node 
-    * @returns 
-    */
+     * 获取当前作用的样式
+     * @param node 
+     * @returns 
+     */
     private getNodeStyle(node: Node): string[] {
         const styleTag = ['B', 'EM', 'I', 'STRONG'];
         const items: string[] = [];
@@ -1558,10 +1712,10 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-    * 向上遍历父级
-    * @param node 
-    * @param cb 包含自身
-    */
+     * 向上遍历父级
+     * @param node 
+     * @param cb 包含自身
+     */
     private eachParentNode(node: Node, cb: (node: Node) => void|false|Node) {
         let current = node;
         while (true) {
@@ -1583,10 +1737,10 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-    * 循环遍历选中项的父元素
-    * @param range 
-    * @param cb 返回 true中断某一个子元素的父级查找， 返回false 中断整个查找
-    */
+     * 循环遍历选中项的父元素
+     * @param range 
+     * @param cb 返回 true中断某一个子元素的父级查找， 返回false 中断整个查找
+     */
     private eachRangeParentNode(range: Range, cb: (node: Node) => void|boolean|Node) {
         const exist: Node[] = [];
         this.eachRange(range, node => {
@@ -1611,10 +1765,10 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-    * 获取下一个相邻的元素，不判断最小子元素
-    * @param node 
-    * @returns 
-    */
+     * 获取下一个相邻的元素，不判断最小子元素
+     * @param node 
+     * @returns 
+     */
     private nextNode(node: Node): Node|undefined {
         if (node.nextSibling) {
             return node.nextSibling;
@@ -1623,6 +1777,62 @@ export class DivElement implements IEditorElement {
             return undefined;
         }
         return this.nextNode(node.parentNode!); 
+    }
+
+    private splitNodeRange(node: Node, range: Range): Node[];
+    private splitNodeRange(node: Node, begin: number): Node[];
+    private splitNodeRange(node: Node, begin: number, end: number): Node[];
+    private splitNodeRange(node: Node, begin: Range|number, end: number = -1): Node[] {
+        if (typeof begin === 'object') {
+            [begin, end] = this.getNodeRange(node, begin);
+        }
+        if (begin === end) {
+            return [];
+        }
+        if (node instanceof Text) {
+            const len = node.length;
+            if (begin > 0) {
+                node = node.splitText(begin);
+            }
+            if (end > begin && end > 0 && end < len - 1) {
+                (node as Text).splitText(end - begin);
+            }
+            return [node];
+        }
+        const count = end > begin && end > 0 && end < node.childNodes.length ? end + 1 : node.childNodes.length;
+        let i = begin > 0 ? begin : 0;
+        if (i <= 0 && count >= node.childNodes.length) {
+            return [node];
+        }
+        const items: Node[] = [];
+        for (; i < count; i++) {
+            items.push(node.childNodes[i]);
+        }
+        return items;
+    }
+
+    /**
+     * 获取元素在兄弟中排第几
+     * @param node 
+     * @returns 
+     */
+    private getNodeIndex(node: Node): number {
+        if (!node.parentNode) {
+            return -1;
+        }
+        const parent = node.parentNode;
+        for (let i = 0; i < parent.childNodes.length; i++) {
+            if (parent.childNodes[i] === node) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private getNodeRange(node: Node, range: Range): number[] {
+        const begin = node === range.startContainer ? range.startOffset : 0;
+        const end = node === range.endContainer ? range.endOffset : -1;
+        return [begin, end];
     }
 
     private getNodeOffset(node: Node):IPoint {
@@ -1637,11 +1847,11 @@ export class DivElement implements IEditorElement {
             };
         }
         // rect = elem.getBoundingClientRect();
-        // win = elem.ownerDocument.defaultView;
-        // return {
-        // 	    top: rect.top + win.pageYOffset,
-        // 	    left: rect.left + win.pageXOffset
-        // };
+		// win = elem.ownerDocument.defaultView;
+		// return {
+		// 	    top: rect.top + win.pageYOffset,
+		// 	    left: rect.left + win.pageXOffset
+		// };
         return {
             y: (node as HTMLDivElement).offsetTop,
             x: (node as HTMLDivElement).offsetLeft
@@ -1685,10 +1895,10 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-    * 未选中状态
-    * @param range 
-    * @returns 
-    */
+     * 未选中状态
+     * @param range 
+     * @returns 
+     */
     private isEmptyRange(range: Range): boolean {
         return range.startContainer === range.endContainer && range.startOffset === range.endOffset;
     }
@@ -1704,10 +1914,10 @@ export class DivElement implements IEditorElement {
     }
 
     /**
-    * 判断父级是否只有这一个子节点
-    * @param node 
-    * @returns 
-    */
+     * 判断父级是否只有这一个子节点
+     * @param node 
+     * @returns 
+     */
     private isOnlyNode(node: Node): boolean {
         const parent = node.parentNode;
         if (!parent) {

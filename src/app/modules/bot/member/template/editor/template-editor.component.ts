@@ -4,7 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { IItem } from '../../../../../theme/models/seo';
 import { IBotTemplate } from '../../../model';
 import { BotService } from '../../bot.service';
-import { EditorBlockType, EditorComponent } from '../../../../../components/editor';
+import { EditorCommandType, EditorComponent } from '../../../../../components/editor';
 import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
@@ -48,8 +48,8 @@ export class TemplateEditorComponent implements FormValueControl<string> {
     }
 
     public tapInsert(item: IBotTemplate) {
-        this.editor()!.insert({
-            type: EditorBlockType.AddRaw,
+        this.editor()!.execute({
+            type: EditorCommandType.AddRaw,
             value: item.content + '<p></p>'
         });
     }

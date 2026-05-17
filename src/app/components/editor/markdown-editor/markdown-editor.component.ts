@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewContainerRef, inject, input, output, viewChild, model, effect, DestroyRef, afterNextRender } from '@angular/core';
-import { IEditor, IEditorBlock, IImageUploadEvent } from '../model';
+import { IEditor, IEditorCommand, IImageUploadEvent } from '../model';
 import { EditorService } from '../container';
 import { EDITOR_EVENT_CUSTOM, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITOR_READY, EDITOR_FULL_SCREEN_TOOL, EDITOR_PREVIEW_TOOL, IEditorTool } from '../base';
 import { FormValueControl } from '@angular/forms/signals';
@@ -82,8 +82,8 @@ export class MarkdownEditorComponent implements FormValueControl<string>, IEdito
         });
     }
 
-    public insert(block: IEditorBlock|string): void {
-        this.container.insert(block);
+    public execute(block: IEditorCommand|string): void {
+        this.container.execute(block);
     }
 
     private enterPreview() {

@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
-import { EditorBlockType, IEditorFileBlock, IImageUploadEvent } from '../../../../../components/editor';
+import { EditorCommandType, IEditorFileCommand, IImageUploadEvent } from '../../../../../components/editor';
 import { ButtonEvent, UploadCustomEvent } from '../../../../../components/form';
 import { FileUploadService } from '../../../../../theme/services';
 import { parseNumber } from '../../../../../theme/utils';
@@ -158,8 +158,8 @@ export class EditResourceComponent {
     public editorImageUpload(event: IImageUploadEvent) {
         this.uploadService.uploadImages(event.files).subscribe(res => {
             for (const item of res) {
-                event.target.insert(<IEditorFileBlock>{
-                    type: EditorBlockType.AddImage,
+                event.target.execute(<IEditorFileCommand>{
+                    type: EditorCommandType.AddImage,
                     value: item.url,
                     title: item.original,
                     size: item.size

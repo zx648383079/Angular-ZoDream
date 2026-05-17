@@ -90,7 +90,7 @@
             text-wrap: nowrap;
         }
         &:hover {
-            background-color: #ccc;
+            background-color: var(--#{theme.$prefix}input-hovered);
         }
     }
     .line-option-item {

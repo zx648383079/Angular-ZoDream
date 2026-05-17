@@ -1,6 +1,6 @@
 import { Component, ComponentRef, DestroyRef, ElementRef, OutputRefSubscription, ViewContainerRef, ViewEncapsulation, afterNextRender, effect, inject, input, model, viewChild } from '@angular/core';
 import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_CODE_TOOL, EDITOR_ENTER_TOOL, EDITOR_FULL_SCREEN_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EDITOR_EVENT_CLOSE_TOOL, EDITOR_EVENT_SHOW_ADD_TOOL, EDITOR_EVENT_SHOW_COLUMN_TOOL, EDITOR_EVENT_SHOW_IMAGE_TOOL, EDITOR_EVENT_SHOW_LINE_BREAK_TOOL, EDITOR_EVENT_SHOW_LINK_TOOL, EDITOR_EVENT_SHOW_TABLE_TOOL, EDITOR_EVENT_UNDO_CHANGE, IEditorTool, EDITOR_EVENT_CUSTOM } from './base';
-import { IEditor, IEditorBlock, IEditorModal } from './model';
+import { IEditor, IEditorCommand, IEditorModal } from './model';
 import { EditorResizerComponent } from './modal/resizer/editor-resizer.component';
 import { CodeEditorComponent } from './code-editor/code-editor.component';
 import { EditorService } from './container';
@@ -176,7 +176,7 @@ export class EditorComponent implements FormValueControl<string>, IEditor {
         this.container.emitTool(item, event);
     }
 
-    public insert(block: IEditorBlock|string): void {
-        this.container.insert(block);
+    public execute(block: IEditorCommand|string): void {
+        this.container.execute(block);
     }
 }

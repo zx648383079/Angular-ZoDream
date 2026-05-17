@@ -1,13 +1,16 @@
+import { assetUri } from '../../../theme/utils';
 import { EditorCodeComponent } from '../modal/code/editor-code.component';
 import { EditorColorComponent } from '../modal/color/editor-color.component';
 import { EditorDropdownComponent } from '../modal/dropdown/editor-dropdown.component';
 import { EditorFileComponent } from '../modal/file/editor-file.component';
 import { EditorImageComponent } from '../modal/image/editor-image.component';
 import { EditorLinkComponent } from '../modal/link/editor-link.component';
+import { EditorMapComponent } from '../modal/map/editor-map.component';
 import { EditorTableComponent } from '../modal/table/editor-table.component';
+import { EditorTextComponent } from '../modal/text/editor-text.component';
 import { EditorVideoComponent } from '../modal/video/editor-video.component';
-import { EditorBlockType } from '../model';
-import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_CODE_TOOL, EDITOR_ENTER_TOOL, EDITOR_FULL_SCREEN_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_MORE_TOOL, EDITOR_PREVIEW_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EDITOR_VIDEO_TOOL } from './event';
+import { EditorCommandType } from '../model';
+import { EDITOR_ADD_TOOL, EDITOR_CLOSE_TOOL, EDITOR_CODE_TOOL, EDITOR_ENTER_TOOL, EDITOR_FULL_SCREEN_TOOL, EDITOR_IMAGE_TOOL, EDITOR_LINK_TOOL, EDITOR_MORE_TOOL, EDITOR_OVERLAY_TOOL, EDITOR_PREVIEW_TOOL, EDITOR_REDO_TOOL, EDITOR_TABLE_TOOL, EDITOR_UNDO_TOOL, EDITOR_VIDEO_TOOL } from './event';
 import { IEditorModule } from './option';
 
 export const EditorModules: IEditorModule[] = [
@@ -65,7 +68,7 @@ export const EditorModules: IEditorModule[] = [
         icon: 'icon-enter',
         label: $localize `Link Break`,
         handler(editor) {
-            editor.insert({type: EditorBlockType.AddLineBreak});
+            editor.execute({type: EditorCommandType.AddLineBreak});
         }
     },
     // 文字处理
@@ -76,7 +79,7 @@ export const EditorModules: IEditorModule[] = [
         parent: 'text',
         modal: EditorDropdownComponent,
         handler(editor, _, data) {
-            editor.insert({...data, type: EditorBlockType.Heading});
+            editor.execute({...data, type: EditorCommandType.Heading});
         },
     },
     {
@@ -85,7 +88,7 @@ export const EditorModules: IEditorModule[] = [
         label: $localize `Font Bold`,
         parent: 'text',
         handler(editor) {
-            editor.insert({type: EditorBlockType.Bold});
+            editor.execute({type: EditorCommandType.Bold});
         },
     },
     {
@@ -94,7 +97,7 @@ export const EditorModules: IEditorModule[] = [
         label: $localize `Font Italic`,
         parent: 'text',
         handler(editor) {
-            editor.insert({type: EditorBlockType.Italic});
+            editor.execute({type: EditorCommandType.Italic});
         },
     },
     {
@@ -103,7 +106,7 @@ export const EditorModules: IEditorModule[] = [
         label: $localize `Add Underline`,
         parent: 'text',
         handler(editor) {
-            editor.insert({type: EditorBlockType.Underline});
+            editor.execute({type: EditorCommandType.Underline});
         },
     },
     {
@@ -112,43 +115,43 @@ export const EditorModules: IEditorModule[] = [
         label: $localize `Add Wavyline`,
         parent: 'text',
         handler(editor) {
-            editor.insert({type: EditorBlockType.Wavyline});
+            editor.execute({type: EditorCommandType.Wavyline});
         },
     },
     {
         name: 'dashed',
         icon: 'icon-dottedunderline',
-        label: '下标加点',
+        label: $localize `Subscript and dot`,
         parent: 'text',
         handler(editor) {
-            editor.insert({type: EditorBlockType.Dashed});
+            editor.execute({type: EditorCommandType.Dashed});
         },
     },
     {
         name: 'strike',
         icon: 'icon-strike',
-        label: '画线',
+        label: $localize `Strike Through`,
         parent: 'text',
         handler(editor) {
-            editor.insert({type: EditorBlockType.Strike});
+            editor.execute({type: EditorCommandType.Strike});
         },
     },
     {
         name: 'sub',
         icon: 'icon-sub',
-        label: '下标',
+        label: $localize `Sub`,
         parent: 'text',
         handler(editor) {
-            editor.insert({type: EditorBlockType.Sub});
+            editor.execute({type: EditorCommandType.Sub});
         },
     },
     {
         name: 'sup',
         icon: 'icon-sup',
-        label: '上标',
+        label: $localize `Sup`,
         parent: 'text',
         handler(editor) {
-            editor.insert({type: EditorBlockType.Sub});
+            editor.execute({type: EditorCommandType.Sub});
         },
     },
     {
@@ -158,7 +161,7 @@ export const EditorModules: IEditorModule[] = [
         parent: 'text',
         modal: EditorDropdownComponent,
         handler(editor, _, data) {
-            editor.insert({...data, type: EditorBlockType.FontSize});
+            editor.execute({...data, type: EditorCommandType.FontSize});
         },
     },
     {
@@ -168,7 +171,7 @@ export const EditorModules: IEditorModule[] = [
         parent: 'text',
         modal: EditorDropdownComponent,
         handler(editor, _, data) {
-            editor.insert({...data, type: EditorBlockType.FontFamily});
+            editor.execute({...data, type: EditorCommandType.FontFamily});
         },
     },
     {
@@ -178,7 +181,7 @@ export const EditorModules: IEditorModule[] = [
         parent: 'text',
         modal: EditorColorComponent,
         handler(editor, _, data) {
-            editor.insert({...data, type: EditorBlockType.Foreground});
+            editor.execute({...data, type: EditorCommandType.Foreground});
         },
     },
     {
@@ -188,7 +191,7 @@ export const EditorModules: IEditorModule[] = [
         parent: 'text',
         modal: EditorColorComponent,
         handler(editor, _, data) {
-            editor.insert({...data, type: EditorBlockType.Background});
+            editor.execute({...data, type: EditorCommandType.Background});
         },
     },
     {
@@ -197,7 +200,7 @@ export const EditorModules: IEditorModule[] = [
         label: $localize `Clear Style`,
         parent: 'text',
         handler(editor) {
-            editor.insert({type: EditorBlockType.ClearStyle});
+            editor.execute({type: EditorCommandType.ClearStyle});
         },
     },
 
@@ -208,7 +211,7 @@ export const EditorModules: IEditorModule[] = [
         label: $localize `Algin Left`,
         parent: 'paragraph',
         handler(editor) {
-            editor.insert({type: EditorBlockType.Align, value: 'left'})
+            editor.execute({type: EditorCommandType.Align, value: 'left'})
         },
     },
     {
@@ -217,7 +220,7 @@ export const EditorModules: IEditorModule[] = [
         label: $localize `Algin Center`,
         parent: 'paragraph',
         handler(editor) {
-            editor.insert({type: EditorBlockType.Align, value: 'center'})
+            editor.execute({type: EditorCommandType.Align, value: 'center'})
         },
     },
     {
@@ -226,7 +229,7 @@ export const EditorModules: IEditorModule[] = [
         label: $localize `Algin Right`,
         parent: 'paragraph',
         handler(editor) {
-            editor.insert({type: EditorBlockType.Align, value: 'right'})
+            editor.execute({type: EditorCommandType.Align, value: 'right'})
         },
     },
     {
@@ -235,7 +238,7 @@ export const EditorModules: IEditorModule[] = [
         label: $localize `Algin Justify`,
         parent: 'paragraph',
         handler(editor) {
-            editor.insert({type: EditorBlockType.Align, value: ''})
+            editor.execute({type: EditorCommandType.Align, value: ''})
         },
     },
     {
@@ -244,7 +247,7 @@ export const EditorModules: IEditorModule[] = [
         label: $localize `As List`,
         parent: 'paragraph',
         handler(editor) {
-            editor.insert({type: EditorBlockType.List});
+            editor.execute({type: EditorCommandType.List});
         },
     },
     {
@@ -253,7 +256,7 @@ export const EditorModules: IEditorModule[] = [
         label: $localize `Line Indent`,
         parent: 'paragraph',
         handler(editor) {
-            editor.insert({type: EditorBlockType.Indent});
+            editor.execute({type: EditorCommandType.Indent});
         },
     },
     {
@@ -262,7 +265,7 @@ export const EditorModules: IEditorModule[] = [
         label: $localize `Line Outdent`,
         parent: 'paragraph',
         handler(editor) {
-            editor.insert({type: EditorBlockType.Outdent});
+            editor.execute({type: EditorCommandType.Outdent});
         },
     },
     {
@@ -271,7 +274,7 @@ export const EditorModules: IEditorModule[] = [
         label: $localize `Add Blockquote`,
         parent: 'paragraph',
         handler(editor) {
-            editor.insert({type: EditorBlockType.Blockquote});
+            editor.execute({type: EditorCommandType.Blockquote});
         },
     },
 
@@ -284,8 +287,8 @@ export const EditorModules: IEditorModule[] = [
         parent: EDITOR_ADD_TOOL,
         modal: EditorLinkComponent,
         handler(editor, range, data) {
-            editor.insert({
-                type: EditorBlockType.AddLink,
+            editor.execute({
+                type: EditorCommandType.AddLink,
                 ...data                
             }, range);
         },
@@ -297,8 +300,8 @@ export const EditorModules: IEditorModule[] = [
         parent: EDITOR_ADD_TOOL,
         modal: EditorImageComponent,
         handler(editor, range, data) {
-            editor.insert({
-                type: EditorBlockType.AddImage,
+            editor.execute({
+                type: EditorCommandType.AddImage,
                 ...data                
             }, range);
         },
@@ -310,8 +313,8 @@ export const EditorModules: IEditorModule[] = [
         parent: EDITOR_ADD_TOOL,
         modal: EditorVideoComponent,
         handler(editor, range, data) {
-            editor.insert({
-                type: EditorBlockType.AddVideo,
+            editor.execute({
+                type: EditorCommandType.AddVideo,
                 ...data                
             }, range);
         },
@@ -323,8 +326,8 @@ export const EditorModules: IEditorModule[] = [
         parent: 'add',
         modal: EditorTableComponent,
         handler(editor, range, data) {
-            editor.insert({
-                type: EditorBlockType.AddTable,
+            editor.execute({
+                type: EditorCommandType.AddTable,
                 ...data                
             }, range);
         },
@@ -336,8 +339,8 @@ export const EditorModules: IEditorModule[] = [
         parent: EDITOR_ADD_TOOL,
         modal: EditorFileComponent,
         handler(editor, range, data) {
-            editor.insert({
-                type: EditorBlockType.AddFile,
+            editor.execute({
+                type: EditorCommandType.AddFile,
                 ...data                
             }, range);
         },
@@ -349,8 +352,8 @@ export const EditorModules: IEditorModule[] = [
         parent: EDITOR_ADD_TOOL,
         modal: EditorCodeComponent,
         handler(editor, range, data) {
-            editor.insert({
-                type: EditorBlockType.AddCode,
+            editor.execute({
+                type: EditorCommandType.AddCode,
                 ...data                
             }, range);
         },
@@ -362,8 +365,8 @@ export const EditorModules: IEditorModule[] = [
     //     parent: EDITOR_ADD_TOOL,
     //     modal: EditorSearchComponent,
     //     handler(editor, range, data) {
-    //         editor.insert({
-    //             type: EditorBlockType.AddData,
+    //         editor.execute({
+    //             type: EditorCommandType.AddData,
     //             ...data                
     //         }, range);
     //     },
@@ -374,7 +377,20 @@ export const EditorModules: IEditorModule[] = [
         label: $localize `Add Line`,
         parent: EDITOR_ADD_TOOL,
         handler(editor) {
-            editor.insert({type: EditorBlockType.AddHr});
+            editor.execute({type: EditorCommandType.AddHr});
+        }
+    },
+    {
+        name: 'map',
+        icon: 'fa-map-marked',
+        label: $localize `Add Map Marker`,
+        parent: EDITOR_ADD_TOOL,
+        modal: EditorMapComponent,
+        handler(editor, range, data) {
+            editor.execute({
+                type: EditorCommandType.AddFrame,
+                value: assetUri('/home/map?point=' + data.value + '&marker=' + encodeURIComponent(data.mark)),        
+            }, range);
         }
     },
 
@@ -405,43 +421,47 @@ export const EditorModules: IEditorModule[] = [
     {
         name: 'replace-image',
         icon: 'icon-exchange',
-        label: '替换',
+        label: $localize `Replace`,
         parent: EDITOR_IMAGE_TOOL, 
     },
     {
         name: 'align-image',
         icon: 'icon-alignright',
-        label: '位置',
+        label: $localize `Position`,
         parent: EDITOR_IMAGE_TOOL, 
     },
     {
         name: 'caption-image',
         icon: 'icon-image',
-        label: '图片标题',
+        label: $localize `Image Title`,
         parent: EDITOR_IMAGE_TOOL, 
     },
     {
         name: 'delete-image',
         icon: 'icon-trash',
-        label: '删除图片',
+        label: $localize `Delete Image`,
         parent: EDITOR_IMAGE_TOOL, 
+        handler(editor) {
+            editor.execute({type: EditorCommandType.NodeRemove});
+        },
     },
     {
         name: 'link-image',
         icon: 'icon-chain',
-        label: '插入链接',
+        label: $localize `Insert Link`,
         parent: EDITOR_IMAGE_TOOL, 
     },
     {
         name: 'alt-image',
         icon: 'icon-char',
-        label: '图片备注',
+        label: $localize `Image caption`,
+        modal: EditorTextComponent,
         parent: EDITOR_IMAGE_TOOL, 
     },
     {
         name: 'size-image',
         icon: 'icon-ruler',
-        label: '调整尺寸',
+        label: $localize `Adjust size`,
         parent: EDITOR_IMAGE_TOOL, 
     },
     
@@ -449,32 +469,58 @@ export const EditorModules: IEditorModule[] = [
     {
         name: 'replace-video',
         icon: 'icon-exchange',
-        label: '替换',
+        label: $localize `Replace`,
         parent: EDITOR_VIDEO_TOOL, 
     },
     {
         name: 'align-video',
         icon: 'icon-alignright',
-        label: '位置',
+        label: $localize `Position`,
         parent: EDITOR_VIDEO_TOOL, 
     },
     {
         name: 'caption-video',
         icon: 'icon-film',
-        label: '视频标题',
+        label: $localize `Video Title`,
         parent: EDITOR_VIDEO_TOOL, 
     },
     {
         name: 'delete-video',
         icon: 'icon-trash',
-        label: '删除视频',
+        label: $localize `Delete Video`,
         parent: EDITOR_VIDEO_TOOL, 
+        handler(editor) {
+            editor.execute({type: EditorCommandType.NodeRemove});
+        },
     },
     {
         name: 'size-video',
         icon: 'icon-ruler',
-        label: '调整尺寸',
+        label: $localize `Adjust size`,
         parent: EDITOR_VIDEO_TOOL, 
+    },
+
+    // iframe
+    {
+        name: 'align-frame',
+        icon: 'icon-alignright',
+        label: $localize `Position`,
+        parent: EDITOR_OVERLAY_TOOL, 
+    },
+    {
+        name: 'delete-frame',
+        icon: 'icon-trash',
+        label: $localize `Delete`,
+        parent: EDITOR_OVERLAY_TOOL, 
+        handler(editor) {
+            editor.execute({type: EditorCommandType.NodeRemove});
+        },
+    },
+    {
+        name: 'size-frame',
+        icon: 'icon-ruler',
+        label: $localize `Adjust size`,
+        parent: EDITOR_OVERLAY_TOOL, 
     },
 
     // 表格处理
@@ -482,82 +528,82 @@ export const EditorModules: IEditorModule[] = [
     {
         name: 'header-table',
         icon: 'icon-table',
-        label: '表头',
+        label: $localize `Table Head`,
         parent: EDITOR_TABLE_TOOL, 
         handler(editor) {
-            editor.insert({type: EditorBlockType.Thead});
+            editor.execute({type: EditorCommandType.Thead});
         },
     },
     {
         name: 'footer-table',
         icon: 'icon-table',
-        label: '表尾',
+        label: $localize `Table Foot`,
         parent: EDITOR_TABLE_TOOL, 
         handler(editor) {
-            editor.insert({type: EditorBlockType.TFoot});
+            editor.execute({type: EditorCommandType.TFoot});
         },
     },
     {
         name: 'delete-table',
         icon: 'icon-trash',
-        label: '删除表格',
+        label: $localize `Delete Table`,
         parent: EDITOR_TABLE_TOOL, 
         handler(editor) {
-            editor.insert({type: EditorBlockType.DeleteTable});
+            editor.execute({type: EditorCommandType.DeleteTable});
         },
     },
     {
         name: 'row-table',
         icon: 'icon-table',
-        label: '行',
+        label: $localize `Row`,
         parent: EDITOR_TABLE_TOOL, 
     },
     {
         name: 'column-table',
         icon: 'icon-table',
-        label: '列',
+        label: $localize `Column`,
         parent: EDITOR_TABLE_TOOL, 
     },
     {
         name: 'style-table',
         icon: 'icon-table',
-        label: '表格样式',
+        label: $localize `Table Style`,
         parent: EDITOR_TABLE_TOOL, 
     },
     {
         name: 'cell-table',
         icon: 'icon-table',
-        label: '单元格',
+        label: $localize `Cell`,
         parent: EDITOR_TABLE_TOOL, 
     },
     {
         name: 'cell-background-table',
         icon: 'icon-table',
-        label: '单元格背景',
+        label: $localize `Cell background`,
         parent: EDITOR_TABLE_TOOL, 
     },
     {
         name: 'cell-style-table',
         icon: 'icon-table',
-        label: '单元格样式',
+        label: $localize `Cell Style`,
         parent: EDITOR_TABLE_TOOL, 
     },
     {
         name: 'horizontal-table',
         icon: 'icon-shuipingdengjianju',
-        label: '横向',
+        label: $localize `Horizontal merger`,
         parent: EDITOR_TABLE_TOOL, 
         handler(editor) {
-            editor.insert({type: EditorBlockType.ColSpan});
+            editor.execute({type: EditorCommandType.ColSpan});
         },
     },
     {
         name: 'vertical-table',
         icon: 'icon-chuizhidengjianju',
-        label: '纵向',
+        label: $localize `Vertical merger`,
         parent: EDITOR_TABLE_TOOL, 
         handler(editor) {
-            editor.insert({type: EditorBlockType.RowSpan});
+            editor.execute({type: EditorCommandType.RowSpan});
         },
     },
     // 链接处理
@@ -565,28 +611,28 @@ export const EditorModules: IEditorModule[] = [
     {
         name: 'open-link',
         icon: 'icon-paper-plane',
-        label: '打开链接',
+        label: $localize `Open Link`,
         parent: EDITOR_LINK_TOOL, 
         handler(editor) {
-            editor.insert({type: EditorBlockType.OpenLink});
+            editor.execute({type: EditorCommandType.OpenLink});
         },
     },
     {
         name: 'link-style',
         icon: 'icon-font-foreground',
-        label: '更改样式',
+        label: $localize `Change Style`,
         parent: EDITOR_LINK_TOOL, 
     },
     {
         name: 'edit-link',
         icon: 'icon-edit',
-        label: '编辑链接',
+        label: $localize `Edit Link`,
         parent: EDITOR_LINK_TOOL, 
     },
     {
         name: 'unlink',
         icon: 'icon-chain-broken',
-        label: '断开链接',
+        label: $localize `Disconnect`,
         parent: EDITOR_LINK_TOOL, 
     },
 ];

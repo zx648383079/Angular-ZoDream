@@ -1,0 +1,13 @@
+<div class="editor-modal-box" [class]="{'modal-visible': visible()}">
+    <div class="input-header-block" [class]="{'input-not-empty': !!coordinate()}">
+        <input type="text" [value]="coordinate()" (input)="coordinate.set($event.target.value)" placeholder="经度,纬度">
+        <label for="">坐标</label>
+    </div>
+    <div class="input-header-block" [class]="{'input-not-empty': !!title()}">
+        <input type="text" [value]="title()" (input)="title.set($event.target.value)">
+        <label for="">标注</label>
+    </div>
+    <div class="modal-action">
+        <div class="btn btn-outline-primary" (click)="tapConfirm()">插入</div>
+    </div>
+</div>

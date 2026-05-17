@@ -1,5 +1,5 @@
 import { IBound, IPoint } from '../../../theme/utils/canvas';
-import { IEditorBlock } from '../model';
+import { IEditorCommand } from '../model';
 import { IEditorTool } from './option';
 
 export const EDITOR_EVENT_INPUT_KEYDOWN = 'input.keydown';
@@ -18,6 +18,7 @@ export const EDITOR_EVENT_UNDO_CHANGE = 'undo';
 export const EDITOR_EVENT_SHOW_ADD_TOOL = 'tool.add';
 export const EDITOR_EVENT_SHOW_LINE_BREAK_TOOL = 'tool.line.break';
 export const EDITOR_EVENT_SHOW_IMAGE_TOOL = 'tool.image';
+export const EDITOR_EVENT_SHOW_OVERLAY_TOOL = 'tool.overlay';
 export const EDITOR_EVENT_SHOW_COLUMN_TOOL = 'tool.column';
 export const EDITOR_EVENT_SHOW_LINK_TOOL = 'tool.link';
 export const EDITOR_EVENT_SHOW_TABLE_TOOL = 'tool.table';
@@ -33,6 +34,7 @@ export interface IEditorListeners {
     [EDITOR_EVENT_CLOSE_TOOL]: () => void;
     [EDITOR_EVENT_SHOW_LINE_BREAK_TOOL]: (p: IPoint) => void;
     [EDITOR_EVENT_SHOW_IMAGE_TOOL]: (b: IBound, cb: EditorUpdatedCallback) => void;
+    [EDITOR_EVENT_SHOW_OVERLAY_TOOL]: (b: IBound, cb: EditorUpdatedCallback) => void;
     [EDITOR_EVENT_SHOW_LINK_TOOL]: (p: IPoint, cb: EditorUpdatedCallback) => void;
     [EDITOR_EVENT_SHOW_TABLE_TOOL]: (p: IPoint, cb: EditorUpdatedCallback) => void;
     [EDITOR_EVENT_SHOW_COLUMN_TOOL]: (b: IBound, cb: EditorUpdatedCallback) => void;
@@ -56,8 +58,9 @@ export const EDITOR_CODE_TOOL = 'code_toggle';
 export const EDITOR_IMAGE_TOOL = 'image_edit';
 export const EDITOR_TABLE_TOOL = 'table_edit';
 export const EDITOR_VIDEO_TOOL = 'video_edit';
+export const EDITOR_OVERLAY_TOOL = 'overlay_edit';
 export const EDITOR_LINK_TOOL = 'link_edit';
 export const EDITOR_MORE_TOOL = 'more';
 export const EDITOR_PREVIEW_TOOL = 'preview';
 
-export type EditorUpdatedCallback<T = IEditorBlock> = (data: T) => void;
+export type EditorUpdatedCallback<T = IEditorCommand> = (data: T) => void;

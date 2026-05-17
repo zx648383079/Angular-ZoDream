@@ -1,6 +1,6 @@
 import { Component, ElementRef, inject, input, viewChild, model, effect, signal, computed, afterNextRender } from '@angular/core';
 import { DialogService } from '../../../../components/dialog';
-import { EditorBlockType, EditorService, IEditor, IEditorBlock, IEditorInclueBlock, IEditorLinkBlock, IEditorTextBlock } from '../../../../components/editor';
+import { EditorCommandType, EditorService, IEditor, IEditorCommand, IEditorInclueCommand, IEditorLinkCommand, IEditorTextCommand } from '../../../../components/editor';
 import { FileUploadService } from '../../../../theme/services';
 import { wordLength } from '../../../../theme/utils';
 import { MarkRangeMap } from '../math-mark/parser';
@@ -61,22 +61,22 @@ export class ExamEditorComponent implements FormValueControl<string>, IEditor {
             return;
         }
         if (name === 'math') {
-            this.container.insert(<IEditorInclueBlock>{
-                type: EditorBlockType.AddText,
+            this.container.execute(<IEditorInclueCommand>{
+                type: EditorCommandType.AddText,
                 begin: '$',
                 end: '$',
             });
             return;
         }
         if (name === 'link') {
-            this.container.insert(<IEditorLinkBlock>{
-                type: EditorBlockType.AddLink,
+            this.container.execute(<IEditorLinkCommand>{
+                type: EditorCommandType.AddLink,
             });
             return;
         }
         if (name === 'input') {
-            this.container.insert(<IEditorTextBlock>{
-                type: EditorBlockType.AddText,
+            this.container.execute(<IEditorTextCommand>{
+                type: EditorCommandType.AddText,
                 value: '____',
                 cursor: 3
             });
@@ -84,8 +84,8 @@ export class ExamEditorComponent implements FormValueControl<string>, IEditor {
         }
         if (Object.hasOwn(MarkRangeMap, name)) {
             const item = MarkRangeMap[name];
-            this.container.insert(<IEditorInclueBlock>{
-                type: EditorBlockType.AddText,
+            this.container.execute(<IEditorInclueCommand>{
+                type: EditorCommandType.AddText,
                 begin: item.begin,
                 end: item.end,
             });
@@ -107,16 +107,16 @@ export class ExamEditorComponent implements FormValueControl<string>, IEditor {
         });
     }
 
-    public insert(val: IEditorBlock|string) {
-        this.container.insert(val);
+    public execute(val: IEditorCommand|string) {
+        this.container.execute(val);
     }
 
     public insertImage(file: string, name?: string) {
-        this.container.insert('![](' + file + ')');
+        this.container.execute('![](' + file + ')');
     }
 
     public insertLink(text: string, href: string) {
-        this.container.insert('[' + text + '](' + href + ')');
+        this.container.execute('[' + text + '](' + href + ')');
     }
 
     private enterPreview() {

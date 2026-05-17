@@ -2,7 +2,7 @@ import { IPoint } from '../../theme/utils/canvas';
 import { IEditorModule } from './base';
 
 export interface IEditor {
-    insert(block: IEditorBlock|string): void;
+    execute(block: IEditorCommand|string): void;
 }
 
 export interface IImageUploadEvent {
@@ -29,7 +29,7 @@ export interface IEditorSharedModal<T = any> extends IEditorModal<T> {
     modalReady(module: IEditorModule): void;
 }
 
-export enum EditorBlockType {
+export enum EditorCommandType {
     AddLineBreak = 'addLineBreak',
     AddHr = 'addHr',
     AddText = 'addText',
@@ -41,6 +41,7 @@ export enum EditorBlockType {
     AddFile = 'addFile',
     AddCode = 'addCode',
     AddData = 'addData',
+    AddFrame = 'addFrame',
     Heading = 'heading',
     Bold = 'bold',
     Italic = 'italic',
@@ -70,56 +71,57 @@ export enum EditorBlockType {
     Outdent = 'outdent',
     NodeResize = 'nodeResize',
     NodeMove = 'nodeMove',
+    NodeRemove = 'nodeRemove',
 }
 
-export interface IEditorBlock {
+export interface IEditorCommand {
     [key: string]: any;
-    type: EditorBlockType;
+    type: EditorCommandType;
 }
 
-export interface IEditorValueBlock extends IEditorBlock {
+export interface IEditorValueCommand extends IEditorCommand {
     value: string,
 }
 
-export interface IEditorSizeBlock extends IEditorBlock {
+export interface IEditorSizeCommand extends IEditorCommand {
     width: string|number;
     height: string|number;
 }
 
-export interface IEditorResizeBlock extends IEditorSizeBlock {
+export interface IEditorResizeCommand extends IEditorSizeCommand {
     x: number;
     y: number;
 }
 
-export interface IEditorTableBlock extends IEditorBlock {
+export interface IEditorTableCommand extends IEditorCommand {
     row: number;
     column: number;
 }
 
-export interface IEditorVideoBlock extends IEditorBlock {
+export interface IEditorVideoCommand extends IEditorCommand {
     code: string;
     value: string;
     autoplay: boolean;
 }
 
-export interface IEditorFileBlock extends IEditorValueBlock {
+export interface IEditorFileCommand extends IEditorValueCommand {
     title: string,
     size: number;
 }
 
-export interface IEditorLinkBlock extends IEditorValueBlock {
+export interface IEditorLinkCommand extends IEditorValueCommand {
     title: string,
     target: boolean;
 }
 
-export interface IEditorCodeBlock extends IEditorValueBlock {
+export interface IEditorCodeCommand extends IEditorValueCommand {
     language: string;
 }
 
-export interface IEditorTextBlock extends IEditorValueBlock {
+export interface IEditorTextCommand extends IEditorValueCommand {
     cursor?: number; // 移动指针
 }
-export interface IEditorInclueBlock extends IEditorBlock {
+export interface IEditorInclueCommand extends IEditorCommand {
     begin: string,
     end: string;
     cursor?: number; // 移动指针

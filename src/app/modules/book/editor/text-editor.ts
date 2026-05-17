@@ -1,6 +1,7 @@
-import { EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_INPUT_KEYDOWN, EDITOR_EVENT_SELECTION_CHANGE, EditorBlockType, IEditorBlock, IEditorContainer, IEditorElement, IEditorRange, IEditorTextBlock } from '../../../components/editor';
+import { EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_INPUT_KEYDOWN, EDITOR_EVENT_SELECTION_CHANGE, EditorCommandType, IEditorCommand, IEditorContainer, IEditorElement, IEditorRange, IEditorTextCommand } from '../../../components/editor';
 import { EditorHelper } from '../../../components/editor/base/util';
 import { wordLength } from '../../../theme/utils';
+import { IPoint } from '../../../theme/utils/canvas';
 import { getShimmed } from '../../../theme/utils/doc';
 
 
@@ -70,6 +71,20 @@ export class TextElement implements IEditorElement {
     public get wordLength(): number {
         return wordLength(this.value);
     }
+
+    public get height(): number {
+        return this.element.clientHeight;
+    }
+    public set height(value: number) {
+        this.element.style.height = Math.max(200, value) + 'px';
+    }
+
+    /**
+     * 内容的实际高度
+     */
+    public get documentHeight(): number {
+        return this.element.scrollHeight;
+    }
     public selectAll(): void {
         const sel = window.getSelection()!;
         const range = document.createRange();
@@ -77,12 +92,29 @@ export class TextElement implements IEditorElement {
         sel.removeAllRanges();
         sel.addRange(range);
     }
+    public toggle(force?: boolean): void {
+        if (!this.element) {
+            return;
+        }
+        const ele = this.element;
+        if (typeof force === 'undefined') {
+            force = ele.style.display === 'none';
+        }
+        ele.style.display = force ? 'block' : 'none';
+    }
 
-    public insert(block: IEditorBlock, range?: IEditorRange): void {
+    public relativeTo(point: IPoint): IPoint {
+        const rect = this.element.getBoundingClientRect();
+        return {
+            x: point.x - rect.left,
+            y: point.y - rect.top
+        };
+    }
+    public execute(block: IEditorCommand, range?: IEditorRange): void {
         if (!range) {
             range = this.selection;
         }
-        const type = block.type === EditorBlockType.AddRaw ? EditorBlockType.AddText : block.type;
+        const type = block.type === EditorCommandType.AddRaw ? EditorCommandType.AddText : block.type;
         const func = (this as any)[type + 'Execute'];
         if (typeof func === 'function') {
             func.call(this, range.range, block);
@@ -99,6 +131,9 @@ export class TextElement implements IEditorElement {
         return this.element.blur();
     }
 
+    public destroy(): void {
+        
+    }
     private init() {
         this.shimmedKey = getShimmed(this.element);
         this.element.contentEditable = 'true';
@@ -141,13 +176,13 @@ export class TextElement implements IEditorElement {
         if (!value) {
             return;
         }
-        this.insert({type: EditorBlockType.AddText, value});
+        this.execute({type: EditorCommandType.AddText, value});
         this.container.emit(EDITOR_EVENT_EDITOR_CHANGE);
     }
 
     //#region 外部调用的方法
 
-    private addTextExecute(range: Range, block: IEditorTextBlock) {
+    private addTextExecute(range: Range, block: IEditorTextCommand) {
         const begin = this.topLineNode(range.startContainer);
         const end = range.endContainer === range.startContainer ? begin : this.topLineNode(range.endContainer);
         const text = this.getLinePrevious(range) + block.value + this.getLineNext(range);

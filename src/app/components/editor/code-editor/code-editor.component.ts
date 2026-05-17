@@ -1,5 +1,5 @@
 import { Component, DestroyRef, ElementRef, ViewEncapsulation, afterNextRender, effect, inject, input, model } from '@angular/core';
-import { IEditor, IEditorBlock } from '../model';
+import { IEditor, IEditorCommand } from '../model';
 import { CodeElement } from '../base/code';
 import { EDITOR_EVENT_EDITOR_CHANGE } from '../base';
 import { EditorService } from '../container';
@@ -39,7 +39,7 @@ export class CodeEditorComponent implements FormValueControl<string>, IEditor {
         });
     }
 
-    public insert(block: IEditorBlock|string): void {
-        this.container.insert(block);
+    public execute(block: IEditorCommand|string): void {
+        this.container.execute(block);
     }
 }

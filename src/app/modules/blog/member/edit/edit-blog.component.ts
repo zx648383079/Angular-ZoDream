@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/dialog';
 import { ArraySource, ButtonEvent } from '../../../../components/form';
 import { mapFormat, parseNumber } from '../../../../theme/utils';
-import { EDITOR_EVENT_CLOSE_TOOL, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITOR_READY, EDITOR_EVENT_UNDO_CHANGE, EDITOR_REDO_TOOL, EDITOR_UNDO_TOOL, EditorBlockType, EditorService, IEditorBlock, IEditorFileBlock, IEditorTool, IImageUploadEvent } from '../../../../components/editor';
+import { EDITOR_EVENT_CLOSE_TOOL, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITOR_READY, EDITOR_EVENT_UNDO_CHANGE, EDITOR_REDO_TOOL, EDITOR_UNDO_TOOL, EditorCommandType, EditorService, IEditorCommand, IEditorFileCommand, IEditorTool, IImageUploadEvent } from '../../../../components/editor';
 import { IItem } from '../../../../theme/models/seo';
 import { FileUploadService, ThemeService } from '../../../../theme/services';
 import { NavigationDisplayMode } from '../../../../theme/models/event';
@@ -254,8 +254,8 @@ export class EditBlogComponent {
         this.editor.emitTool(item, event);
     }
 
-    public tapCommand(item: IEditorBlock) {
-        this.editor.insert(item);
+    public tapCommand(item: IEditorCommand) {
+        this.editor.execute(item);
     }
 
     public tapBack() {
@@ -334,8 +334,8 @@ export class EditBlogComponent {
     public editorImageUpload(event: IImageUploadEvent) {
         this.uploadService.uploadImages(event.files).subscribe(res => {
             for (const item of res) {
-                event.target.insert(<IEditorFileBlock>{
-                    type: EditorBlockType.AddImage,
+                event.target.execute(<IEditorFileCommand>{
+                    type: EditorCommandType.AddImage,
                     value: item.url,
                     title: item.original,
                     size: item.size

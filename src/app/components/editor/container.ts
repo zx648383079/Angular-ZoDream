@@ -1,6 +1,6 @@
 import { ComponentRef, Injectable, Injector, ViewContainerRef, inject } from '@angular/core';
 import { DivElement, EDITOR_EVENT_CUSTOM, EDITOR_EVENT_EDITOR_AUTO_SAVE, EDITOR_EVENT_EDITOR_CHANGE, EDITOR_EVENT_EDITOR_DESTORY, EDITOR_EVENT_EDITOR_READY, EDITOR_EVENT_INPUT_BLUR, EDITOR_EVENT_INPUT_KEYDOWN, EDITOR_EVENT_UNDO_CHANGE, EDITOR_FULL_SCREEN_TOOL, EDITOR_PREVIEW_TOOL, EditorOptionManager, IEditorContainer, IEditorElement, IEditorListeners, IEditorTool, TextareaElement } from './base';
-import { EditorBlockType, IEditorBlock, IEditorModal, IEditorRange, IEditorSharedModal } from './model';
+import { EditorCommandType, IEditorCommand, IEditorModal, IEditorRange, IEditorSharedModal } from './model';
 import { IPoint } from '../../theme/utils/canvas';
 
 @Injectable()
@@ -76,19 +76,19 @@ export class EditorService implements IEditorContainer {
             if (module) {
                 e.preventDefault();
                 e.stopPropagation();
-                this.execute(module);
+                this.use(module);
                 return;
             }
             if (e.key === 'Enter') {
                 e.preventDefault();
                 e.stopPropagation();
-                this.insert({type: EditorBlockType.AddLineBreak});
+                this.execute({type: EditorCommandType.AddLineBreak});
                 return;
             }
             if (e.key === 'Tab') {
                 e.preventDefault();
                 e.stopPropagation();
-                this.insert({type: EditorBlockType.Indent});
+                this.execute({type: EditorCommandType.Indent});
             }
         });
         this.on(EDITOR_EVENT_INPUT_BLUR, () => {
@@ -171,17 +171,17 @@ export class EditorService implements IEditorContainer {
         this.selection = this.element!.selection;
     }
 
-    public insert(block: IEditorBlock|string, range?: IEditorRange): void {
+    public execute(block: IEditorCommand|string, range?: IEditorRange): void {
         if (typeof block !== 'object') {
             block = {
-                type: EditorBlockType.AddText,
+                type: EditorCommandType.AddText,
                 value: block,
             }
         }
-        this.element!.insert(block, range ?? this.selection);
+        this.element!.execute(block, range ?? this.selection);
     }
     
-    public execute(module: string|IEditorTool, range?: IEditorRange, data?: any): void {
+    public use(module: string|IEditorTool, range?: IEditorRange, data?: any): void {
         const instance = this.option.toModule(module);
         if (!instance || !instance.handler) {
             return;
@@ -227,17 +227,11 @@ export class EditorService implements IEditorContainer {
     public destroy(): void {
         this.emit(EDITOR_EVENT_EDITOR_DESTORY);
         this.listeners = {};
+        this.element?.destroy();
     }
 
     public toggle(force?: boolean): void {
-        if (!this.element) {
-            return;
-        }
-        const ele = this.element.element;
-        if (typeof force === 'undefined') {
-            force = ele.style.display === 'none';
-        }
-        ele.style.display = force ? 'block' : 'none';
+        this.element?.toggle(force);
     }
 
     public undo(): void {
@@ -275,8 +269,7 @@ export class EditorService implements IEditorContainer {
         if (!this.element) {
             return;
         }
-        const element = this.element.element;
-        element.style.height = Math.max(200, element.scrollHeight) + 'px';
+        this.element.height = Math.max(200, this.element.documentHeight);
     }
 
     public emitTool(item: IEditorTool|string, event?: MouseEvent) {
@@ -298,15 +291,13 @@ export class EditorService implements IEditorContainer {
     }
 
     private getOffsetPosition(event?: MouseEvent): IPoint {
-        if (!event) {
+        if (!event || !this.element) {
             return {x: 0, y: 0};
         }
-        const ele = this.element!.element;
-        const rect = ele.getBoundingClientRect();
-        return {
-            x: event.clientX - rect.left,
-            y: event.clientY - rect.top
-        };
+        return this.element.relativeTo({
+            x: event.clientX,
+            y: event.clientY
+        });
     }
 
     private executeModule(item: IEditorTool, position: IPoint) {
@@ -320,7 +311,7 @@ export class EditorService implements IEditorContainer {
             return;
         }
         if (!module.modal) {
-            this.execute(module);
+            this.use(module);
             return;
         }
         this.modalRef = this.modalContainerRef!.createComponent<IEditorModal>(module.modal, {
@@ -332,7 +323,7 @@ export class EditorService implements IEditorContainer {
         this.modalRef.instance.open({}, res => {
             this.modalRef!.destroy();
             this.modalRef = undefined;
-            this.execute(module, undefined, res);
+            this.use(module, undefined, res);
         }, position);
     }
 

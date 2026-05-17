@@ -1,7 +1,7 @@
 import { Component, inject, input, output, signal } from '@angular/core';
 import { IUploadFile } from '../../../../../theme/models/open';
 import { FileUploadService, SearchService } from '../../../../../theme/services';
-import { EditorBlockType, IEditorBlock } from '../../../../../components/editor';
+import { EditorCommandType, IEditorCommand } from '../../../../../components/editor';
 import { form } from '@angular/forms/signals';
 
 @Component({
@@ -17,7 +17,7 @@ export class AddPanelComponent {
 
     public readonly visible = input(false);
     public readonly toolTapped = output<string>();
-    public readonly command = output<IEditorBlock>();
+    public readonly command = output<IEditorCommand>();
     public readonly tabIndex = signal(0);
     public tabItems = ['组件', '模板', '资源'];
     public toolItems: {
@@ -88,7 +88,7 @@ export class AddPanelComponent {
     public tapMedia(item: IUploadFile) {
         this.mediaOpen.set(false);
         this.command.emit({
-            type: EditorBlockType.AddImage,
+            type: EditorCommandType.AddImage,
             value: item.url,
             title: item.title
         });

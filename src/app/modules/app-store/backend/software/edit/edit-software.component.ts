@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { DialogService } from '../../../../../components/dialog';
-import { EditorBlockType, IEditorFileBlock, IImageUploadEvent } from '../../../../../components/editor';
+import { EditorCommandType, IEditorFileCommand, IImageUploadEvent } from '../../../../../components/editor';
 import { ButtonEvent, NetSource } from '../../../../../components/form';
 import { FileUploadService } from '../../../../../theme/services';
 import { ICategory, ISoftware, ITag } from '../../../model';
@@ -115,8 +115,8 @@ export class EditSoftwareComponent {
     public editorImageUpload(event: IImageUploadEvent) {
         this.uploadService.uploadImages(event.files).subscribe(res => {
             for (const item of res) {
-                event.target.insert(<IEditorFileBlock>{
-                    type: EditorBlockType.AddImage,
+                event.target.execute(<IEditorFileCommand>{
+                    type: EditorCommandType.AddImage,
                     value: item.url,
                     title: item.original,
                     size: item.size

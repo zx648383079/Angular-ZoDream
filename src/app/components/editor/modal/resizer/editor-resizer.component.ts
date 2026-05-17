@@ -1,6 +1,6 @@
 import { Component, computed, HostListener, signal } from '@angular/core';
 import { EditorUpdatedCallback } from '../../base';
-import { EditorBlockType, IEditorResizeBlock } from '../../model';
+import { EditorCommandType, IEditorResizeCommand } from '../../model';
 import { IBound, IPoint } from '../../../../theme/utils/canvas';
 
 @Component({
@@ -214,14 +214,14 @@ export class EditorResizerComponent {
                 return;
             }
             if (toolType === 1) {
-                this.updatedHandler(<IEditorResizeBlock>{
-                    type: EditorBlockType.NodeResize,
+                this.updatedHandler(<IEditorResizeCommand>{
+                    type: EditorCommandType.NodeResize,
                     ...this.rectBound,
                 });
                 return;
             } else if (toolType === 2 || toolType === 3) {
-                this.updatedHandler(<IEditorResizeBlock>{
-                    type: EditorBlockType.NodeMove,
+                this.updatedHandler(<IEditorResizeCommand>{
+                    type: EditorCommandType.NodeMove,
                     ...this.rectBound,
                 });
             }

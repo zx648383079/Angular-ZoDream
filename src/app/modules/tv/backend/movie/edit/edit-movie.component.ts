@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
 import { FileUploadService } from '../../../../../theme/services';
 import { ButtonEvent, NetSource } from '../../../../../components/form';
-import { EditorBlockType, IEditorFileBlock, IImageUploadEvent } from '../../../../../components/editor';
+import { EditorCommandType, IEditorFileCommand, IImageUploadEvent } from '../../../../../components/editor';
 import { form, required } from '@angular/forms/signals';
 
 @Component({
@@ -131,8 +131,8 @@ export class EditMovieComponent {
     public editorImageUpload(event: IImageUploadEvent) {
         this.uploadService.uploadImages(event.files).subscribe(res => {
             for (const item of res) {
-                event.target.insert(<IEditorFileBlock>{
-                    type: EditorBlockType.AddImage,
+                event.target.execute(<IEditorFileCommand>{
+                    type: EditorCommandType.AddImage,
                     value: item.url,
                     title: item.original,
                     size: item.size
