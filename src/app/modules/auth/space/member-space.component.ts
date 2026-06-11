@@ -30,7 +30,7 @@ export class MemberSpaceComponent {
             this.authUser.set(user);
         });
         this.route.params.subscribe(params => {
-            this.data.set({id: params.user} as any);
+            this.data.set({id: params['user']} as any);
             this.tapRefresh();
         });
     }

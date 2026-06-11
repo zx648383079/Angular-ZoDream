@@ -48,10 +48,10 @@ export class EditAdComponent {
             this.positionItems = res.data;
         });
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.ad(params.id).subscribe(res => {
+            this.service.ad(params['id']).subscribe(res => {
                 this.dataModel.set({
                     id: res.id,
                     name: res.name,
@@ -66,10 +66,10 @@ export class EditAdComponent {
             });
         });
         this.route.queryParams.subscribe(params => {
-            if (!params.position) {
+            if (!params['position']) {
                 return;
             }
-            this.dataForm.position_id().value.set(params.position);
+            this.dataForm.position_id().value.set(params['position']);
         });
     }
 

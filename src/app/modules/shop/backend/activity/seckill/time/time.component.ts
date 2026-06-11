@@ -31,8 +31,8 @@ export class TimeComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (params.activity) {
-                this.activity = parseInt(params.activity, 10);
+            if (params['activity']) {
+                this.activity = parseInt(params['activity'], 10);
             }
         });
         this.tapRefresh();

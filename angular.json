@@ -1,7 +1,7 @@
 {
     "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
     "cli": {
-      "analytics": false
+        "analytics": false
     },
     "version": 1,
     "newProjectRoot": "projects",
@@ -10,7 +10,29 @@
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
-                    "style": "scss"
+                    "style": "scss",
+                    "skipTests": true
+                },
+                "@schematics/angular:class": {
+                    "skipTests": true
+                },
+                "@schematics/angular:directive": {
+                    "skipTests": true
+                },
+                "@schematics/angular:guard": {
+                    "skipTests": true
+                },
+                "@schematics/angular:interceptor": {
+                    "skipTests": true
+                },
+                "@schematics/angular:pipe": {
+                    "skipTests": true
+                },
+                "@schematics/angular:resolver": {
+                    "skipTests": true
+                },
+                "@schematics/angular:service": {
+                    "skipTests": true
                 },
                 "@schematics/angular:application": {
                     "strict": true
@@ -33,14 +55,17 @@
             },
             "architect": {
                 "build": {
-                    "builder": "@angular-devkit/build-angular:browser",
+                    "builder": "@angular/build:application",
                     "options": {
                         "localize": true,
                        
                         "outputPath": "dist/angular-zodream",
                         "index": "src/index.html",
-                        "main": "src/main.ts",
-                        "polyfills": "src/polyfills.ts",
+                        "browser": "src/main.ts",
+                        "polyfills": [
+                          "zone.js",
+                          "@angular/localize/init"
+                        ],
                         "tsConfig": "tsconfig.app.json",
                         "allowedCommonJsDependencies": [
                             "lodash"
@@ -61,8 +86,7 @@
                         ],
                         "scripts": [
                         ],
-                        "serviceWorker": true,
-                        "ngswConfigPath": "ngsw-config.json"
+                        "serviceWorker": "ngsw-config.json"
                     },
                     "configurations": {
                         "production": {
@@ -84,9 +108,7 @@
                             ]
                         },
                         "development": {
-                            "buildOptimizer": false,
                             "optimization": false,
-                            "vendorChunk": true,
                             "extractLicenses": false,
                             "sourceMap": true,
                             "namedChunks": true,
@@ -96,7 +118,7 @@
                     "defaultConfiguration": "production"
                 },
                 "serve": {
-                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "builder": "@angular/build:dev-server",
                     "configurations": {
                         "production": {
                             "buildTarget": "angular-zodream:build:production"
@@ -108,29 +130,9 @@
                     "defaultConfiguration": "development"
                 },
                 "extract-i18n": {
-                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "builder": "@angular/build:extract-i18n",
                     "options": {
                         "buildTarget": "angular-zodream:build"
-                    }
-                },
-                "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
-                    "options": {
-                        "main": "src/test.ts",
-                        "polyfills": "src/polyfills.ts",
-                        "tsConfig": "tsconfig.spec.json",
-                        "karmaConfig": "karma.conf.js",
-                        "assets": [
-                            "src/favicon.ico",
-                            "src/assets",
-                            "src/manifest.webmanifest"
-                        ],
-                        "styles": [
-                            "node_modules/katex/dist/katex.css",
-                            "src/styles.scss"
-                        ],
-                        "scripts": [
-                        ]
                     }
                 }
             }

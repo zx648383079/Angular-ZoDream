@@ -23,12 +23,12 @@ export class DetailComponent {
     public readonly isLoading = signal(false);
 
     constructor() {
-        this.route.params.subscribe(param => {
-            if (!param.id) {
+        this.route.params.subscribe(params => {
+            if (!params['id']) {
                 this.location.back();
                 return;
             }
-            this.load(param.id);
+            this.load(params['id']);
         });
         this.service.movieList({}).subscribe(res => {
             this.items.set(res.data);

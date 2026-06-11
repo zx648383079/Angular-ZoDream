@@ -94,10 +94,10 @@
                     <div class="review-footer">
                         <div class="user-label-item">
                             <div class="item-avatar">
-                                <img [src]="item.user.avatar" [alt]="item.user.name">
+                                <img [src]="item.user?.avatar" [alt]="item.user?.name">
                             </div>
                             <div class="item-body">
-                                {{item.user.name}}
+                                {{item.user?.name}}
                             </div>
                         </div>
                         <div class="review-action">

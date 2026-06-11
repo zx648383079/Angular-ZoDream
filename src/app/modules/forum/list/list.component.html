@@ -63,7 +63,7 @@
                                 @if (item.last_thread) {
                                 <div class="last-thread">
                                     <a [routerLink]="['../thread', item.last_thread.id]">{{ item.last_thread.title }}</a>
-                                    {{ item.last_thread.created_at | ago }} {{ item.last_thread.user.name }}
+                                    {{ item.last_thread.created_at | ago }} {{ item.last_thread.user?.name }}
                                 </div>
                                 }
 

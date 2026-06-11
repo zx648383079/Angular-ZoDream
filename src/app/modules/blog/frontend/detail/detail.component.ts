@@ -47,12 +47,12 @@ export class DetailComponent {
                 openLink(this.router, path);
             });
         };
-        this.route.params.subscribe(param => {
-            if (!param.id) {
+        this.route.params.subscribe(params => {
+            if (!params['id']) {
                 this.router.navigate(['../']);
                 return;
             }
-            this.loadBlog(param.id);
+            this.loadBlog(params['id']);
         });
     }
 

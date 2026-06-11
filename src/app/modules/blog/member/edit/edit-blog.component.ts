@@ -61,7 +61,7 @@ export class EditBlogComponent {
         seo_title: '',
         seo_description: '',
         seo_link: '',
-        created_at: '-',
+        created_at: <string|null>'-',
         tags: <ITag[]>[]
     });
     public readonly dataForm = form(this.dataModel, schemaPath => {
@@ -159,11 +159,11 @@ export class EditBlogComponent {
         this.propertyToggle.set(window.innerWidth > 769);
         this.themeService.screenSwitch(this.destroyRef, NavigationDisplayMode.Collapse);
         this.route.params.subscribe(params => {
-            this.themeService.titleChanged.next(params.id ? $localize `Edit post` : $localize `New post`);
-            if (!params.id) {
+            this.themeService.titleChanged.next(params['id'] ? $localize `Edit post` : $localize `New post`);
+            if (!params['id']) {
                 return;
             }
-            this.loadDetail(params.id);
+            this.loadDetail(params['id']);
         });
         afterNextRender({
             write: () => this.editor.ready(this.areaElement()!.nativeElement, this.modalViewContainer())

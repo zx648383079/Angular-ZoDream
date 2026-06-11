@@ -32,8 +32,8 @@ export class ColumnComponent {
     constructor() {
         this.isLoading.set(true);
         this.route.queryParams.subscribe(params => {
-            this.schema = params.schema;
-            this.table = params.table;
+            this.schema = params['schema'];
+            this.table = params['table'];
             this.service.columnList(this.table, this.schema, true).subscribe(res => {
                 this.isLoading.set(false);
                 this.items.set(res.data);

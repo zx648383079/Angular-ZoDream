@@ -78,7 +78,7 @@ export interface ITag {
 
 export interface IComment {
     id: number;
-    user: IUser;
+    user?: IUser;
     content: string;
     agree_count?: number;
     disagree_count?: number;
@@ -91,7 +91,7 @@ export interface IComment {
 export interface ISoftwareLog {
     id: number;
     created_at: string;
-    software: ISoftware;
+    software?: ISoftware;
     installed?: boolean;
     category?: ICategory;
     user?: IUser;

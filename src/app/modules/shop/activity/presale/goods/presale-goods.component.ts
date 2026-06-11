@@ -38,7 +38,7 @@ export class PresaleGoodsComponent {
     constructor() {
         this.route.params.subscribe(params => {
             this.service.presale({
-                id: params.id,
+                id: params['id'],
                 full: true,
             }).subscribe(res => {
                 const data = res.goods!;

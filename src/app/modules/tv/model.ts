@@ -111,7 +111,7 @@ export interface ITag {
 
 export interface IComment {
     id: number;
-    user: IUser;
+    user?: IUser;
     content: string;
     agree_count?: number;
     disagree_count?: number;

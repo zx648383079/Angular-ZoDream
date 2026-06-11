@@ -69,8 +69,8 @@ export class ListComponent {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
         });
         this.route.params.subscribe(params => {
-            this.forum.set({id: params.id} as any);
-            this.service.getForum(params.id).subscribe(res => {
+            this.forum.set({id: params['id']} as any);
+            this.service.getForum(params['id']).subscribe(res => {
                 this.forum.set(res);
                 this.themeService.titleChanged.next(res.name);
                 if (res.thread_top) {

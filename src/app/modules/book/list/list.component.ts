@@ -27,11 +27,11 @@ export class ListComponent {
         page: 1,
         per_page: 20
     });
-    public isLogin = true;
+    public readonly isLogin = signal(true);
 
     constructor() {
         this.store.select(selectAuthStatus).subscribe(res => {
-            this.isLogin = !res.guest;
+            this.isLogin.set(!res.guest);
         });
         this.tapRefresh();
     }

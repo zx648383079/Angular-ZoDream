@@ -45,11 +45,11 @@ export class EditAttributeComponent {
             this.onGroupChange();
         });
         this.route.params.subscribe(params => {
-            if (!params.id) {
-                this.dataForm.group_id().value.set(params.group);
+            if (!params['id']) {
+                this.dataForm.group_id().value.set(params['group']);
                 return;
             }
-            this.service.attr(params.id).subscribe(res => {
+            this.service.attr(params['id']).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
                     id: res.id,

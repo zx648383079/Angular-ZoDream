@@ -57,7 +57,7 @@ export class GoodsComponent {
     constructor() {
         this.dataForm.region().value.set(this.service.regionId);
         this.route.params.subscribe(params => {
-            this.loadGoods(parseNumber(params.id), parseNumber(params.product));
+            this.loadGoods(parseNumber(params['id']), parseNumber(params['product']));
         });
     }
 
@@ -254,6 +254,7 @@ export class GoodsComponent {
                 return item;
             }
         }
+        return;
     }
 
     private indexOf(items: any[], value: any): number {

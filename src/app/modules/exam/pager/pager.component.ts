@@ -35,9 +35,9 @@ export class PagerComponent {
     constructor() {
         this.route.params.subscribe(params => {
             this.service.pager({
-                id: params.id || 0,
-                course: params.course,
-                type: params.type,
+                id: params['id'] || 0,
+                course: params['course'],
+                type: params['type'],
             }).subscribe({
                 next: res => {
                     this.data.set(res);

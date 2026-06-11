@@ -52,11 +52,11 @@ export class EditServiceComponent {
             }
         });
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 this.addForm();
                 return;
             }
-            this.loadService(params.id);
+            this.loadService(params['id']);
         });
     }
 

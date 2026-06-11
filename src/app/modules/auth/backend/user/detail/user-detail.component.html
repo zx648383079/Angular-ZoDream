@@ -61,7 +61,7 @@
                 账户积分
             </div>
             <div class="item-body">
-                {{ user()!.credits }}
+                {{ user()!['credits'] }}
             </div>
         </div>
         <div class="meta-item">
@@ -69,16 +69,16 @@
                 第三方绑定数
             </div>
             <div class="item-body">
-                {{ user()!.oauth_count }}
+                {{ user()!['oauth_count'] }}
             </div>
         </div>
-        @if (user()!.parent_id > 0) {
-        <a class="meta-item" [routerLink]="['../', user()!.parent_id]">
+        @if (user()!['parent_id'] > 0) {
+        <a class="meta-item" [routerLink]="['../', user()!['parent_id']]">
             <div class="item-header">
                 邀请人
             </div>
             <div class="item-body">
-                {{ user()!.parent?.name || '-' }}
+                {{ user()!['parent']?.name || '-' }}
             </div>
         </a>
         }
@@ -95,8 +95,8 @@
             <div class="item-header">
                 最后登录时间
             </div>
-            <div class="item-body" [title]="user()!.last_login.created_at">
-                {{ user()!.last_login.created_at | ago }}
+            <div class="item-body" [title]="user()!['last_login'].created_at">
+                {{ user()!['last_login'].created_at | ago }}
             </div>
         </div>
         <div class="meta-item">
@@ -104,15 +104,15 @@
                 最后登录IP
             </div>
             <div class="item-body">
-                {{ user()!.last_login.ip }}
+                {{ user()!['last_login'].ip }}
             </div>
         </div>
         <div class="meta-item">
             <div class="item-header">
                 常用IP
             </div>
-            <div class="item-body" [title]="'登录次数:' + user()!.login_ip.count">
-                {{ user()!.login_ip.ip }}
+            <div class="item-body" [title]="'登录次数:' + user()!['login_ip'].count">
+                {{ user()!['login_ip'].ip }}
             </div>
         </div>
     </div>
@@ -130,7 +130,7 @@
             <div class="line-group-item">
                 <div class="item-header">角色组：</div>
                 <div class="item-body">
-                    @for (item of user()!.role_items; track $index;let f = $first) {
+                    @for (item of user()!['role_items']; track $index;let f = $first) {
                         @if (!f) {
                              、
                         }
@@ -141,7 +141,7 @@
             <div class="line-group-item">
                 <div class="item-header">权限组：</div>
                 <div class="item-body">
-                    @for (item of user()!.permission_items; track $index;let f = $first) {
+                    @for (item of user()!['permission_items']; track $index;let f = $first) {
                         @if (!f) {
                              、
                         }

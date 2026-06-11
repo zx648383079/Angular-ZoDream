@@ -26,7 +26,7 @@ export class PayComponent {
     constructor() {
         this.themeService.titleChanged.next('订单支付');
         this.route.params.subscribe(params => {
-            this.loadOrder(params.id);
+            this.loadOrder(params['id']);
         });
         this.service.paymentList().subscribe(res => {
             this.paymentItems.set(res.data);

@@ -34,10 +34,10 @@ export class ModelComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.site) {
+            if (!params['site']) {
                 return;
             }
-            this.siteId = parseInt(params.site, 10);
+            this.siteId = parseInt(params['site'], 10);
         });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));

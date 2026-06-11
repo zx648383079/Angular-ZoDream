@@ -62,7 +62,7 @@
     <div class="group-body">
         <ul class="mini-message">
             @for (item of messsageItems(); track $index) {
-            <li>[{{ item.created_at | ago }}]{{ item.user?.name }}: {{ item.content }}</li>
+            <li>[{{ item.created_at | ago }}]{{ item.user.name }}: {{ item.content }}</li>
             }
         </ul>
     </div>

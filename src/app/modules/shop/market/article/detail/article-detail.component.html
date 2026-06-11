@@ -4,7 +4,7 @@
         <nav class="breadcrumb">
             <a class="breadcrumb-item" routerLink="../../" i18n>Home</a>
             @if (data()!.category) {
-            <a class="breadcrumb-item" [routerLink]="'../' + data()!.cat_id">{{ data()!.category?.name }}</a>
+            <a class="breadcrumb-item" [routerLink]="'../' + data()!.cat_id">{{ data()!.category.name }}</a>
             }
             <span class="breadcrumb-item active">{{ data()!.title }}</span>
         </nav>
@@ -15,7 +15,7 @@
                 <div class="menu-group">
                     @if (data()!.category) {
                     <div class="menu-name">
-                        {{ data()!.category?.name }}
+                        {{ data()!.category.name }}
                     </div>
                     }
                     <ul>

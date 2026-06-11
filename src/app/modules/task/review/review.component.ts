@@ -52,7 +52,7 @@ export class ReviewComponent {
 
     constructor() {
         this.route.queryParams.subscribe(params => {
-            const type = parseInt(params.type, 10) || 0;
+            const type = parseInt(params['type'], 10) || 0;
             if (type) {
                 this.queries.type().value.set(type as any);
             }

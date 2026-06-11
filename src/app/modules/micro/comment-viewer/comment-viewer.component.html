@@ -56,7 +56,7 @@
                 @for (it of item.replies; track $index) {
                 <div class="reply-item">
                     <div class="text">
-                        <a>{{ it.user.name }}</a>：
+                        <a>{{ it.user?.name }}</a>：
                         <app-rule-block [value]="it.content" [rules]="it.extra_rule" />
                     </div>
                     <div class="actions">

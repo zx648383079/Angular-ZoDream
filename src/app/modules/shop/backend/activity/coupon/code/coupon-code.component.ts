@@ -38,8 +38,8 @@ export class CouponCodeComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (params.coupon) {
-                this.queries.coupon().value.set(parseInt(params.coupon, 10));
+            if (params['coupon']) {
+                this.queries.coupon().value.set(parseInt(params['coupon'], 10));
             }
         });
         this.route.queryParams.subscribe(params => {

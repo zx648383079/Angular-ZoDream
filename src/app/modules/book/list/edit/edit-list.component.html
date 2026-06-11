@@ -23,17 +23,17 @@
     @for (item of items(); track $index) {
         <div class="list-book-item">
             <div class="thumb">
-                <img [src]="item.book.cover" alt="">
+                <img [src]="item.book?.cover" alt="">
             </div>
             <div class="info">
-                <a class="title">{{ item.book.name }}</a>
+                <a class="title">{{ item.book?.name }}</a>
                 <p>
-                    <a >{{ item.book.author?.name }}</a>|
-                    <span>{{ item.book.size | numberFormat }}字</span>|
-                    <span>{{ item.book.status_label }}</span>
+                    <a >{{ item.book?.author?.name }}</a>|
+                    <span>{{ item.book?.size | numberFormat }}字</span>|
+                    <span>{{ item.book?.status_label }}</span>
                 </p>
                 <p>
-                    更新时间：{{ item.book.updated_at }}
+                    更新时间：{{ item.book?.updated_at }}
                 </p>
                 <p>
                     单主评分：

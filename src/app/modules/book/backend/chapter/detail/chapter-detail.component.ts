@@ -40,19 +40,19 @@ export class ChapterDetailComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.book) {
+            if (!params['book']) {
                 this.location.back();
                 return;
             }
-            if (!params.id) {
+            if (!params['id']) {
                 this.dataModel.update(v => {
-                    v.book_id = params.book,
+                    v.book_id = params['book'],
                     v.size = 0;
                     return v;
                 })
                 return;
             }
-            this.service.chapter(params.id).subscribe(res => {
+            this.service.chapter(params['id']).subscribe(res => {
                 this.dataModel.set({
                     id: res.id,
                     type: res.type as any,
@@ -61,7 +61,7 @@ export class ChapterDetailComponent {
                     price: res.price ?? 0,
                     source: res.source ?? '',
                     position: res.position ?? 99,
-                    book_id: params.book,
+                    book_id: params['book'],
                     size: 0
                 });
             });

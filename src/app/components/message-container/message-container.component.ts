@@ -88,7 +88,7 @@ export class MessageContainerComponent {
             return this.formatAsset(rule.i);
         }
         if (item.type === 2 || item.type === 3) {
-            return this.formatAsset(rule.f);
+            return this.formatAsset(rule['f']);
         }
         return this.formatAsset(rule.s);
     }
@@ -109,7 +109,7 @@ export class MessageContainerComponent {
         this.tapped.emit({
             type: 5,
             content: item.content,
-            file: rule.f
+            file: rule['f']
         });
     }
 

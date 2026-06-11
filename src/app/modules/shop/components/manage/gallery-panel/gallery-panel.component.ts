@@ -14,7 +14,7 @@ export class GalleryPanelComponent implements FormValueControl<any> {
 
 
     private readonly imageElement = viewChild<ElementRef<HTMLDivElement>>('imageBox');
-    public readonly max = input<number|undefined>(0);
+    public readonly max = input<any|undefined>(0);
     public readonly items = signal<IGoodsGallery[]>([]);
     public readonly disabled = input<boolean>(false);
     public readonly value = model<any>();

@@ -53,13 +53,13 @@ export class PackageComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            const softwareId = parseNumber(params.app);
+            const softwareId = parseNumber(params['app']);
             if (!softwareId) {
                 this.location.back();
                 return;
             }
-            this.software.set({id: softwareId, version: {id: params.version}} as any);
-            this.service.software(softwareId, params.version).subscribe(res => {
+            this.software.set({id: softwareId, version: {id: params['version']}} as any);
+            this.service.software(softwareId, params['version']).subscribe(res => {
                 this.software.set(res);
             });
         });

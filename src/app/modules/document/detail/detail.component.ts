@@ -45,12 +45,12 @@ export class DetailComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.project) {
+            if (!params['project']) {
                 return;
             }
-            const version = params.version ? parseInt(params.version, 10) : 0;
+            const version = params['version'] ? parseInt(params['version'], 10) : 0;
             this.queries.version().value.set(version as any);
-            this.initData(params.project, version, params.id);
+            this.initData(params['project'], version, params['id']);
         });
     }
 
@@ -179,6 +179,7 @@ export class DetailComponent {
             if (!found && item.type < 1) {
                 previous = item;
             }
+            return;
         });
         this.previous.set(previous!);
         this.next.set(next!);
@@ -193,6 +194,7 @@ export class DetailComponent {
                 return false;
             }
         }
+        return;
     }
 
     public tapGenerate(e: SubmitEvent) {

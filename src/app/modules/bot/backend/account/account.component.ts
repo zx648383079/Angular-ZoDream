@@ -43,8 +43,8 @@ export class AccountComponent {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
-            if (params.redirect_uri) {
-                this.redirectUri = params.redirect_uri;
+            if (params['redirect_uri']) {
+                this.redirectUri = params['redirect_uri'];
             }
         });
     }

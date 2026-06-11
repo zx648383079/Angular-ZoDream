@@ -81,6 +81,7 @@ export class OptionInputComponent implements FormValueControl<IQuestionOption[]>
                 this.tapEditOption(modal, i >= value.length - 1 || i < 0 ? -1 : i + 1 );
                 return false;
             }
+            return;
         }, '编辑' + intToABC(i >= 0 ? i : this.value().length) + '选项');
     }
 

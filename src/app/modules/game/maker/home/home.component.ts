@@ -21,7 +21,7 @@ export class HomeComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            this.service.projectStatistics(params.game).subscribe({
+            this.service.projectStatistics(params['game']).subscribe({
                 next: res => {
                     this.isLoading.set(false);
                     this.data.set(res);

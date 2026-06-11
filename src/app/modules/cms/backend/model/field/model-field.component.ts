@@ -22,7 +22,7 @@ export class ModelFieldComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            this.model = parseInt(params.model, 10);
+            this.model = parseInt(params['model'], 10);
             this.tapRefresh();
         });
     }

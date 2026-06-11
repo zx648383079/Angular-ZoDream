@@ -21,10 +21,10 @@ export class ProjectComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.project(params.id).subscribe(res => {
+            this.service.project(params['id']).subscribe(res => {
                 this.data.set(res);
                 this.loadCatalog();
             });

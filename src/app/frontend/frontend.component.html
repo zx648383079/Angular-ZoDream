@@ -101,7 +101,7 @@
             }
             @if (site()?.site_pns_beian) {
             <p>
-                <a target="_blank" [href]="'https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=' + site()!.site_pns_beian_no">
+                <a target="_blank" [href]="'https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=' + site()!['site_pns_beian_no']">
                     <img [src]="'assets/images/beian.png' | asset" alt="备案图标">
                     {{ site()!.site_pns_beian }}
                 </a>

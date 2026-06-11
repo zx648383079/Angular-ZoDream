@@ -368,8 +368,8 @@ export class Widget implements WidgetBound {
             'z-index': this.zIndex,
         };
         if (this.width > 0 || this.height > 0) {
-            data.width = this.width + this.unit;
-            data.height = this.height + this.unit;
+            data['width'] = this.width + this.unit;
+            data['height'] = this.height + this.unit;
         }
         return {...data, ...this.properties.style};
     }
@@ -389,11 +389,11 @@ export class Widget implements WidgetBound {
             'z-index': this.zIndex,
         };
         if (this.width > 0 || this.height > 0) {
-            data.width = this.width + this.unit;
-            data.height = this.height + this.unit;
+            data['width'] = this.width + this.unit;
+            data['height'] = this.height + this.unit;
         }
         if (this.properties.has('position')) {
-            data.position = 'absolute';
+            data['position'] = 'absolute';
         }
         return data;
     }
@@ -409,10 +409,10 @@ export class Widget implements WidgetBound {
         }
         const data: IStyle = this.properties.style;
         if (this.width > 0 || this.height > 0) {
-            data.width = this.width + this.unit;
-            data.height = this.height + this.unit;
+            data['width'] = this.width + this.unit;
+            data['height'] = this.height + this.unit;
         }
-        delete data.position;
+        delete data['position'];
         return data;
     }
 }
@@ -439,6 +439,7 @@ export class PanelWidget extends Widget {
                 this.splice(j, 1);
                 return false;
             }
+            return;
         }, false);
     }
 

@@ -47,10 +47,10 @@ export class EditWeightComponent {
             this.categories.set(res.data!);
         });
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.component(params.id).subscribe({
+            this.service.component(params['id']).subscribe({
                 next: res => {
                     this.dataModel.set({
                         id: res.id,

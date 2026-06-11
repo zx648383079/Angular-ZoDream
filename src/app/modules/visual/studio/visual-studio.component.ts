@@ -30,8 +30,8 @@ export class VisualStudioComponent {
     constructor() {
         this.route.params.subscribe(params => {
             this.data = {
-                site: parseNumber(params.site),
-                id: parseNumber(params.id)
+                site: parseNumber(params['site']),
+                id: parseNumber(params['id'])
             };
         });
         this.http.get<IDataOne<string>>('auth/user/ticket').subscribe({

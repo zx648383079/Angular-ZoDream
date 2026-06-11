@@ -83,11 +83,11 @@ export class EditComponent {
     constructor() {
         this.route.params.subscribe(params => {
             this.reviewable.set(window.location.href.indexOf('review') > 0);
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
             const cb = this.reviewable() ? this.service.review : this.service.platform;
-            cb.call(this.service, params.id).subscribe(res => {
+            cb.call(this.service, params['id']).subscribe(res => {
                 this.data.set(res);
                 this.dataModel.set({
                     id: res.id,

@@ -1,7 +1,6 @@
 import { form, required } from '@angular/forms/signals';
 import { Component, inject, signal } from '@angular/core';
 import { IGameItem, IGameStoreItem } from '../../../model';
-import { IPageQueries } from '../../../../../theme/models/page';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService, DialogEvent } from '../../../../../components/dialog';
 import { SearchService } from '../../../../../theme/services';
@@ -44,7 +43,7 @@ export class RuleStoreComponent {
 
     constructor() {
         this.route.parent!.params.subscribe(params => {
-            this.queries.project().value.set(parseNumber(params.game));
+            this.queries.project().value.set(parseNumber(params['game']));
         });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));

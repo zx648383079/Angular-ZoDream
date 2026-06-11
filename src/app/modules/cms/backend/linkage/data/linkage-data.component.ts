@@ -46,8 +46,8 @@ export class LinkageDataComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (params.linkage) {
-                this.queries.linkage().value.set(parseInt(params.linkage, 10));
+            if (params['linkage']) {
+                this.queries.linkage().value.set(parseInt(params['linkage'], 10));
             }
         });
         this.route.queryParams.subscribe(params => {

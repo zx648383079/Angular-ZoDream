@@ -45,6 +45,7 @@ export class TreeSource implements IDataSource {
                     next = item[this.rangeChildren];
                     return false;
                 }
+                return;
             });
             if (!next) {
                 src = [];
@@ -130,6 +131,7 @@ export class TreeSource implements IDataSource {
                     res = [item, ...args];
                     return false;
                 }
+                return;
             });
             return res;
         };

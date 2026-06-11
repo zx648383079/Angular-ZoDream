@@ -35,9 +35,9 @@ export class CategoryComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            this.data.set({id: params.id} as any);
-            if (params.id) {
-                this.load(parseNumber(params.id));
+            this.data.set({id: params['id']} as any);
+            if (params['id']) {
+                this.load(parseNumber(params['id']));
             }
         });
         this.route.queryParams.subscribe(params => {

@@ -31,8 +31,8 @@ export class DetailComponent {
     constructor() {
         this.route.params.subscribe(params => {
             this.service.media({
-                wid: params.wid,
-                id: params.id
+                wid: params['wid'],
+                id: params['id']
             }).subscribe({
                 next: res => {
                     this.data.set(res);

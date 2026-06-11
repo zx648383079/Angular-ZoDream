@@ -36,8 +36,8 @@
                 <div class="time-body">
                     @for (item of dayItems(); track $index) {
                         @for (it of item.items; track $index) {
-                            <div class="task-item" [style]="it.style" [title]="it.task.name">
-                                {{ it.task.name }}
+                            <div class="task-item" [style]="it.style" [title]="it['task'].name">
+                                {{ it['task'].name }}
                             </div>
                         }
                     }
@@ -54,8 +54,8 @@
                 <div class="week-body">
                     @for (item of weekItems(); track $index) {
                         @for (it of item.items; track $index) {
-                            <div class="task-item" [style]="it.style" [title]="it.task.name">
-                                {{ it.task.name }}
+                            <div class="task-item" [style]="it.style" [title]="it['task'].name">
+                                {{ it['task'].name }}
                             </div>
                         }
                     }
@@ -79,7 +79,7 @@
                         <ul class="day-box">
                             @for (it of item.items; track $index) {
                             <li>
-                                {{ it.task.name }}
+                                {{ it['task'].name }}
                             </li>
                             }
                         </ul>

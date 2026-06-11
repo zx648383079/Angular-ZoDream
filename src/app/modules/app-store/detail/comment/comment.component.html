@@ -29,9 +29,9 @@
          <div class="comment-item">
             <article class="comment">
                 <div class="comment-author">
-                    <img [src]="item.user.avatar" alt="">
+                    <img [src]="item.user?.avatar" alt="">
                     <div class="comment-meta">
-                        <span class="name">{{ item.user.name }}</span>
+                        <span class="name">{{ item.user?.name }}</span>
                         <div class="date">{{ item.created_at|ago }}</div>
                     </div>
                 </div>
@@ -49,9 +49,9 @@
                 <div class="comment-item">
                     <article class="comment">
                         <div class="comment-author">
-                            <img [src]="it.user.avatar" alt="">
+                            <img [src]="it.user?.avatar" alt="">
                             <div class="comment-meta">
-                                <span class="name">{{ it.user.name }}</span>
+                                <span class="name">{{ it.user?.name }}</span>
                                 <div class="date">{{ it.created_at|ago }}</div>
                             </div>
                         </div>

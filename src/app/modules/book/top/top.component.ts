@@ -36,8 +36,8 @@ export class TopComponent {
 
     constructor() {
         this.route.queryParams.subscribe(params => {
-            if (params.category) {
-                this.category = params.category;
+            if (params['category']) {
+                this.category = params['category'];
             }
             this.tapRefresh();
         });

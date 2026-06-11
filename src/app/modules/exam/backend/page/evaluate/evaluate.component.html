@@ -32,7 +32,7 @@
                 @for (item of items(); track $index) {
                     <tr>
                     <td>{{ item.id }}</td>
-                    <td>{{ item.user.name }}</td>
+                    <td>{{ item.user?.name }}</td>
                     <td>{{ item.spent_time }}</td>
                     <td>{{ item.right }}</td>
                     <td>{{ item.wrong }}</td>

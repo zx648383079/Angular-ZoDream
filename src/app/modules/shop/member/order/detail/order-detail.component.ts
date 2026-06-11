@@ -21,7 +21,7 @@ export class OrderDetailComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            this.loadOrder(params.id);
+            this.loadOrder(params['id']);
         });
     }
 

@@ -58,7 +58,7 @@ export class SiteOptionComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            this.id = parseInt(params.id, 10);
+            this.id = parseInt(params['id'], 10);
             this.service.option(this.id).subscribe(res => {
                 this.items.set(res.data.map(item => {
                     if (['select', 'radio', 'checkbox'].indexOf(item.type)) {
@@ -155,7 +155,7 @@ export class SiteOptionComponent {
                 v.push(data as any);
                 return [...v];
             });
-            
+            return;
         });
     }
 

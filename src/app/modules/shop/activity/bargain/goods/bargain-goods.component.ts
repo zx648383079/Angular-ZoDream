@@ -33,8 +33,8 @@ export class BargainGoodsComponent {
     constructor() {
         this.route.params.subscribe(params => {
             this.service.bargain({
-                id: params.id,
-                log: params.log,
+                id: params['id'],
+                log: params['log'],
             }).subscribe(res => {
                 if (res.log) {
                     this.log = res.log;

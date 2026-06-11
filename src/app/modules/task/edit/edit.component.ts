@@ -60,10 +60,10 @@ export class EditComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.task(params.id).subscribe(res => {
+            this.service.task(params['id']).subscribe(res => {
                 this.data.set(res);
                 this.dataModel.set({
                     id: res.id!,

@@ -185,6 +185,7 @@ export class DivElement implements IEditorElement {
                 items.push(node);
                 return true;
             }
+            return;
         });
         for (const item of items) {
             let node: HTMLElement = item as any;
@@ -268,7 +269,7 @@ export class DivElement implements IEditorElement {
     private addVideoExecute(range: Range, block: IEditorVideoCommand) {
         const ele = document.createElement('video');
         ele.src = block.value;
-        ele.title = block.title || '';
+        ele.title = block['title'] || '';
         const ndoe = EditorHtmlCleaner.createOverlay(ele);
         this.replaceSelected(range, ndoe);
     }
@@ -354,6 +355,7 @@ export class DivElement implements IEditorElement {
                 return false;
             }
             next = node;
+            return;
         });
         if (!done) {
             if (next) {
@@ -469,6 +471,7 @@ export class DivElement implements IEditorElement {
             if (/^H\d$/.test(node.tagName)) {
                 return this.replaceNodeName(node, this.blockTagName, false);
             }
+            return;
         });
     }
 
@@ -684,6 +687,7 @@ export class DivElement implements IEditorElement {
             if (item.style.color) {
                 data.push('foreground');
             }
+            return;
         });
         return data;
     }
@@ -766,6 +770,7 @@ export class DivElement implements IEditorElement {
                 return false;
             }
             next = node;
+            return;
         });
         if (!done) {
             if (next) {
@@ -909,6 +914,7 @@ export class DivElement implements IEditorElement {
                 parent = item as any;
                 return false;
             }
+            return;
         });
         return parent as any;
     }
@@ -1173,6 +1179,7 @@ export class DivElement implements IEditorElement {
             return '';
         }
         this.execute({type: EditorCommandType.AddRaw, value});
+        return;
     }
 
     private moveTableCol(node: HTMLTableCellElement) {
@@ -1295,6 +1302,7 @@ export class DivElement implements IEditorElement {
                     return false;
                 }
                 next = n;
+                return;
             });
             if (beginParents.indexOf(next) >= 0) {
                 current = next;
@@ -1459,6 +1467,7 @@ export class DivElement implements IEditorElement {
                         return;
                     }
                     this.removeNode(n);
+                    return;
                 }, false);
             }
         }
@@ -1538,6 +1547,7 @@ export class DivElement implements IEditorElement {
                         lastEnd = cloneN;
                         return false;
                     }
+                    return;
                 }, endNode);
             }
             if (endNode && (!beginNode || endNode.parentNode !== beginNode.parentNode)) {
@@ -1552,6 +1562,7 @@ export class DivElement implements IEditorElement {
                         lastEnd = cloneN;
                         return false;
                     }
+                    return;
                 }, false);
             }
         }
@@ -1688,6 +1699,7 @@ export class DivElement implements IEditorElement {
                 event = EDITOR_EVENT_SHOW_TABLE_TOOL;
                 return false;
             }
+            return;
         });
         if (event) {
             this.container.emit(event, this.getNodeOffset(range.startContainer));
@@ -1761,6 +1773,7 @@ export class DivElement implements IEditorElement {
             if (isEnd) {
                 return false;
             }
+            return;
         });
     }
 

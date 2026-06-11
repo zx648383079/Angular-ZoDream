@@ -46,10 +46,10 @@ export class EditGroupBuyComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.groupBuy(params.id).subscribe(res => {
+            this.service.groupBuy(params['id']).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
                     id: res.id,

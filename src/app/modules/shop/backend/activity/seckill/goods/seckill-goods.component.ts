@@ -44,11 +44,11 @@ export class SeckillGoodsComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (params.activity) {
-                this.queries.act_id().value.set(parseInt(params.activity, 10));
+            if (params['activity']) {
+                this.queries.act_id().value.set(parseInt(params['activity'], 10));
             }
-            if (params.time) {
-                this.queries.time_id().value.set(parseInt(params.time, 10));
+            if (params['time']) {
+                this.queries.time_id().value.set(parseInt(params['time'], 10));
             }
         });
         this.route.queryParams.subscribe(params => {

@@ -222,7 +222,7 @@ export class VideoDetailComponent {
     public tapCommenting(item: IComment) {
         this.commentForm().value.update(v => {
             v.parent_id = item.id;
-            v.content = '回复 @' + item.user.name;
+            v.content = '回复 @' + item.user!.name;
             return {...v};
         });
     }

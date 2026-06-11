@@ -22,7 +22,7 @@ export class CategoryComponent {
   
     constructor() {
         this.route.params.subscribe(params => {
-            this.site = parseInt(params.site);
+            this.site = parseInt(params['site']);
             this.tapRefresh();
         });
     }

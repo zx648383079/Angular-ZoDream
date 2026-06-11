@@ -46,10 +46,10 @@ export class EditMixComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.mix(params.id).subscribe(res => {
+            this.service.mix(params['id']).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
                     id: res.id,

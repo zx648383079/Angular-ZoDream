@@ -34,11 +34,11 @@ export class ChangeAccountComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 this.tapBack();
                 return;
             }
-            this.service.user(params.id).subscribe(res => {
+            this.service.user(params['id']).subscribe(res => {
                 this.data.set(res);
             });
         });

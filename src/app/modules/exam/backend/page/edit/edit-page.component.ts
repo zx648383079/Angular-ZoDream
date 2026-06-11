@@ -74,11 +74,11 @@ export class EditPageComponent {
             this.courseItems.set(res.data);
         });
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 this.onCourseChange();
                 return;
             }
-            this.service.page(params.id).subscribe(res => {
+            this.service.page(params['id']).subscribe(res => {
                 this.dataModel.set({
                     id: res.id,
                     name: res.name,

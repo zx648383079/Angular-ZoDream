@@ -41,14 +41,14 @@ export class ProductComponent {
     }));
 
     constructor() {
-        this.route.params.subscribe(res => {
-            const product = parseNumber(res.id);
+        this.route.params.subscribe(params => {
+            const product = parseNumber(params['id']);
             this.productSelected.set(product);
             this.load(product);
         });
         this.route.queryParams.subscribe(params => {
-            if (params.channel) {
-                this.channelSelected.set(parseNumber(params.channel));
+            if (params['channel']) {
+                this.channelSelected.set(parseNumber(params['channel']));
             }
         });
     }

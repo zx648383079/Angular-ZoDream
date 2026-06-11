@@ -51,7 +51,7 @@ export class EmulateComponent {
             }
         });
         this.route.params.subscribe(params => {
-            this.load(params.id);
+            this.load(params['id']);
         });
     }
 

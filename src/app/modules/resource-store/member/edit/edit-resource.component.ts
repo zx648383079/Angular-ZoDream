@@ -70,10 +70,10 @@ export class EditResourceComponent {
             this.categories = res;
         });
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.resource(params.id).subscribe({
+            this.service.resource(params['id']).subscribe({
                 next: res => {
                     this.data = res;
                     this.dataModel.set({

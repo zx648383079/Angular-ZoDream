@@ -35,8 +35,8 @@ export class CancelAccountComponent {
                     title: $localize `Account Cancellation Confirmation`, 
                     confirmText: $localize `Continuing cancel`,
                     cancelText: $localize `hold off cancel`,
-                    onCancel() {
-                        this.location.back();
+                    onCancel: () => {
+                        this.tapBack();
                     },
                 });
             }

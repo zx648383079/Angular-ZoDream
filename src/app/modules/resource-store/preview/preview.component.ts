@@ -51,12 +51,12 @@ export class PreviewComponent {
     });
 
     constructor() {
-        this.route.params.subscribe(param => {
-            if (!param.id) {
+        this.route.params.subscribe(params => {
+            if (!params['id']) {
                 this.location.back();
                 return;
             }
-            this.load(param.id);
+            this.load(params['id']);
         });
     }
 

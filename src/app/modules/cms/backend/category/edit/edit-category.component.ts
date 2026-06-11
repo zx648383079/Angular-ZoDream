@@ -55,7 +55,7 @@ export class EditCategoryComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            this.site = parseInt(params.site, 10);
+            this.site = parseInt(params['site'], 10);
             this.service.batch({
                 category: {site: this.site},
                 group: {},
@@ -65,10 +65,10 @@ export class EditCategoryComponent {
                 this.groupItems.set(new ArraySource(res.group, 'name', 'name'));
                 this.modelItems = res.model;
             });
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.category(this.site, params.id).subscribe(res => {
+            this.service.category(this.site, params['id']).subscribe(res => {
                 this.categories = filterTree(this.categories, res.id);
                 this.dataModel.set({
                     id: res.id,

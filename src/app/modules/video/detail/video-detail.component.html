@@ -49,9 +49,9 @@
     @for (item of commentItems(); track $index) {
     <div class="comment-item">
         <div class="avatar" (click)="tapCommenting(item)">
-            <img [src]="item.user.avatar" alt="">
+            <img [src]="item.user?.avatar" alt="">
         </div>
-        <div class="name" (click)="tapCommenting(item)">{{ item.user.name }}</div>
+        <div class="name" (click)="tapCommenting(item)">{{ item.user?.name }}</div>
         <div class="content" (click)="tapCommenting(item)">{{ item.content }}</div>
         <div class="action">
             <span class="time">{{ item.created_at }}</span>
@@ -60,7 +60,7 @@
         <div class="reply-box">
             @for (it of item.replies; track $index) {
             <div class="comment-item">
-                <div class="name" (click)="tapCommenting(it)">{{ it.user.name }}</div>
+                <div class="name" (click)="tapCommenting(it)">{{ it.user?.name }}</div>
                 <div class="content" (click)="tapCommenting(it)">{{ it.content }}</div>
                 <div class="action">
                     <span class="time">{{ it.created_at }}</span>

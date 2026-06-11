@@ -43,10 +43,10 @@ export class EditTemplateComponent {
             this.typeItems.set(res);
         });
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.template(params.id).subscribe(res => {
+            this.service.template(params['id']).subscribe(res => {
                 this.data = res;
                 if (typeof res.data === 'string') {
                     this.keyItems.set(JSON.parse(res.data));

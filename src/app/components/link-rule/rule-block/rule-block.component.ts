@@ -64,7 +64,7 @@ export class RuleBlockComponent {
                     link: rule.l,
                 };
             }
-            return {content: rule.s, type: rule.type};
+            return {content: rule.s, type: rule['type']};
         }, content, rules, this.newLine());
     }
 }

@@ -63,6 +63,7 @@ export class PublishFormComponent {
                 return false;
             }
             this.dataForm.content().value.update(v => v + '#' + item + '#');
+            return;
         });
     }
 

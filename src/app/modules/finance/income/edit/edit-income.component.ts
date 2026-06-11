@@ -114,32 +114,32 @@ export class EditIncomeComponent {
             this.budgetItems.set(res.budget);
         });
         this.route.params.subscribe(params => {
-            this.action.set(params.action || 'create');
-            if (!params.id) {
+            this.action.set(params['action'] || 'create');
+            if (!params['id']) {
                 return;
             }
-            this.service.log(params.id).subscribe(res => {
-                if (params.action === 'repay') {
+            this.service.log(params['id']).subscribe(res => {
+                if (params['action'] === 'repay') {
                     this.parent.set(res);
                 } else {
-                    this.parent.set(res.parent && params.action !== 'clone' ? res.parent : null);
+                    this.parent.set(res.parent && params['action'] !== 'clone' ? res.parent : null);
                 }
                 this.dataModel.update(v => {
-                    if (params.action === 'repay') {
+                    if (params['action'] === 'repay') {
                         return {...v, 
                             parent_id: res.id, type: res.type > 2 ? 0 : 1, 
                             money: res.money, 
                             remark: `还钱: ${res.remark}`, 
                             trading_object: res.trading_object};
                     }
-                    if (params.action !== 'clone') {
+                    if (params['action'] !== 'clone') {
                         v.id = res.id;
                         v.parent_id = res.parent_id;
                     }
                     v.happened_at = res.happened_at;
                     v.account_id = res.account_id as any;
                     v.type = res.type;
-                    if (params.action === 'bad') {
+                    if (params['action'] === 'bad') {
                         v.type = 0;
                     }
                     v.money = res.money;

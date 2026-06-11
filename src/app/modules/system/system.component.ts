@@ -196,6 +196,7 @@ export class SystemComponent {
                     this.toastrService.warning(err.error.message);
                 }
             });
+            return;
         })
     }
 

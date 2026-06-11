@@ -70,6 +70,7 @@ export class PostBlockComponent {
             return;
         }
         this.blcokItems.set(this.renderRule(conent.content, conent.extra_rule));
+        return;
     }
 
     public tapBlock(item: IBlockItem) {
@@ -106,8 +107,8 @@ export class PostBlockComponent {
                     link: rule.l,
                 };
             }
-            if (!rule.custom) {
-                return {content: rule.s, type: rule.type};
+            if (!rule['custom']) {
+                return {content: rule.s, type: rule['type']};
             }
             const custom: {
                 [key: string]: any;
@@ -117,7 +118,7 @@ export class PostBlockComponent {
                 content?: any;
                 text?: string;
                 user?: number;
-            } = rule.custom;
+            } = rule['custom'];
             const tag: string = custom.tag;
             if (tag === 'a') {
                 return {
@@ -134,7 +135,7 @@ export class PostBlockComponent {
                     image: custom.src,
                 };
             }
-            return {...custom, type: 98, uid: rule.uid} as any;
+            return {...custom, type: 98, uid: rule['uid']} as any;
         }, content, rules);
     }
 

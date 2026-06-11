@@ -37,10 +37,10 @@ export class EditNewsComponent {
     constructor() {
         this.themeService.screenSwitch(this.destroyRef, NavigationDisplayMode.Compact);
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.media(params.id).subscribe({
+            this.service.media(params['id']).subscribe({
                 next: res => {
                     this.data = res;
                 },

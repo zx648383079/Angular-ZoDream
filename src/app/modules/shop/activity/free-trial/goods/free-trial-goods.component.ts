@@ -37,7 +37,7 @@ export class FreeTrialGoodsComponent {
     constructor() {
         this.route.params.subscribe(params => {
             this.service.freeTrial({
-                id: params.id,
+                id: params['id'],
                 full: true,
             }).subscribe(res => {
                 const data = res.goods!;

@@ -43,10 +43,10 @@ export class ShareDetailComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.share(params.id).subscribe(res => {
+            this.service.share(params['id']).subscribe(res => {
                 this.data.set(res.task);
                 this.share.set(res);
                 if (res.task && res.task.children) {

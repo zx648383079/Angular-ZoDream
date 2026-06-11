@@ -92,5 +92,6 @@ export class MarkdownBlockComponent {
                 return ele;
             }
         }
+        return;
     }
 }

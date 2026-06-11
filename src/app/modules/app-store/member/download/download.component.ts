@@ -88,6 +88,7 @@ export class DownloadComponent {
         item.style = {
             width: item.length! > 0 ? (item.progress! * 100 / item.length!) + '%' : 0,
         };
+        return item;
     }
 
 }

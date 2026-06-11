@@ -30,7 +30,7 @@
                     <tr>
                     <td>{{ item.id }}</td>
                     <td>
-                        {{ item.user.name }}
+                        {{ item.user?.name }}
                     </td>
                     <td>{{ item.content }}</td>
                     <td>{{ item.created_at | ago }}</td>

@@ -31,12 +31,12 @@ export class ChapterComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.book) {
+            if (!params['book']) {
                 return;
             }
-            this.data.set({id: params.book} as any);
+            this.data.set({id: params['book']} as any);
             this.tapRefresh();
-            this.service.book(params.book).subscribe(res => {
+            this.service.book(params['book']).subscribe(res => {
                 this.data.set(res);
             });
         });

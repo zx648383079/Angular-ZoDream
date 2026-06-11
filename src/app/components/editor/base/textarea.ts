@@ -103,8 +103,8 @@ export class TextareaElement implements IEditorElement {
         if (!range) {
             range = this.selection;
         }
-        if (block.begin && block.end) {
-            this.includeBlock(block.begin, block.end, range);
+        if (block['begin'] && block['end']) {
+            this.includeBlock(block['begin'], block['end'], range);
             return;
         }
         const type = block.type === EditorCommandType.AddRaw ? EditorCommandType.AddText : block.type;

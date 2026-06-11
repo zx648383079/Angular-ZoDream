@@ -36,10 +36,10 @@ export class DetailComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.day(params.id).subscribe(res => {
+            this.service.day(params['id']).subscribe(res => {
                 this.data.set(res);
                 this.current.set(res.task);
                 if (res.task && res.task.children) {

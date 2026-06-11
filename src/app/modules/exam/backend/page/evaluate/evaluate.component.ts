@@ -2,7 +2,6 @@ import { form } from '@angular/forms/signals';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
-import { IPageQueries } from '../../../../../theme/models/page';
 import { SearchService } from '../../../../../theme/services';
 import { mapFormat } from '../../../../../theme/utils';
 import { IPageEvaluate } from '../../../model';
@@ -85,7 +84,7 @@ export class EvaluateComponent {
     }
 
     public tapRemove(item: IPageEvaluate) {
-        this.toastrService.confirm('确定删除“' + item.user.name + '”的评估结果？', () => {
+        this.toastrService.confirm('确定删除“' + item.user?.name + '”的评估结果？', () => {
             this.service.evaluateRemove(item.id).subscribe(res => {
                 if (!res.data) {
                     return;

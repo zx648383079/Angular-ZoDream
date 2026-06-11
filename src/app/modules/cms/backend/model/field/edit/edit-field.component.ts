@@ -59,7 +59,7 @@ export class EditFieldComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            const model = parseInt(params.model, 10);
+            const model = parseInt(params['model'], 10);
             this.service.batch({
                 field_type: {},
                 model_tab: {model: model}
@@ -72,11 +72,11 @@ export class EditFieldComponent {
                     return {...v};
                 });
             });
-            if (!params.id) {
+            if (!params['id']) {
                 this.onTypeChange();
                 return;
             }
-            this.service.field(params.id).subscribe(res => {
+            this.service.field(params['id']).subscribe(res => {
                 this.data.set(res);
                 if (!res.tab_name) {
                     res.tab_name = this.tabItems().items[res.is_main > 0 ? 1 : 0].value;

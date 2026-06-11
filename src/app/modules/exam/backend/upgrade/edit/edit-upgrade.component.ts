@@ -51,11 +51,11 @@ export class EditUpgradeComponent {
             this.courseItems = res.data;
         });
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 this.onCourseChange();
                 return;
             }
-            this.service.upgrade(params.id).subscribe(res => {
+            this.service.upgrade(params['id']).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
                     id: res.id,

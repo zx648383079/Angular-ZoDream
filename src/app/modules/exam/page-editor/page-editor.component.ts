@@ -51,12 +51,12 @@ export class PageEditorComponent {
             this.courseItems.set(res.data);
         });
         this.route.params.subscribe(params => {
-            this.dataForm.course_id().value.set(parseInt(params.course, 10) as any);
-            if (!params.id) {
+            this.dataForm.course_id().value.set(parseInt(params['course'], 10) as any);
+            if (!params['id']) {
                 this.onCourseChange();
                 return;
             }
-            this.service.page(params.id).subscribe(res => {
+            this.service.page(params['id']).subscribe(res => {
                 this.dataForm().value.update(v => {
                     return this.searchService.getQueries(res, v);
                 });

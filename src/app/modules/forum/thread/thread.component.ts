@@ -93,7 +93,7 @@ export class ThreadComponent {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
         });
         this.route.params.subscribe(params => {
-            this.service.getThread(params.id).subscribe(res => {
+            this.service.getThread(params['id']).subscribe(res => {
                 this.themeService.titleChanged.next(res.title);
                 if (res.classify && res.classify instanceof Array) {
                     res.classify = undefined;

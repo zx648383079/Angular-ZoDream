@@ -38,7 +38,7 @@ export class GroupBuyGoodsComponent {
     constructor() {
         this.route.params.subscribe(params => {
             this.service.groupBuy({
-                id: params.id,
+                id: params['id'],
                 full: true,
             }).subscribe(res => {
                   const data = res.goods!;

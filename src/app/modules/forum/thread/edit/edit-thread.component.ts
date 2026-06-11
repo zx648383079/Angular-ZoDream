@@ -36,14 +36,14 @@ export class EditThreadComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            const forum_id = parseInt(params.forum, 10);
+            const forum_id = parseInt(params['forum'], 10);
             this.service.getForum(forum_id, false).subscribe(res => {
                 this.forum.set(res);
             });
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.threadEdit(params.id).subscribe(res => {
+            this.service.threadEdit(params['id']).subscribe(res => {
                 this.data.set(res);
                 this.dataModel.set({
                     id: res.id,

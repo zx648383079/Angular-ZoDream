@@ -274,7 +274,7 @@ export class UploadFile<T = IUploadResult> {
                     case HttpEventType.Response:
                         return event.body;
                     case HttpEventType.UploadProgress:
-                        this.$progress.next(this.uploaded + Math.min(event.loaded, maxSize));
+                        return this.$progress.next(this.uploaded + Math.min(event.loaded, maxSize));
                     default:
                         return 'uploading';
                 }

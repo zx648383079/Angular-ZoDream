@@ -61,10 +61,10 @@ export class EditUserComponent {
             this.zoneItems.set(new ArraySource(res.zones));
         });
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.userDetail(params.id).subscribe(res => {
+            this.service.userDetail(params['id']).subscribe(res => {
                 this.dataModel.set({
                     id: res.id,
                     name: res.name,

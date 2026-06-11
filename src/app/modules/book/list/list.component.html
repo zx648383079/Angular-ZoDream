@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    @if (isLogin) {
+    @if (isLogin()) {
     <div class="add-btn" (click)="tapAdd()">
         <i class="iconfont icon-plus"></i>
         添加
@@ -9,7 +9,7 @@
         <div class="book-list-item" (click)="tapView(item)">
             <div class="thumb">
                 @for (it of item.items; track $index) {
-                    <img [src]="it.book.cover" alt="">
+                    <img [src]="it.book?.cover" alt="">
                 }
                 
             </div>

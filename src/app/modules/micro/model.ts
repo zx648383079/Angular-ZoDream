@@ -19,7 +19,7 @@ export interface IMicro {
     comment_open?: boolean;
     forward?: IMicro;
     attachment?: IAttachment[];
-    user: IUser;
+    user?: IUser;
 }
 
 export interface IAttachment {
@@ -36,7 +36,7 @@ export interface IComment {
     disagree: number;
     created_at: string;
     agree_type?: 0 | 3 | 4;
-    user: IUser;
+    user?: IUser;
     replies?: IComment[];
     reply_count?: number;
 }

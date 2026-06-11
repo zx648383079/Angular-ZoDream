@@ -10,26 +10,26 @@
         } @else if (block.type == 1) {
             <img [src]="block.image" [alt]="block.content">
         } @else if (block.type > 1 && block.type < 5) {
-            @if (block.card) {
+            @if (block['card']) {
                 <a (click)="tapBlock(block)" class="link-card">
                     <span class="link-body">
                         <span class="link-text">
                             <span class="link-title">{{ block.content }}</span>
                             <span class="link-meta">
                                 <i class="iconfont icon-chain"></i>
-                                {{ block.domain }}
+                                {{ block['domain'] }}
                             </span>
                         </span>
                         <span class="link-logo">
-                            <img [src]="block.logo">
+                            <img [src]="block['logo']">
                         </span>
                     </span>
                 </a>
             } @else {
                 <a (click)="tapBlock(block)">{{ block.content }}</a>
             }
-        } @else if (block.type === 98 && block.tag === 'at') {
-            @if (block.hide) {
+        } @else if (block.type === 98 && block['tag'] === 'at') {
+            @if (block['hide']) {
                 <div class="quote">
                     <blockquote>
                         <a (click)="tapBlock(block)">{{ block.content }}</a> 
@@ -41,30 +41,30 @@
                         </div>
                     </blockquote>
                 </div>
-            } @else if (block.text) {
+            } @else if (block['text']) {
                 <div class="quote">
                     <blockquote>
                         <a (click)="tapBlock(block)">{{ block.content }}</a> 
                         <div class="quote-body">
-                            {{ block.text }}
+                            {{ block['text'] }}
                         </div>
                     </blockquote>
                 </div>
-            } @else if (block.thread) {
+            } @else if (block['thread']) {
                 <a (click)="tapBlock(block)">{{ block.content }}</a> 
             } @else {
                 {{ block.content }}
             }
-        } @else if (block.type === 98 && block.tag === 'audio') {
-            <app-audio-player [src]="block.src" />
-        } @else if (block.type === 98 && block.tag === 'video') {
-            <app-video-player [src]="block.src" />
-        } @else if (block.type === 98 && block.tag === 'code') {
-            <app-code-block [value]="block.content" [lang]="block.language" [src]="block.src" />
-        } @else if (block.type === 98 && block.tag === 'hide') {
-            @if (block.name) {
+        } @else if (block.type === 98 && block['tag'] === 'audio') {
+            <app-audio-player [src]="block['src']" />
+        } @else if (block.type === 98 && block['tag'] === 'video') {
+            <app-video-player [src]="block['src']" />
+        } @else if (block.type === 98 && block['tag'] === 'code') {
+            <app-code-block [value]="block.content" [lang]="block['language']" [src]="block['src']" />
+        } @else if (block.type === 98 && block['tag'] === 'hide') {
+            @if (block['name']) {
                 <div class="hide-locked-node">
-                    <i class="iconfont icon-lock"></i> {{ block.name }}
+                    <i class="iconfont icon-lock"></i> {{ block['name'] }}
                     <ng-container i18n>,If you want to view the hidden content of this post, Please</ng-container>
                     <a (click)="tapBlock(block)" i18n>Reply</a>
                 </div>
@@ -74,24 +74,24 @@
                     <app-post-block [value]="block.content" (tapped)="tapBlock($event)" />
                 </div>
             }
-        } @else if (block.type === 98 && block.tag === 'hide_buy') {
-            @if (block.name) {
+        } @else if (block.type === 98 && block['tag'] === 'hide_buy') {
+            @if (block['name']) {
                 <div class="hide-locked-node">
-                    <i class="iconfont icon-lock"></i> {{ block.name }}<ng-container i18n>,If you want to view the hidden content of this post, Please</ng-container>
+                    <i class="iconfont icon-lock"></i> {{ block['name'] }}<ng-container i18n>,If you want to view the hidden content of this post, Please</ng-container>
                     <a (click)="tapBlock(block)">
                         <ng-container i18n>Buy</ng-container>
-                        [{{ block.price }}]</a>
+                        [{{ block['price'] }}]</a>
                 </div>
             }
-        } @else if (block.type === 98 && block.tag === 'file_login') {
+        } @else if (block.type === 98 && block['tag'] === 'file_login') {
             <div class="file-down-node">
                 <p><i class="iconfont icon-file-archive-o"></i> [<a (click)="tapBlock(block)" i18n>Sign in</a>]</p>
-                <p>{{ block.size | size }}
+                <p>{{ block['size'] | size }}
                     <ng-container i18n>, Downloads: </ng-container>
-                    {{ block.count | numberFormat }}</p>
+                    {{ block['count'] | numberFormat }}</p>
             </div>
-        } @else if (block.type === 98 && block.tag === 'file') {
-            @if (block.error) {
+        } @else if (block.type === 98 && block['tag'] === 'file') {
+            @if (block['error']) {
                 <div class="file-down-node">
                     <p><i class="iconfont icon-file-archive-o"></i> 
                     <ng-container i18n>[File does not exist]</ng-container>
@@ -100,25 +100,25 @@
             } @else {
                 <div class="file-down-node">
                     <p><i class="iconfont icon-file-archive-o"></i> [<a (click)="tapBlock(block)" i18n>Download</a>]</p>
-                    <p>{{ block.size | size }}
+                    <p>{{ block['size'] | size }}
                     <ng-container i18n>, Downloads: </ng-container>
-                        {{ block.count | numberFormat }}</p>
+                        {{ block['count'] | numberFormat }}</p>
                 </div>
             }
-        } @else if (block.type === 98 && block.tag === 'file_buy') {
+        } @else if (block.type === 98 && block['tag'] === 'file_buy') {
             <div class="file-down-node">
                 <p><i class="iconfont icon-file-archive-o"></i> [<a (click)="tapBlock(block)">
                     <ng-container i18n>Buy</ng-container>
-                    ({{ block.price }})</a>]</p>
-                <p>{{ block.size | size }}
+                    ({{ block['price'] }})</a>]</p>
+                <p>{{ block['size'] | size }}
                     <ng-container i18n>, Downloads: </ng-container>
-                    {{ block.count | numberFormat }}</p>
+                    {{ block['count'] | numberFormat }}</p>
             </div>
-        } @else if (block.type === 98 && block.tag === 'vote') {
+        } @else if (block.type === 98 && block['tag'] === 'vote') {
             <div class="vote-box">
                 {{ block.content }}
-                @for (item of block.items; track $index) {
-                    @if (block.editable) {
+                @for (item of block['items']; track $index) {
+                    @if (block['editable']) {
                         <div class="vote-check-item" (click)="tapVoteItem(block, item)">
                             <i class="iconfont" [id]="item.id" [class]="{'icon-square-o': !item.checked, 'icon-check-square-o': item.checked}"></i>
                             <label [for]="item.id">{{ item.no }}. {{ item.value }}</label>
@@ -126,9 +126,9 @@
                     } @else {
                         <div class="vote-item">
                             <span>{{ item.no }}. {{ item.value }}</span>
-                            <div class="vote-progress" [title]="item.count + '/' + block.total">
+                            <div class="vote-progress" [title]="item.count + '/' + block['total']">
                                 <div class="progress">
-                                    <div class="progress-bar" [style]="{width: item.percentage + '%'}">{{ item.count + '/' + block.total }}</div>
+                                    <div class="progress-bar" [style]="{width: item.percentage + '%'}">{{ item.count + '/' + block['total'] }}</div>
                                 </div>
                                 <div class="vote-label">
                                     {{ item.percentage }}% (<em>{{ item.count }}</em>)
@@ -138,9 +138,9 @@
                         </div>
                     }
                 }
-                @if (block.editable) {
+                @if (block['editable']) {
                 <div class="vote-footer">
-                    <p i18n>You can choose up to {{ block.max }} items</p>
+                    <p i18n>You can choose up to {{ block['max'] }} items</p>
                     <button class="btn btn-primary" (click)="tapVoteSubmit(block)" i18n>Submit</button>
                 </div>
                 }

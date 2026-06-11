@@ -147,8 +147,8 @@ export class LoginPanelComponent {
             error: (err: IErrorResult) => {
                 e?.reset();
                 this.toastrService.warning(err.error.message);
-                if (err.error.captcha_token) {
-                    this.captchaToken = err.error.captcha_token;
+                if (err.error['captcha_token']) {
+                    this.captchaToken = err.error['captcha_token'];
                 }
                 this.tapCaptcha();
                 if (err.error.code === 1015) {

@@ -43,7 +43,7 @@ export class ArticleComponent {
             this.categories = res.data;
         });
         this.route.queryParams.subscribe(params => {
-            const category = parseInt(params.category, 10) || 0;
+            const category = parseInt(params['category'], 10) || 0;
             if (category) {
                 this.queries.category().value.set(category as any);
             }

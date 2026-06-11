@@ -25,7 +25,7 @@ export class AgreementComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            this.service.agreement(params.name || 'agreement').subscribe({
+            this.service.agreement(params['name'] || 'agreement').subscribe({
                 next: res => {
                     this.data.set(res);
                     this.themeService.titleChanged.next(res.title);

@@ -38,10 +38,10 @@ export class EditStoreComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.store(params.id).subscribe({
+            this.service.store(params['id']).subscribe({
                 next: res => {
                     this.data = res;
                     this.dataModel.set({

@@ -34,10 +34,10 @@ export class UpgradeLogComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (params.id) {
+            if (params['id']) {
                 return;
             }
-            this.queries.upgrade().value.set(params.id);
+            this.queries.upgrade().value.set(params['id']);
         });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));

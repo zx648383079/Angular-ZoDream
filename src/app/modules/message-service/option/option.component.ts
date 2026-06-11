@@ -24,7 +24,7 @@ export class OptionComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            this.isMail.set(params.type === 'mail');
+            this.isMail.set(params['type'] === 'mail');
             this.service.option(this.isMail()).subscribe(res => {
                 this.form()!.items.set(res.data);
             });

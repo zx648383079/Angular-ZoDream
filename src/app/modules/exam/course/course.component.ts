@@ -35,10 +35,10 @@ export class CourseComponent {
             this.router.navigate(['../search'], {relativeTo: this.route, queryParams: {keywords: res, course: this.data()!.id}});
         });
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.course(params.id).subscribe(res => {
+            this.service.course(params['id']).subscribe(res => {
                 this.data.set(res);
             });
         });

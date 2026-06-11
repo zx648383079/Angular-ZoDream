@@ -3,12 +3,11 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuService } from '../../../../backend/menu.service';
 import { DialogService } from '../../../../components/dialog';
-import { IPageQueries } from '../../../../theme/models/page';
-import { IItem } from '../../../../theme/models/seo';
 import { SearchService } from '../../../../theme/services';
-import { mapFormat } from '../../../../theme/utils';
 import { BotInstanceKey, IBotAccount } from '../../model';
 import { BotService } from '../bot.service';
+import { mapFormat } from '../../../../theme/utils';
+import { IItem } from '../../../../theme/models/seo';
 
 @Component({
     standalone: false,
@@ -51,8 +50,8 @@ export class AccountComponent {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
-            if (params.redirect_uri) {
-                this.redirectUri = params.redirect_uri;
+            if (params['redirect_uri']) {
+                this.redirectUri = params['redirect_uri'];
             }
         });
     }

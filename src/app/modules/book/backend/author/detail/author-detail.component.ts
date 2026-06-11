@@ -33,10 +33,10 @@ export class AuthorDetailComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.author(params.id).subscribe(res => {
+            this.service.author(params['id']).subscribe(res => {
                 this.dataModel.set({
                     id: res.id,
                     name: res.name,

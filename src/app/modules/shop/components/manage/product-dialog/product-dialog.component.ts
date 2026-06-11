@@ -122,6 +122,7 @@ export class ProductDialogComponent {
                 return item;
             }
         }
+        return;
     }
 
     private indexOf(items: any[], value: any): number {

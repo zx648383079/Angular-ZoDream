@@ -40,8 +40,8 @@ export class UserComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (params.category) {
-                this.queries.category().value.set(parseInt(params.category, 10));
+            if (params['category']) {
+                this.queries.category().value.set(parseInt(params['category'], 10));
             }
         });
         this.route.queryParams.subscribe(params => {

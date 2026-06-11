@@ -62,15 +62,15 @@ export class EditComponent {
             this.zoneItems.set(new ArraySource(res.zones));
         });
         this.route.queryParams.subscribe(params => {
-            if (params.parent) {
-                this.dataForm.parent_id().value.set(parseInt(params.parent, 10) as any);
+            if (params['parent']) {
+                this.dataForm.parent_id().value.set(parseInt(params['parent'], 10) as any);
             }
         });
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
               return;
             }
-            this.service.forum(params.id).subscribe(res => {
+            this.service.forum(params['id']).subscribe(res => {
                 this.data = res;
                 this.categories.update(v => filterTree(v, res.id));
                 if (res.classifies) {

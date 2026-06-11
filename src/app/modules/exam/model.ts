@@ -123,7 +123,7 @@ export interface IExamPage {
 
 export interface IPageEvaluate {
     id: number;
-    user: IUser;
+    user?: IUser;
     spent_time: number;
     right: number;
     wrong: number;

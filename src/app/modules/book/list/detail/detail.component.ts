@@ -23,10 +23,10 @@ export class DetailComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.listDetail(params.id).subscribe(res => {
+            this.service.listDetail(params['id']).subscribe(res => {
                 this.data.set(res);
                 this.items.set(res.items);
             });

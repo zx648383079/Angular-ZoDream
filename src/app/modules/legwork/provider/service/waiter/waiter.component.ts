@@ -36,10 +36,10 @@ export class WaiterComponent {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
         });
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.loadService(params.id);
+            this.loadService(params['id']);
         });
     }
 

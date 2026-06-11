@@ -72,7 +72,7 @@ export interface IChapter {
 }
 
 export interface IBookList {
-    user: IUser;
+    user?: IUser;
     items: IBookListItem[];
     id: number;
     user_id: number;
@@ -87,7 +87,7 @@ export interface IBookList {
 }
 
 export interface IBookListItem {
-    book: IBook;
+    book?: IBook;
     id?: number;
     list_id?: number;
     book_id: number;

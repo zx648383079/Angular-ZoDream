@@ -65,12 +65,12 @@ export class BlogComponent {
         });
         this.tapRefresh();
         this.route.params.subscribe(params => {
-            if (!params.id || params.id < 1) {
+            if (!params['id'] || params['id'] < 1) {
                 this.detailMode.set(false);
                 return;
             }
             this.detailMode.set(true);
-            this.loadBlog(params.id);
+            this.loadBlog(params['id']);
         });
     }
 

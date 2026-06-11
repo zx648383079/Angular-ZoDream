@@ -50,10 +50,10 @@ export class DetailComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.order(params.id).subscribe((res: any) => {
+            this.service.order(params['id']).subscribe((res: any) => {
                 this.data.set(res);
                 this.items.set(res.goods || res.goods_list);
             });

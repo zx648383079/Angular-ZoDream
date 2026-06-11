@@ -53,10 +53,10 @@ export class EditModelComponent {
             this.modelItems = res.data;
         });
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.model(params.id).subscribe(res => {
+            this.service.model(params['id']).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
                     id: res.id,

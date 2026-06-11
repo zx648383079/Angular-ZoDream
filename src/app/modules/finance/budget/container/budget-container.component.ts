@@ -42,7 +42,7 @@ export class BudgetContainerComponent {
     constructor() {
         this.themeService.tabletIf(this.destroyRef);
         this.route.params.subscribe(params => {
-            this.onQueriesChange(parseInt(params.id, 10));
+            this.onQueriesChange(parseInt(params['id'], 10));
         });
     }
 

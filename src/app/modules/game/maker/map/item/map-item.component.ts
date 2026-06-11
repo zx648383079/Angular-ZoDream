@@ -43,10 +43,10 @@ export class MapItemComponent {
 
     constructor() {
         this.route.parent!.params.subscribe(params => {
-            this.queries.project().value.set(parseNumber(params.game));
+            this.queries.project().value.set(parseNumber(params['game']));
         });
         this.route.params.subscribe(params => {
-            this.queries.map().value.set(parseNumber(params.map));
+            this.queries.map().value.set(parseNumber(params['map']));
         });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));

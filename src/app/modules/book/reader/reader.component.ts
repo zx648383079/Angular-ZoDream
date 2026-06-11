@@ -58,11 +58,11 @@ export class ReaderComponent {
         this.themeService.screenSwitch(this.destroyRef, NavigationDisplayMode.Collapse);
         this.scrollTop = this.themeService.scrollTop();
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.bookId = params.book;
-            this.chapterId = params.id;
+            this.bookId = params['book'];
+            this.chapterId = params['id'];
             if (this.chapterId < 1 && this.bookId > 0) {
                 this.onRequest({id: 0, callback: (item) => {
                     this.chapterId = item.id;

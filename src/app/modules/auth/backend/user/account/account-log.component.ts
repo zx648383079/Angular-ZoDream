@@ -37,10 +37,10 @@ export class AccountLogComponent {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));
             this.tapPage();
-            if (!params.user) {
+            if (!params['user']) {
                 return;
             }
-            this.service.user(params.user).subscribe(user => {
+            this.service.user(params['user']).subscribe(user => {
                 this.user.set(user);
             });
         });

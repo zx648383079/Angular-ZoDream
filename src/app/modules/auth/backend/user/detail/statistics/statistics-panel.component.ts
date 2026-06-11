@@ -51,7 +51,7 @@ export class StatisticsPanelComponent {
             extra: 'count'
         }).subscribe({
             next: res => {
-                this.items.set(res.data);
+                this.items.set(res['data']);
                 this.isLoading.set(false);
             },
             error: () => {

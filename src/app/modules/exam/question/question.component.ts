@@ -25,19 +25,19 @@ export class QuestionComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (params.course) {
-                this.service.course(params.course).subscribe(res => {
+            if (params['course']) {
+                this.service.course(params['course']).subscribe(res => {
                     this.course.set(res);
                 });
-                this.service.questionCard(params.course).subscribe(res => {
+                this.service.questionCard(params['course']).subscribe(res => {
                     this.cardItems.set(res.data);
                     this.tapCard(0);
                 });
                 return;
             }
             this.service.question({
-                id: params.id,
-                course: params.course
+                id: params['id'],
+                course: params['course']
             }).subscribe(res => {
                 res.answer = undefined;
                 this.data.set(res);

@@ -65,7 +65,7 @@ export class BookEditorComponent {
     constructor() {
         this.themeService.titleChanged.next('编辑书籍');
         this.route.params.subscribe(params => {
-            this.loadBook(params.id);
+            this.loadBook(params['id']);
         });
         afterNextRender({
             write: () => {
@@ -358,6 +358,7 @@ export class BookEditorComponent {
                     return kids;
                 }
             }
+            return;
         };
         const children = findParent(data.parent_id!, this.catalog())!;
         for (const item of children) {

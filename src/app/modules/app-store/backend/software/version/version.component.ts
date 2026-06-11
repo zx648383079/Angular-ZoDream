@@ -43,7 +43,7 @@ export class VersionComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            const softwareId = parseNumber(params.app);
+            const softwareId = parseNumber(params['app']);
             if (!softwareId) {
                 this.location.back();
                 return;

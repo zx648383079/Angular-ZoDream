@@ -68,8 +68,8 @@ export class AuthComponent {
                 }
             }
         );
-        this.route.queryParams.subscribe(res => {
-            this.redirectUri = res.redirect_uri || '/shop';
+        this.route.queryParams.subscribe(params => {
+            this.redirectUri = params['redirect_uri'] || '/shop';
         });
     }
 

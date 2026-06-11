@@ -39,8 +39,8 @@ export class UserCardComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            this.user.set({id: params.user} as any);
-            this.service.user(params.user).subscribe(user => {
+            this.user.set({id: params['user']} as any);
+            this.service.user(params['user']).subscribe(user => {
                 this.user.set(user);
             });
         });

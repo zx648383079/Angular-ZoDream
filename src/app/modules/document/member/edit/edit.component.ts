@@ -38,11 +38,11 @@ export class EditComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.id || params.id < 1) {
+            if (!params['id'] || params['id'] < 1) {
                 this.location.back();
                 return;
             }
-            this.service.project(params.id).subscribe(res => {
+            this.service.project(params['id']).subscribe(res => {
                 this.data.set(res);
                 this.dataModel.set({
                     id: res.id,

@@ -50,8 +50,8 @@ export class MovieFileComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            this.series.movie_id = parseNumber(params.movie);
-            this.series.id = parseNumber(params.series);
+            this.series.movie_id = parseNumber(params['movie']);
+            this.series.id = parseNumber(params['series']);
         });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));

@@ -665,7 +665,7 @@ export interface ICollect {
 
 export interface IDelivery {
     goods:             IDeliveryGoods[];
-    user:              IUser;
+    user?:              IUser;
     order:             IOrder;
     id:                number;
     user_id:           number;
@@ -717,7 +717,7 @@ export interface IAffiliateLog {
     status: number;
     updated_at:        string;
     created_at:        string;
-    user: IUser;
+    user?: IUser;
 }
 
 export interface IGoodsHistory {

@@ -26,8 +26,8 @@ export class FileExplorerService implements IFileProvider {
             {
                 data: [
                     <IFileItem>{name: 'Workspace', path: '/', isFolder: true},
-                    <IFileItem>{name: 'undefine.txt', path: '/', isFolder: params.filter === 'folder'},
-                    <IFileItem>{name: 'undefine.png', path: '/', thumb: 'assets/images/favicon.png', isFolder: params.filter === 'folder'},
+                    <IFileItem>{name: 'undefine.txt', path: '/', isFolder: params['filter'] === 'folder'},
+                    <IFileItem>{name: 'undefine.png', path: '/', thumb: 'assets/images/favicon.png', isFolder: params['filter'] === 'folder'},
                 ]
             }
         ]);

@@ -22,7 +22,7 @@ export class UserDetailComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            this.service.userAccount({id: params.id}).subscribe(user => {
+            this.service.userAccount({id: params['id']}).subscribe(user => {
                 this.user.set(user);
             });
         });

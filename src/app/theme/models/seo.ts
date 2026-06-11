@@ -168,7 +168,7 @@ export interface IEmoji extends IPageEditItem {
     type: number;
     content: string;
     cat_id: number;
-    category: IEmojiCategory;
+    category?: IEmojiCategory;
 }
 
 export interface IEmojiCategory {

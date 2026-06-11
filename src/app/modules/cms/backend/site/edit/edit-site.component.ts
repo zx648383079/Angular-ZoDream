@@ -56,10 +56,10 @@ export class EditSiteComponent {
             }
         });
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.site(params.id).subscribe(res => {
+            this.service.site(params['id']).subscribe(res => {
                 this.dataModel.set({
                     id: res.id,
                     title: res.title,

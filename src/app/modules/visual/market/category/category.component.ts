@@ -21,7 +21,7 @@ export class CategoryComponent {
     constructor() {
         this.route.params.subscribe(params => {
             this.service.category({
-                id: params.id
+                id: params['id']
             }).subscribe(res => {
                 this.data.set(res);
                 this.categories.set(res.children!);

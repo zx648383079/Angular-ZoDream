@@ -36,10 +36,10 @@ export class EditListComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.listDetail(params.id).subscribe(res => {
+            this.service.listDetail(params['id']).subscribe(res => {
                 this.dataForm().value.set({
                     id: res.id,
                     title: res.title,

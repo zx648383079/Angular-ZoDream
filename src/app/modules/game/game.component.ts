@@ -41,7 +41,7 @@ export class GameComponent implements IGameRouter {
         this.themeService.titleChanged.next('Game');
         this.injector = new GameInjector(this, injector);
         this.route.params.subscribe(params => {
-            this.load(parseNumber(params.game));
+            this.load(parseNumber(params['game']));
         });
         afterNextRender({
             write: () => {

@@ -28,13 +28,13 @@ export class ChapterComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params || !params.id) {
+            if (!params || !params['id']) {
                 return;
             }
-            this.service.getBook(params.id).subscribe(res => {
+            this.service.getBook(params['id']).subscribe(res => {
                 this.data.set(res);
             });
-            this.service.getChapters(params.id, 1, 10000).subscribe(res => {
+            this.service.getChapters(params['id'], 1, 10000).subscribe(res => {
                 this.chapterItems.set(res.data);
             });
         });

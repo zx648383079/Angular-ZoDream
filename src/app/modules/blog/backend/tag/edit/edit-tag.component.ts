@@ -32,10 +32,10 @@ export class EditTagComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-        if (!params.id) {
+        if (!params['id']) {
             return;
         }
-        this.service.tag(params.id).subscribe(res => {
+        this.service.tag(params['id']).subscribe(res => {
             this.data = res;
             this.dataModel.set({
                 id: res.id ?? 0,

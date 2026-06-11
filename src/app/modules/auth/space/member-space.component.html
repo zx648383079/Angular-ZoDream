@@ -2,7 +2,7 @@
     @if (data()) {
     <div class="space-container">
         <div class="space-image">
-            <img [src]="data()!.background|asset" alt="">
+            <img [src]="data()!['background']|asset" alt="">
         </div>
         <div class="space-header">
             <div class="user-avatar">
@@ -18,21 +18,25 @@
             </div>
             @if (!authUser() || data()!.id != authUser()!.id) {
             <div class="space-action-bar">
-                @if (data()!.follow_status! < 1) {
-                <a class="action-item" i18n-title title="Follow user" (click)="tapFollow()">
-                    <i class="iconfont icon-star-o"></i>
-                    <ng-container i18n>Follow</ng-container>
-                </a>
-                } @else if (data()!.follow_status == 1) {
-                <a class="action-item active" i18n-title title="Followed, click to cancel follow user" (click)="tapFollow()">
-                    <i class="iconfont icon-star"></i>
-                    <ng-container i18n>Unfollow</ng-container>
-                </a>
-                } @else if (data()!.follow_status == 2) {
-                <a class="action-item active" i18n-title title="Followed each other, click to cancel follow user" (click)="tapFollow()">
-                    <i class="iconfont icon-exchange"></i>
-                    <ng-container i18n>Unfollow</ng-container>
-                </a>
+                @switch (data()!['follow_status']) {
+                    @case (1) {
+                        <a class="action-item active" i18n-title title="Followed, click to cancel follow user" (click)="tapFollow()">
+                            <i class="iconfont icon-star"></i>
+                            <ng-container i18n>Unfollow</ng-container>
+                        </a>
+                    }
+                    @case (2) {
+                        <a class="action-item active" i18n-title title="Followed each other, click to cancel follow user" (click)="tapFollow()">
+                            <i class="iconfont icon-exchange"></i>
+                            <ng-container i18n>Unfollow</ng-container>
+                        </a>
+                    }
+                    @default {
+                        <a class="action-item" i18n-title title="Follow user" (click)="tapFollow()">
+                            <i class="iconfont icon-star-o"></i>
+                            <ng-container i18n>Follow</ng-container>
+                        </a>
+                    }
                 }
                 <a class="action-item" routerLink="../../user/message" [queryParams]="{user: data()!.id}">
                     <i class="iconfont icon-commenting"></i>
@@ -40,7 +44,7 @@
                 <div class="action-item">
                     <i class="iconfont icon-ellipsis-h"></i>
                     <div class="action-drop-bar">
-                        @if (data()!.mark_status! < 1) {
+                        @if (data()!['mark_status']! < 1) {
                         <a class="action-item" (click)="tapMark()">
                             <i class="iconfont icon-eye-slash"></i>
                             <span class="item-label" i18n>Marked user</span>
@@ -80,7 +84,7 @@
                 </div>
             </div>
             <div class="remark-bar">
-                {{ data()!.remark }}
+                {{ data()!['remark'] }}
             </div>
         </div>
     </div>

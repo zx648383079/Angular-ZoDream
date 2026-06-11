@@ -83,8 +83,8 @@ export class LoginComponent {
             this.openAuth.set(res && res.auth_oauth);
         });
         this.openWebAuthn.set(this.webAuthn.enabled);
-        this.route.queryParams.subscribe(res => {
-            this.redirectUri = res.redirect_uri || '/';
+        this.route.queryParams.subscribe(params => {
+            this.redirectUri = params['redirect_uri'] || '/';
             this.redirectIfUserLoggedIn();
         });
     }
@@ -173,8 +173,8 @@ export class LoginComponent {
                     e?.reset();
                     const res = err.error as IErrorResponse;
                     this.toastrService.warning(res.message);
-                    if (res.captcha_token) {
-                        this.captchaToken = res.captcha_token;
+                    if (res['captcha_token']) {
+                        this.captchaToken = res['captcha_token'];
                     }
                     this.tapCaptcha();
                     if (res.code === 1015) {

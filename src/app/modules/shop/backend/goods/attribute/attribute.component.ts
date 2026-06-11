@@ -32,11 +32,11 @@ export class AttributeComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.group) {
+            if (!params['group']) {
                 return;
             }
-            this.group.set({id: params.group, name: '分组'} as any);
-            this.service.group(params.group).subscribe(res => {
+            this.group.set({id: params['group'], name: '分组'} as any);
+            this.service.group(params['group']).subscribe(res => {
                 this.group.set(res);
             });
         });

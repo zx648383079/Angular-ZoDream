@@ -62,8 +62,8 @@ export class BotMemberComponent {
 
     constructor() {
         this.themeService.titleChanged.next($localize `Bot Manage`);
-        this.route.params.subscribe(res => {
-            this.service.baseId = res.wid;
+        this.route.params.subscribe(params => {
+            this.service.baseId = params['wid'];
         });
     }
 

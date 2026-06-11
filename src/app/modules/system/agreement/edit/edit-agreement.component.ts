@@ -38,10 +38,10 @@ export class EditAgreementComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.loadDetail(params.id);
+            this.loadDetail(params['id']);
         });
     }
 

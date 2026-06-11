@@ -33,7 +33,7 @@ export interface IThread {
     top_type?: number;
     created_at: string;
     updated_at: string;
-    user: IUser;
+    user?: IUser;
     forum_id: number;
     forum?: IForum;
     path?: IForum[];

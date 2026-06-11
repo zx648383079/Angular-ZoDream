@@ -38,7 +38,7 @@ export class DetailComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            this.loadService(params.id);
+            this.loadService(params['id']);
         });
     }
 

@@ -31,7 +31,7 @@ export class TableComponent {
     constructor() {
         this.isLoading.set(true);
         this.route.queryParams.subscribe(params => {
-            this.schema.set(params.schema);
+            this.schema.set(params['schema']);
             this.onSchemaChange();
         });
     }

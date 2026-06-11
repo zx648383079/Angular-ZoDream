@@ -37,8 +37,8 @@
         }
         
         <div class="name" (click)="tapView(item)">{{ item.task.name }}</div>
-        <div class="desc">{{ item.task?.description }}</div>
-        <div class="time">{{ item.task?.time_length | hour }}</div>
+        <div class="desc">{{ item.task.description }}</div>
+        <div class="time">{{ item.task.time_length | hour }}</div>
         <div class="action">
             <i class="iconfont icon-trash" (click)="tapRemove(item)" title="删除分享"></i>
         </div>

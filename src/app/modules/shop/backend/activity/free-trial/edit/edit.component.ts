@@ -42,10 +42,10 @@ export class EditFreeTrialComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.freeTrial(params.id).subscribe(res => {
+            this.service.freeTrial(params['id']).subscribe(res => {
                 this.data = res;
                 this.dataModel.set({
                     id: res.id,

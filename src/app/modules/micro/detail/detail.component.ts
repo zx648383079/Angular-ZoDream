@@ -40,12 +40,12 @@ export class DetailComponent {
         this.store.select(selectAuthUser).subscribe(user => {
             this.authUser.set(user);
         });
-        this.route.params.subscribe(param => {
-            if (!param.id) {
+        this.route.params.subscribe(params => {
+            if (!params['id']) {
                 this.router.navigate(['../']);
                 return;
             }
-            this.loadDetail(param.id);
+            this.loadDetail(params['id']);
         });
     }
 

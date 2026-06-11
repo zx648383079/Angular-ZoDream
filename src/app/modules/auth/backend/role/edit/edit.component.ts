@@ -37,10 +37,10 @@ export class EditComponent {
             this.permissionItems.set(new ArraySource(res.data, 'id', 'display_name'));
         });
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.role(params.id).subscribe(res => {
+            this.service.role(params['id']).subscribe(res => {
                 this.dataModel.set({
                     id: res.id,
                     name: res.name,

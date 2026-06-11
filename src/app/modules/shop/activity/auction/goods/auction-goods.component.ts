@@ -43,7 +43,7 @@ export class AuctionGoodsComponent {
     constructor() {
         this.route.params.subscribe(params => {
             this.service.auction({
-                id: params.id,
+                id: params['id'],
                 full: true,
             }).subscribe(res => {
                 this.refreshBid(res.price!, res.log_count);

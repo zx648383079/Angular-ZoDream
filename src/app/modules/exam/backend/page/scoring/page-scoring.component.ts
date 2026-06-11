@@ -35,8 +35,8 @@ export class PageScoringComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (params.id > 0) {
-                this.loadData(params.id);
+            if (params['id'] > 0) {
+                this.loadData(params['id']);
             }
         });
     }

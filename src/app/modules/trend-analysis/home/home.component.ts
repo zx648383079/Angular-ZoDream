@@ -87,8 +87,8 @@ export class HomeComponent {
         };
         if (this.trendCompare > 0) {
             const nextName = this.trendCompare == 1 ? '前一天' : '上周同期';
-            (option.legend as any).data.push(nextName);
-            (option.series as any).push({
+            (option['legend'] as any).data.push(nextName);
+            (option['series'] as any).push({
                 name: nextName,
                 type: 'line',
                 animation: false,

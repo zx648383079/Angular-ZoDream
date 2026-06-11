@@ -43,7 +43,7 @@ export class AchieveComponent {
 
     constructor() {
         this.route.parent!.params.subscribe(params => {
-            this.queries.project().value.set(parseNumber(params.game));
+            this.queries.project().value.set(parseNumber(params['game']));
         });
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => this.searchService.getQueries(params, v));

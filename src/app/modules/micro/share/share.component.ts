@@ -44,12 +44,12 @@ export class ShareComponent {
     constructor() {
         this.route.queryParams.subscribe(params => {
             this.dataForm().value.set({
-                shareappid: params.appid || '',
-                title: params.title || '',
-                summary: params.summary || '',
-                url: params.url || '',
-                pics: params.pics ? (params.pics instanceof Array ? params.pics : [params.pics]) : [],
-                sharesource: params.sharesource || '',
+                shareappid: params['appid'] || '',
+                title: params['title'] || '',
+                summary: params['summary'] || '',
+                url: params['url'] || '',
+                pics: params['pics'] ? (params['pics'] instanceof Array ? params['pics'] : [params['pics']]) : [],
+                sharesource: params['sharesource'] || '',
                 content: '',
                 open_type: '0',
             });

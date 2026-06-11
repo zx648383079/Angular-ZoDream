@@ -21,7 +21,7 @@ export class ArticleDetailComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            this.loadArticle(params.id);
+            this.loadArticle(params['id']);
         });
     }
 

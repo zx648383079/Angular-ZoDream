@@ -76,11 +76,11 @@ export class DebugComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 this.resetCache();
                 return;
             }
-            this.service.api(params.id).subscribe({
+            this.service.api(params['id']).subscribe({
                 next: res => {
                     this.applyApiData(res);
                 }, 

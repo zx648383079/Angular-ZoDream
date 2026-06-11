@@ -61,10 +61,10 @@ export class EditMovieComponent {
             this.areaItems = res.areas!;
         });
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.movie(params.id).subscribe({
+            this.service.movie(params['id']).subscribe({
                 next: res => {
                     this.dataModel.set({
                         id: res.id,

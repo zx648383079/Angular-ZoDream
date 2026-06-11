@@ -42,7 +42,7 @@ export class ModuleComponent {
 
     constructor() {
         this.route.queryParams.subscribe(params => {
-            this.tapTab(parseInt(params.type, 10) || 0);
+            this.tapTab(parseInt(params['type'], 10) || 0);
         });
         this.service.batch({
             modules: {},

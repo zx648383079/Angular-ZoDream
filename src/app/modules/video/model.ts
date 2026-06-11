@@ -32,7 +32,7 @@ export interface IVideo {
 
 export interface IComment {
     id: number;
-    user: IUser;
+    user?: IUser;
     content: string;
     created_at: string;
     updated_at: string;

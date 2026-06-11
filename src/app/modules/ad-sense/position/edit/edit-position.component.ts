@@ -37,10 +37,10 @@ export class EditPositionComponent {
 
     constructor() {
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.position(params.id).subscribe(res => {
+            this.service.position(params['id']).subscribe(res => {
                 this.dataModel.set({
                     id: 0,
                     name: res.name,

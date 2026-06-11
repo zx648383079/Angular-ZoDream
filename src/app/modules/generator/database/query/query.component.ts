@@ -30,14 +30,14 @@ export class QueryComponent {
     constructor() {
         this.route.queryParams.subscribe(params => {
             this.queries().value.update(v => {
-                v.schema = params.schema ?? '';
-                v.table = params.table ?? '';
+                v.schema = params['schema'] ?? '';
+                v.table = params['table'] ?? '';
                 if (v.table) {
                     v.sql = `SELECT * FROM \`${v.table}\``;
                 }
                 return {...v};
             });
-            if (params.table) {
+            if (params['table']) {
                 this.onPageChange(1);
             }
         });

@@ -43,10 +43,10 @@ export class EditCategoryComponent {
             this.categories = res.data;
         });
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.category(params.id).subscribe(res => {
+            this.service.category(params['id']).subscribe(res => {
                 this.data = res;
                 this.categories = filterTree(this.categories, res.id);
                 this.dataModel.set({

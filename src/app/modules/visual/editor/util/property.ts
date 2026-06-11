@@ -26,6 +26,7 @@ export class PropertyUtil {
                 return false;
             }
             items.push(v);
+            return;
         });
         if (items.length < 1) {
             return undefined;
@@ -69,6 +70,7 @@ export class PropertyUtil {
                     return;
                 }
                 items.push(`${k}(${v})`);
+                return;
             });
         };
         each(value);

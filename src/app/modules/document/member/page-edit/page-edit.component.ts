@@ -46,13 +46,13 @@ export class PageEditComponent {
     constructor() {
         this.themeService.screenSwitch(this.destroyRef, NavigationDisplayMode.Compact);
         this.route.params.subscribe(params => {
-            if (!params.project) {
+            if (!params['project']) {
                 return;
             }
-            this.version.set(params.version ? parseInt(params.version, 10) : 0);
-            this.service.project(params.project).subscribe(res => {
+            this.version.set(params['version'] ? parseInt(params['version'], 10) : 0);
+            this.service.project(params['project']).subscribe(res => {
                 this.project.set(res);
-                this.loadCatalog(res.id, params.id)
+                this.loadCatalog(res.id, params['id'])
             });
 
         });

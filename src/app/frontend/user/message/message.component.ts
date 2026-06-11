@@ -65,7 +65,7 @@ export class MessageComponent {
         this.themeService.titleChanged.next($localize `My Messages`);
         this.themeService.screenSwitch(this.destroyRef, NavigationDisplayMode.Compact);
         this.route.queryParams.subscribe(params => {
-            const extra = parseNumber(params.user);
+            const extra = parseNumber(params['user']);
             this.service.bulletinUser(extra).subscribe(res => {
                 this.navItems.set(res.data as any[]);
                 this.tapUser(extra);

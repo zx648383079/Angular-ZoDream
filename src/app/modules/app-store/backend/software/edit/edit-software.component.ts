@@ -50,10 +50,10 @@ export class EditSoftwareComponent {
             this.categories = res.data;
         });
         this.route.params.subscribe(params => {
-            if (!params.id) {
+            if (!params['id']) {
                 return;
             }
-            this.service.software(params.id).subscribe({
+            this.service.software(params['id']).subscribe({
                 next: res => {
                     this.dataModel.set({
                         id: res.id,
