@@ -3,8 +3,8 @@ import { APP_ID, NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ThemeModule } from './theme/theme.module';
-import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './theme/theme.reducers';
+import { provideStore } from '@ngrx/store';
+import { reducers } from './theme/theme.reducers';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { DialogModule } from './components/dialog';
@@ -53,8 +53,6 @@ echarts.use([
         ZreChartModule.forRoot({ 
             echarts
         }),
-        // 加载store
-        StoreModule.forRoot(reducers, { metaReducers }),
         ServiceWorkerModule.register('ngsw-worker.js', {
             enabled: environment.production,
             // Register the ServiceWorker as soon as the app is stable
@@ -63,6 +61,8 @@ echarts.use([
         }),
     ],
     providers: [
+        provideStore(reducers),
+        ...environment.providers,
         provideHttpClient(withInterceptors([TransferStateInterceptorFn, TokenInterceptorFn, ResponseInterceptorFn]), withJsonpSupport()),
         // { provide: APP_BASE_HREF, useValue: '/' },
         { provide: APP_ID, useValue: 'ng-zre' },

@@ -4,5 +4,5 @@ export const environment = {
     assetUri: '<asset base uri>',
     appid: '<appid>',
     secret: '<secret>',
-    editorKey: '<tyinmce editor key>',
+    providers: [],
 };
