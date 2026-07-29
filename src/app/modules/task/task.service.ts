@@ -3,7 +3,9 @@ import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { IShare, ITask, ITaskComment, ITaskDay, ITaskPlan, ITaskReview } from './model';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class TaskService {
     private readonly http = inject(HttpClient);
 

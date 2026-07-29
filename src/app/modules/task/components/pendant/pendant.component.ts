@@ -3,6 +3,7 @@ import { KeepAliveService } from '../../../../theme/services/keep-alive.service'
 import { ITask } from '../../model';
 import { filter, interval } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TaskService } from '../../task.service';
 
 @Component({
     standalone: false,
@@ -16,6 +17,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class PlanPendantComponent {
 
     private readonly liveService = inject(KeepAliveService);
+    private readonly service = inject(TaskService);
     private readonly destroyRef = inject(DestroyRef);
     
     public readonly visible = signal(true);
