@@ -1,0 +1,158 @@
+<div class="container-fluid tablet-collapse">
+    <app-page-tip>
+        <ul>
+            <li>管理物品列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal-control" (submit)="tapSearch($event)">
+                <div class="input-group-control">
+                    <label for="keywords">物品名</label>
+                    <input type="text" class="form-control" id="keywords" [formField]="queries.keywords" placeholder="物品名">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="btn-group pull-right">
+                    <a (click)="open(modal)" class="btn btn-primary">新增物品</a>
+                </div>
+                
+            </form>
+        </div>
+    
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <td>名称</td>
+                    <td>价格(元)</td>
+                    <td>日均成本(元)</td>
+                    <td>使用时长(天)</td>
+                    <td>状态</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody>
+                @for (item of items(); track $index) {
+                    <tr [class.--with-danger]="item.status != 1">
+                    <td>
+                        <a routerLink="../income" [queryParams]="{item: item.id}">{{ item.name }}</a>
+                    </td>
+                    <td>{{ item.price | numberFormat}}</td>
+                    <td>{{ item.avg | numberFormat }}</td>
+                    <td>{{ item.days | numberFormat }}</td>
+                    <td>{{ item.status != 1 ? '已报废' : '正常' }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-info" (click)="open(modal, item)">编辑</a>
+                            @if (item.status == 1) {
+                                <a class="btn btn-warning" (click)="open(modal, item, true)">报废</a>
+                            }
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                }
+                
+            </tbody>
+        </table>
+        <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+    </div>
+</div>
+
+<div class="tablet-visible">
+    <div class="tablet-large-header">
+        <div class="route-bar">
+            <a class="route-icon" (click)="tapBack()">
+                <i class="iconfont icon-chevron-left"></i>
+            </a>
+            <span class="route-title">物品</span>
+            <a class="route-icon" (click)="open(modal)">
+                <i class="iconfont icon-plus"></i>
+            </a>
+        </div>
+        <div class="count-bar">
+            <div class="count-item">
+                <div class="count">{{ subtotal().total | numberFormat }}</div>
+                <span>总资产</span>
+            </div>
+            <div class="count-item">
+                <div class="count">{{ subtotal().avg | numberFormat }}</div>
+                <span>日均成本</span>
+            </div>
+        </div>
+    </div>
+    
+    <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+    <app-swipe-list-control appInfiniteScroll [offset]="20" [disabled]="!hasMore()" (scrollEnd)="tapMore()">
+        @for (item of items(); track $index) {
+        <app-swipe-control (tapped)="tapItem(item)">
+            <div class="line-row-item --with-icon">
+                <div class="item-icon">
+                    {{ item.type }}
+                </div>
+                <div class="item-body">
+                    <div class="item-name">{{ item.name }}</div>
+                    <div class="item-meta">
+                        <em class="item-unit">￥</em>{{ item.price | numberFormat }} 
+                        <em class="item-unit">￥</em>{{ item.avg | numberFormat }}<em class="item-unit">/天</em>
+                    </div>
+                </div>
+                <div class="item-meta-bar">
+                    <div class="item-count" [class]="{'--with-danger': item.status != 1}">
+                        {{ item.days | numberFormat }}<em class="item-unit">天</em>
+                    </div>
+                </div>
+            </div>
+            <ng-container name="left">
+                <a class="btn-primary" (click)="open(modal, item)">
+                    <i class="iconfont icon-edit"></i>
+                </a>
+            </ng-container>
+            <ng-container name="right">
+                <a class="btn-danger" (click)="tapRemove(item)">
+                    <i class="iconfont icon-trash"></i>
+                </a>
+            </ng-container>
+        </app-swipe-control>
+        }
+    </app-swipe-list-control>
+</div>
+
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑物品' : '新增物品'">
+    <div class="form-group">
+        <label for="name">物品名</label>
+        <div class="input-group-control">
+            <input class="form-control" id="name" [formField]="editForm.name" placeholder="请输入物品名">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="type">类型</label>
+        <div class="input-group-control">
+            <select class="form-control" id="type" [formField]="editForm.type">
+                @for (item of typeItems; track $index;let i = $index) {
+                    <option [value]="i">{{ item }}</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="remark">备注</label>
+        <div class="input-group-control">
+            <textarea class="form-control" id="remark" [formField]="editForm.remark" placeholder="请输入备注"></textarea>
+        </div>
+    </div>
+     <div class="form-group">
+        <label for="status">状态</label>
+        <div class="input-group-control">
+            <app-check-input [source]="statusItems" [formField]="editForm.status"/>
+        </div>
+    </div>
+    @if (editForm.status().value() < 1) {
+        <div class="form-group">
+            <label for="scrap">状态</label>
+            <div class="input-group-control">
+                <app-date-input [formField]="editForm.deleted_at"/>
+            </div>
+        </div>
+    }
+</app-dialog-box>

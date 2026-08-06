@@ -1,6 +1,7 @@
 import { IPageEditItem } from '../../theme/models/page';
 
 export const LogTypeItems = ['支出', '收入', '借出', '贷入'];
+export const ItemTypeItems = ['家电', '手机', '平板', '电脑'];
 
 
 export interface IBudget {
@@ -15,6 +16,22 @@ export interface IBudget {
     deleted_at: string;
     created_at: string;
     updated_at: string;
+}
+
+export interface IItem {
+    id: number;
+    type: number;
+    name: string;
+    price: number;
+    remark: string;
+    status: number;
+    user_id: number;
+    deleted_at: string;
+    created_at: string;
+    updated_at: string;
+
+    avg?: number;
+    days?: number;
 }
 
 export interface IAccount {
@@ -73,6 +90,7 @@ export interface ILog extends IPageEditItem {
     channel_id:     number;
     project_id:     number;
     budget_id:      number;
+    item_id:        number;
     remark:         string;
     happened_at:    string;
     out_trade_no:   string;

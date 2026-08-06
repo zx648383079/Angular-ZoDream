@@ -1,0 +1,63 @@
+@if (visible()) {
+<div class="dialog-mask"></div>
+<div class="dialog-box">
+    <div class="dialog-header">
+        <div class="tab-header">
+            <div class="tab-item" [class.active]="tabIndex() < 1" (click)="tapSearchTab(0)" i18n>Create</div>
+            <div class="tab-item" [class.active]="tabIndex() == 1" (click)="tapSearchTab(1)" i18n>Binding</div>
+        </div>
+        <i class="iconfont icon-close dialog-close" (click)="close()"></i>
+    </div>
+    <div class="dialog-body">
+        <div class="search-bar" [hidden]="tabIndex() < 1">
+            <a class="route-icon" [class.disabled]="queries.page().value() < 2" i18n-title title="Previous" (click)="tapPrevious()">
+                <i class="iconfont icon-chevron-left"></i>
+            </a>
+            <div class="search-input" [class.--with-inputing]="isInput()">
+                <i class="iconfont icon-search"></i>
+                <input type="text" i18n-placeholder placeholder="Search contacts" id="keywords" [formField]="queries.keywords" (focus)="tapSearchInput()" (keypress)="onSearchKeyDown($event)">
+                <i class="iconfont icon-close" (click)="tapSearchClear()"></i>
+            </div>
+            <a class="route-icon" [class.disabled]="!hasMore()" i18n-title title="Next" (click)="tapNext()">
+                <i class="iconfont icon-chevron-right"></i>
+            </a>
+        </div>
+        <div class="search-body" [hidden]="tabIndex() < 1">
+            @for (item of items(); track $index) {
+                <div class="line-row-item --with-icon" [class.selected]="isSelected(item)" (click)="tapSelected(item)">
+                    <div class="item-icon">
+                        {{ item.type }}
+                    </div>
+                    <div class="item-body">
+                        <div class="item-title">{{ item.name }}</div>
+                        <div class="item-meta">{{ item.remark}}</div>
+                    </div>
+                    <div class="item-count" [class]="{'--with-danger': item.status != 1}">{{ item.price | numberFormat }}</div>
+                </div>
+            }
+        </div>
+
+        <div [hidden]="tabIndex() > 0">
+            <div class="form-group">
+                <label for="name">物品名</label>
+                <div class="input-group-control">
+                    <input class="form-control" id="name" [formField]="editForm.name" placeholder="请输入物品名">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="remark">备注</label>
+                <div class="input-group-control">
+                    <textarea class="form-control" id="remark" [formField]="editForm.remark" placeholder="请输入备注"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dialog-footer">
+        <div class="btn-group">
+            <div class="btn btn-primary" (click)="tapYes()" i18n>Confirm</div>
+            <div class="btn btn-danger" (click)="tapCancel()" i18n>Reset</div>
+        </div>
+    </div>
+</div>
+}

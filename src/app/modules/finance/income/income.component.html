@@ -82,6 +82,13 @@
                             @if (item.type == 2) {
                                 <a class="btn btn-info" [routerLink]="['bad', item.id]">坏账</a>
                             }
+                            @if (item.type == 0) {
+                                @if (item.item_id > 0) {
+                                    <a class="btn btn-warning" (click)="tapUnbinding(item)">取消物品</a>
+                                } @else {
+                                    <a class="btn btn-warning" (click)="tapBinding(item)">计入物品</a>
+                                }
+                            }
                             <a class="btn btn-light" [routerLink]="['edit', item.id]">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
                         </div>
@@ -160,6 +167,13 @@
                         }
                         @if (item.type == 2) {
                             <a class="btn-info">坏账</a>
+                        }
+                        @if (item.type == 0) {
+                            @if (item.item_id > 0) {
+                                <a class="btn btn-warning" (click)="tapUnbinding(item)">取消物品</a>
+                            } @else {
+                                <a class="btn btn-warning" (click)="tapBinding(item)">计入物品</a>
+                            }
                         }
                         <a class="btn-light" [routerLink]="['edit', item.id]">编辑</a>
                         <a class="btn-primary">克隆</a>
@@ -377,6 +391,7 @@
 </app-dialog-box>
 
 <app-progress-dialog/>
+<app-item-binding-dialog/>
 <app-upload-dialog accept=".csv,.xlsx,.zip" [multiple]="true"/>
 
 @if (menuVisible()) {

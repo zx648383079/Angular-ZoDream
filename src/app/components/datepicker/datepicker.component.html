@@ -29,7 +29,7 @@
                             </ul>
                         </div>
                         <div class="list-group month">
-                        <div class="title" i18n>Month</div>
+                        <div class="picker-title" i18n>Month</div>
                         <ul>
                             @for (item of monthItems(); track $index) {
                                 <li [class.active]="item == currentMonth()" (click)="changeMonth(item)">{{ twoPad(item) }}</li>
@@ -44,7 +44,7 @@
                     @if (hasTime()) {
                     <div class="picker-day-grid">
                         <div class="list-group hour">
-                        <div class="title" i18n>Hour</div>
+                        <div class="picker-title" i18n>Hour</div>
                         <ul>
                             @for (item of hourItems(); track $index) {
                                 <li [class.active]="item == currentHour()" (click)="changeHour(item)">{{ twoPad(item) }}</li>
@@ -53,7 +53,7 @@
                         </ul>
                         </div>
                         <div class="list-group minute">
-                        <div class="title" i18n>Minute</div>
+                        <div class="picker-title" i18n>Minute</div>
                         <ul>
                             @for (item of minuteItems(); track $index) {
                                 <li [class.active]="item == currentMinute()" (click)="changeMinute(item)">{{ twoPad(item) }}</li>
@@ -62,7 +62,7 @@
                         </ul>
                         </div>
                         <div class="list-group second">
-                        <div class="title" i18n>Second</div>
+                        <div class="picker-title" i18n>Second</div>
                             <ul>
                                 @for (item of secondItems(); track $index) {
                                     <li [class.active]="item == currentSecond()" (click)="changeSecond(item)">{{ twoPad(item) }}</li>

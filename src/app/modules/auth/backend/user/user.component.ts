@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store';
 import { DialogEvent, DialogService } from '../../../../components/dialog';
 import { ButtonGroupEvent, IButton } from '../../../../components/form';
 import { AppState } from '../../../../theme/interfaces';
-import { IPageQueries } from '../../../../theme/models/page';
 import { IUser } from '../../../../theme/models/user';
 import { selectAuthRole } from '../../../../theme/reducers/auth.selectors';
 import { mapFormat } from '../../../../theme/utils';

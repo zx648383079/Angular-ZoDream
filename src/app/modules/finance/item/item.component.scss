@@ -1,0 +1,18 @@
+@use '../../../theme/theme';
+.count-bar {
+    display: flex;
+    padding: 0.625rem 0;
+    .count-item {
+        flex: 1;
+        text-align: center;
+        font-size: 0.75rem;
+        &:not(:last-of-type) {
+            border-right: 1px solid var(--#{theme.$prefix}border);
+        }
+    }
+}
+
+.item-unit {
+    font-style: normal;
+    font-size: .8em;
+}

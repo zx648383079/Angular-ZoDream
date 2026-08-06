@@ -58,6 +58,13 @@ export class FinanceComponent {
             icon: 'icon-gift',
             url: './budget',
             tabletEnabled: true,
+            children: [
+                {
+                    name: '物品',
+                    label: '物',
+                    url: './item',
+                },
+            ]
         },
     ];
 

@@ -70,7 +70,11 @@ export class CheckInputComponent implements ControlValueAccessor, FormValueContr
             return;
         }
         const selected = typeof obj === 'object' && obj instanceof Array ? obj : [obj];
-        selectItems(this.items(), ...selected);
+        this.items.update(v => {
+            selectItems(v, ...selected);
+            return [...v];
+        });
+        
     }
 
     writeValue(obj: any): void {

@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { map } from 'rxjs';
 import { IData, IDataOne, IPage } from '../../theme/models/page';
 import { eachObject } from '../../theme/utils';
-import { IAccount, IBudget, IConsumptionChannel, IFinancialProduct, IFinancialProject, ILog } from './model';
+import { IAccount, IBudget, IConsumptionChannel, IFinancialProduct, IFinancialProject, IItem, ILog } from './model';
 
 @Injectable()
 export class FinanceService {
@@ -171,6 +171,30 @@ export class FinanceService {
         return this.http.delete<IDataOne<true>>('finance/budget/delete', {
             params: {id}
         });
+    }
+
+    public itemList(params: any) {
+        return this.http.get<IPage<IItem>>('finance/item', {params});
+    }
+
+    public itemSave(data: any) {
+        return this.http.post<IItem>('finance/item/save', data);
+    }
+
+    public itemRemove(id: any) {
+        return this.http.delete<IDataOne<true>>('finance/item/delete', {
+            params: {id}
+        });
+    }
+
+    public itemUnbinding(log: any) {
+        return this.http.delete<IDataOne<true>>('finance/item/unbinding', {
+            params: {log}
+        });
+    }
+
+    public itemBinding(data: any) {
+        return this.http.post<IDataOne<true>>('finance/item/binding', data);
     }
 
     public batch(data: {

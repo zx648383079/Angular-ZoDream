@@ -19,6 +19,8 @@ import { SettingComponent } from './setting/setting.component';
 import { DateRangePickerComponent } from './components/date-range-picker/date-range-picker.component';
 import { SearchDialogComponent } from './components/search-dialog/search-dialog.component';
 import { BudgetReportComponent } from './budget/report/budget-report.component';
+import { ItemComponent } from './item/item.component';
+import { ItemBindingDialogComponent } from './components/item-binding-dialog/item-binding-dialog.component';
 
 
 const routes: Routes = [
@@ -67,6 +69,10 @@ const routes: Routes = [
                 component: MoneyComponent,
             },
             {
+                path: 'item',
+                component: ItemComponent,
+            },
+            {
                 path: 'setting',
                 component: SettingComponent,
             },
@@ -85,8 +91,8 @@ const routes: Routes = [
 export class FinanceRoutingModule {}
 
 export const financeRoutedComponents = [
-    FinanceComponent, HomeComponent, MoneyComponent, IncomeComponent,
+    FinanceComponent, HomeComponent, MoneyComponent, IncomeComponent, ItemComponent,
     BudgetComponent, ProductComponent, ProjectComponent, ChannelComponent,
     EditIncomeComponent, SettingComponent, BudgetContainerComponent, BudgetReportComponent,
-    DateRangePickerComponent, SearchDialogComponent
+    DateRangePickerComponent, SearchDialogComponent, ItemBindingDialogComponent,
 ];

@@ -1,0 +1,80 @@
+@use '../../../../theme/theme';
+.dialog-box {
+    display: flex;
+    flex-direction: column;
+    .dialog-header {
+        height: auto;
+        border-bottom: none;
+    }
+}
+.tab-header {
+    line-height: 3.125rem;
+    text-align: center;
+    .tab-item {
+        display: inline-block;
+        padding: 0 0.5rem;
+        box-sizing: border-box;
+        cursor: default;
+        &.active {
+            border-bottom: 0.3125rem solid;
+        }
+    }
+}
+.search-bar {
+    display: flex;
+    .route-icon {
+        width: 2.5rem;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--#{theme.$prefix}panel);
+        &.disabled {
+            color: var(--#{theme.$prefix}meta-text);
+            background-color: transparent;
+            cursor: not-allowed;
+        }
+    }
+}
+.search-input {
+    flex: 1;
+    position: relative;
+    font-size: 1.25rem;
+    background-color: var(--#{theme.$prefix}body);
+    input {
+        height: 2.5rem;
+        width: 100%;
+        box-sizing: border-box;
+        background-color: transparent;
+        padding-left: 3rem;
+        outline: none;
+        border: none;
+    }
+    .iconfont {
+        position: absolute;
+        top: 0.4375rem;
+    }
+    .icon-search {
+        left: .5rem;
+    }
+    .icon-close {
+        display: none;
+        right: .5rem;
+    }
+    &.--with-inputing {
+        .icon-search {
+            display: none;
+        }
+        .icon-close {
+            display: block;
+        }
+        input {
+            padding-left: .5rem;
+            padding-right: 3rem;
+        }
+    }
+}
+
+.dialog-body {
+    overflow-y: auto;
+    flex: 1;
+}

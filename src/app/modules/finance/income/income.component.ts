@@ -11,6 +11,7 @@ import { formatDate } from '../../../theme/utils';
 import { ProgressDialogComponent, UploadDialogComponent } from '../../../components/desktop';
 import { IDataOne } from '../../../theme/models/page';
 import { ArraySource } from '../../../components/form';
+import { ItemBindingDialogComponent } from '../components/item-binding-dialog/item-binding-dialog.component';
 
 @Component({
     standalone: false,
@@ -30,6 +31,7 @@ export class IncomeComponent {
 
     private readonly uploadModal = viewChild(UploadDialogComponent);
     private readonly downloadModal = viewChild(ProgressDialogComponent);
+    private readonly itemModal = viewChild(ItemBindingDialogComponent);
 
     public readonly items = signal<ILog[]>([]);
     public readonly hasMore = signal(true);
@@ -42,6 +44,7 @@ export class IncomeComponent {
         project: '0',
         channel: '0',
         budget: '0',
+        item: '0',
         start_at: '',
         end_at: '',
         goto: '',
@@ -177,6 +180,7 @@ export class IncomeComponent {
                     project: '0',
                     channel: '0',
                     budget: '0',
+                    item: '0',
                     page: 1,
                     per_page: 20,
                     goto: time,
@@ -297,6 +301,33 @@ export class IncomeComponent {
                 }
                 this.toastrService.success($localize `Delete Successfully`);
                 this.tapPage();
+            });
+        });
+    }
+
+    public tapBinding(item: ILog) {
+        this.itemModal()!.open(data => {
+            data.log = item.id;
+            this.service.itemBinding(data).subscribe({
+                next: _ => {
+                    this.tapPage();
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
+            });
+        });
+    }
+
+    public tapUnbinding(item: ILog) {
+        this.toastrService.confirm('确定解除物品绑定？', () => {
+            this.service.itemUnbinding(item.id).subscribe({
+                next: _ => {
+                    this.tapPage();
+                },
+                error: err => {
+                    this.toastrService.error(err);
+                }
             });
         });
     }
