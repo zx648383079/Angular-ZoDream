@@ -102,7 +102,7 @@
                             @if (selected() != item.id) {
                             <a class="btn btn-info" (click)="tapChange(item)">管理</a>
                             } @else {
-                            <a class="btn btn-success">管理中</a>
+                            <a class="btn btn-success" (click)="tapChange(item)">管理中</a>
                             }
                             <a class="btn btn-light btn-xs" [routerLink]="['edit', item.id]">编辑</a>
                             <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>

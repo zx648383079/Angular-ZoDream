@@ -22,6 +22,7 @@ export class BotMemberComponent {
             name: '账号列表',
             label: '账',
             url: '../',
+            expand: true,
         },
         {
             name: '消息列表',

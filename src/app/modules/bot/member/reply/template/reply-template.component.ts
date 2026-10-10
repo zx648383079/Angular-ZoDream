@@ -5,7 +5,6 @@ import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { ArraySource, ButtonEvent } from '../../../../../components/form';
 import { SearchService } from '../../../../../theme/services';
 import { IBotReplyTemplate, IBotReplyTemplateField, IBotUser } from '../../../model';
-import { formatTemplateField, renderTemplateField } from '../../../util';
 import { BotService } from '../../bot.service';
 
 
@@ -127,7 +126,7 @@ export class ReplyTemplateComponent {
                 status: item.status! > 0,
                 content: item.content,
             };
-            v.items = formatTemplateField(item.content);
+            v.items = this.service.formatTemplateField(item.content);
             v.to_type = 2;
             v.to = 0
             return v;
@@ -159,7 +158,7 @@ export class ReplyTemplateComponent {
 
     public onFieldChange() {
         this.sendForm().value.update(v => {
-            v.content = renderTemplateField(v.template.content, v.items);
+            v.content = this.service.renderTemplateField(v.template.content, v.items);
             return v;
         });
     }

@@ -48,21 +48,21 @@
         <div class="col-md-7">
             <div class="panel">
                 <div class="panel-header">
-                    <span>{{ editForm.name || '--' }}</span>
+                    <span>{{ editForm.name().value() || '--' }}</span>
                     <div class="pull-right">
                         <i class="iconfont icon-trash" (click)="tapRemoveItem()"></i>
                     </div>
                 </div>
                 <div class="panel-body">
-                    <div class="form-table-control">
-                        <div class="input-group-control">
+                    <div class="form-row-control">
+                        <div class="input-inline-control">
                             <label for="">菜单名称</label>
                             <div>
                                 <input type="text" class="form-control" [formField]="editForm.name">
                                 <div class="control-tooltip">字数不超过八个汉字</div>
                             </div>
                         </div>
-                        <app-bot-message-editor [source]="1" [(value)]="editorData" (valueChange)="onEditorChange()" other="父菜单" />
+                        <app-bot-message-editor [source]="1" [formField]="editForm.body" (valueChange)="onEditorChange()" other="父菜单" />
                     </div>
                 </div>
             </div>

@@ -99,7 +99,8 @@ i {
 }
 
 .input-line-group,
-.input-group-control {
+.input-group-control,
+.input-inline-control {
     .control-tooltip {
         color: var(--#{theme.$prefix}meta-text);
         font-size: 0.75rem;
@@ -121,6 +122,11 @@ i {
     justify-content: space-between;
     align-items: center;
 }
+.input-inline-control {
+    display: flex;
+    align-items: center;
+    margin-bottom: .8rem;
+}
 
 .form-table-control {
     --#{theme.$prefix}label-width: 8rem;
@@ -138,7 +144,7 @@ i {
         }
         textarea {
             min-width: 12.5rem;
-            min-height: 2.5rem * 3 
+            min-height: 2.5rem * 3;
         }
         >label:first-child {
             width: var(--#{theme.$prefix}label-width);
@@ -215,6 +221,22 @@ i {
         }
         .btn {
             line-height: 2.5rem;
+        }
+    }
+}
+
+.form-row-control {
+    .row {
+        --#{theme.$prefix}gutter-x: 0;
+    }
+    .input-inline-control {
+        >label {
+            width: 6rem;
+            text-align: right;
+            margin-right: .8rem;
+        }
+        >div {
+            flex: 1;
         }
     }
 }

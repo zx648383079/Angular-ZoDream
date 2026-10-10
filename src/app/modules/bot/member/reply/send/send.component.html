@@ -5,8 +5,8 @@
         </ul>
     </app-page-tip>
 
-    <div class="form-table-control panel-container">
-        <div class="input-group-control">
+    <div class="form-row-control panel-container">
+        <div class="input-inline-control">
             <label for="">接收者</label>
             <div>
                 <select class="form-control" [formField]="dataForm.to_type">
@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <app-bot-message-editor [(value)]="editorData" (valueChange)="onEditorChange()" />
+        <app-bot-message-editor [formField]="dataForm.body" (valueChange)="onEditorChange()" />
 
         <div class="btn-group">
             <app-action-button class="btn btn-success" (tapped)="tapSubmit($event)">发送</app-action-button>

@@ -26,7 +26,7 @@ export class ReplyComponent {
     private hasMore = true;
     public readonly isLoading = signal(false);
     public readonly total = signal(0);
-    public tabItems: IItem[] = [
+    public readonly tabItems: IItem[] = [
         {name: '关键词回复', value: 'message'},
         {name: '收到消息回复', value: 'default'},
         {name: '被关注回复', value: 'subscribe'},
@@ -39,11 +39,22 @@ export class ReplyComponent {
     }));
     public readonly editForm = form(signal({
         id: 0,
+        title: '',
         event: '', 
-        type: 0
+        type: 0,
+        match: 0,
+        keywords: '',
+        event_name: '',
+        start_at: '',
+        end_at: '',
+        body: this.service.parseEditor(null),
+        status: 0,
     }), schemaPath => {
         required(schemaPath.event);
     });
+
+    public readonly eventItems: IItem[] = EventItems;
+    public readonly typeItems: IItem[] = EditorTypeItems;
 
     constructor() {
         this.route.queryParams.subscribe(params => {
@@ -60,14 +71,22 @@ export class ReplyComponent {
         return mapFormat(val, EditorTypeItems);
     }
 
-    public open(modal: DialogEvent, item?: any) {
+    public open(modal: DialogEvent, item?: IBotReply) {
         this.editForm().value.update(v => {
             v.event = item?.event ?? '';
             v.type = item?.type ?? 0;
+            v.title = item?.title ?? '';
+            v.match = item?.match ?? 0;
+            v.keywords = item?.keywords ?? '';
+            v.start_at = item?.start_at ?? '';
+            v.end_at = item?.end_at ?? '';
+            v.body = this.service.parseEditor(item);
+            v.status = item?.status ?? 0;
             return {...v};
         });
         modal.open(() => {
-            this.service.replySave(this.editForm().value()).subscribe({
+            const data = this.editForm().value();
+            this.service.replySave({...data, ...this.service.renderEditor(data.body)}).subscribe({
                 next: _ => {
                     if (item) {
                         this.tapPage();
@@ -139,8 +158,8 @@ export class ReplyComponent {
         this.tapRefresh();
     }
 
-    public tapRemove(item: any) {
-        this.toastrService.confirm('确定删除“' + item.name + '”回复？', () => {
+    public tapRemove(item: IBotReply) {
+        this.toastrService.confirm('确定删除“' + item.title + '”回复？', () => {
             this.service.replyRemove(item.id).subscribe(res => {
                 if (!res.data) {
                     return;

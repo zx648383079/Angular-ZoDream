@@ -7,7 +7,7 @@
 
     <div class="tab-bar">
         @for (item of tabItems; track $index) {
-            <a class="item" [class]="{active: queries.event == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
+            <a class="item" [class]="{active: queries.event().value() == item.value}" (click)="tapTab(item.value)">{{ item.name }}</a>
         }
     </div>
 
@@ -64,5 +64,90 @@
 </div>
 
 <app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑回复' : '新增回复'">
-    <app-edit-reply [(value)]="editForm().value" />
+    <div class="form-row-control">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="input-inline-control">
+                    <label for="event">规则名称</label>
+                    <div>
+                        <input type="text" class="form-control" [formField]="editForm.title">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-inline-control">
+                    <label for="">是否启用</label>
+                    <div>
+                        <app-switch [formField]="editForm.status"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-inline-control">
+                    <label for="event">事件</label>
+                    <div>
+                        <select id="event" [formField]="editForm.event" class="form-control">
+                            @for (item of eventItems; track $index) {
+                            <option [value]="item.value">{{ item.name }}</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            @if (editForm.event().value() == 'message') {
+                <div class="col-md-6">
+                    <div class="input-inline-control">
+                        <label for="">精确匹配</label>
+                        <div>
+                            <app-switch [formField]="editForm.match"/>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        
+        
+        
+        @switch (editForm.event().value()) {
+            @case ('message') {
+                <div class="input-inline-control">
+                    <label for="">关键词</label>
+                    <div>
+                        <app-words-input [formField]="editForm.keywords"/>
+                    </div>
+                </div>
+            }
+            @case ('click') {
+                <div class="input-inline-control">
+                    <label for="">事件名</label>
+                    <div>
+                        <input type="text" class="form-control" [formField]="editForm.keywords">
+                    </div>
+                </div>
+            }
+        }
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-inline-control">
+                    <label for="">生效时间</label>
+                    <div>
+                        <app-time-input [formField]="editForm.start_at" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-inline-control">
+                    <label for="">失效时间</label>
+                    <div>
+                        <app-time-input [formField]="editForm.end_at" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <app-bot-message-editor [formField]="editForm.body" />
+    </div>
 </app-dialog-box>

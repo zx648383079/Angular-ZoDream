@@ -1,24 +1,9 @@
-import { Component, effect, inject, input, model } from '@angular/core';
+import { Component, effect, inject, input, model, signal } from '@angular/core';
 import { IItem } from '../../../../theme/models/seo';
-import { parseNumber } from '../../../../theme/utils';
-import { EditorTypeItems, IBotReplyTemplate, IBotReplyTemplateField, MediaTypeItems, MenuTypeItems } from '../../model';
-import { formatTemplateField } from '../../util';
-import { BotService } from '../bot.service';
+import { EditorTypeItems, IBotReplyTemplate, MenuTypeItems } from '../../model';
+import { BotService, IEditorFormatted } from '../bot.service';
 import { FormValueControl } from '@angular/forms/signals';
-
-interface IEditorData {
-    type: number;
-    text?: string;
-    media?: number;
-    template_id?: string;
-    template_url?: string;
-    parameters?: IBotReplyTemplateField[];
-    parameter?: string;
-    url?: string;
-    appid?: string;
-    path?: string;
-    scene?: string;
-}
+import { parseNumber } from '../../../../theme/utils';
 
 @Component({
     standalone: false,
@@ -26,59 +11,57 @@ interface IEditorData {
     templateUrl: './message-editor.component.html',
     styleUrls: ['./message-editor.component.scss']
 })
-export class MessageEditorComponent implements FormValueControl<IEditorData> {
+export class MessageEditorComponent implements FormValueControl<IEditorFormatted> {
     private readonly service = inject(BotService);
 
     public readonly other = input('');
     public readonly source = input(0);
-    public readonly value = model<IEditorData>({
-        type: 0,
-    });
-    public data: IEditorData = {
-        type: 0,
-    };
+    public readonly value = model<IEditorFormatted>(this.service.parseEditor());
 
-    public typeItems: IItem[] = [...EditorTypeItems];
-    public sceneItems: IItem[] = [];
+    public readonly typeItems = signal<IItem[]>([...EditorTypeItems]);
+    public readonly sceneItems = signal<IItem[]>([]);
     private template?: IBotReplyTemplate;
 
     public readonly mediaSource = this.service.mediaSource();
 
     constructor() {
         this.service.batch({scenes: {}}).subscribe(res => {
-            this.sceneItems = res.scenes;
+            this.sceneItems.set(res.scenes);
         });
         effect(() => {
-            this.typeItems = this.source() > 0 ? [...MenuTypeItems] : [...EditorTypeItems]
-        });
-        effect(() => {
-            this.data = this.parseData(this.value());
+            this.typeItems.set(this.source() > 0 ? [...MenuTypeItems] : [...EditorTypeItems]);
         });
     }
 
 
-    public onTypeChange() {
-        if (this.data.type == 3) {
-            this.data.parameters = [];
-        }
-        this.onContentChange();
+    public onTypeChange(e: Event) {
+        this.onValChange('type', parseNumber((e.target as HTMLSelectElement).value));
     }
 
-    public onContentChange() {
-        this.value.set(this.renderData(this.data));
+    public onTextChange(e: Event, key: string) {
+        this.onValChange(key, (e.target as HTMLInputElement).value);
     }
 
-    public onTemplateChange() {
-        if (this.template && this.template.template_id === this.data.template_id) {
-            this.data.parameters = formatTemplateField(this.template.content);
-            this.onContentChange();
+    public onValChange(key: string, val: any) {
+        this.value.update(v => {
+            return {...v, [key]: val};
+        });
+    }
+
+    public onTemplateChange(e: Event) {
+        const template_id = (e.target as HTMLInputElement).value;
+        if (this.template && this.template.template_id === template_id) {
+            this.value.update(v => {
+                return {...v, template_id, parameters: this.service.formatTemplateField(this.template!.content)}
+            });
             return;
         }
-        this.service.wxTemplate(this.data.template_id!).subscribe({
+        this.service.wxTemplate(template_id).subscribe({
             next: res => {
                 this.template = res;
-                this.data.parameters = formatTemplateField(res.content);
-                this.onContentChange();
+                this.value.update(v => {
+                    return {...v, template_id, parameters: this.service.formatTemplateField(res.content)}
+                });
             },
             error: err => {
                 // TODO 模板不存在请先添加
@@ -86,106 +69,13 @@ export class MessageEditorComponent implements FormValueControl<IEditorData> {
         });
     }
 
-
-    private parseData(value: any): IEditorData {
-        const data: IEditorData = {
-            type: parseNumber(value.type),
-        };
-        const getVal = (key: string) => {
-            if (typeof value.content === 'string') {
-                value.content = JSON.parse(value.content);
-            }
-            if (!value.content) {
-                return '';
-            }
-            return value.content[key] || '';
-        };
-        switch (data.type) {
-            case 0:
-                data.text = value.content;
-                break;
-            case 1:
-            case 2:
-                data.media = value.content;
-                break;
-            case 3:
-                data.template_id = getVal('template_id');
-                data.template_url = getVal('template_url');
-                data.appid = getVal('appid');
-                data.path = getVal('path');
-                let p = getVal('template_data');
-                if (typeof p === 'string') {
-                    if (p.indexOf('{') < 0) {
-                        p = p.split('\n').map(i => {
-                            let [name, value] = i.split('=');
-                            return {name, value}
-                        });
-                    } else {
-                        p = JSON.parse(p);
-                    }
-                }
-                data.parameters = p;
-                break;
-            case 4:
-                data.parameter = value.content;
-                break;
-            case 5:
-                data.url = value.content;
-                break;
-            case 6:
-                data.appid = getVal('appid');
-                data.path = getVal('path');
-                data.url = getVal('url');
-                break;
-            case 7:
-                data.scene = value.content;
-                break;
-            default:
-                break;
-        }
-        return data;
+    public onFlowChange(index: number, key: string, e: Event) {
+        this.value.update(v => {
+            (v.parameters[index] as any)[key] = (e.target as HTMLInputElement).value;
+            return {...v};
+        });
     }
 
-    private renderData(data: IEditorData): any {
-        const res: any = {
-            type: data.type,
-        };
-        switch (data.type) {
-            case 0:
-                res.content = data.text;
-                break;
-            case 1:
-            case 2:
-            res.content = data.media;
-                break;
-            case 3:
-                res.content = {
-                    template_id: data.template_id,
-                    template_url: data.template_url,
-                    appid: data.appid,
-                    path: data.path,
-                    template_data: data.parameters
-                };
-                break;
-            case 4:
-                res.content = data.parameter;
-                break;
-            case 5:
-                res.content = data.url;
-                break;
-            case 6:
-                res.content = {
-                    appid: data.appid,
-                    path: data.path,
-                    url: data.url
-                };
-                break;
-            case 7:
-                res.content = data.scene;
-                break;
-            default:
-                break;
-        }
-        return res;
-    }
+
+    
 }

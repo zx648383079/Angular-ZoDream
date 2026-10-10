@@ -5,6 +5,8 @@
     --#{theme.$prefix}menu-hovered: var(--#{theme.$prefix}panel);
     --#{theme.$prefix}menu-selected: var(--#{theme.$prefix}primary);
     --#{theme.$prefix}menu-child: transparent;
+    background-color: var(--#{theme.$prefix}menu);
+    color: var(--#{theme.$prefix}menu-text);
     a {
         text-decoration: none;
         color: var(--#{theme.$prefix}menu-text);

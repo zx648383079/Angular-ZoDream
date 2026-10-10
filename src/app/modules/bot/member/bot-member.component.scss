@@ -1,14 +1,18 @@
+@use '../../../theme/theme';
 .container-fluid {
     margin-top: 3rem;
 }
 .nav-menu {
-    background-color: white;
+    --#{theme.$prefix}menu: var(--#{theme.$prefix}surface);
+    --#{theme.$prefix}menu-text: var(--#{theme.$prefix}surface-text);
+    --#{theme.$prefix}menu-hovered: var(--#{theme.$prefix}surface-hovered);
+    --#{theme.$prefix}menu-selected: var(--#{theme.$prefix}surface-selected);
+    --#{theme.$prefix}menu-child: var(--#{theme.$prefix}surface-child);
     h2 {
         text-align: center;
         padding-top: .5rem;
         .iconfont {
             font-size: .8rem;
-            color: #0d6efd;
             cursor: pointer;
         }
     }
@@ -16,29 +20,35 @@
         position: relative;
         display: block;
         user-select: none;
-        .iconfont {
-            position: absolute;
-            top: -.3rem;
-            right: -.3rem;
-            left: auto;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            width: 1rem;
-            height: 1rem;
-            border-radius: 50%;
-            font-size: .8rem;
-            background-color: #dc3545;
-            color: #fff;
+        // .iconfont {
+        //     position: absolute;
+        //     top: -.3rem;
+        //     right: -.3rem;
+        //     left: auto;
+        //     display: none;
+        //     align-items: center;
+        //     justify-content: center;
+        //     width: 1rem;
+        //     height: 1rem;
+        //     border-radius: 50%;
+        //     font-size: .8rem;
+        //     background-color: #dc3545;
+        //     color: #fff;
+        // }
+        &.--with-back {
+            .iconfont {
+                position: absolute;
+                left: .8rem;
+            }
         }
         &:hover {
-            background-color: #ccc;
+            background-color: var(--#{theme.$prefix}surface-hovered);
             .iconfont {
                 display: flex;
             }
         }
         &.active {
-            background-color: #f4f4f4;
+            background-color: var(--#{theme.$prefix}surface-selected);
         }
     }
 }

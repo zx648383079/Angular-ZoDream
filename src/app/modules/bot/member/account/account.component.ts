@@ -76,8 +76,6 @@ export class AccountComponent {
             this.router.navigateByUrl(this.redirectUri);
             return;
         }
-        console.log(1);
-
         this.router.navigate([item.id, 'reply'], {relativeTo: this.route});
     }
 

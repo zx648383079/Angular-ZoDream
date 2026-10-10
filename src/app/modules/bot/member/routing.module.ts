@@ -14,7 +14,6 @@ import { EditNewsComponent } from './media/news/edit-news.component';
 import { MenuComponent } from './menu/menu.component';
 import { MessageEditorComponent } from './message-editor/message-editor.component';
 import { QrcodeComponent } from './qrcode/qrcode.component';
-import { EditReplyComponent } from './reply/edit/edit-reply.component';
 import { ReplyComponent } from './reply/reply.component';
 import { SendComponent } from './reply/send/send.component';
 import { ReplyTemplateComponent } from './reply/template/reply-template.component';
@@ -96,7 +95,7 @@ export class BotMemberRoutingModule {}
 
 export const botMemberRoutingComponents = [
     BotMemberComponent, AccountComponent, EditAccountComponent, LogComponent,
-    MenuComponent, MediaComponent, ReplyComponent, UserComponent, EditMediaComponent, EditReplyComponent, 
+    MenuComponent, MediaComponent, ReplyComponent, UserComponent, EditMediaComponent, 
     MessageEditorComponent, EditNewsComponent, TemplateEditorComponent,
     QrcodeComponent, ReplyTemplateComponent, UserGroupComponent, SendComponent
 ];

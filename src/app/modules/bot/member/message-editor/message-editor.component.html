@@ -1,8 +1,8 @@
-<div class="input-group-control">
+<div class="input-inline-control">
     <label for="type">响应类型</label>
     <div>
-        <select id="type" [(value)]="data.type" class="form-control" (change)="onTypeChange()">
-            @for (item of typeItems; track $index) {
+        <select id="type" [value]="value().type" class="form-control" (change)="onTypeChange($event)">
+            @for (item of typeItems(); track $index) {
             <option [value]="item.value">{{ item.name }}</option>
             }
             @if (other()) {
@@ -11,99 +11,119 @@
         </select>
     </div>
 </div>
-@if (data.type < 1) {
-    <textarea class="form-control" [(value)]="data.text" (valueChange)="onContentChange()"></textarea>
-} @else if (data.type >= 1 && data.type <= 2) {
-    <app-select-input id="parent_id" [source]="mediaSource" [(value)]="data.media" (valueChange)="onContentChange()" />
-} @else if (data.type == 3) {
-    <div class="input-group-control">
-        <label for="template_id">模板ID</label>
-        <input type="text" id="template_id" class="form-control" [(value)]="data.template_id" (input)="onTemplateChange()" placeholder="示例：模板ID">
-    </div>
-    <div class="input-group-control">
-        <label for="template_id">链接</label>
-        <input type="text" id="template_url" [(value)]="data.template_url" (input)="onContentChange()" class="form-control">
-    </div>
-    <div class="input-group-control">
-        <label for="">小程序appid</label>
-        <div>
-            <input type="text" class="form-control" [(value)]="data.appid" (input)="onContentChange()">
+@switch (value().type) {
+    @case (1)
+    @case (2) {
+        <app-select-input id="parent_id" [source]="mediaSource" [value]="value().media" (valueChange)="onValChange('media', $event)" />
+    }
+    @case (3) {
+        <div class="input-inline-control">
+            <label for="template_id">模板ID</label>
+            <input type="text" id="template_id" class="form-control" [value]="value().template_id" 
+                (input)="onTemplateChange($event)" placeholder="示例：模板ID">
         </div>
-    </div>
-    <div class="input-group-control">
-        <label for="">小程序路径</label>
-        <div>
-            <input type="text" class="form-control" [(value)]="data.path" (input)="onContentChange()">
+        <div class="input-inline-control">
+            <label for="template_id">链接</label>
+            <input type="text" id="template_url" [value]="value().template_url" 
+            (input)="onTextChange($event, 'template_url')" class="form-control">
         </div>
-    </div>
-    <table class="table table-hover" [hidden]="!data.template_id">
-        <thead>
-            <tr>
-                <th>字段</th>
-                <th>内容</th>
-                <th>颜色</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (item of data.parameters; track $index) {
-            <tr>
-                <td>{{ item.name }}</td>
-                <td>
-                    <textarea class="form-control" [(value)]="item.value" (input)="onContentChange()"></textarea>
-                </td>
-                <td>
-                    <input type="color" class="form-control" [(value)]="item.color" (input)="onContentChange()">
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
-} @else if (data.type == 4) {
-    <div class="input-group-control">
-        <label for="content">参数</label>
-        <div>
-            <input type="text" id="content" class="form-control" placeholder="示例：参数" [(value)]="data.parameter" (input)="onContentChange()">
-        </div>
-    </div>
-} @else if (data.type == 5) {
-    <div class="input-group-control">
-        <label for="content">网址</label>
-        <div>
-            <input type="text" id="content" class="form-control" [(value)]="data.url" (input)="onContentChange()" placeholder="示例：网址">
-        </div>
-    </div>
-} @else if (data.type == 6) {
-    <div class="input-group-control">
-        <label for="module1">APPID</label>
-        <div>
-            <input type="text" id="module1" class="form-control" [(value)]="data.appid" (input)="onContentChange()" placeholder="小程序APPID">
-        </div>
-    </div>
-    <div class="input-group-control">
-        <label for="module2">路径</label>
-        <div>
-            <input type="text" id="module2" class="form-control" [(value)]="data.path" (input)="onContentChange()" placeholder="小程序页面路径">
-        </div>
-    </div>
-    <div class="input-group-control">
-        <label for="module3">替代网址</label>
-        <div>
-            <input type="text" id="module3" class="form-control" [(value)]="data.url" (input)="onContentChange()" placeholder="老版微信不支持小程序时替代网址">
-            <div class="control-tooltip">
-                旧版微信客户端无法支持小程序，用户点击菜单时将会打开备用网页。
+        <div class="input-inline-control">
+            <label for="">小程序appid</label>
+            <div>
+                <input type="text" class="form-control" [value]="value().appid" (input)="onTextChange($event, 'appid')">
             </div>
         </div>
-    </div>
-} @else if (data.type == 7 || (data.type >= 20 && data.type <= 23)) {
-    <div class="input-group-control">
-        <label for="content">场景</label>
-        <div class="">
-            <select id="content" class="form-control" [(value)]="data.scene" (change)="onContentChange()">
-                <option value="">请选择</option>
-                @for (item of sceneItems; track $index) {
-                <option [value]="item.value">{{ item.name }}</option>
-                }
-            </select>
+        <div class="input-inline-control">
+            <label for="">小程序路径</label>
+            <div>
+                <input type="text" class="form-control" [value]="value().path" (input)="onTextChange($event, 'path')">
+            </div>
         </div>
-    </div>
+        <table class="table table-hover" [hidden]="!value().template_id">
+            <thead>
+                <tr>
+                    <th>字段</th>
+                    <th>内容</th>
+                    <th>颜色</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (item of value().parameters; track $index; let i = $index) {
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>
+                        <textarea class="form-control" [value]="item.value" (input)="onFlowChange(i, 'value', $event)"></textarea>
+                    </td>
+                    <td>
+                        <input type="color" class="form-control" [value]="item.color" (input)="onFlowChange(i, 'color', $event)">
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+    @case (4) {
+        <div class="input-inline-control">
+            <label for="content">参数</label>
+            <div>
+                <input type="text" id="content" class="form-control" placeholder="示例：参数" 
+                    [value]="value().parameter" (input)="onTextChange($event, 'parameter')">
+            </div>
+        </div>
+    }
+    @case (5) {
+        <div class="input-inline-control">
+            <label for="content">网址</label>
+            <div>
+                <input type="text" id="content" class="form-control" 
+                    [value]="value().url" (input)="onTextChange($event, 'url')" placeholder="示例：网址">
+            </div>
+        </div>
+    }
+    @case (6) {
+        <div class="input-inline-control">
+            <label for="module1">APPID</label>
+            <div>
+                <input type="text" id="module1" class="form-control" 
+                    [value]="value().appid" (input)="onTextChange($event, 'appid')" placeholder="小程序APPID">
+            </div>
+        </div>
+        <div class="input-inline-control">
+            <label for="module2">路径</label>
+            <div>
+                <input type="text" id="module2" class="form-control" [value]="value().path" 
+                    (input)="onTextChange($event, 'path')" placeholder="小程序页面路径">
+            </div>
+        </div>
+        <div class="input-inline-control">
+            <label for="module3">替代网址</label>
+            <div>
+                <input type="text" id="module3" class="form-control" [value]="value().url" 
+                    (input)="onTextChange($event, 'url')" placeholder="老版微信不支持小程序时替代网址">
+                <div class="control-tooltip">
+                    旧版微信客户端无法支持小程序，用户点击菜单时将会打开备用网页。
+                </div>
+            </div>
+        </div>
+    }
+    @case (7)
+    @case (20) 
+    @case (21) 
+    @case (22)
+    @case (23) {
+        <div class="input-inline-control">
+            <label for="content">场景</label>
+            <div class="">
+                <select id="content" class="form-control" [value]="value().scene" (change)="onTextChange($event, 'scene')">
+                    <option value="">请选择</option>
+                    @for (item of sceneItems(); track $index) {
+                    <option [value]="item.value">{{ item.name }}</option>
+                    }
+                </select>
+            </div>
+        </div>
+    }
+    @default {
+        <textarea class="form-control" [value]="value().text" (input)="onTextChange($event, 'text')"></textarea>
+    }
 }

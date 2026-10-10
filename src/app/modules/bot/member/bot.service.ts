@@ -2,10 +2,25 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { IData, IDataOne, IPage } from '../../../theme/models/page';
 import { IItem } from '../../../theme/models/seo';
-import { IBotAccount, IBotUser, IBotMedia, IBotMenuItem, IBotQr, IBotReply, IBotReplyTemplate, IBotTemplate, IBotTemplateCategory, IBotUserGroup, MediaTypeItems } from '../model';
+import { IBotAccount, IBotUser, IBotMedia, IBotMenuItem, IBotQr, IBotReply, IBotReplyTemplate, IBotTemplate, IBotTemplateCategory, IBotUserGroup, MediaTypeItems, IBotReplyTemplateField } from '../model';
 import { Router } from '@angular/router';
 import { NetSource } from '../../../components/form';
-import { mapFormat } from '../../../theme/utils';
+import { mapFormat, parseNumber } from '../../../theme/utils';
+
+export interface IEditorFormatted {
+    type: number;
+    text: string;
+    media: number;
+    template_id: string;
+    template_url: string;
+    parameters: IBotReplyTemplateField[];
+    parameter: string;
+    url: string;
+    appid: string;
+    path: string;
+    scene: string;
+}
+
 
 @Injectable({
     providedIn: 'root'
@@ -34,18 +49,18 @@ export class BotService {
     }
 
     public groupSource() {
-        return NetSource.createSearchArray(this.http, 'wx/admin/user/group_search?wid=' + this.baseId);
+        return NetSource.createSearchArray(this.http, 'bot/member/user/group_search?bot_id=' + this.baseId);
     }
 
     public userSource() {
-        return NetSource.createSearchArray(this.http, 'wx/admin/user/search?wid=' + this.baseId, 'keywords', i => i.note_name || i.nickname);
+        return NetSource.createSearchArray(this.http, 'bot/member/user/search?bot_id=' + this.baseId, 'keywords', i => i.note_name || i.nickname);
     }
 
     public mediaSource(isOnlyNews = false) {
         if (isOnlyNews) {
-            return NetSource.createSearchArray(this.http, 'wx/admin/media/search?type=news&wid=' + this.baseId, 'title', 'id', 'title');
+            return NetSource.createSearchArray(this.http, 'bot/member/media/search?type=news&bot_id=' + this.baseId, 'title', 'id', 'title');
         }
-        return NetSource.createSearchArray(this.http, 'wx/admin/media/search?wid=' + this.baseId, 'title', i => {
+        return NetSource.createSearchArray(this.http, 'bot/member/media/search?bot_id=' + this.baseId, 'title', i => {
             const tag = mapFormat(i.type, MediaTypeItems);
             return {
                 name: `[${tag}]${i.title}`,
@@ -256,5 +271,144 @@ export class BotService {
             template_category: IBotTemplateCategory[];
             scenes: IItem[];
         }>('bot/member/batch', data);
+    }
+
+
+    public formatTemplateField(content: string): IBotReplyTemplateField[] {
+        const reg = /\{\{([^\{]+)\.DATA\}\}/g;
+        const items: IBotReplyTemplateField[] = [];
+        let res;
+        while (res = reg.exec(content)) {
+            items.push({
+                name: res[1]
+            } as any);
+        }
+        return items;
+    }
+
+    public renderTemplateField(content: string, items: IBotReplyTemplateField[]): string {
+        return content.replace(/\{\{([^\{]+)\.DATA\}\}/g, (_, match) => {
+            for (const item of items) {
+                if (item.name === match) {
+                    return typeof item.value === 'undefined' ? '' : item.value;
+                }
+            }
+            return '';
+        });
+    }
+
+    public parseEditor(value?: any): IEditorFormatted {
+        const data: IEditorFormatted = {
+            type: parseNumber(value?.type),
+            text: '',
+            media: 0,
+            template_id: '',
+            template_url: '',
+            parameters: [],
+            parameter: '',
+            url: '',
+            appid: '',
+            path: '',
+            scene: '',
+        };
+        if (!value) {
+            return data;
+        }
+        const getVal = (key: string) => {
+            if (typeof value.content === 'string') {
+                value.content = JSON.parse(value.content);
+            }
+            if (!value.content) {
+                return '';
+            }
+            return value.content[key] || '';
+        };
+        switch (data.type) {
+            case 0:
+                data.text = value.content;
+                break;
+            case 1:
+            case 2:
+                data.media = value.content;
+                break;
+            case 3:
+                data.template_id = getVal('template_id');
+                data.template_url = getVal('template_url');
+                data.appid = getVal('appid');
+                data.path = getVal('path');
+                let p = getVal('template_data');
+                if (typeof p === 'string') {
+                    if (p.indexOf('{') < 0) {
+                        p = p.split('\n').map(i => {
+                            let [name, value] = i.split('=');
+                            return {name, value}
+                        });
+                    } else {
+                        p = JSON.parse(p);
+                    }
+                }
+                data.parameters = p;
+                break;
+            case 4:
+                data.parameter = value.content;
+                break;
+            case 5:
+                data.url = value.content;
+                break;
+            case 6:
+                data.appid = getVal('appid');
+                data.path = getVal('path');
+                data.url = getVal('url');
+                break;
+            case 7:
+                data.scene = value.content;
+                break;
+            default:
+                break;
+        }
+        return data;
+    }
+
+    public renderEditor(data: IEditorFormatted): any {
+        const res: any = {
+            type: data.type,
+        };
+        switch (data.type) {
+            case 0:
+                res.content = data.text;
+                break;
+            case 1:
+            case 2:
+            res.content = data.media;
+                break;
+            case 3:
+                res.content = {
+                    template_id: data.template_id,
+                    template_url: data.template_url,
+                    appid: data.appid,
+                    path: data.path,
+                    template_data: data.parameters
+                };
+                break;
+            case 4:
+                res.content = data.parameter;
+                break;
+            case 5:
+                res.content = data.url;
+                break;
+            case 6:
+                res.content = {
+                    appid: data.appid,
+                    path: data.path,
+                    url: data.url
+                };
+                break;
+            case 7:
+                res.content = data.scene;
+                break;
+            default:
+                break;
+        }
+        return res;
     }
 }

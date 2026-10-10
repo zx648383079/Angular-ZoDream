@@ -66,11 +66,14 @@ export interface IBotAccount {
 export interface IBotReply {
     id?:         number;
     bot_id?:        number;
+    title: string;
     event:      string;
     keywords?:   string;
     match:      number;
     content:    any;
     type:       number;
+    start_at: string;
+    end_at: string;
     updated_at?: string;
     created_at?: string;
     status:     number;

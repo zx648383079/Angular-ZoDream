@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
-import { ArraySource, ButtonEvent, NetSource } from '../../../../../components/form';
+import { ArraySource, ButtonEvent } from '../../../../../components/form';
 import { emptyValidate } from '../../../../../theme/validators';
 import { BotService } from '../../bot.service';
 import { form } from '@angular/forms/signals';
@@ -19,15 +19,12 @@ export class SendComponent {
     private readonly route = inject(ActivatedRoute);
 
 
-    public toTypeItems = ['全部用户', '指定分组', '指定用户'];
+    public readonly toTypeItems = ['全部用户', '指定分组', '指定用户'];
     public readonly dataForm = form(signal({
         to_type: '0',
         to: 0,
+        body: this.service.parseEditor()
     }));
-
-    public editorData: any = {
-        type: 0
-    };
 
 
     public readonly toSource = computed(() => {
@@ -42,7 +39,7 @@ export class SendComponent {
     });
 
     public onEditorChange() {
-        if (this.editorData.type != 3) {
+        if (this.dataForm.body.type().value() != 3) {
             return;
         }
         this.dataForm().value.update(v => {
@@ -57,18 +54,19 @@ export class SendComponent {
 
 
     public tapSubmit(e?: ButtonEvent) {
-        const data = this.dataForm().value();
+        let data = this.dataForm().value() as any;
+        data = {...data, ...data.body, body: undefined};
         if (parseNumber(data.to_type) > 0 && data.to < 1) {
             this.toastrService.warning('请选择接收者');
             return;
         }
-        if (this.editorData.type == 3 && emptyValidate(this.editorData?.content?.template_id)) {
+        if (data.type == 3 && emptyValidate(data.template_id)) {
             this.toastrService.warning('请选择模板');
             return;
         }
         this.toastrService.confirm('是否确认发送消息?', () => {
             e?.enter();
-            this.service.send({...data, ...this.editorData}).subscribe({
+            this.service.send({...data}).subscribe({
                 next: _ => {
                     e?.reset();
                     this.toastrService.success('发送成功');

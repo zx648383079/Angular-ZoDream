@@ -25,9 +25,9 @@ export class MenuComponent {
     public readonly editForm = form(signal({
         name: '',
         type: 0,
+        body: this.service.parseEditor(),
         children: []
     }));
-    public editorData: any;
 
     constructor() {
         this.service.menuList({}).subscribe(res => {
@@ -46,24 +46,19 @@ export class MenuComponent {
             newItem.chilren = [];
             items.push(newItem);
         }
-        this.editForm().value.set(newItem);
-        this.editorData = {};
+        this.editForm().value.set({...newItem, body: this.service.parseEditor()});
     }
 
     public tapEditMenu(item: any) {
-        this.editForm().value.set(item);
-        this.editorData = {...item};
+        this.editForm().value.set({...item, body: this.service.parseEditor(item)});
     }
 
     public onEditorChange() {
         this.editForm().value.update(v => {
-            eachObject(this.editorData, (val, k) => {
-                (v as any)[k] = val;
-            });
-            if (!v.children && v.type == 99) {
+            if (!v.children && v.body.type == 99) {
                 v.children = [];
             }
-            return v;
+            return {...v, ...this.service.renderEditor(v.body)};
         });
     }
 
@@ -77,7 +72,7 @@ export class MenuComponent {
             eachObject(v, (val, k) => {
                 (v as any)[k] = '';
             });
-            return v;
+            return {...v, body: this.service.parseEditor()};
         });
     }
 
