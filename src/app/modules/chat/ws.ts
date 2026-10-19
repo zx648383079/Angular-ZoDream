@@ -77,7 +77,7 @@ export class WsRequest implements IRequest {
             (typeof obj === 'object' && typeof obj.valueOf() === 'boolean');
     }
 
-    public isJSON(obj: string) {
+    public isJSON(obj: any) {
         return typeof obj === 'object';
     }
 
