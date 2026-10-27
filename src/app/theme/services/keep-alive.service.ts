@@ -19,7 +19,7 @@ export class KeepAliveService {
     private isLoading = false;
     private last = {} as any;
     private timer = 0;
-    private timeout = 60000;
+    private timeout = 300000;
 
 
     constructor() {
@@ -59,7 +59,7 @@ export class KeepAliveService {
                 this.lastAt = Date.now();
                 this.isLoading = false;
                 this.pulsed.next(this.last = {...this.last, ...res});
-                this.next(Object.keys(res).length > 3 ? 1 : 2);
+                this.next(Object.keys(res).length > 3 ? 1 : 5);
                 if (res.session_token) {
                     this.token = res.session_token;
                 }

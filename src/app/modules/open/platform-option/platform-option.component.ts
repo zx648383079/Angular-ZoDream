@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { DialogService } from '../../../components/dialog';
 import { ButtonEvent } from '../../../components/form';
 import { IPlatform } from '../../../theme/models/open';
@@ -44,7 +44,17 @@ export class PlatformOptionComponent {
     public readonly dataForm = form(this.dataModel);
 
     constructor() {
-        this.http.get<IData<IPlatform>>(this.url() + '/platform').subscribe(res => {
+        effect(() => {
+            this.load(this.url())
+        });
+    }
+
+    private load(url: string) {
+        if (!url) {
+            this.platformItems.set([]);        
+            return;
+        }
+        this.http.get<IData<IPlatform>>(url + '/platform').subscribe(res => {
             this.platformItems.set(res.data);
             if (res.data.length > 0) {
                 this.dataForm.platform().value.set(res.data[0].id as any);
@@ -74,7 +84,7 @@ export class PlatformOptionComponent {
                     group.children.push({
                         name: i,
                         label: Object.hasOwn(item, i + '_label') ? item[i + '_label'] : camelCase(i),
-                        tip: Object.hasOwn(item, i + '_tip') ? item[i + '_tip'] : undefined,
+                        tip: Object.hasOwn(item, i + '_tip') ? item[i + '_tip'] : null,
                         value: val
                     });
                 });

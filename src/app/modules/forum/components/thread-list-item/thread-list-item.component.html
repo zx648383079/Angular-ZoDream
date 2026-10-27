@@ -56,7 +56,7 @@
         @if (value().brief) {
             <div class="item-brief">{{ value().brief }}…</div>
         }
-        @if (value().image_items!.length > 0) {
+        @if (value().image_items && value().image_items!.length > 0) {
         <div class="item-image-bar">
             @for (item of value().image_items!; track $index) {
             <div class="image-preview-control">
