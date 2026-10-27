@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { DialogService } from '../../../../components/dialog';
-import { eachObject } from '../../../../theme/utils';
+import { eachObject, parseNumber } from '../../../../theme/utils';
 import { CheckinService } from '../checkin.service';
 import { form } from '@angular/forms/signals';
 import { ButtonEvent } from '../../../../components/form';
@@ -35,15 +35,15 @@ export class OptionComponent {
             const items = [];
             eachObject<number, any>(res.plus, (v, k) => {
                 items.push({
-                    day: k,
-                    plus: v
+                    day: parseNumber(k),
+                    plus: parseNumber(v)
                 });
             });
             if (items.length < 1) {
                 items.push({
                     day: 0,
                     plus: 1
-                })
+                });
             }
             this.dataForm().value.set({
                 basic: res.basic,
@@ -59,6 +59,8 @@ export class OptionComponent {
 
     public tapSubmit(e?: ButtonEvent) {
         const data = this.dataForm().value() as any;
+        console.log(data);
+        
         data.plus = {};
         for (const item of data.items) {
             if (item.day < 1 || item.plus < 1) {

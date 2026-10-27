@@ -1,0 +1,78 @@
+<div class="container-fluid">
+    <app-page-tip>
+        <ul>
+            <li>等级列表</li>
+        </ul>
+    </app-page-tip>
+    <div class="panel-container">
+        <div class="page-search-bar">
+            <form class="form-horizontal-control" (submit)="tapSearch($event)">
+                <div class="input-group-control">
+                    <label for="keywords">关键字</label>
+                    <input type="text" class="form-control" placeholder="搜索关键字" id="keywords" [formField]="queries.keywords">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="btn-group pull-right">
+                    <a (click)="open(modal)" class="btn btn-info">新增等级</a>
+                </div>
+            </form>
+        </div>
+        <table class="table  table-bordered well">
+            <thead>
+            <tr>
+                <th>等级</th>
+                <th>名称</th>
+                <th>升级经验</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+                @for (item of items(); track $index) {
+                    <tr>
+                    <td>
+                        <i class="level-stamp">{{ item.level }}</i>
+                    </td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.exp }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" (click)="open(modal, item)">编辑</a>
+                            <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                }
+                </tbody>
+        </table>
+        <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
+        <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
+    </div>
+</div>
+
+<app-dialog-box #modal [title]="editForm.id().value() > 0 ? '编辑等级' : '新增等级'">
+    <div class="form-group">
+        <label for="level-input">等级</label>
+        <div class="input-group-control">
+            <app-number-input id="level-input" [formField]="editForm.level" placeholder="请输入名称"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="level-input">升级经验</label>
+        <div class="input-group-control">
+            <app-number-input id="level-input" [formField]="editForm.exp" placeholder="请输入升级经验"/>
+            <div class="control-tooltip">从上级升级到此等级所需经验</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="name-input">名称</label>
+        <div class="input-group-control">
+            <input class="form-control" id="name-input" [formField]="editForm.name" placeholder="请输入名称">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="icon-input">图标</label>
+        <div class="input-group-control">
+            <app-file-input [formField]="editForm.icon" />
+        </div>
+    </div>
+</app-dialog-box>

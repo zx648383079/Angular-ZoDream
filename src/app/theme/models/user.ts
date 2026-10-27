@@ -18,6 +18,7 @@ export interface IUser {
     sex_label?: string;
     roles?: number[];
     zone_id?: number;
+    rank_level?: number;
     checked?: boolean;
     is_admin?: boolean;
     is_verified?: boolean;
@@ -56,6 +57,14 @@ export interface IUserItem {
     id: number;
     name: string;
     avatar: string;
+}
+
+export interface IUserRank {
+    id: number;
+    level: number;
+    icon: string;
+    name: string;
+    exp: number;
 }
 
 export const SexItems: IItem[] = [

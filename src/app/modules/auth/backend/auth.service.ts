@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IAccountLog, IActionLog, IAdminLog, IApplyLog, IBanAccount, IEquityCard, IInviteCode, IInviteLog, ILoginLog, IRole, IUserCard } from '../../../theme/models/auth';
 import { IPage, IData, IDataOne } from '../../../theme/models/page';
-import { IUser, IUserStatus, IUserZone } from '../../../theme/models/user';
+import { IUser, IUserRank, IUserStatus, IUserZone } from '../../../theme/models/user';
 
 @Injectable()
 export class AuthService {
@@ -175,6 +175,20 @@ export class AuthService {
 
     public zoneRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('auth/admin/zone/delete', {params: {id}});
+    }
+
+    public rankList(params: any) {
+        return this.http.get<IPage<IUserRank>>('auth/admin/card/rank', {
+            params,
+        });
+    }
+
+    public rankSave(data: any) {
+        return this.http.post<IUserRank>('auth/admin/card/rank_save', data);
+    }
+
+    public rankRemove(id: any) {
+        return this.http.delete<IDataOne<boolean>>('auth/admin/card/rank_delete', {params: {id}});
     }
 
     public batch(data: {

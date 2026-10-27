@@ -86,7 +86,7 @@ export class CheckinComponent {
         }).subscribe({
             next: res => {
                 this.data.set(res.today as any);
-                this.checkedChange.emit(!!this.data);
+                this.checkedChange.emit(!!res.today);
                 this.checkDay(...res.month);
             },
             error: (err: IErrorResult) => {
@@ -196,8 +196,8 @@ export class CheckinComponent {
                 if (res.data) {
                     this.data.set(res.data);
                     this.checkDay(new Date(res.data.created_at).getDate());
-                    this.toastrService.success($localize `Check in successfully `);
-                    this.checkedChange.emit(!!this.data);
+                    this.toastrService.success($localize `Check in successfully`);
+                    this.checkedChange.emit(!!res.data);
                 }
             },
             error: err => {

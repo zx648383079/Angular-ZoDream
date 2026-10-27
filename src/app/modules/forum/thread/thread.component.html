@@ -197,6 +197,7 @@
 <ng-template #userTpl let-user>
     <div class="user-inner-pane">
         <div class="control-name">{{ user.name }}
+            <i class="level-stamp">{{user.rank_level}}</i>
             @if (user.card_items && user.card_items.length > 0) {
             <div class="card-more">
                 @for (it of user.card_items; track $index) {

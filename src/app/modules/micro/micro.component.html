@@ -17,6 +17,7 @@
                 </div>
                 <div class="name">
                     {{ user()!.name }}
+                    <i class="level-stamp">{{ user()!.rank_level }}</i>
                     @if (!authUser() || user()!.id != authUser()?.id) {
                         @switch (user()!.follow_status) {
                             @case (1) {
@@ -76,7 +77,10 @@
                                 <img [src]="item.user?.avatar" alt="">
                             </div>
                             <div>
-                                <div class="name" (click)="tapUser(item)">{{ item.user?.name }}</div>
+                                <div class="name" (click)="tapUser(item)">
+                                    {{ item.user?.name }}
+                                    <i class="level-stamp">{{item.user?.rank_level}}</i>
+                                </div>
                                 <p>
                                     <span class="time">{{ item.created_at | ago }}</span>
                                     @if (item.source) {

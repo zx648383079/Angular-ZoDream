@@ -20,6 +20,7 @@ import { ActionPanelComponent } from './user/detail/action/action-panel.componen
 import { LoginPanelComponent } from './user/detail/login/login-panel.component';
 import { StatisticsPanelComponent } from './user/detail/statistics/statistics-panel.component';
 import { ZoneComponent } from './user/zone/zone.component';
+import { RankComponent } from './user/rank/rank.component';
 
 const routes: Routes = [
     { path: '', component: AuthComponent },
@@ -58,6 +59,7 @@ const routes: Routes = [
         component: EquityCardComponent
     },
     { path: 'zone', component: ZoneComponent },
+    { path: 'rank', component: RankComponent },
     {
         path: 'oauth',
         component: OauthComponent,
@@ -78,6 +80,7 @@ export class AuthRoutingModule {}
 export const authRoutedComponents = [
     AuthComponent,
     ZoneComponent,
+    RankComponent,
     EditUserComponent,
     UserComponent,
     OauthComponent,

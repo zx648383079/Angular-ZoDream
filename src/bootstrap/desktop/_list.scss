@@ -277,6 +277,22 @@
     }
 }
 
+.level-stamp {
+    user-select: none;
+    display: inline-block;
+    font-style: normal;
+    font-size: .6rem;
+    color: var(--#{theme.$prefix}success-text);
+    border-radius: .1rem;
+    background-color: var(--#{theme.$prefix}success);
+    padding: 0 .15rem;
+    line-height: normal;
+    &::before {
+        content: 'Lv.';
+        font-weight: bold;
+    }
+}
+
 @media (min-width: 48rem) {
     .list-table-control {
         .image-row-item {

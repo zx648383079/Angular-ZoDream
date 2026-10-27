@@ -23,6 +23,11 @@ export const AuthBackendMenu: MenuReadyFn = function() {
                     url: this.renderUrl('zone')
                 },
                 {
+                    name: '等级管理',
+                    label: '级',
+                    url: this.renderUrl('rank')
+                },
+                {
                     name: '第三方管理',
                     label: '三',
                     url: this.renderUrl('oauth')
