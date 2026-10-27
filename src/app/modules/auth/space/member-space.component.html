@@ -14,7 +14,9 @@
                     <i class="iconfont icon-shield" i18n-title title="This user is verified"></i>
                     }
                 </div>
-                <div class="user-meta">uid: {{ data()!.id }}</div>
+                <div class="user-meta">uid: {{ data()!.id }}
+                    <i class="level-stamp">{{ data()!.rank_level }}</i>
+                </div>
             </div>
             @if (!authUser() || data()!.id != authUser()!.id) {
             <div class="space-action-bar">
