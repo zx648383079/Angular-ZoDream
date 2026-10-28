@@ -4,7 +4,7 @@
           <li>账户变动记录列表</li>
           @if (user()) {
             <li>会员：{{ user()!.name }}</li>
-            <li>账户余额：{{ user()!.money }}</li>
+            <li>账户余额：{{ user()!.wallet.money | numberFormat}}</li>
           }
         
       </ul>
@@ -47,8 +47,8 @@
                   <td>{{ item.status_label }}</td>
                   <td>{{ item.created_at }}</td>
                   <td>
-                      <div class="btn-group  btn-group-xs">
-                          <a class="btn btn-info btn-xs"
+                      <div class="btn-group">
+                          <a class="btn btn-info"
                             (click)="tapView(modal, item)">明细</a>
                       </div>
                   </td>
@@ -69,7 +69,7 @@
     </div>
     <div class="line-row-item">
         <span class="item-label">类型：</span>
-        <span class="item-body">{{ dataModel().type }}</span>
+        <span class="item-body">{{ dataModel().type_label }}({{ dataModel().type }})</span>
     </div>
     <div class="line-row-item">
         <span class="item-label">金额：</span>
@@ -81,6 +81,6 @@
     </div>
     <div class="line-row-item">
         <span class="item-label">状态：</span>
-        <span class="item-body">{{ dataModel().status }}</span>
+        <span class="item-body">{{ dataModel().status_label }}({{ dataModel().status }})</span>
     </div>
 </app-dialog-box>

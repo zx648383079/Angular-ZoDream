@@ -17,13 +17,13 @@ export class AuthService {
     }
 
     public userDetail(id: any) {
-        return this.http.get<IUser>('auth/admin/user/detail', {
+        return this.http.get<IUserStatus>('auth/admin/user/detail', {
             params: {id},
         });
     }
 
     public user(id: any) {
-        return this.http.get<IUser>('auth/admin/user/profile', {
+        return this.http.get<IUserStatus>('auth/admin/user/profile', {
             params: {id},
         });
     }
@@ -65,7 +65,7 @@ export class AuthService {
     }
 
     public accountLogList(params: any) {
-        return this.http.get<IPage<IAccountLog>>('auth/admin/account', {
+        return this.http.get<IPage<IAccountLog>>('wallet/admin/home/index', {
             params,
         });
     }
@@ -83,7 +83,7 @@ export class AuthService {
     }
 
     public rechargeSave(data: any) {
-        return this.http.post<IDataOne<boolean>>('auth/admin/account/recharge', data);
+        return this.http.post<IDataOne<boolean>>('wallet/admin/home/recharge', data);
     }
 
     public adminLogList(params: any) {
@@ -189,6 +189,10 @@ export class AuthService {
 
     public rankRemove(id: any) {
         return this.http.delete<IDataOne<boolean>>('auth/admin/card/rank_delete', {params: {id}});
+    }
+
+    public rankRefresh() {
+        return this.http.post<IDataOne<boolean>>('auth/admin/card/rank_refresh', {});
     }
 
     public batch(data: {

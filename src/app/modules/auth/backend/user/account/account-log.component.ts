@@ -3,7 +3,7 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IAccountLog } from '../../../../../theme/models/auth';
 import { IPageQueries } from '../../../../../theme/models/page';
-import { IUser } from '../../../../../theme/models/user';
+import { IUser, IUserStatus } from '../../../../../theme/models/user';
 import { AuthService } from '../../auth.service';
 import { SearchService } from '../../../../../theme/services';
 import { DialogEvent } from '../../../../../components/dialog';
@@ -30,7 +30,7 @@ export class AccountLogComponent {
         per_page: 20,
         user: 0,
     }));
-    public readonly user = signal<IUser|null>(null);
+    public readonly user = signal<IUserStatus|null>(null);
     public readonly dataModel = signal<IAccountLog>({} as any);
 
     constructor() {

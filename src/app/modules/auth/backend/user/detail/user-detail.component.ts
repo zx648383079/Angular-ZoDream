@@ -18,7 +18,7 @@ export class UserDetailComponent {
 
     public readonly user = signal<IUserStatus|null>(null);
     public readonly tabIndex = signal(0);
-    public tabItems = ['账户信息', '账户变动记录', '账号操作记录', '账号登录记录', '数据中心'];
+    public readonly tabItems = ['账户信息', '账户变动记录', '账号操作记录', '账号登录记录', '数据中心'];
 
     constructor() {
         this.route.params.subscribe(params => {

@@ -34,7 +34,6 @@
               </th>
               <th class="auto-hide">邮箱</th>
               <th class="auto-hide">性别</th>
-              <th>余额</th>
               @if (editable()) {
                 <th>实名认证</th>
                 <th>状态</th>
@@ -57,7 +56,6 @@
                     <div class="inner-label">{{ item.email }}</div>
                   </td>
                   <td class="auto-hide">{{ item.sex_label }}</td>
-                  <td>{{ item.money }}</td>
                   @if (editable()) {
                   <td>
                         <app-switch [value]="item.is_verified!" (valueChange)="onVerify(item, modal)" />

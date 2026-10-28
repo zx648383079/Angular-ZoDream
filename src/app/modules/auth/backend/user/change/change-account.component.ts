@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../../components/dialog';
-import { IUser } from '../../../../../theme/models/user';
+import { IUser, IUserStatus } from '../../../../../theme/models/user';
 import { AuthService } from '../../auth.service';
 import { ButtonEvent } from '../../../../../components/form';
 import { form, required } from '@angular/forms/signals';
@@ -20,7 +20,7 @@ export class ChangeAccountComponent {
     private readonly location = inject(Location);
 
     public readonly dataModel = signal({
-        id: 0,
+        user: 0,
         type: '',
         money: 0,
         remark: '',
@@ -30,7 +30,7 @@ export class ChangeAccountComponent {
         required(schemaPath.money);
     });
 
-    public readonly data = signal<IUser|null>(null);
+    public readonly data = signal<IUserStatus|null>(null);
 
     constructor() {
         this.route.params.subscribe(params => {
@@ -60,7 +60,7 @@ export class ChangeAccountComponent {
         }
         const data: any = this.dataForm().value();
         e?.enter();
-        this.service.rechargeSave(data).subscribe({
+        this.service.rechargeSave({...data, user: this.data()?.id}).subscribe({
             next: _ => {
                 e?.reset();
                 this.toastrService.success('充值成功');

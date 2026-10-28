@@ -5,6 +5,7 @@ import { DialogEvent, DialogService } from '../../../../../components/dialog';
 import { SearchService } from '../../../../../theme/services';
 import { form, required } from '@angular/forms/signals';
 import { IUserRank } from '../../../../../theme/models/user';
+import { ButtonEvent } from '../../../../../components/form';
 
 @Component({
     standalone: false,
@@ -67,6 +68,19 @@ export class RankComponent {
                 }
             });
         }, () => this.editForm().valid());
+    }
+
+    public tapSync(e?: ButtonEvent) {
+        e?.enter();
+        this.service.rankRefresh().subscribe({
+            next: () => {
+                e?.reset();
+                this.toastrService.success($localize `Update Successfully`);
+            },
+            error: err => {
+                this.toastrService.error(err);
+            }
+        })
     }
 
     public tapRefresh() {

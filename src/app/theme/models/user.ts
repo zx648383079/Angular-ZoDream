@@ -51,6 +51,30 @@ export interface IUserStatus extends IUser {
     post_count: number;
     following_count: number;
     follower_count: number;
+    oauth_count: number;
+    parent: {
+        id: number;
+        name: string;
+    };
+    rank: {
+        level: number;
+        exp: number;
+        next_exp: number;
+    };
+    wallet: {
+        money: number;
+        credits: number;
+    };
+    login_ip: {
+        ip: string;
+        count: number;
+    };
+    last_login: {
+        ip: string;
+        created_at: string;
+    };
+    role_items: string[];
+    permission_items: string[];
 }
 
 export interface IUserItem {
