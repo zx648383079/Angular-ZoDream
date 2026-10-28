@@ -1,6 +1,11 @@
 <div class="comment-item" [id]="'comment-' + value()!.id">
     <div class="item-header">
-        <span class="user">{{ value()!.name }}</span>
+        <span class="user">
+            {{ value()!.name }}
+        </span>
+        @if (value()!.user_id > 0 && value()!.user) {
+            <i class="level-stamp">{{ value()!.user!.rank_level }}</i>
+        }
         <span class="time">{{ value()!.created_at | ago }}</span>
         <span class="floor" i18n>{{ value()!.position }} floor</span>
     </div>
@@ -30,6 +35,9 @@
         <div class="comment-item" [id]="'comment-' + it.id">
             <div class="item-header">
                 <span class="user">{{ it.name }}</span>
+                @if (it.user_id > 0 && it.user) {
+                    <i class="level-stamp">{{ it.user!.rank_level }}</i>
+                }
                 <span class="time">{{ it.created_at | ago }}</span>
                 <span class="floor">{{ it.position }}#</span>
             </div>

@@ -161,7 +161,7 @@ export class CommentComponent {
                 this.commentForm().value.update(v => {
                     v.content = '';
                     v.parent_id = 0;
-                    return v;
+                    return {...v};
                 });
                 this.saveGuestUser();
             },

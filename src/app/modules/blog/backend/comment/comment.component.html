@@ -12,12 +12,23 @@
                     <input type="text" class="form-control" placeholder="标题" id="keywords" [formField]="queries.keywords">
                 </div>
                 <button type="submit" class="btn btn-primary">搜索</button>
+                <div class="btn-group pull-right">
+                    @if (!isMultiple()) {
+                        <a class="btn" [class]="{'btn-success': isReview(), 'btn-outline-success': !isReview()}" (click)="toggleReview()">审核模式</a>
+                    }
+                    @if (!isReview()) {
+                        <a class="btn" [class]="{'btn-danger': isMultiple(), 'btn-outline-info': !isMultiple()}" (click)="toggleMultiple()">批量操作</a>
+                    }
+                </div>
             </form>
         </div>
     
-        <table class="table  table-bordered well">
+        <table class="table table-hover" [hidden]="isReview()">
             <thead>
                 <tr>
+                    <th [hidden]="!isMultiple()">
+                        <i class="checkbox" [class.checked]="isChecked()" (click)="toggleCheck()"></i>
+                    </th>
                     <th>ID</th>
                     <th>昵称</th>
                     <th class="auto-hide">邮箱</th>
@@ -29,9 +40,11 @@
             <tbody>
                 @for (item of items(); track $index) {
                     <tr>
-                        <td (click)="item.toggled = !item.toggled">
+                        <td [hidden]="!isMultiple()">
+                            <i class="checkbox" [class]="{checked: item.checked}" (click)="toggleCheck(item)"></i>
+                        </td>
+                        <td>
                             {{ item.id }}
-                            <i class="iconfont" [class]="{'icon-angle-double-down': !item.toggled, 'icon-angle-double-up': item.toggled}"></i>
                         </td>
                         <td>
                             @if (item.user_id) {
@@ -66,37 +79,81 @@
                             </div>
                         </td>
                     </tr>
-                    @if (item.toggled) {
-                    <tr>
-                        <td></td>
-                        <td colspan="4">
-                            <div class="line-row-item">
-                                <span class="item-label">昵称:</span>
-                                <span class="item-body">{{ item.name }}</span>
-                            </div>
-                            <div class="line-row-item">
-                                <span class="item-label">邮箱:</span>
-                                <span class="item-body">{{ item.email }}</span>
-                            </div>
-                            <div class="line-row-item">
-                                <span class="item-label">网址:</span>
-                                <span class="item-body">{{ item.url }}</span>
-                            </div>
-                            <div class="line-row-item">
-                                <span class="item-label">IP:</span>
-                                <span class="item-body">{{ item.ip }}</span>
-                            </div>
-                            <div class="line-row-item">
-                                <span class="item-label">发布时间:</span>
-                                <span class="item-body">{{ item.created_at | timestamp }}</span>
-                            </div>
-                        </td>
-                    </tr>
-                    }
                     
                 }
             </tbody>
+             <tfoot [hidden]="!isMultiple() || items().length < 1">
+                <tr>
+                    <td>
+                        <i class="checkbox" [class.checked]="isChecked()" (click)="toggleCheck()"></i>
+                    </td>
+                    <td colspan="4">
+                        <button class="btn btn-danger" [disabled]="checkedItems().length < 1" (click)="tapRemoveMultiple()">删除选中项（{{ checkedItems().length }}）</button>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
+        <app-stack-container #stack [hidden]="!isReview()">
+            @for (item of items(); track $index) {
+                <app-stack-item>
+                    <h3 class="review-header">
+                        @if (item.blog) {
+                            <a [routerLink]="['/blog', item.blog.id]">
+                                {{ item.blog.title }}
+                            </a>
+                        } @else {
+                            [--]
+                        }
+                    </h3>
+                    <div class="review-body">
+                        @if (item.content) {
+                            {{ item.content }}
+                        }
+                        <div class="review-stamp" [class]="{'btn-success': item.approved == 1, 'btn-danger': item.approved == 9}">
+                            {{ formatStatus(item.approved) }}
+                        </div>
+                    </div>
+                    <div class="review-footer">
+                        <div class="user-label-item">
+                            @if (item.user) {
+                                <div class="item-avatar">
+                                    <img [src]="item.user.avatar" [alt]="item.name">
+                                </div>
+                            }
+                            <div class="item-body">
+                                <p>
+                                    @if (item.url) {
+                                        <a [href]="item.url" target="_blank" rel="noopener noreferrer">{{item.name}}</a>
+                                    } @else {
+                                        {{item.name}}
+                                    }
+                                </p>
+                                @if (item.email) {
+                                    <p class="item-meta">邮箱：{{ item.email }} </p>
+                                }
+                                @if (item.ip) {
+                                    <p class="item-meta">IP：{{ item.ip }}</p>
+                                }
+                            </div>
+                        </div>
+                        <div class="review-action">
+                            <div class="btn-group">
+                                <a class="btn btn-info" (click)="tapPrevious(stack)">
+                                    <i class="iconfont icon-chevron-left"></i>
+                                </a>
+                                @if (item.approved != 1) {
+                                    <a class="btn btn-primary" (click)="tapApproved(item, stack)">通过</a>
+                                }
+                                <a class="btn btn-danger" (click)="tapRemove(item)">删除</a>
+                                <a class="btn btn-info"  (click)="tapNext(stack)">
+                                    <i class="iconfont icon-chevron-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </app-stack-item>
+            }
+        </app-stack-container>
         <app-loading-tip [loading]="isLoading()" [visible]="isLoading() || items().length == 0" />
         <app-pagination [total]="total()" [formField]="queries.page" [perPage]="queries.per_page().value()" (valueChange)="goPage($event)" />
     </div>

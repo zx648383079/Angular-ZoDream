@@ -94,7 +94,7 @@ export interface IComment extends IPageEditItem {
     recommend_count: number;
     parent_id: number;
     user_id: number;
-    user: IUser;
+    user?: IUser;
     blog_id: number;
     approved: number;
     blog?: IBlog;
